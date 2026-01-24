@@ -1,0 +1,358 @@
+{
+    "wf-active-cash": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    
+    "wf-attune-cash": [
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "personal_care",
+            "isUserConfigurable": false,
+            "configurableSlot": null,
+            "configurableOptions": [
+                {
+                    "label": "Self-Care",
+                    "includes": [
+                        "Barber_Salons",
+                        "spa",
+                        "gym_fitness_centers"
+                    ]
+                }
+            ],
+            "rewardNotes": "4% on Self-Care including gym memberships, at spas, and salons."
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "florist",
+            "isUserConfigurable": false,
+            "configurableSlot": null,
+            "configurableOptions": [
+                {
+                    "label": "Florist",
+                    "includes": [
+                        "florist"
+                    ]
+                }
+            ],
+            "rewardNotes": "4% on Gardening and Floral"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "recreation",
+            "isUserConfigurable": false,
+            "configurableSlot": null,
+            "configurableOptions": [
+                {
+                    "label": "Recreation",
+                    "includes": [
+                        "recreation_golf"
+                    ]
+                }
+            ],
+            "rewardNotes": "4% on Recreation and Leisure Activities"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "pet_supply_stores",
+            "isUserConfigurable": true,
+            "configurableSlot": "2pct_slot_1",
+            "configurableOptions": [
+                {
+                    "label": "Pet Care",
+                    "includes": [
+                        "pet_supply_stores"
+                    ]
+                }
+            ],
+            "rewardNotes": "4% on Pet Care"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "entertainment",
+            "isUserConfigurable": true,
+            "configurableSlot": "2pct_slot_1",
+            "configurableOptions": [
+                {
+                    "label": "Sports/Entertainment",
+                    "includes": [
+                        "entertainment"
+                    ]
+                }
+            ],
+            "rewardNotes": "4% on Sports & Live Entertainment"
+        },
+
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "streaming",
+            "isUserConfigurable": true,
+            "configurableSlot": "2pct_slot_1",
+            "configurableOptions": [
+                {
+                    "label": "Streaming/Music",
+                    "includes": [
+                        "streaming"
+                    ]
+                }
+            ],
+            "rewardNotes": "4% on Streaming, Music, Movies, and Books"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "public_transit"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "ev_charging"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+        
+        
+    "wf-autograph": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Wells Fargo Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Wells Fargo Rewards",
+            "category": "gas"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Wells Fargo Rewards",
+            "category": "travel"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Wells Fargo Rewards",
+            "category": "transit"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Wells Fargo Rewards",
+            "category": "cell_phone_providers"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Wells Fargo Rewards",
+            "category": "streaming"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Wells Fargo Rewards",
+            "category": "everything"
+        }
+    ],
+
+    "wf-autograph-journey": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Wells Fargo Rewards",
+            "category": "hotels"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Wells Fargo Rewards",
+            "category": "flights"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Wells Fargo Rewards",
+            "category": "travel"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Wells Fargo Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Wells Fargo Rewards",
+            "category": "everything"
+        }
+    ],
+
+    
+    
+    "wf-premier-autograph": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Wells Fargo Rewards",
+            "category": "hotels"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Wells Fargo Rewards",
+            "category": "flights"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Wells Fargo Rewards",
+            "category": "travel"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Wells Fargo Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Wells Fargo Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "wf-signify-business": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+
+
+    "wf-choice-privileges-select": [
+        {
+            "rate": 10,
+            "rewardProgramName": "Choice Privileges",
+            "category": "choice_hotels"
+        },
+        {
+            "rate": 5,
+            "rewardProgramName": "Choice Privileges",
+            "category": "material_hardware"
+        },
+        {
+            "rate": 5,
+            "rewardProgramName": "Choice Privileges",
+            "category": "gas"
+        },
+        {
+            "rate": 5,
+            "rewardProgramName": "Choice Privileges",
+            "category": "groceries"
+        },
+        {
+            "rate": 5,
+            "rewardProgramName": "Choice Privileges",
+            "category": "cell_phone_providers"
+        },
+        {
+            "rate": 1,
+            "rewardProgramName": "Choice Privileges",
+            "category": "everything"
+        }
+    ],
+
+    
+    "wf-choice-privileges": [
+        {
+            "rate": 5,
+            "rewardProgramName": "Choice Privileges",
+            "category": "choice_hotels"
+        },
+        {
+            "rate": 3,
+            "rewardProgramName": "Choice Privileges",
+            "category": "material_hardware"
+        },
+        {
+            "rate": 3,
+            "rewardProgramName": "Choice Privileges",
+            "category": "gas"
+        },
+        {
+            "rate": 3,
+            "rewardProgramName": "Choice Privileges",
+            "category": "groceries"
+        },
+        {
+            "rate": 3,
+            "rewardProgramName": "Choice Privileges",
+            "category": "cell_phone_providers"
+        },
+        {
+            "rate": 1,
+            "rewardProgramName": "Choice Privileges",
+            "category": "everything"
+        }
+    ],
+
+    "wf-one-key": [
+        {
+            "rate": 3,
+            "rewardProgramName": "OneKeyCash",
+            "category": "expedia"
+        },
+        {
+            "rate": 3,
+            "rewardProgramName": "OneKeyCash",
+            "category": "dining"
+        },
+        {
+            "rate": 3,
+            "rewardProgramName": "OneKeyCash",
+            "category": "gas"
+        },
+        {
+            "rate": 3,
+            "rewardProgramName": "OneKeyCash",
+            "category": "groceries"
+        },
+        {
+            "rate": 1.5,
+            "rewardProgramName": "OneKeyCash",
+            "category": "everything"
+        }
+    ],
+    
+    "wf-one-key-plus": [
+        {
+            "rate": 3,
+            "rewardProgramName": "OneKeyCash",
+            "category": "expedia"
+        },
+        {
+            "rate": 3,
+            "rewardProgramName": "OneKeyCash",
+            "category": "dining"
+        },
+        {
+            "rate": 3,
+            "rewardProgramName": "OneKeyCash",
+            "category": "gas"
+        },
+        {
+            "rate": 3,
+            "rewardProgramName": "OneKeyCash",
+            "category": "groceries"
+        },
+        {
+            "rate": 2,
+            "rewardProgramName": "OneKeyCash",
+            "category": "everything"
+        }
+    ]
+
+
+}

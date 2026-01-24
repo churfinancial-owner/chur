@@ -1,0 +1,247 @@
+[
+  {
+    "id": "american_express",
+    "name": "American Express",
+    "shortName": "Amex",
+    "logoImageName": "icon_amex",
+    "countries": ["US", "CA", "HK"],
+    "popularIn": ["US", "CA", "HK"],
+    "sortOrder": 1
+  },
+  {
+    "id": "chase",
+    "name": "Chase",
+    "shortName": "Chase",
+    "logoImageName": "icon_chase",
+    "countries": ["US"],
+    "popularIn": ["US"],
+    "sortOrder": 2
+  },
+  {
+    "id": "capital_one",
+    "name": "Capital One",
+    "shortName": "Cap One",
+    "logoImageName": "icon_cap1",
+    "countries": ["US"],
+    "popularIn": ["US"],
+    "sortOrder": 3
+  },
+  {
+    "id": "citi",
+    "name": "Citi",
+    "shortName": "Citi",
+    "logoImageName": "icon_citi",
+    "countries": ["US", "HK"],
+    "popularIn": ["US"],
+    "sortOrder": 4
+  },
+  {
+    "id": "bank_of_america",
+    "name": "Bank of America",
+    "shortName": "BofA",
+    "logoImageName": "icon_bofa",
+    "countries": ["US"],
+    "popularIn": ["US"],
+    "sortOrder": 5
+  },
+  {
+    "id": "wells_fargo",
+    "name": "Wells Fargo",
+    "shortName": "Wells Fargo",
+    "logoImageName": "icon_wellsfargo",
+    "countries": ["US"],
+    "popularIn": ["US"],
+    "sortOrder": 6
+  },
+  {
+    "id": "us_bank",
+    "name": "US Bank",
+    "shortName": "US Bank",
+    "logoImageName": "icon_usbank",
+    "countries": ["US"],
+    "popularIn": ["US"],
+    "sortOrder": 7
+  },
+  {
+    "id": "barclays",
+    "name": "Barclays",
+    "shortName": "Barclays",
+    "logoImageName": "icon_barclays",
+    "countries": ["US"],
+    "popularIn": ["US"],
+    "sortOrder": 8
+  },
+  {
+    "id": "discover",
+    "name": "Discover",
+    "shortName": "Discover",
+    "logoImageName": "icon_discover",
+    "countries": ["US"],
+    "popularIn": ["US"],
+    "sortOrder": 10
+  },
+  {
+    "id": "hsbc",
+    "name": "HSBC",
+    "shortName": "HSBC",
+    "logoImageName": "icon_hsbc",
+    "countries": ["US", "HK"],
+    "popularIn": ["HK"],
+    "sortOrder": 11
+  },
+  {
+    "id": "goldman_sachs",
+    "name": "Goldman Sachs",
+    "shortName": "Goldman",
+    "logoImageName": "icon_goldmansachs",
+    "countries": ["US"],
+    "popularIn": [],
+    "sortOrder": 12
+  },
+  {
+    "id": "synchrony",
+    "name": "Synchrony",
+    "shortName": "Synchrony",
+    "logoImageName": "icon_synchrony",
+    "countries": ["US"],
+    "popularIn": [],
+    "sortOrder": 13
+  },
+  {
+    "id": "pnc",
+    "name": "PNC",
+    "shortName": "PNC",
+    "logoImageName": "icon_pnc",
+    "countries": ["US"],
+    "popularIn": [],
+    "sortOrder": 14
+  },
+  {
+    "id": "fidelity",
+    "name": "Fidelity",
+    "shortName": "Fidelity",
+    "logoImageName": "icon_fidelity",
+    "countries": ["US"],
+    "popularIn": [],
+    "sortOrder": 15
+  },
+  {
+    "id": "mercury",
+    "name": "Mercury",
+    "shortName": "Mercury",
+    "logoImageName": "icon_mercury",
+    "countries": ["US"],
+    "popularIn": [],
+    "sortOrder": 16
+  },
+  {
+    "id": "cardless",
+    "name": "Cardless",
+    "shortName": "Cardless",
+    "logoImageName": "icon_cardless",
+    "countries": ["US"],
+    "popularIn": [],
+    "sortOrder": 17
+  },
+  {
+    "id": "coastal_community_bank",
+    "name": "Coastal Community Bank",
+    "shortName": "Coastal",
+    "logoImageName": "icon_coastal",
+    "countries": ["US"],
+    "popularIn": [],
+    "sortOrder": 18
+  },
+  {
+    "id": "first_electronic_bank",
+    "name": "First Electronic Bank",
+    "shortName": "FEB",
+    "logoImageName": "icon_feb",
+    "countries": ["US"],
+    "popularIn": [],
+    "sortOrder": 19
+  },
+  {
+    "id": "standard_chartered",
+    "name": "Standard Chartered",
+    "shortName": "StanChart",
+    "logoImageName": "icon_standardchartered",
+    "countries": ["HK"],
+    "popularIn": ["HK"],
+    "sortOrder": 20
+  },
+  {
+    "id": "hang_seng",
+    "name": "Hang Seng",
+    "shortName": "Hang Seng",
+    "logoImageName": "icon_hangseng",
+    "countries": ["HK"],
+    "popularIn": ["HK"],
+    "sortOrder": 21
+  },
+  {
+    "id": "mox",
+    "name": "Mox",
+    "shortName": "Mox",
+    "logoImageName": "icon_mox",
+    "countries": ["HK"],
+    "popularIn": [],
+    "sortOrder": 22
+  },
+  {
+    "id": "dbs",
+    "name": "DBS",
+    "shortName": "DBS",
+    "logoImageName": "icon_dbs",
+    "countries": ["HK"],
+    "popularIn": ["HK"],
+    "sortOrder": 23
+  },
+  {
+    "id": "aeon",
+    "name": "Aeon",
+    "shortName": "Aeon",
+    "logoImageName": "icon_aeon",
+    "countries": ["HK"],
+    "popularIn": [],
+    "sortOrder": 24
+  },
+  {
+    "id": "citic",
+    "name": "Citic",
+    "shortName": "Citic",
+    "logoImageName": "icon_citic",
+    "countries": ["HK"],
+    "popularIn": [],
+    "sortOrder": 25
+  },
+  {
+    "id": "bilt",
+    "name": "Bilt",
+    "shortName": "Bilt",
+    "logoImageName": "icon_bilt",
+    "countries": ["US"],
+    "popularIn": [],
+    "sortOrder": 26
+  },
+  {
+    "id": "marriott",
+    "name": "Marriott",
+    "shortName": "Marriott",
+    "logoImageName": "icon_bonvoy",
+    "countries": ["US"],
+    "popularIn": [],
+    "sortOrder": 27
+  },
+  
+  
+  {
+    "id": "sim",
+    "name": "Sim",
+    "shortName": "Sim",
+    "logoImageName": "icon_sim",
+    "countries": ["HK"],
+    "popularIn": [],
+    "sortOrder": 999
+  }
+]

@@ -1,0 +1,24 @@
+{
+    "id": "tsa_precheck_credit120n",
+    "benefitType": "TTP",
+    "displayGroup": "travel_tsa",
+    "localized": {
+        "en": {
+            "name": "NEXUS/TSA/Global Entry Credit",
+            "description": "Up to $120 credit for TSA PreCheck, Global Entry or Nexus enrollment"
+        }
+    },
+    "value": 120,
+    "valueCurrency": "USD",
+    "frequency": "quadrennial",
+    "resetType": "card_anniversary",
+    "usageLimit": 1,
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "referenceLink": "https://www.tsa.gov/precheck",
+    "displayOrder": 0,
+    "isActive": true
+}
+

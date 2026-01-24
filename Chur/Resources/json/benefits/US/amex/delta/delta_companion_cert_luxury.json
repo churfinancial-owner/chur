@@ -1,0 +1,27 @@
+{
+    "id": "delta_companion_cert_luxury",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "Companion Certificate",
+            "description": "Annual companion certificate valid for First Class, Delta Comfort+, or Main Cabin round-trip travel ..."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "usageLimit": 1,
+    "validCountries": [
+        "US"
+    ],
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "activationInstructions": "Issued upon renewal of your card each year.",
+    "partnerName": "Delta",
+    "redemptionMethod": "manual",
+    "referenceLink": "https://www.delta.com/us/en/booking-information/companion-certificates",
+    "displayOrder": 0,
+    "isActive": true
+}

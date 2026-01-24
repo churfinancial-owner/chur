@@ -1,0 +1,21 @@
+{
+    "id": "dining_credit_amex_120",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_dining",
+    "localized": {
+        "en": {
+            "name": "Dining Credit",
+            "description": "Earn up to $10 in statement credits monthly at Grubhub, The Cheesecake Factory, Goldbelly, Wine.com, and Five Guys. Enrollment required"
+        }
+    },
+    "value": 10,
+    "valueCurrency": "USD",
+    "frequency": "monthly",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "manual",
+    "referenceLink": "https://global.americanexpress.com/card-benefits/detail/dining-credit/gold",
+    "displayOrder": 0,
+    "isActive": true
+}

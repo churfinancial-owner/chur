@@ -1,0 +1,63 @@
+{
+    "hsbc_premier": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "HSBC Rewards",
+            "category": "gas"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "HSBC Rewards",
+            "category": "groceries"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "HSBC Rewards",
+            "category": "travel"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "HSBC Rewards",
+            "category": "everything"
+        }
+    ],
+    "hsbc_premier": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "HSBC Rewards",
+            "category": "gas"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "HSBC Rewards",
+            "category": "groceries"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "HSBC Rewards",
+            "category": "travel"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "HSBC Rewards",
+            "category": "everything"
+        }
+    ],
+    "hsbc_elite": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "HSBC Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "HSBC Rewards",
+            "category": "travel"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "HSBC Rewards",
+            "category": "everything"
+        }
+    ]
+}

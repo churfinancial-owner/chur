@@ -1,0 +1,15 @@
+{
+    "id": "pnc-cash-rewards",
+    "name": "PNC Cash Rewards",
+    "issuer": "PNC",
+    "network": "Visa",
+    "imageName": "pnc-cash-rewards",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": true,
+    "foreignTransactionFeeRate": 0.03,
+    "isPopular": false,
+    "benefits": []
+}

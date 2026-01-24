@@ -1,0 +1,15 @@
+{
+    "id": "cardless-bilt-palladium",
+    "name": "Bilt Palladium",
+    "issuer": "Cardless",
+    "network": "Mastercard",
+    "imageName": "cardless-bilt-palladium",
+    "cardType": "personal",
+    "annualFee": 495,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "foreignTransactionFeeRate": 0,
+    "isPopular": false,
+    "benefits": ["hotel_credit_bilt_400","priority_pass_unlimited","bilt_cash_200","option_earn_bilt_cash","option_bilt_housing"]
+}

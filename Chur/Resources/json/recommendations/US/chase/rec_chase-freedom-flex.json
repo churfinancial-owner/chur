@@ -1,0 +1,24 @@
+{
+  "cardTemplateID": "chase-freedom-flex",
+  "affiliateURL": "https://www.referyourchasecard.com/18m/BEUF613DR3#flex-content",
+  "signUpBonus": "$200 bonus after $500 spend in 3 months",
+  "signUpBonusValue": 200,
+  "bonusRating": "best",
+  "expirationDate": null,
+  "annualFeeWaived": null,
+  "requiredCreditScore": "good",
+  "strategyTags": ["cashking", "optimizer", "bonuschaser"],
+  "categories": ["cashback", "everyday"],
+  "categoryHighlights": {
+    "cashback": "5% rotating categories + no annual fee",
+    "everyday": "Stack with Sapphire for max value on every purchase",
+    "signupbonus": "Easy $200 bonus with just $500 spend",
+    "default": "The no-fee companion card that multiplies your rewards"
+  },
+  "complementaryCardIDs": ["chase-sapphire-preferred", "chase-sapphire-reserve", "chase-freedom-unlimited"],
+  "avoidWithCardIDs": [],
+  "highlights": [
+  ],
+  "priority": 1,
+  "isActive": true
+}

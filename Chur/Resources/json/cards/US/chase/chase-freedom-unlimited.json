@@ -1,0 +1,19 @@
+{
+    "id": "chase-freedom-unlimited",
+    "name": "Freedom Unlimited",
+    "issuer": "Chase",
+    "network": "Visa",
+    "imageName": "chase-freedom-unlimited",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": true,
+    "foreignTransactionFeeRate": 0.03,
+    "isPopular": true,
+    "popularSortOrder": 6,
+    "benefits": [
+        "doordash_quarterly",
+        "doorpass_6"
+    ]
+}

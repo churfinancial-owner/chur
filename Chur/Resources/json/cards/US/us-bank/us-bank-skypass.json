@@ -1,0 +1,18 @@
+{
+    "id": "us-bank-skypass",
+    "name": "SKYPASS",
+    "issuer": "US Bank",
+    "network": "Visa",
+    "imageName": "us-bank-skypass",
+    "cardType": "personal",
+    "annualFee": 99,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "foreignTransactionFeeRate": 0.0,
+    "isPopular": false,
+    "benefits": [
+        "koreanair_lounge_access",
+        "koreanair_discount_5"
+    ]
+}

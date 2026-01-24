@@ -1,0 +1,22 @@
+{
+    "id": "oura_ring_credit_amex_200",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_shopping",
+    "localized": {
+        "en": {
+            "name": "Oura Ring Credit",
+            "description": "Receive up to $200 in statement credits when you use your card to purchase an Oura Ring at Ouraring.com each calendar year."
+        }
+    },
+    "value": 200,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Oura Ring",
+    "redemptionMethod": "automatic",
+    "referenceLink": "https://global.americanexpress.com/card-benefits/detail/oura-credit/platinum",
+    "displayOrder": 0,
+    "isActive": true
+}

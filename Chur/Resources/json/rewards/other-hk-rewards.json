@@ -1,0 +1,80 @@
+{
+    "mox-hk-credit": {
+        "plans": [
+            {
+                "planID": "mox_asiamiles_boost",
+                "planName": "Asia Miles >250k",
+                "isDefault": true,
+                "isPromo": false,
+                "isAvailableForNewUsers": true,
+                "planStartDate": null,
+                "planEndDate": null,
+                "rewards": [
+                    {
+                        "rate": 4.0,
+                        "rewardProgramName": "Mox Rewards HK",
+                        "category": "everything"
+                    }
+                ]
+            },
+            {
+                "planID": "mox_asiamiles",
+                "planName": "Asia Miles <250k",
+                "isDefault": false,
+                "isPromo": false,
+                "isAvailableForNewUsers": true,
+                "planStartDate": null,
+                "planEndDate": null,
+                "rewards": [
+                    {
+                        "rate": 2.0,
+                        "rewardProgramName": "Mox Rewards HK",
+                        "category": "everything"
+                    }
+                ]
+            },
+            {
+                "planID": "mox_cash_boost",
+                "planName": "Cash Back >250k",
+                "isDefault": false,
+                "isPromo": false,
+                "isAvailableForNewUsers": true,
+                "planStartDate": null,
+                "planEndDate": null,
+                "rewards": [
+                    {
+                        "rate": 3.0,
+                        "rewardProgramName": "Cash Back Rewards HK",
+                        "category": "groceries"
+                    },
+                    {
+                        "rate": 2.0,
+                        "rewardProgramName": "Cash Back Rewards HK",
+                        "category": "everything"
+                    }
+                ]
+            },
+            {
+                "planID": "mox_cash",
+                "planName": "Cash Back <250k",
+                "isDefault": false,
+                "isPromo": false,
+                "isAvailableForNewUsers": true,
+                "planStartDate": null,
+                "planEndDate": null,
+                "rewards": [
+                    {
+                        "rate": 3.0,
+                        "rewardProgramName": "Cash Back Rewards HK",
+                        "category": "groceries"
+                    },
+                    {
+                        "rate": 1.0,
+                        "rewardProgramName": "Cash Back Rewards HK",
+                        "category": "everything"
+                    }
+                ]
+            }
+        ]
+    }
+}

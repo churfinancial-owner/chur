@@ -1,0 +1,14 @@
+{
+    "id": "barclays_jetblue_card",
+    "name": "JetBlue Card",
+    "issuer": "Barclays",
+    "network": "Mastercard",
+    "imageName": "barclays_jetblue_card",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": []
+}

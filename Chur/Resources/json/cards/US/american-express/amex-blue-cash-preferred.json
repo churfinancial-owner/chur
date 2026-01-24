@@ -1,0 +1,16 @@
+{
+    "id": "amex-blue-cash-preferred",
+    "name": "Blue Cash Preferred",
+    "issuer": "American Express",
+    "network": "Amex",
+    "imageName": "amex-blue-cash-preferred",
+    "cardType": "personal",
+    "annualFee": 95,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "disney_streaming_credit_amex1"
+    ]
+}

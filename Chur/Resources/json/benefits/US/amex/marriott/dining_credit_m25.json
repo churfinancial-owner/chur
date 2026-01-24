@@ -1,0 +1,22 @@
+{
+    "id": "dining_credit_m25",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_dining",
+    "localized": {
+        "en": {
+            "name": "Brilliant Dining Credit",
+            "description": "Each calendar year, get up to $300 (up to $25 per month) in statement credits for eligible purchases made on the Marriott Bonvoy Brilliant American ExpressmCard at restaurants worldwide. Please read important exclusions and restrictions"
+        }
+    },
+    "value": 25,
+    "valueCurrency": "USD",
+    "frequency": "monthly",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "limitDescription": "$25 per month, $300 total annually",
+    "referenceLink": "https://www.americanexpress.com/us/credit-cards/card/marriott-bonvoy-brilliant/",
+    "displayOrder": 0,
+    "isActive": true
+}

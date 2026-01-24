@@ -1,0 +1,23 @@
+{
+  "cardTemplateID": "chase-sapphire-reserve-business",
+  "affiliateURL": "https://www.referyourchasecard.com/21e/3SJ98F3EGW",
+  "signUpBonus": "150,000 points after $20K spend in 3 months",
+  "signUpBonusValue": 1500,
+  "bonusRating": "great",
+  "expirationDate": null,
+  "annualFeeWaived": null,
+  "requiredCreditScore": "good",
+  "strategyTags": ["boss", "bonuschaser"],
+  "categories": ["business", "signupbonus"],
+  "categoryHighlights": {
+    "business": "Maximize business value and travel rewards",
+    "signupbonus": "150,000 points if you have some big spends coming up",
+    "default": "Access $6,000+ in value your first year!"
+  },
+  "complementaryCardIDs": ["chase-sapphire-preferred", "chase-sapphire-reserve", "chase-freedom-unlimited"],
+  "avoidWithCardIDs": [],
+  "highlights": [
+  ],
+  "priority": 1,
+  "isActive": true
+}

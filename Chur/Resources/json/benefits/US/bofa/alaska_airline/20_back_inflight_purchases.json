@@ -1,0 +1,24 @@
+{
+    "id": "20_back_inflight_purchases",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "20% back in-flight purchases",
+            "description": "Enjoy 20% back on all Alaska Airlines and Hawaiian Airlines in-flight purchases"
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "resetType": "card_anniversary",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "activationInstructions": "",
+    "partnerName": "Alaksa Airline",
+    "limitDescription": "",
+    "referenceLink": "https://www.alaskaair.com",
+    "displayOrder": 0,
+    "isActive": true
+}

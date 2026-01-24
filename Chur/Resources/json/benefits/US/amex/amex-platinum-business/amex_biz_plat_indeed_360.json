@@ -1,0 +1,19 @@
+{
+    "id": "amex_biz_plat_indeed_360",
+    "benefitType": "credit",
+    "displayGroup": "business",
+    "localized": {
+        "en": {
+            "name": "Indeed Credit",
+            "description": "Get up to $90 in statement credits each quarter ($360 annually) for U.S. purchases made directly with Indeed."
+        }
+    },
+    "value": 90,
+    "valueCurrency": "USD",
+    "frequency": "quarterly",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "partnerName": "Indeed",
+    "displayOrder": 0,
+    "isActive": true
+}

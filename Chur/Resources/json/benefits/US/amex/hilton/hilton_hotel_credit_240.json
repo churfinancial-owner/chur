@@ -1,0 +1,21 @@
+{
+    "id": "hilton_hotel_credit_240",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Hilton Resort Credit",
+            "description": "Get up to $60 in statement credits each quarter with a property in the Hilton portfolio. Please read important exclusions and restrictions"
+        }
+    },
+    "value": 60,
+    "valueCurrency": "USD",
+    "frequency": "quarterly",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Hilton",
+    "partnerID": "Hilton",
+    "displayOrder": 0,
+    "isActive": true
+}

@@ -1,0 +1,22 @@
+{
+    "id": "southwest_inflight_25",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "25% In-Flight Savings",
+            "description": null
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Southwest",
+    "redemptionMethod": "automatic",
+    "limitDescription": "Excludes Wi-Fi and other non-F&B purchases.",
+    "displayOrder": 0,
+    "isActive": true
+}

@@ -1,0 +1,21 @@
+{
+    "id": "aa_admirals_club_access4",
+    "benefitType": "lounge_access",
+    "displayGroup": "travel_lounge",
+    "localized": {
+        "en": {
+            "name": "Admirals Club Pass x 4",
+            "description": "Every calendar year, receive four Admirals Club Globe Passes"
+        }
+    },
+    "value": 79,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "usageLimit": 4,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "American Airline",
+    "displayOrder": 0,
+    "isActive": true
+}

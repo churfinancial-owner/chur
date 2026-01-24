@@ -1,0 +1,17 @@
+{
+    "id": "barclays_encore_gap",
+    "name": "Encore (Gap Family)",
+    "issuer": "Barclays",
+    "network": "Mastercard",
+    "imageName": "barclays_encore_gap",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": true,
+    "foreignTransactionFeeRate": 0.03,
+    "isPopular": false,
+    "benefits": [
+        "gap_free_shipping"
+    ]
+}

@@ -1,0 +1,24 @@
+{
+    "id": "delta_sky_club_access_unlimited",
+    "benefitType": "lounge_access",
+    "displayGroup": "travel_lounge",
+    "localized": {
+        "en": {
+            "name": "Unlimited Delta Sky Club Access (Spend Required)",
+            "description": "Unlock Unlimited Delta Sky Club Access after spending $75,000 in eligible purchases in a calendar year. Unlimited Delta Sky Club Access will be available for the remainder of the calendar year in which it was earned as well as the following calendar year and through January 31 of the next calendar year"
+        }
+    },
+    "value": 50,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "usageLimit": -1,
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": true,
+    "activationMode": "lockbyfrequency",
+    "activationInstructions": "Unlock after spending $75,000 in eligible purchases a calendar year",
+    "partnerName": "Delta",
+    "referenceLink": "https://www.delta.com/us/en/delta-sky-club/access",
+    "displayOrder": 0,
+    "isActive": true
+}

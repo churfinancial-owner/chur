@@ -1,0 +1,20 @@
+{
+    "id": "hsbc_premier_streaming_credit",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_entertainment",
+    "localized": {
+        "en": {
+            "name": "Streaming Credit",
+            "description": "Receive up to $60 in statement credits annually ($5 per month) for TV and music streaming subscription payments."
+        }
+    },
+    "value": 5,
+    "valueCurrency": "USD",
+    "frequency": "monthly",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "redemptionMethod": "automatic",
+    "requiresActivation": false,
+    "displayOrder": 1,
+    "isActive": true
+}

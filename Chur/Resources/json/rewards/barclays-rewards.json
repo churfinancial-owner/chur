@@ -1,0 +1,264 @@
+{
+    "barclays_wyndham_earner_business": [
+        {
+            "rate": 8.0,
+            "rewardProgramName": "Wyndham Rewards",
+            "category": "wyndham_hotels"
+        },
+        {
+            "rate": 8.0,
+            "rewardProgramName": "Wyndham Rewards",
+            "category": "gas"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Wyndham Rewards",
+            "category": "advertising"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Wyndham Rewards",
+            "category": "utilities"
+        },
+
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Wyndham Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "barclays_wyndham_earner_plus": [
+        {
+            "rate": 6.0,
+            "rewardProgramName": "Wyndham Rewards",
+            "category": "wyndham_hotels"
+        },
+        {
+            "rate": 6.0,
+            "rewardProgramName": "Wyndham Rewards",
+            "category": "gas"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Wyndham Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Wyndham Rewards",
+            "category": "groceries"
+        },
+
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Wyndham Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "barclays_encore_gap": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Gap Encore",
+            "category": "gap_clothing"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Gap Encore",
+            "category": "clothing_stores"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Gap Encore",
+            "category": "everything"
+        }
+    ],
+
+    
+    "barclays_hawaiian_card": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "alaska_airline"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "hawaiian_airline"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "groceries"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "everything"
+        }
+    ],
+
+    "barclays_hawaiian_business_card": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "alaska_airline"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "hawaiian_airline"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "gas"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "office_supplies"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "everything"
+        }
+    ],
+
+    "barclays_wyndham_earner": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Wyndham Rewards",
+            "category": "wyndham_hotels"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Wyndham Rewards",
+            "category": "gas"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Wyndham Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Wyndham Rewards",
+            "category": "groceries"
+        },
+
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Wyndham Rewards",
+            "category": "everything"
+        }
+    ],
+
+
+    
+    "barclays_jetblue_card": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "JetBlue TrueBlue",
+            "category": "jetblue_airline"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "JetBlue TrueBlue",
+            "category": "dining"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "JetBlue TrueBlue",
+            "category": "groceries"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "JetBlue TrueBlue",
+            "category": "everything"
+        }
+    ],
+
+    
+    "barclays_jetblue_plus": [
+        {
+            "rate": 6.0,
+            "rewardProgramName": "JetBlue TrueBlue",
+            "category": "jetblue_airline"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "JetBlue TrueBlue",
+            "category": "dining"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "JetBlue TrueBlue",
+            "category": "groceries"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "JetBlue TrueBlue",
+            "category": "everything"
+        }
+    ],
+    
+    "barclays_jetblue_premier_card": [
+        {
+            "rate": 6.0,
+            "rewardProgramName": "JetBlue TrueBlue",
+            "category": "jetblue_airline"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "JetBlue TrueBlue",
+            "category": "dining"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "JetBlue TrueBlue",
+            "category": "groceries"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "JetBlue TrueBlue",
+            "category": "everything"
+        }
+    ],
+    
+    "barclays_jetblue_business": [
+        {
+            "rate": 6.0,
+            "rewardProgramName": "JetBlue TrueBlue",
+            "category": "jetblue_airline"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "JetBlue TrueBlue",
+            "category": "dining"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "JetBlue TrueBlue",
+            "category": "office_supplies"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "JetBlue TrueBlue",
+            "category": "everything"
+        }
+    ]
+}
+

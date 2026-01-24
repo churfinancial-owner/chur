@@ -1,0 +1,19 @@
+{
+    "id": "us-bank-shield",
+    "name": "Shield Visa",
+    "issuer": "US Bank",
+    "network": "Visa",
+    "imageName": "us-bank-shield",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": true,
+    "foreignTransactionFeeRate": 0.03,
+    "isPopular": false,
+    "benefits": [
+        "spending_credit_11month_usbank",
+        "priority_pass_unlimited",
+        "tsa_precheck_credit120"
+    ]
+}

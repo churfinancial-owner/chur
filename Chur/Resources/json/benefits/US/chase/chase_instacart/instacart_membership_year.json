@@ -1,0 +1,19 @@
+{
+    "id": "instacart_membership_year",
+    "benefitType": "feature",
+    "displayGroup": "lifestyle",
+    "localized": {
+        "en": {
+            "name": "Instacart+ Membership",
+            "description": "Get one year of complimentary Instacart+ membership, including $0 delivery fees and reduced service fees on eligible orders."
+        }
+    },
+    "value": 99,
+    "valueCurrency": "USD",
+    "frequency": "one-time",
+    "isRecurring": false,
+    "trackingMode": "manual",
+    "partnerName": "Instacart",
+    "displayOrder": 2,
+    "isActive": true
+}

@@ -1,0 +1,255 @@
+[
+  {
+    "id": "lounge_access",
+    "nameEN": "Lounge",
+    "nameZH_Hans": "等待登鸡",
+    "nameZH_HK": "等上雞",
+    "nameZH_TW": "候雞中",
+    "emoji": "🛋️",
+    "icon": "badge_lounge_access",
+    "category": "travel_access",
+    "sortOrder": 1,
+    "descriptionEN": "Who waits at the gate when I can eat chicken wings in the lounge?",
+    "descriptionZH_Hans": "在贵宾室吃鸡翅",
+    "descriptionZH_HK": "在貴賓室吃雞翅",
+    "descriptionZH_TW": "在貴賓室吃雞翅",
+    "hasTiers": true,
+    "detectionRules": [
+      {
+        "type": "benefit_name_contains",
+        "value": "priority pass"
+      },
+      {
+        "type": "benefit_name_contains",
+        "value": "centurion"
+      },
+      {
+        "type": "benefit_name_contains",
+        "value": "lounge access"
+      },
+      {
+        "type": "benefit_name_contains",
+        "value": "airport lounge"
+      },
+      {
+        "type": "benefit_name_contains",
+        "value": "plaza premium"
+      },
+      {
+        "type": "benefit_name_contains",
+        "value": "capital one lounge"
+      },
+      {
+        "type": "benefit_name_contains",
+        "value": "chase sapphire lounge"
+      }
+    ]
+  },
+  {
+    "id": "carrental_status",
+    "nameEN": "Rental Car",
+    "nameZH_Hans": "Car",
+    "nameZH_HK": "Car",
+    "nameZH_TW": "Car",
+    "emoji": "🏎️",
+    "icon": "badge_rentalcar_status",
+    "category": "travel_access",
+    "sortOrder": 2,
+    "descriptionEN": "Car status",
+    "descriptionZH_Hans": "。。。",
+    "descriptionZH_HK": "。。。",
+    "descriptionZH_TW": "。。。",
+    "hasTiers": true,
+    "detectionRules": [
+      {
+        "type": "benefit_name_contains",
+        "value": "hertz"
+      },
+      {
+        "type": "benefit_name_contains",
+        "value": "avis"
+      },
+      {
+        "type": "benefit_name_contains",
+        "value": "national"
+      },
+      {
+        "type": "benefit_name_contains",
+        "value": "budget"
+      },
+      {
+        "type": "benefit_name_contains",
+        "value": "enterprise"
+      }
+    ]
+  },
+
+  {
+    "id": "hotel_status",
+    "nameEN": "Hotel",
+    "nameZH_Hans": "国王大床",
+    "nameZH_HK": "國王大床",
+    "nameZH_TW": "國王大床",
+    "emoji": "🛏️",
+    "icon": "badge_hotel_status",
+    "category": "travel_access",
+    "sortOrder": 2,
+    "descriptionEN": "Standard rooms? Never heard of them. Elite hotel status only.",
+    "descriptionZH_Hans": "标准房？没听说过。只住精英会籍套房。",
+    "descriptionZH_HK": "標準房？沒聽說過。只住精英會籍套房。",
+    "descriptionZH_TW": "標準房？沒聽說過。只住精英會籍套房。",
+    "hasTiers": true,
+    "detectionRules": [
+      {
+        "type": "benefit_name_contains",
+        "value": "hilton"
+      },
+      {
+        "type": "benefit_name_contains",
+        "value": "marriott"
+      },
+      {
+        "type": "benefit_name_contains",
+        "value": "hyatt"
+      },
+      {
+        "type": "benefit_name_contains",
+        "value": "hotel"
+      },
+      {
+        "type": "benefit_name_contains",
+        "value": "ihg"
+      }
+    ]
+  },
+  {
+    "id": "global_entry_like",
+    "nameEN": "Security",
+    "nameZH_Hans": "Security",
+    "nameZH_HK": "Security",
+    "nameZH_TW": "Security",
+    "emoji": "⚡",
+    "icon": "badge_tsa_clear",
+    "category": "travel_access",
+    "sortOrder": 3,
+    "descriptionEN": "Security lines? Not for me. TSA PreCheck & Global Entry.",
+    "descriptionZH_Hans": "安检排队。TSA预检和全球入境。",
+    "descriptionZH_HK": "安檢排隊。TSA預檢和全球入境。",
+    "descriptionZH_TW": "安檢排隊。TSA預檢和全球入境。",
+    "hasTiers": true,
+    "detectionRules": [
+      {
+        "type": "benefit_name_contains",
+        "value": "global entry"
+      },
+      {
+        "type": "benefit_name_contains",
+        "value": "tsa precheck"
+      },
+      {
+        "type": "benefit_name_contains",
+        "value": "clear"
+      }
+    ]
+  },
+  {
+    "id": "points_expert",
+    "nameEN": "Miles",
+    "nameZH_Hans": "里程",
+    "nameZH_HK": "里程",
+    "nameZH_TW": "里程",
+    "emoji": "🪄",
+    "icon": "badge_points_expert",
+    "category": "travel_access",
+    "sortOrder": 0,
+    "descriptionEN": "Turn points into flights. Unlock airline transfer partners.",
+    "descriptionZH_Hans": "积分变机票。解锁航空转分伙伴。",
+    "descriptionZH_HK": "積分變機票，解鎖航空轉分夥伴。",
+    "descriptionZH_TW": "積分變機票，解鎖航空轉分夥伴。",
+    "hasTiers": true,
+    "detectionRules": [
+      {
+        "type": "issuer_equals",
+        "value": "Chase"
+      },
+      {
+        "type": "issuer_equals",
+        "value": "American Express"
+      },
+      {
+        "type": "issuer_equals",
+        "value": "Citi"
+      },
+      {
+        "type": "issuer_equals",
+        "value": "Capital One"
+      }
+    ]
+  },
+  {
+    "id": "couponing",
+    "nameEN": "couponing",
+    "nameZH_Hans": "couponing会员",
+    "nameZH_HK": "couponing會員",
+    "nameZH_TW": "couponing會員",
+    "emoji": "✂️",
+    "icon": "badge_lifestyle_coupon",
+    "category": "lifestyle",
+    "sortOrder": 1,
+    "descriptionEN": "couponing",
+    "descriptionZH_Hans": "couponing",
+    "descriptionZH_HK": "couponing",
+    "descriptionZH_TW": "couponing",
+    "hasTiers": true,
+    "detectionRules": [
+      {
+        "type": "benefit_type_count",
+        "value": "credit"
+      }
+    ]
+  },
+  {
+    "id": "cell_phone_protection",
+    "nameEN": "Cell Phone Protection",
+    "nameZH_Hans": "手机保护",
+    "nameZH_HK": "手機保護",
+    "nameZH_TW": "手機保護",
+    "emoji": "📱",
+    "icon": "badge_protection_cellphone",
+    "category": "protections",
+    "sortOrder": 1,
+    "descriptionEN": "Phone damage and theft protection",
+    "descriptionZH_Hans": "手机损坏和失窃保护",
+    "descriptionZH_HK": "手機損壞和失竊保護",
+    "descriptionZH_TW": "手機損壞和失竊保護",
+    "hasTiers": true,
+    "detectionRules": [
+      {
+        "type": "card_id_in_seed_file",
+        "value": "SeedDataCellPhoneProtection"
+      }
+    ]
+  },
+  {
+    "id": "auto_rental_coverage",
+    "nameEN": "Auto Rental Coverage",
+    "nameZH_Hans": "租车保险",
+    "nameZH_HK": "租車保險",
+    "nameZH_TW": "租車保險",
+    "emoji": "🚗",
+    "icon": "badge_protection_rentalcar",
+    "category": "protections",
+    "sortOrder": 2,
+    "descriptionEN": "Rental car insurance coverage",
+    "descriptionZH_Hans": "租车保险覆盖",
+    "descriptionZH_HK": "租車保險覆蓋",
+    "descriptionZH_TW": "租車保險覆蓋",
+    "hasTiers": true,
+    "detectionRules": [
+      {
+        "type": "card_id_in_seed_file",
+        "value": "SeedDataAutoRentalCoverage"
+      }
+    ]
+  }
+]

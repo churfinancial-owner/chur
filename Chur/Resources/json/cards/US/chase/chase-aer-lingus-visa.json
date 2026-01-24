@@ -1,0 +1,17 @@
+{
+    "id": "chase-aer-lingus-visa",
+    "name": "Aer Lingus",
+    "issuer": "Chase",
+    "network": "Visa",
+    "imageName": "chase-aer-lingus-visa",
+    "cardType": "personal",
+    "annualFee": 95,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "aer_lingus_commercial_discount",
+        "aer_lingus_companion_ticket",
+        "aer_lingus_priority_boarding"    ]
+}

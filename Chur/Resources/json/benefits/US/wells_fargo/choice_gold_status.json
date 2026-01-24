@@ -1,0 +1,22 @@
+{
+    "id": "choice_gold_status",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "Choice Gold Elite",
+            "description": "Receive 10 Elite Qualifying Nights guaranteeing you Choice Privileges Gold Elite status and benefits each calendar year."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "limitDescription": "",
+    "referenceLink": "",
+    "displayOrder": 0,
+    "isActive": true
+}

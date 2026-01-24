@@ -1,0 +1,15 @@
+{
+    "id": "amex-green-business",
+    "name": "Green Business",
+    "issuer": "American Express",
+    "network": "Amex",
+    "imageName": "amex-green-business",
+    "cardType": "business",
+    "annualFee": 95,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": true,
+    "isPopular": false,
+    "benefits": [
+    ]
+}

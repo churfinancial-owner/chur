@@ -1,0 +1,15 @@
+{
+    "id": "synchrony-venmo-visa",
+    "name": "Venmo Visa",
+    "issuer": "Synchrony",
+    "network": "Visa",
+    "imageName": "synchrony-venmo-visa",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "foreignTransactionFeeRate": 0,
+    "isPopular": false,
+    "benefits": []
+}

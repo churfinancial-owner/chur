@@ -1,0 +1,14 @@
+{
+    "id": "capital-one-ventureone",
+    "name": "VentureOne",
+    "issuer": "Capital One",
+    "network": "Visa",
+    "imageName": "capital-one-ventureone",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": []
+}

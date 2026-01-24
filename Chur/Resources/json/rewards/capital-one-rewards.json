@@ -1,0 +1,227 @@
+{
+    "capital-one-venture-x": [
+        {
+            "rate": 10.0,
+            "rewardProgramName": "Capital One Miles",
+            "category": "cap1_travel_portal"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Capital One Miles",
+            "category": "cap1_travel_portal_flight"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Capital One Miles",
+            "category": "everything"
+        }
+    ],
+    
+    "capital-one-venture-x-business": [
+        {
+            "rate": 10.0,
+            "rewardProgramName": "Capital One Miles",
+            "category": "cap1_travel_portal"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Capital One Miles",
+            "category": "cap1_travel_portal_flight"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Capital One Miles",
+            "category": "everything"
+        }
+    ],
+    
+    "capital-one-venture-business": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Capital One Miles",
+            "category": "cap1_travel_portal"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Capital One Miles",
+            "category": "everything"
+        }
+    ],
+
+    
+    "capital-one-spark-cash": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Capital One Cash Back Rewards",
+            "category": "cap1_travel_portal"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Capital One Cash Back Rewards",
+            "category": "cap1_travel_portal_flight"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Capital One Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+
+    "capital-one-spark-cash-plus": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Capital One Cash Back Rewards",
+            "category": "cap1_travel_portal"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Capital One Cash Back Rewards",
+            "category": "cap1_travel_portal_flight"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Capital One Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+
+    
+    "capital-one-savor-rewards": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Capital One Cash Back Rewards",
+            "category": "cap1_travel_portal"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Capital One Cash Back Rewards",
+            "category": "cap1_travel_portal_flight"
+        },
+        {
+            "rate": 8.0,
+            "rewardProgramName": "Capital One Cash Back Rewards",
+            "category": "cap1_travel_portal_ent"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Capital One Cash Back Rewards",
+            "category": "groceries"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Capital One Cash Back Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Capital One Cash Back Rewards",
+            "category": "entertainment"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Capital One Cash Back Rewards",
+            "category": "streaming"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Capital One Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "capital-one-savorone-rewards": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Capital One Cash Back Rewards",
+            "category": "cap1_travel_portal"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Capital One Cash Back Rewards",
+            "category": "cap1_travel_portal_flight"
+        },
+        {
+            "rate": 8.0,
+            "rewardProgramName": "Capital One Cash Back Rewards",
+            "category": "cap1_travel_portal_ent"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Capital One Cash Back Rewards",
+            "category": "groceries"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Capital One Cash Back Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Capital One Cash Back Rewards",
+            "category": "entertainment"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Capital One Cash Back Rewards",
+            "category": "streaming"
+        },
+        {
+            "rate": 1,
+            "rewardProgramName": "Capital One Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    
+    "capital-one-venture-rewards": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Capital One Miles",
+            "category": "cap1_travel_portal"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Capital One Miles",
+            "category": "cap1_travel_portal_flight"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Capital One Miles",
+            "category": "everything"
+        }
+    ],
+    
+    "capital-one-ventureone": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Capital One Miles",
+            "category": "cap1_travel_portal"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Capital One Miles",
+            "category": "cap1_travel_portal_flight"
+        },
+        {
+            "rate": 1.25,
+            "rewardProgramName": "Capital One Miles",
+            "category": "everything"
+        }
+    ],
+    
+    "capital-one-quicksilverone": [
+        {
+            "rate": 1.5,
+            "rewardProgramName": "Capital One Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "capital-one-quicksilver": [
+        {
+            "rate": 1.5,
+            "rewardProgramName": "Capital One Cash Back Rewards",
+            "category": "everything"
+        }
+    ]
+}

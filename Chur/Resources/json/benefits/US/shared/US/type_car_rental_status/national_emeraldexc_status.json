@@ -1,0 +1,22 @@
+{
+    "id": "national_emeraldexc_status",
+    "benefitType": "travel_status",
+    "displayGroup": "travel_carstatus",
+    "localized": {
+        "en": {
+            "name": "National Car Rental Emerald Club Executive Status",
+            "description": "Complimentary National Car Rental Emerald Club Executive status, including perks like Executive Area Access in the USA and Canada...Please read important exclusions and restrictions"
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "limitDescription": "",
+    "referenceLink": "",
+    "displayOrder": 0,
+    "isActive": true
+}

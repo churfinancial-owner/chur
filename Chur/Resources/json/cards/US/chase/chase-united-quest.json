@@ -1,0 +1,25 @@
+{
+    "id": "chase-united-quest",
+    "name": "United Quest",
+    "issuer": "Chase",
+    "network": "Visa",
+    "imageName": "chase-united-quest",
+    "cardType": "personal",
+    "annualFee": 350,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "priority_boarding",
+        "travelbank_anniversary_200",
+        "hotel_credit_150_ua",
+        "rideshare_credit_ua_100",
+        "car_rental_credit_80",
+        "jsx_credit_150",
+        "anniversary_bonus_miles_10",
+        "united_inflight_club_rebate_25",
+        "free_checked_bag_2",
+        "tsa_precheck_credit120n"
+    ]
+}

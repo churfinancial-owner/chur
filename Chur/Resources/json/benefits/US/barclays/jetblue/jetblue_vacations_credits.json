@@ -1,0 +1,27 @@
+{
+    "id": "jetblue_vacations_credits",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "JetBlue Vacations Credits",
+            "description": "Receive a $100 statement credit after you purchase a JetBlue Vacations package of $100 or more with your JetBlue Plus Card."
+        }
+    },
+    "value": 100,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "isRecurring": true,
+    "validCountries": [
+        "US"
+    ],
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "activationInstructions": "",
+    "partnerName": "JetBlue",
+    "limitDescription": "",
+    "referenceLink": "https://www.jetblue.com",
+    "displayOrder": 0,
+    "isActive": true
+}

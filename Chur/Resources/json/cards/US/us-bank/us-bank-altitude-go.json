@@ -1,0 +1,17 @@
+{
+    "id": "us-bank-altitude-go",
+    "name": "Altitude Go",
+    "issuer": "US Bank",
+    "network": "Visa",
+    "imageName": "us-bank-altitude-go",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": true,
+    "foreignTransactionFeeRate": 0.03,
+    "isPopular": false,
+    "benefits": [
+        "entertainment_credit_11month_usbank"
+    ]
+}

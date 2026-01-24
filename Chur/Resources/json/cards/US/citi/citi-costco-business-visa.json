@@ -1,0 +1,16 @@
+{
+    "id": "citi-costco-business-visa",
+    "name": "Costco Anywhere Business",
+    "issuer": "Citi",
+    "network": "Visa",
+    "imageName": "citi-costco-business-visa",
+    "cardType": "business",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "foreignTransactionFeeRate": 0.0,
+    "isPopular": false,
+    "benefits": [
+    ]
+}

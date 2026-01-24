@@ -1,0 +1,17 @@
+{
+    "id": "wf-choice-privileges-select",
+    "name": "Choice Privileges Select",
+    "issuer": "Wells Fargo",
+    "network": "Mastercard",
+    "imageName": "wf-choice-privileges-select",
+    "cardType": "personal",
+    "annualFee": 95,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "foreignTransactionFeeRate": 0,
+    "isPopular": false,
+    "benefits": [
+        "choice_platinum_status"
+    ]
+}

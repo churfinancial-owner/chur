@@ -1,0 +1,21 @@
+{
+    "id": "doordash_monthly_discount_10",
+    "benefitType": "feature",
+    "displayGroup": "lifestyle",
+    "localized": {
+        "en": {
+            "name": "10% off Grocery Order",
+            "description": "Get 10% off (up to $15) one convenience, grocery, alcohol, or DashMart order every month. Offer valid through 06/30/2026."
+        }
+    },
+    "value": 15,
+    "valueCurrency": "USD",
+    "frequency": "monthly",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "activeToDate": "2026-06-30T23:59:59Z",
+    "partnerName": "DoorDash",
+    "displayOrder": 2,
+    "isActive": true
+}

@@ -1,0 +1,23 @@
+{
+    "id": "annual_fee_refund_150k_spend",
+    "benefitType": "feature",
+    "displayGroup": "perks",
+    "localized": {
+        "en": {
+            "name": "$150 Annual Fee Refund",
+            "description": "Get your $150 annual fee refunded every year you spend at least $150,000 in net purchases by your account anniversary."
+        }
+    },
+    "value": 150,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "activationMode": "automatic",
+    "requiresActivation": false,
+    "partnerName": "Capital One",
+    "referenceLink": "https://www.capitalone.com/small-business/credit-cards/spark-cash-plus/",
+    "displayOrder": 1,
+    "isActive": true
+}

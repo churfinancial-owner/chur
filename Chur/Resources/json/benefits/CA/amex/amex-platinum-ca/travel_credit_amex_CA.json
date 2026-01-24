@@ -1,0 +1,24 @@
+{
+    "id": "travel_credit_amex_CA",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Annual Travel Credit",
+            "description": "$200 CAD Annual Travel Credit - The $200 CAD Annual Travel Credit can only be redeemed at time of booking through American Express Travel Online at americanexpress.ca/travel or by calling Platinum Card Travel Service."
+        }
+    },
+    "value": 200,
+    "valueCurrency": "CAD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "American Express Travel",
+    "redemptionMethod": "automatic",
+    "limitDescription": "$200 annually",
+    "referenceLink": "https://www.americanexpress.com/en-ca/travel/",
+    "benefitNotes": "",
+    "displayOrder": 0,
+    "isActive": true
+}

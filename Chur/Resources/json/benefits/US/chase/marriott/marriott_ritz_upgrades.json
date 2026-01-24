@@ -1,0 +1,22 @@
+{
+    "id": "ritz_carlton_club_level_upgrades",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "3 Club Level Upgrade Certificates",
+            "description": "Receive three Ritz-Carlton Club Level Upgrade certificates annually on eligible paid stays of up to seven nights."
+        }
+    },
+    "value": 0,
+    "usageLimit": 3,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "The Ritz-Carlton",
+    "displayOrder": 3,
+    "isActive": true
+}

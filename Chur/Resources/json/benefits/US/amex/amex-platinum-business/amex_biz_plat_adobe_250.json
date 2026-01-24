@@ -1,0 +1,19 @@
+{
+    "id": "amex_biz_plat_adobe_250",
+    "benefitType": "credit",
+    "displayGroup": "business",
+    "localized": {
+        "en": {
+            "name": "Adobe Credit",
+            "description": "Get a $250 statement credit each calendar year after you spend $600 or more on U.S. purchases directly with Adobe."
+        }
+    },
+    "value": 250,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "partnerName": "Adobe",
+    "displayOrder": 0,
+    "isActive": true
+}

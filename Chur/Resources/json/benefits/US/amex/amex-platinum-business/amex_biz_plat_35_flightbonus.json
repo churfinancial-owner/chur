@@ -1,0 +1,20 @@
+{
+    "id": "amex_biz_plat_35_flightbonus",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "35% Airline Points Back",
+            "description": "Get 35% points back when you use 'Pay with Points' for a flight with your selected qualifying airline (or any First/Business class flight) through Amex Travel."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "American Express Travel",
+    "displayOrder": 0,
+    "isActive": true
+}

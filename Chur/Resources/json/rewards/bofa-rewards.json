@@ -1,0 +1,469 @@
+{
+    "bofa-premium-rewards-elite": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "travel"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "transit",
+            "rewardNotes": "Most transit purchases count toward the BofA Travel category"
+
+        },
+        {
+            "rate": 1.5,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+
+    "bofa_air_france_klm": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Flying Blue",
+            "category": "skyteam_airlines"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Flying Blue",
+            "category": "dining"
+        },
+        {
+            "rate": 1.5,
+            "rewardProgramName": "Flying Blue",
+            "category": "everything"
+        }
+    ],
+    "bofa_allways_rewards": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Allways Rewards",
+            "category": "allegiant_airline"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Allways Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Allways Rewards",
+            "category": "everything"
+        }
+    ],
+    "bofa_free_spirit": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Free Spirit",
+            "category": "spirit_airline"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Free Spirit",
+            "category": "dining"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Free Spirit",
+            "category": "groceries"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Free Spirit",
+            "category": "everything"
+        }
+    ],
+    "bofa_atmos_rewards_summit": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "alaska_airline"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "hawaiian_airline"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "foreign_transactions"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "everything"
+        }
+    ],
+
+    "bofa_atmos_ascent": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "alaska_airline"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "hawaiian_airline"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "rideshare"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "streaming"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "tv_cable"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "cell_phone_providers"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "gas"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "everything"
+        }
+    ],
+
+    "bofa_atmos_rewards_business_card": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "alaska_airline"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "hawaiian_airline"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "transit"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "gas"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "shipping"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Atmos Rewards",
+            "category": "everything"
+        }
+    ],
+
+
+    
+    
+    "bofa-premium-rewards": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "travel"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "transit",
+            "rewardNotes": "Most transit purchases count toward the BofA Travel category"
+        },
+        {
+            "rate": 1.5,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "bofa-unlimited-cash": [
+        {
+            "rate": 1.5,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "bofa-unlimited-cash-business": [
+        {
+            "rate": 1.5,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+
+    "bofa-travel-rewards": [
+        {
+            "rate": 1.5,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "bofa-customized-cash-business": {
+        "plans": [
+            {
+                "planID": "bofa-customized-cash-business-2026",
+                "planName": "Current Rewards",
+                "isDefault": true,
+                "isPromo": false,
+                "isAvailableForNewUsers": true,
+                "planStartDate": null,
+                "planEndDate": null,
+                "rewards": [
+                    {
+                        "rate": 3.0,
+                        "rewardProgramName": "Cash Back Rewards",
+                        "category": null,
+                        "isUserConfigurable": true,
+                        "configurableSlot": "5pct_slot_1",
+                        "configurableOptions": [
+                            {
+                                "label": "Gas/EV",
+                                "includes": [
+                                    "gas"
+                                ]
+                            },
+                            {
+                                "label": "Office Supplies",
+                                "includes": [
+                                    "office_supplies"
+                                ]
+                            },
+                            {
+                                "label": "Travel",
+                                "includes": [
+                                    "travel",
+                                    "transit"
+                                ]
+                            },
+                            {
+                                "label": "TV, Telecom and Wireless",
+                                "includes": [
+                                "telecommunication"                                ]
+                            },
+                            {
+                                "label": "Computer Services",
+                                "includes": [
+                                    "software_service"
+                                ]
+                            },
+                            {
+                                "label": "Business Consulting Services",
+                                "includes": [
+                                    "business_consulting_service"
+                                ]
+                            }
+                        ],
+                        "rewardNotes": "Earn 2% and 3% cash back on up to $50,000 in combined purchases in those categories each calendar year, then 1% thereafter..."
+                    },
+                    {
+                        "rate": 2.0,
+                        "rewardProgramName": "Cash Back Rewards",
+                        "category": "dining",
+                        "rewardNotes": "Earn 2% and 3% cash back on up to $50,000 in combined purchases in those categories each calendar year, then 1% thereafter."
+                    },
+                    {
+                        "rate": 1.0,
+                        "rewardProgramName": "Cash Back Rewards",
+                        "category": "everything"
+                    }
+                ]
+            }
+        ]
+    },
+
+    "bofa-customized-cash": {
+        "plans": [
+            {
+                "planID": "bofa-customized-cash-2026",
+                "planName": "Current Rewards",
+                "isDefault": true,
+                "isPromo": false,
+                "isAvailableForNewUsers": true,
+                "planStartDate": null,
+                "planEndDate": null,
+                "rewards": [
+                    {
+                        "rate": 3.0,
+                        "rewardProgramName": "Cash Back Rewards",
+                        "category": null,
+                        "isUserConfigurable": true,
+                        "configurableSlot": "5pct_slot_1",
+                        "configurableOptions": [
+                            {
+                                "label": "Restaurants",
+                                "includes": [
+                                    "dining"
+                                ]
+                            },
+                            {
+                                "label": "Online Shopping",
+                                "includes": [
+                                    "online_transactions",
+                                    "telecommunication",
+                                    "Streaming"
+                                ]
+                            },
+                            {
+                                "label": "Gas",
+                                "includes": [
+                                    "gas"
+                                ]
+                            },
+                            {
+                                "label": "Travel",
+                                "includes": [
+                                    "travel",
+                                    "transit"
+                                ]
+                            },
+                            {
+                                "label": "Pharmacy",
+                                "includes": [
+                                    "pharmacy"
+                                ]
+                            },
+                            {
+                                "label": "Home Improvement",
+                                "includes": [
+                                    "material_hardware"
+                                ]
+                            }
+                        ],
+                        "rewardNotes": "Earn 3% and 2% cash back on up to $2,500 in combined purchases each quarter in the choice category. Some classes of merchants are excluded from the Online Shopping category, such as  Hospitals, Government Services, Insurance, Utilities and other non-retail services.."
+                    },
+                    {
+                        "rate": 2.0,
+                        "rewardProgramName": "Cash Back Rewards",
+                        "category": "groceries",
+                        "rewardNotes": "Earn 3% and 2% cash back on up to $2,500 in combined purchases each quarter in the choice category"
+                    },
+                    {
+                        "rate": 2.0,
+                        "rewardProgramName": "Cash Back Rewards",
+                        "category": "wholesale",
+                        "rewardNotes": "Earn 3% and 2% cash back on up to $2,500 in combined purchases each quarter in the choice category"
+                    },
+                    {
+                        "rate": 1.0,
+                        "rewardProgramName": "Cash Back Rewards",
+                        "category": "everything"
+                    }
+                ]
+            },
+            {
+                "planID": "bofa-customized-cash-promo2026a",
+                "planName": "2026 Promo Offer",
+                "isDefault": false,
+                "isPromo": true,
+                "isAvailableForNewUsers": true,
+                "planStartDate": null,
+                "planEndDate": null,
+                "rewards": [
+                    {
+                        "rate": 6.0,
+                        "rewardProgramName": "Cash Back Rewards",
+                        "category": null,
+                        "isUserConfigurable": true,
+                        "configurableSlot": "5pct_slot_1",
+                        "configurableOptions": [
+                            {
+                                "label": "Restaurants",
+                                "includes": [
+                                    "dining"
+                                ]
+                            },
+                            {
+                                "label": "Online Shopping",
+                                "includes": [
+                                    "online_transactions",
+                                    "telecommunication",
+                                    "streaming"
+                                ]
+                            },
+                            {
+                                "label": "Gas",
+                                "includes": [
+                                    "gas"
+                                ]
+                            },
+                            {
+                                "label": "Travel",
+                                "includes": [
+                                    "travel",
+                                    "transit"
+                                ]
+                            },
+                            {
+                                "label": "Pharmacy",
+                                "includes": [
+                                    "pharmacy"
+                                ]
+                            },
+                            {
+                                "label": "Home Improvement",
+                                "includes": [
+                                    "material_hardware"
+                                ]
+                            }
+                        ],
+                        "rewardNotes": "Earn 3% and 2% cash back on up to $2,500 in combined purchases each quarter in the choice category. Some classes of merchants are excluded from the Online Shopping category, such as  Hospitals, Government Services, Insurance, Utilities and other non-retail services.."
+                    },
+                    {
+                        "rate": 2.0,
+                        "rewardProgramName": "Cash Back Rewards",
+                        "category": "groceries",
+                        "rewardNotes": "Earn 3% and 2% cash back on up to $2,500 in combined purchases each quarter in the choice category"
+                    },
+                    {
+                        "rate": 2.0,
+                        "rewardProgramName": "Cash Back Rewards",
+                        "category": "wholesale",
+                        "rewardNotes": "Earn 3% and 2% cash back on up to $2,500 in combined purchases each quarter in the choice category"
+                    },
+                    {
+                        "rate": 1.0,
+                        "rewardProgramName": "Cash Back Rewards",
+                        "category": "everything"
+                    }
+                ]
+            }
+        ]
+    }
+}

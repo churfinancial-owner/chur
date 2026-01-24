@@ -1,0 +1,20 @@
+{
+    "id": "ritz_carlton_travel_credit_300",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Travel Credit",
+            "description": "Receive up to $300 in statement credits annually as reimbursement for qualifying airline incidental purchases, such as baggage fees and lounge access."
+        }
+    },
+    "value": 300,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "displayOrder": 1,
+    "isActive": true
+}

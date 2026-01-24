@@ -1,0 +1,20 @@
+{
+    "id": "hotel_credit_100_ua",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "United Hotel Credit ",
+            "description": "$50 statement credit cash on on both your prepaid hotel stays purchased directly through United Hotels (2 times)"
+        }
+    },
+    "value": 100,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "displayOrder": 0,
+    "isActive": true
+}

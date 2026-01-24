@@ -1,0 +1,16 @@
+{
+    "id": "hsbc_hk_red",
+    "name": "HSBC Red",
+    "issuer": "HSBC",
+    "network": "Mastercard",
+    "imageName": "hsbc_hk_red",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "HKD",
+    "country": "HK",
+    "hasForeignTransactionFee": true,
+    "foreignTransactionFeeRate": 0.0195,
+    "isPopular": false,
+    "benefits": [
+    ]
+}

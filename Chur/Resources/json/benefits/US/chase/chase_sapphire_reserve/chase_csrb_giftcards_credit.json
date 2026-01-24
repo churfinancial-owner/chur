@@ -1,0 +1,22 @@
+{
+    "id": "chase_csrb_giftcards_credit",
+    "benefitType": "credit",
+    "displayGroup": "business",
+    "localized": {
+        "en": {
+            "name": "Curated Gift Card Credit",
+            "description": "Earn up to $100 per year in statement credits for gift card purchases from the curated collection at giftcards.com/reservebusiness."
+        }
+    },
+    "value": 50,
+    "valueCurrency": "USD",
+    "frequency": "semi-annual",
+    "isRecurring": true,
+    "trackingMode": "automatic",
+    "requiresActivation": false,
+    "activationDelayPeriods": 0,
+    "partnerName": "Giftcards.com",
+    "referenceLink": "https://www.giftcards.com/reservebusiness",
+    "displayOrder": 7,
+    "isActive": true
+}

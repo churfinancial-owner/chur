@@ -1,0 +1,16 @@
+{
+    "id": "citic-hk-motion",
+    "name": "Motion",
+    "issuer": "Citic",
+    "network": "Mastercard",
+    "imageName": "citic-hk-motion",
+    "cardType": "personal",
+    "annualFee": 1200,
+    "currency": "HKD",
+    "country": "HK",
+    "hasForeignTransactionFee": true,
+    "foreignTransactionFeeRate": 0.0195,
+    "isPopular": false,
+    "benefits": [
+    ]
+}

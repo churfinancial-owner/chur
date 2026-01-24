@@ -1,0 +1,19 @@
+{
+    "id": "us-bank-altitude-reserve",
+    "name": "Altitude Reserve",
+    "issuer": "US Bank",
+    "network": "Visa",
+    "imageName": "us-bank-altitude-reserve",
+    "cardType": "personal",
+    "annualFee": 400,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "foreignTransactionFeeRate": 0.0,
+    "isPopular": false,
+    "benefits": [
+        "priority_pass_limited8",
+        "travel_credit_325_usb",
+        "tsa_precheck_credit120"
+    ]
+}

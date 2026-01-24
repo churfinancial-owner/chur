@@ -1,0 +1,23 @@
+{
+  "cardTemplateID": "chase-sapphire-preferred",
+  "affiliateURL": "https://creditcards.chase.com/rewards-credit-cards/sapphire/preferred",
+  "signUpBonus": "60,000 UR points after $4,000 spend in 3 months",
+  "signUpBonusValue": 750,
+  "bonusRating": "great",
+  "expirationDate": null,
+  "annualFeeWaived": false,
+  "requiredCreditScore": "good",
+  "strategyTags": ["jetsetter", "foodie", "optimizer"],
+  "categories": ["travel", "dining"],
+  "categoryHighlights": {
+    "travel": "Your entry level travel card with many transfer partners",
+    "dining": "3x on every meal, transferred to top airlines and hotels",
+    "default": "The do-it-all rewards card for $95/yr"
+  },
+  "complementaryCardIDs": ["chase-freedom-flex", "chase-freedom-unlimited", "chase-ink-business-preferred"],
+  "avoidWithCardIDs": ["chase-sapphire-reserve"],
+  "highlights": [
+  ],
+  "priority": 1,
+  "isActive": true
+}

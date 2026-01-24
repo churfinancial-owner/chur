@@ -1,0 +1,24 @@
+{
+    "id": "avis_budget_credit_citi",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Avis/Budget Credit",
+            "description": "Earn up to $120 in statement credits every calendar year when booking eligible prepaid car rentals"
+        }
+    },
+    "value": 120,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "validCountries": [
+        "US"
+    ],
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Avis",
+    "partnerID": "Avis",
+    "displayOrder": 0,
+    "isActive": true
+}

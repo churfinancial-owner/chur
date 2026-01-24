@@ -1,0 +1,112 @@
+[
+  {
+    "id": "transit",
+    "nameEN": "Transit",
+    "nameZH_Hans": "交通",
+    "nameZH_HK": "交通",
+    "nameZH_TW": "交通",
+    "emoji": "🚇",
+    "sortOrder": 7,
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent",
+    "categoryLinks": null
+  },
+  {
+    "id": "public_transit",
+    "nameEN": "Public Transit",
+    "nameZH_Hans": "公共交通",
+    "nameZH_HK": "公共交通",
+    "nameZH_TW": "大眾運輸",
+    "emoji": "🚃",
+    "sortOrder": 71,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "transit",
+    "level": "child",
+    "categoryLinks": [
+      {
+        "id": "transit",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "parking",
+    "nameEN": "Parking & Tolls",
+    "nameZH_Hans": "停车及过路费",
+    "nameZH_HK": "泊車及道路費",
+    "nameZH_TW": "停車及過路費",
+    "emoji": "🅿️",
+    "sortOrder": 72,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "transit",
+    "level": "child",
+    "categoryLinks": [
+      {
+        "id": "transit",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "rideshare",
+    "nameEN": "Rideshare",
+    "nameZH_Hans": "网约车",
+    "nameZH_HK": "共享汽車",
+    "nameZH_TW": "共享乘車",
+    "emoji": "🚕",
+    "sortOrder": 73,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "transit",
+    "level": "child",
+    "categoryLinks": [
+      {
+        "id": "transit",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "lyft",
+    "nameEN": "Lyft",
+    "nameZH_Hans": "Lyft",
+    "nameZH_HK": "Lyft",
+    "nameZH_TW": "Lyft",
+    "emoji": "🚕",
+    "iconName": "icon_lyft",
+    "sortOrder": 74,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "transit",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "rideshare",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "uber",
+    "nameEN": "Uber",
+    "nameZH_Hans": "Uber",
+    "nameZH_HK": "Uber",
+    "nameZH_TW": "Uber",
+    "emoji": "🚕",
+    "iconName": "icon_uber",
+    "sortOrder": 75,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "transit",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "rideshare",
+        "weight": 1.0
+      }
+    ]
+  }
+]

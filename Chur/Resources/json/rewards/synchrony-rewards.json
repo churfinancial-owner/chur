@@ -1,0 +1,182 @@
+{
+    "synchrony-paypal-mc": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "paypal_pay",
+            "rewardNotes": "on check out online with PayPal"
+        },
+        {
+            "rate": 1.5,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything",
+            "rewardNotes": "on all other purchases"
+        }
+    ],
+
+    "synchrony_cathay_pacific": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Asia Miles",
+            "category": "cathay_airline"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Asia Miles",
+            "category": "hkexpress_airline"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Asia Miles",
+            "category": "dining"
+        },
+        {
+            "rate": 1.5,
+            "rewardProgramName": "Asia Miles",
+            "category": "everything"
+        }
+    ],
+
+    "synchrony_virgin_red_rewards": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Virgin Flying Club",
+            "category": "virgin_atlantic_airline"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Virgin Flying Club",
+            "category": "virgin_voyages"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Virgin Flying Club",
+            "category": "virgin_hotels"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Virgin Flying Club",
+            "category": "groceries"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Virgin Flying Club",
+            "category": "dining"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Virgin Flying Club",
+            "category": "streaming"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Virgin Flying Club",
+            "category": "ev_charging"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Virgin Flying Club",
+            "category": "everything"
+        }
+    ],
+
+    "synchrony-venmo-visa": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": null,
+            "isUserConfigurable": true,
+            "configurableSlot": "5pct_slot_1",
+            "configurableOptions": [
+                {
+                    "label": "Travel",
+                    "includes": [
+                        "travel"
+                    ]
+                },
+                {
+                    "label": "Dining",
+                    "includes": [
+                        "dining"
+                    ]
+                },
+                {
+                    "label": "Entertainment",
+                    "includes": [
+                        "entertainment"
+                    ]
+                },
+                {
+                    "label": "Utilities",
+                    "includes": [
+                        "utilities"
+                    ]
+                },
+                {
+                    "label": "Gas",
+                    "includes": [
+                        "gas"
+                    ]
+                },
+                {
+                    "label": "Groceries",
+                    "includes": [
+                        "groceries"
+                    ]
+                }
+            ],
+            "rewardNotes": "Earn 3% on your Top Spend Category"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": null,
+            "isUserConfigurable": true,
+            "configurableSlot": "5pct_slot_2",
+            "configurableOptions": [
+                {
+                    "label": "Travel",
+                    "includes": [
+                        "travel"
+                    ]
+                },
+                {
+                    "label": "Dining",
+                    "includes": [
+                        "dining"
+                    ]
+                },
+                {
+                    "label": "Entertainment",
+                    "includes": [
+                        "entertainment"
+                    ]
+                },
+                {
+                    "label": "Utilities",
+                    "includes": [
+                        "utilities"
+                    ]
+                },
+                {
+                    "label": "Gas",
+                    "includes": [
+                        "gas"
+                    ]
+                },
+                {
+                    "label": "Groceries",
+                    "includes": [
+                        "groceries"
+                    ]
+                }
+            ],
+            "rewardNotes": "Earn 2% on your Second Top Spend Category"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+    ]
+}

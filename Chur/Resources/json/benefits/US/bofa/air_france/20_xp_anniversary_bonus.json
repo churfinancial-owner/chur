@@ -1,0 +1,26 @@
+{
+    "id": "20_xp_anniversary_bonus",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "20 XP Anniversary Bonus",
+            "description": "20 XP every year on your account anniversary"
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "usageLimit": 1,
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "activationInstructions": "",
+    "activationDelayPeriods": 1,
+    "partnerName": "Air France",
+    "limitDescription": "",
+    "referenceLink": "https://wwws.airfrance.us/",
+    "displayOrder": 0,
+    "isActive": true
+}

@@ -1,0 +1,17 @@
+{
+    "id": "wf-signify-business",
+    "name": "Signify Business Cash",
+    "issuer": "Wells Fargo",
+    "network": "Mastercard",
+    "imageName": "wf-signify-business",
+    "cardType": "business",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": true,
+    "foreignTransactionFeeRate": 0.03,
+    "isPopular": false,
+    "benefits": [
+        "priority_pass_payasyougo"
+    ]
+}

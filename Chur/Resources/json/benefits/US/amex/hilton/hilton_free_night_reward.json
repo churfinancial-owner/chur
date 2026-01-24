@@ -1,0 +1,23 @@
+{
+    "id": "hilton_free_night_reward",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Hilton Free Night Reward",
+            "description": "Enjoy an Annual Free Night Reward from Hilton Honors in your first year of Card Membership and every year upon Card renewal. Please read important exclusions and restrictions"
+        }
+    },
+    "value": 350,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "usageLimit": 1,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Hilton",
+    "partnerID": "Hilton",
+    "referenceLink": "https://www.americanexpress.com/us/credit-cards/card/hilton-honors-aspire/",
+    "displayOrder": 0,
+    "isActive": true
+}

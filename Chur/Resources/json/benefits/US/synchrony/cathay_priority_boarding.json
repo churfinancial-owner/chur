@@ -1,0 +1,26 @@
+{
+    "id": "cathay_priority_boarding",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "Priority Boarding",
+            "description": "Primary cardholders enjoy the same boarding line as Premium Economy passengers on flights operated by Cathay Pacific."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "usageLimit": 0,
+    "isRecurring": true,
+    "trackingMode": "automatic",
+    "requiresActivation": false,
+    "activationInstructions": "",
+    "activationDelayPeriods": 0,
+    "partnerName": "Cathay Pacific",
+    "limitDescription": "Only on Cathay Pacific operated flights.",
+    "referenceLink": "https://www.cathaypacific.com/cx/en_US/payment/credit-cards.html",
+    "displayOrder": 2,
+    "isActive": true
+}

@@ -1,0 +1,16 @@
+{
+    "id": "barclays_hawaiian_business_card",
+    "name": "Hawaiian Airline Business",
+    "issuer": "Barclays",
+    "network": "Mastercard",
+    "imageName": "barclays_hawaiian_business_card",
+    "cardType": "business",
+    "annualFee": 99,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "hawaiian_50_companion"
+    ]
+}

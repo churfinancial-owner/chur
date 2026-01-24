@@ -1,0 +1,21 @@
+{
+    "id": "unitednair_discount_10",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "10% off United Air flights",
+            "description": "On United and United Express flights when traveling within the continental U.S. or between the continental U.S. and Canada."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "United Airlines",
+    "redemptionMethod": "automatic",
+    "displayOrder": 0,
+    "isActive": true
+}

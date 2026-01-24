@@ -1,0 +1,21 @@
+{
+    "id": "bilt_cash_200",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "Anniversary Bilt Cash",
+            "description": "$200 of Bilt Cash awarded annually. Up to $100 of Bilt Cash rolls over into the next calendar year."
+        }
+    },
+    "value": 200,
+    "valueCurrency": "USD",
+    "frequency": "semi-annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Bilt Travel",
+    "redemptionMethod": "automatic",
+    "displayOrder": 0,
+    "isActive": true
+}

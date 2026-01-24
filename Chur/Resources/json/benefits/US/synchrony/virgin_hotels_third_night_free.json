@@ -1,0 +1,23 @@
+{
+    "id": "virgin_hotels_third_night_free",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Third Night Free at Virgin Hotels",
+            "description": "Book two consecutive nights at participating Virgin Hotels and get the third night free once per cardholder year."
+        }
+    },
+    "value": 250,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "usageLimit": 1,
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Virgin Hotels",
+    "referenceLink": "https://virginhotels.com/",
+    "displayOrder": 2,
+    "isActive": true
+}

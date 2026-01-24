@@ -1,0 +1,15 @@
+{
+    "id": "citi-strata",
+    "name": "Strata",
+    "issuer": "Citi",
+    "network": "Mastercard",
+    "imageName": "citi-strata",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": true,
+    "foreignTransactionFeeRate": 0.03,
+    "isPopular": false,
+    "benefits": []
+}

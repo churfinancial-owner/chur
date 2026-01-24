@@ -1,0 +1,17 @@
+{
+    "id": "chase-freedom-rise",
+    "name": "Freedom Rise",
+    "issuer": "Chase",
+    "network": "Visa",
+    "imageName": "chase-freedom-rise",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": true,
+    "foreignTransactionFeeRate": 0.03,
+    "benefits": [
+        "doordash_quarterly",
+        "doorpass_6"
+    ]
+}

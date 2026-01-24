@@ -1,0 +1,22 @@
+{
+    "id": "flight_discount_10",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "10% Flight Discount",
+            "description": "10% Flight Discount - Receive a 10% promo code each year on your Cardmember anniversary..."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "usageLimit": 1,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Southwest",
+    "redemptionMethod": "automatic",
+    "displayOrder": 0,
+    "isActive": true
+}

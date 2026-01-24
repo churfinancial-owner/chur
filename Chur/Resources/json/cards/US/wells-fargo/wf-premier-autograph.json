@@ -1,0 +1,17 @@
+{
+    "id": "wf-premier-autograph",
+    "name": "Autograph Premier",
+    "issuer": "Wells Fargo",
+    "network": "Visa",
+    "imageName": "wf-premier-autograph",
+    "cardType": "personal",
+    "annualFee": 95,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "foreignTransactionFeeRate": 0,
+    "isPopular": false,
+    "benefits": [
+        "wf_travel_credits50"
+    ]
+}

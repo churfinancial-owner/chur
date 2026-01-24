@@ -1,0 +1,20 @@
+{
+    "id": "amex-hilton-aspire",
+    "name": "Hilton Honors Aspire",
+    "issuer": "American Express",
+    "network": "Amex",
+    "imageName": "amex-hilton-aspire",
+    "cardType": "personal",
+    "annualFee": 550,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "hilton_resort_credit",
+        "hilton_free_night_reward",
+        "airline_credit_q50",
+        "clear_plus_credit",
+        "hilton_diamond_status",
+        "national_emeraldexc_status"    ]
+}

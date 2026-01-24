@@ -1,0 +1,23 @@
+{
+    "id": "marriott_free_night_reward",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Marriott Free Night Reward",
+            "description": "Receive 1 Free Night Award every year after your Card renewal month. Award can be used for one night (redemption level at or under 85,000 Marriott Bonvoy points) at hotels participating in Marriott Bonvoy. Certain hotels have resort fees. Please read important exclusions and restrictions"
+        }
+    },
+    "value": 680,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "usageLimit": 1,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Marriott",
+    "partnerID": "Marriott",
+    "referenceLink": "https://www.americanexpress.com/us/credit-cards/card/marriott-bonvoy-brilliant/",
+    "displayOrder": 0,
+    "isActive": true
+}

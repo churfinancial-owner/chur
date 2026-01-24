@@ -1,0 +1,17 @@
+{
+    "id": "amex-plum-business",
+    "name": "Plum Business",
+    "issuer": "American Express",
+    "network": "American Express",
+    "imageName": "amex-plum-business",
+    "cardType": "business",
+    "annualFee": 250,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "amex_plum_early_pay_discount",
+        "amex_plum_extra_days_to_pay"
+    ]
+}

@@ -1,0 +1,24 @@
+{
+    "id": "cathay_miles_transfer_discount",
+    "benefitType": "feature",
+    "displayGroup": "lifestyle",
+    "localized": {
+        "en": {
+            "name": "10% Transfer & Gift Fee Discount",
+            "description": "Receive a 10% discount on Asia Miles Gift Miles fees and Mileage Transfer fees."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "usageLimit": 0,
+    "isRecurring": true,
+    "trackingMode": "automatic",
+    "requiresActivation": false,
+    "activationInstructions": "",
+    "activationDelayPeriods": 0,
+    "partnerName": "Cathay Pacific",
+    "displayOrder": 5,
+    "isActive": true
+}

@@ -1,0 +1,21 @@
+{
+    "id": "aa_inflight_25",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "20% In-Flight Savings",
+            "description": "25% savings on inflight food and beverage purchases on American Airlines flights."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "American Airline",
+    "redemptionMethod": "automatic",
+    "displayOrder": 0,
+    "isActive": true
+}

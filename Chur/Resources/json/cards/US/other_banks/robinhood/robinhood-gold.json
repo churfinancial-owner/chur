@@ -1,0 +1,15 @@
+{
+    "id": "robinhood-gold",
+    "name": "Robinhood Gold",
+    "issuer": "Coastal Community Bank",
+    "network": "Visa",
+    "imageName": "robinhood-gold",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "foreignTransactionFeeRate": 0,
+    "isPopular": false,
+    "benefits": []
+}

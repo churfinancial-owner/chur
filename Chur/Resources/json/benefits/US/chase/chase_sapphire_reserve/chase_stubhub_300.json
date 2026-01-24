@@ -1,0 +1,21 @@
+{
+    "id": "chase_stubhub_300",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_entertainment",
+    "localized": {
+        "en": {
+            "name": "StubHub Credit",
+            "description": "Earn up to $150 in statement credits from January 1 through June 30 and up to $150 in statement credits from July 1 through December 31 for a maximum of $300 annually for StubHub and viagogo purchases."
+        }
+    },
+    "value": 150,
+    "valueCurrency": "USD",
+    "frequency": "semi-annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "limitDescription": "",
+    "displayOrder": 0,
+    "isActive": true
+}

@@ -1,0 +1,16 @@
+{
+    "id": "citi-hk-cashbackcard",
+    "name": "Citi Cash Back",
+    "issuer": "Citi",
+    "network": "Mastercard",
+    "imageName": "citi-hk-cashbackcard",
+    "cardType": "personal",
+    "annualFee": 1800,
+    "currency": "HKD",
+    "country": "HK",
+    "hasForeignTransactionFee": true,
+    "foreignTransactionFeeRate": 0.0195,
+    "isPopular": false,
+    "benefits": [
+    ]
+}

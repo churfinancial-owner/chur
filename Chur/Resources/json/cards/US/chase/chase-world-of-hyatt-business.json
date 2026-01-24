@@ -1,0 +1,17 @@
+{
+    "id": "chase-world-of-hyatt-business",
+    "name": "World of Hyatt Business",
+    "issuer": "Chase",
+    "network": "Visa",
+    "imageName": "chase-world-of-hyatt-business",
+    "cardType": "business",
+    "annualFee": 199,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "hyatt_hotel_credit_100",
+        "hyatt_discoverist_status"
+    ]
+}

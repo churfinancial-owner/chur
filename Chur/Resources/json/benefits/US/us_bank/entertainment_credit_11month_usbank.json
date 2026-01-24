@@ -1,0 +1,21 @@
+{
+    "id": "entertainment_credit_11month_usbank",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_entertainment",
+    "localized": {
+        "en": {
+            "name": "Streaming Bonus",
+            "description": "A $15 streaming bonus streaming service credit after 11 months of streaming purchases"
+        }
+    },
+    "value": 15,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "limitDescription": "",
+    "displayOrder": 0,
+    "isActive": true
+}

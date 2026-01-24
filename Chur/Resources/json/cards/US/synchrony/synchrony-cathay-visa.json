@@ -1,0 +1,21 @@
+{
+    "id": "synchrony_cathay_pacific",
+    "name": "Cathay Pacific",
+    "issuer": "Synchrony",
+    "network": "Mastercard",
+    "imageName": "synchrony_cathay_pacific",
+    "cardType": "personal",
+    "annualFee": 99,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "cathay_status_points_bonus",
+        "cathay_priority_boarding",
+        "cathay_priority_checkin",
+        "cathay_redemption_discount",
+        "cathay_miles_transfer_discount",
+        "cathay_discount15"
+    ]
+}

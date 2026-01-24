@@ -1,0 +1,15 @@
+{
+    "id": "cardless-bilt-blue",
+    "name": "Bilt Blue",
+    "issuer": "Cardless",
+    "network": "Mastercard",
+    "imageName": "cardless-bilt-blue",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "foreignTransactionFeeRate": 0,
+    "isPopular": false,
+    "benefits": ["option_earn_bilt_cash","option_bilt_housing"]
+}

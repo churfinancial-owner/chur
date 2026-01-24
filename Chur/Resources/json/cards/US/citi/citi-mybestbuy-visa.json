@@ -1,0 +1,15 @@
+{
+    "id": "citi-mybestbuy-visa",
+    "name": "My Best Buy Visa",
+    "issuer": "Citi",
+    "network": "Visa",
+    "imageName": "citi-mybestbuy-visa",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "foreignTransactionFeeRate": 0,
+    "isPopular": false,
+    "benefits": []
+}

@@ -1,0 +1,23 @@
+{
+    "id": "dunkin_credit_amex_84",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_dining",
+    "localized": {
+        "en": {
+            "name": "Dunkin’ Credit",
+            "description": "Earn up to $7 in monthly statement credits at U.S. Dunkin’ locations. That’s up to $84 in savings each year. Enrollment required."
+        }
+    },
+    "value": 7,
+    "valueCurrency": "USD",
+    "frequency": "monthly",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Dunkin",
+    "redemptionMethod": "automatic",
+    "limitDescription": "",
+    "referenceLink": "https://global.americanexpress.com/card-benefits/detail/dunkin-credit/gold",
+    "displayOrder": 0,
+    "isActive": true
+}

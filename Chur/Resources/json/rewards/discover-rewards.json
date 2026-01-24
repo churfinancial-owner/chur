@@ -1,0 +1,60 @@
+{
+    "discover-discoverit": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "groceries",
+            "isRotating": true,
+            "rewardStartDate": "2026-01-01T00:00:00Z",
+            "rewardEndDate": "2026-03-31T23:59:59Z"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "dining",
+            "isRotating": true,
+            "rewardStartDate": "2026-04-01T00:00:00Z",
+            "rewardEndDate": "2026-06-30T23:59:59Z"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "material_hardware",
+            "isRotating": true,
+            "rewardStartDate": "2026-04-01T00:00:00Z",
+            "rewardEndDate": "2026-06-30T23:59:59Z"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "discover-discoverit-chrome": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "gas"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "dining"
+        },        {
+            "rate": 1.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+
+    ],
+    
+    "discover-discoveritmiles": [
+        {
+            "rate": 1.5,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+    ]
+
+}

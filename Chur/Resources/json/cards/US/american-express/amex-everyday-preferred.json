@@ -1,0 +1,16 @@
+{
+    "id": "amex-everyday-preferred",
+    "name": "Everyday Preferred",
+    "issuer": "American Express",
+    "network": "Amex",
+    "imageName": "amex-everyday-preferred",
+    "cardType": "personal",
+    "annualFee": 95,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": true,
+    "foreignTransactionFeeRate": 0.027,
+    "isPopular": false,
+    "benefits": [
+    ]
+}

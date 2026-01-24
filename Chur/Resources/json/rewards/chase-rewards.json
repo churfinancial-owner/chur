@@ -1,0 +1,1437 @@
+{
+    "issuer-apple-mastercard": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "applepay_channel_merchant",
+            "rewardNotes": "When using Apple Pay at specific merchants like Nike, Uber, Walgreens, Duane Reade, Ace Hardware, Exxon, Mobil, T-Mobile, and through specific booking links for Booking.com and Hertz..."
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "apple_pay",
+            "rewardNotes": "Pay with Apple Pay"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "chase-disney-inspire-visa": [
+        {
+            "rate": 10.0,
+            "rewardProgramName": "Disney Rewards",
+            "category": "disney_channels"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Disney Rewards",
+            "category": "disney_stores"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Disney Rewards",
+            "category": "gas"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Disney Rewards",
+            "category": "groceries"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Disney Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Disney Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "chase-disney-premier-visa": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Disney Rewards",
+            "category": "disney_channels"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Disney Rewards",
+            "category": "disney_stores"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Disney Rewards",
+            "category": "gas"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Disney Rewards",
+            "category": "groceries"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Disney Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Disney Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "chase-disney-visa": [
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Disney Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    
+    "chase-sapphire-reserve": {
+        "plans": [
+            {
+                "planID": "chase-sapphire-reserve-2026",
+                "planName": "Current Rewards",
+                "isDefault": true,
+                "isAvailableForNewUsers": true,
+                "isPromo": false,
+                "planStartDate": null,
+                "planEndDate": null,
+                "rewards": [
+                    {
+                        "rate": 8.0,
+                        "rewardProgramName": "Ultimate Rewards",
+                        "category": "chase_travel_portal"
+                    },
+                    {
+                        "rate": 8.0,
+                        "rewardProgramName": "Ultimate Rewards",
+                        "category": "chase_travel_portal_flights"
+                    },
+                    {
+                        "rate": 4.0,
+                        "rewardProgramName": "Ultimate Rewards",
+                        "category": "flights"
+                    },
+                    {
+                        "rate": 4.0,
+                        "rewardProgramName": "Ultimate Rewards",
+                        "category": "hotels"
+                    },
+                    {
+                        "rate": 3.0,
+                        "rewardProgramName": "Ultimate Rewards",
+                        "category": "dining",
+                    },
+                    {
+                        "rate": 10.0,
+                        "rewardProgramName": "Ultimate Rewards",
+                        "category": "peloton"
+                    },
+                    {
+                        "rate": 5.0,
+                        "rewardProgramName": "Ultimate Rewards",
+                        "category": "lyft",
+                        "rewardStartDate": "2025-01-01T00:00:00Z",
+                        "rewardEndDate": "2027-09-30T23:59:59Z"
+                    },
+                    {
+                        "rate": 1.0,
+                        "rewardProgramName": "Ultimate Rewards",
+                        "category": "everything"
+                    }
+                ]
+            }
+        ]
+    },
+    
+    "chase-sapphire-reserve-business": [
+        {
+            "rate": 8.0,
+            "rewardProgramName": "Ultimate Rewards",
+            "category": "chase_travel_portal"
+        },
+        {
+            "rate": 8.0,
+            "rewardProgramName": "Ultimate Rewards",
+            "category": "chase_travel_portal_flights"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Ultimate Rewards",
+            "category": "hotels"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Ultimate Rewards",
+            "category": "flights"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Ultimate Rewards",
+            "category": "advertising"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Ultimate Rewards",
+            "category": "lyft",
+            "rewardStartDate": "2025-01-01T00:00:00Z",
+            "rewardEndDate": "2027-09-30T23:59:59Z"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Ultimate Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "chase-sapphire-preferred": {
+        "plans": [
+            {
+                "planID": "chase-csp-original",
+                "planName": "Default Plan",
+                "isDefault": true,
+                "isPromo": false,
+                "isAvailableForNewUsers": true,
+                "planStartDate": null,
+                "planEndDate": null,
+                "rewards": [
+                    {
+                        "rate": 5.0,
+                        "rewardProgramName": "Ultimate Rewards",
+                        "category": "chase_travel_portal"
+                    },
+                    {
+                        "rate": 5.0,
+                        "rewardProgramName": "Ultimate Rewards",
+                        "category": "chase_travel_portal_flights"
+                    },
+                    {
+                        "rate": 3.0,
+                        "rewardProgramName": "Ultimate Rewards",
+                        "category": "dining"
+                    },
+                    {
+                        "rate": 3.0,
+                        "rewardProgramName": "Ultimate Rewards",
+                        "category": "video_streaming"
+                    },
+                    {
+                        "rate": 3.0,
+                        "rewardProgramName": "Ultimate Rewards",
+                        "category": "online_supermarkets"
+                    },
+                    {
+                        "rate": 2.0,
+                        "rewardProgramName": "Ultimate Rewards",
+                        "category": "travel"
+                    },
+                    {
+                        "rate": 5.0,
+                        "rewardProgramName": "Ultimate Rewards",
+                        "category": "lyft",
+                        "rewardStartDate": "2025-01-01T00:00:00Z",
+                        "rewardEndDate": "2027-09-30T23:59:59Z"
+                    },
+                    {
+                        "rate": 1.0,
+                        "rewardProgramName": "Ultimate Rewards",
+                        "category": "everything"
+                    }
+                ]
+            },
+            {
+                "planID": "chase-csp-10pct",
+                "planName": "+ Annual 10% Bonus",
+                "isDefault": false,
+                "isPromo": false,
+                "isAvailableForNewUsers": true,
+                "planStartDate": null,
+                "planEndDate": null,
+                "rewards": [
+                    {
+                        "rate": 5.1,
+                        "rewardProgramName": "Ultimate Rewards",
+                        "category": "chase_travel_portal"
+                    },
+                    {
+                        "rate": 5.1,
+                        "rewardProgramName": "Ultimate Rewards",
+                        "category": "chase_travel_portal_flights"
+                    },
+                    {
+                        "rate": 3.1,
+                        "rewardProgramName": "Ultimate Rewards",
+                        "category": "dining"
+                    },
+                    {
+                        "rate": 3.1,
+                        "rewardProgramName": "Ultimate Rewards",
+                        "category": "video_streaming"
+                    },
+                    {
+                        "rate": 3.1,
+                        "rewardProgramName": "Ultimate Rewards",
+                        "category": "online_supermarkets"
+                    },
+                    {
+                        "rate": 2.1,
+                        "rewardProgramName": "Ultimate Rewards",
+                        "category": "travel"
+                    },
+                    {
+                        "rate": 5.1,
+                        "rewardProgramName": "Ultimate Rewards",
+                        "category": "lyft",
+                        "rewardStartDate": "2025-01-01T00:00:00Z",
+                        "rewardEndDate": "2027-09-30T23:59:59Z"
+                    },
+                    {
+                        "rate": 1.1,
+                        "rewardProgramName": "Ultimate Rewards",
+                        "category": "everything"
+                    }
+                ]
+            }
+        ]
+    },
+    
+    "chase-freedom-unlimited": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "chase_travel_portal"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "chase_travel_portal_flights"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "pharmacy"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "lyft",
+            "rewardStartDate": "2025-01-01T00:00:00Z",
+            "rewardEndDate": "2027-09-30T23:59:59Z"
+        },
+        {
+            "rate": 1.5,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "chase-freedom-rise": [
+        {
+            "rate": 1.5,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "everything"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "lyft",
+            "rewardStartDate": "2025-01-01T00:00:00Z",
+            "rewardEndDate": "2027-09-30T23:59:59Z"
+        }
+    ],
+    
+    "chase-freedom-flex": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "dining",
+            "isRotating": true,
+            "rewardStartDate": "2026-01-01T00:00:00Z",
+            "rewardEndDate": "2026-03-31T23:59:59Z"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "cruises_Norwegian",
+            "isRotating": true,
+            "rewardStartDate": "2026-01-01T00:00:00Z",
+            "rewardEndDate": "2026-03-31T23:59:59Z"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "donation_aha",
+            "isRotating": true,
+            "rewardStartDate": "2026-01-01T00:00:00Z",
+            "rewardEndDate": "2026-03-31T23:59:59Z"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "flights",
+            "isRotating": true,
+            "rewardStartDate": "2026-04-01T00:00:00Z",
+            "rewardEndDate": "2026-06-30T23:59:59Z"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "chase_travel_portal"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "chase_travel_portal_flights"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "pharmacy"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "chase-freedom-original": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "dining",
+            "isRotating": true,
+            "rewardStartDate": "2026-01-01T00:00:00Z",
+            "rewardEndDate": "2026-03-31T23:59:59Z"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "cruises_Norwegian",
+            "isRotating": true,
+            "rewardStartDate": "2026-01-01T00:00:00Z",
+            "rewardEndDate": "2026-03-31T23:59:59Z"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "donation_aha",
+            "isRotating": true,
+            "rewardStartDate": "2026-01-01T00:00:00Z",
+            "rewardEndDate": "2026-03-31T23:59:59Z"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "flights",
+            "isRotating": true,
+            "rewardStartDate": "2026-04-01T00:00:00Z",
+            "rewardEndDate": "2026-06-30T23:59:59Z"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "chase_travel_portal"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "chase_travel_portal_flights"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "pharmacy"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    
+    "chase-ink-business-preferred": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Ultimate Rewards",
+            "category": "chase_travel_portal"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Ultimate Rewards",
+            "category": "chase_travel_portal_flights"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Ultimate Rewards",
+            "category": "travel"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Ultimate Rewards",
+            "category": "transit",
+            "rewardNotes": "Most transit purchases count toward the Chase Travel category"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Ultimate Rewards",
+            "category": "shipping"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Ultimate Rewards",
+            "category": "advertising"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Ultimate Rewards",
+            "category": "telecommunication"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Ultimate Rewards",
+            "category": "everything"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Ultimate Rewards",
+            "category": "lyft",
+            "rewardStartDate": "2025-01-01T00:00:00Z",
+            "rewardEndDate": "2027-09-30T23:59:59Z"
+        }
+    ],
+    
+    "chase-ink-business-cash": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "office_supplies"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "telecommunication"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "gas"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "everything"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "lyft",
+            "rewardStartDate": "2025-01-01T00:00:00Z",
+            "rewardEndDate": "2027-09-30T23:59:59Z"
+        }
+    ],
+    
+    
+    "chase-ink-business-unlimited": [
+        {
+            "rate": 1.5,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "everything"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "lyft",
+            "rewardStartDate": "2025-01-01T00:00:00Z",
+            "rewardEndDate": "2027-09-30T23:59:59Z"
+        }
+    ],
+    
+    
+    "chase-southwest-priority": [
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Southwest Rapid Rewards",
+        "category": "southwest_airline"        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Southwest Rapid Rewards",
+            "category": "gas_stations"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Southwest Rapid Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Southwest Rapid Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "chase-southwest-premier": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Southwest Rapid Rewards",
+        "category": "southwest_airline"        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Southwest Rapid Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Southwest Rapid Rewards",
+            "category": "groceries"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Southwest Rapid Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "chase-southwest-plus": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Southwest Rapid Rewards",
+        "category": "southwest_airline"        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Southwest Rapid Rewards",
+            "category": "gas_stations"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Southwest Rapid Rewards",
+            "category": "groceries"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Southwest Rapid Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "chase-united-club-business": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "United MilleagePlus",
+            "category": "united_airline"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "United MilleagePlus",
+            "category": "united_travel_portal",
+            "rewardNotes": "5x miles on hotel stays when you prepay directly through Renowned Hotels and Resorts*"
+        },
+        {
+            "rate": 1.5,
+            "rewardProgramName": "United MilleagePlus",
+            "category": "everything"
+        }
+    ],
+    
+    
+    "chase-united-club": [
+        {
+            "rate": 4.0,
+            "rewardProgramName": "United MilleagePlus",
+        "category": "united_airline"        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "United MilleagePlus",
+            "category": "dining"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "United MilleagePlus",
+            "category": "travel"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Ultimate Rewards",
+            "category": "transit",
+            "rewardNotes": "Most transit purchases count toward the Chase Travel category"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "United MilleagePlus",
+            "category": "everything"
+        }
+    ],
+    
+    "chase-united-quest": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "United MilleagePlus",
+        "category": "united_airline"        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "United MilleagePlus",
+            "category": "united_travel_portal"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "United MilleagePlus",
+            "category": "travel"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "United MilleagePlus",
+            "category": "dining"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "United MilleagePlus",
+            "category": "streaming"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "United MilleagePlus",
+            "category": "everything"
+        }
+    ],
+    "chase-united-explorer": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "United MilleagePlus",
+        "category": "united_airline"        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "United MilleagePlus",
+            "category": "hotels"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "United MilleagePlus",
+            "category": "dining"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "United MilleagePlus",
+            "category": "everything"
+        }
+    ],
+    
+    "chase-united-gateway": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "United MilleagePlus",
+        "category": "united_airline"        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "United MilleagePlus",
+            "category": "gas_stations"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "United MilleagePlus",
+            "category": "transit"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "United MilleagePlus",
+            "category": "everything"
+        }
+    ],
+    
+    "chase-ihg-premier-business": [
+        {
+            "rate": 10.0,
+            "rewardProgramName": "IHG One Rewards",
+            "category": "ihg_hotels"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "IHG One Rewards",
+            "category": "travel"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Ultimate Rewards",
+            "category": "transit",
+            "rewardNotes": "Most transit purchases count toward the Chase Travel category"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "IHG One Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "IHG One Rewards",
+            "category": "gas"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "IHG One Rewards",
+            "category": "office_supplies"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "IHG One Rewards",
+            "category": "advertising"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "IHG One Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    
+    "chase-ihg-premier": [
+        {
+            "rate": 10.0,
+            "rewardProgramName": "IHG One Rewards",
+            "category": "ihg_hotels"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "IHG One Rewards",
+            "category": "travel"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Ultimate Rewards",
+            "category": "transit",
+            "rewardNotes": "Most transit purchases count toward the Chase Travel category"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "IHG One Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "IHG One Rewards",
+            "category": "gas"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "IHG One Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "chase-ihg-traveler": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "IHG One Rewards",
+            "category": "ihg_hotels"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "IHG One Rewards",
+            "category": "utilities"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "IHG One Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "IHG One Rewards",
+            "category": "telecommunication"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "IHG One Rewards",
+            "category": "streaming"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "IHG One Rewards",
+            "category": "gas"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "IHG One Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "chase-ihg-select": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "IHG One Rewards",
+            "category": "ihg_hotels"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "IHG One Rewards",
+            "category": "gas"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "IHG One Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "IHG One Rewards",
+            "category": "groceries"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "IHG One Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    
+    
+    "chase-aeroplan": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Air Canada Aeroplan",
+            "category": "aircanada_airline"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Air Canada Aeroplan",
+            "category": "dining"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Air Canada Aeroplan",
+            "category": "groceries"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Air Canada Aeroplan",
+            "category": "everything"
+        }
+    ],
+    
+    
+    "chase-marriott-bountiful": [
+        {
+            "rate": 6.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "marriott_hotels"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "groceries",
+            "rewardNotes": "At U.S. Supermarkets"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "dining",
+            "rewardNotes": "4X at restaurants worldwide, including takeout and delivery in the U.S."
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "everything"
+        }
+    ],
+    
+    "chase-marriott-ritzcarlton": [
+        {
+            "rate": 6.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "marriott_hotels"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "car_rental"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "flights"
+        },
+        
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "dining"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "everything"
+        }
+    ],
+    
+    
+    "chase-marriott-boundless": [
+        {
+            "rate": 6.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "marriott_hotels"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "groceries"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "gas_stations"
+        },
+        
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "dining"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "everything"
+        }
+    ],
+    
+    "chase-marriott-bold": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "marriott_hotels"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "groceries"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "rideshare"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "food_delivery"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "streaming"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "telecommunication"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "everything"
+        }
+    ],
+    
+    "chase-world-of-hyatt": [
+        {
+            "rate": 4.0,
+            "rewardProgramName": "World of Hyatt",
+            "category": "hyatt_hotels"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "World of Hyatt",
+            "category": "flight"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "World of Hyatt",
+            "category": "dining"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "World of Hyatt",
+            "category": "gym"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "World of Hyatt",
+            "category": "transit"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "World of Hyatt",
+            "category": "peloton"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "World of Hyatt",
+            "category": "everything"
+        }
+    ],
+    
+    "chase-world-of-hyatt-business": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "World of Hyatt",
+            "category": null,
+            "isUserConfigurable": true,
+            "configurableSlot": "5pct_slot_1",
+            "configurableOptions": [
+                {
+                    "label": "Flights",
+                    "includes": [
+                        "flights"
+                    ]
+                },
+                {
+                    "label": "Dining",
+                    "includes": [
+                        "dining"
+                    ]
+                },
+                {
+                    "label": "Shipping",
+                    "includes": [
+                        "shipping"
+                    ]
+                },
+                {
+                    "label": "Transit",
+                    "includes": [
+                        "transit"
+                    ]
+                },
+                {
+                    "label": "Gas",
+                    "includes": [
+                        "gas"
+                    ]
+                },
+                {
+                    "label": "Car Rentals",
+                    "includes": [
+                        "car_rental"
+                    ]
+                },
+                {
+                    "label": "Internet/Cable/Phone",
+                    "includes": [
+                        "telecommunication"
+                    ]
+                },
+                {
+                    "label": "Selected Advertising",
+                    "includes": [
+                        "advertising"
+                    ]
+                }
+            ],
+            "rewardNotes": "Earn 2% on your Top two Spend Category"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "World of Hyatt",
+            "category": null,
+            "isUserConfigurable": true,
+            "configurableSlot": "5pct_slot_2",
+            "configurableOptions": [
+                {
+                    "label": "Flights",
+                    "includes": [
+                        "flights"
+                    ]
+                },
+                {
+                    "label": "Dining",
+                    "includes": [
+                        "dining"
+                    ]
+                },
+                {
+                    "label": "Shipping",
+                    "includes": [
+                        "shipping"
+                    ]
+                },
+                {
+                    "label": "Transit",
+                    "includes": [
+                        "transit"
+                    ]
+                },
+                {
+                    "label": "Gas",
+                    "includes": [
+                        "gas"
+                    ]
+                },
+                {
+                    "label": "Car Rentals",
+                    "includes": [
+                        "car_rental"
+                    ]
+                },
+                {
+                    "label": "Internet/Cable/Phone",
+                    "includes": [
+                        "telecommunication"
+                    ]
+                },
+                {
+                    "label": "Selected Advertising",
+                    "includes": [
+                        "advertising"
+                    ]
+                }
+            ],
+            "rewardNotes": "Earn 2% on your Top two Spend Category"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "World of Hyatt",
+            "category": "hyatt_hotels"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "World of Hyatt",
+            "category": "peloton"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "World of Hyatt",
+            "category": "everything"
+        }
+    ],
+    
+    "chase-iberia-visa": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Avios",
+            "category": "british_airways"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Avios",
+            "category": "iberia_airline"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Avios",
+            "category": "aer_lingus_airline"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Avios",
+            "category": "hotel"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Avios",
+            "category": "everything"
+        }
+    ],
+    
+    "chase-british-airways-visa": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Avios",
+            "category": "british_airways"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Avios",
+            "category": "iberia_airline"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Avios",
+            "category": "aer_lingus_airline"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Avios",
+            "category": "hotel"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Avios",
+            "category": "everything"
+        }
+    ],
+    
+    
+    "chase-aer-lingus-visa": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Avios",
+            "category": "british_airways"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Avios",
+            "category": "iberia_airline"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Avios",
+            "category": "aer_lingus_airline"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Avios",
+            "category": "hotel"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Avios",
+            "category": "everything"
+        }
+    ],
+    
+    
+    
+    "chase-doordash-rewards": [
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "doordash"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "groceries"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    
+    "chase-instacart-mastercard": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "instacart"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "chase_travel_portal"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Ultimate Rewards",
+            "category": "chase_travel_portal_flights"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "restaurants"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "uber_eats"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "gas"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "streaming"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    
+    "chase-amazon-prime": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "amazon"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "wholefood"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "chase_travel_portal"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Ultimate Rewards",
+            "category": "chase_travel_portal_flights"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "gas_stations"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "public_transit"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "rideshare"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+    ]
+}
+

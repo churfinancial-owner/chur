@@ -1,0 +1,20 @@
+{
+    "id": "chase-ihg-premier",
+    "name": "IHG Premier",
+    "issuer": "Chase",
+    "network": "Mastercard",
+    "imageName": "chase-ihg-premier",
+    "cardType": "personal",
+    "annualFee": 99,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "ihg_platinum_status",
+        "ihg_free_night_reward",
+        "tsa_precheck_credit120n",
+        "uatravelbank_credit_50",
+        "ihg_fourthnightfree_chase"
+    ]
+}

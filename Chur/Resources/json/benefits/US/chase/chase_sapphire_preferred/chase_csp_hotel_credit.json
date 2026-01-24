@@ -1,0 +1,25 @@
+{
+    "id": "chase_csp_hotel_credit",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Annual Chase Travel Hotel Credit",
+            "description": "Receive up to $50 in statement credits each account anniversary year for hotel stays purchased through Chase Travel."
+        }
+    },
+    "value": 50,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "isRecurring": true,
+    "trackingMode": "automatic",
+    "requiresActivation": false,
+    "activationInstructions": "",
+    "activationDelayPeriods": 1,
+    "partnerName": "Chase Travel",
+    "limitDescription": "Valid for hotel stays booked through the Chase Travel portal.",
+    "referenceLink": "https://www.chase.com/personal/travel",
+    "displayOrder": 1,
+    "isActive": true
+}

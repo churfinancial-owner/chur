@@ -1,0 +1,19 @@
+{
+    "id": "chase-british-airways-visa",
+    "name": "British Airways",
+    "issuer": "Chase",
+    "network": "Visa",
+    "imageName": "chase-british-airways-visa",
+    "cardType": "personal",
+    "annualFee": 95,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "ba_travel_together_ticket",
+        "ba_reward_flight_credits",
+        "ba_10_percent_discount",
+        "doorpass_12"
+    ]
+}

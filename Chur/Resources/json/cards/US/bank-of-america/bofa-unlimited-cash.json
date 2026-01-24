@@ -1,0 +1,15 @@
+{
+    "id": "bofa-unlimited-cash",
+    "name": "Unlimited Cash Rewards",
+    "issuer": "Bank of America",
+    "network": "Visa",
+    "imageName": "bofa-unlimited-cash",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": true,
+    "foreignTransactionFeeRate": 0.03,
+    "isPopular": false,
+    "benefits": []
+}

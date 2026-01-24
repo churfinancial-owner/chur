@@ -1,0 +1,14 @@
+{
+    "id": "discover-discoverit-chrome",
+    "name": "Discover it Chrome",
+    "issuer": "Discover",
+    "network": "Discover",
+    "imageName": "discover-discoverit-chrome",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": []
+}

@@ -1,0 +1,14 @@
+{
+    "id": "citi-aadvantage-executive",
+    "name": "AAdvantage Executive",
+    "issuer": "Citi",
+    "network": "Mastercard",
+    "imageName": "citi-aadvantage-executive",
+    "cardType": "personal",
+    "annualFee": 595,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": ["aa_admirals_club_access","tsa_precheck_credit120","free_checked_bag","priority_boarding","avis_budget_credit_citi","lyft_credit_citi_monthly","grubhub_citi_monthly"]
+}

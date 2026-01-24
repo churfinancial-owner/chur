@@ -1,0 +1,21 @@
+{
+    "id": "cap1_venturebus_credit_50",
+    "benefitType": "credit",
+    "displayGroup": "business",
+    "localized": {
+        "en": {
+            "name": "Advertising/Software Credit",
+            "description": "Annually, each Venture Business account is eligible to receive up to an annual $50 statement credit for purchases at qualifying advertising or software merchants..."
+        }
+    },
+    "value": 50,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "limitDescription": "",
+    "displayOrder": 0,
+    "isActive": true
+}

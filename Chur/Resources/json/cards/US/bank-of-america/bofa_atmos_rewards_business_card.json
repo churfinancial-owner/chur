@@ -1,0 +1,19 @@
+{
+    "id": "bofa_atmos_rewards_business_card",
+    "name": "Atmos Rewards Business",
+    "issuer": "Bank of America",
+    "network": "Visa",
+    "imageName": "bofa_atmos_rewards_business_card",
+    "cardType": "business",
+    "annualFee": 95,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "first_checked_bag_free_alaska",
+        "99_companion_fare",
+        "20_back_inflight_purchases",
+        "priority_boarding"
+    ]
+}

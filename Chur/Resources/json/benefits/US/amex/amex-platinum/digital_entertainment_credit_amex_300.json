@@ -1,0 +1,23 @@
+{
+    "id": "digital_entertainment_credit_amex_300",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_entertainment",
+    "localized": {
+        "en": {
+            "name": "Digital Entertainment Credit",
+            "description": "Get up to $25 back each month on eligible subscriptions for Disney+, ESPN+, Hulu, The New York Times, Paramount+, Peacock, The Wall Street Journal, YouTube Premium, and YouTube TV."
+        }
+    },
+    "value": 25,
+    "valueCurrency": "USD",
+    "frequency": "monthly",
+    "isRecurring": true,
+    "trackingMode": "auto",
+    "requiresActivation": false,
+    "partnerName": "streaming",
+    "redemptionMethod": "automatic",
+    "referenceLink": "https://global.americanexpress.com/card-benefits/detail/digital-entertainment/platinum",
+    "benefitNotes": "",
+    "displayOrder": 0,
+    "isActive": true
+}

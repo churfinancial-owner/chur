@@ -1,0 +1,23 @@
+{
+    "id": "chase-disney-inspire-visa",
+    "name": "Disney Inspire Visa",
+    "issuer": "Chase",
+    "network": "Visa",
+    "imageName": "chase-disney-inspire-visa",
+    "cardType": "personal",
+    "annualFee": 149,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "popularSortOrder": 3,
+    "benefits": [
+        "disney_store_discount_10",
+        "disney_parks_merchandise_discount_10",
+        "disney_parks_dining_discount_10",
+        "disney_guided_tours_discount_15",
+        "disney_i_parkcredit_100",
+        "disney_i_resort200",
+        "disney_i_streaming_10"
+    ]
+}

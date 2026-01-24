@@ -1,0 +1,17 @@
+{
+    "id": "wf-autograph-journey",
+    "name": "Autograph Journey",
+    "issuer": "Wells Fargo",
+    "network": "Visa",
+    "imageName": "wf-autograph-journey",
+    "cardType": "personal",
+    "annualFee": 95,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "foreignTransactionFeeRate": 0,
+    "isPopular": false,
+    "benefits": [
+        "wf_travel_credits50"
+    ]
+}

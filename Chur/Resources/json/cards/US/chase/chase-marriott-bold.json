@@ -1,0 +1,15 @@
+{
+    "id": "chase-marriott-bold",
+    "name": "Marriott Bonvoy Bold",
+    "issuer": "Chase",
+    "network": "Visa",
+    "imageName": "chase-marriott-bold",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "marriott_silver_status"    ]
+}

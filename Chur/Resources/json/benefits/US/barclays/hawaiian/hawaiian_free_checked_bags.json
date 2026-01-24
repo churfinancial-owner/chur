@@ -1,0 +1,26 @@
+{
+    "id": "hawaiian_free_checked_bags",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_checkedbags",
+    "localized": {
+        "en": {
+            "name": "Free Checked Bags",
+            "description": "Two free checked bags for the primary cardmember on eligible flights when you use your card to purchase tickets directly from Hawaiian Airlines or Alaska Airlines."
+        }
+    },
+    "value": 40,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "usageLimit": -1,
+    "isRecurring": true,
+    "trackingMode": "automatic",
+    "requiresActivation": false,
+    "activationInstructions": "",
+    "activationDelayPeriods": 0,
+    "partnerName": "Hawaiian Airlines",
+    "limitDescription": "Primary cardmember only; must purchase ticket with card",
+    "referenceLink": "https://hawaiianair.custhelp.com/app/answers/detail/a_id/80/~/checked-bag-fees/",
+    "displayOrder": 2,
+    "isActive": true
+}

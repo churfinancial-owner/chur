@@ -1,0 +1,23 @@
+{
+    "id": "priority_pass_payasyougo",
+    "benefitType": "lounge_access",
+    "displayGroup": "travel_lounge",
+    "localized": {
+        "en": {
+            "name": "Priority Pass - pay as you go",
+            "description": "Lounge visit fees will apply while you are eligible for a complimentary annual Priority Pass membership"
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "resetType": "card_anniversary",
+    "usageLimit": -1,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Priority Pass",
+    "referenceLink": "https://www.prioritypass.com/",
+    "displayOrder": 0,
+    "isActive": true
+}

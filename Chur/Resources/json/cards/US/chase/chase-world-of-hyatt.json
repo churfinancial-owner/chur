@@ -1,0 +1,15 @@
+{
+    "id": "chase-world-of-hyatt",
+    "name": "World of Hyatt",
+    "issuer": "Chase",
+    "network": "Visa",
+    "imageName": "chase-world-of-hyatt",
+    "cardType": "personal",
+    "annualFee": 95,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "hyatt_free_night_reward"    ]
+}

@@ -1,0 +1,24 @@
+{
+    "id": "aa_anniversary_companion_cert",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Companion Certificate",
+            "description": "Earn an American Airlines Companion Certificate starting in your second cardmembership year as long as your cardmembership is renewed. Companion certificate is good for a qualifying single round-trip main cabin domestic flight. Redeeming the certificate costs $99 for the ticketing fee, plus taxes and fees based on the itinerary."
+        }
+    },
+    "value": 100,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "usageLimit": 1,
+    "trackingMode": "manual",
+    "activationDelayPeriods": 1,
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "partnerName": "American Airline",
+    "limitDescription": "",
+    "displayOrder": 0,
+    "isActive": true
+}

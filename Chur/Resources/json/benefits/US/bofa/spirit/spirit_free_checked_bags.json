@@ -1,0 +1,24 @@
+{
+    "id": "spirit_free_checked_bags",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_checkedbags",
+    "localized": {
+        "en": {
+            "name": "Free Checked Bags",
+            "description": "Enjoy two free checked bags as a primary cardholder on Spirit-operated flights."
+        }
+    },
+    "value": 30,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "usageLimit": -1,
+    "isRecurring": true,
+    "trackingMode": "automatic",
+    "requiresActivation": false,
+    "partnerName": "Spirit Airlines",
+    "limitDescription": "Primary cardholder only",
+    "referenceLink": "https://www.spirit.com/",
+    "displayOrder": 2,
+    "isActive": true
+}

@@ -1,0 +1,27 @@
+{
+    "id": "chase-united-club",
+    "name": "United Club",
+    "issuer": "Chase",
+    "network": "Visa",
+    "imageName": "chase-united-club",
+    "cardType": "personal",
+    "annualFee": 695,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "hotel_credit_200_ua",
+        "free_checked_bag_2",
+        "united_club_accessunlimited",
+        "premier_access",
+        "tsa_precheck_credit120n",
+        "car_rental_credit_100",
+        "jsx_credit_200",
+        "rideshare_credit_ua_150",
+        "united_inflight_club_rebate_25",
+        "instacart_monthly",
+        "instacart_membership",
+        "avis_presidents_status",
+        "ihg_platinum_status"    ]
+}

@@ -1,0 +1,16 @@
+{
+    "id": "chase-instacart-mastercard",
+    "name": "Instacart Mastercard",
+    "issuer": "Chase",
+    "network": "Mastercard",
+    "imageName": "chase-instacart-mastercard",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "instacart_membership_year"
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "id": "clear_plus_credit",
+    "benefitType": "TTP",
+    "displayGroup": "travel_tsa",
+    "localized": {
+        "en": {
+            "name": "CLEAR Plus Credit",
+            "description": "Get up to $209 in statement credits per calendar year when you pay for an annual CLEAR Plus Membership with your card. CLEAR Plus uses biometrics to help you get through airport security faster."
+        }
+    },
+    "value": 209,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "usageLimit": 1,
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "partnerName": "CLEAR",
+    "redemptionMethod": "automatic",
+    "limitDescription": "",
+    "referenceLink": "",
+    "benefitNotes": "",
+    "displayOrder": 0,
+    "isActive": true
+}

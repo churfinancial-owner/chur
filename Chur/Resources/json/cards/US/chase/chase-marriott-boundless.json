@@ -1,0 +1,17 @@
+{
+    "id": "chase-marriott-boundless",
+    "name": "Marriott Bonvoy Boundless",
+    "issuer": "Chase",
+    "network": "Visa",
+    "imageName": "chase-marriott-boundless",
+    "cardType": "personal",
+    "annualFee": 95,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "marriott_free_night_reward",
+        "marriott_silver_status"
+    ]
+}

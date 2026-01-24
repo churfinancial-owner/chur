@@ -1,0 +1,36 @@
+{
+    "id": "amex-platinum",
+    "name": "Platinum",
+    "issuer": "American Express",
+    "network": "Amex",
+    "imageName": "amex-platinum",
+    "cardType": "personal",
+    "annualFee": 895,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": true,
+    "popularSortOrder": 2,
+    "benefits": [
+        "uber_credit_amex_plat_15",
+        "uber_one_amex_plat_120",
+        "airline_credit_amex_200",
+        "priority_pass_unlimited",
+        "hotel_credit_amex_600",
+        "clear_plus_credit",
+        "tsa_precheck_credit120",
+        "digital_entertainment_credit_amex_300",
+        "saks_credit_amex_100",
+        "equinox_credit_amex_300",
+        "oura_ring_credit_amex_200",
+        "lululemon_credit_amex_300",
+        "resy_credit_amex_400",
+        "hilton_gold_status",
+        "marriott_gold_status",
+        "amex_walmartplus",
+        "delta_sky_club_access_10",
+        "delta_sky_club_access_unlimited",
+        "amex_lounge_unlimited"
+    ]
+}
+

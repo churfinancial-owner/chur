@@ -1,0 +1,24 @@
+{
+    "id": "saks_credit_amex_100",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_shopping",
+    "localized": {
+        "en": {
+            "name": "Shop Saks with Platinum",
+            "description": "Get up to $100 in statement credits annually for purchases at Saks Fifth Avenue or saks.com. Benefit is awarded as up to $50 semi-annually."
+        }
+    },
+    "value": 50,
+    "valueCurrency": "USD",
+    "frequency": "semi-annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "activationInstructions": "Enroll through your Amex account benefits section",
+    "partnerName": "Saks Fifth Avenue",
+    "redemptionMethod": "automatic",
+    "limitDescription": "$50 per half-year, $100 total annually",
+    "referenceLink": "https://global.americanexpress.com/card-benefits/detail/shop-saks/platinum",
+    "displayOrder": 0,
+    "isActive": true
+}

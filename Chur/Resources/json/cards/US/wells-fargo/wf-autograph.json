@@ -1,0 +1,16 @@
+{
+    "id": "wf-autograph",
+    "name": "Autograph",
+    "issuer": "Wells Fargo",
+    "network": "Visa",
+    "imageName": "wf-autograph",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "foreignTransactionFeeRate": 0,
+    "isPopular": false,
+    "benefits": [
+    ]
+}

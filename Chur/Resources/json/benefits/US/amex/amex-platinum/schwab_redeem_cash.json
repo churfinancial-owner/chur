@@ -1,0 +1,20 @@
+{
+    "id": "schwab_redeem_cash",
+    "benefitType": "feature",
+    "displayGroup": "null",
+    "localized": {
+        "en": {
+            "name": "Invest with Rewards (1.1 cpp)",
+            "description": "Redeem Membership Rewards® points for deposits into your eligible Schwab account at a rate of 1.1 cents per point ($110 per 10,000 points) for the first 1,000,000 points redeemed per calendar year."
+        }
+    },
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Charles Schwab",
+    "referenceLink": "https://www.schwab.com/amex",
+    "displayOrder": 0,
+    "isActive": true
+}

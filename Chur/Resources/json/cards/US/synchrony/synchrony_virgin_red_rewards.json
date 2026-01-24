@@ -1,0 +1,19 @@
+{
+    "id": "synchrony_virgin_red_rewards",
+    "name": "Virgin Red Rewards",
+    "issuer": "Synchrony",
+    "network": "Mastercard",
+    "imageName": "synchrony_virgin_red_rewards",
+    "cardType": "personal",
+    "annualFee": 99,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "virgin_red_anniversary_boost",
+        "virgin_atlantic_tier_points",
+        "virgin_red_personal_perks",
+        "virgin_hotels_third_night_free"
+    ]
+}

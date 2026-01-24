@@ -1,0 +1,22 @@
+{
+    "id": "hotel_credit_citi2",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Hotel Credit",
+            "description": "Once per calendar year, enjoy $100 off a single hotel stay of $500 or more (excluding taxes and fees) when booked through cititravel.com."
+        }
+    },
+    "value": 100,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Citi Travel",
+    "redemptionMethod": "automatic",
+    "benefitNotes": "",
+    "displayOrder": 0,
+    "isActive": true
+}

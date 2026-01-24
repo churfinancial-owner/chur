@@ -1,0 +1,26 @@
+{
+    "id": "hawaiian_50_companion",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "50% Companion Discount",
+            "description": "Receive a one-time 50%-off companion discount for roundtrip coach travel between Hawaii and North America on Hawaiian Airlines or roundtrip North America travel on Alaska Airlines."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "usageLimit": 1,
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "activationInstructions": "",
+    "activationDelayPeriods": 0,
+    "partnerName": "Hawaiian Airlines",
+    "limitDescription": "One-time use only; roundtrip coach travel",
+    "referenceLink": "https://www.hawaiianairlines.com/content/legal/promotermsandconditions/companion-discount/",
+    "displayOrder": 3,
+    "isActive": true
+}

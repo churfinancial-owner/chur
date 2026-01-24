@@ -1,0 +1,26 @@
+{
+    "id": "amex-delta-reserve",
+    "name": "Delta Reserve",
+    "issuer": "American Express",
+    "network": "Amex",
+    "imageName": "amex-delta-reserve",
+    "cardType": "personal",
+    "annualFee": 650,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "delta_companion_cert_luxury",
+        "delta_sky_club_access_15",
+        "amex_lounge_unlimited",
+        "delta_takeoff_15",
+        "mqd_headstart_2500",
+        "delta_stays_credit_200",
+        "resy_credit_240",
+        "rideshare_credit_120",
+        "free_checked_bag",
+        "priority_boarding",
+        "hertz_presidents_circle",
+        "tsa_precheck_credit120"    ]
+}

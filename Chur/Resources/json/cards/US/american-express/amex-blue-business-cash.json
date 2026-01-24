@@ -1,0 +1,16 @@
+{
+    "id": "amex-blue-business-cash",
+    "name": "Blue Business Cash",
+    "issuer": "American Express",
+    "network": "Amex",
+    "imageName": "amex-blue-business-cash",
+    "cardType": "business",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": true,
+    "foreignTransactionFeeRate": 0.027,
+    "isPopular": false,
+    "benefits": [
+    ]
+}

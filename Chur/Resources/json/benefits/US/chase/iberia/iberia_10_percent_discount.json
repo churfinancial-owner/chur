@@ -1,0 +1,21 @@
+{
+    "id": "iberia_10_percent_discount",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "10% Flight Discount",
+            "description": "Get a 10% discount on Iberia-operated round-trip flights when you book through iberia.com/Chase10 and pay with your card."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Iberia",
+    "referenceLink": "https://www.iberia.com/Chase10",
+    "displayOrder": 0,
+    "isActive": true
+}

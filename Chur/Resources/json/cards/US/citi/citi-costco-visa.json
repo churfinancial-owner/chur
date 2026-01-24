@@ -1,0 +1,14 @@
+{
+    "id": "citi-costco-visa",
+    "name": "Costco Anywhere",
+    "issuer": "Citi",
+    "network": "Visa",
+    "imageName": "citi-costco-visa",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": []
+}

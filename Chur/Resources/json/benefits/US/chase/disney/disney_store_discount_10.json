@@ -1,0 +1,21 @@
+{
+    "id": "disney_store_discount_10",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "10% Disney Store Discount",
+            "description": "Receive 10% off select purchases at DisneyStore.com when you use your card and promo code DRVCMEMBER."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Disney Store",
+    "referenceLink": "https://www.disneystore.com",
+    "displayOrder": 2,
+    "isActive": true
+}

@@ -1,0 +1,16 @@
+{
+    "id": "aeon-hk-wakuwaku",
+    "name": "WAKUWAKU",
+    "issuer": "Aeon",
+    "network": "Mastercard",
+    "imageName": "aeon-hk-wakuwaku",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "HKD",
+    "country": "HK",
+    "hasForeignTransactionFee": false,
+    "foreignTransactionFeeRate": 0,
+    "isPopular": false,
+    "benefits": [
+    ]
+}

@@ -1,0 +1,30 @@
+{
+    "id": "amex-platinum-business",
+    "name": "Platinum Business",
+    "issuer": "American Express",
+    "network": "Amex",
+    "imageName": "amex-platinum-business",
+    "cardType": "business",
+    "annualFee": 895,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": true,
+    "benefits": [
+        "amex_biz_plat_hotel_credit_600",
+        "amex_biz_plat_dell_credit_1150",
+        "amex_biz_plat_hilton_biz_credit_200",
+        "amex_biz_plat_spend_bonus_travel_1200",
+        "amex_biz_plat_35_flightbonus",
+        "airline_credit_amex_200",
+        "clear_plus_credit",
+        "tsa_precheck_credit120",
+        "priority_pass_unlimited",
+        "amex_biz_plat_wireless_120",
+        "amex_biz_plat_indeed_360",
+        "amex_biz_plat_adobe_250",
+        "delta_sky_club_access_10",
+        "delta_sky_club_access_unlimited",
+        "amex_lounge_unlimited"
+    ]
+}

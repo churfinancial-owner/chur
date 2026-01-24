@@ -1,0 +1,16 @@
+{
+    "id": "citi-hk-rewardscard",
+    "name": "Citi Rewards",
+    "issuer": "Citi",
+    "network": "Mastercard",
+    "imageName": "citi-hk-rewardscard",
+    "cardType": "personal",
+    "annualFee": 1800,
+    "currency": "HKD",
+    "country": "HK",
+    "hasForeignTransactionFee": true,
+    "foreignTransactionFeeRate": 0.0195,
+    "isPopular": false,
+    "benefits": [
+    ]
+}

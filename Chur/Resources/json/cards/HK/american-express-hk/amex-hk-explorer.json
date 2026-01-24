@@ -1,0 +1,16 @@
+{
+    "id": "amex-hk-explorer",
+    "name": "Explorer Card",
+    "issuer": "American Express",
+    "network": "Amex",
+    "imageName": "amex-hk-explorer",
+    "cardType": "personal",
+    "annualFee": 2200,
+    "currency": "HKD",
+    "country": "HK",
+    "hasForeignTransactionFee": false,
+    "isPopular": true,
+    "popularSortOrder": 2,
+    "benefits": [
+    ]
+}

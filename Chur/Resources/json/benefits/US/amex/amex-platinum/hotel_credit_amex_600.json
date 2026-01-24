@@ -1,0 +1,24 @@
+{
+    "id": "hotel_credit_amex_600",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Hotel Credit",
+            "description": "Get up to $600 per year in statement credits ($300 semi-annually) for prepaid Fine Hotels + Resorts or The Hotel Collection bookings through American Express Travel."
+        }
+    },
+    "value": 300,
+    "valueCurrency": "USD",
+    "frequency": "semi-annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "American Express Travel",
+    "redemptionMethod": "automatic",
+    "limitDescription": "$300 per half-year, $600 total annually",
+    "referenceLink": "https://global.americanexpress.com/card-benefits/detail/hotel-credit/platinum",
+    "benefitNotes": "",
+    "displayOrder": 0,
+    "isActive": true
+}

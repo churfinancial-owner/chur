@@ -1,0 +1,19 @@
+{
+    "id": "amex_biz_plat_hilton_biz_credit_200",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Hilton Credit",
+            "description": "Get up to $50 in statement credits each quarter ($200 annually) on eligible purchases made directly with Hilton."
+        }
+    },
+    "value": 50,
+    "valueCurrency": "USD",
+    "frequency": "quarterly",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "partnerName": "Hilton",
+    "displayOrder": 3,
+    "isActive": true
+}

@@ -1,0 +1,21 @@
+{
+    "id": "preferred_seat_upgrade",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "Select a preferred seat within 48 hours prior to departure",
+            "description": null
+        }
+    },
+    "value": 50,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Southwest",
+    "redemptionMethod": "automatic",
+    "displayOrder": 0,
+    "isActive": true
+}

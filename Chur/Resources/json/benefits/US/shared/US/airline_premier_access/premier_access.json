@@ -1,0 +1,20 @@
+{
+    "id": "premier_access",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "Premier Access",
+            "description": "Premier Access travel services - receive preferential treatment to ease your way through the airport with priority check-in, security screening, boarding, and baggage handling privileges."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "displayOrder": 0,
+    "isActive": true
+}

@@ -1,0 +1,27 @@
+{
+    "id": "instacart_membership",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_shopping",
+    "localized": {
+        "en": {
+            "name": "Instacart+ Membership",
+            "description": "Get complimentary Instacart+ Membership and receive unlimited deliveries with $0 delivery fees on eligible orders. Service fees and Terms apply. Benefits end 12/31/27."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "one-time",
+    "isRecurring": false,
+    "usageLimit": 1,
+    "validCountries": [
+        "US"
+    ],
+    "trackingMode": "manual",
+    "expirationDate": "2027-12-31T23:59:59Z",
+    "activeFromDate": "2024-01-01T00:00:00Z",
+    "activeToDate": "2027-12-31T23:59:59Z",
+    "requiresActivation": false,
+    "partnerName": "Instacard",
+    "displayOrder": 0,
+    "isActive": true
+}

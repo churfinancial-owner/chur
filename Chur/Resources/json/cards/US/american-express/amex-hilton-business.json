@@ -1,0 +1,17 @@
+{
+    "id": "amex-hilton-business",
+    "name": "Hilton Honors Business",
+    "issuer": "American Express",
+    "network": "Amex",
+    "imageName": "amex-hilton-business",
+    "cardType": "business",
+    "annualFee": 195,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "hilton_hotel_credit_240",
+        "hilton_gold_status",
+        "national_emeraldexc_status"    ]
+}

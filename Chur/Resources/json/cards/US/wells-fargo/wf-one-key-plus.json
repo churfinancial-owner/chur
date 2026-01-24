@@ -1,0 +1,19 @@
+{
+    "id": "wf-one-key-plus",
+    "name": "One Key+",
+    "issuer": "Wells Fargo",
+    "network": "Mastercard",
+    "imageName": "wf-one-key-plus",
+    "cardType": "personal",
+    "annualFee": 99,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "foreignTransactionFeeRate": 0,
+    "isPopular": false,
+    "benefits": [
+        "tsa_precheck_credit120",
+        "anniversary_onekey_100",
+        "onekey_gold_status"
+    ]
+}

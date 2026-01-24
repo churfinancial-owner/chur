@@ -1,0 +1,22 @@
+{
+    "id": "united_club_accessunlimited",
+    "benefitType": "lounge_access",
+    "displayGroup": "travel_lounge",
+    "localized": {
+        "en": {
+            "name": "United Club Membership",
+            "description": "Primary Cardmembers and their eligible travel companions, including 1 adult guest and dependent children, will enjoy access to 45+ United Club locations worldwide."
+        }
+    },
+    "value": 59,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "isRecurring": true,
+    "usageLimit": -1,
+    "trackingMode": "manual",
+    "partnerName": "United Airlines",
+    "requiresActivation": false,
+    "displayOrder": 0,
+    "isActive": true
+}

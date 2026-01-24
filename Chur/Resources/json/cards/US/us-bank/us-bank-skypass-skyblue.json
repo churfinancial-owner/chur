@@ -1,0 +1,15 @@
+{
+    "id": "us-bank-skypass-skyblue",
+    "name": "SKYPASS Skyblue",
+    "issuer": "US Bank",
+    "network": "Visa",
+    "imageName": "us-bank-skypass-skyblue",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": true,
+    "foreignTransactionFeeRate": 0.03,
+    "isPopular": false,
+    "benefits": []
+}

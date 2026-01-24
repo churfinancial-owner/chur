@@ -1,0 +1,22 @@
+{
+    "id": "airline_credit_q50",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Airline Credit",
+            "description": "Get up to $50 in statement credits each quarter, for a total of up to $200 back each year, on flight purchases made directly with an airline or through AmexTravel.com. Please read important exclusions and restrictions"
+        }
+    },
+    "value": 50,
+    "valueCurrency": "USD",
+    "frequency": "quarterly",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "limitDescription": "Up to $50 per quarter, $200 total annually",
+    "referenceLink": "https://global.americanexpress.com/card-benefits/detail/airline-fee-credit/platinum",
+    "displayOrder": 0,
+    "isActive": true
+}

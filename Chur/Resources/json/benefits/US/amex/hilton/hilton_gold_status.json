@@ -1,0 +1,22 @@
+{
+    "id": "hilton_gold_status",
+    "benefitType": "travel_status",
+    "displayGroup": "travel_hotelstatus",
+    "localized": {
+        "en": {
+            "name": "Hilton Honors Gold Status",
+            "description": "Complimentary Hilton Honors Gold Status"
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "limitDescription": "",
+    "referenceLink": "",
+    "displayOrder": 0,
+    "isActive": true
+}

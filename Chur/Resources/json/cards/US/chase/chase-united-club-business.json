@@ -1,0 +1,28 @@
+{
+    "id": "chase-united-club-business",
+    "name": "United Club Business",
+    "issuer": "Chase",
+    "network": "Visa",
+    "imageName": "chase-united-club-business",
+    "cardType": "business",
+    "annualFee": 695,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "hotel_credit_200_ua",
+        "free_checked_bag_2",
+        "united_club_accessunlimited",
+        "premier_access",
+        "tsa_precheck_credit120n",
+        "car_rental_credit_100",
+        "jsx_credit_200",
+        "rideshare_credit_ua_150",
+        "instacart_monthly",
+        "instacart_membership",
+        "united_farelock50",
+        "united_plus_upgrades2",
+        "united_inflight_club_rebate_25",
+        "avis_presidents_status"    ]
+}

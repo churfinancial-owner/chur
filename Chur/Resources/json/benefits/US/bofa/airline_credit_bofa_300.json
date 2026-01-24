@@ -1,0 +1,21 @@
+{
+    "id": "airline_credit_bofa_300",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Airline Incidental Credits",
+            "description": "Receive up to $300 annually in Airline Incidental Statement Credits for qualifying purchases such as seat upgrades, baggage fees, airline lounge fees and in-flight services"
+        }
+    },
+    "value": 300,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "referenceLink": "https://global.americanexpress.com/card-benefits/detail/airline-fee-credit/platinum",
+    "displayOrder": 0,
+    "isActive": true
+}

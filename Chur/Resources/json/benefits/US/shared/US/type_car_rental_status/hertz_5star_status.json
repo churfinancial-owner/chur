@@ -1,0 +1,22 @@
+{
+    "id": "hertz_five_star_status",
+    "benefitType": "travel_status",
+    "displayGroup": "travel_carstatus",
+    "localized": {
+        "en": {
+            "name": "Hertz Five Star® Status",
+            "description": "Enjoy a 25% bonus on Hertz Gold Plus Rewards® points, space-available one-class car upgrades, and access to a wider selection of cars through Hertz Ultimate Choice."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "limitDescription": "",
+    "referenceLink": "",
+    "displayOrder": 0,
+    "isActive": true
+}

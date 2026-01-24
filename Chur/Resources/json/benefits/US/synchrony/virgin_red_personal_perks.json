@@ -1,0 +1,22 @@
+{
+    "id": "virgin_red_personal_perks",
+    "benefitType": "feature",
+    "displayGroup": "lifestyle",
+    "localized": {
+        "en": {
+            "name": "Personal Perks (Spend Required)",
+            "description": "Unlock one perk at $15k spend and a second at $30k spend. Choose from: Virgin Atlantic Companion Voucher/Upgrade, Virgin Hotels Free Night, or $300 Virgin Voyages Bar Tab."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Virgin Group",
+    "referenceLink": "https://virginredrewardscard.syf.com/benefitsdetails",
+    "displayOrder": 3,
+    "isActive": true
+}

@@ -1,0 +1,20 @@
+{
+    "id": "chase-southwest-priority",
+    "name": "Southwest RR Priority",
+    "issuer": "Chase",
+    "network": "Visa",
+    "imageName": "chase-southwest-priority",
+    "cardType": "personal",
+    "annualFee": 229,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "benefits": [
+        "preferred_seat_booking",
+        "free_checked_bag",
+        "anniversary_bonus_miles_7500",
+        "priority_boarding",
+        "preferred_seat_upgrade",
+        "southwest_inflight_25"
+    ]
+}

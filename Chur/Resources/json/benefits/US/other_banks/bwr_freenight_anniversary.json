@@ -1,0 +1,23 @@
+{
+    "id": "bwr_freenight_anniversary",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Annual Free Night Award",
+            "description": "Receive one free night award every year on your account anniversary."
+        }
+    },
+    "value": 150,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "usageLimit": 1,
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "activationDelayPeriods": 1,
+    "partnerName": "Best Western",
+    "displayOrder": 1,
+    "isActive": true
+}

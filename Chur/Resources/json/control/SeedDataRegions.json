@@ -1,0 +1,42 @@
+[
+  {
+    "id": "US",
+    "name": "United States",
+    "flag": "🇺🇸",
+    "currency": "USD",
+    "currencySymbol": "$",
+    "isActive": true,
+    "sortOrder": 1,
+    "localeIdentifiers": ["US", "PR", "VI", "GU", "AS", "MP"]
+  },
+  {
+    "id": "AU",
+    "name": "Australia",
+    "flag": "🇦🇺",
+    "currency": "AUD",
+    "currencySymbol": "AU$",
+    "isActive": false,
+    "sortOrder": 2,
+    "localeIdentifiers": ["AU"]
+  },
+  {
+    "id": "CA",
+    "name": "Canada",
+    "flag": "🇨🇦",
+    "currency": "CAD",
+    "currencySymbol": "CA$",
+    "isActive": true,
+    "sortOrder": 3,
+    "localeIdentifiers": ["CA"]
+  },
+  {
+    "id": "HK",
+    "name": "Hong Kong",
+    "flag": "🇭🇰",
+    "currency": "HKD",
+    "currencySymbol": "HK$",
+    "isActive": true,
+    "sortOrder": 99,
+    "localeIdentifiers": ["HK"]
+  }
+]

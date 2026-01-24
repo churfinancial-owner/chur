@@ -1,0 +1,18 @@
+{
+    "id": "mercury_best_western_rewards_premium",
+    "name": "Best Western Rewards Premium",
+    "issuer": "Mercury",
+    "network": "Mastercard",
+    "imageName": "mercury_best_western_rewards_premium",
+    "cardType": "personal",
+    "annualFee": 89,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "bwr_premium_platinum_status",
+        "bwr_freenight_anniversary",
+        "bwr_freenight_anniversary_spend"
+    ]
+}

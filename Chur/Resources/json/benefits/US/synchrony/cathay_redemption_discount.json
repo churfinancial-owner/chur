@@ -1,0 +1,23 @@
+{
+    "id": "cathay_redemption_discount",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "10% Redemption Discount",
+            "description": "Get a 10% discount when redeeming Asia Miles for hotel stays and car rental experiences through the Cathay portal."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "usageLimit": 0,
+    "isRecurring": true,
+    "trackingMode": "automatic",
+    "activationDelayPeriods": 0,
+    "partnerName": "Cathay Pacific",
+    "referenceLink": "https://lifestyle.asiamiles.com/",
+    "displayOrder": 4,
+    "isActive": true
+}

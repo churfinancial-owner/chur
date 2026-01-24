@@ -1,0 +1,23 @@
+{
+    "id": "aer_lingus_companion_ticket",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Companion Ticket (Spend Required)",
+            "description": "Earn a companion ticket for a person traveling with you on an Aer Lingus-operated flight each calendar year you make purchases of $30,000 on your card."
+        }
+    },
+    "value": 300,
+    "usageLimit": 1,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": true,
+    "activationMode": "lockbyfrequency",
+    "activationInstructions": "Unlock after making at least $30,000 in purchases each calendar year",
+    "partnerName": "Aer Lingus",
+    "displayOrder": 1,
+    "isActive": true
+}

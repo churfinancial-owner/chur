@@ -1,0 +1,22 @@
+{
+    "id": "travel_credit_citi",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Travel Credit",
+            "description": ""
+        }
+    },
+    "value": 250,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "null",
+    "redemptionMethod": "automatic",
+    "benefitNotes": "",
+    "displayOrder": 0,
+    "isActive": true
+}

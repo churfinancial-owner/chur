@@ -1,0 +1,21 @@
+{
+    "id": "lifestyle_credit_bofa",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_entertainment",
+    "localized": {
+        "en": {
+            "name": "Lifestyle Conveniences Credit",
+            "description": "Receive up to $150 annually for lifestyle conveniences including video streaming services, food delivery, fitness subscriptions and rideshare services."
+        }
+    },
+    "value": 150,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "auto",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "benefitNotes": "",
+    "displayOrder": 0,
+    "isActive": true
+}

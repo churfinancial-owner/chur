@@ -1,0 +1,18 @@
+{
+    "id": "amex-marriott-business",
+    "name": "Marriott Bonvoy Business",
+    "issuer": "American Express",
+    "network": "Amex",
+    "imageName": "amex-marriott-business",
+    "cardType": "business",
+    "annualFee": 125,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "marriott_gold_status",
+        "marriott_elite_night_credits_15",
+        "marriott_business_room_discount_7",
+        "anniversary_elite_night"    ]
+}

@@ -1,0 +1,17 @@
+{
+    "id": "bofa_allways_rewards",
+    "name": "Allways Rewards",
+    "issuer": "Bank of America",
+    "network": "Visa",
+    "imageName": "bofa_allways_rewards",
+    "cardType": "personal",
+    "annualFee": 79,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "allegiant_bogo_airfare",
+        "priority_boarding"
+    ]
+}

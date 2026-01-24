@@ -1,0 +1,21 @@
+{
+    "id": "chase_edit_500",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Edit Hotel Credit",
+            "description": "Cardholders automatically receive up to $250 in statement credits on qualifying purchases between Jan. 1 and June 30 and another $250 between July 1 and Dec. 31 each year"
+        }
+    },
+    "value": 250,
+    "valueCurrency": "USD",
+    "frequency": "semi-annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "limitDescription": "",
+    "displayOrder": 0,
+    "isActive": true
+}

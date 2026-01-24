@@ -1,0 +1,24 @@
+{
+    "id": "disney_streaming_credit_amex2",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_entertainment",
+    "localized": {
+        "en": {
+            "name": "Disney Streaming Credit",
+            "description": "Get up to a $7 monthly statement credit..."
+        }
+    },
+    "value": 7,
+    "valueCurrency": "USD",
+    "frequency": "monthly",
+    "isRecurring": true,
+    "trackingMode": "auto",
+    "requiresActivation": false,
+    "partnerName": "Disney",
+    "partnerID": "Disney",
+    "redemptionMethod": "automatic",
+    "referenceLink": "https://global.americanexpress.com/card-benefits/detail/disney-bundle-credit/blue-cash-everyday",
+    "benefitNotes": "",
+    "displayOrder": 0,
+    "isActive": true
+}

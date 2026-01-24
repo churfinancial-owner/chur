@@ -1,0 +1,17 @@
+{
+    "id": "chase-freedom-flex",
+    "name": "Freedom Flex",
+    "issuer": "Chase",
+    "network": "Mastercard",
+    "imageName": "chase-freedom-flex",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": true,
+    "foreignTransactionFeeRate": 0.03,
+    "benefits": [
+        "doordash_quarterly",
+        "doorpass_6"
+    ]
+}

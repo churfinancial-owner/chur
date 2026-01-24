@@ -1,0 +1,21 @@
+{
+    "id": "travel_credit_300_cap1vx",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Travel Credit",
+            "description": "Receive a $300 annual credit for bookings through Capital One Travel"
+        }
+    },
+    "value": 300,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "limitDescription": "",
+    "displayOrder": 0,
+    "isActive": true
+}

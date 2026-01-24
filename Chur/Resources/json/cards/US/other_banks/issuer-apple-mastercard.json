@@ -1,0 +1,15 @@
+{
+    "id": "issuer-apple-mastercard",
+    "name": "Apple Card",
+    "issuer": "Goldman Sachs",
+    "network": "Mastercard",
+    "imageName": "issuer-apple-mastercard",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "foreignTransactionFeeRate": 0,
+    "isPopular": false,
+    "benefits": []
+}

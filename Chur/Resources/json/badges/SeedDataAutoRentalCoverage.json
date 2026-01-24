@@ -1,0 +1,963 @@
+[
+    {
+        "cardId": "bofa_atmos_ascent",
+        "hasCoverage": true,
+        "coverageType": "primary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "bofa_atmos_rewards_summit",
+        "hasCoverage": true,
+        "coverageType": "primary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "bofa-premium-rewards-elite",
+        "hasCoverage": true,
+        "coverageType": "primary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "bofa-customized-cash-business",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "bofa-unlimited-cash-business",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+
+    {
+        "cardId": "capital-one-venture-x",
+        "hasCoverage": true,
+        "coverageType": "primary",
+        "recommended": true,
+        "description": "The overall pick for luxury travelers, offering Primary coverage plus elite Hertz President’s Circle status"
+    },
+    {
+        "cardId": "capital-one-venture-x-business",
+        "hasCoverage": true,
+        "coverageType": "primary",
+        "recommended": true,
+        "description": ""
+    },
+    {
+        "cardId": "chase-ink-business-cash",
+        "hasCoverage": true,
+        "coverageType": "primary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-ink-business-preferred",
+        "hasCoverage": true,
+        "coverageType": "primary",
+        "recommended": true,
+        "description": "The best for business owners, offering Primary coverage specifically for business-related rentals"
+    },
+    {
+        "cardId": "chase-ink-business-unlimited",
+        "hasCoverage": true,
+        "coverageType": "primary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-sapphire-preferred",
+        "hasCoverage": true,
+        "coverageType": "primary",
+        "recommended": true,
+        "description": "The overall pick because it provides Primary rental insurance for a low annual fee"
+    },
+    {
+        "cardId": "chase-sapphire-reserve-business",
+        "hasCoverage": true,
+        "coverageType": "primary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-sapphire-reserve",
+        "hasCoverage": true,
+        "coverageType": "primary",
+        "recommended": true,
+        "description": "The best for high-end protection, covering additional coverage amount and providing elite status with National and Avis"
+    },
+    {
+        "cardId": "chase-united-club-business",
+        "hasCoverage": true,
+        "coverageType": "primary",
+        "recommended": true,
+        "description": ""
+    },
+    {
+        "cardId": "chase-united-club",
+        "hasCoverage": true,
+        "coverageType": "primary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-united-explorer",
+        "hasCoverage": true,
+        "coverageType": "primary",
+        "recommended": true,
+        "description": "The best for travelers who fly United, as it’s one of the only cards with Primary coverage that has a $0 introductory annual fee for the first year"
+    },
+    {
+        "cardId": "chase-united-quest",
+        "hasCoverage": true,
+        "coverageType": "primary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "us-bank-altitude-reserve",
+        "hasCoverage": true,
+        "coverageType": "primary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "wf-autograph-journey",
+        "hasCoverage": true,
+        "coverageType": "primary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-amazon-business",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-amazon-prime-business",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-blue-business-cash",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-blue-business-plus",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-blue-cash-everyday",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-blue-cash-preferred",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-delta-blue",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-delta-gold-business",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-delta-gold",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-delta-platinum-business",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-delta-platinum",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-delta-reserve-business",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-delta-reserve",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-everyday-preferred",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-everyday",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-gold-business",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-gold",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-green-business",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-green",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-hilton-aspire",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-hilton-business",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-hilton-honors",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-hilton-surpass",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-marriott-bevy",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-marriott-brilliant",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-marriott-business",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-platinum-business",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-platinum",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-plum-business",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-schwab-platinum",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "bofa_air_france_klm",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "bofa_allways_rewards",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "bofa_atmos_rewards_business_card",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "bofa_free_spirit",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "bofa-customized-cash",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "bofa-premium-rewards",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "bofa-travel-rewards",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "bofa-unlimited-cash",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "barclays_encore_gap",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "barclays_hawaiian_business_card",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "barclays_hawaiian_card",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "barclays_jetblue_business",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "barclays_jetblue_card",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "barclays_jetblue_plus",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "barclays_jetblue_premier_card",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "barclays_wyndham_earner_business",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "barclays_wyndham_earner_plus",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "barclays_wyndham_earner",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "capital-one-quicksilver",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "capital-one-quicksilverone",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "capital-one-savor-rewards",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "capital-one-savorone-rewards",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "capital-one-venture-rewards",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "capital-one-ventureone",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "cardless-bilt-blue",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "cardless-bilt-obsidian",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "cardless-bilt-palladium",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-aer-lingus-visa",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-aeroplan",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-amazon-prime",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-british-airways-visa",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-disney-inspire-visa",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-disney-premier-visa",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-disney-visa",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-doordash-rewards",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-freedom-flex",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-freedom-original",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-freedom-rise",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-freedom-unlimited",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-iberia-visa",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-ihg-premier-business",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-ihg-premier",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-ihg-select",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-ihg-traveler",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-instacart-mastercard",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-marriott-bold",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-marriott-boundless",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-marriott-bountiful",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-marriott-ritzcarlton",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-southwest-plus",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-southwest-premier",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-southwest-priority",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-united-gateway",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-world-of-hyatt-business",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "chase-world-of-hyatt",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "citi-aadvantage-executive",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "citi-aadvantage-globe",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "citi-aadvantage-platinum-select",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "citi-costco-visa",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "citi-costco-business-visa",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+
+    {
+        "cardId": "citi-custom-cash",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "citi-double-cash",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "citi-mybestbuy-visa",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "citi-prestige",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "citi-strata-elite",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "citi-strata-premier",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "citi-strata",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "robinhood-gold",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "fidelity-rewards",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "coinbase-one",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "issuer-apple-mastercard",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "hsbc_elite",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "hsbc_premier",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "pnc-cash-rewards",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "pnc-cash-unlimited",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "us-bank-altitude-connect",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "us-bank-altitude-go",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "us-bank-skypass-select",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "us-bank-skypass-skyblue",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "us-bank-skypass",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "wf-active-cash",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "wf-signify-business",
+        "hasCoverage": true,
+        "coverageType": "primary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "wf-autograph",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "wf-choice-privileges-select",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "wf-choice-privileges",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "wf-one-key-plus",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "wf-one-key",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "wf-premier-autograph",
+        "hasCoverage": true,
+        "coverageType": "secondary",
+        "recommended": false,
+        "description": ""
+    }
+]

@@ -1,0 +1,27 @@
+{
+    "id": "hawaiian_companion_100",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Annual Companion Discount",
+            "description": "Receive an annual $100 companion discount for roundtrip coach travel between Hawaii and North America on Hawaiian Airlines or roundtrip North America travel on Alaska Airlines."
+        }
+    },
+    "value": 100,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "usageLimit": 1,
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "activationInstructions": "",
+    "activationDelayPeriods": 1,
+    "partnerName": "Hawaiian Airlines",
+    "limitDescription": "Valid for roundtrip coach travel",
+    "referenceLink": "https://www.hawaiianairlines.com/content/legal/promotermsandconditions/companion-discount",
+    "displayOrder": 1,
+    "isActive": true
+}
+

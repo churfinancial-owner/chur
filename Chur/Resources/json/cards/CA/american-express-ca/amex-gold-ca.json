@@ -1,0 +1,19 @@
+{
+    "id": "amex-gold-ca",
+    "name": "Gold Card",
+    "issuer": "American Express",
+    "network": "Amex",
+    "imageName": "amex-gold",
+    "cardType": "personal",
+    "annualFee": 250,
+    "currency": "CAD",
+    "country": "CA",
+    "hasForeignTransactionFee": true,
+    "foreignTransactionFeeRate": 0.025,
+    "isPopular": true,
+    "popularSortOrder": 4,
+    "benefits": [
+        "plaza_premium_lounge_limited4",
+        "travel_credit_100_amex_CA"
+    ]
+}

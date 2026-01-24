@@ -1,0 +1,19 @@
+{
+    "id": "citi-aadvantage-business",
+    "name": "AAdvantage Business",
+    "issuer": "Citi",
+    "network": "Mastercard",
+    "imageName": "citi-aadvantage-business",
+    "cardType": "business",
+    "annualFee": 99,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "foreignTransactionFeeRate": 0.0,
+    "isPopular": false,
+    "benefits": [
+        "aa_anniversary_companion_cert_spend",
+        "free_checked_bag",
+        "priority_boarding"
+    ]
+}

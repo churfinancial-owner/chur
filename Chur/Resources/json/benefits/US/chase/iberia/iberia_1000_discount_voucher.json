@@ -1,0 +1,24 @@
+{
+    "id": "iberia_1000_discount_voucher",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "$1,000 Discount Voucher (Spend Required)",
+            "description": "Earn a $1,000 discount voucher toward two tickets on the same Iberia flight each calendar year you make purchases of $30,000 on your card."
+        }
+    },
+    "value": 1000,
+    "usageLimit": 1,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": true,
+    "activationMode": "lockbyfrequency",
+    "activationInstructions": "Unlock after making at least $30,000 in purchases each calendar year",
+    "partnerName": "Iberia",
+    "displayOrder": 1,
+    "isActive": true
+}

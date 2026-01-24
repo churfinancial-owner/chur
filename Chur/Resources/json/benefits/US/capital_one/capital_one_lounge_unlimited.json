@@ -1,0 +1,24 @@
+{
+    "id": "capital_one_lounge_unlimited",
+    "benefitType": "lounge_access",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "Capital One Lounge Access",
+            "description": "Unlimited visits to Capital One lounges"
+        }
+    },
+    "value": 40,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "usageLimit": -1,
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Capital One",
+    "limitDescription": "Unlimited visits; 2 guests included",
+    "referenceLink": "https://www.capitalone.com/lounge/",
+    "displayOrder": 0,
+    "isActive": true
+}

@@ -1,0 +1,23 @@
+{
+    "id": "chase_csr_sw_credit_500",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Southwest Airlines Credit (Spend Required)",
+            "description": "After you spend $75,000 on your Chase Sapphire Reserve card each calendar year, earn a $500 Southwest Airlines Credit through Chase Travel"
+        }
+    },
+    "value": 500,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": true,
+    "activationMode": "lockbyfrequency",
+    "activationInstructions": "Unlock after you spend $75,000 on your card each calendar year.",
+    "redemptionMethod": "automatic",
+    "limitDescription": "",
+    "displayOrder": 0,
+    "isActive": true
+}

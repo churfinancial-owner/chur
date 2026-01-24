@@ -1,0 +1,53 @@
+{
+    "cardless-bilt-obsidian": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Bilt Rewards",
+            "category": null,
+            "isUserConfigurable": true,
+            "configurableSlot": "5pct_slot_1",
+            "configurableOptions": [
+                {
+                    "label": "Dining",
+                    "includes": [
+                        "dining"
+                    ]
+                },
+                {
+                    "label": "Groceries",
+                    "includes": [
+                        "groceries"
+                    ]
+                }
+            ],
+            "rewardNotes": "Earn 3% on your selected category"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Bilt Rewards",
+            "category": "travel"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Bilt Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "cardless-bilt-palladium": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Bilt Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "cardless-bilt-blue": [
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Bilt Rewards",
+            "category": "everything"
+        }
+    ]
+}
+

@@ -1,0 +1,23 @@
+{
+    "id": "anniversary_bonus_miles_10",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "10k Anniversary Bonus Miles",
+            "description": "Get 10,000 bonus miles every year, starting on your first anniversary"
+        }
+    },
+    "value": 100,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "usageLimit": 1,
+    "trackingMode": "manual",
+    "activationDelayPeriods": 1,
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "limitDescription": "",
+    "displayOrder": 0,
+    "isActive": true
+}

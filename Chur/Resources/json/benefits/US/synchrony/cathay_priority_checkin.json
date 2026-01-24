@@ -1,0 +1,25 @@
+{
+    "id": "cathay_priority_checkin",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "Premium Economy Priority Check-in",
+            "description": "Primary cardholders and their travel companions may check in at the Cathay Pacific Premium Economy airport counters."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "usageLimit": 0,
+    "isRecurring": true,
+    "trackingMode": "automatic",
+    "requiresActivation": false,
+    "activationInstructions": "Present your Cathay World Elite Mastercard at the Premium Economy check-in counter.",
+    "activationDelayPeriods": 0,
+    "partnerName": "Cathay Pacific",
+    "limitDescription": "Valid for primary cardholder and companions traveling together.",
+    "displayOrder": 1,
+    "isActive": true
+}

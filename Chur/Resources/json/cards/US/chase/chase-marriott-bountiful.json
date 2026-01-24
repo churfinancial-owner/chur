@@ -1,0 +1,17 @@
+{
+    "id": "chase-marriott-bountiful",
+    "name": "Marriott Bonvoy Bountiful",
+    "issuer": "Chase",
+    "network": "Visa",
+    "imageName": "chase-marriott-bountiful",
+    "cardType": "personal",
+    "annualFee": 250,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "marriott_free_night_reward",
+        "marriott_gold_status"
+    ]
+}

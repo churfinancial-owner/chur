@@ -1,0 +1,24 @@
+{
+    "id": "hyatt_free_night_reward",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Hyatt Free Night Reward",
+            "description": "Receive one free night at any Category 1-4 Hyatt hotel or resort every year after your Cardmember anniversary."
+        }
+    },
+    "value": 350,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "usageLimit": 1,
+    "trackingMode": "manual",
+    "activationDelayPeriods": 1,
+    "resetType": "card_anniversary",
+    "requiresActivation": false,
+    "partnerName": "Hyatt",
+    "partnerID": "Hyatt",
+    "displayOrder": 0,
+    "isActive": true
+}

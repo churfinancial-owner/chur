@@ -1,0 +1,25 @@
+{
+    "id": "doordash_monthly2",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_convenience",
+    "localized": {
+        "en": {
+            "name": "Doordash Credits (🚫🍴)",
+            "description": "A $10 discount applies to one qualifying non-restaurant order per month"
+        }
+    },
+    "value": 10,
+    "usageLimit": 2,
+    "valueCurrency": "USD",
+    "frequency": "monthly",
+    "isRecurring": true,
+    "validCountries": [
+        "US"
+    ],
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "DoorDash",
+    "referenceLink": "https://www.doordash.com/dashpass",
+    "displayOrder": 0,
+    "isActive": true
+}

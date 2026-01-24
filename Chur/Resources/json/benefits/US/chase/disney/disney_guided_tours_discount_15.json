@@ -1,0 +1,20 @@
+{
+    "id": "disney_guided_tours_discount_15",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "15% off Select Guided Tours",
+            "description": "Receive 15% off the non-discounted price of select guided tours at the Disneyland  Resort and Walt Disney World Resort when you use your card."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Disney Parks",
+    "displayOrder": 12,
+    "isActive": true
+}

@@ -1,0 +1,22 @@
+{
+    "id": "aa_admirals_club_access",
+    "benefitType": "lounge_access",
+    "displayGroup": "travel_lounge",
+    "localized": {
+        "en": {
+            "name": "Admirals Club Access",
+            "description": "Primary cardmembers can enjoy access to Admirals Club lounges."
+        }
+        },
+    "value": 79,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "usageLimit": -1,
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "American Airline",
+    "displayOrder": 0,
+    "isActive": true
+}

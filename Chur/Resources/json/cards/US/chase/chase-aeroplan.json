@@ -1,0 +1,19 @@
+{
+    "id": "chase-aeroplan",
+    "name": "Aeroplan",
+    "issuer": "Chase",
+    "network": "Mastercard",
+    "imageName": "chase-aeroplan",
+    "cardType": "personal",
+    "annualFee": 95,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "free_checked_bag",
+        "tsa_precheck_credit120n",
+        "doordash_quarterly",
+        "doorpass_12"
+    ]
+}

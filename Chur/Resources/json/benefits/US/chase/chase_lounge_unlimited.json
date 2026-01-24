@@ -1,0 +1,24 @@
+{
+    "id": "chase_lounge_unlimited",
+    "benefitType": "lounge_access",
+    "displayGroup": "travel_lounge",
+    "localized": {
+        "en": {
+            "name": "Chase Sapphire Lounge Access",
+            "description": "Access to Chase Sapphire Lounge by The Club"
+        }
+    },
+    "value": 40,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "usageLimit": -1,
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Chase",
+    "limitDescription": "",
+    "referenceLink": "https://account.chase.com/sapphire-airport-lounge/",
+    "displayOrder": 0,
+    "isActive": true
+}

@@ -1,0 +1,22 @@
+{
+    "id": "hotel_credit_citi",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Hotel Credit",
+            "description": "Each calendar year, enjoy up to $300 off a hotel stay of 2 nights or more when booked through cititravel.com."
+        }
+    },
+    "value": 300,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Citi Travel",
+    "redemptionMethod": "automatic",
+    "benefitNotes": "",
+    "displayOrder": 0,
+    "isActive": true
+}

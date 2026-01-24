@@ -1,0 +1,15 @@
+{
+    "id": "cardless-bilt-obsidian",
+    "name": "Bilt Obsidian",
+    "issuer": "Cardless",
+    "network": "Mastercard",
+    "imageName": "cardless-bilt-obsidian",
+    "cardType": "personal",
+    "annualFee": 95,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "foreignTransactionFeeRate": 0,
+    "isPopular": false,
+    "benefits": ["hotel_credit_bilt_100","option_earn_bilt_cash","option_bilt_housing"]
+}

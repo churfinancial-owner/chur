@@ -1,0 +1,108 @@
+[
+  {
+    "id": "gas",
+    "nameEN": "Fuel/Charge",
+    "nameZH_Hans": "加油",
+    "nameZH_HK": "入油",
+    "nameZH_TW": "加油",
+    "emoji": "🚙",
+    "sortOrder": 3,
+    "isDefault": true,
+    "isParent": true,
+    "level": "parent",
+    "categoryLinks": null
+  },
+  {
+    "id": "gas_stations",
+    "nameEN": "Gas Stations",
+    "nameZH_Hans": "加油站",
+    "nameZH_HK": "油站",
+    "nameZH_TW": "加油站",
+    "emoji": "⛽",
+    "sortOrder": 31,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "gas",
+    "level": "child",
+    "categoryLinks": [
+      {
+        "id": "gas",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "ev_charging",
+    "nameEN": "EV Charging",
+    "nameZH_Hans": "电动车充电",
+    "nameZH_HK": "電動車充電",
+    "nameZH_TW": "電動車充電",
+    "emoji": "🔌",
+    "sortOrder": 32,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "gas",
+    "level": "child",
+    "categoryLinks": [
+      {
+        "id": "gas",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "costco_gas",
+    "nameEN": "Costco Gas",
+    "nameZH_Hans": "Costco Gas",
+    "nameZH_HK": "Costco Gas",
+    "nameZH_TW": "Costco Gas",
+    "emoji": "⛽",
+    "iconName": "icon_costco",
+    "sortOrder": 132,
+    "isDefault": false,
+    "isParent": false,
+    "excludeFromParent": true,
+    "parentCategoryID": "gas",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "gas",
+        "weight": 1.0
+      }
+    ],
+    "cardFilter": {
+      "regions": {
+        "US": {
+          "networks": [
+            "Visa"
+          ],
+          "mode": "include"
+        },
+        "CA": {
+          "networks": [
+            "Mastercard"
+          ],
+          "mode": "include"
+        },
+        "TW": {
+          "networks": [
+            "Mastercard"
+          ],
+          "mode": "include"
+        },
+        "HK": {
+          "networks": [
+            "Mastercard"
+          ],
+          "mode": "include"
+        },
+        "default": {
+          "networks": [
+            "Visa"
+          ],
+          "mode": "include"
+        }
+      }
+    }
+  }
+]

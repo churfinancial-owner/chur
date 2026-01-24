@@ -1,0 +1,21 @@
+{
+    "id": "bwr_premium_platinum_status",
+    "benefitType": "travel_status",
+    "displayGroup": "travel_hotelstatus",
+    "localized": {
+        "en": {
+            "name": "Best Western Platinum Status",
+            "description": "Complimentary Platinum Status"
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "usageLimit": 0,
+    "isRecurring": true,
+    "trackingMode": "automatic",
+    "requiresActivation": false,
+    "partnerName": "Best Western",
+    "displayOrder": 3,
+    "isActive": true
+}

@@ -1,0 +1,25 @@
+{
+    "id": "doordash_quarterly",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_convenience",
+    "localized": {
+        "en": {
+            "name": "Doordash Credits (🚫🍴)",
+            "description": "A $10 discount applies to one qualifying non-restaurant order per calendar quarter"
+        }
+    },
+    "value": 10,
+    "valueCurrency": "USD",
+    "frequency": "quarterly",
+    "usageLimit": 1,
+    "isRecurring": true,
+    "validCountries": [
+        "US"
+    ],
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "DoorDash",
+    "referenceLink": "https://www.doordash.com/dashpass",
+    "displayOrder": 0,
+    "isActive": true
+}

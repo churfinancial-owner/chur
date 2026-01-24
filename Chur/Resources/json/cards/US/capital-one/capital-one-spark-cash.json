@@ -1,0 +1,15 @@
+{
+    "id": "capital-one-spark-cash",
+    "name": "Spark Cash",
+    "issuer": "Capital One",
+    "network": "Visa",
+    "imageName": "capital-one-spark-cash",
+    "cardType": "business",
+    "annualFee": 95,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "foreignTransactionFeeRate": 0.0,
+    "isPopular": false,
+    "benefits": []
+}

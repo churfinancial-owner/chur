@@ -1,0 +1,20 @@
+{
+    "id": "travel_credit_200_ka",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Travel Credit",
+            "description": "Get a $200 statement credit on travel purchases annually."
+        }
+    },
+    "value": 200,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "displayOrder": 0,
+    "isActive": true
+}

@@ -1,0 +1,24 @@
+{
+    "id": "delta_sky_club_access_15",
+    "benefitType": "lounge_access",
+    "displayGroup": "travel_lounge",
+    "localized": {
+        "en": {
+            "name": "Delta Sky Club",
+            "description": "Complimentary access to Delta Sky Club when flying on a same-day Delta-marketed or Delta-operated flight."
+        }
+    },
+    "value": 50,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "usageLimit": 15,
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Delta",
+    "limitDescription": "Reserve Card Members receive 15 Visits per year.",
+    "referenceLink": "https://www.delta.com/us/en/delta-sky-club/access",
+    "displayOrder": 0,
+    "isActive": true
+}

@@ -1,0 +1,22 @@
+{
+    "id": "hilton_hotel_credit_200",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Hilton Resort Credit",
+            "description": "Get up to $50 in statement credits each quarter with a property in the Hilton portfolio. Please read important exclusions and restrictions"
+        }
+    },
+    "value": 50,
+    "valueCurrency": "USD",
+    "frequency": "quarterly",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Hilton",
+    "partnerID": "Hilton",
+    "referenceLink": "https://www.americanexpress.com/us/credit-cards/card/hilton-honors-aspire/",
+    "displayOrder": 0,
+    "isActive": true
+}

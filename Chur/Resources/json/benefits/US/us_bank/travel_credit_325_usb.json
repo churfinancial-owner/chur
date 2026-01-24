@@ -1,0 +1,20 @@
+{
+    "id": "travel_credit_325_usb",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Travel Credit",
+            "description": "Get a $325 statement credit on travel purchases annually."
+        }
+    },
+    "value": 325,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "displayOrder": 0,
+    "isActive": true
+}

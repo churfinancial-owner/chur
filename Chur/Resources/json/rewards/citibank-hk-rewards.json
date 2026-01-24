@@ -1,0 +1,47 @@
+{
+    "citi-hk-cashbackcard": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards HK",
+            "category": "foreign_transactions"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards HK",
+            "category": "hotels"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards HK",
+            "category": "dining"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Cash Back Rewards HK",
+            "category": "everything"
+        }
+    ],
+
+    "citi-hk-rewardscard": [
+        {
+            "rate": 3,
+            "rewardProgramName": "Citi HK Reward",
+            "category": "retail"
+        },
+        {
+            "rate": 3,
+            "rewardProgramName": "Citi HK Reward",
+            "category": "entertainment"
+        },
+        {
+            "rate": 3,
+            "rewardProgramName": "Citi HK Reward",
+            "category": "streaming"
+        },
+        {
+            "rate": 1,
+            "rewardProgramName": "Citi HK Reward",
+            "category": "mobile_pay"
+        }
+    ]
+}

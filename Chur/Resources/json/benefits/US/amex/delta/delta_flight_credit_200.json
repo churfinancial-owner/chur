@@ -1,0 +1,22 @@
+{
+    "id": "delta_flight_credit_200",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Delta Credit (Spend Required)",
+            "description": "Earn a $200 Delta eCredit for future travel after you spend $10,000 in eligible purchases on your Card in a calendar year."
+        }
+    },
+    "value": 200,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": true,
+    "activationMode": "lockbyfrequency",
+    "activationInstructions": "Automatically issued as a Delta eCredit to your SkyMiles account 6-8 weeks after reaching the $10,000 spend threshold.",
+    "partnerName": "Delta",
+    "displayOrder": 0,
+    "isActive": true
+}

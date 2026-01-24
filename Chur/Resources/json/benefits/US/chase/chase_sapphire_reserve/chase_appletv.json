@@ -1,0 +1,21 @@
+{
+    "id": "chase_appletv",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_entertainment",
+    "localized": {
+        "en": {
+            "name": "Apple TV/Music Credit",
+            "description": "Get complimentary subscriptions to Apple TV and Apple Music through June 22, 2027"
+        }
+    },
+    "value": 24,
+    "valueCurrency": "USD",
+    "frequency": "monthly",
+    "isRecurring": true,
+    "trackingMode": "auto",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "limitDescription": "",
+    "displayOrder": 0,
+    "isActive": true
+}

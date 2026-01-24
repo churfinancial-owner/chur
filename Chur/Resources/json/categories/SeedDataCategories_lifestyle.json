@@ -1,0 +1,352 @@
+[
+  {
+    "id": "personal_care",
+    "nameEN": "Personal Care",
+    "nameZH_Hans": "個人護理",
+    "nameZH_HK": "個人護理",
+    "nameZH_TW": "个人护理",
+    "emoji": "💇‍♂️",
+    "sortOrder": 8,
+    "isDefault": true,
+    "isParent": true,
+    "level": "parent",
+    "categoryLinks": null
+  },
+  {
+    "id": "material_hardware",
+    "nameEN": "Material & Hardware",
+    "nameZH_Hans": "家居建材",
+    "nameZH_HK": "家居裝修",
+    "nameZH_TW": "居家修繕",
+    "emoji": "🛠️",
+    "sortOrder": 78,
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent"
+  },
+  {
+    "id": "home_depot",
+    "nameEN": "Home Depot",
+    "nameZH_Hans": "家得宝",
+    "nameZH_HK": "Home Depot",
+    "nameZH_TW": "Home Depot",
+    "emoji": "🛠️",
+    "iconName": "icon_home_depot",
+    "sortOrder": 108,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "material_hardware",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "material_hardware",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "lowes",
+    "nameEN": "Lowes",
+    "nameZH_Hans": "劳氏",
+    "nameZH_HK": "Lowes",
+    "nameZH_TW": "Lowes",
+    "emoji": "🛠️",
+    "iconName": "icon_lowes",
+    "sortOrder": 108,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "material_hardware",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "material_hardware",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "lowes",
+    "nameEN": "Lowes",
+    "nameZH_Hans": "劳氏",
+    "nameZH_HK": "Lowes",
+    "nameZH_TW": "Lowes",
+    "emoji": "🛠️",
+    "sortOrder": 108,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "material_hardware",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "material_hardware",
+        "weight": 1.0
+      }
+    ]
+  },
+
+  {
+    "id": "auto",
+    "nameEN": "Auto",
+    "nameZH_Hans": "汽车",
+    "nameZH_HK": "汽車",
+    "nameZH_TW": "汽車",
+    "emoji": "🚙",
+    "sortOrder": 93,
+    "visibility": "hidden",
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent"
+  },
+  {
+    "id": "peloton",
+    "nameEN": "Peloton",
+    "nameZH_Hans": "Peloton",
+    "nameZH_HK": "Peloton",
+    "nameZH_TW": "Peloton",
+    "emoji": "🚴",
+    "sortOrder": 108,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "gym",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "gym",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "gym",
+    "nameEN": "Gym & Fitness",
+    "nameZH_Hans": "健身",
+    "nameZH_HK": "健身",
+    "nameZH_TW": "健身",
+    "emoji": "🏋️",
+    "sortOrder": 109,
+    "isDefault": true,
+    "isParent": true,
+    "level": "parent",
+    "categoryLinks": null
+  },
+  {
+    "id": "gym_fitness_centers",
+    "nameEN": "Gyms & Fitness Centers",
+    "nameZH_Hans": "健身中心",
+    "nameZH_HK": "健身中心",
+    "nameZH_TW": "健身中心",
+    "emoji": "💪",
+    "sortOrder": 113,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "gym",
+    "level": "child",
+    "categoryLinks": [
+      {
+        "id": "gym",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "recreation",
+    "nameEN": "Recreation",
+    "nameZH_Hans": "休闲娱乐",
+    "nameZH_HK": "康樂及消閒",
+    "nameZH_TW": "休閒育樂",
+    "emoji": "⛳️",
+    "sortOrder": 120,
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent",
+    "categoryLinks": null
+  },
+  {
+    "id": "recreation_golf",
+    "nameEN": "Golf",
+    "nameZH_Hans": "高尔夫",
+    "nameZH_HK": "高爾夫球",
+    "nameZH_TW": "高爾夫球",
+    "emoji": "🏌️‍♂️",
+    "sortOrder": 121,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "recreation",
+    "level": "child",
+    "categoryLinks": [
+      {
+        "id": "recreation",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "entertainment",
+    "nameEN": "Entertainment",
+    "nameZH_Hans": "娱乐",
+    "nameZH_HK": "娛樂",
+    "nameZH_TW": "娛樂",
+    "emoji": "🎟️",
+    "sortOrder": 120,
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent",
+    "categoryLinks": null
+  },
+  {
+    "id": "movie_theaters",
+    "nameEN": "Movie Theaters",
+    "nameZH_Hans": "电影院",
+    "nameZH_HK": "電影院",
+    "nameZH_TW": "電影院",
+    "emoji": "🎬",
+    "sortOrder": 121,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "entertainment",
+    "level": "child",
+    "categoryLinks": [
+      {
+        "id": "entertainment",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "wholesale",
+    "nameEN": "Wholesale",
+    "nameZH_Hans": "仓储式购物",
+    "nameZH_HK": "批發/倉儲式",
+    "nameZH_TW": "量販/批發",
+    "emoji": "🏬",
+    "sortOrder": 122,
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent",
+    "categoryLinks": null
+  },
+  {
+    "id": "liquorstore",
+    "nameEN": "Liquor Stores",
+    "nameZH_Hans": "烟酒店",
+    "nameZH_HK": "酒專賣賣店",
+    "nameZH_TW": "酒類專門店",
+    "emoji": "🍺",
+    "sortOrder": 123,
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent",
+    "categoryLinks": null
+  },
+  {
+    "id": "Barber_Salons",
+    "nameEN": "Barber/Hair Salons",
+    "nameZH_Hans": "理发",
+    "nameZH_HK": "剪髮",
+    "nameZH_TW": "美髮",
+    "emoji": "💈",
+    "sortOrder": 801,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "personal_care",
+    "level": "child",
+    "categoryLinks": [
+      {
+        "id": "personal_care",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "spa",
+    "nameEN": "Spa",
+    "nameZH_Hans": "养生会所",
+    "nameZH_HK": "Spa",
+    "nameZH_TW": "按摩",
+    "emoji": "🧖‍♂️",
+    "sortOrder": 802,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "personal_care",
+    "level": "child",
+    "categoryLinks": [
+      {
+        "id": "personal_care",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "auto_shop",
+    "nameEN": "Auto Shop",
+    "nameZH_Hans": "汽车维修",
+    "nameZH_HK": "汽車維修",
+    "nameZH_TW": "汽車保養",
+    "emoji": "🛞",
+    "sortOrder": 931,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "auto",
+    "level": "child",
+    "categoryLinks": [
+      {
+        "id": "auto",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "costco_tire",
+    "nameEN": "Costco Tire",
+    "nameZH_Hans": "Costco 修车",
+    "nameZH_HK": "Costco 修車",
+    "nameZH_TW": "Costco 修車",
+    "emoji": "🛞",
+    "sortOrder": 932,
+    "isDefault": false,
+    "isParent": false,
+    "excludeFromParent": true,
+    "parentCategoryID": "auto",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "auto",
+        "weight": 1.0
+      }
+    ],
+    "cardFilter": {
+      "regions": {
+        "US": {
+          "networks": [
+            "Visa"
+          ],
+          "mode": "include"
+        },
+        "CA": {
+          "networks": [
+            "Mastercard"
+          ],
+          "mode": "include"
+        },
+        "TW": {
+          "networks": [
+            "Mastercard"
+          ],
+          "mode": "include"
+        },
+        "HK": {
+          "networks": [
+            "Mastercard"
+          ],
+          "mode": "include"
+        },
+        "default": {
+          "networks": [
+            "Visa"
+          ],
+          "mode": "include"
+        }
+      }
+    }
+  }
+]

@@ -1,0 +1,41 @@
+[
+  {
+    "id": "chase-cashback-to-ur",
+    "sourceProgram": "Chase Cash Back Rewards",
+    "targetProgram": "Ultimate Rewards",
+    "eligibleTemplateIDs": [
+      "chase-freedom-flex",
+      "chase-freedom-rise",
+      "chase-freedom-unlimited",
+      "chase-freedom-original",
+      "chase-ink-business-cash",
+      "chase-ink-business-unlimited"
+    ],
+    "triggerTemplateIDs": [
+      "chase-sapphire-reserve",
+      "chase-sapphire-reserve-business",
+      "chase-sapphire-preferred",
+      "chase-ink-business-preferred"
+    ]
+  },
+  {
+    "id": "cap1-cb-to-miles",
+    "sourceProgram": "Capital One Cash Back Rewards",
+    "targetProgram": "Capital One Miles",
+    "eligibleTemplateIDs": [
+      "capital-one-savor-rewards",
+      "capital-one-savorone-rewards",
+      "capital-one-quicksilver",
+      "capital-one-quicksilverone",
+      "capital-one-spark-cash-plus",
+      "capital-one-spark-cash"
+    ],
+    "triggerTemplateIDs": [
+      "capital-one-venture-x",
+      "capital-one-venture-x-business",
+      "capital-one-venture-rewards",
+      "capital-one-ventureone"
+    ]
+  }
+
+]

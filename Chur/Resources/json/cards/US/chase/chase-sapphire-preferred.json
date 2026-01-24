@@ -1,0 +1,20 @@
+{
+    "id": "chase-sapphire-preferred",
+    "name": "Sapphire Preferred",
+    "issuer": "Chase",
+    "network": "Visa",
+    "imageName": "chase-sapphire-preferred",
+    "cardType": "personal",
+    "annualFee": 95,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": true,
+    "popularSortOrder": 3,
+    "benefits": [
+        "doordash_monthly",
+        "chase_csp_hotel_credit",
+        "doorpass_12",
+        "chase_csp_anniversary10pct"
+    ]
+}

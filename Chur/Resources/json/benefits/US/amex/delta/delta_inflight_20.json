@@ -1,0 +1,21 @@
+{
+    "id": "delta_inflight_20",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "20% In-Flight Savings",
+            "description": "Receive a 20% savings on eligible Delta in-flight purchases of food and beverages."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Delta",
+    "redemptionMethod": "automatic",
+    "displayOrder": 0,
+    "isActive": true
+}

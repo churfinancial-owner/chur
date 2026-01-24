@@ -1,0 +1,17 @@
+{
+    "id": "capital-one-spark-cash-plus",
+    "name": "Spark Cash Plus",
+    "issuer": "Capital One",
+    "network": "Visa",
+    "imageName": "capital-one-spark-cash-plus",
+    "cardType": "business",
+    "annualFee": 150,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "foreignTransactionFeeRate": 0.0,
+    "isPopular": false,
+    "benefits": [
+        "annual_fee_refund_150k_spend"
+    ]
+}

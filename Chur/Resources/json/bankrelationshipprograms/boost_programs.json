@@ -1,0 +1,68 @@
+[
+  {
+    "id": "bofa-preferred-rewards",
+    "name": "Preferred Rewards",
+    "issuer": "Bank of America",
+    "eligibleTemplateIDs": [
+      "bofa-premium-rewards-elite",
+      "bofa-premium-rewards",
+      "bofa-customized-cash-business",
+      "bofa-customized-cash",
+      "bofa-travel-rewards",
+      "bofa-unlimited-cash",
+      "bofa-unlimited-cash-business",
+      "bofa_atmos_ascent",
+      "bofa_atmos_rewards_business_card",
+      "bofa_atmos_rewards_summit"
+    ],
+    "tiers": [
+      { "name": "Gold",             "multiplier": 1.25, "description": "$20k–$49,999 in combined balances" },
+      { "name": "Platinum",         "multiplier": 1.50, "description": "$50k–$99,999 in combined balances" },
+      { "name": "Platinum Honors",  "multiplier": 1.75, "description": "$100k+ in combined balances" }
+    ],
+    "footnote": "Combined balances across Bank of America banking and Merrill investment accounts."
+  },
+  {
+    "id": "pnc-totalrewards",
+    "name": "TotalRewards",
+    "issuer": "PNC",
+    "eligibleTemplateIDs": [
+      "pnc-cash-rewards",
+      "pnc-cash-unlimited"
+    ],
+    "tiers": [
+      { "name": "Silver",   "multiplier": 1.05, "description": "$25k–$99,999 in combined balances" },
+      { "name": "Gold",     "multiplier": 1.25, "description": "$100k–$499,999 in combined balances" },
+      { "name": "Platinum", "multiplier": 1.35, "description": "$500k+ in combined balances" }
+    ],
+    "footnote": "Combined balances across PNC banking and investment accounts."
+  },
+  {
+    "id": "usbank-smartly",
+    "name": "Smartly",
+    "issuer": "US Bank",
+    "eligibleTemplateIDs": [
+      "us-bank-smartly"
+    ],
+    "tiers": [
+      { "name": "25% Smartly Earning Bonus",  "multiplier": 1.25, "description": "Qualifying balance: $10,000–$49,999" },
+      { "name": "50% Smartly Earning Bonus",  "multiplier": 1.50, "description": "Qualifying balance: $50,000–$99,999" },
+      { "name": "100% Smartly Earning Bonus", "multiplier": 2.00, "description": "Qualifying balance: $100,000+" }
+    ],
+    "footnote": "U.S. Bank Smartly Savings account and qualifying balances in U.S. Bank Smartly Checking and/or Safe Debit account(s)..."
+  },
+  {
+    "id": "coinbaseone",
+    "name": "Coinbase One",
+    "issuer": "Coinbase",
+    "eligibleTemplateIDs": [
+      "coinbase-one"
+    ],
+    "tiers": [
+      { "name": "Tier 2 (2.5%)", "multiplier": 1.25, "description": "Qualifying balance: $10,000–$49,999" },
+      { "name": "Tier 3 (3%)",   "multiplier": 1.50, "description": "Qualifying balance: $50,000–$199,999" },
+      { "name": "Tier 4 (4%)",   "multiplier": 2.00, "description": "Qualifying balance: $200,000+" }
+    ],
+    "footnote": "Cardholders can earn up to 4% bitcoin back on their purchases. The more assets you hold on Coinbase the higher your rewards rate. You can hold any asset including USDC or USD to qualify."
+  }
+]

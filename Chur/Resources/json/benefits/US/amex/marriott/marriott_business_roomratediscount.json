@@ -1,0 +1,21 @@
+{
+    "id": "marriott_business_room_discount_7",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "7% Marriott Bonvoy Business® Rate",
+            "description": "Receive a 7% discount on eligible bookings at participating Marriott Bonvoy® hotels when booking directly through an eligible Marriott channel under the Amex Business Card Rate."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Marriott",
+    "referenceLink": "https://www.marriott.com",
+    "displayOrder": 0,
+    "isActive": true
+}

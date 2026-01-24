@@ -1,0 +1,20 @@
+{
+    "id": "bofa-premium-rewards-elite",
+    "name": "Premium Rewards Elite",
+    "issuer": "Bank of America",
+    "network": "Visa",
+    "imageName": "bofa-premium-rewards-elite",
+    "cardType": "personal",
+    "annualFee": 550,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "foreignTransactionFeeRate": 0,
+    "isPopular": false,
+    "benefits": [
+        "tsa_precheck_credit120",
+        "lifestyle_credit_bofa",
+        "airline_credit_bofa_300",
+        "priority_pass_unlimited"
+    ]
+}

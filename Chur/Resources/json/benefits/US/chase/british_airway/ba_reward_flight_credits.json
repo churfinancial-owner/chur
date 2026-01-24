@@ -1,0 +1,21 @@
+{
+    "id": "ba_reward_flight_credits",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "Reward Flight Statement Credits",
+            "description": "Get up to $600 in statement credits per year for taxes/fees on reward flights. $100 for Economy/Premium Economy or $200 for Business/First, up to 3 times per year."
+        }
+    },
+    "value": 600,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "usageLimit": 3,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "British Airways",
+    "displayOrder": 2,
+    "isActive": true
+}

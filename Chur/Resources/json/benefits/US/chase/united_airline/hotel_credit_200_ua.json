@@ -1,0 +1,20 @@
+{
+    "id": "hotel_credit_200_ua",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Renowned Hotel Credit ",
+            "description": "A statement credit will automatically be applied to your account when you book and pay with your card directly through Renowned Hotels and Resorts for United Cardmembers, up to a maximum accumulation of $200 annually."
+        }
+    },
+    "value": 200,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "displayOrder": 0,
+    "isActive": true
+}

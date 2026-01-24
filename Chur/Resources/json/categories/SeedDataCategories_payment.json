@@ -1,0 +1,101 @@
+[
+  {
+    "id": "apple_pay",
+    "nameEN": "Apple Pay",
+    "nameZH_Hans": "苹果支付",
+    "nameZH_HK": "Apple Pay",
+    "nameZH_TW": "Apple Pay",
+    "emoji": "🍎",
+    "iconName": "icon_apple",
+    "excludeFromParent": true,
+    "sortOrder": 9001,
+    "visibility": "hidden",
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent"
+  },
+  {
+    "id": "mobile_pay",
+    "nameEN": "Mobile Pay",
+    "nameZH_Hans": "移动支付",
+    "nameZH_HK": "電子支付",
+    "nameZH_TW": "行動支付",
+    "emoji": "📱",
+    "iconName": "icon_mobile_pay",
+    "excludeFromParent": true,
+    "sortOrder": 9002,
+    "visibility": "hidden",
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent"
+  },
+  {
+    "id": "paypal_pay",
+    "nameEN": "Paypal",
+    "nameZH_Hans": "Paypal支付",
+    "nameZH_HK": "Paypal支付",
+    "nameZH_TW": "Paypal支付",
+    "emoji": "📱",
+    "iconName": "icon_paypal",
+    "channels": [
+      "online"
+    ],
+    "excludeFromParent": true,
+    "sortOrder": 9003,
+    "visibility": "hidden",
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent"
+  },
+  {
+    "id": "wallet_pay",
+    "nameEN": "Wallet",
+    "nameZH_Hans": "移动支付",
+    "nameZH_HK": "電子錢包",
+    "nameZH_TW": "數位錢包",
+    "emoji": "📱",
+    "iconName": "icon_wallet_pay",
+    "excludeFromParent": true,
+    "sortOrder": 9004,
+    "visibility": "hidden",
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent"
+  },
+  {
+    "id": "wallet_topup",
+    "nameEN": "Wallet top-ups",
+    "nameZH_Hans": "Wallet top-ups",
+    "nameZH_HK": "Wallet top-ups",
+    "nameZH_TW": "Wallet top-ups",
+    "emoji": "💰",
+    "iconName": "icon_wallet_topup",
+    "excludeFromParent": true,
+    "sortOrder": 9005,
+    "visibility": "hidden",
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent"
+  },
+  {
+    "id": "wallet_topup_payme",
+    "nameEN": "PayMe top-ups",
+    "nameZH_Hans": "PayMe top-ups",
+    "nameZH_HK": "PayMe top-ups",
+    "nameZH_TW": "PayMe top-ups",
+    "emoji": "💰",
+    "iconName": "icon_wallet_topup_payme",
+    "excludeFromParent": false,
+    "sortOrder": 9006,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "wallet_topup",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "wallet_topup",
+        "weight": 1.0
+      }
+    ]
+  }
+]

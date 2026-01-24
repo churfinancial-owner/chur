@@ -1,0 +1,23 @@
+{
+    "id": "anniversary_bonus_miles_6000",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "6,000 Anniversary Bonus Miles",
+            "description": "Get 6,000 bonus miles every year, starting on your first anniversary"
+        }
+    },
+    "value": 60,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "usageLimit": 1,
+    "trackingMode": "manual",
+    "activationDelayPeriods": 1,
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "limitDescription": "",
+    "displayOrder": 0,
+    "isActive": true
+}

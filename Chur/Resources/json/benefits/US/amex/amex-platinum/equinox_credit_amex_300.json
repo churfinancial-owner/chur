@@ -1,0 +1,22 @@
+{
+    "id": "equinox_credit_amex_300",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_entertainment",
+    "localized": {
+        "en": {
+            "name": "Equinox Credit",
+            "description": "Get up to $300 in statement credits each calendar year on a digital subscription or club membership at Equinox when you use your card."
+        }
+    },
+    "value": 25,
+    "valueCurrency": "USD",
+    "frequency": "monthly",
+    "isRecurring": true,
+    "trackingMode": "auto",
+    "requiresActivation": false,
+    "partnerName": "Equinox",
+    "redemptionMethod": "automatic",
+    "referenceLink": "https://global.americanexpress.com/card-benefits/detail/equinox-credit/platinum",
+    "displayOrder": 0,
+    "isActive": true
+}

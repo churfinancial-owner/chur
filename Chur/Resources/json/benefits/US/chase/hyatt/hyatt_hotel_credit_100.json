@@ -1,0 +1,20 @@
+{
+    "id": "hyatt_hotel_credit_100",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Hyatt Hotel Credit ",
+            "description": "Spend $50 or more at any Hyatt property and earn $50 statement credits up to two times each anniversary year."
+        }
+    },
+    "value": 50,
+    "valueCurrency": "USD",
+    "frequency": "semi-annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "displayOrder": 0,
+    "isActive": true
+}

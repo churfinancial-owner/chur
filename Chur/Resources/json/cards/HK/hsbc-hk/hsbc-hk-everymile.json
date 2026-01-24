@@ -1,0 +1,16 @@
+{
+    "id": "hsbc-hk-everymile",
+    "name": "HSBC EveryMile",
+    "issuer": "HSBC",
+    "network": "Visa",
+    "imageName": "hsbc-hk-everymile",
+    "cardType": "personal",
+    "annualFee": 2000,
+    "currency": "HKD",
+    "country": "HK",
+    "hasForeignTransactionFee": true,
+    "foreignTransactionFeeRate": 0.0195,
+    "isPopular": false,
+    "benefits": [
+    ]
+}

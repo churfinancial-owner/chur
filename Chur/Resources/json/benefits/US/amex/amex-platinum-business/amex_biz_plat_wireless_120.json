@@ -1,0 +1,18 @@
+{
+    "id": "amex_biz_plat_wireless_120",
+    "benefitType": "credit",
+    "displayGroup": "business",
+    "localized": {
+        "en": {
+            "name": "Wireless Credit",
+            "description": "Get up to $10 in statement credits each month for wireless telephone service purchases made directly with a U.S. wireless telephone service provider."
+        }
+    },
+    "value": 10,
+    "valueCurrency": "USD",
+    "frequency": "monthly",
+    "isRecurring": true,
+    "trackingMode": "auto",
+    "displayOrder": 0,
+    "isActive": true
+}

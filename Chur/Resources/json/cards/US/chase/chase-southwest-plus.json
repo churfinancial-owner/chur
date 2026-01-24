@@ -1,0 +1,20 @@
+{
+    "id": "chase-southwest-plus",
+    "name": "Southwest RR Plus",
+    "issuer": "Chase",
+    "network": "Visa",
+    "imageName": "chase-southwest-plus",
+    "cardType": "personal",
+    "annualFee": 99,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "benefits": [
+        "standard_seat_select",
+        "free_checked_bag",
+        "anniversary_bonus_miles_3000",
+        "flight_discount_10",
+        "priority_boarding",
+        "southwest_inflight_25"
+    ]
+}

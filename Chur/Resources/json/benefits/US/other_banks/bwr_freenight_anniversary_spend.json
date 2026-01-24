@@ -1,0 +1,25 @@
+{
+    "id": "bwr_freenight_anniversary_spend",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Free Night Award (Spend Required)",
+            "description": "Receive an additional free night award each year when you spend $10,000 or more on your card within your anniversary year."
+        }
+    },
+    "value": 150,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "usageLimit": 1,
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": true,
+    "activationMode": "lockbyfrequency",
+    "activationInstructions": "Award is issued after $10,000 spend.",
+    "activationDelayPeriods": 1,
+    "partnerName": "Best Western",
+    "displayOrder": 2,
+    "isActive": true
+}

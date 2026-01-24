@@ -1,0 +1,25 @@
+{
+    "id": "amex-delta-platinum",
+    "name": "Delta Platinum",
+    "issuer": "American Express",
+    "network": "Amex",
+    "imageName": "amex-delta-platinum",
+    "cardType": "personal",
+    "annualFee": 350,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "delta_companion_cert_mainline",
+        "delta_takeoff_15",
+        "mqd_headstart_2500",
+        "delta_stays_credit_150",
+        "resy_credit_120",
+        "rideshare_credit_120",
+        "hertz_five_star_status",
+        "free_checked_bag",
+        "priority_boarding",
+        "tsa_precheck_credit120"
+    ]
+}

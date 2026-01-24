@@ -1,0 +1,22 @@
+{
+    "id": "delta_stays_credit_250",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Delta Stays Credit",
+            "description": "Up to $250 back annually on Delta Stays prepaid hotels or vacation rentals booked through delta.com."
+        }
+    },
+    "value": 250,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Delta",
+    "redemptionMethod": "automatic",
+    "referenceLink": "https://www.travelextras-delta.com/",
+    "displayOrder": 0,
+    "isActive": true
+}

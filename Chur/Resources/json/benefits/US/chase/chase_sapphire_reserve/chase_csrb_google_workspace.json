@@ -1,0 +1,22 @@
+{
+    "id": "chase_csrb_google_workspace",
+    "benefitType": "credit",
+    "displayGroup": "business",
+    "localized": {
+        "en": {
+            "name": "Google Workspace Credit",
+            "description": "Earn up to $200 in annual statement credits on purchases made directly with Google Workspace."
+        }
+    },
+    "value": 200,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "automatic",
+    "requiresActivation": false,
+    "activationDelayPeriods": 0,
+    "partnerName": "Google Workspace",
+    "referenceLink": "https://workspace.google.com/",
+    "displayOrder": 3,
+    "isActive": true
+}

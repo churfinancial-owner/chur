@@ -1,0 +1,21 @@
+{
+    "id": "chase_dining_300",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_dining",
+    "localized": {
+        "en": {
+            "name": "Dining Credit",
+            "description": "Get up to $150 in statement credits from January through June and again from July through December for a maximum of $300 annually for dining at restaurants that are part of the Sapphire Reserve Exclusive Tables program."
+        }
+    },
+    "value": 150,
+    "valueCurrency": "USD",
+    "frequency": "semi-annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "limitDescription": "",
+    "displayOrder": 0,
+    "isActive": true
+}

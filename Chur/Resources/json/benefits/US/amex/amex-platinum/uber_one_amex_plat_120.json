@@ -1,0 +1,28 @@
+{
+    "id": "uber_one_amex_plat_120",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_convenience",
+    "localized": {
+        "en": {
+            "name": "Uber One Credit",
+            "description": "Platinum Card members can get up to $120 back per year on an auto-renewing Uber One membership"
+        }
+    },
+    "value": 120,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "validCountries": [
+        "US"
+    ],
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "activationInstructions": "Enroll in Uber One and pay with your Platinum Card",
+    "partnerName": "Uber",
+    "partnerID": "Uber",
+    "redemptionMethod": "automatic",
+    "limitDescription": "One-time $120 credit per year",
+    "referenceLink": "https://global.americanexpress.com/card-benefits/detail/uber-one-credit/platinum",
+    "displayOrder": 0,
+    "isActive": true
+}

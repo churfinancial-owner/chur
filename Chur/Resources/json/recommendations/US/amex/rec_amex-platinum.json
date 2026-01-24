@@ -1,0 +1,28 @@
+{
+  "cardTemplateID": "amex-platinum",
+  "affiliateURL": "https://americanexpress.com/en-us/referral/platinum-card?ref=PAKHKMu7&XL=MIZNS",
+  "signUpBonus": "80,000 MR points after $8,000 spend in 6 months",
+  "signUpBonusValue": 800,
+  "bonusRating": "good",
+  "expirationDate": null,
+  "annualFeeWaived": false,
+  "requiredCreditScore": "excellent",
+  "strategyTags": ["jetsetter", "hotelhopper", "guardian"],
+  "categories": ["travel", "hotel", "protection"],
+  "categoryHighlights": {
+    "travel": "The ultimate travel card with lounge access worldwide",
+    "hotel": "$600 hotel credits annually",
+    "protection": "Premium travel insurance and purchase protection",
+    "default": "The go-to card for premium travel"
+  },
+  "complementaryCardIDs": ["amex-gold", "amex-blue-cash-preferred", "chase-freedom-flex"],
+  "avoidWithCardIDs": [],
+  "highlights": [
+    "5x on flights booked directly with airlines",
+    "Centurion Lounge + Priority Pass access",
+    "$200 airline credit + $200 hotel credit annually",
+    "Premium travel protections and insurance"
+  ],
+  "priority": 1,
+  "isActive": true
+}

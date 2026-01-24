@@ -1,0 +1,20 @@
+{
+    "id": "amex_biz_gold_hotel_collection_perk",
+    "benefitType": "feature",
+    "displayGroup": "perks",
+    "localized": {
+        "en": {
+            "name": "The Hotel Collection Benefits",
+            "description": "Get a $100 experience credit for qualifying dining, spa, and resort activities and a room upgrade upon arrival, when available, on stays of at least two consecutive nights."
+        }
+    },
+    "value": 100,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "The Hotel Collection",
+    "displayOrder": 3,
+    "isActive": true
+}

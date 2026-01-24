@@ -1,0 +1,19 @@
+{
+    "id": "cathay_discount15",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "CXSYF15OFF - 15% Flight Discount",
+            "description": "Enjoy up to 15% savings on eligible flight bookings to Hong Kong and beyond when using the exclusive cardholder discount code and paying with your card."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "partnerName": "Cathay Pacific",
+    "displayOrder": 6,
+    "isActive": true
+}

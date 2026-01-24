@@ -1,0 +1,14 @@
+{
+    "id": "citi-strata-premier",
+    "name": "Strata Premier",
+    "issuer": "Citi",
+    "network": "Mastercard",
+    "imageName": "citi-strata-premier",
+    "cardType": "personal",
+    "annualFee": 95,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": ["hotel_credit_citi2"]
+}

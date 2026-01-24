@@ -1,0 +1,22 @@
+{
+    "id": "allegiant_bogo_airfare",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "BOGO Free Airfare",
+            "description": "Buy one, get one free airfare anytime you use your card to purchase a vacation package from Allegiant with 4+ hotel nights or 7+ rental car days on the same itinerary"
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "usageLimit": 0,
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Allegiant Air",
+    "displayOrder": 1,
+    "isActive": true
+}

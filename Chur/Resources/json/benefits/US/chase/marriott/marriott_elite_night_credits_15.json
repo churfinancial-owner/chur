@@ -1,0 +1,20 @@
+{
+    "id": "marriott_elite_night_credits_15",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "15 Elite Night Credits",
+            "description": "Receive 15 Elite Night Credits every calendar year toward the next level of Marriott Bonvoy Elite status."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Marriott Bonvoy",
+    "displayOrder": 7,
+    "isActive": true
+}

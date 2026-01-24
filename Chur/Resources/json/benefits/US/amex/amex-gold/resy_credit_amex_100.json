@@ -1,0 +1,23 @@
+{
+    "id": "resy_credit_amex_100",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_dining",
+    "localized": {
+        "en": {
+            "name": "Resy Credit",
+            "description": "Get up to $50 in statement credits semi-annually ($100 annually) at U.S. Resy restaurants or make other eligible Resy purchases. Enrollment required"
+        }
+    },
+    "value": 50,
+    "valueCurrency": "USD",
+    "frequency": "semi-annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Resy",
+    "redemptionMethod": "manual",
+    "limitDescription": "$50 semi-annually, $100 total annually",
+    "referenceLink": "https://global.americanexpress.com/card-benefits/detail/resy-credit/gold",
+    "displayOrder": 0,
+    "isActive": true
+}

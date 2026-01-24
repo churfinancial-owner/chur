@@ -1,0 +1,26 @@
+{
+    "id": "spirit_inflight_rebate_25",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "25% Inflight Food & Beverage Rebate",
+            "description": "25% rebate on all inflight food and beverage purchases when you pay with your Free Spirit Travel More card"
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "usageLimit": 0,
+    "isRecurring": true,
+    "trackingMode": "automatic",
+    "requiresActivation": false,
+    "activationInstructions": "",
+    "activationDelayPeriods": 0,
+    "partnerName": "Spirit Airlines",
+    "limitDescription": "Applies only to food and beverage purchases",
+    "referenceLink": "https://www.spirit.com/",
+    "displayOrder": 3,
+    "isActive": true
+}

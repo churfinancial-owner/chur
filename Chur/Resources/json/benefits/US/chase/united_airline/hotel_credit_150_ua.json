@@ -1,0 +1,20 @@
+{
+    "id": "hotel_credit_150_ua",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Renowned Hotel Credit ",
+            "description": "Receive up to $150 back in statement credits each anniversary year on hotel accommodations when you prepay directly through Renowned Hotels and Resorts with your United QuestSM Card."
+        }
+    },
+    "value": 150,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "displayOrder": 0,
+    "isActive": true
+}

@@ -1,0 +1,24 @@
+{
+    "id": "wf_travel_credits50",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Travel Credits",
+            "description": "A $50 annual statement credit with $50 minimum airline purchase."
+        }
+    },
+    "value": 50,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "usageLimit": 1,
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Wells Fargo",
+    "limitDescription": "",
+    "referenceLink": "",
+    "displayOrder": 0,
+    "isActive": true
+}

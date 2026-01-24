@@ -1,0 +1,23 @@
+{
+    "id": "hsbc_lyft_credit",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_convenience",
+    "localized": {
+        "en": {
+            "name": "$5 Monthly Lyft Credit",
+            "description": "Take 3 rides in a calendar month and get a $5 Lyft app credit when you pay with your Premier card."
+        }
+    },
+    "value": 5,
+    "valueCurrency": "USD",
+    "frequency": "monthly",
+    "usageLimit": 1,
+    "isRecurring": true,
+    "trackingMode": "automatic",
+    "requiresActivation": false,
+    "activationInstructions": "",
+    "activationDelayPeriods": 0,
+    "partnerName": "Lyft",
+    "displayOrder": 4,
+    "isActive": true
+}

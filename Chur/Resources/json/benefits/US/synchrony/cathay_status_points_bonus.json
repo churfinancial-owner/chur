@@ -1,0 +1,22 @@
+{
+    "id": "cathay_status_points_bonus",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "Status Points Bonus",
+            "description": "Earn 10 Status Points for every $5,000 in eligible purchases each month, helping you reach Cathay Green, Silver, Gold, or Diamond status faster."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "monthly",
+    "isRecurring": true,
+    "trackingMode": "automatic",
+    "requiresActivation": false,
+    "partnerName": "Cathay Pacific",
+    "limitDescription": "Maximum of 100 Status Points per calendar year.",
+    "referenceLink": "https://www.cathaypacific.com/cx/en_US/membership/status-points.html",
+    "displayOrder": 3,
+    "isActive": true
+}

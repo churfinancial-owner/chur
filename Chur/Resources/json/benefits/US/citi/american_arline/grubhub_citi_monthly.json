@@ -1,0 +1,24 @@
+{
+    "id": "grubhub_citi_monthly",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_convenience",
+    "localized": {
+        "en": {
+            "name": "Grubhub Credit",
+            "description": "Earn a statement credit of up to $10 per monthly billing statement on eligible Grubhub purchases."
+        }
+    },
+    "value": 10,
+    "valueCurrency": "USD",
+    "frequency": "monthly",
+    "isRecurring": true,
+    "validCountries": [
+        "US"
+    ],
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Grubhub",
+    "partnerID": "Grubhub",
+    "displayOrder": 0,
+    "isActive": true
+}

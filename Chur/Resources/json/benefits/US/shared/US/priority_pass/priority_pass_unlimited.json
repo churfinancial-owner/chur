@@ -1,0 +1,25 @@
+{
+    "id": "priority_pass_unlimited",
+    "benefitType": "lounge_access",
+    "displayGroup": "travel_lounge",
+    "localized": {
+        "en": {
+            "name": "Priority Pass Unlimited",
+            "description": "Unlimited access to 1,300+ airport lounges worldwide"
+        }
+    },
+    "value": 35,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "resetType": "card_anniversary",
+    "usageLimit": -1,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "activationInstructions": "Enroll at your card issuer's website",
+    "partnerName": "Priority Pass",
+    "limitDescription": "Unlimited visits, guests $32-35 each",
+    "referenceLink": "https://www.prioritypass.com/",
+    "displayOrder": 0,
+    "isActive": true
+}

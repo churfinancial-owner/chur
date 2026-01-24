@@ -1,0 +1,171 @@
+[
+    {
+        "cardId": "amex-delta-gold-business",
+        "hasProtection": true,
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-delta-platinum-business",
+        "hasProtection": true,
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-delta-platinum",
+        "hasProtection": true,
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-delta-reserve-business",
+        "hasProtection": true,
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-delta-reserve",
+        "hasProtection": true,
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-gold-business",
+        "hasProtection": true,
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-hilton-aspire",
+        "hasProtection": true,
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-marriott-brilliant",
+        "hasProtection": true,
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "amex-platinum-business",
+        "hasProtection": true,
+        "recommended": true,
+        "description": "Greate card with standard $800 protection and a low $50 deductible."
+    },
+    {
+        "cardId": "amex-platinum",
+        "hasProtection": true,
+        "recommended": true,
+        "description": "Greate card with standard $800 protection and a low $50 deductible."
+    },
+    {
+        "cardId": "amex-schwab-platinum",
+        "hasProtection": true,
+        "recommended": true,
+        "description": "Greate card with standard $800 protection and a low $50 deductible."
+    },
+    {
+        "cardId": "chase-freedom-flex",
+        "hasProtection": true,
+        "recommended": true,
+        "description": "Best no-annual-fee card with a high $800 coverage limit."
+    },
+    {
+        "cardId": "chase-ink-business-preferred",
+        "hasProtection": true,
+        "recommended": true,
+        "description": "Best for large families or teams with 3 claims allowed per year."
+    },
+    {
+        "cardId": "capital-one-venture-x",
+        "hasProtection": true,
+        "recommended": true,
+        "description": "Best mid-tier premium protection with a simple claims process."
+    },
+    {
+        "cardId": "cardless-bilt-palladium",
+        "hasProtection": true,
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "wf-autograph-journey",
+        "hasProtection": true,
+        "recommended": true,
+        "description": "Best for high-end phones with the highest $1,000 payout."
+    },
+    {
+        "cardId": "wf-active-cash",
+        "hasProtection": true,
+        "recommended": true,
+        "description": "Best for cheap screen repairs with the lowest $25 deductible."
+    },
+    {
+        "cardId": "wf-signify-business",
+        "hasProtection": true,
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "wf-attune-cash",
+        "hasProtection": true,
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "wf-autograph",
+        "hasProtection": true,
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "wf-premier-autograph",
+        "hasProtection": true,
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "wf-choice-privileges-select",
+        "hasProtection": true,
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "wf-choice-privileges",
+        "hasProtection": true,
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "wf-one-key",
+        "hasProtection": true,
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "wf-one-key-plus",
+        "hasProtection": true,
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "capital-one-spark-cash",
+        "hasProtection": true,
+        "recommended": false,
+        "description": ""
+    },
+    {
+        "cardId": "capital-one-spark-cash-plus",
+        "hasProtection": true,
+        "recommended": false,
+        "description": ""
+    },
+    
+    {
+        "cardId": "citi-prestige",
+        "hasProtection": true,
+        "recommended": false,
+        "description": ""
+    }
+]

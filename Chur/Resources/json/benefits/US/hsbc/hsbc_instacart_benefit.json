@@ -1,0 +1,23 @@
+{
+    "id": "hsbc_instacart_benefit",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_shopping",
+    "localized": {
+        "en": {
+            "name": "Instacart Credits",
+            "description": "Get up to $140 in annual value with a free 3-month Instacart+ membership and $10 off your second order each month."
+        }
+    },
+    "value": 10,
+    "valueCurrency": "USD",
+    "frequency": "one-time",
+    "usageLimit": 1,
+    "isRecurring": false,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "activationDelayPeriods": 0,
+    "partnerName": "Instacart",
+    "referenceLink": "https://www.instacart.com/mastercard",
+    "displayOrder": 3,
+    "isActive": true
+}

@@ -1,0 +1,25 @@
+{
+    "id": "bwr_annual_anniversary_bonus",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Anniversary Bonus (Spend Required)",
+            "description": "Earn 10,000 bonus points by spending $5,000 during each cardmember year."
+        }
+    },
+    "value": 70,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "usageLimit": 1,
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": true,
+    "activationMode": "lockbyfrequency",
+    "activationInstructions": "Unlock by spending $5,000 during each cardmember year",
+    "activationDelayPeriods": 1,
+    "partnerName": "Best Western",
+    "displayOrder": 0,
+    "isActive": true
+}

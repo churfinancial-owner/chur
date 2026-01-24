@@ -1,0 +1,13 @@
+{
+    "id": "amex-amazon-business",
+    "name": "Amazon Business",
+    "issuer": "American Express",
+    "network": "Amex",
+    "imageName": "amex-amazon-business",
+    "cardType": "business",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "benefits": []
+}

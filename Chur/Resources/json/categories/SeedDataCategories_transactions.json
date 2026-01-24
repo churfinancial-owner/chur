@@ -1,0 +1,70 @@
+[
+  {
+    "id": "merchant_placeholder",
+    "nameEN": "merchant_placeholder",
+    "nameZH_Hans": "merchant_placeholder",
+    "nameZH_HK": "merchant_placeholder",
+    "nameZH_TW": "merchant_placeholder",
+    "emoji": "🔆",
+    "sortOrder": 1003,
+    "visibility": "hidden",
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent"
+  },
+  {
+    "id": "everything",
+    "nameEN": "Other",
+    "nameZH_Hans": "其他类别",
+    "nameZH_HK": "其他消費",
+    "nameZH_TW": "其他消費",
+    "emoji": "💸",
+    "sortOrder": 9000,
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent"
+  },
+  {
+    "id": "5k_pv_purchases",
+    "nameEN": "Purchase of $5,000+",
+    "nameZH_Hans": "大额消费($5000+)",
+    "nameZH_HK": "大額交易($5000+)",
+    "nameZH_TW": "大額採購($5000+)",
+    "emoji": "💵",
+    "iconName": "5k_pv_purchases",
+    "excludeFromParent": true,
+    "sortOrder": 9001,
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent"
+  },
+  {
+    "id": "online_transactions",
+    "nameEN": "Online Transactions",
+    "nameZH_Hans": "网购",
+    "nameZH_HK": "網上交易",
+    "nameZH_TW": "線上消費",
+    "emoji": "🌐",
+    "iconName": "icon_foreign_transactions",
+    "excludeFromParent": true,
+    "sortOrder": 9098,
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent"
+  },
+  {
+    "id": "foreign_transactions",
+    "nameEN": "Foreign Transactions",
+    "nameZH_Hans": "境外交易",
+    "nameZH_HK": "海外簽賬",
+    "nameZH_TW": "境外交易",
+    "emoji": "💱",
+    "iconName": "icon_foreign_transactions",
+    "excludeFromParent": true,
+    "sortOrder": 9099,
+    "visibility": "hidden",
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent"
+  }
+]

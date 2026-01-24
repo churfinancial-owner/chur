@@ -1,0 +1,25 @@
+{
+    "id": "doordash_dining_monthly",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_convenience",
+    "localized": {
+        "en": {
+            "name": "Doordash Credits (🍴)",
+            "description": "Get up to $5 each month to spend on DoorDash to spend on restaurant orders"
+        }
+    },
+    "value": 5,
+    "valueCurrency": "USD",
+    "frequency": "monthly",
+    "usageLimit": 1,
+    "isRecurring": true,
+    "validCountries": [
+        "US"
+    ],
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "DoorDash",
+    "referenceLink": "https://www.doordash.com/dashpass",
+    "displayOrder": 0,
+    "isActive": true
+}

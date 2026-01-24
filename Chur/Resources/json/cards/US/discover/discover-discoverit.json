@@ -1,0 +1,14 @@
+{
+    "id": "discover-discoverit",
+    "name": "Discover it",
+    "issuer": "Discover",
+    "network": "Discover",
+    "imageName": "discover-discoverit",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": []
+}

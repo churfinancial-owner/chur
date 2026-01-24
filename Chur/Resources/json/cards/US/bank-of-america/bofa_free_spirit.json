@@ -1,0 +1,19 @@
+{
+    "id": "bofa_free_spirit",
+    "name": "Free Spirit",
+    "issuer": "Bank of America",
+    "network": "Mastercard",
+    "imageName": "bofa_free_spirit",
+    "cardType": "personal",
+    "annualFee": 79,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "spirit_companion_voucher_anniversary",
+        "spirit_free_checked_bags",
+        "spirit_inflight_rebate_25",
+        "priority_boarding"
+    ]
+}

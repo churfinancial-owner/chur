@@ -1,0 +1,22 @@
+{
+    "id": "flight_discount_15",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "15% Flight Discount",
+            "description": null
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "usageLimit": 1,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Southwest",
+    "redemptionMethod": "automatic",
+    "displayOrder": 0,
+    "isActive": true
+}

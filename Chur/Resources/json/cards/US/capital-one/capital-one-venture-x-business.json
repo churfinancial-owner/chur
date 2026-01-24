@@ -1,0 +1,25 @@
+{
+    "id": "capital-one-venture-x-business",
+    "name": "Venture X Business",
+    "issuer": "Capital One",
+    "network": "Visa",
+    "imageName": "capital-one-venture-x-business",
+    "cardType": "business",
+    "annualFee": 395,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "foreignTransactionFeeRate": 0.0,
+    "isPopular": false,
+    "popularSortOrder": 2,
+    "benefits": [
+        "travel_credit_300_cap1vx",
+        "anniversary_bonus_miles_10",
+        "priority_pass_unlimited",
+        "capital_one_lounge_unlimited",
+        "tsa_precheck_credit120n",
+        "hertz_presidents_status",
+        "capital_one_premier_collection100",
+        "capital_one_business_travel_access"
+    ]
+}

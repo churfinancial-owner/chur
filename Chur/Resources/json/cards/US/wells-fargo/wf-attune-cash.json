@@ -1,0 +1,16 @@
+{
+    "id": "wf-attune-cash",
+    "name": "Attune Cash",
+    "issuer": "Wells Fargo",
+    "network": "Mastercard",
+    "imageName": "wf-attune-cash",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": true,
+    "foreignTransactionFeeRate": 0.03,
+    "isPopular": false,
+    "benefits": [
+    ]
+}

@@ -1,0 +1,19 @@
+{
+    "id": "barclays_wyndham_earner_business",
+    "name": "Wyndham Earner Business",
+    "issuer": "Barclays",
+    "network": "Visa",
+    "imageName": "barclays_wyndham_earner_business",
+    "cardType": "business",
+    "annualFee": 95,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "wyndham-diamond",
+        "wyndham-earn_fn_faster",
+        "cardmember_booking_discount",
+        "wyndham-anniversary-bonus_bus"
+    ]
+}

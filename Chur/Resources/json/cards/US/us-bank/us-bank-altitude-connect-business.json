@@ -1,0 +1,18 @@
+{
+    "id": "us-bank-altitude-connect-business",
+    "name": "Business Altitude Connect",
+    "issuer": "US Bank",
+    "network": "Visa",
+    "imageName": "us-bank-altitude-connect-business",
+    "cardType": "business",
+    "annualFee": 95,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "foreignTransactionFeeRate": 0.0,
+    "isPopular": false,
+    "benefits": [
+        "priority_pass_limited4",
+        "rideshare_credit_75_usbank"
+    ]
+}

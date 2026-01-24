@@ -1,0 +1,20 @@
+{
+    "id": "amex_walmartplus",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_shopping",
+    "localized": {
+        "en": {
+            "name": "Walmart+ Membership Credit",
+            "description": "Receive a statement credit for one monthly Walmart+ membership (up to $12.95 plus tax) when you pay with your Card."
+        }
+    },
+    "value": 12.95,
+    "valueCurrency": "USD",
+    "frequency": "monthly",
+    "isRecurring": true,
+    "trackingMode": "auto",
+    "requiresActivation": false,
+    "partnerName": "Walmart",
+    "displayOrder": 2,
+    "isActive": true
+}

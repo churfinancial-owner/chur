@@ -1,0 +1,17 @@
+{
+    "id": "bofa_air_france_klm",
+    "name": "Air France KLM",
+    "issuer": "Bank of America",
+    "network": "Visa",
+    "imageName": "bofa_air_france_klm",
+    "cardType": "personal",
+    "annualFee": 89,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "anniversary_bonus_miles_af",
+        "20_xp_anniversary_bonus"
+    ]
+}

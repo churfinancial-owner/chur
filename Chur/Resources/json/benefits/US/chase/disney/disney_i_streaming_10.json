@@ -1,0 +1,21 @@
+{
+    "id": "disney_i_streaming_10",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_entertainment",
+    "localized": {
+        "en": {
+            "name": "Disney Streaming Credit",
+            "description": "Earn a $10 statement credit each month after spending $10 or more on qualifying subscriptions directly at DisneyPlus.com, Hulu.com or Plus.ESPN.com."
+        }
+    },
+    "value": 10,
+    "valueCurrency": "USD",
+    "frequency": "monthly",
+    "isRecurring": true,
+    "trackingMode": "auto",
+    "requiresActivation": true,
+    "activationInstructions": "Yearly activation required. Spend $10+ on Disney+, Hulu, or ESPN+ monthly.",
+    "partnerName": "Disney+",
+    "displayOrder": 3,
+    "isActive": true
+}

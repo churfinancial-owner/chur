@@ -1,0 +1,271 @@
+[
+  {
+    "id": "groceries",
+    "nameEN": "Groceries",
+    "nameZH_Hans": "杂货",
+    "nameZH_HK": "雜貨",
+    "nameZH_TW": "雜貨",
+    "emoji": "🛒",
+    "sortOrder": 4,
+    "isDefault": true,
+    "isParent": true,
+    "level": "parent",
+    "categoryLinks": null
+  },
+  {
+    "id": "online_supermarkets",
+    "nameEN": "Online Supermarkets",
+    "nameZH_Hans": "网上超市",
+    "nameZH_HK": "線上超市",
+    "nameZH_TW": "網上超市",
+    "emoji": "🛒",
+    "sortOrder": 41,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "groceries",
+    "level": "child",
+    "categoryLinks": [
+      {
+        "id": "groceries",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "supermarkets",
+    "nameEN": "Supermarkets",
+    "nameZH_Hans": "超市",
+    "nameZH_HK": "超級市場",
+    "nameZH_TW": "超市",
+    "emoji": "🛒",
+    "sortOrder": 42,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "groceries",
+    "level": "child",
+    "categoryLinks": [
+      {
+        "id": "groceries",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "safeway",
+    "nameEN": "Safeway",
+    "nameZH_Hans": "Safeway",
+    "nameZH_HK": "Safeway",
+    "nameZH_TW": "Safeway",
+    "emoji": "🔆",
+    "iconName": "icon_safeway",
+    "sortOrder": 1002,
+    "isDefault": false,
+    "isParent": false,
+    "excludeFromParent": true,
+    "parentCategoryID": "groceries",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "groceries",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "wholefood",
+    "nameEN": "Wholefood",
+    "nameZH_Hans": "Wholefood",
+    "nameZH_HK": "Wholefood",
+    "nameZH_TW": "Wholefood",
+    "emoji": "🔆",
+    "iconName": "icon_wholefoods",
+    "sortOrder": 1002,
+    "isDefault": false,
+    "isParent": false,
+    "excludeFromParent": true,
+    "parentCategoryID": "groceries",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "groceries",
+        "weight": 0.7
+      },
+      {
+        "id": "amazon",
+        "weight": 0.3
+      }
+    ]
+  },
+  {
+    "id": "instacart",
+    "nameEN": "Instacart",
+    "nameZH_Hans": "Instacart",
+    "nameZH_HK": "Instacart",
+    "nameZH_TW": "Instacart",
+    "emoji": "🔆",
+    "iconName": "icon_instacart",
+    "sortOrder": 1003,
+    "isDefault": false,
+    "isParent": false,
+    "excludeFromParent": true,
+    "parentCategoryID": "online_supermarkets",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "online_supermarkets",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "Amazon Fresh",
+    "nameEN": "Amazon Fresh",
+    "nameZH_Hans": "Amazon Fresh",
+    "nameZH_HK": "Amazon Fresh",
+    "nameZH_TW": "Amazon Fresh",
+    "emoji": "🔆",
+    "iconName": "icon_amazon",
+    "sortOrder": 1003,
+    "isDefault": false,
+    "isParent": false,
+    "excludeFromParent": true,
+    "parentCategoryID": "online_supermarkets",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "online_supermarkets",
+        "weight": 0.7
+      },
+      {
+        "id": "amazon",
+        "weight": 0.3
+      }
+    ]
+  },
+  {
+    "id": "kroger",
+    "nameEN": "Kroger",
+    "nameZH_Hans": "克罗格",
+    "nameZH_HK": "克羅格",
+    "nameZH_TW": "克羅格",
+    "emoji": "🔆",
+    "iconName": "icon_kroger",
+    "sortOrder": 1003,
+    "isDefault": false,
+    "isParent": false,
+    "excludeFromParent": true,
+    "parentCategoryID": "groceries",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "groceries",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "aldi",
+    "nameEN": "Aldi",
+    "nameZH_Hans": "奥乐齐",
+    "nameZH_HK": "奧樂齊",
+    "nameZH_TW": "奧樂齊",
+    "emoji": "🔆",
+    "iconName": "icon_aldi",
+    "sortOrder": 1004,
+    "isDefault": false,
+    "isParent": false,
+    "excludeFromParent": true,
+    "parentCategoryID": "groceries",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "groceries",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "lucky_supermarkets",
+    "nameEN": "Lucky Supermarkets",
+    "nameZH_Hans": "Lucky Supermarkets",
+    "nameZH_HK": "Lucky Supermarkets",
+    "nameZH_TW": "Lucky Supermarkets",
+    "emoji": "🔆",
+    "iconName": "icon_lucky_supermarkets",
+    "sortOrder": 1005,
+    "isDefault": false,
+    "isParent": false,
+    "excludeFromParent": true,
+    "parentCategoryID": "groceries",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "groceries",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "supermarket_vons",
+    "nameEN": "Vons",
+    "nameZH_Hans": "Vons",
+    "nameZH_HK": "Vons",
+    "nameZH_TW": "Vons",
+    "emoji": "🔆",
+    "iconName": "icon_vons",
+    "sortOrder": 1006,
+    "isDefault": false,
+    "isParent": false,
+    "excludeFromParent": true,
+    "parentCategoryID": "groceries",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "groceries",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "albertsons",
+    "nameEN": "Albertsons",
+    "nameZH_Hans": "艾伯森",
+    "nameZH_HK": "艾伯森",
+    "nameZH_TW": "艾伯森",
+    "emoji": "🔆",
+    "iconName": "icon_albertsons",
+    "sortOrder": 1007,
+    "isDefault": false,
+    "isParent": false,
+    "excludeFromParent": true,
+    "parentCategoryID": "groceries",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "groceries",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "trader_joes",
+    "nameEN": "Trader Joe's",
+    "nameZH_Hans": "乔氏超市",
+    "nameZH_HK": "喬氏超市",
+    "nameZH_TW": "喬氏超市",
+    "emoji": "🔆",
+    "iconName": "icon_traderjoes",
+    "sortOrder": 1008,
+    "isDefault": false,
+    "isParent": false,
+    "excludeFromParent": true,
+    "parentCategoryID": "groceries",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "groceries",
+        "weight": 1.0
+      }
+    ]
+  }
+]

@@ -1,0 +1,25 @@
+{
+    "id": "uber_credit_amex_monthly15",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_convenience",
+    "localized": {
+        "en": {
+            "name": "Uber Cash",
+            "description": "Add your Platinum Card to Uber and get $15 in Uber Cash each month for U.S. rides and orders"
+        }
+    },
+    "value": 15,
+    "valueCurrency": "USD",
+    "frequency": "monthly",
+    "isRecurring": true,
+    "validCountries": [
+        "US"
+    ],
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Uber",
+    "partnerID": "Uber",
+    "referenceLink": "https://global.americanexpress.com/card-benefits/detail/uber-cash/gold",
+    "displayOrder": 0,
+    "isActive": true
+}

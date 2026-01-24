@@ -1,0 +1,20 @@
+{
+    "id": "uatravelbank_credit_50",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "UA TravelBank Cash",
+            "description": "Receive up to $50 United TravelBank Cash each calendar year after registering your IHG One Rewards Premier Credit Card with your MileagePlus account."
+        }
+    },
+    "value": 50,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "displayOrder": 0,
+    "isActive": true
+}

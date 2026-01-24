@@ -1,0 +1,18 @@
+{
+    "id": "amex-gold-business",
+    "name": "Gold Business",
+    "issuer": "American Express",
+    "network": "Amex",
+    "imageName": "amex-gold-business",
+    "cardType": "business",
+    "annualFee": 375,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "popularSortOrder": 4,
+    "benefits": [
+        "amex_biz_gold_flexible_business_credit",
+        "amex_biz_gold_hotel_collection_perk",
+        "amex_walmartplus"    ]
+}

@@ -1,0 +1,21 @@
+{
+    "id": "marriott_ritz_property_100",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Hotel Property Credit",
+            "description": "Enjoy a $100 property credit toward qualifying dining, spa or other hotel recreational activities on paid stays of two nights or more at The Ritz-Carlton or St. Regis."
+        }
+    },
+    "value": 100,
+    "usageLimit": -1,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "The Ritz-Carlton",
+    "displayOrder": 6,
+    "isActive": true
+}

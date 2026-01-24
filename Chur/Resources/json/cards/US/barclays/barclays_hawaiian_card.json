@@ -1,0 +1,18 @@
+{
+    "id": "barclays_hawaiian_card",
+    "name": "Hawaiian Airline",
+    "issuer": "Barclays",
+    "network": "Mastercard",
+    "imageName": "barclays_hawaiian_airlines",
+    "cardType": "personal",
+    "annualFee": 99,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "hawaiian_companion_100",
+        "hawaiian_50_companion",
+        "hawaiian_free_checked_bags"
+    ]
+}

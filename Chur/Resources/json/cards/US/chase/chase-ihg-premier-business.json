@@ -1,0 +1,19 @@
+{
+    "id": "chase-ihg-premier-business",
+    "name": "IHG Premier Business",
+    "issuer": "Chase",
+    "network": "Mastercard",
+    "imageName": "chase-ihg-premier-business",
+    "cardType": "business",
+    "annualFee": 99,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "ihg_platinum_status",
+        "ihg_free_night_reward",
+        "tsa_precheck_credit120n",
+        "ihg_fourthnightfree_chase"
+    ]
+}

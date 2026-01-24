@@ -1,0 +1,21 @@
+{
+    "hang-seng-hk-mmpower": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Cash Back Rewards HK",
+            "category": "online_transactions",
+            "rewardNotes": "Earn 4% RewardCash (RC) on the first HKD10,000 you spend online"
+        },
+        {
+            "rate": 6.0,
+            "rewardProgramName": "Cash Back Rewards HK",
+            "category": "foreign_transactions",
+            "rewardNotes": "Earn 4% RewardCash (RC) on the first HKD10,000 you spend online"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Cash Back Rewards HK",
+            "category": "everything"
+        }
+    ]
+}

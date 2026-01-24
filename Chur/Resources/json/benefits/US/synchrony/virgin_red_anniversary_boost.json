@@ -1,0 +1,25 @@
+{
+    "id": "virgin_red_anniversary_boost",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "5,000 Anniversary Virgin Points",
+            "description": "Receive 5,000 bonus Virgin Points every year upon card renewal and payment of the annual fee."
+        }
+    },
+    "value": 70,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "usageLimit": 1,
+    "isRecurring": true,
+    "trackingMode": "automatic",
+    "requiresActivation": false,
+    "activationInstructions": "",
+    "activationDelayPeriods": 1,
+    "partnerName": "Virgind",
+    "referenceLink": "https://www.virgin.com/en-us/virgin-red/rewards-credit-card",
+    "displayOrder": 1,
+    "isActive": true
+}

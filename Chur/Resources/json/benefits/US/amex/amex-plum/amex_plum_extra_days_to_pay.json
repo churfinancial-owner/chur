@@ -1,0 +1,19 @@
+{
+    "id": "amex_plum_extra_days_to_pay",
+    "benefitType": "feature",
+    "displayGroup": "null",
+    "localized": {
+        "en": {
+            "name": "60 Days to Pay",
+            "description": "Take up to 60 days to pay with no interest, as long as you pay the minimum amount due by the Payment Due Date."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "displayOrder": 2,
+    "isActive": true
+}

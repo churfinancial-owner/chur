@@ -1,0 +1,132 @@
+[
+  {
+    "id": "streaming",
+    "nameEN": "Streaming",
+    "nameZH_Hans": "流媒体",
+    "nameZH_HK": "串流媒體",
+    "nameZH_TW": "串流媒體",
+    "emoji": "📡",
+    "sortOrder": 6,
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent",
+    "categoryLinks": null
+  },
+  {
+    "id": "video_streaming",
+    "nameEN": "Video Streaming",
+    "nameZH_Hans": "视频流媒体",
+    "nameZH_HK": "影片串流",
+    "nameZH_TW": "影音串流",
+    "emoji": "▶️",
+    "sortOrder": 61,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "streaming",
+    "level": "child",
+    "categoryLinks": [
+      {
+        "id": "streaming",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "stream_disneyplus",
+    "nameEN": "Disney+",
+    "nameZH_Hans": "Disney+",
+    "nameZH_HK": "Disney+",
+    "nameZH_TW": "Disney+",
+    "emoji": "▶️",
+    "iconName": "icon_disneyplus",
+    "sortOrder": 61,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "video_streaming",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "video_streaming",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "stream_hulu",
+    "nameEN": "Hulu",
+    "nameZH_Hans": "Hulu",
+    "nameZH_HK": "Hulu",
+    "nameZH_TW": "Hulu",
+    "emoji": "▶️",
+    "sortOrder": 61,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "video_streaming",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "video_streaming",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "stream_netflix",
+    "nameEN": "Netflix",
+    "nameZH_Hans": "Netflix",
+    "nameZH_HK": "Netflix",
+    "nameZH_TW": "Netflix",
+    "emoji": "▶️",
+    "iconName": "icon_netflix",
+    "sortOrder": 61,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "video_streaming",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "video_streaming",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "music_streaming",
+    "nameEN": "Music Streaming",
+    "nameZH_Hans": "音乐流媒体",
+    "nameZH_HK": "音樂串流",
+    "nameZH_TW": "音樂串流",
+    "emoji": "🎵",
+    "sortOrder": 62,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "streaming",
+    "level": "child",
+    "categoryLinks": [
+      {
+        "id": "streaming",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "stream_spotify",
+    "nameEN": "Spotify",
+    "nameZH_Hans": "Spotify",
+    "nameZH_HK": "Spotify",
+    "nameZH_TW": "Spotify",
+    "emoji": "🎵",
+    "iconName": "icon_spotify",
+    "sortOrder": 62,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "streaming",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "music_streaming",
+        "weight": 1.0
+      }
+    ]
+  }
+]

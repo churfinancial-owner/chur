@@ -1,0 +1,19 @@
+{
+    "id": "hsbc_premier",
+    "name": "Premier",
+    "issuer": "HSBC",
+    "network": "Mastercard",
+    "imageName": "hsbc_premier",
+    "cardType": "personal",
+    "annualFee": 495,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "hsbc_instacart_benefit",
+        "hsbc_lyft_credit",
+        "hsbc_premier_streaming_credit",
+        "tsa_precheck_credit85n"
+    ]
+}

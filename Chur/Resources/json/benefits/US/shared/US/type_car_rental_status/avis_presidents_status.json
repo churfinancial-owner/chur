@@ -1,0 +1,22 @@
+{
+    "id": "avis_presidents_status",
+    "benefitType": "travel_status",
+    "displayGroup": "travel_carstatus",
+    "localized": {
+        "en": {
+            "name": "Avis President's Club",
+            "description": "Primary Club Cardmembers are invited to enroll in Avis President's Club"
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "limitDescription": "",
+    "referenceLink": "",
+    "displayOrder": 0,
+    "isActive": true
+}

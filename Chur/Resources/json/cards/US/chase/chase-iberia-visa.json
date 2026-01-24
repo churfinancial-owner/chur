@@ -1,0 +1,18 @@
+{
+    "id": "chase-iberia-visa",
+    "name": "Iberia",
+    "issuer": "Chase",
+    "network": "Visa",
+    "imageName": "chase-iberia-visa",
+    "cardType": "personal",
+    "annualFee": 95,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "iberia_10_percent_discount",
+        "iberia_1000_discount_voucher",
+        "doorpass_12"
+    ]
+}

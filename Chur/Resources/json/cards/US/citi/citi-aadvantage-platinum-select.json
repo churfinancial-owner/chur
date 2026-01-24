@@ -1,0 +1,14 @@
+{
+    "id": "citi-aadvantage-platinum-select",
+    "name": "AAdvantage Platinum",
+    "issuer": "Citi",
+    "network": "Mastercard",
+    "imageName": "citi-aadvantage-platinum-select",
+    "cardType": "personal",
+    "annualFee": 99,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": ["turo_credit_citi180","aa_inflight_25","free_checked_bag","priority_boarding"]
+}

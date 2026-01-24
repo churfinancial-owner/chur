@@ -1,0 +1,15 @@
+{
+    "id": "bofa-travel-rewards",
+    "name": "Travel Rewards",
+    "issuer": "Bank of America",
+    "network": "Visa",
+    "imageName": "bofa-travel-rewards",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "foreignTransactionFeeRate": 0,
+    "isPopular": false,
+    "benefits": []
+}

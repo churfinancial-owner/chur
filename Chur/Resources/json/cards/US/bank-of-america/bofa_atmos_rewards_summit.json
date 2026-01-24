@@ -1,0 +1,24 @@
+{
+    "id": "bofa_atmos_rewards_summit",
+    "name": "Atmos Rewards Summit",
+    "issuer": "Bank of America",
+    "network": "Visa",
+    "imageName": "bofa_atmos_rewards_summit",
+    "cardType": "personal",
+    "annualFee": 395,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "first_checked_bag_free_alaska",
+        "alaska_lounge_8passes",
+        "anniversary_bonus_miles",
+        "global_companion_award",
+        "travel_delay_credit",
+        "tsa_precheck_credit120",
+        "same_day_flight_changes",
+        "20_back_inflight_purchases",
+        "priority_boarding"
+    ]
+}

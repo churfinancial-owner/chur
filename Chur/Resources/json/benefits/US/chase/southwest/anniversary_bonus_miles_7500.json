@@ -1,0 +1,23 @@
+{
+    "id": "anniversary_bonus_miles_7500",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "7,500 Anniversary Bonus Miles",
+            "description": "Get 7,500 bonus miles every year, starting on your first anniversary"
+        }
+    },
+    "value": 60,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "usageLimit": 1,
+    "trackingMode": "manual",
+    "activationDelayPeriods": 1,
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "limitDescription": "",
+    "displayOrder": 0,
+    "isActive": true
+}

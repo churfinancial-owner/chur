@@ -1,0 +1,25 @@
+{
+    "id": "aa_anniversary_companion_cert_spend",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Companion Certificate",
+            "description": "Earn an American Airlines Companion Certificate for qualifying domestic travel after you spend $30,000 in purchases each cardmembership year and cardmembership is renewed. Redeeming the certificate is $99 for the ticketing fee plus taxes and fees."
+        }
+    },
+    "value": 300,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "usageLimit": 1,
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": true,
+    "activationMode": "lockbyfrequency",
+    "activationInstructions": "Unlock by spending $30,000 during each cardmembership year",
+    "activationDelayPeriods": 1,
+    "partnerName": "American Airline",
+    "displayOrder": 0,
+    "isActive": true
+}

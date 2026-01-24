@@ -1,0 +1,25 @@
+{
+    "id": "priority_pass_limited4",
+    "benefitType": "lounge_access",
+    "displayGroup": "travel_lounge",
+    "localized": {
+        "en": {
+            "name": "Priority Pass x 4",
+            "description": "4 lounge visits per year at 1,300+ airports worldwide"
+        }
+    },
+    "value": 35,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "resetType": "card_anniversary",
+    "usageLimit": 4,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "activationInstructions": "Enroll at your card issuer's website",
+    "partnerName": "Priority Pass",
+    "limitDescription": "4 visits/year, guests $32-35 each",
+    "referenceLink": "https://www.prioritypass.com/",
+    "displayOrder": 0,
+    "isActive": true
+}

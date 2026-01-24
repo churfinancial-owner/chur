@@ -1,0 +1,22 @@
+{
+    "id": "ihg_platinum_status",
+    "benefitType": "travel_status",
+    "displayGroup": "travel_hotelstatus",
+    "localized": {
+        "en": {
+            "name": "IHG Platinum Elite Status",
+            "description": "Complimentary IHG Platinum Elite Status"
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "limitDescription": "",
+    "referenceLink": "",
+    "displayOrder": 0,
+    "isActive": true
+}

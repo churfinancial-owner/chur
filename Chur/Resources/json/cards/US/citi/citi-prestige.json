@@ -1,0 +1,14 @@
+{
+    "id": "citi-prestige",
+    "name": "Citi Prestige",
+    "issuer": "Citi",
+    "network": "Mastercard",
+    "imageName": "citi-prestige",
+    "cardType": "personal",
+    "annualFee": 495,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": ["travel_credit_citi","ihg_fourthnightfree","priority_pass_unlimited","tsa_precheck_credit120"]
+}

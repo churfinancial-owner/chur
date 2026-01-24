@@ -1,0 +1,22 @@
+{
+    "id": "capital_one_premier_collection100",
+    "benefitType": "feature",
+    "displayGroup": "perks",
+    "localized": {
+        "en": {
+            "name": "$100 Experience Credit",
+            "description": "Enjoy a $100 experience credit on every Premier Collection booking to use toward things like dining, spa treatments, or other activities unique to each stay."
+        }
+    },
+    "value": 100,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "activationMode": "automatic",
+    "partnerName": "Capital One Travel",
+    "referenceLink": "https://capitalonetravel.com/premier-collection",
+    "displayOrder": 0,
+    "isActive": true
+}

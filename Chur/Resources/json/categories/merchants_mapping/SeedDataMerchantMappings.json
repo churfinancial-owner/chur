@@ -1,0 +1,343 @@
+{
+    "exactMatches": {
+        "united airlines": "united_airline",
+        "delta airlines": "delta_airline",
+        "american airlines": "american_airline",
+        "southwest airlines": "southwest_airline",
+        "korean air": "korean_airline",
+        "cathay pacific": "cathay_airline",
+        "eva air": "eva_air",
+        "apple": "apple",
+        "apple store": "apple",
+        "hilton": "hilton_hotels",
+        "marriott": "marriott_hotels",
+        "costco": "costco",
+        "amazon": "amazon",
+        "target": "target_superstore",
+        "walmart": "walmart",
+        "sam's club": "sams_club",
+        "whole foods": "wholefood",
+        "whole foods market": "wholefood",
+        "amazon fresh": "wholefood",
+        "uber": "uber",
+        "lyft": "lyft",
+        "peloton": "peloton",
+        "lululemon": "lululemon",
+        "alo": "alo",
+        "norwegian cruise": "cruises_Norwegian",
+        "norwegian cruises": "cruises_Norwegian"
+    },
+    
+    "prefixMatches": [
+        { "prefix": "apple", "categoryID": "apple", "requiredPOI": "MKPOICategoryStore" },
+        { "prefix": "hilton", "categoryID": "hilton_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "prefix": "marriott", "categoryID": "marriott_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "prefix": "element", "categoryID": "marriott_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "prefix": "w ", "categoryID": "marriott_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "prefix": "atwell", "categoryID": "ihg_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "prefix": "Garner", "categoryID": "ihg_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "prefix": "even hotel", "categoryID": "ihg_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "prefix": "Candlewood Suites", "categoryID": "ihg_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "prefix": "staybridge Suites", "categoryID": "ihg_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "prefix": "comfort inn", "categoryID": "choice_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "prefix": "quality inn", "categoryID": "choice_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "prefix": "sleep inn", "categoryID": "choice_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "prefix": "radisson", "categoryID": "choice_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "prefix": "walmart", "categoryID": "walmart", "requiredPOI": "MKPOICategoryStore" },
+        { "prefix": "walmart", "categoryID": "walmart", "requiredPOI": "MKPOICategoryFoodMarket" },
+        { "prefix": "target", "categoryID": "target_superstore", "requiredPOI": "MKPOICategoryStore" },
+        { "prefix": "target", "categoryID": "target_superstore", "requiredPOI": "MKPOICategoryFoodMarket" },
+        { "prefix": "costco", "categoryID": "costco", "requiredPOI": "MKPOICategoryStore" },
+        { "prefix": "costco", "categoryID": "costco", "requiredPOI": "MKPOICategoryFoodMarket" },
+        { "prefix": "costco", "categoryID": "costco_gas", "requiredPOI": "MKPOICategoryGasStation" },
+        { "prefix": "sam's club", "categoryID": "sams_club", "requiredPOI": "MKPOICategoryStore" },
+        { "prefix": "sam's club", "categoryID": "sams_club", "requiredPOI": "MKPOICategoryFoodMarket" },
+        { "prefix": "whole foods", "categoryID": "wholefood", "requiredPOI": "MKPOICategoryFoodMarket" },
+        { "prefix": "best buy", "categoryID": "electronics_stores", "requiredPOI": "MKPOICategoryStore" },
+        { "prefix": "lululemon", "categoryID": "lululemon", "requiredPOI": "MKPOICategoryStore" },
+        { "prefix": "adidas", "categoryID": "adidas", "requiredPOI": "MKPOICategoryStore" },
+        { "prefix": "nike", "categoryID": "nike", "requiredPOI": "MKPOICategoryStore" },
+        { "prefix": "puma", "categoryID": "puma", "requiredPOI": "MKPOICategoryStore" },
+        { "prefix": "asics", "categoryID": "nike", "requiredPOI": "MKPOICategoryStore" },
+        { "prefix": "patagonia", "categoryID": "patagonia", "requiredPOI": "MKPOICategoryStore" },
+        { "prefix": "uniqlo", "categoryID": "uniqlo", "requiredPOI": "MKPOICategoryStore" },
+        { "prefix": "ikea", "categoryID": "furniture_stores", "requiredPOI": "MKPOICategoryStore" },
+        { "prefix": "macy's", "categoryID": "macy_s", "requiredPOI": "MKPOICategoryStore" },
+        { "prefix": "kohl's", "categoryID": "kohls", "requiredPOI": "MKPOICategoryStore" },
+        { "prefix": "nordstrom", "categoryID": "nordstrom", "requiredPOI": "MKPOICategoryStore" },
+        { "prefix": "jcpenney", "categoryID": "jcpenney", "requiredPOI": "MKPOICategoryStore" },
+        { "prefix": "Saks Fifth Avenue", "categoryID": "saks_fifth_avenue", "requiredPOI": "MKPOICategoryStore" },
+        { "prefix": "Saks OFF", "categoryID": "saks_fifth_avenue", "requiredPOI": "MKPOICategoryStore" },
+        { "prefix": "neiman marcus", "categoryID": "neimanmarcus", "requiredPOI": "MKPOICategoryStore" },
+        { "prefix": "sportsman's", "categoryID": "sporting_goods_stores", "requiredPOI": "MKPOICategoryStore" },
+        { "prefix": "the children's place", "categoryID": "clothing_stores", "requiredPOI": "MKPOICategoryStore" },
+        { "prefix": "old navy", "categoryID": "gap_clothing", "requiredPOI": "MKPOICategoryStore" },
+        { "prefix": "gap", "categoryID": "gap_clothing", "requiredPOI": "MKPOICategoryStore" },
+        { "prefix": "banana republic", "categoryID": "gap_clothing", "requiredPOI": "MKPOICategoryStore" },
+        { "prefix": "Vons", "categoryID": "supermarket_vons", "requiredPOI": "MKPOICategoryFoodMarket" },
+        { "prefix": "Lucky", "categoryID": "lucky_supermarkets", "requiredPOI": "MKPOICategoryFoodMarket" },
+        { "prefix": "athleta", "categoryID": "gap_clothing", "requiredPOI": "MKPOICategoryStore" },
+        { "prefix": "Starbucks", "categoryID": "starbucks", "requiredPOI": "MKPOICategoryFoodMarket" },
+        { "prefix": "Starbucks", "categoryID": "starbucks", "requiredPOI": "MKPOICategoryCafe" },
+        { "prefix": "See's Candies", "categoryID": "confections", "requiredPOI": "MKPOICategoryFoodMarket" },
+        { "prefix": "ExtraMile", "categoryID": "convenience_store", "requiredPOI": "MKPOICategoryFoodMarket" },
+        { "prefix": "7-eleven", "categoryID": "convenience_store", "requiredPOI": "MKPOICategoryFoodMarket" },
+        { "prefix": "7-11", "categoryID": "convenience_store", "requiredPOI": "MKPOICategoryFoodMarket" },
+        { "prefix": "ampm", "categoryID": "convenience_store", "requiredPOI": "MKPOICategoryFoodMarket" },
+        { "prefix": "ok便利店", "categoryID": "convenience_store", "requiredPOI": "MKPOICategoryFoodMarket" }
+    ],
+    
+    
+    "containsMatches": [
+        { "keyword": "Marriott", "categoryID": "marriott_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "Méridien", "categoryID": "marriott_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "Renaissance", "categoryID": "marriott_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "Tribute Portfolio", "categoryID": "marriott_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "Meridien", "categoryID": "marriott_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "Bulgari", "categoryID": "marriott_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "Luxury Collection", "categoryID": "marriott_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "Autograph Collection", "categoryID": "marriott_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "a Member of Design Hotels", "categoryID": "marriott_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "citizenM", "categoryID": "marriott_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "edition", "categoryID": "marriott_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "aloft", "categoryID": "marriott_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "AC Hotel", "categoryID": "marriott_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "MGM", "categoryID": "marriott_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "TownePlace", "categoryID": "marriott_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "sheraton", "categoryID": "marriott_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "StudioRes", "categoryID": "marriott_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "westin", "categoryID": "marriott_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "moxy", "categoryID": "marriott_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "ritz-carlton", "categoryID": "marriott_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "st. regis", "categoryID": "marriott_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "w hotel", "categoryID": "marriott_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "courtyard", "categoryID": "marriott_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "residence inn", "categoryID": "marriott_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "fairfield", "categoryID": "marriott_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "springhill suites", "categoryID": "marriott_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "wyndham", "categoryID": "wyndham_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "La Quinta", "categoryID": "wyndham_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "hyatt", "categoryID": "hyatt_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "alila", "categoryID": "hyatt_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "andaz", "categoryID": "hyatt_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "urcove", "categoryID": "hyatt_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "alua", "categoryID": "hyatt_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "atona", "categoryID": "hyatt_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "breathless", "categoryID": "hyatt_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "bunkhouse", "categoryID": "hyatt_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "Thompson", "categoryID": "hyatt_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "StandardX", "categoryID": "hyatt_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "Me And All Hotel", "categoryID": "hyatt_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "Zoëtry", "categoryID": "hyatt_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "Sunscape", "categoryID": "hyatt_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "doubletree", "categoryID": "hilton_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "hilton", "categoryID": "hilton_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "LXR hotels", "categoryID": "hilton_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "conrad", "categoryID": "hilton_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "hampton inn", "categoryID": "hilton_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "embassy suites", "categoryID": "hilton_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "waldorf", "categoryID": "hilton_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "conrad", "categoryID": "hilton_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "ihg", "categoryID": "ihg_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "holiday inn", "categoryID": "ihg_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "intercontinental", "categoryID": "ihg_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "crowne plaza", "categoryID": "ihg_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "indigo", "categoryID": "ihg_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "kimpton", "categoryID": "ihg_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "regent", "categoryID": "ihg_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "six senses", "categoryID": "ihg_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "Vignette", "categoryID": "ihg_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "Hualuxe", "categoryID": "ihg_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "best western", "categoryID": "best_western_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "Bw Premier", "categoryID": "best_western_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "BW Signature", "categoryID": "best_western_hotels", "requiredPOI": "MKPOICategoryHotel" },
+        { "keyword": "candy", "categoryID": "confections", "requiredPOI": "MKPOICategoryFoodMarket" },
+        { "keyword": "chocolate", "categoryID": "confections", "requiredPOI": "MKPOICategoryFoodMarket" },
+        { "keyword": "", "categoryID": "recreation_golf", "requiredPOI": "MKPOICategoryGolf" },
+        { "keyword": "", "categoryID": "recreation_golf", "requiredPOI": "MKPOICategoryMiniGolf" },
+        { "keyword": "golf", "categoryID": "recreation_golf" },
+        { "keyword": "Country Club", "categoryID": "recreation_golf" },
+        { "keyword": "topgolf", "categoryID": "recreation_golf" },
+        { "keyword": "bowl", "categoryID": "recreation", "requiredPOI": "MKPOICategoryBowling" },
+        { "keyword": "", "categoryID": "recreation", "requiredPOI": "MKPOICategorySkiing" },
+        { "keyword": "", "categoryID": "recreation", "requiredPOI": "MKPOICategoryMiniGolf" },
+        { "keyword": "", "categoryID": "auto_shop", "requiredPOI": "MKPOICategoryAutomotiveRepair" },
+        { "keyword": "Topgolf", "categoryID": "recreation_golf" },
+        { "keyword": "Round1", "categoryID": "recreation" },
+        { "keyword": "bowling", "categoryID": "recreation" },
+        { "keyword": "Ice Skating", "categoryID": "recreation" },
+        { "keyword": "Snow Sport", "categoryID": "recreation" },
+        { "keyword": "florist", "categoryID": "florist", "requiredPOI": "MKPOICategoryStore" },
+        { "keyword": "flower", "categoryID": "florist", "requiredPOI": "MKPOICategoryStore" },
+        { "keyword": "Aldi", "categoryID": "aldi" },
+        { "keyword": "kroger", "categoryID": "kroger"},
+        { "keyword": "safeway", "categoryID": "safeway"},
+        { "keyword": "albertsons", "categoryID": "albertsons"},
+        { "keyword": "Trader Joe", "categoryID": "trader_joes" },
+        { "keyword": "t-mobile", "categoryID": "cell_phone_providers"},
+        { "keyword": "tmobile", "categoryID": "cell_phone_providers"},
+        { "keyword": "McDonald", "categoryID": "mcdonalds"},
+        { "keyword": "Burger King", "categoryID": "burgerking" },
+        { "keyword": "burgerking", "categoryID": "burgerking" },
+        { "keyword": "In-N-Out", "categoryID": "innout" },
+        { "keyword": "In N Out", "categoryID": "innout" },
+        { "keyword": "KFC", "categoryID": "kfc" },
+        { "keyword": "Kentucky Fried Chicken", "categoryID": "kfc" },
+        { "keyword": "Taco Bell", "categoryID": "tacobells" },
+        { "keyword": "Chipotle", "categoryID": "chipotle" },
+        { "keyword": "Peet's Coffee", "categoryID": "peetscoffee" },
+        { "keyword": "Peets Coffee", "categoryID": "peetscoffee" },
+        { "keyword": "Dunkin", "categoryID": "dunkin" },
+        { "keyword": "Dunkin Donuts", "categoryID": "dunkin" },
+        { "keyword": "wines", "categoryID": "liquorstore", "requiredPOI": "MKPOICategoryFoodMarket" },
+        { "keyword": "spirits", "categoryID": "liquorstore", "requiredPOI": "MKPOICategoryFoodMarket" },
+        { "keyword": "bottle shop", "categoryID": "liquorstore", "requiredPOI": "MKPOICategoryFoodMarket" },
+        { "keyword": "Liquor", "categoryID": "liquorstore", "requiredPOI": "MKPOICategoryFoodMarket" }
+    ],
+    
+    
+    "patternRules": [
+        {
+            "patterns": ["burger king", "wendy", "taco bell", "kfc", "popeyes", "chick-fil-a", "in-n-out", "five guys", "shake shack", "chipotle", "jollibee", "subway", "mos burger", "sukiya"],
+            "categoryID": "fast_food"
+        },
+        {
+            "patterns": ["food court"],
+            "categoryID": "dining",
+            "overrides": [
+                { "ifContains": "costco food", "categoryID": "costco_foodcourt" }
+            ]
+        },
+        {
+            "patterns": ["dunkin", "peet", "blue bottle", "%arabica", "cupping room"],
+            "categoryID": "cafe"
+        },
+        {
+            "patterns": ["geico insurance", "state farm insurance", "progressive insurance", "insurance agency", "nationwide insurance", "farmers insurance", "allstate insurance"],
+            "categoryID": "insurance"
+        },
+        {
+            "patterns": ["dick's sporting", "rei", "sportswear", "JD Sports", "Foot Locker", "sporting goods", "decathlon"],
+            "categoryID": "sporting_goods_stores"
+        },
+        {
+            "patterns": ["tavern", "brewery", "winery"],
+            "categoryID": "bars"
+        },
+        {
+            "patterns": ["salon"],
+            "categoryID": "personal_care"
+        },
+        
+        {
+            "patterns": ["restaurant", "bistro", "grill", "diner", "steakhouse", "pizzeria", "dim sum"],
+            "categoryID": "restaurants"
+        },
+        {
+            "patterns": ["chevron", "shell", "exxon", "mobil", "bp", "arco", "76", "texaco", "gas station", "sinopec", "petrochina"],
+            "categoryID": "gas_stations"
+        },
+        {
+            "patterns": ["ev charging", "tesla supercharger", "chargepoint", "electrify america"],
+            "categoryID": "ev_charging"
+        },
+        {
+            "patterns": ["safeway", "H-E-B", "hy-vee", "kroger", "albertsons", "trader joe", "supermarket", "grocery", "wellcome", "parknshop", "px mart", "carrefour"],
+            "categoryID": "supermarkets",
+            "overrides": [
+                { "ifContains": "costco", "categoryID": "costco" }
+            ]
+        },
+        {
+            "patterns": ["best buy", "fortress", "broadway", "豐澤", "百老匯"],
+            "categoryID": "electronics_stores"
+        },
+        {
+            "patterns": ["h&m", "cotton on", "men's wearhouse", "hollister co.", "abercrombie", "hot topic", "zara", "pacsun", "under_armour"],
+            "categoryID": "clothing_stores"
+        },
+        {
+            "patterns": ["cvs", "walgreens", "rite aid", "pharmacy", "watsons", "mannings", "屈臣氏", "萬寧"],
+            "categoryID": "pharmacy",
+            "overrides": [
+                { "ifContains": "costco pharmacy", "categoryID": "costco_pharmacy" }
+            ]
+        },
+        {
+            "patterns": ["petco", "petsmart", "chewy"],
+            "categoryID": "pet_supply_stores"
+        },
+        {
+            "patterns": ["hotel", "inn", "resort", "motel", "staybridge", "holiday inn"],
+            "categoryID": "hotels"
+        },
+        {
+            "patterns": ["hertz", "enterprise", "budget rent", "avis", "sixt"],
+            "categoryID": "car_rental"
+        },
+        {
+            "patterns": ["airline", "airways", "aviation"],
+            "categoryID": "flights"
+        },
+        {
+            "patterns": ["24 hour fitness", "la fitness","Equinox", "planet fitness", "equinox", "Crunch", "fitness center", "pure fitness", "pure yoga"],
+            "categoryID": "gym_fitness_centers"
+        },
+        {
+            "patterns": ["amc", "regal", "cinemark", "movie theater", "cinema", "broadway cinema"],
+            "categoryID": "movie_theaters"
+        },
+        {
+            "patterns": ["parking", "wilson parking"],
+            "categoryID": "parking"
+        },
+        {
+            "patterns": ["ups", "fedex", "dhl", "sf express", "顺丰", "postal service", "post office"],
+            "categoryID": "shipping"
+        },
+        {
+            "patterns": ["staples", "office depot", "officeMax", "Amazon Business", "Walmart Business"],
+            "categoryID": "office_supplies"
+        },
+        {
+            "patterns": ["t-mobile", "tmobile", "verizon", "at&t", "sprint", "cricket", "hkbn", "pccw", "smartone", "cht", "chunghwa"],
+            "categoryID": "cell_phone_providers"
+        },
+        {
+            "patterns": ["dental", "dentist", "orthodont", "dentistry", "牙科"],
+            "categoryID": "dentistry"
+        },
+        {
+            "patterns": ["burlington", "homegoods", "HomeSense", "TJ Maxx", "T.J.Maxx", "Marshalls", "Ross Dress", "DD's Discounts", "Dollar Tree"],
+            "categoryID": "discount_stores"
+        },
+        {
+            "patterns": ["hospital", "medical center", "urgent care", "clinic", "kaiser", "養和"],
+            "categoryID": "hospital"
+        },
+        {
+            "patterns": ["auto repair", "auto body", "tire", "jiffy lube", "meineke", "midas", "pep boys", "autozone", "o'reilly"],
+            "categoryID": "auto_shop",
+            "overrides": [
+                { "ifContains": "costco tire", "categoryID": "costco_tire" }
+            ]
+        },
+        {
+            "patterns": ["home depot", "lowe's", "lowes", "ace hardware", "hardware store", "Menards", "Sherwin-Williams", "paint store", "Harbor Freight", "True Value Company", "Tractor Supply"],
+            "categoryID": "material_hardware"
+        },
+        {
+            "patterns": ["comcast", "DIRECTV", "Time Warner"],
+            "categoryID": "tv_cable"
+        },
+        {
+            "patterns": ["sephora", "ulta", "cosmetic", "sasa"],
+            "categoryID": "cosmetic_stores"
+        },
+        {
+            "patterns": ["netflix", "hulu", "disney+", "paramount", "peacock", "hbomax", "mytv super"],
+            "categoryID": "video_streaming"
+        }
+    ]
+}
+

@@ -1,0 +1,19 @@
+{
+    "id": "amex-gold",
+    "name": "Gold",
+    "issuer": "American Express",
+    "network": "Amex",
+    "imageName": "amex-gold",
+    "cardType": "personal",
+    "annualFee": 250,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": true,
+    "popularSortOrder": 4,
+    "benefits": [
+        "resy_credit_amex_100",
+        "dining_credit_amex_120",
+        "dunkin_credit_amex_84",
+        "uber_credit_amex_monthly15"    ]
+}

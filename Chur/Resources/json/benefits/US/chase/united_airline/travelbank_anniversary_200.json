@@ -1,0 +1,22 @@
+{
+    "id": "travelbank_anniversary_200",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Anniversary Travel bank Credit",
+            "description": "Receive after account opening and on each account anniversary, which you can use to book a future United - or United Express - operated flight"
+        }
+    },
+    "value": 200,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "activationDelayPeriods": 1,
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "partnerName": "United Airlines",
+    "displayOrder": 0,
+    "isActive": true
+}

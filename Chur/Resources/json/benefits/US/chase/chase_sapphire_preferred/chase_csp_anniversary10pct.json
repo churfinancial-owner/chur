@@ -1,0 +1,21 @@
+{
+    "id": "chase_csp_anniversary10pct",
+    "benefitType": "feature",
+    "displayGroup": "perks",
+    "localized": {
+        "en": {
+            "name": "10% anniversary points",
+            "description": "Plus, each account anniversary you'll earn bonus points equal to 10% of your total purchases made the previous year. That means if you spend $25,000 on purchases, you'll get 2,500 bonus points. To comparing reward rates, you can change your Reward Plan from Default Plan to include this 10% bonus"
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "automatic",
+    "requiresActivation": false,
+    "activationInstructions": "",
+    "activationDelayPeriods": 1,
+    "displayOrder": 1,
+    "isActive": true
+}

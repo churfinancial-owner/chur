@@ -1,0 +1,24 @@
+{
+    "id": "lyft_credit_chase_monthly",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_convenience",
+    "localized": {
+        "en": {
+            "name": "Lyft Credit",
+            "description": "Use your Chase Sapphire Reserve to get $10 in ride credit each month"
+        }
+    },
+    "value": 10,
+    "valueCurrency": "USD",
+    "frequency": "monthly",
+    "isRecurring": true,
+    "validCountries": [
+        "US"
+    ],
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Lyft",
+    "partnerID": "Lyft",
+    "displayOrder": 0,
+    "isActive": true
+}

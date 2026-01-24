@@ -1,0 +1,28 @@
+{
+    "id": "uber_credit_amex_plat_15",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_convenience",
+    "localized": {
+        "en": {
+            "name": "Uber Cash",
+            "description": "Add your Platinum Card to Uber and get $15 in Uber Cash each month for U.S. rides and orders, plus a $20 bonus in December—up to $200 per year when you pay with your Amex Card"
+        }
+    },
+    "value": 15,
+    "valueCurrency": "USD",
+    "frequency": "monthly",
+    "isRecurring": true,
+    "calendarMonthOverrides": {
+        "12": 35
+    },
+    "validCountries": [
+        "US"
+    ],
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Uber",
+    "partnerID": "Uber",
+    "referenceLink": "https://global.americanexpress.com/card-benefits/detail/uber-rides-with-platinum/platinum",
+    "displayOrder": 0,
+    "isActive": true
+}

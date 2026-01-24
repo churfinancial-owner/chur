@@ -1,0 +1,22 @@
+{
+    "id": "free_checked_bag",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_checkedbags",
+    "localized": {
+        "en": {
+            "name": "One Free Checked Bag",
+            "description": "Free checked bag x 1"
+        }
+    },
+    "value": 40,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "resetType": "card_anniversary",
+    "usageLimit": -1,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "manual",
+    "displayOrder": 0,
+    "isActive": true
+}

@@ -1,0 +1,15 @@
+{
+    "id": "citi-aadvantage-mileup",
+    "name": "AAdvantage MileUp",
+    "issuer": "Citi",
+    "network": "Mastercard",
+    "imageName": "citi-aadvantage-mileup",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": true,
+    "foreignTransactionFeeRate": 0.03,
+    "isPopular": false,
+    "benefits": ["aa_inflight_25"]
+}

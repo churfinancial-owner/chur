@@ -1,0 +1,23 @@
+{
+    "id": "plaza_premium_lounge_limited4",
+    "benefitType": "lounge_access",
+    "displayGroup": "travel_lounge",
+    "localized": {
+        "en": {
+            "name": "Plaza Premium Lounge Access",
+            "description": "Eligible for four (4) complimentary visits per calendar year to Canadian Plaza Premium Lounges. Cardmembers can apply complimentary visits towards accompanying guest visits."
+        }
+    },
+    "value": 50,
+    "valueCurrency": "CAD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "resetType": "card_anniversary",
+    "usageLimit": 4,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Plaza Premium",
+    "limitDescription": "4 visits/year",
+    "displayOrder": 0,
+    "isActive": true
+}

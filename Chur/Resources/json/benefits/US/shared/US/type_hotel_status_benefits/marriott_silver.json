@@ -1,0 +1,23 @@
+
+{
+    "id": "marriott_silver_status",
+    "benefitType": "travel_status",
+    "displayGroup": "travel_hotelstatus",
+    "localized": {
+        "en": {
+            "name": "Marriott Silver Status",
+            "description": "Complimentary Marriott Silver Status"
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "limitDescription": "",
+    "referenceLink": "",
+    "displayOrder": 0,
+    "isActive": true
+}

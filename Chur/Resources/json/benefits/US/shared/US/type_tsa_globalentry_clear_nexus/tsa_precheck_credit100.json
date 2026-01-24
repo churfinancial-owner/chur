@@ -1,0 +1,24 @@
+{
+    "id": "tsa_precheck_credit_100",
+    "benefitType": "TTP",
+    "displayGroup": "travel_tsa",
+    "localized": {
+        "en": {
+            "name": "TSA PreCheck / Global Entry Credit",
+            "description": "Up to $100 credit for TSA PreCheck or Global Entry enrollment"
+        }
+    },
+    "value": 100,
+    "valueCurrency": "USD",
+    "frequency": "quadrennial",
+    "resetType": "card_anniversary",
+    "usageLimit": 1,
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "referenceLink": "https://www.tsa.gov/precheck",
+    "displayOrder": 0,
+    "isActive": true
+}
+

@@ -1,0 +1,24 @@
+{
+    "id": "disney_streaming_credit_amex1",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_entertainment",
+    "localized": {
+        "en": {
+            "name": "Disney Streaming Credit",
+            "description": "Get up to a $10 monthly statement credit, up to $120 annual value..."
+        }
+    },
+    "value": 10,
+    "valueCurrency": "USD",
+    "frequency": "monthly",
+    "isRecurring": true,
+    "trackingMode": "auto",
+    "requiresActivation": false,
+    "partnerName": "Disney",
+    "partnerID": "Disney",
+    "redemptionMethod": "automatic",
+    "referenceLink": "https://global.americanexpress.com/card-benefits/detail/disney-bundle-credit/blue-cash-preferred",
+    "benefitNotes": "",
+    "displayOrder": 0,
+    "isActive": true
+}

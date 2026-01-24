@@ -1,0 +1,26 @@
+{
+    "id": "anniversary_bonus_miles_af",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Anniversary bonus (spend-required)",
+            "description": "Receive 5,000 Miles every year on your account anniversary after you spend $50 or more on purchases within the anniversary year"
+        }
+    },
+    "value": 40,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "usageLimit": 1,
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "activationInstructions": "",
+    "activationDelayPeriods": 1,
+    "partnerName": "Air France",
+    "limitDescription": "",
+    "referenceLink": "https://wwws.airfrance.us/",
+    "displayOrder": 0,
+    "isActive": true
+}

@@ -1,0 +1,22 @@
+{
+    "id": "koreanair_discount_5",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "5% off Korean Air tickets",
+            "description": "Get 5% off Korean Air tickets 2X yearly, available for you and a companion. For example, spend $5,000 and save $250."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "usageLimit": 2,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Korean Air",
+    "redemptionMethod": "automatic",
+    "displayOrder": 0,
+    "isActive": true
+}

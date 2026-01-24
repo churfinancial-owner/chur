@@ -1,0 +1,21 @@
+{
+    "id": "aer_lingus_commercial_discount",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "10% Aer Lingus Flight Discount",
+            "description": "Enjoy a 10% discount on Aer Lingus-operated round-trip flights from the US to Ireland when you book through the dedicated link and pay with your card."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Aer Lingus",
+    "referenceLink": "https://www.aerlingus.com/chase10",
+    "displayOrder": 0,
+    "isActive": true
+}

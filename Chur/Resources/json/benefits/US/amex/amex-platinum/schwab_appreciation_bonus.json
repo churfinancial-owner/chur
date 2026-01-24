@@ -1,0 +1,22 @@
+{
+    "id": "schwab_appreciation_bonus",
+    "benefitType": "feature",
+    "displayGroup": "perks",
+    "localized": {
+        "en": {
+            "name": "Schwab Appreciation Bonus",
+            "description": "Receive a $100 or $200 statement credit annually if your qualifying Schwab holdings are $250,000 or $1,000,000+, respectively."
+        }
+    },
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "activationMode": "lockbyfrequency",
+    "activationInstructions": "Unlock based on Charles Schwab qualifying asset balance ($250k for $100 / $1M for $200) measured on the last business day of the month before your anniversary.",
+    "partnerName": "Charles Schwab",
+    "displayOrder": 0,
+    "isActive": true
+}

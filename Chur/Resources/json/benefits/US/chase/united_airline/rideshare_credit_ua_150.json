@@ -1,0 +1,25 @@
+{
+    "id": "rideshare_credit_ua_150",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_convenience",
+    "localized": {
+        "en": {
+            "name": "Rideshare Credit",
+            "description": "Enroll to receive up to $150 back as statement credits each  year on rideshare. Up to $12 back from January through November, and up to $18 back for December."
+        }
+    },
+    "value": 12,
+    "valueCurrency": "USD",
+    "frequency": "monthly",
+    "isRecurring": true,
+    "calendarMonthOverrides": {
+        "12": 18
+    },
+    "validCountries": [
+        "US"
+    ],
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "displayOrder": 0,
+    "isActive": true
+}

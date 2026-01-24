@@ -1,0 +1,539 @@
+{
+    "citi-double-cash": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Citi ThankYou Points",
+            "category": "everything",
+            "rewardNotes": "1% when you buy + 1% when you pay"
+        }
+    ],
+    
+    "citi-strata": {
+        "plans": [
+            {
+                "planID": "citi-strata-2026",
+                "planName": "Current Rewards",
+                "isDefault": true,
+                "isPromo": false,
+                "isAvailableForNewUsers": true,
+                "planStartDate": null,
+                "planEndDate": null,
+                "rewards": [
+                    {
+                        "rate": 3.0,
+                        "rewardProgramName": "Citi ThankYou Points",
+                        "category": null,
+                        "isUserConfigurable": true,
+                        "configurableSlot": "5pct_slot_1",
+                        "configurableOptions": [
+                            {
+                                "label": "Live Entertainment",
+                                "includes": [
+                                    "entertainment"
+                                ]
+                            },
+                            {
+                                "label": "Fitness Clubs",
+                                "includes": [
+                                    "gym"
+                                ]
+                            },
+                            {
+                                "label": "Streaming",
+                                "includes": [
+                                    "video_streaming",
+                                    "music_streaming"
+                                ]
+                            },
+                            {
+                                "label": "Beauty",
+                                "includes": [
+                                    "cosmetic_stores",
+                                    "personal_care"
+                                ]
+                            },
+                            {
+                                "label": "Pet Supply Stores",
+                                "includes": [
+                                    "pet_supply_stores"
+                                ]
+                            }
+                        ],
+                        "rewardNotes": "Earn 3% Self-Select Category of your choice."
+                    },
+                    {
+                        "rate": 5.0,
+                        "rewardProgramName": "Citi ThankYou Points",
+                        "category": "citi_travel_portal"
+                    },
+                    {
+                        "rate": 1.0,
+                        "rewardProgramName": "Citi ThankYou Points",
+                        "category": "citi_travel_portal_flight"
+                    },
+                    {
+                        "rate": 3.0,
+                        "rewardProgramName": "Citi ThankYou Points",
+                        "category": "groceries"
+                    },
+                    {
+                        "rate": 3.0,
+                        "rewardProgramName": "Citi ThankYou Points",
+                        "category": "transit"
+                    },
+                    {
+                        "rate": 3.0,
+                        "rewardProgramName": "Citi ThankYou Points",
+                        "category": "gas"
+                    },
+                    {
+                        "rate": 2.0,
+                        "rewardProgramName": "Citi ThankYou Points",
+                        "category": "dining"
+                    },
+                    {
+                        "rate": 1.0,
+                        "rewardProgramName": "Citi ThankYou Points",
+                        "category": "everything"
+                    }
+                ]
+            }
+        ]
+    },
+
+    "citi-strata-premier": {
+        "plans": [
+            {
+                "planID": "citi-strata-premier-2026",
+                "planName": "Current Rewards",
+                "isDefault": true,
+                "isPromo": false,
+                "isAvailableForNewUsers": true,
+                "planStartDate": null,
+                "planEndDate": null,
+                "rewards": [
+                    {
+                        "rate": 10.0,
+                        "rewardProgramName": "Citi ThankYou Points",
+                        "category": "citi_travel_portal"
+                    },
+                    {
+                        "rate": 10.0,
+                        "rewardProgramName": "Citi ThankYou Points",
+                        "category": "citi_travel_portal_flight"
+                    },
+                    {
+                        "rate": 3.0,
+                        "rewardProgramName": "Citi ThankYou Points",
+                        "category": "groceries"
+                    },
+                    {
+                        "rate": 3.0,
+                        "rewardProgramName": "Citi ThankYou Points",
+                        "category": "gas"
+                    },
+                    {
+                        "rate": 3.0,
+                        "rewardProgramName": "Citi ThankYou Points",
+                        "category": "flights"
+                    },
+                    {
+                        "rate": 3.0,
+                        "rewardProgramName": "Citi ThankYou Points",
+                        "category": "hotels"
+                    },
+                    {
+                        "rate": 3.0,
+                        "rewardProgramName": "Citi ThankYou Points",
+                        "category": "dining"
+                    },
+                    {
+                        "rate": 1.0,
+                        "rewardProgramName": "Citi ThankYou Points",
+                        "category": "everything"
+                    }
+                ]
+            }
+        ]
+    },
+
+    "citi-strata-elite": {
+        "plans": [
+            {
+                "planID": "citi-strata-elite-2026",
+                "planName": "Current Rewards",
+                "isDefault": true,
+                "isPromo": false,
+                "isAvailableForNewUsers": true,
+                "planStartDate": null,
+                "planEndDate": null,
+                "rewards": [
+                    {
+                        "rate": 12.0,
+                        "rewardProgramName": "Citi ThankYou Points",
+                        "category": "citi_travel_portal"
+                    },
+                    {
+                        "rate": 6.0,
+                        "rewardProgramName": "Citi ThankYou Points",
+                        "category": "citi_travel_portal_flight"
+                    },
+                    {
+                        "rate": 3.0,
+                        "rewardProgramName": "Citi ThankYou Points",
+                        "category": "dining"
+                    },
+                    {
+                        "rate": 1.5,
+                        "rewardProgramName": "Citi ThankYou Points",
+                        "category": "everything"
+                    }
+                ]
+            }
+        ]
+    },
+
+    "citi-prestige": {
+        "plans": [
+            {
+                "planID": "citi-prestige-current",
+                "planName": "Current Rewards",
+                "isDefault": true,
+                "isPromo": false,
+                "isAvailableForNewUsers": true,
+                "planStartDate": null,
+                "planEndDate": null,
+                "rewards": [
+                    {
+                        "rate": 5.0,
+                        "rewardProgramName": "Citi ThankYou Points",
+                        "category": "dining"
+                    },
+                    {
+                        "rate": 5.0,
+                        "rewardProgramName": "Citi ThankYou Points",
+                        "category": "flights"
+                    },
+                    {
+                        "rate": 5.0,
+                        "rewardProgramName": "Citi ThankYou Points",
+                        "category": "travel_agency"
+                    },
+                    {
+                        "rate": 3.0,
+                        "rewardProgramName": "Citi ThankYou Points",
+                        "category": "hotels"
+                    },
+                    {
+                        "rate": 3.0,
+                        "rewardProgramName": "Citi ThankYou Points",
+                        "category": "cruises"
+                    },
+                    {
+                        "rate": 1,
+                        "rewardProgramName": "Citi ThankYou Points",
+                        "category": "everything"
+                    }
+                ]
+            }
+        ]
+    },
+
+    
+    "citi-aadvantage-executive": [
+        {
+            "rate": 4.0,
+            "rewardProgramName": "AA Miles",
+            "category": "american_airline"
+        },
+        {
+            "rate": 10.0,
+            "rewardProgramName": "AA Miles",
+            "category": "american_air_travel_portal"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "AA Miles",
+            "category": "everything"
+        }
+    ],
+
+    "citi-aadvantage-globe": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "AA Miles",
+            "category": "american_airline"
+        },
+        {
+            "rate": 6.0,
+            "rewardProgramName": "AA Miles",
+            "category": "american_air_travel_portal"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "AA Miles",
+            "category": "dining"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "AA Miles",
+            "category": "transit"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "AA Miles",
+            "category": "everything"
+        }
+    ],
+
+    "citi-aadvantage-business": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "AA Miles",
+            "category": "american_airline"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "AA Miles",
+            "category": "car_rental"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "AA Miles",
+            "category": "gas"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "AA Miles",
+            "category": "telecommunication"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "AA Miles",
+            "category": "everything"
+        }
+    ],
+
+    
+    "citi-aadvantage-platinum-select": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "AA Miles",
+            "category": "american_airline"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "AA Miles",
+            "category": "dining"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "AA Miles",
+            "category": "gas_stations"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "AA Miles",
+            "category": "everything"
+        }
+    ],
+
+    "citi-aadvantage-mileup": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "AA Miles",
+            "category": "american_airline"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "AA Miles",
+            "category": "groceries"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "AA Miles",
+            "category": "everything"
+        }
+    ],
+
+    "citi-custom-cash": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Citi ThankYou Points",
+            "category": null,
+            "isUserConfigurable": true,
+            "configurableSlot": "5pct_slot_1",
+            "configurableOptions": [
+                {
+                    "label": "Restaurants",
+                    "includes": [
+                        "dining"
+                    ]
+                },
+                {
+                    "label": "Groceries",
+                    "includes": [
+                        "groceries"
+                    ]
+                },
+                {
+                    "label": "Gas",
+                    "includes": [
+                        "gas_stations"
+                    ]
+                },
+                {
+                    "label": "Transit",
+                    "includes": [
+                        "public_transit",
+                        "rideshare"
+                    ]
+                },
+                {
+                    "label": "Travel",
+                    "includes": [
+                        "travel"
+                    ]
+                },
+                {
+                    "label": "Streaming",
+                    "includes": [
+                        "video_streaming",
+                        "music_streaming"
+                    ]
+                },
+                {
+                    "label": "Pharmacy",
+                    "includes": [
+                        "pharmacy"
+                    ]
+                },
+                {
+                    "label": "Home Improvement",
+                    "includes": [
+                        "material_hardware"
+                    ]
+                },
+                {
+                    "label": "Entertainment",
+                    "includes": [
+                        "entertainment"
+                    ]
+                },
+                {
+                    "label": "Gym & Fitness",
+                    "includes": [
+                        "gym",
+                        "gym_fitness_centers"
+                    ]
+                }
+            ],
+            "rewardNotes": "5% cash back on your top eligible spend category up to $500 spent each billing cycle"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Citi ThankYou Points",
+            "category": "citi_travel_portal"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Citi ThankYou Points",
+            "category": "everything"
+        }
+    ],
+    
+    "citi-mybestbuy-visa": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "best_buy"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "gas"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "groceries"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "citi-costco-business-visa": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "costco_gas"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "gas"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "travel"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "costco"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+
+    
+    "citi-costco-visa": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "costco_gas"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "gas"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "travel"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "costco"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+    ]
+}

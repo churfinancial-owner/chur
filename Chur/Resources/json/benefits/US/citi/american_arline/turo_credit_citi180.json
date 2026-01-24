@@ -1,0 +1,28 @@
+{
+    "id": "turo_credit_citi180",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Turo Credit",
+            "description": "Earn up to $30 in statement credits for each eligible Turo trip completed, for a total of up to $180 in statement credits annually."
+        }
+    },
+    "value": 30,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "usageLimit": 6,
+    "expirationDate": "2026-10-18T23:59:59Z",
+    "activeFromDate": "2025-10-19T00:00:00Z",
+    "activeToDate": "2026-10-18T23:59:59Z",
+    "validCountries": [
+        "US"
+    ],
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Turo",
+    "partnerID": "Turo",
+    "displayOrder": 0,
+    "isActive": true
+}

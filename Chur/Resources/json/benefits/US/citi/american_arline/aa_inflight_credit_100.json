@@ -1,0 +1,22 @@
+{
+    "id": "aa_inflight_credit_100",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Inflight credits",
+            "description": "Every calendar year, earn up to $100 in statement credits on inflight purchases."
+        }
+    },
+
+    "value": 100,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "American Airline",
+    "redemptionMethod": "automatic",
+    "displayOrder": 0,
+    "isActive": true
+}

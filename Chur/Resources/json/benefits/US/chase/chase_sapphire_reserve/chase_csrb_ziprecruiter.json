@@ -1,0 +1,23 @@
+{
+    "id": "chase_csrb_ziprecruiter",
+    "benefitType": "credit",
+    "displayGroup": "business",
+    "localized": {
+        "en": {
+            "name": "ZipRecruiter Credit",
+            "description": "Get up to $400 in annual statement credits on purchases made directly with ZipRecruiter ($200 Jan–June, $200 July–Dec)."
+        }
+    },
+    "value": 200,
+    "valueCurrency": "USD",
+    "frequency": "semi-annual",
+    "isRecurring": true,
+    "trackingMode": "automatic",
+    "requiresActivation": false,
+    "activationInstructions": "",
+    "activationDelayPeriods": 0,
+    "partnerName": "ZipRecruiter",
+    "referenceLink": "https://www.ziprecruiter.com/",
+    "displayOrder": 4,
+    "isActive": true
+}

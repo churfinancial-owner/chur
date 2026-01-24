@@ -1,0 +1,320 @@
+[
+  {
+    "id": "costco",
+    "nameEN": "Costco",
+    "nameZH_Hans": "Costco",
+    "nameZH_HK": "Costco",
+    "nameZH_TW": "Costco",
+    "emoji": "🔆",
+    "iconName": "icon_costco",
+    "sortOrder": 133,
+    "isDefault": false,
+    "isParent": false,
+    "excludeFromParent": false,
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "wholesale",
+        "weight": 1.0
+      }
+    ],
+    "cardFilter": {
+      "regions": {
+        "US": {
+          "networks": [
+            "Visa"
+          ],
+          "mode": "include"
+        },
+        "CA": {
+          "networks": [
+            "Mastercard"
+          ],
+          "mode": "include"
+        },
+        "TW": {
+          "networks": [
+            "Mastercard"
+          ],
+          "mode": "include"
+        },
+        "HK": {
+          "networks": [
+            "Mastercard"
+          ],
+          "mode": "include"
+        },
+        "default": {
+          "networks": [
+            "Visa"
+          ],
+          "mode": "include"
+        }
+      }
+    }
+  },
+  {
+    "id": "amazon",
+    "nameEN": "Amazon",
+    "nameZH_Hans": "亚马逊",
+    "nameZH_HK": "亞馬遜",
+    "nameZH_TW": "亞馬遜",
+    "emoji": "🔆",
+    "iconName": "icon_amazon",
+    "excludeFromParent": true,
+    "sortOrder": 1001,
+    "isDefault": false,
+    "isParent": false,
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "retail",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "walmart",
+    "nameEN": "Walmart",
+    "nameZH_Hans": "沃尔玛",
+    "nameZH_HK": "沃爾瑪",
+    "nameZH_TW": "沃爾瑪",
+    "emoji": "🔆",
+    "iconName": "icon_walmart",
+    "excludeFromParent": true,
+    "sortOrder": 1011,
+    "isDefault": false,
+    "isParent": false,
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "retail",
+        "weight": 1.0
+      }
+    ],
+    "excludedPaymentMethods": [
+      "apple_pay",
+      "mobile_pay"
+    ]
+  },
+  {
+    "id": "sams_club",
+    "nameEN": "Sam's Club",
+    "nameZH_Hans": "Sam's Club",
+    "nameZH_HK": "Sam's Club",
+    "nameZH_TW": "Sam's Club",
+    "emoji": "🔆",
+    "iconName": "icon_sams_club",
+    "excludeFromParent": true,
+    "sortOrder": 1012,
+    "isDefault": false,
+    "isParent": false,
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "wholesale",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "target_superstore",
+    "nameEN": "Target",
+    "nameZH_Hans": "Target",
+    "nameZH_HK": "Target",
+    "nameZH_TW": "Target",
+    "emoji": "🔆",
+    "iconName": "icon_target",
+    "excludeFromParent": true,
+    "sortOrder": 1021,
+    "isDefault": false,
+    "isParent": false,
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "retail",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "ebay",
+    "nameEN": "eBay",
+    "nameZH_Hans": "eBay",
+    "nameZH_HK": "eBay",
+    "nameZH_TW": "eBay",
+    "emoji": "🔆",
+    "iconName": "icon_ebay",
+    "excludeFromParent": true,
+    "sortOrder": 1002,
+    "isDefault": false,
+    "isParent": false,
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "retail",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "etsy",
+    "nameEN": "Etsy",
+    "nameZH_Hans": "Etsy",
+    "nameZH_HK": "Etsy",
+    "nameZH_TW": "Etsy",
+    "emoji": "🔆",
+    "iconName": "icon_etsy",
+    "excludeFromParent": true,
+    "sortOrder": 1003,
+    "isDefault": false,
+    "isParent": false,
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "retail",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "temu",
+    "nameEN": "Temu",
+    "nameZH_Hans": "Temu",
+    "nameZH_HK": "Temu",
+    "nameZH_TW": "Temu",
+    "emoji": "🔆",
+    "iconName": "icon_temu",
+    "excludeFromParent": true,
+    "sortOrder": 1004,
+    "isDefault": false,
+    "isParent": false,
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "retail",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "aliexpress",
+    "nameEN": "AliExpress",
+    "nameZH_Hans": "AliExpress",
+    "nameZH_HK": "AliExpress",
+    "nameZH_TW": "AliExpress",
+    "emoji": "🔆",
+    "iconName": "icon_aliexpress",
+    "excludeFromParent": true,
+    "sortOrder": 1005,
+    "isDefault": false,
+    "isParent": false,
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "retail",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "woot",
+    "nameEN": "Woot!",
+    "nameZH_Hans": "Woot!",
+    "nameZH_HK": "Woot!",
+    "nameZH_TW": "Woot!",
+    "emoji": "🔆",
+    "iconName": "icon_woot",
+    "excludeFromParent": true,
+    "sortOrder": 1006,
+    "isDefault": false,
+    "isParent": false,
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "retail",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "taobao",
+    "nameEN": "Taobao",
+    "nameZH_Hans": "淘宝",
+    "nameZH_HK": "淘寶",
+    "nameZH_TW": "淘寶",
+    "emoji": "🔆",
+    "iconName": "icon_taobao",
+    "excludeFromParent": true,
+    "sortOrder": 1007,
+    "isDefault": false,
+    "isParent": false,
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "retail",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "tmall",
+    "nameEN": "Tmall",
+    "nameZH_Hans": "天猫",
+    "nameZH_HK": "天貓",
+    "nameZH_TW": "天貓",
+    "emoji": "🔆",
+    "iconName": "icon_tmall",
+    "excludeFromParent": true,
+    "sortOrder": 1008,
+    "isDefault": false,
+    "isParent": false,
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "retail",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "carousell",
+    "nameEN": "Carousell",
+    "nameZH_Hans": "旋转拍卖",
+    "nameZH_HK": "旋轉拍賣",
+    "nameZH_TW": "旋轉拍賣",
+    "emoji": "🔆",
+    "iconName": "icon_carousell",
+    "excludeFromParent": true,
+    "sortOrder": 1009,
+    "isDefault": false,
+    "isParent": false,
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "retail",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "jdcom",
+    "nameEN": "JD.com",
+    "nameZH_Hans": "京东",
+    "nameZH_HK": "京東",
+    "nameZH_TW": "京東",
+    "emoji": "🔆",
+    "iconName": "icon_jdcom",
+    "excludeFromParent": true,
+    "sortOrder": 1010,
+    "isDefault": false,
+    "isParent": false,
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "retail",
+        "weight": 1.0
+      }
+    ]
+  }
+]

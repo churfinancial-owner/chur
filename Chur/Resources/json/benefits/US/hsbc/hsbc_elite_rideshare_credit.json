@@ -1,0 +1,20 @@
+{
+    "id": "hsbc_elite_rideshare_credit",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_convenience",
+    "localized": {
+        "en": {
+            "name": "Monthly Rideshare Credit",
+            "description": "Automatically receive a $10 statement credit each month for rideshare purchases (cabs, taxis, and rideshares)."
+        }
+    },
+    "value": 10,
+    "valueCurrency": "USD",
+    "frequency": "monthly",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Rideshare Services",
+    "displayOrder": 2,
+    "isActive": true
+}

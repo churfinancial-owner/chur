@@ -1,0 +1,19 @@
+{
+    "id": "iberia_doordash_dashpass",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_dining",
+    "localized": {
+        "en": {
+            "name": "DashPass",
+            "description": "Get one year of unlimited deliveries with $0 delivery fees and lower service fees on eligible orders. Activate by 12/31/2027."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "one-time",
+    "isRecurring": false,
+    "trackingMode": "manual",
+    "partnerName": "DoorDash",
+    "displayOrder": 4,
+    "isActive": true
+}

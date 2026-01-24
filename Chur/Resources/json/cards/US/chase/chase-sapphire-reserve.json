@@ -1,0 +1,31 @@
+{
+    "id": "chase-sapphire-reserve",
+    "name": "Sapphire Reserve",
+    "issuer": "Chase",
+    "network": "Visa",
+    "imageName": "chase-sapphire-reserve",
+    "cardType": "personal",
+    "annualFee": 795,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": true,
+    "popularSortOrder": 1,
+    "benefits": [
+        "chase_lounge_unlimited",
+        "priority_pass_unlimited",
+        "chase_csr_travel_credit_300",
+        "chase_csr_select_hotels_250",
+        "chase_dining_300",
+        "chase_edit_500",
+        "chase_stubhub_300",
+        "chase_appletv",
+        "doorpass_12",
+        "doordash_monthly2",
+        "doordash_dining_monthly",
+        "lyft_credit_chase_monthly",
+        "peloton_credit_chase_monthly",
+        "ihg_platinum_status",
+        "tsa_precheck_credit120n"
+    ]
+}

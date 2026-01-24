@@ -1,0 +1,23 @@
+{
+    "id": "united_farelock50",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "FareLock Credit",
+            "description": "Receive up to $50 in statement credits each account anniversary year for FareLock purchases on United and United Express flights."
+        }
+    },
+    "value": 50,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "partnerName": "United Airlines",
+    "referenceLink": "https://www.united.com/FareLock",
+    "displayOrder": 0,
+    "isActive": true
+}

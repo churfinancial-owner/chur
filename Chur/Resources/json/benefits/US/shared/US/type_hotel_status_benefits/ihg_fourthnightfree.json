@@ -1,0 +1,22 @@
+{
+    "id": "ihg_fourthnightfree",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "Fourth Night Free",
+            "description": "When you redeem points for a consecutive four-night IHG hotel stay, you can receive a fourth Reward Night free redeemable at that same hotel during that same stay."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "usageLimit": 2,
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "displayOrder": 0,
+    "isActive": true
+}
+

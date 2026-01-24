@@ -1,0 +1,21 @@
+{
+    "id": "chase-disney-visa",
+    "name": "Disney Visa",
+    "issuer": "Chase",
+    "network": "Visa",
+    "imageName": "chase-disney-visa",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": true,
+    "isPopular": false,
+    "popularSortOrder": 3,
+    "foreignTransactionFeeRate": 0.03,
+    "benefits": [
+        "disney_store_discount_10",
+        "disney_parks_merchandise_discount_10",
+        "disney_parks_dining_discount_10",
+        "disney_guided_tours_discount_15"
+    ]
+}

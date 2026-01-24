@@ -1,0 +1,351 @@
+[
+  {
+    "id": "professional_services",
+    "nameEN": "Professional Services",
+    "nameZH_Hans": "专业服务",
+    "nameZH_HK": "專業服務",
+    "nameZH_TW": "專業服務",
+    "emoji": "💼",
+    "sortOrder": 9,
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent"
+  },
+  {
+    "id": "donation",
+    "nameEN": "Donation",
+    "nameZH_Hans": "捐款",
+    "nameZH_HK": "捐款",
+    "nameZH_TW": "捐款",
+    "emoji": "🫶",
+    "visibility": "hidden",
+    "sortOrder": 91,
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent"
+  },
+  {
+    "id": "medical_health",
+    "nameEN": "Medical Services",
+    "nameZH_Hans": "专业服务",
+    "nameZH_HK": "專業服務",
+    "nameZH_TW": "專業服務",
+    "emoji": "🏥",
+    "sortOrder": 92,
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent"
+  },
+  {
+    "id": "insurance",
+    "nameEN": "Insurance",
+    "nameZH_Hans": "保险",
+    "nameZH_HK": "保險",
+    "nameZH_TW": "保險費",
+    "emoji": "📝",
+    "sortOrder": 114,
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent",
+    "categoryLinks": null
+  },
+  {
+    "id": "state_farm_insurance",
+    "nameEN": "State Farm",
+    "nameZH_Hans": "State Farm",
+    "nameZH_HK": "State Farm",
+    "nameZH_TW": "State Farm",
+    "emoji": "📝",
+    "iconName": "icon_state_farm_insurance",
+    "sortOrder": 114,
+    "isDefault": false,
+    "isParent": true,
+    "parentCategoryID": "insurance",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "insurance",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "geico_insurance",
+    "nameEN": "Geico",
+    "nameZH_Hans": "Geico",
+    "nameZH_HK": "Geico",
+    "nameZH_TW": "Geico",
+    "emoji": "📝",
+    "iconName": "icon_geico_insurance",
+    "sortOrder": 114,
+    "isDefault": false,
+    "isParent": true,
+    "parentCategoryID": "insurance",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "insurance",
+        "weight": 1.0
+      }
+    ]
+  },
+
+
+  
+  {
+    "id": "utilities",
+    "nameEN": "Utilities",
+    "nameZH_Hans": "公共事业缴费",
+    "nameZH_HK": "公用事業開支",
+    "nameZH_TW": "公共事業費用",
+    "emoji": "💧",
+    "sortOrder": 114,
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent",
+    "categoryLinks": null
+  },
+
+  {
+    "id": "telecommunication",
+    "nameEN": "Telecom",
+    "nameZH_Hans": "电信",
+    "nameZH_HK": "電訊",
+    "nameZH_TW": "電信",
+    "emoji": "📶",
+    "sortOrder": 116,
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent",
+    "categoryLinks": null
+  },
+  {
+    "id": "tv_cable",
+    "nameEN": "TV",
+    "nameZH_Hans": "电视",
+    "nameZH_HK": "電視",
+    "nameZH_TW": "電視",
+    "emoji": "📺",
+    "sortOrder": 117,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "telecommunication",
+    "level": "child",
+    "categoryLinks": [
+      {
+        "id": "telecommunication",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "internet",
+    "nameEN": "Internet",
+    "nameZH_Hans": "宽带",
+    "nameZH_HK": "寬頻",
+    "nameZH_TW": "網路",
+    "emoji": "🌐",
+    "sortOrder": 118,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "telecommunication",
+    "level": "child",
+    "categoryLinks": [
+      {
+        "id": "telecommunication",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "cell_phone_providers",
+    "nameEN": "Cell Phone Providers",
+    "nameZH_Hans": "手机运营商",
+    "nameZH_HK": "流動網絡供應商",
+    "nameZH_TW": "行動電信商",
+    "emoji": "📱",
+    "sortOrder": 119,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "telecommunication",
+    "level": "child",
+    "categoryLinks": [
+      {
+        "id": "telecommunication",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "advertising",
+    "nameEN": "Advertising",
+    "nameZH_Hans": "广告服务",
+    "nameZH_HK": "廣告開支",
+    "nameZH_TW": "廣告投放",
+    "emoji": "📢",
+    "sortOrder": 901,
+    "isDefault": false,
+    "isParent": false,
+    "level": "child",
+    "parentCategoryID": "professional_services",
+    "categoryLinks": [
+      {
+        "id": "professional_services",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "software_service",
+    "nameEN": "Software & Cloud",
+    "nameZH_Hans": "软件与云服务",
+    "nameZH_HK": "軟件及雲端",
+    "nameZH_TW": "軟件及雲端",
+    "emoji": "☁️",
+    "sortOrder": 901,
+    "isDefault": false,
+    "isParent": false,
+    "level": "child",
+    "parentCategoryID": "professional_services",
+    "categoryLinks": [
+      {
+        "id": "professional_services",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "business_consulting_service",
+    "nameEN": "Business Consulting",
+    "nameZH_Hans": "管理咨询",
+    "nameZH_HK": "商業顧問",
+    "nameZH_TW": "管理顧問",
+    "emoji": "👔",
+    "sortOrder": 901,
+    "isDefault": false,
+    "isParent": false,
+    "level": "child",
+    "parentCategoryID": "professional_services",
+    "categoryLinks": [
+      {
+        "id": "professional_services",
+        "weight": 1.0
+      }
+    ]
+  },
+
+  {
+    "id": "shipping",
+    "nameEN": "Shipping",
+    "nameZH_Hans": "物流",
+    "nameZH_HK": "物流",
+    "nameZH_TW": "物流",
+    "emoji": "🚚",
+    "sortOrder": 901,
+    "isDefault": false,
+    "isParent": false,
+    "level": "child",
+    "parentCategoryID": "professional_services",
+    "categoryLinks": [
+      {
+        "id": "professional_services",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "laundry",
+    "nameEN": "Laundry",
+    "nameZH_Hans": "洗衣店",
+    "nameZH_HK": "洗衣店",
+    "nameZH_TW": "洗衣店",
+    "emoji": "🧺",
+    "sortOrder": 902,
+    "isDefault": false,
+    "isParent": false,
+    "level": "child",
+    "parentCategoryID": "professional_services",
+    "categoryLinks": [
+      {
+        "id": "professional_services",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "donation_aha",
+    "nameEN": "American Heart Association",
+    "nameZH_Hans": "捐款 AHA",
+    "nameZH_HK": "捐款 AHA",
+    "nameZH_TW": "捐款 AHA",
+    "emoji": "🫶",
+    "sortOrder": 911,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "donation",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "donation",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "hospital",
+    "nameEN": "Medical Services",
+    "nameZH_Hans": "医疗服务",
+    "nameZH_HK": "醫療服務",
+    "nameZH_TW": "醫療服務",
+    "emoji": "🩺",
+    "sortOrder": 921,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "medical_health",
+    "level": "child",
+    "categoryLinks": [
+      {
+        "id": "medical_health",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "veterinarian",
+    "nameEN": "Veterinarian",
+    "nameZH_Hans": "兽医",
+    "nameZH_HK": "獸醫",
+    "nameZH_TW": "獸醫",
+    "emoji": "🐾",
+    "sortOrder": 922,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "medical_health",
+    "level": "child",
+    "categoryLinks": [
+      {
+        "id": "medical_health",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "dentistry",
+    "nameEN": "Dentistry",
+    "nameZH_Hans": "牙科",
+    "nameZH_HK": "牙科",
+    "nameZH_TW": "牙科",
+    "emoji": "🦷",
+    "sortOrder": 923,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "medical_health",
+    "level": "child",
+    "categoryLinks": [
+      {
+        "id": "medical_health",
+        "weight": 1.0
+      }
+    ]
+  }
+]

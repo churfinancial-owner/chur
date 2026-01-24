@@ -1,0 +1,16 @@
+{
+    "id": "amex-marriott-bevy",
+    "name": "Marriott Bonvoy Bevy",
+    "issuer": "American Express",
+    "network": "Amex",
+    "imageName": "amex-marriott-bevy",
+    "cardType": "personal",
+    "annualFee": 250,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "marriott_gold_status",
+        "anniversary_elite_night"    ]
+}

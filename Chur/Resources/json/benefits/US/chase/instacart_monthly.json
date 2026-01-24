@@ -1,0 +1,26 @@
+{
+    "id": "instacart_monthly",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_shopping",
+    "localized": {
+        "en": {
+            "name": "Instacart Credits",
+            "description": "Receive two $10 Instacart credits monthly, up to $240 total each calendar year, for purchases made directly through Instacart. Benefits end 12/31/27."
+        }
+    },
+    "value": 20,
+    "valueCurrency": "USD",
+    "frequency": "monthly",
+    "isRecurring": true,
+    "validCountries": [
+        "US"
+    ],
+    "trackingMode": "manual",
+    "expirationDate": "2027-12-31T23:59:59Z",
+    "activeFromDate": "2024-01-01T00:00:00Z",
+    "activeToDate": "2027-12-31T23:59:59Z",
+    "requiresActivation": false,
+    "partnerName": "Instacard",
+    "displayOrder": 0,
+    "isActive": true
+}

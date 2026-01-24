@@ -1,0 +1,17 @@
+{
+    "id": "chase-ihg-select",
+    "name": "IHG Select (Legacy)",
+    "issuer": "Chase",
+    "network": "Mastercard",
+    "imageName": "chase-ihg-select",
+    "cardType": "personal",
+    "annualFee": 49,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "ihg_silver_status",
+        "ihg_fourthnightfree_chase"
+    ]
+}

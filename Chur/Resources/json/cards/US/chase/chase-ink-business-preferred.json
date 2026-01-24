@@ -1,0 +1,16 @@
+{
+    "id": "chase-ink-business-preferred",
+    "name": "Ink Business Preferred",
+    "issuer": "Chase",
+    "network": "Visa",
+    "imageName": "chase-ink-business-preferred",
+    "cardType": "business",
+    "annualFee": 95,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "doorpass_12"
+    ]
+}

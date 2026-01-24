@@ -1,0 +1,16 @@
+{
+    "id": "hsbc-hk-visa-signature",
+    "name": "HSBC Visa Signature",
+    "issuer": "HSBC",
+    "network": "Visa",
+    "imageName": "hsbc-hk-visa-signature",
+    "cardType": "personal",
+    "annualFee": 2000,
+    "currency": "HKD",
+    "country": "HK",
+    "hasForeignTransactionFee": true,
+    "foreignTransactionFeeRate": 0.0195,
+    "isPopular": false,
+    "benefits": [
+    ]
+}

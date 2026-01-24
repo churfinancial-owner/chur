@@ -1,0 +1,27 @@
+{
+    "id": "amex_lounge_unlimited-ca",
+    "benefitType": "lounge_access",
+    "displayGroup": "travel_lounge",
+    "localized": {
+        "en": {
+            "name": "Amex Centurion Lounge",
+            "description": "Unlimited visits to American Express Centurion Lounge"
+        }
+    },
+    "value": 50,
+    "valueCurrency": "CAD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "usageLimit": -1,
+    "isRecurring": true,
+    "validCountries": [
+        "US"
+    ],
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "American Express",
+    "limitDescription": "",
+    "referenceLink": "https://www.thecenturionlounge.com/",
+    "displayOrder": 0,
+    "isActive": true
+}

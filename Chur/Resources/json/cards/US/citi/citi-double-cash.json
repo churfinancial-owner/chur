@@ -1,0 +1,16 @@
+{
+    "id": "citi-double-cash",
+    "name": "Double Cash",
+    "issuer": "Citi",
+    "network": "Mastercard",
+    "imageName": "citi-double-cash",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": true,
+    "foreignTransactionFeeRate": 0.03,
+    "isPopular": true,
+    "popularSortOrder": 8,
+    "benefits": []
+}

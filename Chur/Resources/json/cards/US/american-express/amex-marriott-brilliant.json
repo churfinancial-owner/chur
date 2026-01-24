@@ -1,0 +1,20 @@
+{
+    "id": "amex-marriott-brilliant",
+    "name": "Marriott Bonvoy Brilliant",
+    "issuer": "American Express",
+    "network": "Amex",
+    "imageName": "amex-marriott-brilliant",
+    "cardType": "personal",
+    "annualFee": 650,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "marriott_free_night_reward",
+        "marriott_platinum_status",
+        "tsa_precheck_credit120",
+        "priority_pass_unlimited",
+        "dining_credit_m25",
+        "anniversary_elite_night"    ]
+}

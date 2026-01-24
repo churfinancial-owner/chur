@@ -1,0 +1,16 @@
+{
+    "id": "capital-one-venture-rewards",
+    "name": "Venture",
+    "issuer": "Capital One",
+    "network": "Mastercard",
+    "imageName": "capital-one-venture-rewards",
+    "cardType": "personal",
+    "annualFee": 95,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "tsa_precheck_credit120"
+    ]
+}

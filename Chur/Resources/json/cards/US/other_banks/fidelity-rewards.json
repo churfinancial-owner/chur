@@ -1,0 +1,17 @@
+{
+    "id": "fidelity-rewards",
+    "name": "Fidelity Rewards",
+    "issuer": "Fidelity",
+    "network": "Visa",
+    "imageName": "fidelity-rewards",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "foreignTransactionFeeRate": 0,
+    "isPopular": false,
+    "benefits": [
+        "tsa_precheck_credit_100"
+    ]
+}

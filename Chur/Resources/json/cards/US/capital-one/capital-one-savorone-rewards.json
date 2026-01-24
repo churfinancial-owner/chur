@@ -1,0 +1,14 @@
+{
+    "id": "capital-one-savorone-rewards",
+    "name": "SavorOne",
+    "issuer": "Capital One",
+    "network": "Mastercard",
+    "imageName": "capital-one-savorone-rewards",
+    "cardType": "personal",
+    "annualFee": 39,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": []
+}

@@ -1,0 +1,21 @@
+{
+    "id": "chase-united-explorer",
+    "name": "United Explorer",
+    "issuer": "Chase",
+    "network": "Visa",
+    "imageName": "chase-united-explorer",
+    "cardType": "personal",
+    "annualFee": 150,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "priority_boarding",
+        "united_inflight_club_rebate_25",
+        "free_checked_bag",
+        "united_club_access2",
+        "tsa_precheck_credit120n",
+        "anniversary_bonus_miles_10"
+    ]
+}

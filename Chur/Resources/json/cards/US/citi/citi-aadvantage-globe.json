@@ -1,0 +1,14 @@
+{
+    "id": "citi-aadvantage-globe",
+    "name": "AAdvantage Globe",
+    "issuer": "Citi",
+    "network": "Mastercard",
+    "imageName": "citi-aadvantage-globe",
+    "cardType": "personal",
+    "annualFee": 350,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": ["priority_boarding","free_checked_bag","tsa_precheck_credit120","aa_anniversary_companion_cert","aa_admirals_club_access4","turo_credit_citi","citi_splurge_credit","aa_inflight_credit_100"]
+}

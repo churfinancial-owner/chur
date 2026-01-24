@@ -1,0 +1,28 @@
+{
+    "id": "jetblue_10_points_back",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "JetBlue 10% Points Back",
+            "description": "Get 10% of your points back after you redeem for and travel on a JetBlue-operated Award Flight"
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "resetType": "card_anniversary",
+    "usageLimit": 1,
+    "isRecurring": true,
+    "validCountries": [
+        "US"
+    ],
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "activationInstructions": "",
+    "partnerName": "JetBlue",
+    "limitDescription": "",
+    "referenceLink": "https://www.jetblue.com",
+    "displayOrder": 0,
+    "isActive": true
+}

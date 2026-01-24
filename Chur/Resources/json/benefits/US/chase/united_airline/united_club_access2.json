@@ -1,0 +1,22 @@
+{
+    "id": "united_club_access2",
+    "benefitType": "lounge_access",
+    "displayGroup": "travel_lounge",
+    "localized": {
+        "en": {
+            "name": "United Club one-time passes",
+            "description": "After account opening and on each anniversary"
+        }
+    },
+    "value": 59,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "isRecurring": true,
+    "usageLimit": 2,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "United Airlines",
+    "displayOrder": 0,
+    "isActive": true
+}

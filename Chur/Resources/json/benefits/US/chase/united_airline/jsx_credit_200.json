@@ -1,0 +1,20 @@
+{
+    "id": "jsx_credit_200",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Credit on JSX purchases",
+            "description": "Up to $200 back as a statement credit each anniversary year when you book flights directly with JSX."
+        }
+    },
+    "value": 200,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "displayOrder": 0,
+    "isActive": true
+}

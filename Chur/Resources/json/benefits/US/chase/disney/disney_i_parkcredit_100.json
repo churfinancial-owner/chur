@@ -1,0 +1,23 @@
+{
+    "id": "disney_i_parkcredit_100",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Theme Park Ticket Credit (Spend Required)",
+            "description": "Earn a $100 statement credit after spending $200 per anniversary year on U.S. Disney Theme Park Tickets."
+        }
+    },
+    "value": 100,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": true,
+    "activationMode": "lockbyfrequency",
+    "activationInstructions": "Unlock after spending $200 on U.S. Disney Theme Park tickets each anniversary year.",
+    "partnerName": "Disney",
+    "displayOrder": 2,
+    "isActive": true
+}

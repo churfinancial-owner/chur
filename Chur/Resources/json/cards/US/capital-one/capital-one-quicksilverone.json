@@ -1,0 +1,14 @@
+{
+    "id": "capital-one-quicksilverone",
+    "name": "QuicksilverOne",
+    "issuer": "Capital One",
+    "network": "Mastercard",
+    "imageName": "capital-one-quicksilverone",
+    "cardType": "personal",
+    "annualFee": 39,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": []
+}

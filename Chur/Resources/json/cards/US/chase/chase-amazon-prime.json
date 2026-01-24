@@ -1,0 +1,13 @@
+{
+    "id": "chase-amazon-prime",
+    "name": "Amazon Prime Visa",
+    "issuer": "Chase",
+    "network": "Visa",
+    "imageName": "chase-amazon-prime",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "benefits": []
+}

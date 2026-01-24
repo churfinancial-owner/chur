@@ -1,0 +1,100 @@
+{
+    "robinhood-gold": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "robinhood_travel_portal"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+
+    
+    "mercury_best_western_rewards": [
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Best Western Rewards",
+            "category": "best_western_hotels"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Best Western Rewards",
+            "category": "everything"
+        }
+    ],
+
+    "mercury_best_western_rewards_premium": [
+        {
+            "rate": 10.0,
+            "rewardProgramName": "Best Western Rewards",
+            "category": "best_western_hotels"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Best Western Rewards",
+            "category": "gas"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Best Western Rewards",
+            "category": "groceries"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Best Western Rewards",
+            "category": "everything"
+        }
+    ],
+ 
+    "coinbase-one": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Crypto Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "pnc-cash-rewards": [
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "gas"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "groceries"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+
+    
+    "pnc-cash-unlimited": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "fidelity-rewards": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+    ]
+
+}

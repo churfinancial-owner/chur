@@ -1,0 +1,23 @@
+{
+    "id": "amex_biz_plat_spend_bonus_travel_1200",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Flight Credit (Spend Required)",
+            "description": "Unlock up to $1,200 in statement credits for flights booked on AmexTravel.com for use in the next calendar year after spending $250,000 this year."
+        }
+    },
+    "value": 1200,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": true,
+    "activationDelayPeriods": 1,
+    "activationMode": "lockbyfrequency",
+    "activationInstructions": "Unlocks for the following year once $250,000 in spend is reached.",
+    "partnerName": "American Express Travel",
+    "displayOrder": 4,
+    "isActive": true
+}

@@ -1,0 +1,863 @@
+{
+    "amex-platinum": {
+        "plans": [
+            {
+                "planID": "amex-platinum-2026",
+                "planName": "Current Rewards",
+                "isDefault": true,
+                "isAvailableForNewUsers": true,
+                "planStartDate": "2026-01-01T00:00:00Z",
+                "planEndDate": null,
+                "rewards": [
+                    {
+                        "rate": 5.0,
+                        "rewardProgramName": "Membership Rewards",
+                        "category": "flights"
+                    },
+                    {
+                        "rate": 5.0,
+                        "rewardProgramName": "Membership Rewards",
+                        "category": "amex_travel_portal",
+                        "rewardNotes": "On Prepaid Hotels"
+                        
+                    },
+                    {
+                        "rate": 1.0,
+                        "rewardProgramName": "Membership Rewards",
+                        "category": "everything"
+                    }
+                ]
+            }
+        ]
+    },
+    
+    "amex-schwab-platinum": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Membership Rewards",
+            "category": "flights"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Membership Rewards",
+            "category": "amex_travel_portal",
+            "rewardNotes": "On Prepaid Hotels"
+            
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Membership Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "amex-platinum-business": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Membership Rewards",
+            "category": "amex_travel_portal",
+            "rewardNotes": "On Flights & Prepaid Hotels Booked through American Express Travel"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Membership Rewards",
+            "category": "5k_pv_purchases",
+            "rewardNotes": "On single purchases of $5K or more up to $2 million per calendar year."
+        },
+        
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Membership Rewards",
+            "category": "shipping"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Membership Rewards",
+            "category": "material_hardware"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Membership Rewards",
+            "category": "electronics_stores"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Membership Rewards",
+            "category": "software_service"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Membership Rewards",
+            "category": "everything"
+        }
+    ],
+
+    
+    "amex-gold": [
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Membership Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Membership Rewards",
+            "category": "groceries",
+            "rewardNotes": "At U.S. supermarkets"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Membership Rewards",
+            "category": "flights"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Membership Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "amex-green": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Membership Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Membership Rewards",
+            "category": "transit"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Membership Rewards",
+            "category": "travel"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Membership Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "amex-green-business": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Membership Rewards",
+            "category": "amex_travel_portal",
+            "rewardNotes": "On Flights & Prepaid Hotels booked on AmexTravel"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Membership Rewards",
+            "category": "everything"
+        }
+    ],
+
+    "amex-blue-business-plus": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Membership Rewards",
+            "category": "everything",
+            "rewardNotes": "up to $50,000 per calendar"
+        }
+    ],
+
+    "amex-blue-business-cash": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything",
+            "rewardNotes": "up to $50,000 per calendar"
+        }
+    ],
+
+    
+    
+    "amex-hilton-aspire": [
+        {
+            "rate": 14.0,
+            "rewardProgramName": "Hilton Honors",
+            "category": "hilton_hotels"
+        },
+        {
+            "rate": 7.0,
+            "rewardProgramName": "Hilton Honors",
+            "category": "flights"
+        },
+        {
+            "rate": 7.0,
+            "rewardProgramName": "Hilton Honors",
+            "category": "car_rental"
+        },
+        {
+            "rate": 7.0,
+            "rewardProgramName": "Hilton Honors",
+            "category": "dining",
+            "rewardNotes": "At U.S. restaurants, including takeout and delivery"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Hilton Honors",
+            "category": "everything"
+        }
+    ],
+    
+    "amex-hilton-surpass": [
+        {
+            "rate": 12.0,
+            "rewardProgramName": "Hilton Honors",
+            "category": "hilton_hotels"
+        },
+        {
+            "rate": 6.0,
+            "rewardProgramName": "Hilton Honors",
+            "category": "groceries",
+            "rewardNotes": "At U.S. supermarkets"
+        },
+        {
+            "rate": 6.0,
+            "rewardProgramName": "Hilton Honors",
+            "category": "dining",
+            "rewardNotes": "At U.S. restaurants, including takeout and delivery"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Hilton Honors",
+            "category": "online_retail_stores"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Hilton Honors",
+            "category": "everything"
+        }
+    ],
+    
+    "amex-hilton-business": [
+        {
+            "rate": 12.0,
+            "rewardProgramName": "Hilton Honors",
+            "category": "hilton_hotels"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Hilton Honors",
+            "category": "everything"
+        }
+    ],
+
+
+    "amex-hilton-honors": [
+        {
+            "rate": 7.0,
+            "rewardProgramName": "Hilton Honors",
+            "category": "hilton_hotels"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Hilton Honors",
+            "category": "groceries",
+            "rewardNotes": "At U.S. supermarkets"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Hilton Honors",
+            "category": "dining",
+            "rewardNotes": "At U.S. restaurants, including takeout and delivery"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Hilton Honors",
+            "category": "everything"
+        }
+    ],
+    
+    "amex-marriott-bevy": [
+        {
+            "rate": 6.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "marriott_hotels"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "groceries",
+            "rewardNotes": "At U.S. Supermarkets"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "dining",
+            "rewardNotes": "4X at restaurants worldwide, including takeout and delivery in the U.S."
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "everything"
+        }
+    ],
+
+    
+    "amex-marriott-business": [
+        {
+            "rate": 6.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "marriott_hotels"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "dining"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "gas",
+            "rewardNotes": "at U.S. gas stations"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "cell_phone_providers"
+        },
+        
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "shipping"
+        },
+        
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "everything"
+        }
+    ],
+
+    
+    "amex-marriott-brilliant": [
+        {
+            "rate": 6.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "marriott_hotels"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "flights"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "dining",
+            "rewardNotes": "At restaurants worldwide"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Marriott Bonvoy",
+            "category": "everything"
+        }
+    ],
+    
+    "amex-delta-reserve-business": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Delta SkyMiles",
+            "category": "delta_airline"
+        },
+        {
+            "rate": 1.5,
+            "rewardProgramName": "Delta SkyMiles",
+            "category": "office_supplies"
+        },
+        {
+            "rate": 1.5,
+            "rewardProgramName": "Delta SkyMiles",
+            "category": "transit"
+        },
+        {
+            "rate": 1.5,
+            "rewardProgramName": "Delta SkyMiles",
+            "category": "shipping"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Delta SkyMiles",
+            "category": "everything"
+        }
+    ],
+
+    
+    "amex-delta-reserve": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Delta SkyMiles",
+            "category": "delta_airline"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Delta SkyMiles",
+            "category": "everything"
+        }
+    ],
+    
+    "amex-delta-platinum-business": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Delta SkyMiles",
+            "category": "delta_airline"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Delta SkyMiles",
+            "category": "hotels"
+        },
+        {
+            "rate": 1.5,
+            "rewardProgramName": "Delta SkyMiles",
+            "category": "transit"
+        },
+        {
+            "rate": 1.5,
+            "rewardProgramName": "Delta SkyMiles",
+            "category": "shipping"
+        },
+        {
+            "rate": 1.5,
+            "rewardProgramName": "Delta SkyMiles",
+            "category": "5k_pv_purchases"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Delta SkyMiles",
+            "category": "everything"
+        }
+    ],
+
+    
+    "amex-delta-platinum": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Delta SkyMiles",
+            "category": "delta_airline"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Delta SkyMiles",
+            "category": "hotels"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Delta SkyMiles",
+            "category": "dining",
+            "rewardNotes": "At restaurants, including takeout and delivery in the U.S."
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Delta SkyMiles",
+            "category": "groceries",
+            "rewardNotes": "At supermarkets in the U.S."
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Delta SkyMiles",
+            "category": "everything"
+        }
+    ],
+    
+    "amex-delta-gold-business": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Delta SkyMiles",
+            "category": "delta_airline"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Delta SkyMiles",
+            "category": "shipping"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Delta SkyMiles",
+            "category": "advertising"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Delta SkyMiles",
+            "category": "everything"
+        }
+    ],
+
+    
+    "amex-delta-gold": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Delta SkyMiles",
+            "category": "delta_airline"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Delta SkyMiles",
+            "category": "dining",
+            "rewardNotes": "At restaurants, including takeout and delivery in the U.S."
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Delta SkyMiles",
+            "category": "groceries",
+            "rewardNotes": "At supermarkets in the U.S."
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Delta SkyMiles",
+            "category": "everything"
+        }
+    ],
+    
+    "amex-delta-blue": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Delta SkyMiles",
+            "category": "delta_airline"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Delta SkyMiles",
+            "category": "dining",
+            "rewardNotes": "At restaurants, including takeout and delivery in the U.S."
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Delta SkyMiles",
+            "category": "everything"
+        }
+    ],
+    
+    "amex-everyday-preferred": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Membership Rewards",
+            "category": "supermarkets"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Membership Rewards",
+            "category": "gas_stations"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Membership Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "amex-everyday": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Membership Rewards",
+            "category": "gas_stations"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Membership Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    
+    "amex-blue-cash-preferred": [
+        {
+            "rate": 6.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "supermarkets"
+        },
+        {
+            "rate": 6.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "streaming"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "gas_stations"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "parking"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "public_transit"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "amex-blue-cash-everyday": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "supermarkets"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "gas_stations"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "online_retail_stores"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "amex-amazon-prime-business": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "amazon"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "wholefood"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "chase_travel_portal"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "chase_travel_portal_flights"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "gas_stations"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "cell_phone_providers"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "amex-amazon-business": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "amazon"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "wholefood"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "gas_stations"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "cell_phone_providers"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+
+    
+    "amex-hk-platinum": {
+        "plans": [
+            {
+                "planID": "amex-platinum-hk-2026",
+                "planName": "Current Rewards",
+                "isDefault": true,
+                "isAvailableForNewUsers": true,
+                "planStartDate": "2026-01-01T00:00:00Z",
+                "planEndDate": "2027-01-01T00:00:00Z",
+                "rewards": [
+                    {
+                        "rate": 9.0,
+                        "rewardProgramName": "Membership Rewards HK",
+                        "category": "flights"
+                    },
+                    {
+                        "rate": 9.0,
+                        "rewardProgramName": "Membership Rewards HK",
+                        "category": "amex_travel_portal",
+                        "rewardNotes": "travel"
+                        
+                    },
+                    {
+                        "rate": 9.0,
+                        "rewardProgramName": "Membership Rewards HK",
+                        "category": "everything"
+                    }
+                ]
+            }
+        ]
+    },
+    
+    "amex-hk-explorer": [
+        {
+            "rate": 10.75,
+            "rewardProgramName": "Membership Rewards HK",
+            "category": "flights"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Membership Rewards HK",
+            "category": "everything"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Membership Rewards HK",
+            "category": "everything"
+        }
+    ],
+    
+    
+    "amex-plum-business": [
+        {
+            "rate": 1.5,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything",
+            "rewardNotes": "Earn 1.5% cash back on eligible charges when you pay within 10 days of your statement closing date."
+        }
+    ],
+
+    
+    "amex-gold-business": [
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Membership Rewards",
+            "category": null,
+            "isUserConfigurable": true,
+            "configurableSlot": "5pct_slot_1",
+            "configurableOptions": [
+                {
+                    "label": "Advertising",
+                    "includes": [
+                        "advertising"
+                    ]
+                },
+                {
+                    "label": "Electronics & Software",
+                    "includes": [
+                        "electronics_stores",
+                        "software_service"
+                    ]
+                },
+                {
+                    "label": "Restaurants",
+                    "includes": [
+                        "dining"
+                    ]
+                },
+                {
+                    "label": "Ground Transportation",
+                    "includes": [
+                        "transit"
+                    ]
+                },
+                {
+                    "label": "Gas",
+                    "includes": [
+                        "gas"
+                    ]
+                },
+                {
+                    "label": "Wireless service",
+                    "includes": [
+                        "cell_phone_providers"
+                    ]
+                }
+            ],
+            "rewardNotes": "4% on your first chosen category"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Membership Rewards",
+            "category": null,
+            "isUserConfigurable": true,
+            "configurableSlot": "5pct_slot_2",
+            "configurableOptions": [
+                {
+                    "label": "Advertising",
+                    "includes": [
+                        "advertising"
+                    ]
+                },
+                {
+                    "label": "Electronics & Software",
+                    "includes": [
+                        "electronics_stores",
+                        "software_service"
+                    ]
+                },
+                {
+                    "label": "Restaurants",
+                    "includes": [
+                        "dining"
+                    ]
+                },
+                {
+                    "label": "Ground Transportation",
+                    "includes": [
+                        "transit"
+                    ]
+                },
+                {
+                    "label": "Gas",
+                    "includes": [
+                        "gas"
+                    ]
+                },
+                {
+                    "label": "Wireless service",
+                    "includes": [
+                        "cell_phone_providers"
+                    ]
+                }
+            ],
+            "rewardNotes": "4% on your second chosen category"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Membership Rewards",
+            "category": "everything"
+        }
+    ]
+}

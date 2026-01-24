@@ -1,0 +1,25 @@
+{
+    "id": "doorpass_6",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_convenience",
+    "localized": {
+        "en": {
+            "name": "DashPass - 6 months",
+            "description": "Get 6 months of complimentary access to DashPass"
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "one-time",
+    "isRecurring": false,
+    "usageLimit": 1,
+    "validCountries": [
+        "US"
+    ],
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "DoorDash",
+    "referenceLink": "https://www.doordash.com/dashpass",
+    "displayOrder": 0,
+    "isActive": true
+}

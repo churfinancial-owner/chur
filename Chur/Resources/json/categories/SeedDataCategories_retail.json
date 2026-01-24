@@ -1,0 +1,765 @@
+[
+    {
+        "id": "retail",
+        "nameEN": "Retail",
+        "nameZH_Hans": "商家",
+        "nameZH_HK": "商家",
+        "nameZH_TW": "商家",
+        "emoji": "🛍",
+        "sortOrder": 10,
+        "isDefault": false,
+        "isParent": true,
+        "level": "parent",
+        "categoryLinks": null
+    },
+    {
+        "id": "furniture_stores",
+        "nameEN": "Furniture Stores",
+        "nameZH_Hans": "家具店",
+        "nameZH_HK": "傢俬店",
+        "nameZH_TW": "家具店",
+        "emoji": "🛋️",
+        "sortOrder": 106,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "retail",
+        "level": "child",
+        "categoryLinks": [
+            {
+                "id": "retail",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "clothing_stores",
+        "nameEN": "Clothing Stores",
+        "nameZH_Hans": "服装店",
+        "nameZH_HK": "服裝店",
+        "nameZH_TW": "服飾店",
+        "emoji": "👕",
+        "sortOrder": 107,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "retail",
+        "level": "child",
+        "categoryLinks": [
+            {
+                "id": "retail",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "gap_clothing",
+        "nameEN": "Gap",
+        "nameZH_Hans": "Gap",
+        "nameZH_HK": "Gap",
+        "nameZH_TW": "Gap",
+        "emoji": "👕",
+        "iconName": "icon_gap",
+        "sortOrder": 107,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "clothing_stores",
+        "level": "groupTarget",
+        "categoryLinks": [
+            {
+                "id": "clothing_stores",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "oldnavy_clothing",
+        "nameEN": "Old Navy",
+        "nameZH_Hans": "Old Navy 服装店",
+        "nameZH_HK": "Old Navy 服裝店",
+        "nameZH_TW": "Old Navy 服飾店",
+        "emoji": "👕",
+        "iconName": "icon_gap",
+        "sortOrder": 107,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "gap_clothing",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "gap_clothing",
+                "weight": 1.0
+            }
+        ]
+    },
+
+    {
+        "id": "lululemon",
+        "nameEN": "lululemon",
+        "nameZH_Hans": "露露乐蒙",
+        "nameZH_HK": "lululemon",
+        "nameZH_TW": "lululemon",
+        "emoji": "🧘",
+        "iconName": "icon_lululemon",
+        "sortOrder": 108,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "clothing_stores",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "clothing_stores",
+                "weight": 1.0
+            }
+        ]
+    },
+
+    {
+        "id": "alo",
+        "nameEN": "Alo",
+        "nameZH_Hans": "Alo",
+        "nameZH_HK": "Alo",
+        "nameZH_TW": "Alo",
+        "emoji": "🧘",
+        "iconName": "icon_alo",
+        "sortOrder": 109,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "clothing_stores",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "clothing_stores",
+                "weight": 1.0
+            }
+        ]
+    },
+
+    
+    {
+        "id": "nike",
+        "nameEN": "Nike",
+        "nameZH_Hans": "耐克",
+        "nameZH_HK": "Nike",
+        "nameZH_TW": "Nike",
+        "emoji": "👟",
+        "iconName": "icon_nike",
+        "sortOrder": 110,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "clothing_stores",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "clothing_stores",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "adidas",
+        "nameEN": "Adidas",
+        "nameZH_Hans": "阿迪达斯",
+        "nameZH_HK": "Adidas",
+        "nameZH_TW": "Adidas",
+        "emoji": "👟",
+        "iconName": "icon_adidas",
+        "sortOrder": 111,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "clothing_stores",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "clothing_stores",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "patagonia",
+        "nameEN": "Patagonia",
+        "nameZH_Hans": "巴塔哥尼亚",
+        "nameZH_HK": "Patagonia",
+        "nameZH_TW": "Patagonia",
+        "emoji": "🏔️",
+        "iconName": "icon_patagonia",
+        "sortOrder": 112,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "clothing_stores",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "clothing_stores",
+                "weight": 1.0
+            }
+        ]
+    },
+
+    {
+        "id": "uniqlo",
+        "nameEN": "Uniqlo",
+        "nameZH_Hans": "优衣库",
+        "nameZH_HK": "Uniqlo",
+        "nameZH_TW": "Uniqlo",
+        "emoji": "👕",
+        "iconName": "icon_uniqlo",
+        "sortOrder": 117,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "clothing_stores",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "clothing_stores",
+                "weight": 1.0
+            }
+        ]
+    },
+
+    {
+        "id": "asics",
+        "nameEN": "Asics",
+        "nameZH_Hans": "亚瑟士",
+        "nameZH_HK": "Asics",
+        "nameZH_TW": "Asics",
+        "emoji": "🏃",
+        "iconName": "icon_asics",
+        "sortOrder": 113,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "clothing_stores",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "clothing_stores",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "puma",
+        "nameEN": "Puma",
+        "nameZH_Hans": "彪马",
+        "nameZH_HK": "Puma",
+        "nameZH_TW": "Puma",
+        "emoji": "🐾",
+        "iconName": "icon_puma",
+        "sortOrder": 114,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "clothing_stores",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "clothing_stores",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "under_armour",
+        "nameEN": "Under Armour",
+        "nameZH_Hans": "安德玛",
+        "nameZH_HK": "Under Armour",
+        "nameZH_TW": "Under Armour",
+        "emoji": "👕",
+        "iconName": "icon_ua",
+        "sortOrder": 115,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "clothing_stores",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "clothing_stores",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "new_balance",
+        "nameEN": "New Balance",
+        "nameZH_Hans": "新百伦",
+        "nameZH_HK": "New Balance",
+        "nameZH_TW": "New Balance",
+        "emoji": "👟",
+        "iconName": "icon_nb",
+        "sortOrder": 116,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "clothing_stores",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "clothing_stores",
+                "weight": 1.0
+            }
+        ]
+    },
+
+
+    {
+        "id": "sporting_goods_stores",
+        "nameEN": "Sporting Goods Stores",
+        "nameZH_Hans": "体育用品店",
+        "nameZH_HK": "體育用品店",
+        "nameZH_TW": "體育用品店",
+        "emoji": "🏀",
+        "sortOrder": 108,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "retail",
+        "level": "child",
+        "categoryLinks": [
+            {
+                "id": "retail",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "electronics_stores",
+        "nameEN": "Electronics Stores",
+        "nameZH_Hans": "电子产品店",
+        "nameZH_HK": "電子產品店",
+        "nameZH_TW": "電子產品店",
+        "emoji": "🖥",
+        "sortOrder": 109,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "retail",
+        "level": "child",
+        "categoryLinks": [
+            {
+                "id": "retail",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "department_stores",
+        "nameEN": "Department Stores",
+        "nameZH_Hans": "百货公司",
+        "nameZH_HK": "百貨公司",
+        "nameZH_TW": "百貨公司",
+        "emoji": "👜",
+        "sortOrder": 110,
+        "isDefault": false,
+        "isParent": false,
+        "level": "child",
+        "parentCategoryID": "retail",
+        "categoryLinks": [
+            {
+                "id": "retail",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "online_retail_stores",
+        "nameEN": "Online Retail Stores",
+        "nameZH_Hans": "线上购物",
+        "nameZH_HK": "網上購物",
+        "nameZH_TW": "網上購物",
+        "emoji": "🛍️",
+        "sortOrder": 111,
+        "isDefault": false,
+        "isParent": false,
+        "level": "child",
+        "parentCategoryID": "retail",
+        "categoryLinks": [
+            {
+                "id": "retail",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "disney_stores",
+        "nameEN": "Disney Stores",
+        "nameZH_Hans": "Disney Store",
+        "nameZH_HK": "Disney Store",
+        "nameZH_TW": "Disney Store",
+        "emoji": "🛍️",
+        "sortOrder": 111,
+        "isDefault": false,
+        "isParent": false,
+        "level": "target",
+        "parentCategoryID": "online_retail_stores",
+        "categoryLinks": [
+            {
+                "id": "online_retail_stores",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "pharmacy",
+        "nameEN": "Pharmacy",
+        "nameZH_Hans": "药店",
+        "nameZH_HK": "藥房",
+        "nameZH_TW": "藥局",
+        "emoji": "💊",
+        "sortOrder": 111,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "retail",
+        "level": "child",
+        "categoryLinks": [
+            {
+                "id": "retail",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "florist",
+        "nameEN": "Florist",
+        "nameZH_Hans": "花店",
+        "nameZH_HK": "花店",
+        "nameZH_TW": "花店",
+        "emoji": "💐",
+        "sortOrder": 112,
+        "isDefault": false,
+        "isParent": false,
+        "level": "child",
+        "parentCategoryID": "retail",
+        "categoryLinks": [
+            {
+                "id": "retail",
+                "weight": 1.0
+            }
+        ]
+    },
+
+    {
+        "id": "confections",
+        "nameEN": "Confection Shop",
+        "nameZH_Hans": "糖果店",
+        "nameZH_HK": "糖果店",
+        "nameZH_TW": "糖果店",
+        "emoji": "🍬",
+        "sortOrder": 112,
+        "isDefault": false,
+        "isParent": false,
+        "level": "child",
+        "parentCategoryID": "retail",
+        "categoryLinks": [
+            {
+                "id": "retail",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "office_supplies",
+        "nameEN": "Office Supplies",
+        "nameZH_Hans": "办公用品",
+        "nameZH_HK": "辦公用品",
+        "nameZH_TW": "辦公用品",
+        "emoji": "📎",
+        "sortOrder": 112,
+        "isDefault": false,
+        "isParent": false,
+        "level": "child",
+        "parentCategoryID": "retail",
+        "categoryLinks": [
+            {
+                "id": "retail",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "cosmetic_stores",
+        "nameEN": "Cosmetic Stores",
+        "nameZH_Hans": "美妆店",
+        "nameZH_HK": "化妝品店",
+        "nameZH_TW": "美妝店",
+        "emoji": "💄",
+        "sortOrder": 118,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "retail",
+        "level": "child",
+        "categoryLinks": [
+            {
+                "id": "retail",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "pet_supply_stores",
+        "nameEN": "Pet Supply Stores",
+        "nameZH_Hans": "宠物用品店",
+        "nameZH_HK": "寵物用品店",
+        "nameZH_TW": "寵物用品店",
+        "emoji": "🐶",
+        "sortOrder": 119,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "retail",
+        "level": "child",
+        "categoryLinks": [
+            {
+                "id": "retail",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "convenience_store",
+        "nameEN": "Convenience Store",
+        "nameZH_Hans": "便利店",
+        "nameZH_HK": "便利店",
+        "nameZH_TW": "超商",
+        "emoji": "🏪",
+        "sortOrder": 120,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "retail",
+        "level": "child",
+        "categoryLinks": [
+            {
+                "id": "retail",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "discount_stores",
+        "nameEN": "Discount Stores",
+        "nameZH_Hans": "特卖店",
+        "nameZH_HK": "特賣店",
+        "nameZH_TW": "折扣店",
+        "emoji": "🏷️",
+        "sortOrder": 121,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "retail",
+        "level": "child",
+        "categoryLinks": [
+            {
+                "id": "retail",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "macy_s",
+        "nameEN": "Macy's",
+        "nameZH_Hans": "梅西百货",
+        "nameZH_HK": "美斯百貨",
+        "nameZH_TW": "梅西百貨",
+        "emoji": "👜",
+        "sortOrder": 132,
+        "isDefault": false,
+        "isParent": false,
+        "iconName": "icon_macys",
+        "parentCategoryID": "retail",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "retail",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "nordstrom",
+        "nameEN": "Nordstrom",
+        "nameZH_Hans": "诺德斯特龙百货",
+        "nameZH_HK": "諾德斯特龍百貨",
+        "nameZH_TW": "諾德斯特龍百貨",
+        "emoji": "👜",
+        "sortOrder": 133,
+        "isDefault": false,
+        "isParent": false,
+        "iconName": "icon_nordstrom",
+        "parentCategoryID": "retail",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "retail",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "neimanmarcus",
+        "nameEN": "Neiman Marcus",
+        "nameZH_Hans": "尼曼百货",
+        "nameZH_HK": "尼曼百貨",
+        "nameZH_TW": "尼曼百貨",
+        "emoji": "👜",
+        "sortOrder": 134,
+        "isDefault": false,
+        "isParent": false,
+        "iconName": "icon_neimanmarcus",
+        "parentCategoryID": "retail",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "retail",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "jcpenney",
+        "nameEN": "JCPenney",
+        "nameZH_Hans": "彭尼百货",
+        "nameZH_HK": "JCPenney",
+        "nameZH_TW": "JCPenney",
+        "emoji": "👜",
+        "sortOrder": 135,
+        "isDefault": false,
+        "isParent": false,
+        "iconName": "icon_jcpenney",
+        "parentCategoryID": "retail",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "retail",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "kohls",
+        "nameEN": "Kohl's",
+        "nameZH_Hans": "科尔士百货",
+        "nameZH_HK": "Kohl's",
+        "nameZH_TW": "Kohl's",
+        "emoji": "👜",
+        "sortOrder": 136,
+        "isDefault": false,
+        "isParent": false,
+        "iconName": "icon_kohls",
+        "parentCategoryID": "retail",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "retail",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "saks_fifth_avenue",
+        "nameEN": "Saks Fifth Avenue",
+        "nameZH_Hans": "萨克斯第五大道",
+        "nameZH_HK": "萨克斯第五大道",
+        "nameZH_TW": "薩克斯第五大道",
+        "emoji": "👜",
+        "sortOrder": 137,
+        "isDefault": false,
+        "isParent": false,
+        "iconName": "icon_saks_fifth_avenue",
+        "parentCategoryID": "retail",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "retail",
+                "weight": 1.0
+            }
+        ]
+    },
+    
+    {
+        "id": "applepay_channel_merchant",
+        "nameEN": "Apple Card Bonus Merchants",
+        "nameZH_Hans": "Apple Card Bonus Merchants",
+        "nameZH_HK": "Apple Card Bonus Merchants",
+        "nameZH_TW": "Apple Card Bonus Merchants",
+        "emoji": "🍎",
+        "sortOrder": 131,
+        "isDefault": false,
+        "isParent": false,
+        "iconName": "icon_apple",
+        "parentCategoryID": "retail",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "retail",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "costco_pharmacy",
+        "nameEN": "Costco Pharmacy",
+        "nameZH_Hans": "Costco Pharmacy",
+        "nameZH_HK": "Costco Pharmacy",
+        "nameZH_TW": "Costco Pharmacy",
+        "emoji": "💊",
+        "iconName": "icon_costco",
+        "sortOrder": 135,
+        "isDefault": false,
+        "isParent": false,
+        "excludeFromParent": true,
+        "parentCategoryID": "pharmacy",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "pharmacy",
+                "weight": 1.0
+            }
+        ],
+        "cardFilter": {
+            "regions": {
+                "US": {
+                    "networks": [
+                        "Visa"
+                    ],
+                    "mode": "include"
+                },
+                "CA": {
+                    "networks": [
+                        "Mastercard"
+                    ],
+                    "mode": "include"
+                },
+                "TW": {
+                    "networks": [
+                        "Mastercard"
+                    ],
+                    "mode": "include"
+                },
+                "HK": {
+                    "networks": [
+                        "Mastercard"
+                    ],
+                    "mode": "include"
+                },
+                "default": {
+                    "networks": [
+                        "Visa"
+                    ],
+                    "mode": "include"
+                }
+            }
+        }
+    },
+    {
+        "id": "apple",
+        "nameEN": "Apple Store",
+        "nameZH_Hans": "苹果",
+        "nameZH_HK": "蘋果",
+        "nameZH_TW": "蘋果",
+        "emoji": "🍎",
+        "iconName": "icon_apple",
+        "sortOrder": 136,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "electronics_stores",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "electronics_stores",
+                "weight": 1.0
+            }
+        ]
+    }
+]

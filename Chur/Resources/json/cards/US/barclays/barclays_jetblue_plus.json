@@ -1,0 +1,19 @@
+{
+    "id": "barclays_jetblue_plus",
+    "name": "JetBlue Plus Card",
+    "issuer": "Barclays",
+    "network": "Mastercard",
+    "imageName": "barclays_jetblue_plus",
+    "cardType": "personal",
+    "annualFee": 99,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "first_checked_bag_free_jetblue",
+        "jetblue_10%_points_back",
+        "jetblue_vacations_credits",
+        "jetblue_anniversary_bonus_points"
+    ]
+}

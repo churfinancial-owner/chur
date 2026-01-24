@@ -1,0 +1,21 @@
+{
+    "id": "standard_seat_select",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "Select a regular seat within 48 hours prior to departure",
+            "description": null
+        }
+    },
+    "value": 25,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Southwest",
+    "redemptionMethod": "automatic",
+    "displayOrder": 0,
+    "isActive": true
+}

@@ -1,0 +1,22 @@
+{
+    "id": "united_club_access4",
+    "benefitType": "credit",
+    "displayGroup": "travel_lounge",
+    "localized": {
+        "en": {
+            "name": "United Club Access",
+            "description": "Earn 4 United Club one-time passes when you have United Club All Access Membership and an authorized user."
+        }
+    },
+    "value": 59,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "isRecurring": true,
+    "usageLimit": 4,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "United Airlines",
+    "displayOrder": 0,
+    "isActive": true
+}

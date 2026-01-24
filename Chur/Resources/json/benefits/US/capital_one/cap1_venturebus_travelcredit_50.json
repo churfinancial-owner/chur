@@ -1,0 +1,21 @@
+{
+    "id": "cap1_venturebus_travelcredit_50",
+    "benefitType": "credit",
+    "displayGroup": "business",
+    "localized": {
+        "en": {
+            "name": "Travel Credit",
+            "description": "Annually, eligible Venture Business primary account holders will receive a $50 Capital One Business Travel credit (“Credit”) to use toward purchases made through Capital One Business Travel. Each annual Credit will expire on the next account open date anniversary. The Credit will be available within Capital One Business Travel and can be applied to purchases at checkout..."
+        }
+    },
+    "value": 50,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "limitDescription": "",
+    "displayOrder": 0,
+    "isActive": true
+}

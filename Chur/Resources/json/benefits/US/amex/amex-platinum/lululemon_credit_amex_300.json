@@ -1,0 +1,23 @@
+{
+    "id": "lululemon_credit_amex_300",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_shopping",
+    "localized": {
+        "en": {
+            "name": "Lululemon Credit",
+            "description": "Get up to $75 in statement credits each quarter ($300 annually)for eligible purchases at lululemon retail stores (excluding outlets) or lululemon.com in the U.S."
+        }
+    },
+    "value": 75,
+    "valueCurrency": "USD",
+    "frequency": "quarterly",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "lululemon",
+    "redemptionMethod": "automatic",
+    "limitDescription": "$75 per quarter, $300 total annually",
+    "referenceLink": "https://global.americanexpress.com/card-benefits/detail/lululemon-credit/platinum",
+    "displayOrder": 0,
+    "isActive": true
+}

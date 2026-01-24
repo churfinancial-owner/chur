@@ -1,0 +1,21 @@
+{
+    "id": "hsbc_elite",
+    "name": "Elite",
+    "issuer": "HSBC",
+    "network": "Mastercard",
+    "imageName": "hsbc_elite",
+    "cardType": "personal",
+    "annualFee": 495,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "hsbc_elite_rideshare_credit",
+        "hsbc_elite_travel_credit",
+        "priority_pass_unlimited",
+        "tsa_precheck_credit120n",
+        "hsbc_instacart_benefit",
+        "hsbc_lyft_credit"
+    ]
+}

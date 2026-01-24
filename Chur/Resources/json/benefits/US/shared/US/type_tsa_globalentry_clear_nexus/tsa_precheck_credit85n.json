@@ -1,0 +1,20 @@
+{
+    "id": "tsa_precheck_credit85n",
+    "benefitType": "TTP",
+    "displayGroup": "travel_tsa",
+    "localized": {
+        "en": {
+            "name": "NEXUS/TSA/Global Entry Credit",
+            "description": "Receive a statement credit of up to $85 every 4.5 years for the application fee of Global Entry, TSA PreCheck, TSA PreCheck by Clear, or NEXUS."
+        }
+    },
+    "value": 85,
+    "valueCurrency": "USD",
+    "frequency": "quadrennial",
+    "resetType": "card_anniversary",
+    "usageLimit": 1,
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "displayOrder": 2,
+    "isActive": true
+}

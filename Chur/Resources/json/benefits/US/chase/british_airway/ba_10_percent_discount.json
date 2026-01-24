@@ -1,0 +1,21 @@
+{
+    "id": "ba_10_percent_discount",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "10% British Airways Discount",
+            "description": "Enjoy a 10% discount on British Airways-operated round-trip flights starting in the US when you book through the dedicated link and use code BACHASE10."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "British Airways",
+    "referenceLink": "https://www.britishairways.com/chase10",
+    "displayOrder": 3,
+    "isActive": true
+}

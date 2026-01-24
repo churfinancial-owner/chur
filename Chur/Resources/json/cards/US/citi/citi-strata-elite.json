@@ -1,0 +1,14 @@
+{
+    "id": "citi-strata-elite",
+    "name": "Strata Elite",
+    "issuer": "Citi",
+    "network": "Mastercard",
+    "imageName": "citi-strata-elite",
+    "cardType": "personal",
+    "annualFee": 595,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": ["hotel_credit_citi","citi_splurge_credit2","citi_blacklane_credit","priority_pass_unlimited","aa_admirals_club_access4","tsa_precheck_credit120"]
+}

@@ -1,0 +1,24 @@
+{
+    "id": "lyft_credit_citi_monthly",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_convenience",
+    "localized": {
+        "en": {
+            "name": "Lyfy Credit",
+            "description": "After taking 3 eligible rides in a calendar month, earn a $10 Lyft credit."
+        }
+    },
+    "value": 10,
+    "valueCurrency": "USD",
+    "frequency": "monthly",
+    "isRecurring": true,
+    "validCountries": [
+        "US"
+    ],
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Lyft",
+    "partnerID": "Lyft",
+    "displayOrder": 0,
+    "isActive": true
+}

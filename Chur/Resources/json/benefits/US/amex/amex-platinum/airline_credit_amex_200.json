@@ -1,0 +1,22 @@
+{
+    "id": "airline_credit_amex_200",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Airline Incidental Credits",
+            "description": "Platinum Card Members can get up to $200 per year in statement credits for incidental fees like bags and refreshments. Excludes tickets, upgrades, and gift cards."
+        }
+    },
+    "value": 200,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "limitDescription": "Up to $50 per quarter, $200 total annually",
+    "referenceLink": "https://global.americanexpress.com/card-benefits/detail/airline-fee-credit/platinum",
+    "displayOrder": 0,
+    "isActive": true
+}

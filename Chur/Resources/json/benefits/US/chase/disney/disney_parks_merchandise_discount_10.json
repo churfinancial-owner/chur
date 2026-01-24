@@ -1,0 +1,20 @@
+{
+    "id": "disney_parks_merchandise_discount_10",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "10% off Select Disney Parks Merchandise",
+            "description": "Receive 10% off select merchandise purchases at select locations at the Disneyland Resort and Walt Disney World Resort when you use your card."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Disney Parks",
+    "displayOrder": 10,
+    "isActive": true
+}

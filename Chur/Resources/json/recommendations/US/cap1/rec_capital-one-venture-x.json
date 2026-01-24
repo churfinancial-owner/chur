@@ -1,0 +1,27 @@
+{
+  "cardTemplateID": "capital-one-venture-x",
+  "affiliateURL": "https://www.capitalone.com/credit-cards/venture-x/",
+  "signUpBonus": "75,000 miles after $4,000 spend in 3 months",
+  "signUpBonusValue": 750,
+  "bonusRating": "great",
+  "expirationDate": null,
+  "annualFeeWaived": false,
+  "requiredCreditScore": "excellent",
+  "strategyTags": ["jetsetter", "optimizer", "guardian"],
+  "categories": ["travel", "hotel"],
+  "categoryHighlights": {
+    "travel": "Lounge Access, 10x on hotels via Capital One Travel",
+    "everyday": "2x on everything for simple earning",
+    "default": "Premium travel perks without the premium price"
+  },
+  "complementaryCardIDs": ["capital-one-savor-one", "capital-one-venture-rewards"],
+  "avoidWithCardIDs": [],
+  "highlights": [
+    "2x miles on every purchase",
+    "10x on hotels and rental cars through Capital One Travel",
+    "Capital One Lounge + Priority Pass access",
+    "$300 annual travel credit effectively lowers fee"
+  ],
+  "priority": 1,
+  "isActive": true
+}

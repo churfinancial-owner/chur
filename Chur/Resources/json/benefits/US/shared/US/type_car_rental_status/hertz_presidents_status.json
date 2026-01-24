@@ -1,0 +1,22 @@
+{
+    "id": "hertz_presidents_status",
+    "benefitType": "travel_status",
+    "displayGroup": "travel_carstatus",
+    "localized": {
+        "en": {
+            "name": "Hertz Car Rental President’s Circle",
+            "description": "Complimentary Hertz Car Rental President’s Circle membership - Please read important exclusions and restrictions"
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "limitDescription": "",
+    "referenceLink": "",
+    "displayOrder": 0,
+    "isActive": true
+}

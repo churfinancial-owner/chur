@@ -1,0 +1,16 @@
+{
+    "id": "bofa-unlimited-cash-business",
+    "name": "Unlimited Cash Rewards Business",
+    "issuer": "Bank of America",
+    "network": "Mastercard",
+    "imageName": "bofa-unlimited-cash-business",
+    "cardType": "business",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": true,
+    "foreignTransactionFeeRate": 0.03,
+    "isPopular": false,
+    "benefits": [
+    ]
+}

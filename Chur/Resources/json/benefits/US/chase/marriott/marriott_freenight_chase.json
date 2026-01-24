@@ -1,0 +1,23 @@
+{
+    "id": "marriott_free_night_reward",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Marriott Free Night Reward",
+            "description": "As a Marriott Bonvoy Boundless Cardmember, you'll enjoy a Free Night Award every year after your account anniversary"
+        }
+    },
+    "value": 350,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "activationDelayPeriods": 1,
+    "isRecurring": true,
+    "usageLimit": 1,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Marriott",
+    "partnerID": "Marriott",
+    "displayOrder": 0,
+    "isActive": true
+}

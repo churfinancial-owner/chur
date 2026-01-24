@@ -1,0 +1,21 @@
+{
+    "id": "united_inflight_club_rebate_25",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "25% Back on United In-flight & Club Drinks",
+            "description": "Receive 25% back as a statement credit on food, beverages, and Wi-Fi onboard United-operated flights, plus premium drink purchases at United Clubs."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "partnerName": "United Airlines",
+    "displayOrder": 0,
+    "isActive": true
+}

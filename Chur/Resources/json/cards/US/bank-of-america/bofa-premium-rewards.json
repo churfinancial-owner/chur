@@ -1,0 +1,17 @@
+{
+    "id": "bofa-premium-rewards",
+    "name": "Premium Rewards",
+    "issuer": "Bank of America",
+    "network": "Visa",
+    "imageName": "bofa-premium-rewards",
+    "cardType": "personal",
+    "annualFee": 95,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "foreignTransactionFeeRate": 0,
+    "isPopular": false,
+    "benefits": [
+        "tsa_precheck_credit_100"
+    ]
+}

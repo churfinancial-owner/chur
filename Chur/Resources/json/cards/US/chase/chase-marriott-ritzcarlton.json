@@ -1,0 +1,23 @@
+{
+    "id": "chase-marriott-ritzcarlton",
+    "name": "Marriott Ritz-Carlton",
+    "issuer": "Chase",
+    "network": "Visa",
+    "imageName": "chase-marriott-ritzcarlton",
+    "cardType": "personal",
+    "annualFee": 450,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "marriott_free_night_reward",
+        "marriott_gold_status",
+        "ritz_carlton_travel_credit_300",
+        "ritz_carlton_club_level_upgrades",
+        "marriott_ritz_property_100",
+        "priority_pass_unlimited",
+        "tsa_precheck_credit120",
+        "marriott_elite_night_credits_15"
+    ]
+}

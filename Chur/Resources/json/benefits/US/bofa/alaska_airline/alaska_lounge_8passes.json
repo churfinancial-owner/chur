@@ -1,0 +1,22 @@
+{
+    "id": "alaska_lounge_8passes",
+    "benefitType": "lounge_access",
+    "displayGroup": "travel_lounge",
+    "localized": {
+        "en": {
+            "name": "Alaska Lounge Pass x 2",
+            "description": "Receive 8 Alaska Lounge passes every calendar year (2 per quarter)."
+        }
+        },
+    "value": 60,
+    "valueCurrency": "USD",
+    "frequency": "quarterly",
+    "resetType": "card_anniversary",
+    "usageLimit": 2,
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Alaska Airline",
+    "displayOrder": 0,
+    "isActive": true
+}

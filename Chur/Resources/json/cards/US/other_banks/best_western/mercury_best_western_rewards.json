@@ -1,0 +1,17 @@
+{
+    "id": "mercury_best_western_rewards",
+    "name": "Best Western Rewards",
+    "issuer": "Mercury",
+    "network": "Mastercard",
+    "imageName": "mercury_best_western_rewards",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "bwr_premium_gold_status",
+        "bwr_annual_anniversary_bonus"
+    ]
+}

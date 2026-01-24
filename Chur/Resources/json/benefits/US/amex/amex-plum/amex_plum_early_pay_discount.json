@@ -1,0 +1,19 @@
+{
+    "id": "amex_plum_early_pay_discount",
+    "benefitType": "feature",
+    "displayGroup": "null",
+    "localized": {
+        "en": {
+            "name": "1.5% Early Pay Discount",
+            "description": "Get a 1.5% discount on the portion of your eligible charge balance that you pay within 10 days of your statement closing date."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "displayOrder": 1,
+    "isActive": true
+}

@@ -1,0 +1,23 @@
+{
+    "id": "disney_i_resort200",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Disney Rewards Dollars (Spend Required)",
+            "description": "Earn 200 Disney Rewards Dollars after spending $2,000 per anniversary year on U.S. Disney Resort stays and Disney Cruise Line bookings."
+        }
+    },
+    "value": 200,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": true,
+    "activationMode": "lockbyfrequency",
+    "activationInstructions": "Unlock after spending $2,000 on U.S. Disney Resorts or Disney Cruise Line each anniversary year.",
+    "partnerName": "Disney",
+    "displayOrder": 1,
+    "isActive": true
+}

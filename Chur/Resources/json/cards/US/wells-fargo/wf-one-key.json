@@ -1,0 +1,17 @@
+{
+    "id": "wf-one-key",
+    "name": "One Key",
+    "issuer": "Wells Fargo",
+    "network": "Mastercard",
+    "imageName": "wf-one-key",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": true,
+    "foreignTransactionFeeRate": 0.03,
+    "isPopular": false,
+    "benefits": [
+        "onekey_silver_status"
+    ]
+}

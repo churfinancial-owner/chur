@@ -1,0 +1,66 @@
+{
+    "hsbc_hk_red": [
+        {
+            "rate": 8.0,
+            "rewardProgramName": "HSBC Red Cash",
+            "category": "merchant_placeholder",
+            "rewardNotes": "Earn 8% RewardCash (RC) on the first HKD10,000 you spend online"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "HSBC Red Cash",
+            "category": "online_transactions",
+            "rewardNotes": "Earn 4% RewardCash (RC) on the first HKD10,000 you spend online"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "HSBC Red Cash",
+            "category": "everything"
+        },
+        {
+            "rate": 0.4,
+            "rewardProgramName": "HSBC Red Cash",
+            "category": "wallet_topup_payme"
+        }
+    ],
+    
+    "hsbc-hk-visa-signature": [
+        {
+            "rate": 3.6,
+            "rewardProgramName": "HSBC Red Cash",
+            "category": "merchant_placeholder",
+            "rewardNotes": "Earn 4% RewardCash (RC) on the first HKD10,000 you spend online"
+        },
+        {
+            "rate": 1.6,
+            "rewardProgramName": "HSBC Red Cash",
+            "category": "everything",
+            "rewardNotes": "Earn 4% RewardCash (RC) on the first HKD10,000 you spend online"
+        },
+        {
+            "rate": 0.4,
+            "rewardProgramName": "HSBC Red Cash",
+            "category": "wallet_topup_payme"
+        }
+    ],
+
+    "hsbc-hk-everymile": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "HSBC EveryMile",
+            "category": "merchant_placeholder",
+            "rewardNotes": "Earn 4% RewardCash (RC) on the first HKD10,000 you spend online"
+        },
+        {
+            "rate": 2.5,
+            "rewardProgramName": "HSBC EveryMile",
+            "category": "everything"
+        },
+        {
+            "rate": 0.4,
+            "rewardProgramName": "HSBC EveryMile",
+            "category": "wallet_topup_payme"
+        }
+    ]
+
+}

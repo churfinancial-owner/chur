@@ -1,0 +1,21 @@
+{
+    "id": "chase_csr_select_hotels_250",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Select Hotel Credit",
+            "description": "Receive a one-time $250 statement credit for prepaid Chase Travel hotel bookings of 2 nights or more at IHG, Montage, Pendry, Omni, Virgin, Minor, or Pan Pacific hotels."
+        }
+    },
+    "value": 250,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "automatic",
+    "requiresActivation": false,
+    "partnerName": "Chase Travel",
+    "referenceLink": "https://www.chase.com/personal/travel",
+    "displayOrder": 2,
+    "isActive": true
+}

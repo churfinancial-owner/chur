@@ -1,0 +1,409 @@
+{
+    "us-bank-smartly": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+    
+    "us-bank-altitude-reserve": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "mobile_pay"
+        }
+    ],
+
+    "us-bank-altitude-connect": [
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Altitude Rewards",
+            "category": "everything"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Altitude Rewards",
+            "category": "usbank_travel_portal",
+            "rewardNotes": "On prepaid hotel and car reservations booked directly in the Travel Center"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Altitude Rewards",
+            "category": "travel"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Altitude Rewards",
+            "category": "gas"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Altitude Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Altitude Rewards",
+            "category": "groceries"
+        }
+    ],
+    
+    "us-bank-altitude-connect-business": [
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Altitude Rewards",
+            "category": "everything"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Altitude Rewards",
+            "category": "usbank_travel_portal",
+            "rewardNotes": "On prepaid hotel and car reservations booked directly in the Travel Center"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Altitude Rewards",
+            "category": "travel"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Altitude Rewards",
+            "category": "gas"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Altitude Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Altitude Rewards",
+            "category": "groceries"
+        }
+    ],
+
+    
+    "us-bank-altitude-go": [
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Altitude Rewards",
+            "category": "everything"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Altitude Rewards",
+            "category": "travel"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Altitude Rewards",
+            "category": "gas"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Altitude Rewards",
+            "category": "dining"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Altitude Rewards",
+            "category": "streaming"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Altitude Rewards",
+            "category": "groceries"
+        }
+    ],
+    
+    "us-bank-shield": [
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "usbank_travel_portal"
+        },
+        {
+            "rate": 4.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "usbank_travel_portal_flights"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+    ],
+
+
+    "us-bank-skypass-select": [
+        {
+            "rate": 3.0,
+            "rewardProgramName": "SKYPASS miles",
+            "category": "korean_airline"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "SKYPASS miles",
+            "category": "travel"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "SKYPASS miles",
+            "category": "dining"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "SKYPASS miles",
+            "category": "everything"
+        }
+
+    ],
+
+    "us-bank-skypass": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "SKYPASS miles",
+            "category": "korean_airline"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "SKYPASS miles",
+            "category": "hotel"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "SKYPASS miles",
+            "category": "dining"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "SKYPASS miles",
+            "category": "everything"
+        }
+    ],
+
+    "us-bank-skypass-skyblue": [
+        {
+            "rate": 2.0,
+            "rewardProgramName": "SKYPASS miles",
+            "category": "rideshare"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "SKYPASS miles",
+            "category": "streaming"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "SKYPASS miles",
+            "category": "everything"
+        }
+    ],
+
+
+    
+    "us-bank-cash-plus": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": null,
+            "isUserConfigurable": true,
+            "configurableSlot": "5pct_slot_1",
+            "configurableOptions": [
+                {
+                    "label": "TV, Internet & Streaming",
+                    "includes": [
+                        "tv_cable",
+                        "internet",
+                        "streaming"
+                    ]
+                },
+                {
+                    "label": "Cell Phones",
+                    "includes": [
+                        "cell_phone_providers"
+                    ]
+                },
+                {
+                    "label": "Utilities",
+                    "includes": [
+                        "utilities"
+                    ]
+                },
+                {
+                    "label": "Ground Transportation",
+                    "includes": [
+                        "transit"
+                    ]
+                },
+                {
+                    "label": "Fast Food",
+                    "includes": [
+                        "fast_food"
+                    ]
+                },
+                {
+                    "label": "Gym & Fitness",
+                    "includes": [
+                        "gym_fitness_centers"
+                    ]
+                },
+                {
+                    "label": "Movie Theaters",
+                    "includes": [
+                        "movie_theaters"
+                    ]
+                },
+                {
+                    "label": "Furniture Stores",
+                    "includes": [
+                        "furniture_stores"
+                    ]
+                },
+                {
+                    "label": "Department Stores",
+                    "includes": [
+                        "department_stores"
+                    ]
+                },
+                {
+                    "label": "Clothing Stores",
+                    "includes": [
+                        "clothing_stores"
+                    ]
+                },
+                {
+                    "label": "Sporting Goods",
+                    "includes": [
+                        "sporting_goods_stores"
+                    ]
+                },
+                {
+                    "label": "Electronics Stores",
+                    "includes": [
+                        "electronics_stores"
+                    ]
+                }
+            ],
+            "rewardNotes": "5% on your first chosen category"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": null,
+            "isUserConfigurable": true,
+            "configurableSlot": "5pct_slot_2",
+            "configurableOptions": [
+                {
+                    "label": "TV, Internet & Streaming",
+                    "includes": [
+                        "tv_cable",
+                        "internet",
+                        "streaming"
+                    ]
+                },
+                {
+                    "label": "Cell Phones",
+                    "includes": [
+                        "cell_phone_providers"
+                    ]
+                },
+                {
+                    "label": "Utilities",
+                    "includes": [
+                        "utilities"
+                    ]
+                },
+                {
+                    "label": "Ground Transportation",
+                    "includes": [
+                        "transit"
+                    ]
+                },
+                {
+                    "label": "Fast Food",
+                    "includes": [
+                        "fast_food"
+                    ]
+                },
+                {
+                    "label": "Gym & Fitness",
+                    "includes": [
+                        "gym_fitness_centers"
+                    ]
+                },
+                {
+                    "label": "Movie Theaters",
+                    "includes": [
+                        "movie_theaters"
+                    ]
+                },
+                {
+                    "label": "Furniture Stores",
+                    "includes": [
+                        "furniture_stores"
+                    ]
+                },
+                {
+                    "label": "Department Stores",
+                    "includes": [
+                        "department_stores"
+                    ]
+                },
+                {
+                    "label": "Clothing Stores",
+                    "includes": [
+                        "clothing_stores"
+                    ]
+                },
+                {
+                    "label": "Sporting Goods",
+                    "includes": [
+                        "sporting_goods_stores"
+                    ]
+                },
+                {
+                    "label": "Electronics Stores",
+                    "includes": [
+                        "electronics_stores"
+                    ]
+                }
+            ],
+            "rewardNotes": "5% on your second chosen category"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": null,
+            "isUserConfigurable": true,
+            "configurableSlot": "2pct_slot_1",
+            "configurableOptions": [
+                {
+                    "label": "Gas",
+                    "includes": [
+                        "gas"
+                    ]
+                },
+                {
+                    "label": "Groceries",
+                    "includes": [
+                        "groceries"
+                    ]
+                },
+                {
+                    "label": "Dining",
+                    "includes": [
+                        "dining"
+                    ]
+                }
+            ],
+            "rewardNotes": "2% on your chosen everyday category"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
+        }
+    ]
+}

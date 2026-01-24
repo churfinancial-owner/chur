@@ -1,0 +1,24 @@
+{
+    "id": "koreanair_lounge_access",
+    "benefitType": "lounge_access",
+    "displayGroup": "travel_lounge",
+    "localized": {
+        "en": {
+            "name": "Korean Air Lounge x 2",
+            "description": "2 Korean Air Lounge vouchers each year."
+        }
+    },
+    "value": 40,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "isRecurring": true,
+    "usageLimit": 2,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Korean Air",
+    "limitDescription": "Reserve Card Members receive 15 Visits per year; unlimited visits after spending $75k.",
+    "referenceLink": "https://www.delta.com/us/en/delta-sky-club/access",
+    "displayOrder": 0,
+    "isActive": true
+}

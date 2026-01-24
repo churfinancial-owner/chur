@@ -1,0 +1,23 @@
+{
+    "id": "hsbc_elite_travel_credit",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Annual Travel Credit (Spend Required)",
+            "description": "Receive an automatic $100 travel credit for every $2,000 spent in cumulative travel purchases booked through HSBC Travel, up to $400 per calendar year."
+        }
+    },
+    "value": 100,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "usageLimit": 4,
+    "isRecurring": true,
+    "trackingMode": "automatic",
+    "requiresActivation": true,
+    "activationInstructions": "Unlock $100 travel credit for every $2,000 spent in purchases booked through HSBC Travel",
+    "partnerName": "HSBC Travel",
+    "displayOrder": 1,
+    "isActive": true
+}

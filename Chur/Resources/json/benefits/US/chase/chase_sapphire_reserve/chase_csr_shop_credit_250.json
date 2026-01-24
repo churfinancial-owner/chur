@@ -1,0 +1,23 @@
+{
+    "id": "chase_csr_shop_credit_250",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_shopping",
+    "localized": {
+        "en": {
+            "name": "Shop at Chase Credit (Spend Required)",
+            "description": "After you spend $75,000 on your Chase Sapphire Reserve card each calendar year - Get up to $250 in statement credits on purchases through The Shops at Chase"
+        }
+    },
+    "value": 250,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": true,
+    "activationMode": "lockbyfrequency",
+    "activationInstructions": "Unlock after you spend $75,000 on your card each calendar year.",
+    "redemptionMethod": "automatic",
+    "limitDescription": "",
+    "displayOrder": 0,
+    "isActive": true
+}

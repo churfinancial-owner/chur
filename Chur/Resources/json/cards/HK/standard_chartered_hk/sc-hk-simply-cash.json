@@ -1,0 +1,15 @@
+{
+    "id": "sc-hk-simply-cash",
+    "name": "Simply Cash",
+    "issuer": "Standard Chartered",
+    "network": "Visa",
+    "imageName": "sc-hk-simply-cash",
+    "cardType": "personal",
+    "annualFee": 2000,
+    "currency": "HKD",
+    "country": "HK",
+    "hasForeignTransactionFee": false,
+    "foreignTransactionFeeRate": 0,
+    "isPopular": false,
+    "benefits": []
+}

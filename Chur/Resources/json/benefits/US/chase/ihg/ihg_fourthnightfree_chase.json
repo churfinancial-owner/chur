@@ -1,0 +1,22 @@
+{
+    "id": "ihg_fourthnightfree_chase",
+    "benefitType": "feature",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Fourth Night Free",
+            "description": "The fourth Reward Night is free when you redeem points for any stay of four or more nights"
+        }
+    },
+    "value": 150,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "usageLimit": -1,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "manual",
+    "displayOrder": 0,
+    "isActive": true
+}
+

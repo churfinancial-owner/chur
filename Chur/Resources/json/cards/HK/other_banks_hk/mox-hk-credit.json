@@ -1,0 +1,16 @@
+{
+    "id": "mox-hk-credit",
+    "name": "Mox Credit",
+    "issuer": "Mox",
+    "network": "Mastercard",
+    "imageName": "mox-hk-credit",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "HKD",
+    "country": "HK",
+    "hasForeignTransactionFee": false,
+    "foreignTransactionFeeRate": 0.00,
+    "isPopular": false,
+    "benefits": [
+    ]
+}

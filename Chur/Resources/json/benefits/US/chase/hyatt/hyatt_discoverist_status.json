@@ -1,0 +1,22 @@
+{
+    "id": "hyatt_discoverist_status",
+    "benefitType": "travel_status",
+    "displayGroup": "travel_hotelstatus",
+    "localized": {
+        "en": {
+            "name": "Hyatt Discoverist status",
+            "description": "Enjoy immediate World of Hyatt Discoverist status for as long as you’re a cardmember. Plus, give the gift of Discoverist status to up to five employees."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "limitDescription": "",
+    "referenceLink": "",
+    "displayOrder": 0,
+    "isActive": true
+}

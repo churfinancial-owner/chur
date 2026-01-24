@@ -1,0 +1,27 @@
+{
+  "cardTemplateID": "amex-gold",
+  "affiliateURL": "https://www.americanexpress.com/us/credit-cards/card/gold-card/",
+  "signUpBonus": "60,000 MR points after $6,000 spend in 6 months",
+  "signUpBonusValue": 600,
+  "bonusRating": "good",
+  "expirationDate": null,
+  "annualFeeWaived": true,
+  "requiredCreditScore": "good",
+  "strategyTags": ["foodie", "jetsetter", "optimizer"],
+  "categories": ["dining", "everyday"],
+  "categoryHighlights": {
+    "dining": "4x on restaurant!",
+    "everyday": "4x on groceries!",
+    "default": "Greate card for foodies and travelers"
+  },
+  "complementaryCardIDs": ["amex-platinum", "amex-blue-cash-preferred"],
+  "avoidWithCardIDs": [],
+  "highlights": [
+    "4x at restaurants worldwide",
+    "4x at US supermarkets (up to $25k/year)",
+    "$10/month Uber Cash + $10/month dining credit",
+    "Flexible Membership Rewards points"
+  ],
+  "priority": 1,
+  "isActive": true
+}

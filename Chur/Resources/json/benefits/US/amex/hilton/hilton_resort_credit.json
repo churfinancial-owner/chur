@@ -1,0 +1,22 @@
+{
+    "id": "hilton_resort_credit",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Hilton Resort Credit",
+            "description": "Get up to $200 in statement credits semi-annually for eligible purchases made directly with participating Hilton Resorts on your Hilton Honors Aspire Card. That's up to $400 back annually. No minimum purchase required. Please read important exclusions and restrictions"
+        }
+    },
+    "value": 200,
+    "valueCurrency": "USD",
+    "frequency": "semi-annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Hilton",
+    "partnerID": "Hilton",
+    "referenceLink": "https://www.americanexpress.com/us/credit-cards/card/hilton-honors-aspire/",
+    "displayOrder": 0,
+    "isActive": true
+}

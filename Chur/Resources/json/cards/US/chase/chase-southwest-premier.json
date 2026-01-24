@@ -1,0 +1,20 @@
+{
+    "id": "chase-southwest-premier",
+    "name": "Southwest RR Premier",
+    "issuer": "Chase",
+    "network": "Visa",
+    "imageName": "chase-southwest-premier",
+    "cardType": "personal",
+    "annualFee": 149,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "benefits": [
+        "standard_seat_select",
+        "free_checked_bag",
+        "anniversary_bonus_miles_6000",
+        "flight_discount_15",
+        "priority_boarding",
+        "southwest_inflight_25"
+    ]
+}

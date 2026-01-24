@@ -1,0 +1,23 @@
+{
+    "id": "barclays_jetblue_premier_card",
+    "name": "JetBlue Premier Card",
+    "issuer": "Barclays",
+    "network": "Mastercard",
+    "imageName": "barclays_jetblue_premier_card",
+    "cardType": "business",
+    "annualFee": 499,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "first_checked_bag_free_jetblue",
+        "jetblue_10%_points_back",
+        "jetblue_vacations_credits",
+        "jetblue_anniversary_bonus_points",
+        "jetblue_group_a_boarding",
+        "tsa_precheck_credit120",
+        "priority_pass_unlimited",
+        "paisly_jetblue_purchases"
+    ]
+}

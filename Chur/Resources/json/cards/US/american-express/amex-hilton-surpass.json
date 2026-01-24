@@ -1,0 +1,17 @@
+{
+    "id": "amex-hilton-surpass",
+    "name": "Hilton Honors Surpass",
+    "issuer": "American Express",
+    "network": "Amex",
+    "imageName": "amex-hilton-surpass",
+    "cardType": "personal",
+    "annualFee": 150,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "hilton_hotel_credit_200",
+        "hilton_gold_status",
+        "national_emeraldexc_status"    ]
+}

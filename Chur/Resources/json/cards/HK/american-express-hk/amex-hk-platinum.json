@@ -1,0 +1,17 @@
+{
+    "id": "amex-hk-platinum",
+    "name": "Platinum Card",
+    "issuer": "American Express",
+    "network": "Amex",
+    "imageName": "amex-platinum",
+    "cardType": "personal",
+    "annualFee": 9500,
+    "currency": "HKD",
+    "country": "HK",
+    "hasForeignTransactionFee": false,
+    "foreignTransactionFeeRate": 0.03,
+    "isPopular": true,
+    "popularSortOrder": 2,
+    "benefits": [
+    ]
+}

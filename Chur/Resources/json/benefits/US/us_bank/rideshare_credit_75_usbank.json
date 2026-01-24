@@ -1,0 +1,22 @@
+{
+    "id": "rideshare_credit_75_usbank",
+    "benefitType": "credit",
+    "displayGroup": "perks",
+    "localized": {
+        "en": {
+            "name": "Rideshare Credit",
+            "description": "A $25 statement credit after three consecutive monthly taxi or rideshare transactions paid for with your card. Your next eligibility window begins only after a mandatory one-month processing period following each earned credit."
+        }
+    },
+    "value": 75,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "activationMode": "automatic",
+    "partnerName": "U.S. Bank",
+    "referenceLink": "https://www.usbank.com/business-banking/business-credit-cards/business-altitude-connect-credit-card.html",
+    "displayOrder": 0,
+    "isActive": true
+}

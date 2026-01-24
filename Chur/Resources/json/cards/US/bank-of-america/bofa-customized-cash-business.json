@@ -1,0 +1,16 @@
+{
+    "id": "bofa-customized-cash-business",
+    "name": "Custom Cash Business",
+    "issuer": "Bank of America",
+    "network": "Mastercard",
+    "imageName": "bofa-customized-cash-business",
+    "cardType": "business",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": true,
+    "foreignTransactionFeeRate": 0.03,
+    "isPopular": false,
+    "benefits": [
+    ]
+}

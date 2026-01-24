@@ -1,0 +1,24 @@
+{
+    "id": "dining_credit_amex_CA",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_dining",
+    "localized": {
+        "en": {
+            "name": "Annual Dining Credit",
+            "description": "Enrolled Cardmembers will be eligible to receive a statement credit of $200 CAD following a single transaction of $200 CAD or more (including taxes and gratuity) at one of the eligible restaurants listed on our website at go.amex/diningcreditrestaurants at the time of the transaction."
+        }
+    },
+    "value": 200,
+    "valueCurrency": "CAD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "American Express Travel",
+    "redemptionMethod": "automatic",
+    "limitDescription": "$200 annually",
+    "referenceLink": "",
+    "benefitNotes": "",
+    "displayOrder": 0,
+    "isActive": true
+}

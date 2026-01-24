@@ -1,0 +1,21 @@
+{
+    "id": "hotel_credit_bilt_100",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Hotel Credit",
+            "description": "$100 Bilt Travel Portal hotel credit per year (up to $50 biannually)."
+        }
+    },
+    "value": 50,
+    "valueCurrency": "USD",
+    "frequency": "semi-annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Bilt Travel",
+    "redemptionMethod": "automatic",
+    "displayOrder": 0,
+    "isActive": true
+}

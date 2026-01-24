@@ -1,0 +1,15 @@
+{
+    "id": "amex-green",
+    "name": "Green",
+    "issuer": "American Express",
+    "network": "Amex",
+    "imageName": "amex-green",
+    "cardType": "personal",
+    "annualFee": 150,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "clear_plus_credit"    ]
+}

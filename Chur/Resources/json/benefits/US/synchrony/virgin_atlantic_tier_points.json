@@ -1,0 +1,26 @@
+{
+    "id": "virgin_atlantic_tier_points",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "Elite Status Tier Points",
+            "description": "Earn 25 Virgin Atlantic Flying Club Tier Points for every $2,500 spent on the card, helping you reach Silver or Gold status faster."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "monthly",
+    "resetType": "other",
+    "usageLimit": 2,
+    "isRecurring": true,
+    "trackingMode": "automatic",
+    "requiresActivation": false,
+    "activationInstructions": "",
+    "activationDelayPeriods": 0,
+    "partnerName": "Virgin Atlantic",
+    "limitDescription": "Max 50 Tier Points per month ($5,000 spend).",
+    "referenceLink": "https://www.virginatlantic.com/flying-club/credit-card",
+    "displayOrder": 4,
+    "isActive": true
+}

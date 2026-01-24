@@ -1,0 +1,22 @@
+{
+    "id": "mqd_headstart_2500",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "$2,500 MQD Headstart",
+            "description": "Receive $2,500 Medallion Qualification Dollars (MQD) each qualification year to get closer to Status."
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "usageLimit": 1,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Delta",
+    "redemptionMethod": "automatic",
+    "displayOrder": 0,
+    "isActive": true
+}

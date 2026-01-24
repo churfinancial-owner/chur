@@ -1,0 +1,26 @@
+{
+    "id": "anniversary_bonus_miles",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Anniversary bonus miles",
+            "description": "Boost your Atmos™ Rewards membership status with 10,000 status points on your account anniversary each year."
+        }
+    },
+    "value": 120,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "usageLimit": 1,
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "activationInstructions": "",
+    "activationDelayPeriods": 1,
+    "partnerName": "Alaksa Airline",
+    "limitDescription": "",
+    "referenceLink": "https://www.alaskaair.com",
+    "displayOrder": 0,
+    "isActive": true
+}

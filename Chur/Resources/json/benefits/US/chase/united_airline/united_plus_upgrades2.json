@@ -1,0 +1,23 @@
+{
+    "id": "united_plus_upgrades2",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "2 Econ+ Upgrades (Spend Required)",
+            "description": "Earn 2 Economy Plus seat upgrade credits after making $40,000 in purchases in a calendar year. Valid for the primary cardmember on United and United Express flights."
+        }
+    },
+    "value": 50,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "usageLimit": 2,
+    "trackingMode": "manual",
+    "requiresActivation": true,
+    "activationMode": "lockbyfrequency",
+    "activationInstructions": "Unlock after making $40,000 in purchases each calendar year",
+    "partnerName": "United Airlines",
+    "displayOrder": 0,
+    "isActive": true
+}

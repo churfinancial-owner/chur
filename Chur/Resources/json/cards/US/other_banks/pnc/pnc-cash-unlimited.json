@@ -1,0 +1,15 @@
+{
+    "id": "pnc-cash-unlimited",
+    "name": "PNC Cash Unlimited",
+    "issuer": "PNC",
+    "network": "Visa",
+    "imageName": "pnc-cash-unlimited",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "foreignTransactionFeeRate": 0,
+    "isPopular": false,
+    "benefits": []
+}

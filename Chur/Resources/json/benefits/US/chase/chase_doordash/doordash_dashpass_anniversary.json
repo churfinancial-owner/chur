@@ -1,0 +1,24 @@
+{
+    "id": "doordash_dashpass_anniversary",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_convenience",
+    "localized": {
+        "en": {
+            "name": "Anniversary Bonus (Spend Required)",
+            "description": "Receive a complimentary DashPass membership ($96 value) every year you spend $10,000 on your card."
+        }
+    },
+    "value": 96,
+    "usageLimit": 1,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": true,
+    "activationMode": "lockbyfrequency",
+    "activationInstructions": "Unlock after making at least $10,000 in purchases each anniversary year",
+    "partnerName": "DoorDash",
+    "displayOrder": 1,
+    "isActive": true
+}

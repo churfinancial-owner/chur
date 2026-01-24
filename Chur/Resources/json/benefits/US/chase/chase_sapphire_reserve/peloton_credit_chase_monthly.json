@@ -1,0 +1,24 @@
+{
+    "id": "peloton_credit_chase_monthly",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_entertainment",
+    "localized": {
+        "en": {
+            "name": "Peloton Credit",
+            "description": "Cardmembers can earn up to $120 in annual statement credits towards Peloton memberships."
+        }
+    },
+    "value": 10,
+    "valueCurrency": "USD",
+    "frequency": "monthly",
+    "isRecurring": true,
+    "validCountries": [
+        "US"
+    ],
+    "trackingMode": "auto",
+    "requiresActivation": false,
+    "partnerName": "Peloton",
+    "partnerID": "Peloton",
+    "displayOrder": 0,
+    "isActive": true
+}

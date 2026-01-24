@@ -1,0 +1,19 @@
+{
+    "id": "capital-one-venture-business",
+    "name": "Venture Business",
+    "issuer": "Capital One",
+    "network": "Mastercard",
+    "imageName": "capital-one-venture-business",
+    "cardType": "personal",
+    "annualFee": 95,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "tsa_precheck_credit120",
+        "cap1_venturebus_travelcredit_50",
+        "cap1_venturebus_credit_50",
+        
+    ]
+}

@@ -1,0 +1,24 @@
+{
+    "id": "amex-platinum-ca",
+    "name": "Platinum Card",
+    "issuer": "American Express",
+    "network": "Amex",
+    "imageName": "amex-platinum",
+    "cardType": "personal",
+    "annualFee": 799,
+    "currency": "CAD",
+    "country": "CA",
+    "hasForeignTransactionFee": true,
+    "foreignTransactionFeeRate": 0.025,
+    "isPopular": true,
+    "popularSortOrder": 2,
+    "benefits": [
+        "dining_credit_amex_CA",
+        "instacart_amex_CA",
+        "travel_credit_amex_CA",
+        "nexus_credit_ca",
+        "amex_lounge_unlimited-ca",
+        "hilton_gold_status",
+        "marriott_gold_status"
+    ]
+}

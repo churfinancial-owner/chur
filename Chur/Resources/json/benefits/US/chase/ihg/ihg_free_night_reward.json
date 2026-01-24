@@ -1,0 +1,23 @@
+{
+    "id": "ihg_free_night_reward",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Anniversary Free Night",
+            "description": "Earned each account anniversary year with a current point redemption cap of 40,000 points. You can also use existing points from your IHG One Rewards account to redeem your Anniversary Night at hotels above the 40,000 point redemption level."
+        }
+    },
+    "value": 300,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "usageLimit": 1,
+    "trackingMode": "manual",
+    "activationDelayPeriods": 1,
+    "requiresActivation": false,
+    "partnerName": "IHG",
+    "partnerID": "IHG",
+    "displayOrder": 0,
+    "isActive": true
+}

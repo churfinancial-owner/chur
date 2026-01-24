@@ -1,0 +1,70 @@
+{
+    "sc-hk-cathay": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Asia Miles HK",
+            "category": "cathay_airline"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Asia Miles HK",
+            "category": "hkexpress_airline"
+        },
+        {
+            "rate": 2.5,
+            "rewardProgramName": "Asia Miles HK",
+            "category": "dining"
+        },
+        {
+            "rate": 2.5,
+            "rewardProgramName": "Asia Miles HK",
+            "category": "hotels"
+        },
+        {
+            "rate": 2.5,
+            "rewardProgramName": "Asia Miles HK",
+            "category": "foreign_transactions"
+        },
+        {
+            "rate": 1.67,
+            "rewardProgramName": "Asia Miles",
+            "category": "everything"
+        }
+    ],
+    
+
+    "sc-hk-smart": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Cash Back Rewards HK",
+            "category": "merchant_placeholder"
+        },
+        {
+            "rate": 0.56,
+            "rewardProgramName": "Cash Back Rewards HK",
+            "category": "everything"
+        }
+    ],
+    "sc-hk-simply-cash": [
+        {
+            "rate": 1.5,
+            "rewardProgramName": "Cash Back Rewards HK",
+            "category": "online_transactions"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Cash Back Rewards HK",
+            "category": "foreign_transactions"
+        },
+        {
+            "rate": 1.5,
+            "rewardProgramName": "Cash Back Rewards HK",
+            "category": "wallet_topup_payme"
+        },
+        {
+            "rate": 1.5,
+            "rewardProgramName": "Cash Back Rewards HK",
+            "category": "everything"
+        }
+    ]
+}

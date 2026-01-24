@@ -1,0 +1,24 @@
+{
+    "id": "ba_travel_together_ticket",
+    "benefitType": "feature",
+    "displayGroup": "travel",
+    "localized": {
+        "en": {
+            "name": "Travel Together Ticket (Spend Required)",
+            "description": "Earn a Travel Together Ticket every calendar year you make $30,000 in purchases. This allows a companion to fly with you for no additional Avios, or a 50% Avios discount for solo travel."
+        }
+    },
+    "value": 300,
+    "usageLimit": 1,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "resetType": "card_anniversary",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": true,
+    "activationMode": "lockbyfrequency",
+    "activationInstructions": "Unlock after making at least $30,000 in purchases each calendar year",
+    "partnerName": "British Airways",
+    "displayOrder": 1,
+    "isActive": true
+}

@@ -1,0 +1,26 @@
+{
+    "id": "instacart_amex_CA",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_shopping",
+    "localized": {
+        "en": {
+            "name": "Instacart Credits",
+            "description": "Two $10 credits available each month, which are triggered when you make two separate qualifying purchases of at least $10 each on Instacart.ca or the Instacart app..."
+        }
+    },
+    "value": 10,
+    "valueCurrency": "USD",
+    "frequency": "monthly",
+    "isRecurring": true,
+    "usageLimit": 2,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Instacart",
+    "partnerID": "Instacart",
+    "expirationDate": "2027-12-31T23:59:59Z",
+    "activeFromDate": "2025-06-01T00:00:00Z",
+    "activeToDate": "2027-12-31T23:59:59Z",
+    "referenceLink": "",
+    "displayOrder": 0,
+    "isActive": true
+}

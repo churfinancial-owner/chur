@@ -1,0 +1,29 @@
+{
+    "id": "chase-sapphire-reserve-business",
+    "name": "Sapphire Reserve Business",
+    "issuer": "Chase",
+    "network": "Visa",
+    "imageName": "chase-sapphire-reserve-business",
+    "cardType": "business",
+    "annualFee": 795,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": true,
+    "popularSortOrder": 1,
+    "benefits": [
+        "chase_lounge_unlimited",
+        "priority_pass_unlimited",
+        "chase_csr_travel_credit_300",
+        "chase_csr_select_hotels_250",
+        "chase_edit_500",
+        "doorpass_12",
+        "doordash_monthly2",
+        "doordash_dining_monthly",
+        "lyft_credit_chase_monthly",
+        "chase_csrb_giftcards_credit",
+        "chase_csrb_google_workspace",
+        "chase_csrb_ziprecruiter",
+        "ihg_platinum_status"
+    ]
+}

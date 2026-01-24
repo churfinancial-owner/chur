@@ -1,0 +1,19 @@
+{
+    "id": "barclays_wyndham_earner",
+    "name": "Wyndham Earner",
+    "issuer": "Barclays",
+    "network": "Visa",
+    "imageName": "barclays_wyndham_earner",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": [
+        "wyndham-gold",
+        "wyndham-earn_fn_faster",
+        "wyndham-anniversary-bonus2",
+        "cardmember_booking_discount"
+    ]
+}   
