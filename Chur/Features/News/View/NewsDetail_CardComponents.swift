@@ -180,7 +180,10 @@ extension NewsDetailView {
                 if a.1 != b.1 { return a.1 > b.1 }
                 return a.0.displayName.localizedStandardCompare(b.0.displayName) == .orderedAscending
             }
-            .filter { seen.insert($0.0.id).inserted }
+            .filter { item in
+                let key = item.4.map { "group:\($0)|\(item.1)" } ?? item.0.id
+                return seen.insert(key).inserted
+            }
             .map { ($0.0, $0.1, $0.2, $0.3, $0.4) }
     }
 }

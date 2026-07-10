@@ -377,7 +377,8 @@
             "isRotating": true,
             "rewardNotes": "Select live entertainment events, including concerts, sporting events, zoos and amusement parks.*",
             "rewardStartDate": "2026-07-01T00:00:00Z",
-            "rewardEndDate": "2026-09-30T23:59:59Z"
+            "rewardEndDate": "2026-09-30T23:59:59Z",
+            "groupLabel": "Select Entertainment"
         },
         {
             "rate": 5.0,

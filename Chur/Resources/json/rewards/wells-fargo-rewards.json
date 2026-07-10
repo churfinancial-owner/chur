@@ -22,8 +22,7 @@
         {
             "rate": 4.0,
             "rewardProgramName": "Cash Back Rewards",
-            "category": "recreation",
-            "groupLabel": "Recreation"
+            "category": "recreation"
         },
         {
             "rate": 4.0,
@@ -34,8 +33,7 @@
         {
             "rate": 4.0,
             "rewardProgramName": "Cash Back Rewards",
-            "category": "entertainment",
-            "groupLabel": "Sports/Entertainment"
+            "category": "entertainment"
         },
         {
             "rate": 4.0,
@@ -46,12 +44,14 @@
         {
             "rate": 4.0,
             "rewardProgramName": "Cash Back Rewards",
-            "category": "public_transit"
+            "category": "public_transit",
+            "groupLabel": "Planet-Friendly"
         },
         {
             "rate": 4.0,
             "rewardProgramName": "Cash Back Rewards",
-            "category": "ev_charging"
+            "category": "ev_charging",
+            "groupLabel": "Planet-Friendly"
         },
         {
             "rate": 1.0,

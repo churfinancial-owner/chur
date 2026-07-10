@@ -67,7 +67,16 @@ struct EarningRatesSection: View {
             return $0.category.displayName.localizedStandardCompare($1.category.displayName) == .orderedAscending
         }
         var seen = Set<String>()
-        return sorted.filter { seen.insert($0.category.id).inserted }
+        return sorted.filter { seen.insert(rowKey(for: $0)).inserted }
+    }
+
+    /// One row per group label (at the same rate) — rewards sharing a groupLabel collapse together.
+    /// Ungrouped rows keep the per-category dedupe.
+    private func rowKey(for item: (category: SpendingCategory, reward: RewardRate)) -> String {
+        if !item.reward.isUserConfigurable, let label = item.reward.groupLabel {
+            return "group:\(label)|\(item.reward.rate)"
+        }
+        return item.category.id
     }
 
     private var targetRates: [(category: SpendingCategory, reward: RewardRate)] {
@@ -92,7 +101,7 @@ struct EarningRatesSection: View {
             return $0.category.displayName.localizedStandardCompare($1.category.displayName) == .orderedAscending
         }
         var seen = Set<String>()
-        return sorted.filter { seen.insert($0.category.id).inserted }
+        return sorted.filter { seen.insert(rowKey(for: $0)).inserted }
     }
 
     private var unconfiguredRewards: [RewardRate] {
