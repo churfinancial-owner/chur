@@ -38,20 +38,17 @@
         {
             "rate": 4.0,
             "rewardProgramName": "Cash Back Rewards",
-            "category": "streaming",
-            "groupLabel": "Streaming/Music"
+            "category": "streaming"
         },
         {
             "rate": 4.0,
             "rewardProgramName": "Cash Back Rewards",
-            "category": "public_transit",
-            "groupLabel": "Planet-Friendly"
+            "category": "public_transit"
         },
         {
             "rate": 4.0,
             "rewardProgramName": "Cash Back Rewards",
-            "category": "ev_charging",
-            "groupLabel": "Planet-Friendly"
+            "category": "ev_charging"
         },
         {
             "rate": 1.0,
