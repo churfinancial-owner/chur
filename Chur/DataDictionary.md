@@ -1,11 +1,12 @@
 # Chur — Data Dictionary
 
-**Schema version:** 1.10.0  
+**Schema version:** 1.11.0 (adds `RewardRate.groupLabel`)  
 **Migration plan:** `ChurMigrationPlan` in `Core/Sync/ChurSchema.swift`  
 **Backup version:** `ChurBackup.currentVersion = 1` — increment and add migration case in `CloudSyncManager.migrate(_:)` for any breaking DTO change  
 **Persistence:** SwiftData (SQLite on-device)  
 **Cloud sync:** Google Drive App Data (JSON snapshot, Google-authenticated users only); Apple Sign In users currently have no cloud backup — CloudKit planned  
-**Last updated:** 2026-05-09
+**Seed data authoring:** see `Resources/json/REWARD_SETUP_REFERENCE.md` (rewards) and `Resources/json/MERCHANT_SETUP_REFERENCE.md` (categories/merchants)  
+**Last updated:** 2026-07-12
 
 > SwiftData auto-generates an opaque `PersistentIdentifier` for every `@Model` instance.  
 > This acts as the internal primary key and is not exposed as a Swift property.  
@@ -249,7 +250,7 @@
 ## 8. MerchantReward ⚠️ Orphaned
 
 **File:** `Features/Rewards/DataModel/MerchantReward.swift`  
-**Role:** Originally intended as a per-card merchant-specific reward override. **Not currently registered in the SwiftData schema** (`ChurApp.swift` does not include it in the `Schema(...)` call).
+**Role:** Originally intended as a per-card merchant-specific reward override. **Not currently registered in the SwiftData schema** (not included in the `models` list in `Core/Sync/ChurSchema.swift`).
 
 > **Action required:** Either add `MerchantReward.self` to the schema registration in `ChurApp.swift`, or delete this file if the feature was superseded by `RewardRate.merchantIdentifier`.
 
@@ -319,6 +320,7 @@ SpendingCategory
 | # | Severity | Status | Area | Finding |
 |---|---|---|---|---|
 | 1 | **High** | ✅ Done | Schema migration | `ChurMigrationPlan` + `ChurSchemaV1_10` created in `Core/Sync/ChurSchema.swift`; `ChurApp.swift` now uses `migrationPlan:`. Add a new `VersionedSchema` + `MigrationStage` for every future schema change. |
+| 1b | **High** | Open (pre-launch blocker) | Schema migration | The versioned schemas all reference the same live `@Model` classes, so staged migration can never actually run — any model change breaks existing stores (confirmed 2026-07-11 adding `groupLabel`; dev fix = delete app from simulator). Before first App Store release: freeze the shipped schema as real model snapshots, and replace the release-mode `fatalError` in `ChurApp.swift` with a recovery path (fresh store + restore from cloud backup). |
 | 2 | **High** | ✅ Done | Backup versioning | `CloudSyncManager.migrate(_:)` added. `downloadBackup()` runs migration after decode. New DTO fields must be `optional`. Increment `ChurBackup.currentVersion` and add a migration case for each breaking change. |
 | 3 | **Medium** | Deferred | Apple backup | Apple Sign In users have no cloud backup. CloudKit planned after Google flow is stable. |
 | 4 | **Medium** | Placeholder | `MerchantReward` | Kept as `@Model` placeholder for future use. Not registered in schema — register in `ChurSchemaVX_Y` (with a version bump) when ready to use. |
