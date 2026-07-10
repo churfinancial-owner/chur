@@ -135,6 +135,7 @@ struct GoToCardSheet: View {
             for cat in cats where cat.localizedCaseInsensitiveContains(searchText) { return true }
         }
         if let notes = reward.rewardNotes, notes.localizedCaseInsensitiveContains(searchText) { return true }
+        if let label = reward.groupLabel, label.localizedCaseInsensitiveContains(searchText) { return true }
         if let opts = reward.configurableOptions {
             for opt in opts where opt.localizedCaseInsensitiveContains(searchText) { return true }
         }

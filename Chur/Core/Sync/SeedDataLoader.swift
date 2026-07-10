@@ -56,6 +56,7 @@ private struct RewardJSON: Codable {
     let rewardEndDate: String?
     let isRotating: Bool?
     let rewardNotes: String?
+    let groupLabel: String?
     let isUserConfigurable: Bool?
     let configurableSlot: String?
     let configurableOptions: [ConfigurableOption]?
@@ -396,6 +397,7 @@ struct SeedDataLoader {
             rewardEndDate: endDate,
             isRotating: r.isRotating ?? false,
             rewardNotes: r.rewardNotes,
+            groupLabel: r.groupLabel,
             isUserConfigurable: r.isUserConfigurable ?? false,
             configurableSlot: r.configurableSlot,
             configurableOptions: r.configurableOptions.map { $0.map { $0.label } },

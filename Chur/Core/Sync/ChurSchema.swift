@@ -33,16 +33,35 @@ enum ChurSchemaV1_10: VersionedSchema {
     ]
 }
 
+// MARK: - v1.11 — adds RewardRate.groupLabel (optional, display-only)
+
+enum ChurSchemaV1_11: VersionedSchema {
+    static var versionIdentifier = Schema.Version(1, 11, 0)
+
+    static var models: [any PersistentModel.Type] = [
+        CreditCard.self,
+        User.self,
+        RewardRate.self,
+        RewardPlan.self,
+        Benefit.self,
+        BenefitUsageRecord.self,
+        SpendingCategory.self,
+    ]
+}
+
 // MARK: - Migration Plan
 
 enum ChurMigrationPlan: SchemaMigrationPlan {
     /// All known schema versions, oldest first.
     static var schemas: [any VersionedSchema.Type] = [
         ChurSchemaV1_10.self,
+        ChurSchemaV1_11.self,
     ]
 
-    /// Lightweight migrations (new optional fields, new models) need no stage —
-    /// SwiftData handles them automatically. Add a MigrationStage here only for
-    /// non-lightweight changes when defining v1.11+.
-    static var stages: [MigrationStage] = []
+    /// Lightweight migrations (new optional fields, new models) still need a
+    /// lightweight stage to link consecutive versions in the plan; custom stages
+    /// are only for non-lightweight changes (renames, removals, type changes).
+    static var stages: [MigrationStage] = [
+        .lightweight(fromVersion: ChurSchemaV1_10.self, toVersion: ChurSchemaV1_11.self),
+    ]
 }

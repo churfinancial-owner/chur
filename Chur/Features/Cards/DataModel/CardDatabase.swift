@@ -73,6 +73,7 @@ struct CardTemplate {
                     rewardEndDate: r.rewardEndDate,
                     isRotating: r.isRotating,
                     rewardNotes: r.rewardNotes,
+                    groupLabel: r.groupLabel,
                     isUserConfigurable: r.isUserConfigurable,
                     configurableSlot: r.configurableSlot,
                     configurableOptions: r.configurableOptions,
@@ -125,6 +126,7 @@ struct RewardTemplate {
     let rewardEndDate: Date?
     let isRotating: Bool
     let rewardNotes: String?
+    let groupLabel: String?
     let isUserConfigurable: Bool
     let configurableSlot: String?
     let configurableOptions: [String]?
@@ -168,6 +170,7 @@ private struct _RewardJSON: Codable {
     let rewardEndDate: String?
     let isRotating: Bool?
     let rewardNotes: String?
+    let groupLabel: String?
     let isUserConfigurable: Bool?
     let configurableSlot: String?
     let configurableOptions: [_ConfigurableOption]?
@@ -459,6 +462,7 @@ struct CardDatabase {
             rewardEndDate: r.rewardEndDate.flatMap { iso8601.date(from: $0) },
             isRotating: r.isRotating ?? false,
             rewardNotes: r.rewardNotes,
+            groupLabel: r.groupLabel,
             isUserConfigurable: r.isUserConfigurable ?? false,
             configurableSlot: r.configurableSlot,
             configurableOptions: r.configurableOptions.map { $0.map { $0.label } },

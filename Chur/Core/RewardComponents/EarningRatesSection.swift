@@ -53,12 +53,15 @@ struct EarningRatesSection: View {
             guard rewardAppliesInEffectiveRegion(reward) else { return [] }
 
             let categoryIDs = reward.categories ?? ["everything"]
-            return categoryIDs.compactMap { id -> (SpendingCategory, RewardRate)? in
+            let pairs = categoryIDs.compactMap { id -> (SpendingCategory, RewardRate)? in
                 guard let found = categories.first(where: { $0.id == id }),
                       (found.level == .parent || found.level == .child) else { return nil }
                 guard reward.rate > 1.0 || id == "everything" else { return nil }
                 return (found, reward)
             }
+            // Group-labeled rewards render as a single labeled row, not one row per category
+            if !reward.isUserConfigurable, reward.groupLabel != nil { return Array(pairs.prefix(1)) }
+            return pairs
         }.sorted {
             if $0.reward.rate != $1.reward.rate { return $0.reward.rate > $1.reward.rate }
             return $0.category.displayName.localizedStandardCompare($1.category.displayName) == .orderedAscending
@@ -76,12 +79,14 @@ struct EarningRatesSection: View {
             guard rewardAppliesInEffectiveRegion(reward) else { return [] }
 
             let categoryIDs = reward.categories ?? ["everything"]
-            return categoryIDs.compactMap { id -> (SpendingCategory, RewardRate)? in
+            let pairs = categoryIDs.compactMap { id -> (SpendingCategory, RewardRate)? in
                 guard let found = categories.first(where: { $0.id == id }),
                       found.level == .target || found.level == .groupTarget else { return nil }
                 guard reward.rate > 1.0 || id == "everything" else { return nil }
                 return (found, reward)
             }
+            if !reward.isUserConfigurable, reward.groupLabel != nil { return Array(pairs.prefix(1)) }
+            return pairs
         }.sorted {
             if $0.reward.rate != $1.reward.rate { return $0.reward.rate > $1.reward.rate }
             return $0.category.displayName.localizedStandardCompare($1.category.displayName) == .orderedAscending
@@ -169,7 +174,8 @@ struct EarningRatesSection: View {
                         category: item.category,
                         rate: item.reward.rate * boostMultiplier,
                         cardName: nil,
-                        effectiveRate: item.reward.effectiveCashBackRate * boostMultiplier
+                        effectiveRate: item.reward.effectiveCashBackRate * boostMultiplier,
+                        titleOverride: item.reward.isUserConfigurable ? nil : item.reward.groupLabel
                     )
                     .opacity(isUpcoming ? 0.5 : 1.0)
 

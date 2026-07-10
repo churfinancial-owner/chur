@@ -143,6 +143,7 @@
 | `isRotating` | `Bool` | Not Null, default `false` | — | `true` for quarterly rotating category cards (e.g. Discover it). |
 | `daysOfWeek` | `[Int]?` | Nullable, values 1–7 | — | Days of the week this rate applies (1 = Sunday … 7 = Saturday). `nil` = all days. |
 | `rewardNotes` | `String?` | Nullable | — | Callout text for caps or special conditions (e.g. `"Up to $25k/year"`). |
+| `groupLabel` | `String?` | Nullable | — | Display-only group name for non-configurable grouped rewards (e.g. `"Self-Care"`). Shown in earning-rate rows instead of the category name. **Never used for matching** — the pricing engine matches on `categories` only. Added in schema v1.11. |
 | `isUserConfigurable` | `Bool` | Not Null, default `false` | — | `true` if the user must select a category for this reward slot. |
 | `configurableSlot` | `String?` | Nullable | — | Stable slot identifier (e.g. `"5pct_slot_1"`). Links this rate to the card's `slotSelections` map. |
 | `configurableOptions` | `[String]?` | Nullable | — | Display labels the user can pick from (e.g. `["Groceries", "Gas", "Dining"]`). |

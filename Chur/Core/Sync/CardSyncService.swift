@@ -351,6 +351,7 @@ struct CardSyncService {
         if reward.rewardEndDate != template.rewardEndDate { reward.rewardEndDate = template.rewardEndDate; changed = true }
         if reward.isRotating != template.isRotating { reward.isRotating = template.isRotating; changed = true }
         if reward.rewardNotes != template.rewardNotes { reward.rewardNotes = template.rewardNotes; changed = true }
+        if reward.groupLabel != template.groupLabel { reward.groupLabel = template.groupLabel; changed = true }
         if reward.isUserConfigurable != template.isUserConfigurable { reward.isUserConfigurable = template.isUserConfigurable; changed = true }
         if reward.configurableSlot != template.configurableSlot { reward.configurableSlot = template.configurableSlot; changed = true }
         if reward.configurableOptions != template.configurableOptions { reward.configurableOptions = template.configurableOptions; changed = true }
@@ -389,6 +390,7 @@ struct CardSyncService {
             rewardEndDate: r.rewardEndDate,
             isRotating: r.isRotating,
             rewardNotes: r.rewardNotes,
+            groupLabel: r.groupLabel,
             isUserConfigurable: r.isUserConfigurable,
             configurableSlot: r.configurableSlot,
             configurableOptions: r.configurableOptions,

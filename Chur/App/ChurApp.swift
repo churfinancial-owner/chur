@@ -20,7 +20,7 @@ struct ChurApp: App {
     }
     
     let modelContainer: ModelContainer = {
-        let schema = Schema(ChurSchemaV1_10.models, version: ChurSchemaV1_10.versionIdentifier)
+        let schema = Schema(ChurSchemaV1_11.models, version: ChurSchemaV1_11.versionIdentifier)
         let config = ModelConfiguration("Chur", schema: schema, isStoredInMemoryOnly: false)
         do {
             return try ModelContainer(for: schema, migrationPlan: ChurMigrationPlan.self, configurations: [config])

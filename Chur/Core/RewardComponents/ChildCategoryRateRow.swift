@@ -14,6 +14,7 @@ struct ChildCategoryRateRow: View {
     let rate: Double
     let cardName: String?
     var effectiveRate: Double = 0
+    var titleOverride: String? = nil // e.g. a reward's groupLabel ("Self-Care") shown instead of the category name
 
     @Environment(\.rewardDisplay) private var rewardDisplay
 
@@ -44,7 +45,7 @@ struct ChildCategoryRateRow: View {
                 .frame(width: 32, height: 32)
 
             VStack(alignment: .leading, spacing: 4) {
-                Text(category.displayName)
+                Text(titleOverride ?? category.displayName)
                     .font(.churRowText())
                     .foregroundStyle(Color.churDarkGray)
                     .lineLimit(1)

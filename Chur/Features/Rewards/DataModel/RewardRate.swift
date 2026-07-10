@@ -46,6 +46,7 @@ class RewardRate {
     
     // Display info
     var rewardNotes: String? // "Up to $25k/year", "First $1k: 5x, then 3x", "Requires $500 min spend"
+    var groupLabel: String? // display-only group name for non-configurable grouped rewards, e.g. "Self-Care" — never used for matching
 
     // User-configurable category selection
     var isUserConfigurable: Bool       // true = user must pick a category for this reward
@@ -64,6 +65,7 @@ class RewardRate {
          countries: [String]? = nil, channels: [String]? = nil,
          rewardStartDate: Date? = nil, rewardEndDate: Date? = nil, isRotating: Bool = false, daysOfWeek: [Int]? = nil,
          rewardNotes: String? = nil,
+         groupLabel: String? = nil,
          isUserConfigurable: Bool = false,
          configurableSlot: String? = nil,
          configurableOptions: [String]? = nil,
@@ -83,6 +85,7 @@ class RewardRate {
         self.isRotating = isRotating
         self.daysOfWeek = daysOfWeek
         self.rewardNotes = rewardNotes
+        self.groupLabel = groupLabel
         self.isUserConfigurable = isUserConfigurable
         self.configurableSlot = configurableSlot
         self.configurableOptions = configurableOptions

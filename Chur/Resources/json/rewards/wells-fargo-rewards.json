@@ -6,100 +6,42 @@
             "category": "everything"
         }
     ],
-
     "wf-attune-cash": [
         {
             "rate": 4.0,
             "rewardProgramName": "Cash Back Rewards",
             "category": "personal_care",
-            "isUserConfigurable": false,
-            "configurableSlot": null,
-            "configurableOptions": [
-                {
-                    "label": "Self-Care",
-                    "includes": [
-                        "Barber_Salons",
-                        "spa",
-                        "gym_fitness_centers"
-                    ]
-                }
-            ]
+            "groupLabel": "Self-Care"
         },
         {
             "rate": 4.0,
             "rewardProgramName": "Cash Back Rewards",
             "category": "florist",
-            "isUserConfigurable": false,
-            "configurableSlot": null,
-            "configurableOptions": [
-                {
-                    "label": "Florist",
-                    "includes": [
-                        "florist"
-                    ]
-                }
-            ]
+            "groupLabel": "Florist"
         },
         {
             "rate": 4.0,
             "rewardProgramName": "Cash Back Rewards",
             "category": "recreation",
-            "isUserConfigurable": false,
-            "configurableSlot": null,
-            "configurableOptions": [
-                {
-                    "label": "Recreation",
-                    "includes": [
-                        "recreation_golf"
-                    ]
-                }
-            ]
+            "groupLabel": "Recreation"
         },
         {
             "rate": 4.0,
             "rewardProgramName": "Cash Back Rewards",
             "category": "pet_supply_stores",
-            "isUserConfigurable": false,
-            "configurableSlot": "null",
-            "configurableOptions": [
-                {
-                    "label": "Pet Care",
-                    "includes": [
-                        "pet_supply_stores"
-                    ]
-                }
-            ]
+            "groupLabel": "Pet Care"
         },
         {
             "rate": 4.0,
             "rewardProgramName": "Cash Back Rewards",
             "category": "entertainment",
-            "isUserConfigurable": false,
-            "configurableSlot": null,
-            "configurableOptions": [
-                {
-                    "label": "Sports/Entertainment",
-                    "includes": [
-                        "entertainment","live_events"
-                    ]
-                }
-            ]
+            "groupLabel": "Sports/Entertainment"
         },
-
         {
             "rate": 4.0,
             "rewardProgramName": "Cash Back Rewards",
             "category": "streaming",
-            "isUserConfigurable": false,
-            "configurableSlot": null,
-            "configurableOptions": [
-                {
-                    "label": "Streaming/Music",
-                    "includes": [
-                        "streaming"
-                    ]
-                }
-            ]
+            "groupLabel": "Streaming/Music"
         },
         {
             "rate": 4.0,
@@ -117,7 +59,6 @@
             "category": "everything"
         }
     ],
-        
     "wf-autograph-journey": [
         {
             "rate": 5.0,
@@ -145,9 +86,6 @@
             "category": "everything"
         }
     ],
-
-    
-    
     "wf-premier-autograph": [
         {
             "rate": 5.0,
@@ -175,7 +113,6 @@
             "category": "everything"
         }
     ],
-    
     "wf-signify-business": [
         {
             "rate": 2.0,
@@ -183,8 +120,6 @@
             "category": "everything"
         }
     ],
-
-
     "wf-choice-privileges-select": [
         {
             "rate": 10,
@@ -217,8 +152,6 @@
             "category": "everything"
         }
     ],
-
-    
     "wf-choice-privileges": [
         {
             "rate": 5,
@@ -251,7 +184,6 @@
             "category": "everything"
         }
     ],
-
     "wf-one-key": [
         {
             "rate": 3,
@@ -279,7 +211,6 @@
             "category": "everything"
         }
     ],
-    
     "wf-one-key-plus": [
         {
             "rate": 3,
@@ -307,6 +238,4 @@
             "category": "everything"
         }
     ]
-
-
 }

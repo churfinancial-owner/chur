@@ -115,7 +115,8 @@ extension NewsDetailView {
                                     category: item.category,
                                     rate: item.rate,
                                     cardName: nil,
-                                    effectiveRate: item.effectiveRate
+                                    effectiveRate: item.effectiveRate,
+                                    titleOverride: item.groupLabel
                                 )
                             }
                         }
@@ -135,7 +136,8 @@ extension NewsDetailView {
                                         category: item.category,
                                         rate: item.rate,
                                         cardName: nil,
-                                        effectiveRate: item.effectiveRate
+                                        effectiveRate: item.effectiveRate,
+                                        titleOverride: item.groupLabel
                                     )
                                 }
                             }
@@ -152,7 +154,7 @@ extension NewsDetailView {
         }
     }
 
-    private func templateRateItems(plan: PlanTemplate) -> [(category: SpendingCategory, rate: Double, effectiveRate: Double, level: CategoryLevel)] {
+    private func templateRateItems(plan: PlanTemplate) -> [(category: SpendingCategory, rate: Double, effectiveRate: Double, level: CategoryLevel, groupLabel: String?)] {
         var seen = Set<String>()
         return plan.rewards
             .filter { reward in
@@ -160,21 +162,25 @@ extension NewsDetailView {
                 guard !(reward.isUserConfigurable && (reward.categories?.isEmpty ?? true)) else { return false }
                 return reward.rewardEndDate.map { $0 >= Date.current() } ?? true
             }
-            .flatMap { reward -> [(SpendingCategory, Double, Double, CategoryLevel)] in
+            .flatMap { reward -> [(SpendingCategory, Double, Double, CategoryLevel, String?)] in
                 let catIDs = (reward.categories?.isEmpty ?? true) ? ["everything"] : (reward.categories ?? [])
-                return catIDs.compactMap { id in
+                let groupLabel = reward.isUserConfigurable ? nil : reward.groupLabel
+                let items = catIDs.compactMap { id -> (SpendingCategory, Double, Double, CategoryLevel, String?)? in
                     guard let cat = categories.first(where: { $0.id == id }),
                           let level = cat.level,
                           reward.rate > 1.0 || id == "everything"
                     else { return nil }
-                    return (cat, reward.rate, reward.rate * reward.pointCashValue, level)
+                    return (cat, reward.rate, reward.rate * reward.pointCashValue, level, groupLabel)
                 }
+                // Group-labeled rewards render as a single labeled row, not one row per category
+                if groupLabel != nil { return Array(items.prefix(1)) }
+                return items
             }
             .sorted { a, b in
                 if a.1 != b.1 { return a.1 > b.1 }
                 return a.0.displayName.localizedStandardCompare(b.0.displayName) == .orderedAscending
             }
             .filter { seen.insert($0.0.id).inserted }
-            .map { ($0.0, $0.1, $0.2, $0.3) }
+            .map { ($0.0, $0.1, $0.2, $0.3, $0.4) }
     }
 }
