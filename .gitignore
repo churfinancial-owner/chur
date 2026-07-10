@@ -1,0 +1,19 @@
+# macOS
+.DS_Store
+
+# Xcode user state
+xcuserdata/
+*.xcuserstate
+*.xcbkptlist
+
+# Xcode build artifacts
+build/
+DerivedData/
+*.moved-aside
+
+# Swift Package Manager
+.swiftpm/
+.build/
+
+# Secrets / local overrides (add real secret files here as needed)
+*.local.json

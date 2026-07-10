@@ -25,7 +25,7 @@
     "flag": "🇨🇦",
     "currency": "CAD",
     "currencySymbol": "CA$",
-    "isActive": true,
+    "isActive": false,
     "sortOrder": 3,
     "localeIdentifiers": ["CA"]
   },
@@ -38,5 +38,35 @@
     "isActive": true,
     "sortOrder": 99,
     "localeIdentifiers": ["HK"]
+  },
+  {
+    "id": "SG",
+    "name": "Singapore",
+    "flag": "🇸🇬",
+    "currency": "SGD",
+    "currencySymbol": "S$",
+    "isActive": false,
+    "sortOrder": 5,
+    "localeIdentifiers": ["SG"]
+  },
+  {
+    "id": "TW",
+    "name": "Taiwan",
+    "flag": "🇹🇼",
+    "currency": "TWD",
+    "currencySymbol": "NT$",
+    "isActive": false,
+    "sortOrder": 6,
+    "localeIdentifiers": ["TW"]
+  },
+  {
+    "id": "UK",
+    "name": "United Kingdom",
+    "flag": "🇬🇧",
+    "currency": "GBP",
+    "currencySymbol": "£",
+    "isActive": false,
+    "sortOrder": 4,
+    "localeIdentifiers": ["UK", "GB"]
   }
 ]

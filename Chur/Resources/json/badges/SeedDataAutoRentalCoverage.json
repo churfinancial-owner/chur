@@ -50,6 +50,13 @@
         "description": ""
     },
     {
+        "cardId": "chase-ink-business-plus",
+        "hasCoverage": true,
+        "coverageType": "primary",
+        "recommended": false,
+        "description": ""
+    },
+    {
         "cardId": "chase-ink-business-cash",
         "hasCoverage": true,
         "coverageType": "primary",

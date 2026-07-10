@@ -24,7 +24,7 @@
                         "rewardProgramName": "Citi ThankYou Points",
                         "category": null,
                         "isUserConfigurable": true,
-                        "configurableSlot": "5pct_slot_1",
+                        "configurableSlot": "3pct_slot_1",
                         "configurableOptions": [
                             {
                                 "label": "Live Entertainment",
@@ -58,8 +58,7 @@
                                     "pet_supply_stores"
                                 ]
                             }
-                        ],
-                        "rewardNotes": "Earn 3% Self-Select Category of your choice."
+                        ]
                     },
                     {
                         "rate": 5.0,

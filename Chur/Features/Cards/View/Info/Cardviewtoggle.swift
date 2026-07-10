@@ -16,18 +16,23 @@ struct CardViewToggle: View {
     
     // MARK: - Computed Properties
     
-    /// Count of credit-type benefits that still have remaining balance (available for redemption)
-    private var benefitsRemainingCount: Int {
+    /// Benefit types shown in the list — must match `allowedBenefitTypes` in BenefitsListContentView.
+    private let allowedBenefitTypes: Set<String> = ["credit", "lounge_access", "ttp"]
+
+    /// Total count of benefits shown in the list (ALL filter) — active benefits of allowed types,
+    /// including delayed, locked, and fully-redeemed rows.
+    private var benefitsTotalCount: Int {
         card.benefits.filter { benefit in
-            guard benefit.benefitType.lowercased() == "credit",
-                  benefit.isCurrentlyActive else { return false }
-            let analyzer = BenefitUsageAnalyzer(benefit: benefit, approvedMonth: card.approvedMonth)
-            if analyzer.isUnlimited { return true }
-            if benefit.isLocked(approvedMonth: card.approvedMonth, approvedYear: card.approvedYear) { return false }
-            return !analyzer.isFullyRedeemedThisPeriod()
+            guard allowedBenefitTypes.contains(benefit.benefitType.lowercased()) else { return false }
+            return benefit.isCurrentlyActive
         }.count
     }
     
+    /// Count of features — mirrors the exclusion list in BenefitsListContentView.
+    private var featuresCount: Int {
+        card.benefits.filter { !allowedBenefitTypes.contains($0.benefitType.lowercased()) }.count
+    }
+
     /// Check if any credit-type benefits are expiring soon (within warning window)
     private var hasExpiringBenefits: Bool {
         let calendar = Calendar.current
@@ -86,7 +91,7 @@ struct CardViewToggle: View {
                     selectedTab = .benefits
                 }
             } label: {
-                labelWithBubble(text: "Benefits", count: benefitsRemainingCount, showAlarm: hasExpiringBenefits)
+                labelWithBubble(text: "Benefits", count: benefitsTotalCount + featuresCount, showAlarm: hasExpiringBenefits)
                     .foregroundStyle(selectedTab == .benefits ? .white : Color.churMediumGray)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 10)
@@ -100,16 +105,16 @@ struct CardViewToggle: View {
             // Card Info Button
             Button {
                 withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                    selectedTab = .cardInfo
+                    selectedTab = .cardinforewards
                 }
             } label: {
-                Text("Info")
+                Text("Rewards")
                     .font(.churRowText())
-                    .foregroundStyle(selectedTab == .cardInfo ? .white : Color.churMediumGray)
+                    .foregroundStyle(selectedTab == .cardinforewards ? .white : Color.churMediumGray)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 10)
                     .background(
-                        selectedTab == .cardInfo ?
+                        selectedTab == .cardinforewards ?
                             Color.churOlive : Color.clear
                     )
                     .clipShape(RoundedRectangle(cornerRadius: 8))
@@ -118,16 +123,16 @@ struct CardViewToggle: View {
             // Features Button
             Button {
                 withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                    selectedTab = .features
+                    selectedTab = .cardinfomationview
                 }
             } label: {
-                Text("Features")
+                Text("Info")
                     .font(.churRowText())
-                    .foregroundStyle(selectedTab == .features ? .white : Color.churMediumGray)
+                    .foregroundStyle(selectedTab == .cardinfomationview ? .white : Color.churMediumGray)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 10)
                     .background(
-                        selectedTab == .features ?
+                        selectedTab == .cardinfomationview ?
                             Color.churOlive : Color.clear
                     )
                     .clipShape(RoundedRectangle(cornerRadius: 8))
@@ -143,6 +148,6 @@ struct CardViewToggle: View {
 
 enum CardViewTab {
     case benefits
-    case cardInfo
-    case features
+    case cardinforewards
+    case cardinfomationview
 }

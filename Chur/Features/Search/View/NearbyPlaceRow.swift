@@ -23,9 +23,6 @@ struct NearbyPlaceRow: View {
     }
     
     private var brandIconName: String? {
-        // Use the category bridge: categoryID was already resolved by MerchantCategoryMapper,
-        // so we trust it to connect to the right OnlineMerchant (if one exists).
-        // Generic categories (e.g. "cafe", "restaurants") won't have a curated merchant, so this returns nil.
         OnlineMerchantDatabase.brandIconName(forCategory: merchant.categoryID)
     }
     
@@ -41,15 +38,15 @@ struct NearbyPlaceRow: View {
                         .scaledToFit()
                         .frame(width: 40, height: 40)
                 } else if let category = merchantCategory {
-                    CategoryIconView(category: category, font: .system(size: 22))
+                    CategoryIconView(category: category, font: .churHeadline())
                         .frame(width: 40, height: 40)
                         .background(
                             Circle()
-                                .fill(Color.churTiles)
+                                .fill(Color.churTileWhiteBg)
                         )
                 } else {
                     Circle()
-                        .fill(Color.churTiles)
+                        .fill(Color.churTileWhiteBg)
                         .frame(width: 40, height: 40)
                         .overlay(Text("📍").font(.churBigTitle4()))
                 }
@@ -64,11 +61,11 @@ struct NearbyPlaceRow: View {
                     HStack(spacing: 6) {
                         if let category = merchantCategory {
                             Text(category.displayName)
-                                .font(.system(size: 12, weight: .medium, design: .rounded))
+                                .font(.churSmallMedium())
                         }
                         Text("·")
                         Text(String(format: "%.2f mi", merchant.distance))
-                            .font(.system(size: 12, weight: .medium, design: .rounded))
+                            .font(.churSmallMedium())
                     }
                     .foregroundStyle(.secondary)
                 }
@@ -76,13 +73,13 @@ struct NearbyPlaceRow: View {
                 Spacer()
                 
                 Image(systemName: "chevron.right")
-                    .font(.system(size: 12, weight: .bold))
+                    .font(.churSmallBold())
                     .foregroundStyle(.tertiary)
             }
             .padding(12)
             .background(
                 RoundedRectangle(cornerRadius: 16)
-                    .fill(isSelected ? Color.churOlive.opacity(0.08) : Color.churTiles)
+                    .fill(isSelected ? Color.churOlive.opacity(0.08) : Color.churTileWhiteBg)
             )
             .overlay(
                 RoundedRectangle(cornerRadius: 16)

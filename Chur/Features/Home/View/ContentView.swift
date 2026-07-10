@@ -3,10 +3,13 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.scenePhase) private var scenePhase
+    @StateObject private var newsService = NewsService()
     @State private var selectedTab = 0
     @State private var searchTabMode: SearchMode = .online
     @State private var hasLoadedSearchTab = false
     @State private var hasScheduledInitialization = false
+    @State private var cachedNearbyMerchants: [NearbyMerchant] = []
     @Query private var users: [User]
     @Query private var cards: [CreditCard]
     @Query private var categories: [SpendingCategory]
@@ -16,13 +19,14 @@ struct ContentView: View {
             // 1. Main Content Switcher
             Group {
                 switch selectedTab {
-                case 0: HomeView(onOpenSearch: { searchTabMode = .map; selectedTab = 3 })
+                case 0: HomeView(onOpenSearch: { searchTabMode = .map; selectedTab = 3 }, initialNearbyMerchants: cachedNearbyMerchants)
                 case 1: UserDashboardView()
                 case 2: CardsView()
-                case 3: NearbyPlacesListView(initialMode: searchTabMode, onModeChange: { searchTabMode = $0 })
+                case 3: NearbyPlacesListView(initialMode: searchTabMode, onModeChange: { searchTabMode = $0 }, onMerchantsUpdated: { cachedNearbyMerchants = $0 })
                 default: HomeView()
                 }
             }
+            .environmentObject(newsService)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             
             // This pushes the content up so it doesn't stay behind the bar
@@ -33,8 +37,14 @@ struct ContentView: View {
             // 2. Custom Instagram-Style Menu Bar
             customInstagramMenuBar
         }
+        .task { await newsService.fetchNewsIfNeeded() }
         .onAppear {
             scheduleInitialDataInitialization()
+        }
+        .onChange(of: scenePhase) { _, newPhase in
+            if newPhase == .background {
+                uploadBackupOnBackground()
+            }
         }
     }
 
@@ -78,6 +88,14 @@ struct ContentView: View {
     
     // ... Keep your existing Data Initialization functions below ...
 
+
+    private func uploadBackupOnBackground() {
+        guard let user = users.first, !user.googleUserID.isEmpty else { return }
+        let backup = ChurBackup.snapshot(of: user, cards: cards)
+        Task {
+            try? await CloudSyncManager.shared.uploadBackup(backup)
+        }
+    }
 
     private func scheduleInitialDataInitialization() {
         guard !hasScheduledInitialization else { return }
@@ -160,44 +178,4 @@ struct ContentView: View {
         }
     }
     
-    private func setupTabBarAppearance() {
-        let appearance = UITabBarAppearance()
-        appearance.configureWithTransparentBackground()
-        
-        // Liquid glass effect
-        appearance.backgroundColor = UIColor(white: 1.0, alpha: 0.75)
-        appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
-        
-        // Subtle shadow for depth
-        appearance.shadowColor = UIColor.black.withAlphaComponent(0.05)
-        appearance.shadowImage = UIImage()
-        
-        // Tab item styling with reduced font size for compactness
-        let itemAppearance = UITabBarItemAppearance()
-        
-        // Normal state
-        itemAppearance.normal.iconColor = UIColor(Color.churMediumGray)
-        itemAppearance.normal.titleTextAttributes = [
-            .font: UIFont.systemFont(ofSize: 10, weight: .medium),
-            .foregroundColor: UIColor(Color.churMediumGray)
-        ]
-        
-        // Selected state
-        itemAppearance.selected.iconColor = UIColor(Color.churOlive)
-        itemAppearance.selected.titleTextAttributes = [
-            .font: UIFont.systemFont(ofSize: 10, weight: .bold),
-            .foregroundColor: UIColor(Color.churOlive)
-        ]
-        
-        appearance.stackedLayoutAppearance = itemAppearance
-        appearance.inlineLayoutAppearance = itemAppearance
-        appearance.compactInlineLayoutAppearance = itemAppearance
-        
-        UITabBar.appearance().standardAppearance = appearance
-        UITabBar.appearance().scrollEdgeAppearance = appearance
-        
-        // Reduce overall tab bar item spacing (achieves ~90% width effect)
-        UITabBar.appearance().itemSpacing = -10
-        UITabBar.appearance().itemPositioning = .centered
-    }
 }

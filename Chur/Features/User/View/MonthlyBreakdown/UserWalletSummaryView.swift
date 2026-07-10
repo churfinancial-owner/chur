@@ -61,9 +61,8 @@ struct UserWalletSummaryView: View {
         )) { detail in
             MonthDetailSheet(
                 month: detail.month,
-                cards: detail.cards,
-                fees: feesForMonth(detail.month, year: selectedYear),
-                savings: savingsForMonth(detail.month, year: selectedYear)
+                year: selectedYear,
+                cards: detail.cards
             )
         }
         .sheet(isPresented: $showYearSummary) {
@@ -129,22 +128,16 @@ extension UserWalletSummaryView {
     
     func savingsForMonth(_ month: Int, year: Int) -> Int {
         cards.reduce(0) { totalSavings, card in
-            // Guard: Card must exist in the year/month being viewed
-            guard year > card.approvedYear || (year == card.approvedYear && month >= card.approvedMonth) else {
-                return totalSavings
-            }
-            
             let cardSavings = card.benefits.reduce(0) { benefitSum, benefit in
-                let monthlyRecords = benefit.usageHistory.filter { $0.month == month && $0.year == year }
-                
+                let records = benefit.usageHistory.filter { $0.month == month && $0.year == year }
                 if benefit.usageLimit != nil {
-                    return benefitSum + (monthlyRecords.count * benefit.value)
+                    return benefitSum + (records.count * benefit.value)
                 } else {
-                    return benefitSum + monthlyRecords.map(\.redeemedAmount).reduce(0, +)
+                    return benefitSum + records.reduce(0) { $0 + $1.redeemedAmount }
                 }
             }
-            
             return totalSavings + cardSavings
         }
     }
 }
+

@@ -1,0 +1,20 @@
+{
+    "id": "airline_credit_bofa_100",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Airline Incidental Credits",
+            "description": "Receive up to $100 annually in Airline Incidental Statement Credits for qualifying purchases such as seat upgrades, baggage fees, airline lounge fees and in-flight services"
+        }
+    },
+    "value": 100,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "displayOrder": 0,
+    "isActive": true
+}

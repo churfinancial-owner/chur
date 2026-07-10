@@ -1,10 +1,8 @@
-
 //
 //  OnboardingAddCardsStep.swift
 //  Chur
 //
 //  Step 4: Add first cards from the database.
-//  Reuses CardAddFilterState and CardDatabaseRow components.
 //
 
 import SwiftUI
@@ -12,47 +10,57 @@ import SwiftData
 
 struct OnboardingAddCardsStep: View {
     let selectedCountry: String
+    
+    // Bindings to persist data in the container
+    @Binding var pendingTemplates: [CardTemplate]
+    @Binding var pendingTemplateCounts: [String: Int]
+    
     let onContinue: ([CardTemplate]) -> Void
-    let onSkip: () -> Void
 
     @State private var filterState: CardAddFilterState
-    @State private var pendingTemplates: [CardTemplate] = []
-    @State private var pendingTemplateCounts: [String: Int] = [:]
     
-    init(selectedCountry: String, onContinue: @escaping ([CardTemplate]) -> Void, onSkip: @escaping () -> Void) {
+    init(selectedCountry: String,
+         pendingTemplates: Binding<[CardTemplate]>,
+         pendingTemplateCounts: Binding<[String: Int]>,
+         onContinue: @escaping ([CardTemplate]) -> Void) {
+        
         self.selectedCountry = selectedCountry
+        self._pendingTemplates = pendingTemplates
+        self._pendingTemplateCounts = pendingTemplateCounts
         self.onContinue = onContinue
-        self.onSkip = onSkip
         _filterState = State(initialValue: CardAddFilterState(userCountry: selectedCountry))
     }
 
     var body: some View {
         VStack(spacing: 0) {
-            // Header
             VStack(spacing: 8) {
-                Text("Add Cards")
+                // Professional Title
+                Text("Add Your Cards")
                     .font(.churTitle())
                     .foregroundStyle(Color.churDarkGray)
+                
+                Text("Select the cards currently in your wallet.")
+                    .font(.churRowTextRegular())
+                    .foregroundStyle(Color.churMediumGray)
             }
             .padding(.top, 8)
             .padding(.bottom, 12)
 
-            // Replaces: CardAddFilterSection, Divider, and the ScrollView/LazyVStack logic
             CardPickerCoreView(
                 filterState: $filterState,
                 pendingTemplates: $pendingTemplates,
                 pendingTemplateCounts: $pendingTemplateCounts,
-                existingTemplateIds: [], // Empty during onboarding
-                onDuplicateDetected: { _ in } // No alert needed for onboarding
+                existingTemplateIds: [],
+                onDuplicateDetected: { _ in }
             )
 
-            // Bottom buttons
             VStack(spacing: 12) {
                 Button {
                     onContinue(pendingTemplates)
                 } label: {
                     HStack(spacing: 8) {
-                        Text("Continue")
+                        // Changed text to "Finish" for the final step
+                        Text(pendingTemplates.isEmpty ? "Finish" : "Finish & Setup Wallet")
                             .font(.churHeadline())
 
                         if !pendingTemplates.isEmpty {
@@ -70,17 +78,9 @@ struct OnboardingAddCardsStep: View {
                     .background(Color.churOlive)
                     .clipShape(RoundedRectangle(cornerRadius: 14))
                 }
-
-                Button {
-                    onSkip()
-                } label: {
-                    Text("I'll add cards later")
-                        .font(.churRowTextMedium())
-                        .foregroundStyle(Color.churMediumGray)
-                }
             }
             .padding(.horizontal, 24)
-            .padding(.bottom, 16)
+            .padding(.bottom, 24) // Added a bit more breathing room at the bottom
             .padding(.top, 8)
             .background(
                 Color.churOffWhite
@@ -93,10 +93,7 @@ struct OnboardingAddCardsStep: View {
         }
     }
 
-    // MARK: - Data Loading
-
     private func loadInitialData() async {
-        // Prepare filterState with database cards
         filterState.selectedCountry = selectedCountry
         filterState.allTemplates = CardDatabase.getAllCards()
         filterState.updateFilterOptionsCache()

@@ -14,6 +14,9 @@ struct RootView: View {
     var body: some View {
         if let user = users.first, user.onboardingCompleted {
             ContentView()
+                .environment(\.rewardDisplay, RewardDisplayPreference(
+                    showEffectiveRate: user.showEffectiveRate
+                ))
         } else {
             OnboardingContainerView()
         }

@@ -1,13 +1,9 @@
 //
-//  MonthBarView.swift
+//  MonthlyTimelineView.swift
 //  Chur
 //
 //  Created by Pak Ho on 2/2/26.
-//  Proportional vertical bar stack using ZStack/VStack for multi-metric visualization.
-//  Includes Tap/LongPress redundancy and UIImpactFeedback for enhanced tactile response.
 //
-
-
 
 import SwiftUI
 import SwiftData
@@ -22,115 +18,113 @@ struct MonthlyTimelineView: View {
     @State private var showInfoTip = false
     
     private let numericMonths = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
-    private let chartAreaHeight: CGFloat = 140
+    private let chartAreaHeight: CGFloat = 160 // Taller for better visual resolution
 
-    var maxValue: CGFloat {
-        let allValues = (1...12).flatMap { m in
-            [CGFloat(feesForMonth(m, selectedYear)), CGFloat(savingsForMonth(m, selectedYear))]
-        }
-        return (allValues.max() ?? 100) * 1.2
+    var maxFees: CGFloat {
+        let values = (1...12).map { CGFloat(feesForMonth($0, selectedYear)) }
+        return (values.max() ?? 100) * 1.2
     }
 
-    private var currentMonth: Int {
-        Calendar.current.component(.month, from: Date.current())
+    var maxSavings: CGFloat {
+        let values = (1...12).map { CGFloat(savingsForMonth($0, selectedYear)) }
+        return (values.max() ?? 100) * 1.2
     }
-    
-    private var currentYear: Int {
-        Calendar.current.component(.year, from: Date.current())
-    }
+
+    private var currentMonth: Int { Calendar.current.component(.month, from: Date.now) }
+    private var currentYear: Int { Calendar.current.component(.year, from: Date.now) }
     
     var body: some View {
-        ZStack(alignment: .top) {
-            VStack(spacing: 12) {
-                // Header
-                HStack(spacing: 6) {
-                    Text("MONTHLY BREAKDOWN")
-                        .font(.churCaption())
-                        .foregroundStyle(Color.churLightGray)
-                    
-                    Button {
-                        withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
-                            showInfoTip.toggle()
-                        }
-                    } label: {
-                        Image(systemName: "info.circle")
-                            .font(.system(size: 13, weight: .medium))
-                            .foregroundStyle(Color.churLightGray)
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .center)
-                .padding(.horizontal, 16)
+        VStack(spacing: 20) {
+            // MARK: - Header
+            HStack(spacing: 8) {
+                Text("MONTHLY BREAKDOWN")
+                    .font(.churMicroBold())
+                    .foregroundStyle(Color.churMediumGray)
+                    .tracking(1.2)
                 
-                ScrollViewReader { proxy in
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        ZStack {
-                            HStack(alignment: .bottom, spacing: 16) {
-                                ForEach(1...12, id: \.self) { monthNumber in
-                                    let ytdNet = (1...monthNumber).reduce(0) { total, m in
-                                        total + savingsForMonth(m, selectedYear) - feesForMonth(m, selectedYear)
-                                    }
-                                    MonthBarView(
-                                        monthLabel: numericMonths[monthNumber - 1],
-                                        monthNumber: monthNumber,
-                                        fees: feesForMonth(monthNumber, selectedYear),
-                                        savings: savingsForMonth(monthNumber, selectedYear),
-                                        maxValue: maxValue,
-                                        chartAreaHeight: chartAreaHeight,
-                                        isCurrentMonth: selectedYear == currentYear && monthNumber == currentMonth,
-                                        cumulativeNetToDate: ytdNet,
-                                        onSelect: { selectedMonth = monthNumber }
-                                    )
-                                    .id(monthNumber)
-                                }
-                            }
-                            .padding(.horizontal, 16)
-                            .padding(.bottom, 16)
-                        }
+                Button {
+                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                        showInfoTip.toggle()
                     }
-                    .onAppear {
-                        if selectedYear == currentYear {
-                            proxy.scrollTo(currentMonth, anchor: .center)
-                        }
-                    }
-                    .onChange(of: selectedYear) {
-                        if selectedYear == currentYear {
-                            withAnimation {
-                                proxy.scrollTo(currentMonth, anchor: .center)
-                            }
-                        } else {
-                            withAnimation {
-                                proxy.scrollTo(1, anchor: .leading)
-                            }
-                        }
-                    }
+                } label: {
+                    Image(systemName: "info.circle.fill")
+                        .font(.churCaptionRegular())
+                        .foregroundStyle(Color.churLightGray.opacity(0.6))
                 }
-                .background(Color.churOffWhite)
+                
+                Spacer()
+                
             }
+            .padding(.horizontal, 24)
             
-            // Floating tooltip above everything
-            if showInfoTip {
-                Color.black.opacity(0.01)
-                    .ignoresSafeArea()
-                    .onTapGesture {
-                        withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
-                            showInfoTip = false
+            // MARK: - Timeline Scroll
+            ScrollViewReader { proxy in
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(alignment: .bottom, spacing: 18) {
+                        ForEach(1...12, id: \.self) { monthNumber in
+                            let ytdNet = (1...monthNumber).reduce(0) { total, m in
+                                total + savingsForMonth(m, selectedYear) - feesForMonth(m, selectedYear)
+                            }
+                            
+                            MonthBarView(
+                                monthLabel: numericMonths[monthNumber - 1],
+                                monthNumber: monthNumber,
+                                fees: feesForMonth(monthNumber, selectedYear),
+                                savings: savingsForMonth(monthNumber, selectedYear),
+                                maxFees: maxFees,
+                                maxSavings: maxSavings,
+                                chartAreaHeight: chartAreaHeight,
+                                isCurrentMonth: selectedYear == currentYear && monthNumber == currentMonth,
+                                cumulativeNetToDate: ytdNet,
+                                onSelect: {
+                                    selectedMonth = monthNumber
+                                }
+                            )
+                            .id(monthNumber)
                         }
                     }
-                
-                VStack(alignment: .leading, spacing: 6) {
-                    Label("Green bar — benefits redeemed that month", systemImage: "arrow.up")
-                        .foregroundStyle(.green)
-                    Label("Red bar — annual fees charged that month", systemImage: "arrow.down")
-                        .foregroundStyle(.red)
+                    .padding(.horizontal, 24)
+                    .padding(.bottom, 12)
                 }
-                .font(.system(size: 12, weight: .medium, design: .rounded))
-                .padding(12)
-                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
-                .shadow(color: .black.opacity(0.1), radius: 10, y: 4)
-                .padding(.horizontal, 24)
-                .padding(.top, 30)
-                .transition(.opacity.combined(with: .scale(scale: 0.9, anchor: .top)))
+                .onAppear {
+                    if selectedYear == currentYear {
+                        proxy.scrollTo(currentMonth, anchor: .center)
+                    }
+                }
+                .onChange(of: selectedYear) {
+                    if selectedYear == currentYear {
+                        withAnimation { proxy.scrollTo(currentMonth, anchor: .center) }
+                    } else {
+                        withAnimation { proxy.scrollTo(1, anchor: .leading) }
+                    }
+                }
             }
+        }
+        .overlay(alignment: .top) {
+            if showInfoTip {
+                infoTooltip
+                    .padding(.top, 40)
+                    .transition(.opacity.combined(with: .scale(scale: 0.9)))
+            }
+        }
+    }
+
+    private func calculateYTDNet() -> Int {
+        (1...12).reduce(0) { $0 + savingsForMonth($1, selectedYear) - feesForMonth($1, selectedYear) }
+    }
+
+    private var infoTooltip: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Label("Redeemed", systemImage: "arrow.up").foregroundStyle(.green)
+            Label("Annual Fees", systemImage: "arrow.down").foregroundStyle(.red)
+        }
+        .font(.churMicroBold())
+        .padding(12)
+        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
+        .shadow(color: .black.opacity(0.1), radius: 10, y: 5)
+        .onTapGesture {
+            withAnimation { showInfoTip = false }
         }
     }
 }

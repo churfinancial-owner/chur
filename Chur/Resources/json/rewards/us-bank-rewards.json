@@ -12,6 +12,11 @@
             "rate": 3.0,
             "rewardProgramName": "Cash Back Rewards",
             "category": "mobile_pay"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "everything"
         }
     ],
 
@@ -285,8 +290,7 @@
                         "electronics_stores"
                     ]
                 }
-            ],
-            "rewardNotes": "5% on your first chosen category"
+            ]
         },
         {
             "rate": 5.0,
@@ -369,8 +373,7 @@
                         "electronics_stores"
                     ]
                 }
-            ],
-            "rewardNotes": "5% on your second chosen category"
+            ]
         },
         {
             "rate": 2.0,
@@ -397,8 +400,7 @@
                         "dining"
                     ]
                 }
-            ],
-            "rewardNotes": "2% on your chosen everyday category"
+            ]
         },
         {
             "rate": 1.0,

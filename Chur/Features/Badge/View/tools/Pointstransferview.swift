@@ -87,13 +87,13 @@ struct PointTransferView: View {
     private var heroHeader: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("TRAVEL")
-                .font(.system(size: 10, weight: .black, design: .rounded))
+                .font(.churBadgeBold())
                 .foregroundStyle(.black)
                 .padding(.horizontal, 10).padding(.vertical, 6)
                 .background(Color.churPillColor1Orange).clipShape(Capsule())
 
             Text("Transfer Partners")
-                .font(.system(size: 30, weight: .bold, design: .rounded))
+                .font(.churTitle())
                 .foregroundStyle(Color.churDarkGray)
             
             headerDescription
@@ -144,7 +144,7 @@ struct PointTransferView: View {
     private func partnerSection(title: String, icon: String, items: [String], color: Color, isBank: Bool) -> some View {
         VStack(alignment: .leading, spacing: 14) {
             Label(title, systemImage: icon)
-                .font(.system(size: 11, weight: .black, design: .rounded))
+                .font(.churMicroBold())
                 .foregroundStyle(Color.churMediumGray)
                 .tracking(1.1)
 

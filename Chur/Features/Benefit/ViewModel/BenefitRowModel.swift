@@ -115,6 +115,10 @@ final class BenefitRowViewModel {
         return expiry > now && expiry < warningDate
     }
 
+    var shouldShowExpiryWarning: Bool {
+        isWithinExpiryWarning && !benefit.isMuted
+    }
+
     // MARK: - Actions
     
     func handleToggle(onConfirmWipe: @escaping () -> Void) {
@@ -153,11 +157,19 @@ final class BenefitRowViewModel {
         } else if analyzer.isValueBased, let budget = analyzer.periodBudget(), budget > 0 {
             let remaining = budget - analyzer.usedThisPeriod()
             guard remaining > 0 else { return }
-            logger.logUsage(for: benefit, approvedMonth: approvedMonth, mode: .amount(remaining), notes: notes, source: source, modelContext: modelContext)
+            // For auto-apply, use the stored custom amount (capped at remaining)
+            let amountToLog = source == .auto
+                ? min(benefit.autoApplyAmount ?? remaining, remaining)
+                : remaining
+            logger.logUsage(for: benefit, approvedMonth: approvedMonth, mode: .amount(amountToLog), notes: notes, source: source, modelContext: modelContext)
         } else if let limit = benefit.usageLimit {
             let remaining = limit - analyzer.usedThisPeriod()
             guard remaining > 0 else { return }
-            for _ in 0..<remaining {
+            // For auto-apply, use the stored custom count (capped at remaining)
+            let countToLog = source == .auto
+                ? min(benefit.autoApplyAmount ?? remaining, remaining)
+                : remaining
+            for _ in 0..<countToLog {
                 _ = logger.logUsage(for: benefit, approvedMonth: approvedMonth, mode: .count, notes: notes, source: source, modelContext: modelContext)
             }
         }
@@ -186,8 +198,11 @@ final class BenefitRowViewModel {
     }
 
     func attemptAutoApply() {
+        // Only fire if nothing has been logged yet this period — partial manual
+        // usage means the user has already handled this period themselves.
         guard !didAutoApplyThisSession, benefit.autoApplyEnabled,
-              benefit.trackingMode == "auto", !isUsedInPeriod else { return }
+              benefit.trackingMode == "auto",
+              analyzer.usedThisPeriod() == 0 else { return }
         applyUsage(source: .auto)
     }
 }

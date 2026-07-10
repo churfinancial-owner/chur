@@ -26,52 +26,27 @@ struct Badge: Codable, Identifiable, Hashable {
     let hasTiers: Bool
     let detectionRules: [BadgeRule]
     
-    // Computed property for display name
     var displayName: String {
-        let languageCode = Locale.current.language.languageCode?.identifier
-        let regionCode = Locale.current.region?.identifier
-        
-        // Check for Chinese variants
-        if languageCode == "zh" {
-            // Hong Kong
-            if regionCode == "HK" {
-                return nameZH_HK
-            }
-            // Taiwan
-            else if regionCode == "TW" {
-                return nameZH_TW
-            }
-            // Mainland China (default for other Chinese locales)
-            else {
-                return nameZH_Hans
-            }
+        switch localePriority {
+        case "HK": return nameZH_HK
+        case "TW": return nameZH_TW
+        case "zh": return nameZH_Hans
+        default:   return nameEN
         }
-        
-        return nameEN
     }
-    
-    // Computed property for display description
+
     var displayDescription: String {
-        let languageCode = Locale.current.language.languageCode?.identifier
-        let regionCode = Locale.current.region?.identifier
-        
-        // Check for Chinese variants
-        if languageCode == "zh" {
-            // Hong Kong
-            if regionCode == "HK" {
-                return descriptionZH_HK
-            }
-            // Taiwan
-            else if regionCode == "TW" {
-                return descriptionZH_TW
-            }
-            // Mainland China (default for other Chinese locales)
-            else {
-                return descriptionZH_Hans
-            }
+        switch localePriority {
+        case "HK": return descriptionZH_HK
+        case "TW": return descriptionZH_TW
+        case "zh": return descriptionZH_Hans
+        default:   return descriptionEN
         }
-        
-        return descriptionEN
+    }
+
+    private var localePriority: String {
+        guard Locale.current.language.languageCode?.identifier == "zh" else { return "en" }
+        return Locale.current.region?.identifier ?? "zh"
     }
     
     // Use icon if available, fallback to emoji
@@ -136,14 +111,10 @@ enum BadgeTier: Int {
     
     var color: Color {
         switch self {
-        case .locked:
-            return .churLightGray
-        case .tier1:
-            return Color(red: 0.8, green: 0.5, blue: 0.2) // Bronze
-        case .tier2:
-            return Color(red: 0.75, green: 0.75, blue: 0.75) // Silver
-        case .tier3:
-            return Color(red: 1.0, green: 0.84, blue: 0.0) // Gold
+        case .locked: return .churLightGray
+        case .tier1:  return .churTierBronze
+        case .tier2:  return .churTierSilver
+        case .tier3:  return .churTierGold
         }
     }
     

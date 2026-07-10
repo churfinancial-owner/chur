@@ -1,0 +1,14 @@
+{
+    "id": "chase-ink-business-plus",
+    "name": "Ink Business Plus (Legacy)",
+    "issuer": "Chase",
+    "network": "Visa",
+    "imageName": "chase-ink-business-plus",
+    "cardType": "business",
+    "annualFee": 95,
+    "currency": "USD",
+    "country": "US",
+    "hasForeignTransactionFee": false,
+    "isPopular": false,
+    "benefits": []
+}

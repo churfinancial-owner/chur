@@ -9,7 +9,7 @@
     "currency": "USD",
     "country": "US",
     "hasForeignTransactionFee": false,
-    "isPopular": true,
+    "isPopular": false,
     "popularSortOrder": 2,
     "benefits": [
         "uber_credit_amex_plat_15",

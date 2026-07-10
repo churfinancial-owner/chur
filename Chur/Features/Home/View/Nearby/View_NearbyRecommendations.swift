@@ -15,6 +15,7 @@ struct NearbyRecommendationsSection: View {
     let cards: [CreditCard]
     let categories: [SpendingCategory]
     let boostEnrollments: [String: String]
+    var initialMerchants: [NearbyMerchant] = []
     var onOpenSearch: (() -> Void)? = nil
     var onLocationResolved: ((String?, String?) -> Void)? = nil
     
@@ -25,6 +26,7 @@ struct NearbyRecommendationsSection: View {
     @State private var isRefreshing: Bool = false
     @State private var searchError: String?
     @State private var locationLabel: String?
+    @State private var currentSearchTask: Task<Void, Never>?
     
     private let placesService = NearbyPlacesService()
     
@@ -62,16 +64,24 @@ struct NearbyRecommendationsSection: View {
             }
         }
         .task {
+            // If the search tab already has results, use those instead of running a fresh search
+            if !initialMerchants.isEmpty && nearbyMerchants.isEmpty {
+                nearbyMerchants = initialMerchants
+                return
+            }
             if !cards.isEmpty && locationManager.hasPermission && nearbyMerchants.isEmpty {
-                await searchNearbyPlaces()
+                currentSearchTask?.cancel()
+                currentSearchTask = Task { await searchNearbyPlaces() }
             }
         }
         .onChange(of: locationManager.location) { _, newLocation in
-            if !cards.isEmpty, let newLocation {
-                Task {
-                    await resolveLocationContext(for: newLocation)
-                    await searchNearbyPlaces()
-                }
+            guard !cards.isEmpty, let newLocation else { return }
+            // Reject low-accuracy or stale fixes (negative accuracy = invalid)
+            guard newLocation.horizontalAccuracy > 0, newLocation.horizontalAccuracy < 100 else { return }
+            currentSearchTask?.cancel()
+            currentSearchTask = Task {
+                await resolveLocationContext(for: newLocation)
+                await searchNearbyPlaces()
             }
         }
 
@@ -120,16 +130,7 @@ struct NearbyRecommendationsSection: View {
     }
     
     private var listPopupButton: some View {
-        Button { onOpenSearch?() } label: {
-            ZStack {
-                Circle()
-                    .fill(Color.churOliveLight)
-                    .frame(width: 32, height: 32)
-                Image(systemName: "signpost.right.and.left")
-                    .font(.churImageMedium())
-                    .foregroundStyle(.churDarkOlive)
-            }
-        }
+        OliveIconButton(icon: "signpost.right.and.left") { onOpenSearch?() }
     }
     
     private var horizontalScrollView: some View {
@@ -150,42 +151,55 @@ struct NearbyRecommendationsSection: View {
             locationManager.requestLocation()
             return
         }
-        
+
+        // Reject low-accuracy or invalid fixes before kicking off a MapKit search
+        guard location.horizontalAccuracy > 0, location.horizontalAccuracy < 100 else {
+            locationManager.requestLocation()
+            return
+        }
+
         isSearching = true
         searchError = nil
-        
+
         do {
             let stream = try await placesService.searchNearby(
                 location: location.coordinate,
                 radius: NearbyPlacesService.defaultRadius
             )
-            
+
             for await merchants in stream {
+                guard !Task.isCancelled else { return }
                 await MainActor.run {
                     withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
                         self.nearbyMerchants = merchants
                     }
                 }
             }
-            
+
+            guard !Task.isCancelled else { return }
+
             if nearbyMerchants.isEmpty {
                 let fallback = try await placesService.searchSimple(
                     location: location.coordinate,
                     query: "restaurants stores shops"
                 )
+                guard !Task.isCancelled else { return }
                 await MainActor.run { self.nearbyMerchants = fallback }
             }
             isSearching = false
         } catch {
-            await MainActor.run {
-                self.searchError = error.localizedDescription
-                self.isSearching = false
+            if !Task.isCancelled {
+                await MainActor.run {
+                    self.searchError = error.localizedDescription
+                    self.isSearching = false
+                }
             }
         }
     }
 
     private func refreshNearbyPlaces() async {
         guard !isRefreshing else { return }
+        currentSearchTask?.cancel()
         isRefreshing = true
         nearbyMerchants = []
         searchError = nil

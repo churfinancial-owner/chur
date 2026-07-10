@@ -7,6 +7,28 @@
 
 import SwiftUI
 
+// MARK: - Shared Sheet Header
+
+struct DetailSheetTitleBlock: View {
+    let title: String
+    let subtitle: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(title)
+                .font(.churBigTitle3())
+                .foregroundStyle(Color.churDarkGray)
+            Text(subtitle)
+                .font(.churSmallBold())
+                .foregroundStyle(Color.churMediumGray)
+                .tracking(0.5)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal, 24)
+        .padding(.top, 16)
+    }
+}
+
 // MARK: - Shared Data Models
 struct BenefitDetail: Identifiable {
     let id = UUID()
@@ -55,7 +77,7 @@ struct BenefitGroupRow: View {
                     .foregroundStyle(.green)
 
                 Image(systemName: "chevron.right")
-                    .font(.system(size: 10, weight: .heavy))
+                    .font(.churBadgeBold())
                     .foregroundStyle(Color.churLightGray)
                     .rotationEffect(.degrees(isExpanded ? 90 : 0))
             }
@@ -76,7 +98,7 @@ struct BenefitGroupRow: View {
                                 .foregroundStyle(Color.churMediumGray)
                             Spacer()
                             Text("$\(detail.amount)")
-                                .font(.system(size: 13, weight: .semibold, design: .rounded))
+                                .font(.churFootnoteBold())
                                 .foregroundStyle(Color.churDarkGray)
                         }
                         .padding(.horizontal, 16)

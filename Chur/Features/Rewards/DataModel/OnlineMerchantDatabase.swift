@@ -173,9 +173,11 @@ struct OnlineMerchantDatabase {
             longitude: 0,
             distance: 0,
             address: merchant.domain ?? "",
-            region: merchant.businessRegion?.first,  // Use first region for card filtering
+            region: merchant.businessRegion?.first,
             poiCategory: nil,
-            paymentMethods: merchant.paymentMethods.map { Set($0) }
+            paymentMethods: merchant.paymentMethods.map { Set($0) },
+            // nil businessRegion = global (no FX fee for any card); array = explicit accepted regions
+            acceptedRegions: merchant.businessRegion.map { Set($0) }
         )
     }
 }

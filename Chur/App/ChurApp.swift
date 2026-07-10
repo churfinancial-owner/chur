@@ -14,23 +14,16 @@ struct ChurApp: App {
     
     init() {
         GIDSignIn.sharedInstance.configuration = GIDConfiguration(
-            clientID: "72421479384-khfht84hnp48i7svdvce61d06511eepu.apps.googleusercontent.com"
+            clientID: Config.googleClientID
         )
         TransferPartnerDatabase.loadFromBundle(region: RegionDatabase.detectUserRegion())
     }
     
     let modelContainer: ModelContainer = {
-        let schema = Schema(
-            [CreditCard.self, User.self, RewardRate.self, Benefit.self, SpendingCategory.self],
-            version: Schema.Version(1, 8, 0) // Updated to 1.8.0 for user override flags (hasCustomAnnualFee, hasCustomForeignFee, hasCustomPointValue)
-        )
-        let config = ModelConfiguration(
-            "Chur",
-            schema: schema,
-            isStoredInMemoryOnly: false
-        )
+        let schema = Schema(ChurSchemaV1_10.models, version: ChurSchemaV1_10.versionIdentifier)
+        let config = ModelConfiguration("Chur", schema: schema, isStoredInMemoryOnly: false)
         do {
-            return try ModelContainer(for: schema, configurations: config)
+            return try ModelContainer(for: schema, migrationPlan: ChurMigrationPlan.self, configurations: [config])
         } catch {
             #if DEBUG
             fatalError("❌ ModelContainer failed to initialise: \(error)\n\nTip: If you changed the schema, delete the app from the simulator to reset the store.")
@@ -40,10 +33,22 @@ struct ChurApp: App {
         }
     }()
 
+    /// Restores the previous Google Sign-In session on launch.
+    /// Without this, GIDSignIn.sharedInstance.currentUser is nil after every app restart,
+    /// causing CloudSyncManager to throw SyncError.notSignedIn even for returning users.
+    private func restoreGoogleSignIn() {
+        GIDSignIn.sharedInstance.restorePreviousSignIn { _, _ in
+            // No action needed — on success, currentUser is repopulated automatically.
+            // On failure (e.g. revoked token), currentUser stays nil and the user
+            // will be prompted to sign in again from Settings.
+        }
+    }
+
     var body: some Scene {
         WindowGroup {
             RootView()
                 .task { DateRefreshObserver.shared.start() }
+                .task { restoreGoogleSignIn() }
                 .onOpenURL { url in
                     GIDSignIn.sharedInstance.handle(url)
                 }

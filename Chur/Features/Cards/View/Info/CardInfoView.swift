@@ -1,6 +1,7 @@
 import SwiftUI
 
-// MARK: - Earning Rate Row (Refined Style)
+// MARK: - Earning Rate Row
+
 struct EarningRateRow: View {
     let category: SpendingCategory
     let rate: Double
@@ -17,28 +18,26 @@ struct EarningRateRow: View {
     
     var body: some View {
         HStack(spacing: 12) {
-            // Icon
             CategoryIconView(category: category, font: .system(size: 24))
                 .frame(width: 44, height: 44)
                 .background(Color.churOffWhite)
                 .clipShape(Circle())
             
-            // Category name
             Text(category.displayName)
                 .font(.churSectionHeader())
                 .foregroundStyle(Color.churDarkGray)
             
             Spacer()
             
-            // Rate
             Text(rate.formatAsRate())
-                .font(.system(size: 20, weight: .bold, design: .rounded))
+                .font(.churBigTitle4())
                 .foregroundStyle(numberColor)
         }
     }
 }
 
-// MARK: - Detail Row Component
+// MARK: - Detail Row
+
 struct DetailRow: View {
     let label: String
     let value: String
@@ -47,24 +46,22 @@ struct DetailRow: View {
     
     var body: some View {
         Button {
-            if isEditable {
-                onEdit?()
-            }
+            if isEditable { onEdit?() }
         } label: {
             HStack {
                 Text(label)
-                    .font(.system(size: 15, weight: .semibold, design: .rounded))
+                    .font(.churRowTextMedium())
                     .foregroundStyle(Color.churDarkGray)
                 
                 Spacer()
                 
                 Text(value)
-                    .font(.system(size: 15, weight: .semibold, design: .rounded))
+                    .font(.churRowTextMedium())
                     .foregroundStyle(Color.churMediumGray)
                 
                 if isEditable {
                     Image(systemName: "chevron.right")
-                        .font(.system(size: 12, weight: .bold))
+                        .font(.churSmallBold())
                         .foregroundStyle(Color.churMediumGray)
                         .padding(.leading, 4)
                 }
@@ -73,5 +70,29 @@ struct DetailRow: View {
         }
         .buttonStyle(.plain)
         .disabled(!isEditable)
+    }
+}
+
+// MARK: - Shared Section Components
+
+struct CardSectionHeader: View {
+    let title: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text(title)
+                .font(.churSmallBold())
+                .foregroundStyle(Color.churOlive)
+                .tracking(1.0)
+                .padding([.horizontal, .top], 20)
+                .padding(.bottom, 12)
+            Divider().padding(.horizontal, 20)
+        }
+    }
+}
+
+struct CardRowDivider: View {
+    var body: some View {
+        Divider().padding(.horizontal, 4).opacity(0.4)
     }
 }

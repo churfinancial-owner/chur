@@ -96,7 +96,7 @@ struct CouponingView: View {
     private var heroHeader: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text("LIFESTYLE")
-                .font(.system(size: 11, weight: .black, design: .rounded))
+                .font(.churMicroBold())
                 .foregroundStyle(Color.white)
                 .padding(.horizontal, 10)
                 .padding(.vertical, 6)
@@ -104,7 +104,7 @@ struct CouponingView: View {
                 .clipShape(Capsule())
 
             Text("Couponing")
-                .font(.system(size: 32, weight: .bold, design: .rounded))
+                .font(.churBigTitle3())
                 .foregroundStyle(Color.churDarkGray)
 
             Text("Credits and perks you receive through your cards.")
@@ -152,7 +152,7 @@ struct CouponingView: View {
                 // Center label
                 VStack(spacing: 2) {
                     Text("\(totalCreditCount)")
-                        .font(.system(size: 44, weight: .black, design: .rounded))
+                        .font(.churCounter())
                         .foregroundStyle(Color.churDarkGray)
                     Text("coupons")
                         .font(.churFootnoteBold())
@@ -205,7 +205,7 @@ struct CouponingView: View {
                                         : Color.churMediumGray
                                 )
                             Text("\(section.entries.count)")
-                                .font(.system(size: 11, weight: .black, design: .rounded))
+                                .font(.churMicroBold())
                                 .foregroundStyle(Color.churDarkGray)
                         }
                     }
@@ -226,7 +226,7 @@ struct CouponingView: View {
                     .foregroundStyle(section.category.color)
 
                 Text(section.category.label)
-                    .font(.system(size: 12, weight: .black, design: .rounded))
+                    .font(.churSmallBold())
                     .foregroundStyle(Color.churMediumGray)
                     .tracking(1)
 
@@ -273,7 +273,7 @@ struct CouponingView: View {
 
             // Card name
             Text(entry.card.name)
-                .font(.system(size: 12, weight: .medium, design: .rounded))
+                .font(.churSmallMedium())
                 .foregroundStyle(Color.churMediumGray)
                 .lineLimit(2)
         }
@@ -288,26 +288,8 @@ struct CouponingView: View {
         .shadow(color: accentColor.opacity(0.08), radius: 4, x: 0, y: 2)
     }
 
-    // MARK: - Empty State
-
     private var emptyState: some View {
-        VStack(spacing: 12) {
-            Image(systemName: "scissors")
-                .font(.churBigTitle3())
-                .foregroundStyle(Color.churMediumGray)
-            Text("No credits yet")
-                .font(.churSectionHeader())
-                .foregroundStyle(Color.churDarkGray)
-            Text("Add a card with credit benefits to see them here.")
-                .font(.system(size: 12, weight: .medium, design: .rounded))
-                .foregroundStyle(Color.churMediumGray)
-                .multilineTextAlignment(.center)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(32)
-        .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-        .shadow(color: .black.opacity(0.03), radius: 5, x: 0, y: 2)
+        EmptyStatePlaceholder(icon: "scissors", title: "No credits yet", subtitle: "Add a card with credit benefits to see them here.")
     }
 }
 
@@ -388,14 +370,14 @@ private enum CouponCategoryGroup: String, CaseIterable, Identifiable {
 
     var color: Color {
         switch self {
-        case .dining:         return Color(hex: "E8734A")
-        case .shopping:       return Color(hex: "5B8DEF")
-        case .entertainment:  return Color(hex: "9B59B6")
-        case .convenience:    return Color(hex: "2ECC71")
-        case .travel:         return Color(hex: "3498DB")
-        case .checkedBags:    return Color(hex: "E67E22")
-        case .business:       return Color(hex: "7F8C8D")
-        case .other:          return Color.churGold
+        case .dining:         return .churCouponDining
+        case .shopping:       return .churCouponShopping
+        case .entertainment:  return .churCouponEntertainment
+        case .convenience:    return .churCouponConvenience
+        case .travel:         return .churCouponTravel
+        case .checkedBags:    return .churCouponCheckedBags
+        case .business:       return .churCouponBusiness
+        case .other:          return .churGold
         }
     }
 

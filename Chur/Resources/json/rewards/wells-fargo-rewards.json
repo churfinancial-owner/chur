@@ -6,8 +6,7 @@
             "category": "everything"
         }
     ],
-    
-    
+
     "wf-attune-cash": [
         {
             "rate": 4.0,
@@ -24,8 +23,7 @@
                         "gym_fitness_centers"
                     ]
                 }
-            ],
-            "rewardNotes": "4% on Self-Care including gym memberships, at spas, and salons."
+            ]
         },
         {
             "rate": 4.0,
@@ -40,8 +38,7 @@
                         "florist"
                     ]
                 }
-            ],
-            "rewardNotes": "4% on Gardening and Floral"
+            ]
         },
         {
             "rate": 4.0,
@@ -56,15 +53,14 @@
                         "recreation_golf"
                     ]
                 }
-            ],
-            "rewardNotes": "4% on Recreation and Leisure Activities"
+            ]
         },
         {
             "rate": 4.0,
             "rewardProgramName": "Cash Back Rewards",
             "category": "pet_supply_stores",
-            "isUserConfigurable": true,
-            "configurableSlot": "2pct_slot_1",
+            "isUserConfigurable": false,
+            "configurableSlot": "null",
             "configurableOptions": [
                 {
                     "label": "Pet Care",
@@ -72,15 +68,14 @@
                         "pet_supply_stores"
                     ]
                 }
-            ],
-            "rewardNotes": "4% on Pet Care"
+            ]
         },
         {
             "rate": 4.0,
             "rewardProgramName": "Cash Back Rewards",
             "category": "entertainment",
-            "isUserConfigurable": true,
-            "configurableSlot": "2pct_slot_1",
+            "isUserConfigurable": false,
+            "configurableSlot": null,
             "configurableOptions": [
                 {
                     "label": "Sports/Entertainment",
@@ -88,16 +83,15 @@
                         "entertainment"
                     ]
                 }
-            ],
-            "rewardNotes": "4% on Sports & Live Entertainment"
+            ]
         },
 
         {
             "rate": 4.0,
             "rewardProgramName": "Cash Back Rewards",
             "category": "streaming",
-            "isUserConfigurable": true,
-            "configurableSlot": "2pct_slot_1",
+            "isUserConfigurable": false,
+            "configurableSlot": null,
             "configurableOptions": [
                 {
                     "label": "Streaming/Music",
@@ -105,8 +99,7 @@
                         "streaming"
                     ]
                 }
-            ],
-            "rewardNotes": "4% on Streaming, Music, Movies, and Books"
+            ]
         },
         {
             "rate": 4.0,
@@ -125,45 +118,6 @@
         }
     ],
         
-        
-    "wf-autograph": [
-        {
-            "rate": 3.0,
-            "rewardProgramName": "Wells Fargo Rewards",
-            "category": "dining"
-        },
-        {
-            "rate": 3.0,
-            "rewardProgramName": "Wells Fargo Rewards",
-            "category": "gas"
-        },
-        {
-            "rate": 3.0,
-            "rewardProgramName": "Wells Fargo Rewards",
-            "category": "travel"
-        },
-        {
-            "rate": 3.0,
-            "rewardProgramName": "Wells Fargo Rewards",
-            "category": "transit"
-        },
-        {
-            "rate": 3.0,
-            "rewardProgramName": "Wells Fargo Rewards",
-            "category": "cell_phone_providers"
-        },
-        {
-            "rate": 3.0,
-            "rewardProgramName": "Wells Fargo Rewards",
-            "category": "streaming"
-        },
-        {
-            "rate": 1.0,
-            "rewardProgramName": "Wells Fargo Rewards",
-            "category": "everything"
-        }
-    ],
-
     "wf-autograph-journey": [
         {
             "rate": 5.0,

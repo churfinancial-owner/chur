@@ -13,67 +13,29 @@ struct LocalizedStrings: Codable, Equatable {
     var description: String
 }
 
-// Computed property for display name
-
 extension Benefit {
     var displayName: String {
-        let languageCode = Locale.current.language.languageCode?.identifier
-        let regionCode = Locale.current.region?.identifier
-        
-        // Build locale key priority list
-        var localeKeys: [String] = []
-        
-        if languageCode == "zh" {
-            if regionCode == "HK" {
-                localeKeys = ["zh-Hant-HK", "zh-Hant", "zh", "en"]
-            } else if regionCode == "TW" {
-                localeKeys = ["zh-Hant-TW", "zh-Hant", "zh", "en"]
-            } else {
-                localeKeys = ["zh-Hans", "zh", "en"]
-            }
-        } else {
-            localeKeys = ["en"]
+        for key in localePriorityKeys {
+            if let s = localized[key] { return s.name }
         }
-        
-        // Try each locale key in priority order
-        for key in localeKeys {
-            if let localizedString = localized[key] {
-                return localizedString.name
-            }
-        }
-        
-        // Fallback to English if available
         return localized["en"]?.name ?? id
     }
-    
-    // Computed property for display description
+
     var displayDescription: String {
-        let languageCode = Locale.current.language.languageCode?.identifier
-        let regionCode = Locale.current.region?.identifier
-        
-        // Build locale key priority list
-        var localeKeys: [String] = []
-        
-        if languageCode == "zh" {
-            if regionCode == "HK" {
-                localeKeys = ["zh-Hant-HK", "zh-Hant", "zh", "en"]
-            } else if regionCode == "TW" {
-                localeKeys = ["zh-Hant-TW", "zh-Hant", "zh", "en"]
-            } else {
-                localeKeys = ["zh-Hans", "zh", "en"]
-            }
-        } else {
-            localeKeys = ["en"]
+        for key in localePriorityKeys {
+            if let s = localized[key] { return s.description }
         }
-        
-        // Try each locale key in priority order
-        for key in localeKeys {
-            if let localizedString = localized[key] {
-                return localizedString.description
-            }
-        }
-        
-        // Fallback to English if available
         return localized["en"]?.description ?? ""
+    }
+
+    private var localePriorityKeys: [String] {
+        let lang = Locale.current.language.languageCode?.identifier
+        let region = Locale.current.region?.identifier
+        guard lang == "zh" else { return ["en"] }
+        switch region {
+        case "HK": return ["zh-Hant-HK", "zh-Hant", "zh", "en"]
+        case "TW": return ["zh-Hant-TW", "zh-Hant", "zh", "en"]
+        default:   return ["zh-Hans", "zh", "en"]
+        }
     }
 }

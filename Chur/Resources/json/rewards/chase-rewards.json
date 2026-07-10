@@ -4,7 +4,7 @@
             "rate": 3.0,
             "rewardProgramName": "Cash Back Rewards",
             "category": "applepay_channel_merchant",
-            "rewardNotes": "When using Apple Pay at specific merchants like Nike, Uber, Walgreens, Duane Reade, Ace Hardware, Exxon, Mobil, T-Mobile, and through specific booking links for Booking.com and Hertz..."
+            "rewardNotes": "When using Apple Pay at specific merchants"
         },
         {
             "rate": 2.0,
@@ -357,34 +357,26 @@
         {
             "rate": 5.0,
             "rewardProgramName": "Chase Cash Back Rewards",
-            "category": "dining",
+            "category": "gas",
             "isRotating": true,
-            "rewardStartDate": "2026-01-01T00:00:00Z",
-            "rewardEndDate": "2026-03-31T23:59:59Z"
+            "rewardStartDate": "2026-07-01T00:00:00Z",
+            "rewardEndDate": "2026-09-30T23:59:59Z"
         },
         {
             "rate": 5.0,
             "rewardProgramName": "Chase Cash Back Rewards",
-            "category": "cruises_Norwegian",
+            "category": "entertainment",
             "isRotating": true,
-            "rewardStartDate": "2026-01-01T00:00:00Z",
-            "rewardEndDate": "2026-03-31T23:59:59Z"
+            "rewardStartDate": "2026-07-01T00:00:00Z",
+            "rewardEndDate": "2026-09-30T23:59:59Z"
         },
         {
             "rate": 5.0,
             "rewardProgramName": "Chase Cash Back Rewards",
-            "category": "donation_aha",
+            "category": "transit",
             "isRotating": true,
-            "rewardStartDate": "2026-01-01T00:00:00Z",
-            "rewardEndDate": "2026-03-31T23:59:59Z"
-        },
-        {
-            "rate": 5.0,
-            "rewardProgramName": "Chase Cash Back Rewards",
-            "category": "flights",
-            "isRotating": true,
-            "rewardStartDate": "2026-04-01T00:00:00Z",
-            "rewardEndDate": "2026-06-30T23:59:59Z"
+            "rewardStartDate": "2026-07-01T00:00:00Z",
+            "rewardEndDate": "2026-09-30T23:59:59Z"
         },
         {
             "rate": 3.0,
@@ -412,39 +404,31 @@
             "category": "everything"
         }
     ],
-    
+
     "chase-freedom-original": [
         {
             "rate": 5.0,
             "rewardProgramName": "Chase Cash Back Rewards",
-            "category": "dining",
+            "category": "gas",
             "isRotating": true,
-            "rewardStartDate": "2026-01-01T00:00:00Z",
-            "rewardEndDate": "2026-03-31T23:59:59Z"
+            "rewardStartDate": "2026-07-01T00:00:00Z",
+            "rewardEndDate": "2026-09-30T23:59:59Z"
         },
         {
             "rate": 5.0,
             "rewardProgramName": "Chase Cash Back Rewards",
-            "category": "cruises_Norwegian",
+            "category": "entertainment",
             "isRotating": true,
-            "rewardStartDate": "2026-01-01T00:00:00Z",
-            "rewardEndDate": "2026-03-31T23:59:59Z"
+            "rewardStartDate": "2026-07-01T00:00:00Z",
+            "rewardEndDate": "2026-09-30T23:59:59Z"
         },
         {
             "rate": 5.0,
             "rewardProgramName": "Chase Cash Back Rewards",
-            "category": "donation_aha",
+            "category": "transit",
             "isRotating": true,
-            "rewardStartDate": "2026-01-01T00:00:00Z",
-            "rewardEndDate": "2026-03-31T23:59:59Z"
-        },
-        {
-            "rate": 5.0,
-            "rewardProgramName": "Chase Cash Back Rewards",
-            "category": "flights",
-            "isRotating": true,
-            "rewardStartDate": "2026-04-01T00:00:00Z",
-            "rewardEndDate": "2026-06-30T23:59:59Z"
+            "rewardStartDate": "2026-07-01T00:00:00Z",
+            "rewardEndDate": "2026-09-30T23:59:59Z"
         },
         {
             "rate": 3.0,
@@ -525,6 +509,41 @@
         }
     ],
     
+    "chase-ink-business-plus": [
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Ultimate Rewards",
+            "category": "office_supplies"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Ultimate Rewards",
+            "category": "telecommunication"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Ultimate Rewards",
+            "category": "gas"
+        },
+        {
+            "rate": 2.0,
+            "rewardProgramName": "Ultimate Rewards",
+            "category": "hotels"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Ultimate Rewards",
+            "category": "everything"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Ultimate Rewards",
+            "category": "lyft",
+            "rewardStartDate": "2025-01-01T00:00:00Z",
+            "rewardEndDate": "2027-09-30T23:59:59Z"
+        }
+    ],
+
     "chase-ink-business-cash": [
         {
             "rate": 5.0,
@@ -952,8 +971,7 @@
         {
             "rate": 4.0,
             "rewardProgramName": "Marriott Bonvoy",
-            "category": "dining",
-            "rewardNotes": "4X at restaurants worldwide, including takeout and delivery in the U.S."
+            "category": "dining"
         },
         {
             "rate": 2.0,
@@ -1103,7 +1121,7 @@
             "rewardProgramName": "World of Hyatt",
             "category": null,
             "isUserConfigurable": true,
-            "configurableSlot": "5pct_slot_1",
+            "configurableSlot": "2pct_slot_1",
             "configurableOptions": [
                 {
                     "label": "Flights",
@@ -1153,15 +1171,14 @@
                         "advertising"
                     ]
                 }
-            ],
-            "rewardNotes": "Earn 2% on your Top two Spend Category"
+            ]
         },
         {
             "rate": 2.0,
             "rewardProgramName": "World of Hyatt",
             "category": null,
             "isUserConfigurable": true,
-            "configurableSlot": "5pct_slot_2",
+            "configurableSlot": "2pct_slot_1",
             "configurableOptions": [
                 {
                     "label": "Flights",
@@ -1211,8 +1228,7 @@
                         "advertising"
                     ]
                 }
-            ],
-            "rewardNotes": "Earn 2% on your Top two Spend Category"
+            ]
         },
         {
             "rate": 4.0,

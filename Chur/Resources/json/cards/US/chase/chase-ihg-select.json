@@ -11,6 +11,7 @@
     "hasForeignTransactionFee": false,
     "isPopular": false,
     "benefits": [
+        "ihg_free_night_reward",
         "ihg_silver_status",
         "ihg_fourthnightfree_chase"
     ]

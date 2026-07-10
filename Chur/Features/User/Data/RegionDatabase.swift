@@ -61,6 +61,23 @@ struct RegionDatabase {
         byID[countryID]?.currencySymbol ?? "$"
     }
 
+    /// Returns the flag emoji for a 2-letter ISO country code (e.g. "US" → "🇺🇸").
+    /// Returns nil for invalid or nil input.
+    static func flagEmoji(for code: String?) -> String? {
+        guard let code = normalizeRegionCode(code) else { return nil }
+        let scalars = code.unicodeScalars.compactMap { Unicode.Scalar(127397 + $0.value) }
+        guard scalars.count == 2 else { return nil }
+        return scalars.map { String($0) }.joined()
+    }
+
+    /// Normalizes a raw region/locale code to a canonical uppercase ISO country code.
+    /// US territories (PR, VI, GU, AS, MP) are mapped to "US".
+    /// Returns nil for blank or nil input.
+    static func normalizeRegionCode(_ code: String?) -> String? {
+        guard let raw = code?.trimmingCharacters(in: .whitespacesAndNewlines).uppercased(), !raw.isEmpty else { return nil }
+        return ["PR", "VI", "GU", "AS", "MP"].contains(raw) ? "US" : raw
+    }
+
     // MARK: - Private Loaders
 
     private static func loadAllRegions() -> [Region] {

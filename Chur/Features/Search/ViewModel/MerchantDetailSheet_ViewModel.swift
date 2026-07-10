@@ -43,7 +43,8 @@ class MerchantDetailViewModel {
             channel: channel,
             // Online merchants require explicit paymentMethods declaration; nil → empty set (no PM rewards).
             // In-store merchants keep nil = no restriction.
-            acceptedPaymentMethods: channel == "online" ? (merchant.paymentMethods ?? Set<String>()) : merchant.paymentMethods
+            acceptedPaymentMethods: channel == "online" ? (merchant.paymentMethods ?? Set<String>()) : merchant.paymentMethods,
+            acceptedRegions: merchant.acceptedRegions
         )
         
         self.bestCardSummary = calculator.bestCard

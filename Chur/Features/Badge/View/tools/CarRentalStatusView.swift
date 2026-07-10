@@ -21,7 +21,7 @@ struct CarRentalStatusView: View {
         return grouped.map { name, entries in
             CarRentalGroup(
                 programName: name,
-                cards: entries.map { CardRef(name: $0.card.name, imageName: $0.card.imageName) }
+                cards: entries.map { PerkCardRef(name: $0.card.name, imageName: $0.card.imageName) }
             )
         }
         .sorted { $0.programName < $1.programName }
@@ -41,7 +41,7 @@ struct CarRentalStatusView: View {
                     // MARK: - Hero Header
                     VStack(alignment: .leading, spacing: 6) {
                         Text("TRAVEL")
-                            .font(.system(size: 10, weight: .black, design: .rounded))
+                            .font(.churBadgeBold())
                             .foregroundStyle(.black)
                             .padding(.horizontal, 10)
                             .padding(.vertical, 6)
@@ -105,7 +105,7 @@ struct CarRentalStatusView: View {
             // Qualifying cards
             VStack(alignment: .leading, spacing: 8) {
                 Text("COVERED BY \(group.cards.count) CARD\(group.cards.count == 1 ? "" : "S")")
-                    .font(.system(size: 9, weight: .black, design: .rounded))
+                    .font(.churNanoBold())
                     .foregroundStyle(Color.churMediumGray)
                     .tracking(0.5)
 
@@ -124,47 +124,10 @@ struct CarRentalStatusView: View {
         .shadow(color: .black.opacity(0.03), radius: 5, x: 0, y: 2)
     }
 
-    // MARK: - Card Chip
-
-    private func cardChip(card: CardRef) -> some View {
-        HStack(spacing: 8) {
-            Image(card.imageName)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 36, height: 24)
-                .clipShape(RoundedRectangle(cornerRadius: 4))
-
-            Text(card.name)
-                .font(.churSmallBold())
-                .foregroundStyle(Color.churDarkGray)
-                .lineLimit(1)
-        }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 8)
-        .background(Color.churOffWhite)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
-    }
-
-    // MARK: - Empty State
+    private func cardChip(card: PerkCardRef) -> some View { PerkCardChip(card: card) }
 
     private var emptyState: some View {
-        VStack(spacing: 12) {
-            Image(systemName: "car.fill")
-                .font(.churBigTitle3())
-                .foregroundStyle(Color.churMediumGray)
-            Text("No car rental status yet")
-                .font(.churSectionHeader())
-                .foregroundStyle(Color.churDarkGray)
-            Text("Add a card with rental car elite status to see your coverage here.")
-                .font(.system(size: 12, weight: .medium, design: .rounded))
-                .foregroundStyle(Color.churMediumGray)
-                .multilineTextAlignment(.center)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(32)
-        .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-        .shadow(color: .black.opacity(0.03), radius: 5, x: 0, y: 2)
+        EmptyStatePlaceholder(icon: "car.fill", title: "No car rental status yet", subtitle: "Add a card with rental car elite status to see your coverage here.")
     }
 }
 
@@ -177,10 +140,5 @@ private struct CarRentalEntry {
 
 private struct CarRentalGroup {
     let programName: String
-    let cards: [CardRef]
-}
-
-private struct CardRef {
-    let name: String
-    let imageName: String
+    let cards: [PerkCardRef]
 }

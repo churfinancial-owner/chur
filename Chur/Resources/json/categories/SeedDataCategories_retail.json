@@ -413,6 +413,26 @@
         ]
     },
     {
+        "id": "miscellaneous_retail",
+        "nameEN": "Misc",
+        "nameZH_Hans": "其他",
+        "nameZH_HK": "其他",
+        "nameZH_TW": "其他",
+        "emoji": "💳",
+        "sortOrder": 119,
+        "isDefault": false,
+        "isParent": false,
+        "level": "child",
+        "parentCategoryID": "retail",
+        "excludeFromParent": true,
+        "categoryLinks": [
+            {
+                "id": "retail",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
         "id": "florist",
         "nameEN": "Florist",
         "nameZH_Hans": "花店",
@@ -431,7 +451,6 @@
             }
         ]
     },
-
     {
         "id": "confections",
         "nameEN": "Confection Shop",

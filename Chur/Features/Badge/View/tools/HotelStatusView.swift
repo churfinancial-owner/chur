@@ -21,7 +21,7 @@ struct HotelStatusView: View {
             let statuses = byStatus.map { name, items in
                 HotelStatusGroup(
                     statusName: name,
-                    cards: items.map { HotelCardRef(name: $0.card.name, imageName: $0.card.imageName) }
+                    cards: items.map { PerkCardRef(name: $0.card.name, imageName: $0.card.imageName) }
                 )
             }
             .sorted { statusTierRank($0.statusName) < statusTierRank($1.statusName) }
@@ -52,9 +52,9 @@ struct HotelStatusView: View {
 
     private func statusTierColor(_ name: String) -> Color {
         let lowered = name.lowercased()
-        if lowered.contains("diamond") { return Color(red: 0.35, green: 0.55, blue: 0.85) }
-        if lowered.contains("platinum") || lowered.contains("silver") { return Color(red: 0.75, green: 0.75, blue: 0.78) }
-        if lowered.contains("gold") { return Color(red: 1.0, green: 0.84, blue: 0.0) }
+        if lowered.contains("diamond") { return .churTierDiamond }
+        if lowered.contains("platinum") || lowered.contains("silver") { return .churTierSilver }
+        if lowered.contains("gold") { return .churTierGold }
         return .churOlive
     }
 
@@ -69,7 +69,7 @@ struct HotelStatusView: View {
                         // MARK: - Hero Header
                         VStack(alignment: .leading, spacing: 6) {
                             Text("TRAVEL")
-                                .font(.system(size: 10, weight: .black, design: .rounded))
+                                .font(.churBadgeBold())
                                 .foregroundStyle(.black)
                                 .padding(.horizontal, 10)
                                 .padding(.vertical, 6)
@@ -81,7 +81,7 @@ struct HotelStatusView: View {
                                 .foregroundStyle(Color.churDarkGray)
 
                             Text("Elite hotel statuses you receive through your cards.")
-                                .font(.system(size: 12, weight: .medium, design: .rounded))
+                                .font(.churSmallMedium())
                                 .foregroundStyle(Color.churMediumGray)
                                 .lineSpacing(2)
                         }
@@ -95,7 +95,7 @@ struct HotelStatusView: View {
                                 ForEach(groupedEntries, id: \.program) { group in
                                     VStack(alignment: .leading, spacing: 12) {
                                         Text(group.program.uppercased())
-                                            .font(.system(size: 10, weight: .black, design: .rounded))
+                                            .font(.churBadgeBold())
                                             .foregroundStyle(Color.churMediumGray)
                                             .tracking(1)
 
@@ -141,7 +141,7 @@ struct HotelStatusView: View {
             // Qualifying cards
             VStack(alignment: .leading, spacing: 8) {
                 Text("COVERED BY \(status.cards.count) CARD\(status.cards.count == 1 ? "" : "S")")
-                    .font(.system(size: 9, weight: .black, design: .rounded))
+                    .font(.churNanoBold())
                     .foregroundStyle(Color.churMediumGray)
                     .tracking(0.5)
 
@@ -160,47 +160,10 @@ struct HotelStatusView: View {
         .shadow(color: .black.opacity(0.03), radius: 5, x: 0, y: 2)
     }
 
-    // MARK: - Card Chip
-
-    private func cardChip(card: HotelCardRef) -> some View {
-        HStack(spacing: 8) {
-            Image(card.imageName)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 36, height: 24)
-                .clipShape(RoundedRectangle(cornerRadius: 4))
-
-            Text(card.name)
-                .font(.churSmallBold())
-                .foregroundStyle(Color.churDarkGray)
-                .lineLimit(1)
-        }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 8)
-        .background(Color.churOffWhite)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
-    }
-
-    // MARK: - Empty State
+    private func cardChip(card: PerkCardRef) -> some View { PerkCardChip(card: card) }
 
     private var emptyState: some View {
-        VStack(spacing: 12) {
-            Image(systemName: "bed.double")
-                .font(.churBigTitle3())
-                .foregroundStyle(Color.churMediumGray)
-            Text("No hotel status yet")
-                .font(.churSectionHeader())
-                .foregroundStyle(Color.churDarkGray)
-            Text("Add a card with hotel elite status benefits to see them here.")
-                .font(.system(size: 12, weight: .medium, design: .rounded))
-                .foregroundStyle(Color.churMediumGray)
-                .multilineTextAlignment(.center)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(32)
-        .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-        .shadow(color: .black.opacity(0.03), radius: 5, x: 0, y: 2)
+        EmptyStatePlaceholder(icon: "bed.double", title: "No hotel status yet", subtitle: "Add a card with hotel elite status benefits to see them here.")
     }
 }
 
@@ -208,10 +171,5 @@ struct HotelStatusView: View {
 
 private struct HotelStatusGroup {
     let statusName: String
-    let cards: [HotelCardRef]
-}
-
-private struct HotelCardRef {
-    let name: String
-    let imageName: String
+    let cards: [PerkCardRef]
 }

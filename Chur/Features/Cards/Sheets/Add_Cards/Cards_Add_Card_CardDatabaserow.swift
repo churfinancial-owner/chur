@@ -60,7 +60,7 @@ struct CardDatabaseRow: View {
                     .lineLimit(1)
                 
                 Text(template.issuer)
-                    .font(.system(size: 12, design: .rounded))
+                    .font(.churSmall())
                     .foregroundStyle(Color.churMediumGray)
             }
             

@@ -9,13 +9,10 @@ struct UserDashboardView: View {
     @Query private var cards: [CreditCard]
     @Query private var users: [User]
     
-    @State private var showPerksPicker = false
-
     @State private var showingSettings = false
+    @State private var showingPhotoPicker = false
     @State private var showResetAlert = false
-    @State private var selectedYear: Int = Calendar.current.component(.year, from: Date.current())
-    @State private var selectedBadgeCategory: BadgeCategory? = nil
-    
+    @State private var selectedYear: Int = Calendar.current.component(.year, from: Date.now)
     #if DEBUG
     @State private var showingTimeTravel = false
     #endif
@@ -42,22 +39,21 @@ struct UserDashboardView: View {
                         if let user = currentUser {
                             MemberInfoSection(
                                 user: user,
-                                onAvatarTap: { showingSettings = true }
+                                onAvatarTap: { showingPhotoPicker = true }
                             )
                         }
 
                         // --- Divider 1→2 with Year Capsule ---
-                        yearDivider()
+                        waveDivider(label: "Your \(selectedYear)")
                             .padding(.top, 20)
 
-                        
                         // --- Section 3: Wallet Summary & Timeline ---
                         UserWalletSummaryView(cards: cards, selectedYear: $selectedYear)
                             .padding(.vertical, 32)
                             .background(Color("churOffWhite"))
                         
                         // --- Divider 3→4 with Perks Capsule ---
-                        perksDivider()
+                        waveDivider(label: "Your Perks")
                             .padding(.bottom, 16)
                         
                         // --- Section 4: Badges ---
@@ -65,20 +61,17 @@ struct UserDashboardView: View {
                             .padding(.top, 16)
                             .padding(.bottom, 32)
 
-                        
-                        #if DEBUG
-                        // --- Divider 4→5 (Coded) ---
-                        sectionDivider()
-                        
-                        // --- Section 5: Developer Tools ---
-                        DeveloperToolsSection(
-                            showingTimeTravel: $showingTimeTravel,
-                            showResetAlert: $showResetAlert,
-                            onReloadJSONs: { viewModel.reloadAllJSONs(region: currentUser?.country ?? "US", modelContext: modelContext) },
-                            onAddAllRegionCards: { viewModel.addAllRegionCards(modelContext: modelContext) }
-                        )
-                        .padding(.horizontal, 16)
-                        #endif
+                        // --- Divider 4→5 with Support Capsule ---
+                        waveDivider(label: "Your Support")
+                            .padding(.top, 16)
+                            .padding(.bottom, 16)
+
+                        // --- Section 5: Your Support ---
+                        if let user = currentUser {
+                            YourSupportSection(user: user, cards: cards)
+                                .padding(.bottom, 32)
+                        }
+
                     }
                     .padding(.bottom, UIConstants.tabBarHeight)
                 }
@@ -92,6 +85,9 @@ struct UserDashboardView: View {
             // MARK: - Sheets & Alerts
             .sheet(isPresented: $showingSettings) {
                 if let user = currentUser { SettingsView(user: user) }
+            }
+            .sheet(isPresented: $showingPhotoPicker) {
+                if let user = currentUser { ProfilePhotoEditSheet(user: user) }
             }
             #if DEBUG
             .sheet(isPresented: $showingTimeTravel) { TimeTravelSheet() }
@@ -109,60 +105,20 @@ struct UserDashboardView: View {
 
     // MARK: - Local UI Components
     
-    private func sectionDivider() -> some View {
-        WaveDivider()
-            .stroke(Color.churOliveLight, lineWidth: 5)
-            .frame(height: 30)
-            .padding(.horizontal, -10)
-    }
-    
-    private var perksLabel: String {
-        if let category = selectedBadgeCategory {
-            return category.displayName
-        }
-        return "Your Perks"
-    }
-    
-    private func perksDivider() -> some View {
+    private func waveDivider(label: String) -> some View {
         ZStack {
             WaveDivider()
                 .stroke(Color.churOliveLight, lineWidth: 5)
                 .frame(height: 30)
                 .padding(.horizontal, -10)
-            
-            // Static Label instead of a Button
-            HStack(spacing: 4) {
-                Text("Your Perks")
-                    .font(.churCaption())
-            }
-            .foregroundStyle(Color.churOlive)
-            .frame(width: 160, height: 34)
-            .background(Color.churOliveLight)
-            .clipShape(Capsule())
-            .overlay(
-                Capsule().stroke(Color.churOlive.opacity(0.25), lineWidth: 1)
-            )
-        }
-    }
-    
-    private func yearDivider() -> some View {
-        ZStack {
-            WaveDivider()
-                .stroke(Color.churOliveLight, lineWidth: 5)
-                .frame(height: 30)
-                .padding(.horizontal, -10)
-            
-            HStack(spacing: 4) {
-                Text("Your \(String(selectedYear))")
-                    .font(.churCaption())
-            }
-            .foregroundStyle(Color.churOlive)
-            .frame(width: 160, height: 34)
-            .background(Color.churOliveLight)
-            .clipShape(Capsule())
-            .overlay(
-                Capsule().stroke(Color.churOlive.opacity(0.25), lineWidth: 1)
-            )
+
+            Text(label)
+                .font(.churCaption())
+                .foregroundStyle(Color.churOlive)
+                .frame(width: 160, height: 34)
+                .background(Color.churOliveLight)
+                .clipShape(Capsule())
+                .overlay(Capsule().stroke(Color.churOlive.opacity(0.25), lineWidth: 1))
         }
     }
     
@@ -182,16 +138,80 @@ struct UserDashboardView: View {
     private var headerOverlay: some View {
         ZStack(alignment: .top) {
             CurvedHeaderBackgroundView(waveStyle: .user)
+            
             GeometryReader { geometry in
-                VStack(alignment: .leading, spacing: 0) {
-                    Text(currentUser?.firstName ?? "User")
-                        .font(.churHero())
-                        .foregroundStyle(.white)
-                        .shadow(color: .black.opacity(0.2), radius: 2, x: 0, y: 1)
+                HStack(alignment: .top) {
+                    // Title Section
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text(currentUser?.firstName ?? "User")
+                            .font(.churHero())
+                            .foregroundStyle(.white)
+                            .shadow(color: .black.opacity(0.2), radius: 2, x: 0, y: 1)
+                    }
+                    
                     Spacer()
+                    
+                    // MARK: - Settings Button
+                    HStack(spacing: 8) {
+                        Button { showingSettings = true } label: {
+                            Image(systemName: "gearshape.fill")
+                                .font(.system(size: 14, weight: .bold))
+                                .foregroundStyle(Color.churDarkGray)
+                                .frame(width: 38, height: 38)
+                                .background(.ultraThinMaterial)
+                                .clipShape(Circle())
+                                .overlay(
+                                    Circle()
+                                        .stroke(.white.opacity(0.3), lineWidth: 1)
+                                )
+                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                        }
+
+                        // MARK: - Floating Developer Menu
+                        #if DEBUG
+                        Menu {
+                        Button(action: { showingTimeTravel = true }) {
+                            Label("Time Travel", systemImage: "clock.arrow.2.circlepath")
+                        }
+                        
+                        Button(action: {
+                            viewModel.reloadAllJSONs(region: currentUser?.country ?? "US", modelContext: modelContext)
+                        }) {
+                            Label("Reload JSONs", systemImage: "arrow.clockwise")
+                        }
+                        
+                        Button(action: {
+                            viewModel.addAllRegionCards(modelContext: modelContext)
+                        }) {
+                            Label("Add All Region Cards", systemImage: "plus.square.on.square")
+                        }
+                        
+                        Divider()
+                        
+                        Button(role: .destructive, action: { showResetAlert = true }) {
+                            Label("Reset All Data", systemImage: "trash")
+                        }
+                    } label: {
+                        // Airplane-window/Liquid-glass style badge
+                        Image(systemName: "hammer.fill")
+                            .font(.system(size: 14, weight: .bold))
+                            .foregroundStyle(.white)
+                            .frame(width: 38, height: 38)
+                            .background(.ultraThinMaterial)
+                            .clipShape(Circle())
+                            .overlay(
+                                Circle()
+                                    .stroke(.white.opacity(0.3), lineWidth: 1)
+                            )
+                            .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                    }
+                        .padding(.top, -8)
+                        #endif
+                    }
+                    .padding(.top, -8)
                 }
                 .padding(.top, geometry.safeAreaInsets.top + 70)
-                .padding(.horizontal, 10)
+                .padding(.horizontal, 16)
             }
         }
         .frame(height: 160)

@@ -1,7 +1,7 @@
 [
   {
-    "id": "bofa-preferred-rewards",
-    "name": "Preferred Rewards",
+    "id": "bofa-rewards",
+    "name": "BofA Rewards",
     "issuer": "Bank of America",
     "eligibleTemplateIDs": [
       "bofa-premium-rewards-elite",
@@ -16,9 +16,9 @@
       "bofa_atmos_rewards_summit"
     ],
     "tiers": [
-      { "name": "Gold",             "multiplier": 1.25, "description": "$20k–$49,999 in combined balances" },
-      { "name": "Platinum",         "multiplier": 1.50, "description": "$50k–$99,999 in combined balances" },
-      { "name": "Platinum Honors",  "multiplier": 1.75, "description": "$100k+ in combined balances" }
+      { "name": "Preferred Plus",             "multiplier": 1.25, "description": "$30k–$99,999 in combined balances" },
+      { "name": "Preferred Honors",         "multiplier": 1.50, "description": "$100k–$999,999 in combined balances" },
+      { "name": "Premier",  "multiplier": 1.75, "description": "$1M+ in combined balances" }
     ],
     "footnote": "Combined balances across Bank of America banking and Merrill investment accounts."
   },

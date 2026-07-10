@@ -15,6 +15,8 @@ struct RecommendationStackOverlay: View {
     @State private var dragOffset: CGSize = .zero
     private let swipeThreshold: CGFloat = 120
 
+    // MARK: - Logic
+    /// This computed property is still used to drive the UI
     private var scoredRecommendations: [ScoredRecommendation] {
         let templates = RecommendationDatabase.getRecommendations(for: user?.country ?? "US")
         return CardRecommendationEngine.recommend(
@@ -43,17 +45,15 @@ struct RecommendationStackOverlay: View {
                     }
                     Spacer()
                     Button { withAnimation { isPresented = false } } label: {
-                        Image(systemName: "xmark.circle.fill").font(.system(size: 30)).foregroundStyle(.white)
+                        Image(systemName: "xmark.circle.fill").font(.churBigTitle3()).foregroundStyle(.white)
                     }
                 }
                 .padding(.horizontal, 30)
 
                 // The Infinite Stack
-                if scoredRecommendations.isEmpty {
-                    emptyState
-                } else {
-                    ZStack {
-                        let count = scoredRecommendations.count
+                ZStack {
+                    let count = scoredRecommendations.count
+                    if count > 0 {
                         let safeIndex = currentIndex % count
                         let rotated = scoredRecommendations[safeIndex...] + scoredRecommendations[..<safeIndex]
                         
@@ -65,25 +65,20 @@ struct RecommendationStackOverlay: View {
                             
                             RecommendedCardView(recommendation: rec, allCategories: allCategories)
                                 .frame(height: 500)
-                                // 1. 3D Scaling: Background cards get progressively smaller
                                 .scaleEffect(isTopCard ? 1.0 : 1.0 - (CGFloat(index) * 0.05))
-                                // 2. 3D Offsetting: Background cards are moved up and back
                                 .offset(
                                     x: isTopCard ? dragOffset.width : 0,
                                     y: isTopCard ? dragOffset.height : CGFloat(index * -12)
                                 )
-                                // 3. 3D Rotation: Slight tilt for background cards, dynamic for top card
                                 .rotationEffect(.degrees(isTopCard ? Double(dragOffset.width) / 15 : Double(index * 2)))
-                                // 4. Depth: Ensure background cards are behind
                                 .zIndex(Double(count - index))
-                                // 5. Visual Fade: Progressively dim the background cards
                                 .opacity(isTopCard ? 1.0 : 1.0 - (Double(index) * 0.2))
                                 .gesture(isTopCard ? dragGesture : nil)
                         }
                     }
-                    .padding(.horizontal, 24)
-                    .padding(.top, 20) // Give space for the stack to peek out the top
                 }
+                .padding(.horizontal, 24)
+                .padding(.top, 20)
             }
         }
         .transition(.asymmetric(insertion: .scale(scale: 0.9).combined(with: .opacity), removal: .opacity))
@@ -107,12 +102,5 @@ struct RecommendationStackOverlay: View {
                     withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) { dragOffset = .zero }
                 }
             }
-    }
-
-    private var emptyState: some View {
-        VStack(spacing: 12) {
-            Image(systemName: "sparkles").font(.churHero())
-            Text("No recommendations available").font(.churCaption())
-        }.foregroundStyle(.white).padding(.top, 100)
     }
 }

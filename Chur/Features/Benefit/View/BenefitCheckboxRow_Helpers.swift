@@ -55,6 +55,7 @@ extension BenefitCheckboxRow {
             resetType: benefit.resetType,
             trackingMode: benefit.trackingMode,
             autoApplyEnabled: $benefit.autoApplyEnabled,
+            isMuted: benefit.isRemindable ? $benefit.isMuted : nil,
             usageHistory: benefit.usageHistory,
             onLogUsage: { vm.logCustomAmount($0) },
             onClearUsage: { vm.reverseUsage() },
@@ -63,8 +64,10 @@ extension BenefitCheckboxRow {
                     BenefitUsageLogger().deleteUsage(latest, from: benefit, modelContext: modelContext)
                 }
             },
-            onAutoApplyToggled: { enabled in
-                if enabled { vm.applyUsage() } else { vm.reverseUsage() }
+            onAutoApplyToggled: { enabled, amount in
+                // Just store/clear the amount — the user's manual log for the current period
+                // stays untouched. Auto-apply fires from the next period onwards.
+                benefit.autoApplyAmount = enabled ? amount : nil
             },
             onLogUsageAt: { amount, date in
                 let logger = BenefitUsageLogger()

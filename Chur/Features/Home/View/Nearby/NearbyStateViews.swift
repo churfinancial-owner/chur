@@ -79,7 +79,7 @@ struct NearbyWalletEmptyState: View {
                 
                 HStack(spacing: 8) {
                     Image(systemName: "plus")
-                        .font(.system(size: 16, weight: .bold))
+                        .font(.churSectionHeader())
                     Text("Add Your First Card")
                         .font(.churSectionHeader())
                 }

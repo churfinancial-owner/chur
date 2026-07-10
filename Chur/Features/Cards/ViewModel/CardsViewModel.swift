@@ -16,7 +16,7 @@ class CardsViewModel {
 
     var showingAddCard = false
     var cardToEdit: CreditCard? = nil
-    var selectedTab: CardViewTab = .cardInfo
+    var selectedTab: CardViewTab = .cardinforewards
     var showingCardOrder = false
     var showingApprovedDates = false
     var showingGoToCard = false

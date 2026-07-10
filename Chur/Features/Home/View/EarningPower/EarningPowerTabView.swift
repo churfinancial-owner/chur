@@ -12,10 +12,10 @@ struct EarningPowerSection: View {
     @Bindable var user: User
     let cards: [CreditCard]
     @Query private var categories: [SpendingCategory]
-    
+    @StateObject private var locationManager = LocationManager()
+
     @State private var viewModel: EarningPowerViewModel
     @State private var showingCategoryPicker = false
-    @State private var showingTravelModeConfirmation = false
     @State private var isRecalculating = false
     @State private var rebuildTask: Task<Void, Never>?
     
@@ -60,6 +60,7 @@ struct EarningPowerSection: View {
         .onAppear {
             viewModel.cards = cards
             viewModel.categories = categories
+            applyGPSCountry(locationManager.isoCountryCode)
             scheduleRebuild()
         }
         .onChange(of: categories) {
@@ -73,6 +74,10 @@ struct EarningPowerSection: View {
         .onChange(of: user.boostEnrollments) { scheduleRebuild() }
         .onChange(of: user.earningPowerTravelModeEnabled) { scheduleRebuild() }
         .onChange(of: user.selectedCategories) { scheduleRebuild() }
+        .onChange(of: locationManager.isoCountryCode) { _, newCode in
+            applyGPSCountry(newCode)
+            scheduleRebuild()
+        }
         .sheet(isPresented: $showingCategoryPicker) {
             CategoryPickerView(
                 user: user,
@@ -81,14 +86,22 @@ struct EarningPowerSection: View {
                 directlyRewardedCategoryIDs: viewModel.directlyRewardedCategoryIDs
             )
         }
-        .alert("Convert to Travel Mode?", isPresented: $showingTravelModeConfirmation) {
-            Button("Cancel", role: .cancel) { }
-            Button("Confirm") { user.earningPowerTravelModeEnabled = true }
-        } message: {
-            Text("When enabled, Earning Power applies foreign transaction fee adjustments as cross-border spend.")
-        }
     }
     
+    /// Updates the ViewModel's GPS region and auto-toggles travel mode when the country changes.
+    /// Auto-enables when GPS detects a foreign country; auto-disables when back home.
+    /// The user can still manually toggle off while abroad — that override persists until
+    /// they move to a new country (which re-enables) or return home (which resets).
+    private func applyGPSCountry(_ countryCode: String?) {
+        viewModel.currentRegionCodeOverride = countryCode
+        guard countryCode != nil else { return }
+        if viewModel.isAwayFromHomeRegion {
+            user.earningPowerTravelModeEnabled = true
+        } else {
+            user.earningPowerTravelModeEnabled = false
+        }
+    }
+
     /// Debounced rebuild: cancels any pending rebuild, waits for changes to settle,
     /// yields to let the loading spinner render, then computes rates synchronously.
     private func scheduleRebuild() {
@@ -112,24 +125,29 @@ struct EarningPowerSection: View {
                 .foregroundStyle(Color.churOlive)
 
             if viewModel.isAwayFromHomeRegion {
+                let travelOn = user.earningPowerTravelModeEnabled
                 Button {
-                    if user.earningPowerTravelModeEnabled { user.earningPowerTravelModeEnabled = false }
-                    else { showingTravelModeConfirmation = true }
+                    user.earningPowerTravelModeEnabled.toggle()
                 } label: {
-                    Image(systemName: "airplane")
-                        .foregroundStyle(user.earningPowerTravelModeEnabled ? Color.green : Color.gray)
+                    HStack(spacing: 4) {
+                        Image(systemName: travelOn ? "airplane" : "house.fill")
+                            .font(.system(size: 9, weight: .semibold))
+                        if let f = RegionDatabase.flagEmoji(for: travelOn ? viewModel.currentRegionCode : viewModel.homeRegionCode) {
+                            Text(f)
+                                .font(.system(size: 12))
+                        }
+                    }
+                    .padding(.horizontal, 7)
+                    .padding(.vertical, 3)
+                    .background(Color.green.opacity(0.12))
+                    .clipShape(Capsule())
+                    .foregroundStyle(Color.green)
                 }
+                .buttonStyle(.plain)
             }
             Spacer()
             if !cards.isEmpty {
-                Button { showingCategoryPicker = true } label: {
-                    Image(systemName: "slider.horizontal.3")
-                        .font(.churImageMedium())
-                        .frame(width: 32, height: 32)
-                        .background(Color.churOliveLight)
-                        .clipShape(Circle())
-                        .foregroundStyle(.churDarkOlive)
-                }
+                OliveIconButton(icon: "slider.horizontal.3") { showingCategoryPicker = true }
             }
         }
     }
@@ -144,10 +162,10 @@ struct EarningPowerSection: View {
                             category: category,
                             rate: cached?.rate ?? 0,
                             effectiveRate: cached?.effectiveCashBackRate ?? 0,
-                            showEffectiveRate: user.showEffectiveRate,
                             cards: cards,
                             allCategories: categories,
-                            currentRegionCodeOverride: viewModel.currentRegionCode
+                            currentRegionCodeOverride: viewModel.currentRegionCode,
+                            bestCardName: cached?.name
                         )
                     }
                     if row.count == 1 { Spacer().frame(maxWidth: .infinity) }

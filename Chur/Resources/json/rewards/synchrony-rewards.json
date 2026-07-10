@@ -86,7 +86,7 @@
             "rewardProgramName": "Cash Back Rewards",
             "category": null,
             "isUserConfigurable": true,
-            "configurableSlot": "5pct_slot_1",
+            "configurableSlot": "3pct_slot_1",
             "configurableOptions": [
                 {
                     "label": "Travel",
@@ -124,15 +124,13 @@
                         "groceries"
                     ]
                 }
-            ],
-            "rewardNotes": "Earn 3% on your Top Spend Category"
-        },
+            ]        },
         {
             "rate": 2.0,
             "rewardProgramName": "Cash Back Rewards",
             "category": null,
             "isUserConfigurable": true,
-            "configurableSlot": "5pct_slot_2",
+            "configurableSlot": "2pct_slot_1",
             "configurableOptions": [
                 {
                     "label": "Travel",
@@ -170,8 +168,7 @@
                         "groceries"
                     ]
                 }
-            ],
-            "rewardNotes": "Earn 2% on your Second Top Spend Category"
+            ]
         },
         {
             "rate": 1.0,

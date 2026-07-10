@@ -251,7 +251,7 @@
                         "rewardProgramName": "Cash Back Rewards",
                         "category": null,
                         "isUserConfigurable": true,
-                        "configurableSlot": "5pct_slot_1",
+                        "configurableSlot": "3pct_slot_1",
                         "configurableOptions": [
                             {
                                 "label": "Gas/EV",
@@ -290,13 +290,13 @@
                                 ]
                             }
                         ],
-                        "rewardNotes": "Earn 2% and 3% cash back on up to $50,000 in combined purchases in those categories each calendar year, then 1% thereafter..."
+                        "rewardNotes": "Up to $50,000 combined purchases each calendar year"
                     },
                     {
                         "rate": 2.0,
                         "rewardProgramName": "Cash Back Rewards",
                         "category": "dining",
-                        "rewardNotes": "Earn 2% and 3% cash back on up to $50,000 in combined purchases in those categories each calendar year, then 1% thereafter."
+                        "rewardNotes": "Up to $50,000 combined purchases each calendar year"
                     },
                     {
                         "rate": 1.0,
@@ -324,7 +324,7 @@
                         "rewardProgramName": "Cash Back Rewards",
                         "category": null,
                         "isUserConfigurable": true,
-                        "configurableSlot": "5pct_slot_1",
+                        "configurableSlot": "3pct_slot_2",
                         "configurableOptions": [
                             {
                                 "label": "Restaurants",
@@ -366,19 +366,19 @@
                                 ]
                             }
                         ],
-                        "rewardNotes": "Earn 3% and 2% cash back on up to $2,500 in combined purchases each quarter in the choice category. Some classes of merchants are excluded from the Online Shopping category, such as  Hospitals, Government Services, Insurance, Utilities and other non-retail services.."
+                        "rewardNotes": "Up to $2,500 combined purchases each quarter"
                     },
                     {
                         "rate": 2.0,
                         "rewardProgramName": "Cash Back Rewards",
                         "category": "groceries",
-                        "rewardNotes": "Earn 3% and 2% cash back on up to $2,500 in combined purchases each quarter in the choice category"
+                        "rewardNotes": "Up to $2,500 combined purchases each quarter"
                     },
                     {
                         "rate": 2.0,
                         "rewardProgramName": "Cash Back Rewards",
                         "category": "wholesale",
-                        "rewardNotes": "Earn 3% and 2% cash back on up to $2,500 in combined purchases each quarter in the choice category"
+                        "rewardNotes": "Up to $2,500 combined purchases each quarter"
                     },
                     {
                         "rate": 1.0,
@@ -401,7 +401,7 @@
                         "rewardProgramName": "Cash Back Rewards",
                         "category": null,
                         "isUserConfigurable": true,
-                        "configurableSlot": "5pct_slot_1",
+                        "configurableSlot": "3pct_slot_3",
                         "configurableOptions": [
                             {
                                 "label": "Restaurants",
@@ -443,19 +443,19 @@
                                 ]
                             }
                         ],
-                        "rewardNotes": "Earn 3% and 2% cash back on up to $2,500 in combined purchases each quarter in the choice category. Some classes of merchants are excluded from the Online Shopping category, such as  Hospitals, Government Services, Insurance, Utilities and other non-retail services.."
+                        "rewardNotes": "Up to $2,500 combined purchases each quarter"
                     },
                     {
                         "rate": 2.0,
                         "rewardProgramName": "Cash Back Rewards",
                         "category": "groceries",
-                        "rewardNotes": "Earn 3% and 2% cash back on up to $2,500 in combined purchases each quarter in the choice category"
+                        "rewardNotes": "Up to $2,500 combined purchases each quarter"
                     },
                     {
                         "rate": 2.0,
                         "rewardProgramName": "Cash Back Rewards",
                         "category": "wholesale",
-                        "rewardNotes": "Earn 3% and 2% cash back on up to $2,500 in combined purchases each quarter in the choice category"
+                        "rewardNotes": "Up to $2,500 combined purchases each quarter"
                     },
                     {
                         "rate": 1.0,

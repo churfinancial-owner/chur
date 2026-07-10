@@ -87,7 +87,7 @@ struct NearbyFilterChip: View {
                     Text(filter.emoji)
                 }
                 Text(filter.rawValue)
-                    .font(.system(size: 15, weight: isSelected ? .bold : .medium, design: .rounded))
+                    .font(isSelected ? .churRowText() : .churRowTextMedium())
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 10)

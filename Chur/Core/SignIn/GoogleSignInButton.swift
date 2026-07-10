@@ -28,7 +28,7 @@ struct GoogleSignInButtonWrapper: View {
                 }
                 
                 Text("Sign in with Google")
-                    .font(.system(size: 17, weight: .medium))
+                    .font(.churHeadlineMedium())
                     .foregroundStyle(.white)
             }
             .frame(maxWidth: .infinity, minHeight: 50) // Match Apple button height

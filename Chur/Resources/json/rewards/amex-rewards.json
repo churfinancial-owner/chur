@@ -103,7 +103,7 @@
             "rate": 4.0,
             "rewardProgramName": "Membership Rewards",
             "category": "groceries",
-            "rewardNotes": "At U.S. supermarkets"
+            "countries": ["US"]
         },
         {
             "rate": 3.0,
@@ -194,7 +194,7 @@
             "rate": 7.0,
             "rewardProgramName": "Hilton Honors",
             "category": "dining",
-            "rewardNotes": "At U.S. restaurants, including takeout and delivery"
+            "countries": ["US"]
         },
         {
             "rate": 3.0,
@@ -213,18 +213,19 @@
             "rate": 6.0,
             "rewardProgramName": "Hilton Honors",
             "category": "groceries",
-            "rewardNotes": "At U.S. supermarkets"
+            "countries": ["US"]
         },
         {
             "rate": 6.0,
             "rewardProgramName": "Hilton Honors",
             "category": "dining",
-            "rewardNotes": "At U.S. restaurants, including takeout and delivery"
+            "countries": ["US"]
         },
         {
             "rate": 4.0,
             "rewardProgramName": "Hilton Honors",
-            "category": "online_retail_stores"
+            "category": "online_retail_stores",
+            "countries": ["US"]
         },
         {
             "rate": 3.0,
@@ -257,13 +258,14 @@
             "rate": 5.0,
             "rewardProgramName": "Hilton Honors",
             "category": "groceries",
+            "countries": ["US"],
             "rewardNotes": "At U.S. supermarkets"
         },
         {
             "rate": 5.0,
             "rewardProgramName": "Hilton Honors",
             "category": "dining",
-            "rewardNotes": "At U.S. restaurants, including takeout and delivery"
+            "countries": ["US"]
         },
         {
             "rate": 3.0,
@@ -282,13 +284,13 @@
             "rate": 4.0,
             "rewardProgramName": "Marriott Bonvoy",
             "category": "groceries",
-            "rewardNotes": "At U.S. Supermarkets"
+            "countries": ["US"],
+            "rewardNotes": "At U.S. supermarkets"
         },
         {
             "rate": 4.0,
             "rewardProgramName": "Marriott Bonvoy",
             "category": "dining",
-            "rewardNotes": "4X at restaurants worldwide, including takeout and delivery in the U.S."
         },
         {
             "rate": 2.0,
@@ -350,7 +352,6 @@
             "rate": 3.0,
             "rewardProgramName": "Marriott Bonvoy",
             "category": "dining",
-            "rewardNotes": "At restaurants worldwide"
         },
         {
             "rate": 2.0,
@@ -450,13 +451,12 @@
             "rate": 2.0,
             "rewardProgramName": "Delta SkyMiles",
             "category": "dining",
-            "rewardNotes": "At restaurants, including takeout and delivery in the U.S."
         },
         {
             "rate": 2.0,
             "rewardProgramName": "Delta SkyMiles",
             "category": "groceries",
-            "rewardNotes": "At supermarkets in the U.S."
+            "countries": ["US"]
         },
         {
             "rate": 1.0,
@@ -499,13 +499,12 @@
             "rate": 2.0,
             "rewardProgramName": "Delta SkyMiles",
             "category": "dining",
-            "rewardNotes": "At restaurants, including takeout and delivery in the U.S."
         },
         {
             "rate": 2.0,
             "rewardProgramName": "Delta SkyMiles",
             "category": "groceries",
-            "rewardNotes": "At supermarkets in the U.S."
+            "countries": ["US"]
         },
         {
             "rate": 1.0,
@@ -524,7 +523,6 @@
             "rate": 2.0,
             "rewardProgramName": "Delta SkyMiles",
             "category": "dining",
-            "rewardNotes": "At restaurants, including takeout and delivery in the U.S."
         },
         {
             "rate": 1.0,
@@ -569,17 +567,21 @@
         {
             "rate": 6.0,
             "rewardProgramName": "Cash Back Rewards",
-            "category": "supermarkets"
+            "category": "supermarkets",
+            "countries": ["US"]
+
         },
         {
             "rate": 6.0,
             "rewardProgramName": "Cash Back Rewards",
-            "category": "streaming"
+            "category": "streaming",
+            "countries": ["US"]
         },
         {
             "rate": 3.0,
             "rewardProgramName": "Cash Back Rewards",
-            "category": "gas_stations"
+            "category": "gas_stations",
+            "countries": ["US"]
         },
         {
             "rate": 3.0,
@@ -602,17 +604,20 @@
         {
             "rate": 3.0,
             "rewardProgramName": "Cash Back Rewards",
-            "category": "supermarkets"
+            "category": "supermarkets",
+            "countries": ["US"]
         },
         {
             "rate": 3.0,
             "rewardProgramName": "Cash Back Rewards",
-            "category": "gas_stations"
+            "category": "gas_stations",
+            "countries": ["US"]
         },
         {
             "rate": 3.0,
             "rewardProgramName": "Cash Back Rewards",
-            "category": "online_retail_stores"
+            "category": "online_retail_stores",
+            "countries": ["US"]
         },
         {
             "rate": 1.0,
@@ -765,7 +770,7 @@
             "rewardProgramName": "Membership Rewards",
             "category": null,
             "isUserConfigurable": true,
-            "configurableSlot": "5pct_slot_1",
+            "configurableSlot": "5pct_slot_5",
             "configurableOptions": [
                 {
                     "label": "Advertising",
@@ -805,14 +810,13 @@
                     ]
                 }
             ],
-            "rewardNotes": "4% on your first chosen category"
         },
         {
             "rate": 4.0,
             "rewardProgramName": "Membership Rewards",
             "category": null,
             "isUserConfigurable": true,
-            "configurableSlot": "5pct_slot_2",
+            "configurableSlot": "5pct_slot_5",
             "configurableOptions": [
                 {
                     "label": "Advertising",
@@ -852,7 +856,6 @@
                     ]
                 }
             ],
-            "rewardNotes": "4% on your second chosen category"
         },
         {
             "rate": 1.0,

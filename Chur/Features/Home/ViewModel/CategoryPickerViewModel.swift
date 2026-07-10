@@ -95,9 +95,9 @@ class CategoryPickerViewModel {
     }
     
     var cycleButtonLabel: String {
-        if allCategoriesSelected { return "Deselect All" }
-        else if walletCategoriesSelected { return "Select All" }
-        else { return "Wallet Specific" }
+        if allCategoriesSelected { return "All" }
+        else if walletCategoriesSelected { return "Wallet Specific" }
+        else { return "None" }
     }
     
     // MARK: - Actions

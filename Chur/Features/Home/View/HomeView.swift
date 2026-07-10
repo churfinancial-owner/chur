@@ -21,6 +21,7 @@ struct HomeView: View {
     @Query private var categories: [SpendingCategory]
     
     var onOpenSearch: (() -> Void)? = nil
+    var initialNearbyMerchants: [NearbyMerchant] = []
     var currentUser: User? { users.first }
     
     private var currentDate: String {
@@ -42,6 +43,7 @@ struct HomeView: View {
                             cards: cards,
                             categories: categories,
                             boostEnrollments: currentUser?.boostEnrollments ?? [:],
+                            initialMerchants: initialNearbyMerchants,
                             onOpenSearch: onOpenSearch,
                             onLocationResolved: { locationLabel, countryCode in
                                 if let locationLabel, !locationLabel.isEmpty {

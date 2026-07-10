@@ -29,6 +29,22 @@ struct NearbyMerchant: Identifiable {
     let region: String?           // Region code (e.g., "US", "TW", "HK") - nil if unknown
     let poiCategory: String?      // Raw MapKit POI category (e.g., "MKPOICategoryRestaurant") - for debugging
     let paymentMethods: Set<String>? // Accepted payment methods for online merchants — nil = no restriction
+    /// All regions where this merchant operates. nil = global (no FX fee for any card).
+    /// For online merchants, populated from OnlineMerchant.businessRegion.
+    /// For map merchants, nil (single region handled by `region`).
+    let acceptedRegions: Set<String>?
+
+    init(
+        id: String, name: String, categoryID: String,
+        latitude: Double, longitude: Double, distance: Double,
+        address: String, region: String?, poiCategory: String?,
+        paymentMethods: Set<String>?, acceptedRegions: Set<String>? = nil
+    ) {
+        self.id = id; self.name = name; self.categoryID = categoryID
+        self.latitude = latitude; self.longitude = longitude; self.distance = distance
+        self.address = address; self.region = region; self.poiCategory = poiCategory
+        self.paymentMethods = paymentMethods; self.acceptedRegions = acceptedRegions
+    }
 }
 
 // MARK: - Nearby Recommendation
@@ -75,8 +91,9 @@ struct NearbyRecommendationEngine {
             rate: 1.0,
             allCategories: allCategories,
             boostEnrollments: boostEnrollments,
-            region: merchant.region,  // Pass merchant's region for location-aware filtering
-            channel: "in_store"     // Nearby merchants are always in_store
+            region: merchant.region,
+            channel: "in_store",
+            acceptedRegions: merchant.acceptedRegions
         )
         
         #if DEBUG
@@ -182,7 +199,8 @@ struct NearbyRecommendationEngine {
             channel: "online",
             // Online merchants require explicit declaration to earn payment-method rewards.
             // nil paymentMethods → empty set (no PM rewards), vs in-store where nil = no restriction.
-            acceptedPaymentMethods: merchant.paymentMethods ?? Set<String>()
+            acceptedPaymentMethods: merchant.paymentMethods ?? Set<String>(),
+            acceptedRegions: merchant.acceptedRegions
         )
         
         guard let bestCard = calculator.bestCard else {

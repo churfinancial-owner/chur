@@ -33,7 +33,7 @@ struct TrustedTravelerView: View {
                 value: representative.value,
                 valueCurrency: representative.valueCurrency,
                 frequency: representative.frequency,
-                cards: entries.map { CardRef(name: $0.card.name, imageName: $0.card.imageName) }
+                cards: entries.map { PerkCardRef(name: $0.card.name, imageName: $0.card.imageName) }
             )
         }
         .sorted { $0.programName > $1.programName }
@@ -54,7 +54,7 @@ struct TrustedTravelerView: View {
                         // MARK: - Hero Header
                         VStack(alignment: .leading, spacing: 6) {
                             Text("TRAVEL")
-                                .font(.system(size: 10, weight: .black, design: .rounded))
+                                .font(.churBadgeBold())
                                 .foregroundStyle(.black)
                                 .padding(.horizontal, 10)
                                 .padding(.vertical, 6)
@@ -66,7 +66,7 @@ struct TrustedTravelerView: View {
                                 .foregroundStyle(Color.churDarkGray)
 
                             Text("Security programs covered by your cards — TSA PreCheck, Global Entry, CLEAR, and NEXUS.")
-                                .font(.system(size: 12, weight: .medium, design: .rounded))
+                                .font(.churSmallMedium())
                                 .foregroundStyle(Color.churMediumGray)
                                 .lineSpacing(2)
                         }
@@ -108,7 +108,7 @@ struct TrustedTravelerView: View {
                 Spacer()
                 if group.value > 0 {
                     Text("\(group.valueCurrency) \(group.value)")
-                        .font(.system(size: 14, weight: .black, design: .rounded))
+                        .font(.churCaption())
                         .foregroundStyle(Color.churOlive)
                 }
             }
@@ -123,7 +123,7 @@ struct TrustedTravelerView: View {
             // Qualifying cards
             VStack(alignment: .leading, spacing: 8) {
                 Text("COVERED BY \(group.cards.count) CARD\(group.cards.count == 1 ? "" : "S")")
-                    .font(.system(size: 9, weight: .black, design: .rounded))
+                    .font(.churNanoBold())
                     .foregroundStyle(Color.churMediumGray)
                     .tracking(0.5)
 
@@ -142,26 +142,7 @@ struct TrustedTravelerView: View {
         .shadow(color: .black.opacity(0.03), radius: 5, x: 0, y: 2)
     }
 
-    // MARK: - Card Chip
-
-    private func cardChip(card: CardRef) -> some View {
-        HStack(spacing: 6) {
-            Image(card.imageName)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 28, height: 18)
-                .clipShape(RoundedRectangle(cornerRadius: 3))
-
-            Text(card.name)
-                .font(.churBadgeBold())
-                .foregroundStyle(Color.churDarkGray)
-                .lineLimit(1)
-        }
-        .padding(.horizontal, 8)
-        .padding(.vertical, 6)
-        .background(Color.churOffWhite)
-        .clipShape(RoundedRectangle(cornerRadius: 8))
-    }
+    private func cardChip(card: PerkCardRef) -> some View { PerkCardChip(card: card) }
 
     // MARK: - Frequency Badge
 
@@ -172,7 +153,7 @@ struct TrustedTravelerView: View {
         default: .churOlive
         }
         return Text(frequency.uppercased())
-            .font(.system(size: 9, weight: .black, design: .rounded))
+            .font(.churNanoBold())
             .foregroundStyle(color)
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
@@ -180,26 +161,8 @@ struct TrustedTravelerView: View {
             .clipShape(Capsule())
     }
 
-    // MARK: - Empty State
-
     private var emptyState: some View {
-        VStack(spacing: 12) {
-            Image(systemName: "shield.checkered")
-                .font(.churBigTitle3())
-                .foregroundStyle(Color.churMediumGray)
-            Text("No trusted traveler programs yet")
-                .font(.churSectionHeader())
-                .foregroundStyle(Color.churDarkGray)
-            Text("Add a card that covers TSA PreCheck, Global Entry, CLEAR, or NEXUS to see your coverage here.")
-                .font(.system(size: 12, weight: .medium, design: .rounded))
-                .foregroundStyle(Color.churMediumGray)
-                .multilineTextAlignment(.center)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(32)
-        .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-        .shadow(color: .black.opacity(0.03), radius: 5, x: 0, y: 2)
+        EmptyStatePlaceholder(icon: "shield.checkered", title: "No trusted traveler programs yet", subtitle: "Add a card that covers TSA PreCheck, Global Entry, CLEAR, or NEXUS to see your coverage here.")
     }
 }
 
@@ -216,10 +179,5 @@ private struct TTPGroup {
     let value: Int
     let valueCurrency: String
     let frequency: String
-    let cards: [CardRef]
-}
-
-private struct CardRef {
-    let name: String
-    let imageName: String
+    let cards: [PerkCardRef]
 }

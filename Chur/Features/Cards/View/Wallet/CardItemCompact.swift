@@ -50,7 +50,7 @@ private extension CardItemCompact {
             .overlay {
                 VStack(spacing: 2) {
                     Text(card.issuer)
-                        .font(.system(size: 9, weight: .bold))
+                        .font(.churNanoBold())
                         .foregroundStyle(.white)
                     Text(card.network)
                         .font(.churBadge())

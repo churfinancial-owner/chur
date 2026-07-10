@@ -43,7 +43,7 @@ struct TimeTravelSheet: View {
 
                         VStack(alignment: .leading, spacing: 2) {
                             Text(isTimeTravelActive ? "Time Travel Active" : "Using Real Time")
-                                .font(.system(size: 15, weight: .bold))
+                                .font(.churRowText())
                                 .foregroundStyle(isTimeTravelActive ? Color.orange : Color.churDarkGray)
                             Text(isTimeTravelActive ? selectedDate.formatted(date: .long, time: .shortened) : Date().formatted(date: .long, time: .shortened))
                                 .font(.churFootnote())
@@ -79,7 +79,7 @@ struct TimeTravelSheet: View {
                             HStack {
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text(preset.title)
-                                        .font(.system(size: 15, weight: .medium))
+                                        .font(.churRowTextMedium())
                                         .foregroundStyle(Color.churDarkGray)
                                     if let date = Calendar.current.date(from: DateComponents(
                                         year: preset.year, month: preset.month,

@@ -5,7 +5,6 @@
 //  Created by Pak Ho on 4/13/26.
 //
 
-
 import SwiftUI
 
 struct BenefitDetailSheet: View {
@@ -27,99 +26,82 @@ struct BenefitDetailSheet: View {
     let resetType: String
     let trackingMode: String
     let autoApplyEnabled: Binding<Bool>?
+    let isMuted: Binding<Bool>?
     let usageHistory: [BenefitUsageRecord]
 
     var onLogUsage: ((Int) -> Void)?
     var onClearUsage: (() -> Void)?
     var onUndoLastUse: (() -> Void)?
-    var onAutoApplyToggled: ((Bool) -> Void)?
+    var onAutoApplyToggled: ((Bool, Int) -> Void)?
     var onLogUsageAt: ((Int, Date) -> Void)?
     var onDeleteRecord: ((BenefitUsageRecord) -> Void)?
     var onCatchUp: (([Date]) -> Void)?
 
     // MARK: - State
-    @State var sliderAmount: Double = 0
     @State var localRemainingBalance: Int? = nil
     @State var localIsFullyRedeemed: Bool = false
-    @State var countToLog: Int = 1
     @AppStorage("expiryWarningDays") var expiryWarningDays: Int = 3
 
     @State var selectedYear: Int = Calendar.current.component(.year, from: Date())
     @State var selectedPeriodIndex: Int = 1
-    @State var swipeOffset: CGFloat = 0.0
-    @State var swipeOffsetHint: CGFloat = 0
-    @State var isExpanded: Bool = false
 
     var body: some View {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 32) {
-                    // --- 1. Header & Description ---
-                    VStack(alignment: .leading, spacing: 12) {
-                        heroHeader
-                        
-                        Text(description)
-                            .font(.churSmallBold())
-                            .foregroundStyle(Color.churMediumGray)
-                            .lineSpacing(3)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
+        ScrollView {
+            VStack(alignment: .leading, spacing: 32) {
+                // --- 1. Header & Description ---
+                VStack(alignment: .leading, spacing: 12) {
+                    heroHeader // Defined in BenefitDetailSheet_Header.swift
                     
-                    // --- 2. Progress Visualization ---
-                    BenefitProgressBar(
-                        usageHistory: usageHistory,
-                        frequency: frequency,
-                        periodBudget: periodBudget,
-                        valueCurrency: valueCurrency,
-                        isCountLimited: isCountLimited,
-                        isUnlimited: isUnlimited,
-                        expiryDate: expiryDate,
-                        selectedYear: $selectedYear,
-                        selectedPeriodIndex: $selectedPeriodIndex,
-                    )
-                    
-                    // --- 3. The Action Card (Recording) ---
-                    logUsageSection
-                        .transition(.asymmetric(
-                            insertion: .opacity.combined(with: .move(edge: .bottom)),
-                            removal: .opacity
-                        ))
-                    
-                    // --- 4. Historical Activity ---
-                    BenefitUsageHistoryView(
-                        usageHistory: usageHistory,
-                        frequency: frequency,
-                        periodBudget: periodBudget,
-                        valueCurrency: valueCurrency,
-                        isCountLimited: isCountLimited,
-                        isUnlimited: isUnlimited,
-                        selectedYear: $selectedYear,
-                        selectedPeriodIndex: $selectedPeriodIndex,
-                        onDeleteRecord: onDeleteRecord
-                    )
+                    Text(description)
+                        .font(.churSmallBold())
+                        .foregroundStyle(Color.churMediumGray)
+                        .lineSpacing(3)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
-                .padding(24)
-                .padding(.bottom, 30)
-            }
-            .background(Color.churOffWhite.ignoresSafeArea())
-            .onAppear {
-                setupInitialState()
                 
-                withAnimation(.easeInOut(duration: 1.2).repeatForever(autoreverses: true)) {
-                    swipeOffsetHint = -6
-                }
+                // --- 2. Interactive Progress Visualization ---
+                // This component now acts as the trigger for the management sub-view
+                BenefitProgressBar(
+                    name: name,
+                    usageHistory: usageHistory,
+                    frequency: frequency,
+                    periodBudget: periodBudget,
+                    valueCurrency: valueCurrency,
+                    isCountLimited: isCountLimited,
+                    isUnlimited: isUnlimited,
+                    trackingMode: trackingMode,
+                    expiryDate: expiryDate,
+                    selectedYear: $selectedYear,
+                    selectedPeriodIndex: $selectedPeriodIndex,
+                    autoApplyEnabled: autoApplyEnabled,
+                    localRemainingBalance: $localRemainingBalance,
+                    localIsFullyRedeemed: $localIsFullyRedeemed,
+                    remainingBalance: remainingBalance,
+                    isFullyRedeemed: isFullyRedeemed,
+                    onLogUsage: onLogUsage,
+                    onLogUsageAt: onLogUsageAt,
+                    onDeleteRecord: onDeleteRecord,
+                    onAutoApplyToggled: onAutoApplyToggled,
+                    onCatchUp: onCatchUp
+                )
+                
+                // --- 3. Preferences ---
+                preferencesSection
             }
-            .animation(.spring(response: 0.4, dampingFraction: 0.8), value: selectedYear)
-            .animation(.spring(response: 0.4, dampingFraction: 0.8), value: selectedPeriodIndex)
-            // When a history record is deleted the parent recomputes remainingBalance/isFullyRedeemed
-            // and passes new values in. Sync the optimistic locals so the slider/counter reflects
-            // the restored balance immediately.
-            .onChange(of: remainingBalance) { _, newValue in
-                localRemainingBalance = newValue
-            }
-            .onChange(of: isFullyRedeemed) { _, newValue in
-                localIsFullyRedeemed = newValue
-            }
+            .padding(24)
+            .padding(.bottom, 30)
         }
+        .background(Color.churOffWhite.ignoresSafeArea())
+        .onAppear {
+            setupInitialState()
+        }
+        .onChange(of: remainingBalance) { _, newValue in
+            localRemainingBalance = newValue
+        }
+        .onChange(of: isFullyRedeemed) { _, newValue in
+            localIsFullyRedeemed = newValue
+        }
+    }
     
     private func setupInitialState() {
         localRemainingBalance = remainingBalance
@@ -150,33 +132,48 @@ extension BenefitDetailSheet {
         return (month - 1) / (12 / periodsInYear) + 1
     }
 
-    var isCurrentPeriod: Bool {
-        selectedYear == currentCalendarYear && selectedPeriodIndex == currentPeriodIndex
-    }
-
     var isValueBased: Bool { valueCurrency != nil && !isCountLimited && !isUnlimited }
 
-    var selectedPeriodUsedAmount: Int {
-        BenefitUsageAnalyzer.periodStatusInfo(
-            for: selectedPeriodIndex,
-            year: selectedYear,
-            frequency: frequency ?? "",
-            history: usageHistory,
-            budget: periodBudget,
-            isValueBased: isValueBased
-        ).usedAmount
-    }
-    
-    var selectedPeriodDate: Date {
-        if isCurrentPeriod { return Date() }
-        let cal = Calendar.current
-        if periodsInYear <= 1 {
-            return cal.date(from: DateComponents(year: selectedYear, month: 12, day: 31)) ?? Date()
+    @ViewBuilder
+    var preferencesSection: some View {
+        if let isMuted = isMuted {
+            VStack(alignment: .leading, spacing: 8) {
+                Text("PREFERENCES")
+                    .font(.churMicroBold())
+                    .kerning(1.2)
+                    .foregroundStyle(Color.churMediumGray)
+
+                Toggle(isOn: Binding(get: { !isMuted.wrappedValue }, set: { isMuted.wrappedValue = !$0 })) {
+                    HStack(spacing: 14) {
+                        ZStack {
+                            Circle()
+                                .fill(isMuted.wrappedValue
+                                    ? Color.churLightGray.opacity(0.3)
+                                    : Color.churOlive.opacity(0.15))
+                                .frame(width: 36, height: 36)
+                            Image(systemName: isMuted.wrappedValue ? "bell.slash.fill" : "bell.fill")
+                                .font(.system(size: 14, weight: .bold))
+                                .foregroundStyle(isMuted.wrappedValue ? Color.churMediumGray : Color.churOlive)
+                        }
+                        VStack(alignment: .leading, spacing: 1) {
+                            Text("Reminders")
+                                .font(.churCaption())
+                                .foregroundStyle(isMuted.wrappedValue ? Color.churMediumGray : Color.churDarkGray)
+                            Text(isMuted.wrappedValue
+                                ? "Reminders silenced"
+                                : "You'll be reminded before this expires")
+                                .font(.churMicroMedium())
+                                .foregroundStyle(Color.churMediumGray)
+                        }
+                    }
+                }
+                .tint(Color.churOlive)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 12)
+                .background(Color.white)
+                .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+                .shadow(color: .black.opacity(0.03), radius: 10, y: 5)
+            }
         }
-        let mpp = 12 / periodsInYear
-        let startMonth = (selectedPeriodIndex - 1) * mpp + 1
-        let startDate = cal.date(from: DateComponents(year: selectedYear, month: startMonth, day: 1))!
-        let nextStart = cal.date(byAdding: .month, value: mpp, to: startDate)!
-        return cal.date(byAdding: .day, value: -1, to: nextStart)!
     }
 }

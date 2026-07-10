@@ -12,6 +12,7 @@
     "foreignTransactionFeeRate": 0,
     "isPopular": false,
     "benefits": [
-        "tsa_precheck_credit_100"
+        "tsa_precheck_credit_100",
+        "airline_credit_bofa_100"
     ]
 }

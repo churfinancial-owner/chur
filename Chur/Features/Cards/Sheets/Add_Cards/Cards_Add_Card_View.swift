@@ -82,6 +82,8 @@ struct CardsView_AddCardView: View {
                 dismiss()
             }
             .foregroundStyle(.red)
+            .fontWeight(.bold)
+            .font(.churRowText())
         }
         
         ToolbarItem(placement: .primaryAction) {
@@ -94,7 +96,7 @@ struct CardsView_AddCardView: View {
             confirmAndSave()
         } label: {
             HStack(spacing: 8) {
-                Text("Confirm")
+                Text("Done")
                 
                 if !pendingTemplates.isEmpty {
                     Text("\(pendingTemplates.count)")
@@ -106,7 +108,9 @@ struct CardsView_AddCardView: View {
                 }
             }
         }
+        .font(.churRowText())
         .fontWeight(.bold)
+        .foregroundStyle(Color.churOlive)
         .foregroundStyle(Color.churOlive)
         .disabled(pendingTemplates.isEmpty)
     }

@@ -20,9 +20,9 @@ struct NearbyMapPin: View {
         ZStack {
             if let category = category {
                 // Uses the logic: Asset Catalog Icon > Emoji Fallback
-                CategoryIconView(category: category, font: .system(size: isSelected ? 24 : 18))
+                CategoryIconView(category: category, font: isSelected ? .churTitle2() : .churHeadline())
             } else {
-                Text("📍").font(.system(size: isSelected ? 24 : 18))
+                Text("📍").font(isSelected ? .churTitle2() : .churHeadline())
             }
         }
         .frame(width: isSelected ? 38 : 32, height: isSelected ? 38 : 32)

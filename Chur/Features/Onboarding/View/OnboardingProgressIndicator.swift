@@ -22,3 +22,27 @@ struct OnboardingProgressIndicator: View {
         }
     }
 }
+
+// MARK: - Shared Onboarding Background
+
+/// Uniform olive dot grid — used as a subtle texture across onboarding steps.
+struct DotGridBackground: View {
+    var body: some View {
+        Canvas { context, size in
+            let spacing: CGFloat = 24
+            let dotRadius: CGFloat = 1
+            let cols = Int(size.width / spacing) + 2
+            let rows = Int(size.height / spacing) + 2
+            for row in 0..<rows {
+                for col in 0..<cols {
+                    let x = CGFloat(col) * spacing
+                    let y = CGFloat(row) * spacing
+                    let rect = CGRect(x: x - dotRadius, y: y - dotRadius,
+                                     width: dotRadius * 2, height: dotRadius * 2)
+                    context.fill(Path(ellipseIn: rect),
+                                 with: .color(Color.churOlive.opacity(0.15)))
+                }
+            }
+        }
+    }
+}

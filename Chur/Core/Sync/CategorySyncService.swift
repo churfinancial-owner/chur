@@ -78,7 +78,16 @@ struct CategorySyncService {
             result.deactivated += 1
         }
 
-        // 7. Save
+        // 7. DEBUG: validate parentCategoryID references so broken ancestor walks surface early
+        #if DEBUG
+        for t in templates {
+            if let parentID = t.parentCategoryID, templateByID[parentID] == nil {
+                print("⚠️ CategorySync: '\(t.id)' has parentCategoryID '\(parentID)' which is missing from templates — ancestor matching will be broken")
+            }
+        }
+        #endif
+
+        // 8. Save
         if result.hasChanges {
             do {
                 try modelContext.save()

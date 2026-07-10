@@ -136,7 +136,7 @@ struct BadgeIcon: View {
                     .foregroundStyle(.white)
             } else {
                 Text(badge.emoji)
-                    .font(.system(size: 44))
+                    .font(.churCounter())
             }
         }
     }

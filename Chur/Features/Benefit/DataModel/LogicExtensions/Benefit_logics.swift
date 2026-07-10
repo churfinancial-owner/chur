@@ -38,4 +38,13 @@ extension Benefit {
     func isLocked(approvedMonth: Int, approvedYear: Int) -> Bool {
         return isDelayed(approvedMonth: approvedMonth, approvedYear: approvedYear) || needsActivation(approvedMonth: approvedMonth)
     }
+
+    /// Whether expiry reminders are meaningful for this benefit.
+    /// Unlimited count-based benefits and ongoing benefits have no "runs out
+    /// before period ends" scenario, so reminders don't apply.
+    var isRemindable: Bool {
+        guard frequency.lowercased() != "ongoing" else { return false }
+        if usageLimit == -1 { return false }  // unlimited count-based
+        return value > 0 || usageLimit != nil
+    }
 }

@@ -5,7 +5,7 @@
             "rewardProgramName": "Bilt Rewards",
             "category": null,
             "isUserConfigurable": true,
-            "configurableSlot": "5pct_slot_1",
+            "configurableSlot": "3pct_slot_4",
             "configurableOptions": [
                 {
                     "label": "Dining",
@@ -19,8 +19,7 @@
                         "groceries"
                     ]
                 }
-            ],
-            "rewardNotes": "Earn 3% on your selected category"
+            ]
         },
         {
             "rate": 2.0,

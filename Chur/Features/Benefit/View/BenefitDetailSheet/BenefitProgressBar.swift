@@ -8,21 +8,33 @@
 import SwiftUI
 
 struct BenefitProgressBar: View {
+    let name: String
     let usageHistory: [BenefitUsageRecord]
     let frequency: String?
     let periodBudget: Int?
     let valueCurrency: String?
     let isCountLimited: Bool
     let isUnlimited: Bool
+    let trackingMode: String
     let expiryDate: Date?
     
     @Binding var selectedYear: Int
     @Binding var selectedPeriodIndex: Int
-
-    private let calendar = Calendar.current
-    private var currentYear: Int { calendar.component(.year, from: Date()) }
-    private var currentMonth: Int { calendar.component(.month, from: Date()) }
+    var autoApplyEnabled: Binding<Bool>?
+    @Binding var localRemainingBalance: Int?
+    @Binding var localIsFullyRedeemed: Bool
     
+    let remainingBalance: Int?
+    let isFullyRedeemed: Bool
+    
+    var onLogUsage: ((Int) -> Void)?
+    var onLogUsageAt: ((Int, Date) -> Void)?
+    var onDeleteRecord: ((BenefitUsageRecord) -> Void)?
+    var onAutoApplyToggled: ((Bool, Int) -> Void)?
+    var onCatchUp: (([Date]) -> Void)?
+
+    @State private var showingManagementSheet = false
+    private let calendar = Calendar.current
     private var freq: String { frequency?.lowercased() ?? "" }
     private var isValueBased: Bool { valueCurrency != nil && !isCountLimited && !isUnlimited }
     
@@ -40,103 +52,161 @@ struct BenefitProgressBar: View {
             VStack(alignment: .leading, spacing: 16) {
                 Divider()
                 
-                Text("PROGRESS")
-                    .font(.system(size: 11, weight: .black, design: .rounded))
-                    .kerning(1.2)
-                    .foregroundStyle(Color.churMediumGray)
+                HStack {
+                    Text("PROGRESS")
+                        .font(.churMicroBold())
+                        .kerning(1.2)
+                        .foregroundStyle(Color.churMediumGray)
+                    Spacer()
+                }
+                
                 progressBar
-                periodSummaryChip
+                    .padding(.top, 8) // Space for the floating indicator
+                
+                Button {
+                    showingManagementSheet = true
+                } label: {
+                    periodSummaryChip
+                }
+                .buttonStyle(.plain)
+            }
+            .sheet(isPresented: $showingManagementSheet) {
+                BenefitPeriodManagementView(
+                    name: name,
+                    usageHistory: usageHistory,
+                    frequency: frequency,
+                    periodBudget: periodBudget,
+                    valueCurrency: valueCurrency,
+                    isCountLimited: isCountLimited,
+                    isUnlimited: isUnlimited,
+                    trackingMode: trackingMode,
+                    selectedYear: $selectedYear,
+                    selectedPeriodIndex: $selectedPeriodIndex,
+                    autoApplyEnabled: autoApplyEnabled,
+                    localRemainingBalance: $localRemainingBalance,
+                    localIsFullyRedeemed: $localIsFullyRedeemed,
+                    remainingBalance: remainingBalance,
+                    isFullyRedeemed: isFullyRedeemed,
+                    onLogUsage: onLogUsage,
+                    onLogUsageAt: onLogUsageAt,
+                    onDeleteRecord: onDeleteRecord,
+                    onAutoApplyToggled: onAutoApplyToggled,
+                    onCatchUp: onCatchUp
+                )
             }
         }
+    }
+
+    @ViewBuilder
+    private var progressBar: some View {
+        let r: CGFloat = periodsInYear >= 12 ? 4 : 8
+        
+        ZStack(alignment: .topLeading) {
+            // Background Track
+            Capsule()
+                .fill(Color.churLightGray.opacity(0.15))
+                .frame(height: 12)
+                .padding(.top, 12)
+
+            HStack(spacing: 4) {
+                if periodsInYear > 0 {
+                    ForEach(1...periodsInYear, id: \.self) { index in
+                        let data = BenefitUsageAnalyzer.periodStatusInfo(
+                            for: index,
+                            year: selectedYear,
+                            frequency: frequency ?? "",
+                            history: usageHistory,
+                            budget: periodBudget,
+                            isValueBased: isValueBased
+                        )
+                        
+                        let isSelected = selectedPeriodIndex == data.index
+                        
+                        let fillColor: Color =
+                            data.isFull      ? Color.churstatusgreen :
+                            data.isPartial   ? Color.churstatusgreen.opacity(0.4) :
+                            data.isEmptyPast ? Color.churstatuspink.opacity(0.5) :
+                            data.isCurrent   ? Color.churOlive.opacity(0.3) :
+                            Color.churLightGray.opacity(0.2)
+
+                        VStack(spacing: 6) {
+                            // Floating Indicator Dot
+                            Circle()
+                                .fill(Color.churOlive)
+                                .frame(width: 5, height: 5)
+                                .opacity(isSelected ? 1 : 0)
+                                .scaleEffect(isSelected ? 1 : 0.5)
+
+                            let bar = RoundedRectangle(cornerRadius: r)
+                                .fill(fillColor)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: r)
+                                        .stroke(Color.white.opacity(0.5), lineWidth: 1)
+                                        .mask(RoundedRectangle(cornerRadius: r))
+                                )
+                                .frame(maxWidth: .infinity)
+                                .frame(height: isSelected ? 16 : 12)
+                                .offset(y: isSelected ? -2 : 0)
+
+                            if data.isFuture {
+                                bar
+                            } else {
+                                Button {
+                                    selectedPeriodIndex = data.index
+                                } label: {
+                                    bar
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
+                        .animation(.interactiveSpring(response: 0.3, dampingFraction: 0.6), value: selectedPeriodIndex)
+                    }
+                }
+            }
+        }
+        .sensoryFeedback(.selection, trigger: selectedPeriodIndex)
+        .frame(height: 24)
     }
 
     @ViewBuilder
     private var periodSummaryChip: some View {
         let info = selectedPeriodInfo
         HStack {
-            HStack(spacing: 8) {
+            HStack(spacing: 12) {
                 ZStack {
                     Circle()
-                        .fill((info.usedAmount > 0 ? Color.churOlive : Color.churMediumGray).opacity(0.15))
-                        .frame(width: 24, height: 24)
+                        .fill((info.usedAmount > 0 ? Color.churOlive : Color.churMediumGray).opacity(0.12))
+                        .frame(width: 36, height: 36)
                     
-                    Image(systemName: info.isFull ? "checkmark" : "circle.badge.exclamationmark")
-                        .font(.system(size: 10, weight: .black))
-                        .foregroundStyle(info.usedAmount > 0 ? Color.churOlive : Color.churMediumGray)
+                    Image(systemName: info.isFull ? "checkmark.seal.fill" : "exclamationmark.circle")
+                        .font(.system(size: 16, weight: .bold))
+                        .foregroundStyle(info.usedAmount > 0 ? Color.churOlive : Color.churstatuspink)
                 }
                 
-                VStack(alignment: .leading, spacing: 0) {
-                    Text(info.label.uppercased())
-                        .font(.system(size: 10, weight: .bold, design: .rounded))
-                        .foregroundStyle(Color.churMediumGray)
-                    
+                VStack(alignment: .leading, spacing: 1) {
                     Text(usageSummaryText(used: info.usedAmount))
-                        .font(.system(size: 14, weight: .bold, design: .rounded))
+                        .font(.churCaption())
                         .foregroundStyle(Color.churDarkGray)
+
+                    Text(info.label.uppercased())
+                        .font(.churMicroMedium())
+                        .foregroundStyle(Color.churMediumGray)
                 }
             }
             Spacer()
+            
+            Image(systemName: "chevron.right")
+                .font(.churCaption())
+                .foregroundStyle(Color.churLightGray)
+                .padding(.trailing, 4)
         }
-        .padding(.vertical, 4)
-    }
-    
-    @ViewBuilder
-    private var progressBar: some View {
-        let r: CGFloat = periodsInYear >= 12 ? 3 : periodsInYear >= 4 ? 5 : 7
-        HStack(spacing: 3) {
-            if periodsInYear > 0 {
-                ForEach(1...periodsInYear, id: \.self) { index in
-                    let data = BenefitUsageAnalyzer.periodStatusInfo(
-                        for: index,
-                        year: selectedYear,
-                        frequency: frequency ?? "",
-                        history: usageHistory,
-                        budget: periodBudget,
-                        isValueBased: isValueBased
-                    )
-                    let isSelected = selectedPeriodIndex == data.index
-                    let fillColor: Color =
-                    data.isFull    ? Color.churstatusgreen :
-                    data.isPartial ? Color.churstatusgreen.opacity(0.4) :
-                    data.isEmptyPast ? Color.churstatuspink.opacity(0.6) :
-                    data.isFuture  ? Color.churLightGray.opacity(0.2) :
-                    data.isCurrent ? Color.churLightGray.opacity(0.5) :
-                    Color.churLightGray.opacity(0.35)
-                    
-                    RoundedRectangle(cornerRadius: r)
-                        .fill(fillColor)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: r)
-                                .stroke(Color.white.opacity(0.6), lineWidth: 1)
-                                .offset(y: -0.5)
-                                .mask(RoundedRectangle(cornerRadius: r))
-                        )
-                        .shadow(color: Color.black.opacity(isSelected ? 0.3 : 0), radius: 2, x: 0, y: 1)
-                        .frame(maxWidth: .infinity, maxHeight: isSelected ? 16 : 12)
-                        .animation(.interactiveSpring(), value: isSelected)
-                }
-            } else {
-                // ALIGNED ANNUAL/ONE-TIME STYLE
-                let yearUsage = usageHistory.filter { calendar.component(.year, from: $0.redeemedAt) == selectedYear }.reduce(0) { $0 + $1.redeemedAmount }
-                let isFull = yearUsage > 0 && (!isValueBased || yearUsage >= (periodBudget ?? 0))
-                let isPartial = yearUsage > 0 && !isFull
-                let isEmptyPast = yearUsage == 0 && selectedYear < currentYear
-                let isFuture = selectedYear > currentYear
-                
-                let fillColor: Color = isFull ? Color.churstatusgreen : isPartial ? Color.churstatusgreen.opacity(0.4) : isEmptyPast ? Color.churstatuspink.opacity(0.6) : isFuture ? Color.churLightGray.opacity(0.2) : Color.churLightGray.opacity(0.35)
-                
-                RoundedRectangle(cornerRadius: 7)
-                    .fill(fillColor)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 7)
-                            .stroke(Color.white.opacity(0.6), lineWidth: 1)
-                            .offset(y: -0.5)
-                            .mask(RoundedRectangle(cornerRadius: 7))
-                    )
-                    .frame(maxWidth: .infinity, maxHeight: 12) // Matches standard non-selected height
-            }
-        }
-        .frame(height: 13)
+        .padding(.horizontal, 12)
+        .padding(.vertical, 10)
+        .background(
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .fill(Color.white)
+                .shadow(color: .black.opacity(0.04), radius: 8, y: 4)
+        )
     }
     
     private var selectedPeriodInfo: (label: String, usedAmount: Int, isFull: Bool) {
@@ -166,5 +236,4 @@ struct BenefitProgressBar: View {
             return used > 0 ? "\(used) use\(used == 1 ? "" : "s")" : "No Records"
         }
     }
-    
 }

@@ -45,6 +45,7 @@ class Benefit {
     var trackingMode: String = "manual" // "manual" or "auto" or "recurring"
     var autoApplyUntil: Date? // End date for auto-application
     var autoApplyEnabled: Bool = false // User opted into auto-apply
+    var autoApplyAmount: Int? = nil // Custom amount to replay each period (nil = full remaining)
     
     // Expiration
     var expirationDate: Date? // Hard deadline for the benefit itself
@@ -72,6 +73,9 @@ class Benefit {
     var activationInstructions: String? // e.g. "Enroll via the CLEAR website"
     var isActivatedByUser: Bool = false // Permanent unlock flag for "lockonce" mode
     var activatedAt: Date? // When user last activated — used by "lockbyfrequency" to check current period
+
+    // Notification Preferences
+    @Attribute var isMuted: Bool = false
 
     // Usage History
     @Relationship(deleteRule: .cascade) var usageHistory: [BenefitUsageRecord] = []

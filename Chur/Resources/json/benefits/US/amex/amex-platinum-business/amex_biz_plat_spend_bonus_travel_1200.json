@@ -14,9 +14,8 @@
     "isRecurring": true,
     "trackingMode": "manual",
     "requiresActivation": true,
-    "activationDelayPeriods": 1,
     "activationMode": "lockbyfrequency",
-    "activationInstructions": "Unlocks for the following year once $250,000 in spend is reached.",
+    "activationInstructions": "Unlock if $250,000 in spend was reached last year.",
     "partnerName": "American Express Travel",
     "displayOrder": 4,
     "isActive": true

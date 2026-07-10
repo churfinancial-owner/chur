@@ -33,17 +33,20 @@ struct NearbyPlacesListView: View {
     @FocusState private var isSearchFocused: Bool
     
     var onModeChange: ((SearchMode) -> Void)? = nil
-    
+    var onMerchantsUpdated: (([NearbyMerchant]) -> Void)? = nil
+
     // MARK: - Initializers
-    
-    init(initialMode: SearchMode = .online, onModeChange: ((SearchMode) -> Void)? = nil) {
+
+    init(initialMode: SearchMode = .online, onModeChange: ((SearchMode) -> Void)? = nil, onMerchantsUpdated: (([NearbyMerchant]) -> Void)? = nil) {
         _vm = State(initialValue: SearchMapViewModel(initialMode: initialMode))
         self.onModeChange = onModeChange
+        self.onMerchantsUpdated = onMerchantsUpdated
     }
-    
-    init(initialMerchants: [NearbyMerchant], initialMode: SearchMode = .online, onModeChange: ((SearchMode) -> Void)? = nil) {
+
+    init(initialMerchants: [NearbyMerchant], initialMode: SearchMode = .online, onModeChange: ((SearchMode) -> Void)? = nil, onMerchantsUpdated: (([NearbyMerchant]) -> Void)? = nil) {
         _vm = State(initialValue: SearchMapViewModel(initialMerchants: initialMerchants, initialMode: initialMode))
         self.onModeChange = onModeChange
+        self.onMerchantsUpdated = onMerchantsUpdated
     }
     
     // MARK: - Convenience
@@ -70,7 +73,7 @@ struct NearbyPlacesListView: View {
                         
                         HStack(spacing: 8) {
                             Image(systemName: "magnifyingglass")
-                                .font(.system(size: 13, weight: .medium))
+                                .font(.churFootnoteMedium())
                                 .foregroundStyle(Color.churMediumGray)
                             
                             TextField(
@@ -111,7 +114,7 @@ struct NearbyPlacesListView: View {
                         .padding(.vertical, 8)
                         .background(
                             RoundedRectangle(cornerRadius: 10)
-                                .fill(Color.churTiles)
+                                .fill(Color.churTileWhiteBg)
                         )
                     }
                     .padding(.horizontal, 16)
@@ -163,6 +166,9 @@ struct NearbyPlacesListView: View {
             if !wasReady && vm.hasPerformedInitialSearch {
                 triggerSearch()
             }
+        }
+        .onChange(of: vm.merchants.count) { _, count in
+            if count > 0 { onMerchantsUpdated?(vm.merchants) }
         }
         .onChange(of: vm.selectedMerchantID) { _, _ in
             vm.zoomToSelection()
@@ -239,7 +245,7 @@ struct NearbyPlacesListView: View {
                     ProgressView().scaleEffect(0.7).tint(.white)
                 } else {
                     Image(systemName: "magnifyingglass")
-                        .font(.system(size: 13, weight: .bold))
+                        .font(.churFootnoteBold())
                 }
                 Text(buttonLabel)
                     .font(.churCaption())

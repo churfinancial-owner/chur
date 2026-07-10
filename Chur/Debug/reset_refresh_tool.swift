@@ -221,7 +221,7 @@ struct DeveloperToolsSection: View {
             Image(systemName: icon)
             Text(text)
         }
-        .font(.system(size: 14, weight: .bold))
+        .font(.churCaption())
         .foregroundStyle(.white)
         .frame(maxWidth: .infinity)
         .padding(.vertical, 12)

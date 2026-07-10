@@ -9,7 +9,7 @@
     "currency": "USD",
     "country": "US",
     "hasForeignTransactionFee": false,
-    "isPopular": true,
+    "isPopular": false,
     "benefits": [
         "amex_biz_plat_hotel_credit_600",
         "amex_biz_plat_dell_credit_1150",

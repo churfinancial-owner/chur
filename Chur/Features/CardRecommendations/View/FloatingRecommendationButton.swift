@@ -14,7 +14,7 @@ struct FloatingRecommendationButton: View {
     var body: some View {
         Button(action: action) {
             HStack(spacing: 8) {
-                Image(systemName: "hand.thumbsup.fill").font(.system(size: 14, weight: .bold))
+                Image(systemName: "hand.thumbsup.fill").font(.churCaption())
                 Text("Offers").font(.churSectionHeader())
             }
             .foregroundStyle(Color.churDarkGray)

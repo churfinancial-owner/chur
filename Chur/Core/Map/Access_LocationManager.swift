@@ -30,9 +30,13 @@ class LocationManager: NSObject, ObservableObject {
     /// Error message if location access fails
     @Published var errorMessage: String?
     
+    /// ISO country code derived from GPS via reverse geocoding (e.g. "US", "JP")
+    @Published var isoCountryCode: String?
+
     // MARK: - Private Properties
-    
+
     private let locationManager: CLLocationManager
+    private let geocoder = CLGeocoder()
     private var loadingTimeoutTask: Task<Void, Never>?
     
     // MARK: - Computed Properties
@@ -107,6 +111,16 @@ class LocationManager: NSObject, ObservableObject {
         locationManager.requestLocation()
     }
 
+    private func reverseGeocodeCountry(from location: CLLocation) {
+        geocoder.cancelGeocode()
+        geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, _ in
+            guard let self, let code = placemarks?.first?.isoCountryCode else { return }
+            Task { @MainActor [weak self] in
+                self?.isoCountryCode = code
+            }
+        }
+    }
+
     private func beginLoadingWithTimeout(seconds: TimeInterval = 12) {
         isLoading = true
         loadingTimeoutTask?.cancel()
@@ -155,7 +169,8 @@ extension LocationManager: CLLocationManagerDelegate {
             
             self.location = newLocation
             self.errorMessage = nil
-            
+            self.reverseGeocodeCountry(from: newLocation)
+
             #if DEBUG
             print("📍 Location updated: \(newLocation.coordinate.latitude), \(newLocation.coordinate.longitude)")
             print("   Accuracy: \(newLocation.horizontalAccuracy)m")

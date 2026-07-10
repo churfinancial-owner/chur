@@ -5,9 +5,15 @@
 //  Created by Pak Ho on 3/12/26.
 //
 
+import Foundation
 import SwiftUI
 import SwiftData
 import MapKit
+
+enum SearchMode: String, CaseIterable {
+    case map = "Map"
+    case online = "Online"
+}
 
 struct SearchModeToggle: View {
     @Binding var selectedMode: SearchMode
@@ -20,7 +26,7 @@ struct SearchModeToggle: View {
                     withAnimation(.easeInOut(duration: 0.25)) { selectedMode = mode }
                 } label: {
                     Text(mode.rawValue)
-                        .font(.system(size: 15, weight: selectedMode == mode ? .bold : .medium, design: .rounded))
+                        .font(selectedMode == mode ? .churRowText() : .churRowTextMedium())
                         .foregroundStyle(selectedMode == mode ? .white : Color.churDarkGray)
                         .padding(.horizontal, 16)
                         .padding(.vertical, 7)

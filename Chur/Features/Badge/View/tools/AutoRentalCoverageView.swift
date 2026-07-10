@@ -59,7 +59,7 @@ struct AutoRentalCoverageView: View {
                     // MARK: - Hero Header
                     VStack(alignment: .leading, spacing: 6) {
                         Text("PROTECTIONS")
-                            .font(.system(size: 12, weight: .black, design: .rounded))
+                            .font(.churSmallBold())
                             .foregroundStyle(Color.white)
                             .padding(.horizontal, 10)
                             .padding(.vertical, 6)
@@ -138,12 +138,12 @@ struct AutoRentalCoverageView: View {
     private func summaryPill(label: String, count: Int, color: Color) -> some View {
         HStack(spacing: 6) {
             Text(label)
-                .font(.system(size: 12, weight: .black, design: .rounded))
+                .font(.churSmallBold())
                 .foregroundStyle(color)
                 .tracking(0.5)
 
             Text("\(count)")
-                .font(.system(size: 12, weight: .black, design: .rounded))
+                .font(.churSmallBold())
                 .foregroundStyle(color)
                 .padding(.horizontal, 6)
                 .padding(.vertical, 2)
@@ -221,7 +221,7 @@ struct AutoRentalCoverageView: View {
                 Spacer()
 
                 Text(isPrimary ? "PRIMARY" : "SECONDARY")
-                    .font(.system(size: 10, weight: .black, design: .rounded))
+                    .font(.churBadgeBold())
                     .foregroundStyle(accentColor)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
@@ -236,26 +236,8 @@ struct AutoRentalCoverageView: View {
         .shadow(color: .black.opacity(0.03), radius: 5, x: 0, y: 2)
     }
 
-    // MARK: - Empty State
-
     private var emptyState: some View {
-        VStack(spacing: 12) {
-            Image(systemName: "car.side")
-                .font(.churBigTitle3())
-                .foregroundStyle(Color.churMediumGray)
-            Text("No rental coverage yet")
-                .font(.churSectionHeader())
-                .foregroundStyle(Color.churDarkGray)
-            Text("Add a card with auto rental coverage to see your protection here.")
-                .font(.system(size: 12, weight: .medium, design: .rounded))
-                .foregroundStyle(Color.churMediumGray)
-                .multilineTextAlignment(.center)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(32)
-        .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-        .shadow(color: .black.opacity(0.03), radius: 5, x: 0, y: 2)
+        EmptyStatePlaceholder(icon: "car.side", title: "No rental coverage yet", subtitle: "Add a card with auto rental coverage to see your protection here.")
     }
 
     // MARK: - JSON Loading

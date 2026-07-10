@@ -5,7 +5,6 @@
 //  Created by Pak Ho on 2/2/26.
 //
 
-
 import SwiftUI
 import SwiftData
 
@@ -14,37 +13,32 @@ struct MonthDetailSheet: View {
     
     // Inputs
     let month: Int
+    let year: Int
     let cards: [CreditCard]
-    let fees: Int     // Passed from parent (unused for card math to avoid bugs)
-    let savings: Int  // Passed from parent (unused for card math to avoid bugs)
 
     // MARK: - Computed Properties
     
-    /// Sums the annual fees for cards approved in this specific month
     private var totalMonthlyFees: Int {
         monthlyFeeItems.reduce(0) { $0 + $1.amount }
     }
 
-    /// Sums the redeemed benefits for the selected month and current year
     private var totalMonthlySavings: Int {
         groupedBenefits.reduce(0) { $0 + $1.totalAmount }
     }
     
     private var formattedDate: String {
-        let year = Calendar.current.component(.year, from: Date())
         let monthName = Calendar.current.monthSymbols[month - 1].uppercased()
         return "\(monthName) \(year)"
     }
 
     private var monthlyFeeItems: [(card: CreditCard, amount: Int)] {
         cards
-            .filter { $0.approvedMonth == month && $0.annualFee > 0 }
+            .filter { $0.approvedMonth == month && $0.annualFee > 0 && year >= $0.approvedYear }
             .map { (card: $0, amount: $0.annualFee) }
             .sorted { $0.amount > $1.amount }
     }
 
     private var groupedBenefits: [GroupedBenefit] {
-        let year = Calendar.current.component(.year, from: Date())
         var results: [GroupedBenefit] = []
         
         for card in cards {
@@ -78,44 +72,35 @@ struct MonthDetailSheet: View {
         ZStack(alignment: .topTrailing) {
             ScrollView {
                 VStack(spacing: 0) {
-                    // 1. Header Pattern & Title
                     PatternHeaderBanner(imageName: "HeaderPattern5")
                     
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text(formattedDate)
-                            .font(.system(size: 32, weight: .bold, design: .rounded))
-                            .foregroundStyle(Color.churDarkGray)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal, 24)
-                    .padding(.top, 12)
+                    // 1. Header & Title
+                    DetailSheetTitleBlock(title: formattedDate, subtitle: "MONTHLY ACTIVITY")
 
-                    // 2. Summary Card (Now uses dynamic calculations)
-                    summaryCard
+                    // 2. Summary Dashboard
+                    summaryDashboard
                         .padding(24)
 
                     // 3. Breakdown Sections
-                    VStack(spacing: 24) {
+                    VStack(spacing: 28) {
                         
                         // --- ANNUAL FEES ---
                         if !monthlyFeeItems.isEmpty {
-                            recapSection(title: "ANNUAL FEES", icon: "creditcard.and.123", accentColor: .red) {
+                            enhancedSection(title: "Upcoming Fees", icon: "creditcard.and.123", color: .red) {
                                 ForEach(0..<monthlyFeeItems.count, id: \.self) { i in
                                     let item = monthlyFeeItems[i]
-                                    rowItem(card: item.card, title: item.card.name, subtitle: item.card.issuer, amount: "-$\(item.amount)", color: .red, trailingPadding: 20)
-                                    if i < monthlyFeeItems.count - 1 { divider }
+                                    enhancedRow(card: item.card, title: item.card.name, amount: "-$\(item.amount)", color: .red)
+                                    if i < monthlyFeeItems.count - 1 { thinDivider }
                                 }
                             }
                         }
 
                         // --- BENEFITS REDEEMED ---
                         if !groupedBenefits.isEmpty {
-                            recapSection(title: "BENEFITS REDEEMED", icon: "sparkles", accentColor: .green) {
+                            enhancedSection(title: "Redeemed Benefits", icon: "sparkles", color: .green) {
                                 ForEach(groupedBenefits) { group in
-                                    // Shared component from SharedBenefitModels.swift
                                     BenefitGroupRow(group: group)
-                                    
-                                    if group.id != groupedBenefits.last?.id { divider }
+                                    if group.id != groupedBenefits.last?.id { thinDivider }
                                 }
                             }
                         }
@@ -126,7 +111,7 @@ struct MonthDetailSheet: View {
                     }
                     .padding(.horizontal, 24)
 
-                    Spacer(minLength: 60)
+                    Spacer(minLength: 100)
                 }
             }
             .background(Color.churOffWhite)
@@ -138,109 +123,96 @@ struct MonthDetailSheet: View {
 
     // MARK: - Components
 
-    private var summaryCard: some View {
-        HStack(spacing: 0) {
-            // Uses calculated totalMonthlyFees instead of input fees
-            summaryStat(label: "Annual Fees", value: "$\(totalMonthlyFees)", icon: "banknote.fill", color: .red)
-            Rectangle()
-                .fill(Color.red.opacity(0.15))
-                .frame(width: 1, height: 40)
-            
-            // Uses calculated totalMonthlySavings instead of input savings
-            summaryStat(label: "Redeemed", value: "$\(totalMonthlySavings)", icon: "gift.fill", color: .green)
+    private var summaryDashboard: some View {
+        HStack(spacing: 16) {
+            summaryStatPill(label: "Fees", value: "$\(totalMonthlyFees)", color: .red)
+            summaryStatPill(label: "Redeemed", value: "$\(totalMonthlySavings)", color: Color.churOlive)
         }
-        .padding(.vertical, 24)
-        .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-        .shadow(color: .green.opacity(0.03), radius: 8, x: 0, y: 4)
     }
     
-    private func summaryStat(label: String, value: String, icon: String, color: Color) -> some View {
+    private func summaryStatPill(label: String, value: String, color: Color) -> some View {
         VStack(spacing: 4) {
-            VStack(spacing: 6) {
-                Image(systemName: icon)
-                    .font(.churBigTitle4())
-                    .foregroundStyle(color.opacity(0.8))
+            Text(value)
+                .font(.churTitle2())
+                .foregroundStyle(color)
 
-                Text(value)
-                    .font(.churTitle())
-                    .minimumScaleFactor(0.8)
-                    .lineLimit(1)
-            }
-            
             Text(label.uppercased())
-                .font(.churBadgeMedium())
+                .font(.churNanoBold())
                 .foregroundStyle(.secondary)
-                .textCase(.uppercase)
+                .tracking(1)
         }
         .frame(maxWidth: .infinity)
+        .padding(.vertical, 20)
+        .background(
+            RoundedRectangle(cornerRadius: 24)
+                .fill(.white)
+                .shadow(color: .black.opacity(0.03), radius: 10, y: 5)
+        )
     }
     
-    private func recapSection<Content: View>(title: String, icon: String, accentColor: Color, @ViewBuilder content: () -> Content) -> some View {
+    private func enhancedSection<Content: View>(title: String, icon: String, color: Color, @ViewBuilder content: () -> Content) -> some View {
         VStack(alignment: .leading, spacing: 14) {
-            Label(title, systemImage: icon)
-                .font(.system(size: 11, weight: .black, design: .rounded))
-                .foregroundStyle(Color.churMediumGray)
-                .tracking(1.1)
-                .textCase(.uppercase)
+            HStack(spacing: 6) {
+                Image(systemName: icon)
+                    .font(.churBadgeBold())
+                Text(title.uppercased())
+                    .font(.churBadgeBold())
+                    .tracking(1)
+            }
+            .foregroundStyle(Color.churMediumGray.opacity(0.8))
+            .padding(.leading, 8)
 
             VStack(spacing: 0) {
                 content()
             }
-            .background(Color.white)
-            .clipShape(RoundedRectangle(cornerRadius: 16))
-            .shadow(color: .black.opacity(0.02), radius: 4, x: 0, y: 2)
+            .background(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 28))
+            .shadow(color: .black.opacity(0.02), radius: 8, y: 4)
         }
     }
     
-    private func rowItem(card: CreditCard, title: String, subtitle: String? = nil, amount: String, color: Color, trailingPadding: CGFloat = 0) -> some View {
-        HStack(spacing: 12) {
+    private func enhancedRow(card: CreditCard, title: String, amount: String, color: Color) -> some View {
+        HStack(spacing: 14) {
             Image(card.imageName)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 42, height: 28)
-                .clipShape(RoundedRectangle(cornerRadius: 4))
-                .overlay(RoundedRectangle(cornerRadius: 4).stroke(Color.black.opacity(0.06), lineWidth: 0.5))
+                .frame(width: 44, height: 28)
+                .clipShape(RoundedRectangle(cornerRadius: 6))
+                .shadow(color: .black.opacity(0.05), radius: 2)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
                     .font(.churCaption())
                     .foregroundStyle(Color.churDarkGray)
-                    .lineLimit(1)
-                
-                if let subtitle {
-                    Text(subtitle)
-                        .font(.churSmall())
-                        .foregroundStyle(Color.churMediumGray)
-                        .lineLimit(1)
-                }
+
+                Text(card.issuer)
+                    .font(.churBadgeMedium())
+                    .foregroundStyle(.secondary)
             }
 
             Spacer()
 
             Text(amount)
-                .font(.churRowText())
+                .font(.churCaption())
                 .foregroundStyle(color)
-                .padding(.trailing, trailingPadding)
         }
-        .padding(16)
-        .contentShape(Rectangle())
+        .padding(20)
     }
 
-    private var divider: some View {
-        Divider().padding(.horizontal, 16).opacity(0.5)
+    private var thinDivider: some View {
+        Divider().padding(.horizontal, 20).opacity(0.3)
     }
 
     private var emptyRecapView: some View {
-        VStack(spacing: 12) {
-            Image(systemName: "tray")
-                .font(.churBigTitle3())
-                .foregroundStyle(Color.churMediumGray.opacity(0.4))
-            Text("No transactions found for this month.")
-                .font(.churCaptionMedium())
+        VStack(spacing: 16) {
+            Image(systemName: "cup.and.saucer")
+                .font(.system(size: 32, weight: .light))
+                .foregroundStyle(Color.churMediumGray.opacity(0.3))
+            Text("Nothing tracked for this month yet.")
+                .font(.churFootnoteMedium())
                 .foregroundStyle(Color.churMediumGray)
         }
         .frame(maxWidth: .infinity)
-        .padding(.top, 40)
+        .padding(.top, 60)
     }
 }

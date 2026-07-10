@@ -26,11 +26,11 @@ struct CardsEmptyWalletView: View {
                 
                 VStack(spacing: 8) {
                     Text("Your wallet is empty")
-                        .font(.system(size: 20, weight: .bold, design: .rounded))
+                        .font(.churBigTitle4())
                         .foregroundStyle(Color.churDarkGray)
 
                     Text("Add your credit cards to start tracking\nbenefits and maximizing your rewards.")
-                        .font(.system(size: 15, design: .rounded))
+                        .font(.churRowTextRegular())
                         .foregroundStyle(Color.churMediumGray)
                         .multilineTextAlignment(.center)
                         .lineSpacing(4)

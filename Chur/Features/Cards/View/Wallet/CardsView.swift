@@ -2,8 +2,6 @@
 //  CardsView.swift
 //  Chur
 //
-//  Created by Pak Ho on 3/16/26.
-//
 
 import SwiftUI
 import SwiftData
@@ -21,12 +19,23 @@ struct CardsView: View {
         vm.getSortedCards(cards: cards, user: users.first)
     }
 
+    // Logic to determine if the button should be visible
+    private var hasRecommendations: Bool {
+        let templates = RecommendationDatabase.getRecommendations(for: users.first?.country ?? "US")
+        let results = CardRecommendationEngine.recommend(
+            allTemplates: templates,
+            userCards: cards,
+            userStrategies: users.first?.strategyPreferences ?? [],
+            userCountry: users.first?.country ?? "US",
+            limit: 1
+        )
+        return !results.isEmpty
+    }
+
     var body: some View {
         GeometryReader { geometry in
             NavigationStack {
                 ZStack(alignment: .top) {
-                    // 1. Scrollable Wallet Content
-                    
                     ScrollView {
                         VStack(spacing: 8) {
                             Color.clear.frame(height: 140)
@@ -40,28 +49,30 @@ struct CardsView: View {
                             Spacer(minLength: 50)
                         }
                     }
-                    .contentShape(Rectangle()) // Ensures tap/drag area is fully registered
-                    .scrollDismissesKeyboard(.interactively) // <-- ADD THIS
+                    .contentShape(Rectangle())
+                    .scrollDismissesKeyboard(.interactively)
                     .background(Color.churOffWhite)
                     .blur(radius: showPopup ? 5 : 0)
-                    
                     
                     CurvedHeaderBackgroundView(waveStyle: .cards)
                     titleOverlay(safeArea: geometry.safeAreaInsets.top)
 
-                    // 2. Floating Action Button
-                    VStack {
-                        Spacer()
-                        HStack {
+                    // 2. Floating Action Button (Now Conditional)
+                    if hasRecommendations {
+                        VStack {
                             Spacer()
-                            FloatingRecommendationButton {
-                                withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
-                                    showPopup = true
+                            HStack {
+                                Spacer()
+                                FloatingRecommendationButton {
+                                    withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                                        showPopup = true
+                                    }
                                 }
+                                .padding(.trailing, 20)
+                                .padding(.bottom, 55)
                             }
-                            .padding(.trailing, 20)
-                            .padding(.bottom, 55)
                         }
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
                     }
 
                     // 3. Stacked Popup Overlay
@@ -77,7 +88,7 @@ struct CardsView: View {
                 .edgesIgnoringSafeArea(.top)
                 .navigationBarHidden(true)
                 .sheet(isPresented: $vm.showingAddCard) { CardsView_AddCardView() }
-                .sheet(item: $vm.cardToEdit) { CardsUserEditCardDetailsSheet(card: $0) }
+                .sheet(item: $vm.cardToEdit) { CardsUserNoteSheet(card: $0) }
                 .sheet(isPresented: $vm.showingCardOrder) {
                     if let user = users.first { CardOrderSheet(user: user, cards: sortedCards) }
                 }
@@ -96,7 +107,6 @@ struct CardsView: View {
 
 // MARK: - View Components
 private extension CardsView {
-    
     func titleOverlay(safeArea: CGFloat) -> some View {
         GeometryReader { _ in
             VStack(alignment: .leading, spacing: 0) {
@@ -123,7 +133,6 @@ private extension CardsView {
                 addCardButton
                 goToCardButton
                 walletMenu
-                
             }
         }
         .padding(.horizontal)
@@ -132,26 +141,11 @@ private extension CardsView {
     }
 
     var addCardButton: some View {
-        Button { vm.showingAddCard = true } label: {
-            ZStack {
-                Circle().fill(Color.churOliveLight).frame(width: 32, height: 32)
-                Image(systemName: "plus")
-                    .font(.churImageMedium())
-                    .foregroundStyle(.churDarkOlive)
-
-            }
-        }
+        OliveIconButton(icon: "plus") { vm.showingAddCard = true }
     }
 
     var goToCardButton: some View {
-        Button { vm.showingGoToCard = true } label: {
-            ZStack {
-                Circle().fill(Color.churOliveLight).frame(width: 32, height: 32)
-                Image(systemName: "magnifyingglass")
-                    .font(.churImageMedium())
-                    .foregroundStyle(.churDarkOlive)
-            }
-        }
+        OliveIconButton(icon: "magnifyingglass") { vm.showingGoToCard = true }
     }
 
     var walletMenu: some View {
@@ -164,12 +158,12 @@ private extension CardsView {
             }
         } label: {
             ZStack {
-                Circle().fill(Color.churOliveLight).frame(width: 32, height: 32)
+                Circle()
+                    .fill(Color.churOliveLight)
+                    .frame(width: 32, height: 32)
                 Image(systemName: "creditcard")
                     .font(.churImageMedium())
                     .foregroundStyle(.churDarkOlive)
-
-    
             }
         }
     }
@@ -182,28 +176,26 @@ private extension CardsView {
                     .padding(.top, 4)
                 
                 cardDetailView(for: selectedCard)
+                    .padding(.top, 12)
+                    .transition(.asymmetric(insertion: .opacity.combined(with: .move(edge: .bottom)), removal: .opacity))
             }
         }
         .padding(.vertical, 8)
         .animation(.spring(response: 0.4, dampingFraction: 0.8), value: vm.currentPage)
     }
-    
+
     @ViewBuilder
     func cardDetailView(for card: CreditCard) -> some View {
-        Group {
-            switch vm.selectedTab {
-            case .benefits:
-                BenefitsListContentView(card: card, selectedFrequency: $vm.selectedFrequency)
-                    .id("benefits-\(card.id)")
-            case .cardInfo:
-                CardInfoContentView(card: card)
-                    .id("cardinfo-\(card.id)")
-            case .features:
-                FeaturesListContentView(card: card)
-                    .id("features-\(card.id)")
-            }
+        switch vm.selectedTab {
+        case .benefits:
+            BenefitsListContentView(card: card, selectedFrequency: $vm.selectedFrequency)
+                .id("benefits-\(card.id)")
+        case .cardinforewards:
+            CardInfoContentView(card: card)
+                .id("cardinforewards-\(card.id)")
+        case .cardinfomationview:
+            InfoListContentView(card: card)
+                .id("cardinfomationview-\(card.id)")
         }
-        .padding(.top, 12)
-        .transition(.asymmetric(insertion: .opacity.combined(with: .move(edge: .bottom)), removal: .opacity))
     }
 }

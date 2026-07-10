@@ -17,5 +17,26 @@
             "rewardProgramName": "Cash Back Rewards HK",
             "category": "everything"
         }
+    ],
+    
+    "hang-seng-hk-travelplus": [
+        {
+            "rate": 7.0,
+            "rewardProgramName": "Cash Back Rewards HK",
+            "category": "everything",
+            "countries": ["JP","KR","TH","CN","MO","TW"]
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Cash Back Rewards HK",
+            "countries": ["HK"],
+            "category": "dining"
+        },
+        {
+            "rate": 1.0,
+            "rewardProgramName": "Cash Back Rewards HK",
+            "category": "everything"
+        }
     ]
+
 }

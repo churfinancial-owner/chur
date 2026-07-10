@@ -20,6 +20,9 @@ struct CardInfoSheetPresenter: View {
         case .configurableRewards: UserConfigurableRewardsSheet(card: card)
         case .boost: BoostProgramPickerSheet(card: card)
         case .rewardPlan: RewardPlanPickerSheet(card: card)
+        case .network: NetworkPickerSheet(card: card)
+        case .cardType: CardTypePickerSheet(card: card)
+        case .userNote: CardsUserNoteSheet(card: card)
         }
     }
 }

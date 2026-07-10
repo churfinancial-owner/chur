@@ -141,7 +141,7 @@ private struct PolaroidSlot: View {
                     .padding(.horizontal, 7)
                     
                     Text(strategy.displayName)
-                        .font(.system(size: 9, weight: .bold, design: .rounded))
+                        .font(.churNanoBold())
                         .foregroundStyle(Color.churDarkGray)
                         .lineLimit(1)
                         .padding(.top, 5)
@@ -163,7 +163,7 @@ private struct PolaroidSlot: View {
                         )
                     
                     Image(systemName: "plus")
-                        .font(.system(size: 20, weight: .medium))
+                        .font(.churBigTitle4())
                         .foregroundStyle(Color.churSilver.opacity(0.5))
                 }
                 .frame(width: cardWidth, height: cardHeight)
@@ -199,7 +199,7 @@ private struct SlotPickerSheet: View {
             VStack(spacing: 20) {
                 VStack(spacing: 6) {
                     Text("CHOOSE A CARD STRATEGY")
-                        .font(.system(size: 16, weight: .black, design: .rounded))
+                        .font(.churSubheadline())
                         .foregroundStyle(Color.churOlive)
                         .tracking(0.5)
                     
@@ -239,7 +239,7 @@ private struct SlotPickerSheet: View {
                         } label: {
                             HStack(spacing: 16) {
                                 Text(strategy.emoji)
-                                    .font(.system(size: 34))
+                                    .font(.churBigTitle3())
                                     .frame(width: 50, height: 50)
                                     .background(strategy.color.opacity(0.1))
                                     .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -262,7 +262,7 @@ private struct SlotPickerSheet: View {
                                         .foregroundStyle(strategy.color)
                                 } else if isUsedElsewhere {
                                     Text("In Use")
-                                        .font(.system(size: 10, weight: .bold))
+                                        .font(.churBadgeBold())
                                         .foregroundStyle(.secondary.opacity(0.5))
                                         .padding(.horizontal, 8)
                                         .padding(.vertical, 4)

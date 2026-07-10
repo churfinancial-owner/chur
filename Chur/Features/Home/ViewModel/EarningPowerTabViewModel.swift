@@ -24,11 +24,11 @@ class EarningPowerViewModel {
 
     // MARK: - Region Logic
     var homeRegionCode: String? {
-        normalizedRegionCode(user.country)
+        RegionDatabase.normalizeRegionCode(user.country)
     }
 
     var currentRegionCode: String? {
-        normalizedRegionCode(currentRegionCodeOverride ?? Locale.current.region?.identifier)
+        RegionDatabase.normalizeRegionCode(currentRegionCodeOverride ?? Locale.current.region?.identifier)
     }
 
     var isAwayFromHomeRegion: Bool {
@@ -38,11 +38,6 @@ class EarningPowerViewModel {
 
     var effectiveTravelModeEnabled: Bool {
         user.earningPowerTravelModeEnabled && isAwayFromHomeRegion
-    }
-
-    private func normalizedRegionCode(_ code: String?) -> String? {
-        guard let raw = code?.trimmingCharacters(in: .whitespacesAndNewlines).uppercased(), !raw.isEmpty else { return nil }
-        return ["PR", "VI", "GU", "AS", "MP"].contains(raw) ? "US" : raw
     }
 
     // MARK: - Category Logic
@@ -90,6 +85,7 @@ class EarningPowerViewModel {
         var results: [String: CardRateSummary] = [:]
         let crossBorder = effectiveTravelModeEnabled
         let enrollments = user.boostEnrollments
+        let effectiveRegion = crossBorder ? currentRegionCode : homeRegionCode
 
         for category in selectedCategories {
             let calc = CardRateCalculator(
@@ -98,7 +94,7 @@ class EarningPowerViewModel {
                 rate: 0,
                 allCategories: categories,
                 boostEnrollments: enrollments,
-                region: nil,
+                region: effectiveRegion,
                 channel: nil,
                 allowPaymentMethodFallback: false,
                 forceCrossBorder: crossBorder
@@ -117,16 +113,17 @@ class EarningPowerViewModel {
 
     // MARK: - Calculator for on-demand use (popups, child categories)
     func calculator(for category: SpendingCategory) -> CardRateCalculator {
-        CardRateCalculator(
+        let crossBorder = effectiveTravelModeEnabled
+        return CardRateCalculator(
             cards: cards,
             category: category,
             rate: 0,
             allCategories: categories,
             boostEnrollments: user.boostEnrollments,
-            region: nil,
+            region: crossBorder ? currentRegionCode : homeRegionCode,
             channel: nil,
             allowPaymentMethodFallback: false,
-            forceCrossBorder: effectiveTravelModeEnabled
+            forceCrossBorder: crossBorder
         )
     }
 

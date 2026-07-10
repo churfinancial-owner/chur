@@ -86,6 +86,8 @@ final class SearchMapViewModel {
         locationManager: LocationManager
     ) {
         guard !hasPerformedInitialSearch, initialMerchants.isEmpty, let location else { return }
+        // Reject low-accuracy or invalid fixes to avoid anchoring the search on stale coordinates
+        guard location.horizontalAccuracy > 0, location.horizontalAccuracy < 100 else { return }
         let center = location.coordinate
         pendingSearchCenter = center
         pendingSearchRadius = NearbyPlacesService.defaultRadius

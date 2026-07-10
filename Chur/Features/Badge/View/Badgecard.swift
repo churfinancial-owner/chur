@@ -36,7 +36,7 @@ struct BadgeCard: View {
 
                 // 2. Text moved BELOW the dots
                 Text(badge.displayName.uppercased())
-                    .font(.system(size: 10, weight: .black, design: .rounded))
+                    .font(.churBadgeBold())
                     .foregroundStyle(unlocked ? Color.primary : Color.churMediumGray)
                     .tracking(0.5)
                     // 3. Max two lines and centered

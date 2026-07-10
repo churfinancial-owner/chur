@@ -50,7 +50,7 @@ struct BenefitCheckboxRow: View {
                             }
                             Spacer()
                             
-                            if vm.isWithinExpiryWarning {
+                            if vm.shouldShowExpiryWarning {
                                 Text("⏰").font(.churSmall())
                             }
                             

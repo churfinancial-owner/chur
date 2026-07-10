@@ -35,6 +35,7 @@ struct CardTemplate {
             cardType: cardType,
             annualFee: annualFee,
             approvedMonth: calendar.component(.month, from: now),
+            approvedDay: calendar.component(.day, from: now),
             approvedYear: calendar.component(.year, from: now),
             country: country,
             hasForeignTransactionFee: hasForeignTransactionFee,
@@ -66,6 +67,7 @@ struct CardTemplate {
                     categories: r.categories,
                     merchantIdentifier: r.merchantIdentifier,
                     merchantName: r.merchantName,
+                    countries: r.countries,
                     channels: r.channels,
                     rewardStartDate: r.rewardStartDate,
                     rewardEndDate: r.rewardEndDate,
@@ -117,6 +119,7 @@ struct RewardTemplate {
     let categories: [String]?
     let merchantIdentifier: String?
     let merchantName: String?
+    let countries: [String]?
     let channels: [String]?
     let rewardStartDate: Date?
     let rewardEndDate: Date?
@@ -159,6 +162,7 @@ private struct _RewardJSON: Codable {
     let categories: [String]?   // Preferred multi-value field
     let merchantIdentifier: String?
     let merchantName: String?
+    let countries: [String]?
     let channels: [String]?
     let rewardStartDate: String?
     let rewardEndDate: String?
@@ -449,6 +453,7 @@ struct CardDatabase {
             categories: r.categories ?? r.category.map { [$0] },
             merchantIdentifier: r.merchantIdentifier,
             merchantName: r.merchantName,
+            countries: r.countries,
             channels: r.channels,
             rewardStartDate: r.rewardStartDate.flatMap { iso8601.date(from: $0) },
             rewardEndDate: r.rewardEndDate.flatMap { iso8601.date(from: $0) },

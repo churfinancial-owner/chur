@@ -1,0 +1,16 @@
+{
+    "id": "hang-seng-hk-travelplus",
+    "name": "Travel+",
+    "issuer": "Hang Seng",
+    "network": "Visa",
+    "imageName": "hang-seng-hk-mmpower",
+    "cardType": "personal",
+    "annualFee": 0,
+    "currency": "HKD",
+    "country": "HK",
+    "hasForeignTransactionFee": true,
+    "foreignTransactionFeeRate": 0.0195,
+    "isPopular": false,
+    "benefits": [
+    ]
+}

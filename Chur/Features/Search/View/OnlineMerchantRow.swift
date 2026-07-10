@@ -20,6 +20,18 @@ struct OnlineMerchantRow: View {
     private var merchantCategory: SpendingCategory? {
         categories.first(where: { $0.id == merchant.category })
     }
+
+    private var topLevelParent: SpendingCategory? {
+        guard let category = merchantCategory else { return nil }
+        var current = category
+        var topParent: SpendingCategory? = nil
+        while let parentID = current.parentCategoryID,
+              let parent = categories.first(where: { $0.id == parentID }) {
+            topParent = parent
+            current = parent
+        }
+        return topParent
+    }
     
     var body: some View {
         Button {
@@ -37,16 +49,17 @@ struct OnlineMerchantRow: View {
                         .foregroundStyle(.primary)
                         .lineLimit(1)
                     
-                    HStack(spacing: 6) {
-                        if let category = merchantCategory {
-                            Text(category.displayName)
-                                .font(.system(size: 12, weight: .medium, design: .rounded))
-                        }
-                        if let domain = merchant.domain, !domain.isEmpty {
+                    HStack(spacing: 4) {
+                        if let parent = topLevelParent, let category = merchantCategory {
+                            Text(parent.displayName)
+                                .font(.churSmallMedium())
                             Text("·")
-                            Text(domain)
-                                .font(.system(size: 12, weight: .medium, design: .rounded))
-                                .lineLimit(1)
+                                .font(.churSmallMedium())
+                            Text(category.displayName)
+                                .font(.churSmallMedium())
+                        } else if let category = merchantCategory {
+                            Text(category.displayName)
+                                .font(.churSmallMedium())
                         }
                     }
                     .foregroundStyle(.secondary)
@@ -55,13 +68,13 @@ struct OnlineMerchantRow: View {
                 Spacer()
                 
                 Image(systemName: "chevron.right")
-                    .font(.system(size: 12, weight: .bold))
+                    .font(.churSmallBold())
                     .foregroundStyle(.tertiary)
             }
             .padding(12)
             .background(
                 RoundedRectangle(cornerRadius: 16)
-                    .fill(Color.churTiles)
+                    .fill(Color.churTileWhiteBg)
             )
         }
         .buttonStyle(.plain)
@@ -80,27 +93,3 @@ struct OnlineMerchantRow: View {
     }
 }
 
-// MARK: - Merchant Icon View
-
-/// Displays a merchant's brand icon if available, otherwise falls back to the category icon/emoji.
-/// Uses `.scaledToFit()` so wide wordmark logos (Amazon, Costco, etc.) are fully visible.
-struct MerchantIconView: View {
-    let iconName: String?
-    let category: SpendingCategory?
-    
-    var body: some View {
-        if let iconName, let uiImage = UIImage(named: iconName) {
-            Image(uiImage: uiImage)
-                .resizable()
-                .scaledToFit()
-        } else if let category {
-            CategoryIconView(category: category, font: .system(size: 20))
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-        } else {
-            Image(systemName: "storefront")
-                .font(.churBigTitle4())
-                .foregroundStyle(.secondary)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-        }
-    }
-}

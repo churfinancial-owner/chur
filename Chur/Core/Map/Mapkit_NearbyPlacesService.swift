@@ -68,12 +68,11 @@ struct NearbyPlacesService {
 
                     for try await bucketResults in group {
                         allMerchants.append(contentsOf: bucketResults)
-                        
-                        let sortedUnique = deduplicateAndSort(merchants: allMerchants)
-                        // Stream the top 25 closest results across all buckets discovered so far
-                        continuation.yield(Array(sortedUnique.prefix(Self.maxMerchantsToProcess)))
                     }
                 }
+                // Yield once after all buckets complete — prevents incremental UI flicker
+                let sortedUnique = deduplicateAndSort(merchants: allMerchants)
+                continuation.yield(Array(sortedUnique.prefix(Self.maxMerchantsToProcess)))
                 continuation.finish()
             }
             

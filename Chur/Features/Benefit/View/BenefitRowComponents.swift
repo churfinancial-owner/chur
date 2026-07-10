@@ -103,13 +103,13 @@ struct ChurStatusPill: View {
         HStack(spacing: 5) {
             if let icon {
                 Image(systemName: icon)
-                    .font(.system(size: fontSize, weight: .black, design: .rounded))
+                    .font(.system(size: fontSize, weight: .bold, design: .rounded))
                     .foregroundStyle(labelColor)
             }
-            
+
             // Logic to show prefix only when collapsed
             Text(isCollapsed ? String(label.prefix(1)) : label)
-                .font(.system(size: fontSize, weight: .black, design: .rounded))
+                .font(.system(size: fontSize, weight: .bold, design: .rounded))
                 .foregroundStyle(labelColor)
         }
         .padding(.horizontal, isCollapsed ? vPad : hPad) // Make it circular when collapsed

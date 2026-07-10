@@ -16,28 +16,24 @@ struct RecommendationCard: View {
     @Query private var users: [User]
     @Query private var categories: [SpendingCategory]
     
+    @Environment(\.rewardDisplay) private var rewardDisplay
     private var boostEnrollments: [String: String] { users.first?.boostEnrollments ?? [:] }
-    private var showEffectiveRate: Bool { users.first?.showEffectiveRate ?? false }
 
     private var categoryEmoji: String {
         categories.first(where: { $0.id == recommendation.merchant.categoryID })?.emoji ?? "📍"
     }
 
     private var rateDisplayText: String {
-        if showEffectiveRate {
-            return recommendation.bestCard?.effectiveRateDisplayString ?? "-"
-        } else {
-            return recommendation.pointsDisplay
-        }
+        rewardDisplay.showEffectiveRate
+            ? (recommendation.bestCard?.effectiveRateDisplayString ?? "-")
+            : recommendation.pointsDisplay
     }
 
     private var ratePillMode: RatePill.DisplayMode {
-        if showEffectiveRate {
-            let rate = recommendation.bestCard?.effectiveCashBackRate ?? 0
-            if rate == 0 { return .empty }
-            return rate < 0 ? .effectiveNegative : .effectivePositive
-        }
-        return .points
+        guard rewardDisplay.showEffectiveRate else { return .points }
+        let rate = recommendation.bestCard?.effectiveCashBackRate ?? 0
+        if rate == 0 { return .empty }
+        return rate < 0 ? .effectiveNegative : .effectivePositive
     }
 
     var body: some View {
@@ -87,7 +83,7 @@ struct RecommendationCard: View {
                 Spacer(minLength: 0)
                 
                 Image(systemName: "chevron.right")
-                    .font(.system(size: 12, weight: .bold))
+                    .font(.churSmallBold())
                     .foregroundStyle(Color.churMediumGray.opacity(0.5))
             }
         }
@@ -103,7 +99,7 @@ struct RecommendationCard: View {
         }
         .sheet(isPresented: $showDetailPopup) {
             if let category = categories.first(where: { $0.id == recommendation.merchant.categoryID }) {
-                CalculatorPopup(
+                MerchantDetailSheet(
                     merchant: recommendation.merchant,
                     category: category,
                     cards: cards,

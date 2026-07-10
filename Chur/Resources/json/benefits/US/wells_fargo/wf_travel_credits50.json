@@ -12,7 +12,6 @@
     "valueCurrency": "USD",
     "frequency": "annual",
     "resetType": "card_anniversary",
-    "usageLimit": 1,
     "isRecurring": true,
     "trackingMode": "manual",
     "requiresActivation": false,

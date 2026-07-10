@@ -39,7 +39,7 @@ struct CellPhoneProtectionView: View {
                     // MARK: - Hero Header
                     VStack(alignment: .leading, spacing: 6) {
                         Text("PROTECTIONS")
-                            .font(.system(size: 10, weight: .black, design: .rounded))
+                            .font(.churBadgeBold())
                             .foregroundStyle(Color.white)
                             .padding(.horizontal, 10)
                             .padding(.vertical, 6)
@@ -52,7 +52,7 @@ struct CellPhoneProtectionView: View {
 
                         VStack(alignment: .leading, spacing: 4) {
                             Text("Cards that cover phone damage, theft, and screen repair. Plans and coverage terms change frequently. Information may not reflect the latest provider updates; always verify with your card issuer.")
-                                .font(.system(size: 12, weight: .medium, design: .rounded))
+                                .font(.churSmallMedium())
                                 .foregroundStyle(Color.churMediumGray)
                                 .lineSpacing(2)
                         }
@@ -71,7 +71,7 @@ struct CellPhoneProtectionView: View {
                             if !recommendedCards.isEmpty {
                                 VStack(alignment: .leading, spacing: 12) {
                                     Text("TOP PICKS FOR YOU")
-                                        .font(.system(size: 10, weight: .black, design: .rounded))
+                                        .font(.churBadgeBold())
                                         .foregroundStyle(Color.churMediumGray)
                                         .tracking(1)
 
@@ -86,7 +86,7 @@ struct CellPhoneProtectionView: View {
                             if !otherCards.isEmpty {
                                 VStack(alignment: .leading, spacing: 12) {
                                     Text("ALSO COVERED")
-                                        .font(.system(size: 10, weight: .black, design: .rounded))
+                                        .font(.churBadgeBold())
                                         .foregroundStyle(Color.churMediumGray)
                                         .tracking(1)
 
@@ -131,7 +131,7 @@ struct CellPhoneProtectionView: View {
 
                 if entry.recommended {
                     Text("TOP PICK")
-                        .font(.system(size: 9, weight: .black, design: .rounded))
+                        .font(.churNanoBold())
                         .foregroundStyle(Color.green)
                         .padding(.horizontal, 8)
                         .padding(.vertical, 4)
@@ -157,7 +157,7 @@ struct CellPhoneProtectionView: View {
                 .font(.churSectionHeader())
                 .foregroundStyle(Color.churDarkGray)
             Text("Add a card with cell phone protection to see your coverage here.")
-                .font(.system(size: 12, weight: .medium, design: .rounded))
+                .font(.churSmallMedium())
                 .foregroundStyle(Color.churMediumGray)
                 .multilineTextAlignment(.center)
         }

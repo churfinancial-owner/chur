@@ -1,10 +1,7 @@
 //
 //  CardCarouselItem.swift
 //  Chur
-//  View of a card such as logo name note in card view
-//  Created by Pak Ho on 1/26/26.
 //
-
 
 import SwiftUI
 import SwiftData
@@ -42,79 +39,63 @@ struct CardCarouselItem: View {
                         .aspectRatio(contentMode: .fill)
                         .frame(width: geometry.size.width, height: geometry.size.height)
                         .clipped()
-                        .border(Color.churOffWhite, width: 1) 
-                }
-                else {
+                } else {
                     RoundedRectangle(cornerRadius: 16)
                         .fill(cardColor.gradient)
                 }
                 
                 // MARK: - Content Layer
                 VStack(alignment: .leading, spacing: 0) {
-                    // TOP: Edit Button
-                    HStack(alignment: .top) {
-                        Spacer()
-                        
-                        Button(action: onEdit) {
-                            Image(systemName: "ellipsis")
-                                .font(.system(size: 18, weight: .bold))
-                                .foregroundStyle(Color.churRatebubbleOliveText)
-                                .padding(10)
-                                .background(.ultraThinMaterial)
-                                .background(.white.opacity(0.95))
-                                .clipShape(Circle())
-                        }
-                    }
                     
-                    Spacer(minLength: 6)
+                    Spacer(minLength: 10)
                     
-                    // MIDDLE: Note
                     ZStack {
-                        if !card.note.isEmpty {
-                            HStack(spacing: 4) {
-                                Image(systemName: "note.text")
-                                    .font(.system(size: 14, weight: .bold))
-                                
-                                Text(card.note)
-                                    .font(.system(size: 14, weight: .black, design: .rounded))
-                                    .lineLimit(noteLineLimit)
-                                    .truncationMode(.tail)
-                                    .multilineTextAlignment(.center)
+                        if !card.note.isEmpty && card.noteIsVisible {
+                            Button(action: onEdit) {
+                                HStack(spacing: 4) {
+                                    Image(systemName: "note.text")
+                                        .font(.churSmallBold())
+                                    Text(card.note)
+                                        .font(.churSmallBold())
+                                        .lineLimit(noteLineLimit)
+                                        .truncationMode(.tail)
+                                        .multilineTextAlignment(.center)
+                                }
+                                .frame(maxWidth: geometry.size.width * noteMaxWidthFactor)
+                                .foregroundStyle(Color(hex: card.noteTextColor))
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 6)
+                                .background {
+                                    ZStack {
+                                        Capsule().fill(Color(hex: card.noteBgColor).opacity(0.93))
+                                    }
+                                }
+                                .clipShape(Capsule())
+                                .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
                             }
-                            .frame(maxWidth: geometry.size.width * noteMaxWidthFactor)
-                            .foregroundStyle(.white)
-                            .padding(.horizontal, 6)
-                            .padding(.vertical, 6)
-                            .background(.ultraThinMaterial)
-                            .background(Color.black.opacity(0.2))
-                            .clipShape(Capsule())
+                            .buttonStyle(.plain)
                         }
                     }
                     .frame(maxWidth: .infinity)
 
-                    Spacer(minLength: 6)
-                    
-                    // BOTTOM: Network
-                    HStack {
-                        Spacer()
-                        if showsCustomNetwork {
+                    Spacer(minLength: 10)
+
+                    if showsCustomNetwork {
+                        HStack {
+                            Spacer()
                             Text(card.network)
-                                .font(.system(size: 13, weight: .black, design: .rounded))
+                                .font(.churSmallBold())
                                 .italic()
                                 .foregroundStyle(.white)
-                                .lineLimit(1)
-                                .truncationMode(.tail)
-                                .minimumScaleFactor(0.85)
                                 .padding(.horizontal, 10)
                                 .padding(.vertical, 5)
                                 .background(.ultraThinMaterial)
                                 .background(Color.black.opacity(0.2))
                                 .clipShape(Capsule())
-                                .frame(maxWidth: geometry.size.width * 0.46, alignment: .trailing)
                         }
                     }
                 }
-                .padding(16) // Slightly more padding to align with the scaled card image
+                .padding(14)
             }
             .clipShape(RoundedRectangle(cornerRadius: 16))
             .overlay(

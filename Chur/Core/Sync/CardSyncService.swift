@@ -44,10 +44,16 @@ struct CardSyncService {
             result.benefitsRemoved += benefitDelta.removed
             result.benefitsUpdated += benefitDelta.updated
 
-            // 3. Sync non-custom reward plans
+            // 3. Migrate legacy slot selections before plan sync may rebuild rewards
+            migrateSlotSelectionsIfNeeded(card: card)
+
+            // 4. Sync non-custom reward plans
             let planDelta = syncRewardPlans(card: card, template: template, modelContext: modelContext)
             result.plansRebuilt += planDelta.plansRebuilt
             result.rewardsPatched += planDelta.rewardsPatched
+
+            // 5. Re-derive reward.categories from slotSelections (the canonical source of truth)
+            card.applySlotSelections()
         }
 
         if result.hasChanges {
@@ -141,6 +147,12 @@ struct CardSyncService {
         let toRemove = existingBenefitIDs.subtracting(desiredBenefitIDs)
         for benefitID in toRemove {
             if let benefit = existingByTemplateID[benefitID] {
+                // Force-resolve the localized fault while the context is still live.
+                // SwiftData stores [String: LocalizedStrings] as a transformable (lazy)
+                // attribute. If any view holds a reference after deletion+save, accessing
+                // this un-resolved fault crashes with "detached from context". Loading it
+                // here ensures the value is in-memory before the context detaches.
+                _ = benefit.localized
                 card.benefits.removeAll { $0.id == benefit.id }
                 modelContext.delete(benefit)
                 delta.removed += 1
@@ -215,18 +227,13 @@ struct CardSyncService {
         var hasChanges: Bool { plansRebuilt > 0 || rewardsPatched > 0 }
     }
 
-    private struct UserRewardConfig {
-        let label: String?
-        let categories: [String]?
-    }
-
     /// Syncs non-custom reward plans against the latest template.
     ///
-    /// - Same plan IDs: patches reward fields in-place, preserving user-owned data.
-    /// - Plan structure changed: captures user config, rebuilds from template, restores config.
+    /// - Same plan IDs: patches reward fields in-place.
+    /// - Plan structure changed: rebuilds from template, then `applySlotSelections()` (called
+    ///   by the sync loop) re-derives `reward.categories` from `card.slotSelections`.
     ///
-    /// User-owned fields (never touched by sync): `categories` on configurable rewards,
-    /// `selectedConfigurableLabel`.
+    /// `categories` on configurable rewards is a derived cache — never written here.
     private static func syncRewardPlans(
         card: CreditCard,
         template: CardTemplate,
@@ -270,19 +277,9 @@ struct CardSyncService {
             return delta
         }
 
-        // CASE 2: Plan structure changed — capture user config, rebuild, restore
-        var savedConfigs: [String: UserRewardConfig] = [:]
-        for plan in templatePlans {
-            for reward in plan.rewards where reward.isUserConfigurable {
-                if let slot = reward.configurableSlot {
-                    savedConfigs[slot] = UserRewardConfig(
-                        label: reward.selectedConfigurableLabel,
-                        categories: reward.categories
-                    )
-                }
-            }
-        }
-
+        // CASE 2: Plan structure changed — rebuild from template.
+        // slotSelections on the card already has the user's choices; applySlotSelections()
+        // called after sync will re-derive reward.categories from it.
         let previousSelectedPlanID = card.selectedPlanID
 
         for plan in templatePlans {
@@ -307,10 +304,6 @@ struct CardSyncService {
 
             for r in planTemplate.rewards {
                 let reward = makeReward(from: r)
-                if let slot = reward.configurableSlot, let config = savedConfigs[slot] {
-                    reward.selectedConfigurableLabel = config.label
-                    reward.categories = config.categories
-                }
                 modelContext.insert(reward)
                 plan.rewards.append(reward)
             }
@@ -337,8 +330,7 @@ struct CardSyncService {
     // MARK: - Reward Field Helpers
 
     /// Patches all template-owned fields on an existing RewardRate in place.
-    /// Never touches user-owned fields: `categories` (for configurable rewards) and
-    /// `selectedConfigurableLabel`.
+    /// Never touches `categories` on configurable rewards — those are derived by `applySlotSelections()`.
     /// Returns true if any field changed.
     @discardableResult
     private static func updateRewardFields(reward: RewardRate, template: RewardTemplate, card: CreditCard) -> Bool {
@@ -353,6 +345,7 @@ struct CardSyncService {
         if !reward.isUserConfigurable && reward.categories != template.categories { reward.categories = template.categories; changed = true }
         if reward.merchantIdentifier != template.merchantIdentifier { reward.merchantIdentifier = template.merchantIdentifier; changed = true }
         if reward.merchantName != template.merchantName { reward.merchantName = template.merchantName; changed = true }
+        if reward.countries != template.countries { reward.countries = template.countries; changed = true }
         if reward.channels != template.channels { reward.channels = template.channels; changed = true }
         if reward.rewardStartDate != template.rewardStartDate { reward.rewardStartDate = template.rewardStartDate; changed = true }
         if reward.rewardEndDate != template.rewardEndDate { reward.rewardEndDate = template.rewardEndDate; changed = true }
@@ -363,27 +356,17 @@ struct CardSyncService {
         if reward.configurableOptions != template.configurableOptions { reward.configurableOptions = template.configurableOptions; changed = true }
         // configurableIncludes ([String: [String]]?) intentionally not compared — SwiftData cannot
         // reliably roundtrip nested collection types. It is written only during a full rebuild.
-        // selectedConfigurableLabel is user-owned — never touched.
         return changed
     }
 
     /// Rebuilds a plan's rewards when the reward count changes.
-    /// Captures and restores user config by configurableSlot.
+    /// slotSelections on the card preserves user choices; applySlotSelections() called
+    /// after sync re-derives reward.categories.
     private static func rebuildPlanRewards(plan: RewardPlan, planTemplate: PlanTemplate, modelContext: ModelContext) {
-        var savedConfigs: [String: UserRewardConfig] = [:]
-        for reward in plan.rewards where reward.isUserConfigurable {
-            if let slot = reward.configurableSlot {
-                savedConfigs[slot] = UserRewardConfig(label: reward.selectedConfigurableLabel, categories: reward.categories)
-            }
-        }
         for reward in plan.rewards { modelContext.delete(reward) }
         plan.rewards.removeAll()
         for r in planTemplate.rewards {
             let reward = makeReward(from: r)
-            if let slot = reward.configurableSlot, let config = savedConfigs[slot] {
-                reward.selectedConfigurableLabel = config.label
-                reward.categories = config.categories
-            }
             modelContext.insert(reward)
             plan.rewards.append(reward)
         }
@@ -400,6 +383,7 @@ struct CardSyncService {
             categories: r.categories,
             merchantIdentifier: r.merchantIdentifier,
             merchantName: r.merchantName,
+            countries: r.countries,
             channels: r.channels,
             rewardStartDate: r.rewardStartDate,
             rewardEndDate: r.rewardEndDate,
@@ -410,6 +394,24 @@ struct CardSyncService {
             configurableOptions: r.configurableOptions,
             configurableIncludes: r.configurableIncludes
         )
+    }
+
+    // MARK: - Slot Selection Migration
+
+    /// One-time migration: if a card has no `slotSelections` yet, reads legacy
+    /// `selectedConfigurableLabel` values from persisted rewards and promotes them
+    /// to the canonical `slotSelections` dict. Runs only when `slotSelections` is empty
+    /// so it is safe to call on every sync.
+    private static func migrateSlotSelectionsIfNeeded(card: CreditCard) {
+        guard card.slotSelections.isEmpty else { return }
+        for plan in card.rewardPlans {
+            for reward in plan.rewards where reward.isUserConfigurable {
+                if let slot = reward.configurableSlot,
+                   let label = reward.selectedConfigurableLabel, !label.isEmpty {
+                    card.slotSelections[slot] = label
+                }
+            }
+        }
     }
 
     struct SyncResult: CustomStringConvertible {

@@ -57,7 +57,7 @@ struct OnboardingProfileStep: View {
                 isNameFocused = false
                 onFinish()
             } label: {
-                Text("Finish Setup")
+                Text("Continue")
                     .font(.churHeadline())
                     .foregroundStyle(.white)
                     .frame(maxWidth: .infinity)

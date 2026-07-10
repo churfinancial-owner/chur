@@ -55,6 +55,18 @@ struct BenefitsListContentView: View {
     /// Sort order for benefit types within the same frequency group.
     private let benefitTypeOrder = ["credit", "lounge_access", "ttp"]
 
+    /// Benefits whose type is not in `allowedBenefitTypes` — shown in the Features section.
+    private var featureBenefits: [Benefit] {
+        card.benefits
+            .filter { !allowedBenefitTypes.contains($0.benefitType.lowercased()) }
+            .sorted { a, b in
+                if a.benefitType != b.benefitType {
+                    return a.benefitType.localizedStandardCompare(b.benefitType) == .orderedAscending
+                }
+                return a.displayName.localizedStandardCompare(b.displayName) == .orderedAscending
+            }
+    }
+
     /// The filtered and sorted array of benefits to display, derived from `card.benefits`.
     private var filteredBenefits: [Benefit] {
         card.benefits
@@ -167,85 +179,96 @@ struct BenefitsListContentView: View {
     // MARK: - Body
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            
-            // MARK: - Header
-            HStack(alignment: .center, spacing: 12) {
-                
-                // MARK: - Filter Bubble Picker
-                Picker("", selection: $selectedFrequency) {
-                    Text("ALL").tag(String?.none)
-                    
-                    Section("Quick Filters") {
-                        Text("✅ AVAILABLE").tag(String?.some("Available"))
-                        Text("⏰ EXPIRING").tag(String?.some("Expiring"))
-                    }
-                    
-                    Section("By Frequency") {
-                        ForEach(allDisplayOptions, id: \.self) { freq in
-                            Text(freq.uppercased()).tag(String?.some(freq))
-                        }
-                    }
-                }
-                .pickerStyle(.menu)
-                .labelsHidden()
-                .tint(.clear)
-                .background(
-                    ZStack {
-                        Capsule()
-                            .fill(activeFilterColor)
-                        
-                        Capsule()
-                            .stroke(selectedFrequency == nil ? Color.churLightGray : activeFilterColor, lineWidth: 1)
-                        
-                        HStack(spacing: 6) {
-                            Text((selectedFrequency ?? "ALL").uppercased())
-                                .font(.system(size: 12, weight: .black, design: .rounded))
-                                .foregroundStyle(selectedFrequency == nil ? Color.churMediumGray : .white)
-                                .fixedSize()
-                            
-                            Image(systemName: "chevron.down")
-                                .font(.system(size: 8, weight: .heavy))
-                                .foregroundStyle(selectedFrequency == nil ? Color.churMediumGray : .white)
-                        }
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 8)
-                    }
-                )
-                .id("global_frequency_picker")
-                
-                // MARK: - Benefit Count Label
-                Text("BENEFITS (\(availableForRedemptionCount))")
-                    .font(.churSmallBold())
-                    .foregroundStyle(Color.churOlive)
-                    .tracking(1.0)
-                
-                Spacer()
-            }
-            .padding([.horizontal, .top], 20)
-            .padding(.bottom, 12)
-            
-            Divider()
-                .padding(.horizontal, 20)
+        VStack(alignment: .leading, spacing: 12) {
 
-            // MARK: - Content
-            VStack(spacing: 0) {
-                if card.benefits.isEmpty {
-                    emptyStateView(message: "No benefits available.")
-                } else if filteredBenefits.isEmpty {
-                    emptyStateView(message: selectedFrequency?.lowercased() == "expiring"
-                        ? "No benefits expiring in the next \(expiryWarningDays) day\(expiryWarningDays == 1 ? "" : "s")."
-                        : selectedFrequency?.lowercased() == "available"
-                        ? "All benefits have been fully redeemed."
-                        : "No \(selectedFrequency?.lowercased() ?? "") perks found."
+            // MARK: - Benefits Card
+            VStack(alignment: .leading, spacing: 0) {
+
+                // MARK: - Header
+                HStack(alignment: .center, spacing: 12) {
+
+                    // MARK: - Filter Bubble Picker
+                    Picker("", selection: $selectedFrequency) {
+                        Text("ALL").tag(String?.none)
+
+                        Section("Quick Filters") {
+                            Text("✅ AVAILABLE").tag(String?.some("Available"))
+                            Text("⏰ EXPIRING").tag(String?.some("Expiring"))
+                        }
+
+                        Section("By Frequency") {
+                            ForEach(allDisplayOptions, id: \.self) { freq in
+                                Text(freq.uppercased()).tag(String?.some(freq))
+                            }
+                        }
+                    }
+                    .pickerStyle(.menu)
+                    .labelsHidden()
+                    .tint(.clear)
+                    .background(
+                        ZStack {
+                            Capsule()
+                                .fill(activeFilterColor)
+
+                            Capsule()
+                                .stroke(selectedFrequency == nil ? Color.churLightGray : activeFilterColor, lineWidth: 1)
+
+                            HStack(spacing: 6) {
+                                Text((selectedFrequency ?? "ALL").uppercased())
+                                    .font(.churSmallBold())
+                                    .foregroundStyle(selectedFrequency == nil ? Color.churMediumGray : .white)
+                                    .fixedSize()
+
+                                Image(systemName: "chevron.down")
+                                    .font(.system(size: 8, weight: .heavy))
+                                    .foregroundStyle(selectedFrequency == nil ? Color.churMediumGray : .white)
+                            }
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                        }
                     )
-                } else {
-                    benefitsList
+                    .id("global_frequency_picker")
+
+                    // MARK: - Benefit Count Label
+                    Text("BENEFITS (\(filteredBenefits.count))")
+                        .font(.churSmallBold())
+                        .foregroundStyle(Color.churOlive)
+                        .tracking(1.0)
+
+                    Spacer()
                 }
+                .padding([.horizontal, .top], 20)
+                .padding(.bottom, 12)
+
+                Divider()
+                    .padding(.horizontal, 20)
+
+                // MARK: - Content
+                VStack(spacing: 0) {
+                    if card.benefits.isEmpty {
+                        emptyStateView(message: "No benefits available.")
+                    } else if filteredBenefits.isEmpty {
+                        emptyStateView(message: selectedFrequency?.lowercased() == "expiring"
+                            ? "No benefits expiring in the next \(expiryWarningDays) day\(expiryWarningDays == 1 ? "" : "s")."
+                            : selectedFrequency?.lowercased() == "available"
+                            ? "All benefits have been fully redeemed."
+                            : "No \(selectedFrequency?.lowercased() ?? "") perks found."
+                        )
+                    } else {
+                        benefitsList
+                    }
+                }
+            }
+            .background(Color.white)
+            .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
+
+            // MARK: - Features Card
+            if !featureBenefits.isEmpty {
+                featuresSection
+                    .background(Color.white)
+                    .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
             }
         }
-        .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
         .padding()
         .background(Color.churOffWhite)
         .animation(.snappy, value: selectedFrequency)
@@ -285,9 +308,83 @@ private extension BenefitsListContentView {
             )
                 .padding(.vertical, Constants.rowPadding)
                 .padding(.horizontal, 20)
-            
+
             if benefit.id != filteredBenefits.last?.id {
                 Divider().padding(.horizontal, 20)
+            }
+        }
+    }
+
+    var featuresSection: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(alignment: .center, spacing: 12) {
+                Text("FEATURES (\(featureBenefits.count))")
+                    .font(.churSmallBold())
+                    .foregroundStyle(Color.churOlive)
+                    .tracking(1.0)
+                Spacer()
+            }
+            .padding([.horizontal, .top], 20)
+            .padding(.bottom, 12)
+
+            Divider().padding(.horizontal, 20)
+
+            ForEach(featureBenefits, id: \.id) { feature in
+                FeatureRow(feature: feature)
+                    .padding(.vertical, Constants.rowPadding)
+                    .padding(.horizontal, 20)
+
+                if feature.id != featureBenefits.last?.id {
+                    Divider().padding(.horizontal, 20)
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Feature Row
+struct FeatureRow: View {
+    let feature: Benefit
+
+    @State private var isExpanded: Bool = false
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(alignment: .center, spacing: 12) {
+                Text("✨")
+                    .font(.churBigTitle4())
+
+                Text(feature.displayName)
+                    .font(.churRowText())
+                    .foregroundStyle(Color.churDarkGray)
+                    .lineLimit(1)
+
+                Spacer()
+
+                if !feature.displayDescription.isEmpty {
+                    Image(systemName: "chevron.right")
+                        .font(.churBadgeBold())
+                        .foregroundStyle(Color.churLightGray)
+                        .rotationEffect(.degrees(isExpanded ? 90 : 0))
+                }
+            }
+
+            if isExpanded && !feature.displayDescription.isEmpty {
+                Text(feature.displayDescription)
+                    .font(.churSmallMedium())
+                    .foregroundStyle(Color.churMediumGray)
+                    .padding(.leading, 34)
+                    .transition(.asymmetric(
+                        insertion: .opacity.combined(with: .move(edge: .top)),
+                        removal: .opacity
+                    ))
+            }
+        }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            guard !feature.displayDescription.isEmpty else { return }
+            withAnimation(.snappy(duration: 0.3)) {
+                isExpanded.toggle()
             }
         }
     }
