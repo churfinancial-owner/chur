@@ -40,6 +40,13 @@ Large types are split across files with an underscore suffix: `CardRateCalculato
 - Use `Date.current()` (mockable, see `Debug/Testing/Date+Testing.swift`) instead of `Date()` in logic that tests or the time-travel debug tool need to control.
 - Tests: Swift Testing framework for unit tests, XCUIAutomation for UI tests.
 
+## Git workflow
+
+- Pak Ho is new to git/GitHub — Claude handles git operations and briefly explains what it's doing. Remote: `origin` → `github.com/churfinancial-owner/chur`, single branch `main`.
+- Commit whenever a change works and builds green; push at the end of each session (treat "commit and push" as the session-close routine). Never let work sit uncommitted for long.
+- Work directly on `main`; create a branch only for risky work (schema migrations, large refactors) and merge when done.
+- Never commit secrets (tokens, keys); add any local secret files to `.gitignore` before creating them.
+
 ## Validation
 
 - Build with the Xcode `BuildProject` tool; use `XcodeRefreshCodeIssuesInFile` for quick per-file checks.
