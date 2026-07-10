@@ -128,7 +128,7 @@
                     {
                         "rate": 3.0,
                         "rewardProgramName": "Ultimate Rewards",
-                        "category": "dining",
+                        "category": "dining"
                     },
                     {
                         "rate": 10.0,
@@ -365,8 +365,17 @@
         {
             "rate": 5.0,
             "rewardProgramName": "Chase Cash Back Rewards",
-            "category": "entertainment",
+            "category": "donation_chase",
             "isRotating": true,
+            "rewardStartDate": "2026-07-01T00:00:00Z",
+            "rewardEndDate": "2026-09-30T23:59:59Z"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "live_events",
+            "isRotating": true,
+            "rewardNotes": "Select live entertainment events, including concerts, sporting events, zoos and amusement parks.*",
             "rewardStartDate": "2026-07-01T00:00:00Z",
             "rewardEndDate": "2026-09-30T23:59:59Z"
         },
@@ -417,7 +426,16 @@
         {
             "rate": 5.0,
             "rewardProgramName": "Chase Cash Back Rewards",
-            "category": "entertainment",
+            "category": "live_events",
+            "isRotating": true,
+            "rewardNotes": "Select live entertainment events, including concerts, sporting events, zoos and amusement parks.*",
+            "rewardStartDate": "2026-07-01T00:00:00Z",
+            "rewardEndDate": "2026-09-30T23:59:59Z"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Chase Cash Back Rewards",
+            "category": "donation_chase",
             "isRotating": true,
             "rewardStartDate": "2026-07-01T00:00:00Z",
             "rewardEndDate": "2026-09-30T23:59:59Z"

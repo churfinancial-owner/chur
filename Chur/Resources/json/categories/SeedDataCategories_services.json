@@ -273,11 +273,11 @@
     ]
   },
   {
-    "id": "donation_aha",
-    "nameEN": "American Heart Association",
-    "nameZH_Hans": "捐款 AHA",
-    "nameZH_HK": "捐款 AHA",
-    "nameZH_TW": "捐款 AHA",
+    "id": "donation_chase",
+    "nameEN": "Donations: United Way",
+    "nameZH_Hans": "捐款: United Way",
+    "nameZH_HK": "捐款: United Way",
+    "nameZH_TW": "捐款: United Way",
     "emoji": "🫶",
     "sortOrder": 911,
     "isDefault": false,

@@ -115,6 +115,11 @@
         {
             "rate": 3.0,
             "rewardProgramName": "Capital One Cash Back Rewards",
+            "category": "live_events"
+        },
+        {
+            "rate": 3.0,
+            "rewardProgramName": "Capital One Cash Back Rewards",
             "category": "entertainment"
         },
         {

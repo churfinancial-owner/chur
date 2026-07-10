@@ -193,6 +193,19 @@
     ]
   },
   {
+    "id": "live_events",
+    "nameEN": "Concerts/Events",
+    "nameZH_Hans": "演唱会/活动",
+    "nameZH_HK": "演唱會／活動",
+    "nameZH_TW": "演唱會／活動",
+    "emoji": "🎤",
+    "sortOrder": 12,
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent",
+    "categoryLinks": null
+  },
+  {
     "id": "entertainment",
     "nameEN": "Entertainment",
     "nameZH_Hans": "娱乐",
@@ -224,6 +237,64 @@
       }
     ]
   },
+  {
+    "id": "game_stores",
+    "nameEN": "Game Stores",
+    "nameZH_Hans": "游戏",
+    "nameZH_HK": "遊戲",
+    "nameZH_TW": "遊戲",
+    "emoji": "🎮",
+    "sortOrder": 123,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "entertainment",
+    "level": "child",
+    "categoryLinks": [
+      {
+        "id": "entertainment",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "book_stores",
+    "nameEN": "Game Stores",
+    "nameZH_Hans": "书店",
+    "nameZH_HK": "書店",
+    "nameZH_TW": "書店",
+    "emoji": "📖",
+    "sortOrder": 124,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "entertainment",
+    "level": "child",
+    "categoryLinks": [
+      {
+        "id": "entertainment",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "music_stores",
+    "nameEN": "Music Stores",
+    "nameZH_Hans": "音乐",
+    "nameZH_HK": "音樂",
+    "nameZH_TW": "音樂",
+    "emoji": "🎺",
+    "sortOrder": 125,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "entertainment",
+    "level": "child",
+    "categoryLinks": [
+      {
+        "id": "entertainment",
+        "weight": 1.0
+      }
+    ]
+  },
+
   {
     "id": "wholesale",
     "nameEN": "Wholesale",

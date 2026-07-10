@@ -290,7 +290,7 @@
         {
             "rate": 4.0,
             "rewardProgramName": "Marriott Bonvoy",
-            "category": "dining",
+            "category": "dining"
         },
         {
             "rate": 2.0,
@@ -351,7 +351,7 @@
         {
             "rate": 3.0,
             "rewardProgramName": "Marriott Bonvoy",
-            "category": "dining",
+            "category": "dining"
         },
         {
             "rate": 2.0,
@@ -450,7 +450,7 @@
         {
             "rate": 2.0,
             "rewardProgramName": "Delta SkyMiles",
-            "category": "dining",
+            "category": "dining"
         },
         {
             "rate": 2.0,
@@ -498,7 +498,7 @@
         {
             "rate": 2.0,
             "rewardProgramName": "Delta SkyMiles",
-            "category": "dining",
+            "category": "dining"
         },
         {
             "rate": 2.0,
@@ -522,7 +522,7 @@
         {
             "rate": 2.0,
             "rewardProgramName": "Delta SkyMiles",
-            "category": "dining",
+            "category": "dining"
         },
         {
             "rate": 1.0,
@@ -809,7 +809,7 @@
                         "cell_phone_providers"
                     ]
                 }
-            ],
+            ]
         },
         {
             "rate": 4.0,
@@ -855,7 +855,7 @@
                         "cell_phone_providers"
                     ]
                 }
-            ],
+            ]
         },
         {
             "rate": 1.0,

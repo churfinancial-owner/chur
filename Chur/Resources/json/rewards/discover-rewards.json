@@ -3,26 +3,34 @@
         {
             "rate": 5.0,
             "rewardProgramName": "Cash Back Rewards",
-            "category": "groceries",
+            "category": "gas",
             "isRotating": true,
-            "rewardStartDate": "2026-01-01T00:00:00Z",
-            "rewardEndDate": "2026-03-31T23:59:59Z"
+            "rewardStartDate": "2026-07-01T00:00:00Z",
+            "rewardEndDate": "2026-09-30T23:59:59Z"
         },
         {
             "rate": 5.0,
             "rewardProgramName": "Cash Back Rewards",
-            "category": "dining",
+            "category": "transit",
             "isRotating": true,
-            "rewardStartDate": "2026-04-01T00:00:00Z",
-            "rewardEndDate": "2026-06-30T23:59:59Z"
+            "rewardStartDate": "2026-07-01T00:00:00Z",
+            "rewardEndDate": "2026-09-30T23:59:59Z"
         },
         {
             "rate": 5.0,
             "rewardProgramName": "Cash Back Rewards",
-            "category": "material_hardware",
+            "category": "flights",
             "isRotating": true,
-            "rewardStartDate": "2026-04-01T00:00:00Z",
-            "rewardEndDate": "2026-06-30T23:59:59Z"
+            "rewardStartDate": "2026-07-01T00:00:00Z",
+            "rewardEndDate": "2026-09-30T23:59:59Z"
+        },
+        {
+            "rate": 5.0,
+            "rewardProgramName": "Cash Back Rewards",
+            "category": "pharmacy",
+            "isRotating": true,
+            "rewardStartDate": "2026-07-01T00:00:00Z",
+            "rewardEndDate": "2026-09-30T23:59:59Z"
         },
         {
             "rate": 1.0,

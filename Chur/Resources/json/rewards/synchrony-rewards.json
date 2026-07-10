@@ -103,7 +103,7 @@
                 {
                     "label": "Entertainment",
                     "includes": [
-                        "entertainment"
+                        "entertainment","live_events"
                     ]
                 },
                 {

@@ -21,7 +21,7 @@
             "category": "everything"
         }
     ],
-
+    
     "citi-hk-rewardscard": [
         {
             "rate": 3,
@@ -32,6 +32,11 @@
             "rate": 3,
             "rewardProgramName": "Citi HK Reward",
             "category": "entertainment"
+        },
+        {
+            "rate": 3,
+            "rewardProgramName": "Citi HK Reward",
+            "category": "live_events"
         },
         {
             "rate": 3,
