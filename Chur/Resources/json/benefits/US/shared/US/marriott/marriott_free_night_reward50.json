@@ -1,0 +1,24 @@
+{
+    "id": "marriott_free_night_reward50",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Marriott Free Night Reward",
+            "description": "You'll enjoy a Free Night Award every calendar year, after $15,000 in spend, valid for a one night hotel stay at a property with a redemption level of up to 50,000 points. Certain hotels have resort fees.*"
+        }
+    },
+    "value": 400,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "usageLimit": 1,
+    "trackingMode": "manual",
+    "requiresActivation": true,
+    "activationMode": "lockbyfrequency",
+    "activationInstructions": "Unlock after making at least $15,000 in spend",
+    "partnerName": "Marriott",
+    "partnerID": "Marriott",
+    "displayOrder": 0,
+    "isActive": true
+}

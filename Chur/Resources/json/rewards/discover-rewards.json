@@ -11,10 +11,12 @@
         {
             "rate": 5.0,
             "rewardProgramName": "Cash Back Rewards",
-            "category": "transit",
+            "category": "public_transit",
             "isRotating": true,
             "rewardStartDate": "2026-07-01T00:00:00Z",
-            "rewardEndDate": "2026-09-30T23:59:59Z"
+            "rewardEndDate": "2026-09-30T23:59:59Z",
+            "groupLabel": "Transportation"
+
         },
         {
             "rate": 5.0,
@@ -22,7 +24,8 @@
             "category": "flights",
             "isRotating": true,
             "rewardStartDate": "2026-07-01T00:00:00Z",
-            "rewardEndDate": "2026-09-30T23:59:59Z"
+            "rewardEndDate": "2026-09-30T23:59:59Z",
+            "groupLabel": "Transportation"
         },
         {
             "rate": 5.0,

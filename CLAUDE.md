@@ -5,8 +5,8 @@ iOS app (SwiftUI + SwiftData) that finds the best credit card to use at the plac
 ## Key reference docs — read before touching related code
 
 - `Chur/DataDictionary.md` — full data model reference (every @Model, field, relationship, audit notes). **Update it whenever a model or schema changes.**
-- `Chur/Resources/json/MERCHANT_SETUP_REFERENCE.md` — how to add merchants/categories to the seed JSON so the pricing engine matches correctly. Follow it exactly; `matchWeight` resolution order is documented there.
-- `Chur/Resources/json/REWARD_SETUP_REFERENCE.md` — cheatsheet for authoring reward JSON: all patterns (plain/multi-category, groupLabel display grouping, configurable slots, rotating, plans) and their gotchas. **Update it whenever a reward JSON field or pattern changes.**
+- `Chur/MERCHANT_SETUP_REFERENCE.md` — how to add merchants/categories to the seed JSON so the pricing engine matches correctly. Follow it exactly; `matchWeight` resolution order is documented there.
+- `Chur/REWARD_SETUP_REFERENCE.md` — cheatsheet for authoring reward JSON: all patterns (plain/multi-category, groupLabel display grouping, configurable slots, rotating, plans) and their gotchas. **Update it whenever a reward JSON field or pattern changes.**
 
 ## Project layout
 

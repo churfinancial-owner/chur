@@ -221,6 +221,11 @@
                     {
                         "rate": 3.0,
                         "rewardProgramName": "Ultimate Rewards",
+                        "category": "gas"
+                    },
+                    {
+                        "rate": 3.0,
+                        "rewardProgramName": "Ultimate Rewards",
                         "category": "video_streaming"
                     },
                     {
@@ -231,7 +236,14 @@
                     {
                         "rate": 2.0,
                         "rewardProgramName": "Ultimate Rewards",
-                        "category": "travel"
+                        "category": "travel",
+                        "groupLabel": "Travel"
+                    },
+                    {
+                        "rate": 2.0,
+                        "rewardProgramName": "Ultimate Rewards",
+                        "category": "transit",
+                        "groupLabel": "Travel"
                     },
                     {
                         "rate": 5.0,
@@ -252,9 +264,9 @@
                 "planName": "+ Annual 10% Bonus",
                 "isDefault": false,
                 "isPromo": false,
-                "isAvailableForNewUsers": true,
+                "isAvailableForNewUsers": false,
                 "planStartDate": null,
-                "planEndDate": null,
+                "planEndDate": "2026-12-31T23:59:59Z",
                 "rewards": [
                     {
                         "rate": 5.1,
@@ -431,7 +443,8 @@
             "isRotating": true,
             "rewardNotes": "Select live entertainment events, including concerts, sporting events, zoos and amusement parks.*",
             "rewardStartDate": "2026-07-01T00:00:00Z",
-            "rewardEndDate": "2026-09-30T23:59:59Z"
+            "rewardEndDate": "2026-09-30T23:59:59Z",
+            "groupLabel": "Select Entertainment"
         },
         {
             "rate": 5.0,

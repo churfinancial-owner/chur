@@ -8,7 +8,7 @@
             "description": "Receive one free night at any Category 1-4 Hyatt hotel or resort every year after your Cardmember anniversary."
         }
     },
-    "value": 350,
+    "value": 300,
     "valueCurrency": "USD",
     "frequency": "annual",
     "isRecurring": true,

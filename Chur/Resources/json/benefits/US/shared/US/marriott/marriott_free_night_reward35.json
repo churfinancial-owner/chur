@@ -1,12 +1,11 @@
 {
-    "id": "marriott_free_night_reward",
+    "id": "marriott_free_night_reward35",
     "benefitType": "credit",
     "displayGroup": "lifestyle_travel",
     "localized": {
         "en": {
             "name": "Marriott Free Night Reward",
-            "description": "As a Marriott Bonvoy Boundless Cardmember, you'll enjoy a Free Night Award every year after your account anniversary"
-        }
+            "description": "Receive 1 Free Night Award every year after your Card renewal month. Award can be used for one night (redemption level at or under 35,000 Marriott Bonvoy points) at hotels participating in Marriott Bonvoy. Certain hotels have resort fees. Please read important exclusions and restrictions"        }
     },
     "value": 350,
     "valueCurrency": "USD",
@@ -16,6 +15,8 @@
     "usageLimit": 1,
     "trackingMode": "manual",
     "requiresActivation": false,
+    "activationInstructions": "",
+    "activationDelayPeriods": 1,
     "partnerName": "Marriott",
     "partnerID": "Marriott",
     "displayOrder": 0,
