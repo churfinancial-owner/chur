@@ -21,10 +21,33 @@ enum SeedDataValidator {
         let merchantIconName: String?
     }
 
-    /// Entry shape of SeedDataMerchantMappings.json.
-    private struct MerchantMapping: Codable {
-        let patterns: [String]
-        let categoryID: String
+    /// Minimal mirror of SeedDataMerchantMappings.json — mirrors the private
+    /// structs in Nearby_Engine_CategoryMapper.swift; only categoryIDs are validated.
+    private struct MerchantMappings: Codable {
+        struct PrefixMatch: Codable { let prefix: String; let categoryID: String }
+        struct ContainsMatch: Codable { let keyword: String; let categoryID: String }
+        struct PatternRule: Codable {
+            struct Override: Codable { let ifContains: String; let categoryID: String }
+            let patterns: [String]
+            let categoryID: String
+            let overrides: [Override]?
+        }
+        let exactMatches: [String: String]
+        let prefixMatches: [PrefixMatch]?
+        let containsMatches: [ContainsMatch]?
+        let patternRules: [PatternRule]
+
+        /// Every categoryID referenced anywhere in the mapping file, with a label for reporting.
+        var allCategoryRefs: [(source: String, categoryID: String)] {
+            var refs: [(String, String)] = exactMatches.map { ("exactMatch '\($0.key)'", $0.value) }
+            refs += (prefixMatches ?? []).map { ("prefixMatch '\($0.prefix)'", $0.categoryID) }
+            refs += (containsMatches ?? []).map { ("containsMatch '\($0.keyword)'", $0.categoryID) }
+            for rule in patternRules {
+                refs.append(("patternRule \(rule.patterns)", rule.categoryID))
+                refs += (rule.overrides ?? []).map { ("patternRule \(rule.patterns) override", $0.categoryID) }
+            }
+            return refs
+        }
     }
 
     static func run() {
@@ -65,10 +88,12 @@ enum SeedDataValidator {
         }
 
         // MARK: Map merchant mappings
-        for mapping in decode([MerchantMapping].self, from: "SeedDataMerchantMappings") {
-            if !categoryIDs.contains(mapping.categoryID) {
-                issues.append("Map mapping \(mapping.patterns): categoryID '\(mapping.categoryID)' does not exist")
+        if let mappings = decodeObject(MerchantMappings.self, from: "SeedDataMerchantMappings") {
+            for ref in mappings.allCategoryRefs where !categoryIDs.contains(ref.categoryID) {
+                issues.append("Map mapping \(ref.source): categoryID '\(ref.categoryID)' does not exist")
             }
+        } else {
+            issues.append("Could not load or decode SeedDataMerchantMappings.json")
         }
 
         // MARK: Pricing invariants
@@ -130,13 +155,17 @@ enum SeedDataValidator {
     }
 
     private static func decode<T: Decodable & ExpressibleByArrayLiteral>(_ type: T.Type, from filename: String) -> T {
-        guard let url = Bundle.main.url(forResource: filename, withExtension: "json"),
-              let data = try? Data(contentsOf: url),
-              let decoded = try? JSONDecoder().decode(T.self, from: data) else {
+        guard let decoded = decodeObject(T.self, from: filename) else {
             print("⚠️ SeedDataValidator: could not load or decode '\(filename).json'")
             return []
         }
         return decoded
+    }
+
+    private static func decodeObject<T: Decodable>(_ type: T.Type, from filename: String) -> T? {
+        guard let url = Bundle.main.url(forResource: filename, withExtension: "json"),
+              let data = try? Data(contentsOf: url) else { return nil }
+        return try? JSONDecoder().decode(T.self, from: data)
     }
 }
 #endif

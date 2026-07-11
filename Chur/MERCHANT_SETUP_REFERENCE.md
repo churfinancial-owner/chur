@@ -103,10 +103,20 @@ Format is a plain array of category IDs (the legacy `{"id": ..., "weight": ...}`
 
 `File: categories/merchants_mapping/SeedDataMerchantMappings.json`
 
+The file is an **object with four matching strategies** (decoded by `Nearby_Engine_CategoryMapper.swift`), not a flat array. A typical merchant goes in `patternRules`:
+
 ```json
 {
-  "patterns": ["netflix", "hulu", "disney+", "peacock"],
-  "categoryID": "video_streaming"
+  "exactMatches": { "netflix": "stream_netflix" },
+  "prefixMatches": [ { "prefix": "7-eleven", "categoryID": "convenience", "requiredPOI": null } ],
+  "containsMatches": [ { "keyword": "marriott", "categoryID": "marriott_hotels", "requiredPOI": null } ],
+  "patternRules": [
+    {
+      "patterns": ["netflix", "hulu", "disney+", "peacock"],
+      "categoryID": "video_streaming",
+      "overrides": [ { "ifContains": "gas", "categoryID": "costco_gas" } ]
+    }
+  ]
 }
 ```
 
@@ -114,7 +124,9 @@ Format is a plain array of category IDs (the legacy `{"id": ..., "weight": ...}`
 
 | Field | Notes |
 |---|---|
-| `patterns` | Case-insensitive substring match against the MapKit place name |
+| `exactMatches` | Lowercased full place name → categoryID |
+| `prefixMatches` / `containsMatches` | Prefix / anywhere-substring match, optionally gated on a MapKit POI category (`requiredPOI`) |
+| `patterns` (in `patternRules`) | Case-insensitive substring match against the MapKit place name; `overrides` swap the categoryID when an extra keyword is present (e.g. Costco gas station) |
 | `categoryID` | `SpendingCategory.id` passed to `CardRateCalculator`. Use the closest stable category — brand targets (`stream_netflix`) are fine for tight patterns; generic children (`video_streaming`) are safer when map data varies |
 
 **Channel passed to calculator:** `"in_store"` (default for map results).
