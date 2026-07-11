@@ -7,6 +7,7 @@ iOS app (SwiftUI + SwiftData) that finds the best credit card to use at the plac
 - `Chur/DataDictionary.md` — full data model reference (every @Model, field, relationship, audit notes). **Update it whenever a model or schema changes.**
 - `Chur/MERCHANT_SETUP_REFERENCE.md` — how to add merchants/categories to the seed JSON so the pricing engine matches correctly. Follow it exactly; `matchWeight` resolution order is documented there.
 - `Chur/REWARD_SETUP_REFERENCE.md` — cheatsheet for authoring reward JSON: all patterns (plain/multi-category, groupLabel display grouping, configurable slots, rotating, plans) and their gotchas. **Update it whenever a reward JSON field or pattern changes.**
+- `Chur/NOTIFICATION_SYSTEM_REFERENCE.md` — how local reminder notifications work (reconciliation model, categories, timing rules, digest, tap routing, how to add a category). **Read before touching `Reminder*` files or notification settings; update it whenever a category, timing rule, or routing behavior changes.**
 
 ## Project layout
 
