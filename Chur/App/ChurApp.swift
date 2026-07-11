@@ -17,6 +17,9 @@ struct ChurApp: App {
             clientID: Config.googleClientID
         )
         TransferPartnerDatabase.loadFromBundle(region: RegionDatabase.detectUserRegion())
+        // Must happen before launch finishes so a notification tap that
+        // cold-starts the app is still routed to the benefit detail sheet.
+        BenefitReminderDelegate.shared.install()
     }
     
     let modelContainer: ModelContainer = {

@@ -10,6 +10,8 @@ struct ContentView: View {
     @State private var hasLoadedSearchTab = false
     @State private var hasScheduledInitialization = false
     @State private var cachedNearbyMerchants: [NearbyMerchant] = []
+    @State private var reminderRouter = BenefitReminderRouter.shared
+    @State private var reminderDeepLinkTarget: BenefitDeepLinkTarget?
     @Query private var users: [User]
     @Query private var cards: [CreditCard]
     @Query private var categories: [SpendingCategory]
@@ -44,6 +46,36 @@ struct ContentView: View {
         .onChange(of: scenePhase) { _, newPhase in
             if newPhase == .background {
                 uploadBackupOnBackground()
+            }
+            // Reconcile on both transitions: .background captures any usage
+            // logged this session; .active clears reminders made stale
+            // elsewhere (e.g. day changes, restored backups).
+            if newPhase == .background || newPhase == .active {
+                BenefitReminderScheduler.shared.requestReconcile(context: modelContext)
+            }
+        }
+        .onAppear { consumePendingReminderTap() }
+        .onChange(of: reminderRouter.pendingBenefitID) { _, _ in
+            consumePendingReminderTap()
+        }
+        .sheet(item: $reminderDeepLinkTarget) { target in
+            BenefitReminderDeepLinkSheet(benefit: target.benefit, card: target.card)
+        }
+    }
+
+    /// Resolves a tapped expiry-reminder notification to its card + benefit
+    /// and presents the detail sheet. Benefit IDs come from templates and can
+    /// repeat across cards, so the card ID is matched first.
+    private func consumePendingReminderTap() {
+        guard let benefitID = reminderRouter.pendingBenefitID else { return }
+        let cardID = reminderRouter.pendingCardID
+        reminderRouter.clear()
+
+        let candidates = cards.sorted { ($0.id == cardID ? 0 : 1) < ($1.id == cardID ? 0 : 1) }
+        for card in candidates {
+            if let benefit = card.benefits.first(where: { $0.id == benefitID }) {
+                reminderDeepLinkTarget = BenefitDeepLinkTarget(card: card, benefit: benefit)
+                return
             }
         }
     }
