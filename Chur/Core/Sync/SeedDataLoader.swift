@@ -171,6 +171,19 @@ struct SeedDataLoader {
                 #endif
             }
         }
+
+        // Brand target categories auto-generated from SeedDataMerchants.json.
+        // Hand-authored categories win on ID conflict (they can carry cardFilter etc.).
+        let handAuthoredIDs = Set(allCategories.map(\.id))
+        for template in MerchantSeedDatabase.brandCategoryTemplates() {
+            if handAuthoredIDs.contains(template.id) {
+                #if DEBUG
+                print("⚠️ SeedDataLoader: brandCategory '\(template.id)' also hand-authored in a SeedDataCategories file — using the hand-authored one")
+                #endif
+            } else {
+                allCategories.append(template)
+            }
+        }
         return allCategories
     }
 

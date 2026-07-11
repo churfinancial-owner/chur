@@ -52,20 +52,6 @@
     "level": "target"
   },
   {
-    "id": "stream_netflix",
-    "nameEN": "Netflix",
-    "nameZH_Hans": "Netflix",
-    "nameZH_HK": "Netflix",
-    "nameZH_TW": "Netflix",
-    "emoji": "▶️",
-    "iconName": "icon_netflix",
-    "sortOrder": 61,
-    "isDefault": false,
-    "isParent": false,
-    "parentCategoryID": "video_streaming",
-    "level": "target"
-  },
-  {
     "id": "music_streaming",
     "nameEN": "Music Streaming",
     "nameZH_Hans": "音乐流媒体",

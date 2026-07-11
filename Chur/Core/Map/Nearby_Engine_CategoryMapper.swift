@@ -18,72 +18,20 @@
 
 import Foundation
 
-// MARK: - Merchant Mappings JSON Structures
-
-/// Top-level structure for SeedDataMerchantMappings.json
-private struct MerchantMappingsJSON: Codable {
-    let exactMatches: [String: String]
-    let prefixMatches: [PrefixMatchJSON]?
-    let containsMatches: [ContainsMatchJSON]?
-    let patternRules: [PatternRuleJSON]
-}
-
-/// A prefix-based mapping rule with optional POI confirmation
-private struct PrefixMatchJSON: Codable {
-    let prefix: String
-    let categoryID: String
-    let requiredPOI: String?  // nil means no POI confirmation needed
-}
-
-/// A contains-based mapping rule with optional POI confirmation
-/// Unlike prefix matching, this checks if the keyword appears anywhere in the merchant name
-/// e.g. "JW Marriott San Francisco" contains "marriott" → "marriott_hotels"
-private struct ContainsMatchJSON: Codable {
-    let keyword: String
-    let categoryID: String
-    let requiredPOI: String?  // nil means no POI confirmation needed
-}
-
-/// A pattern-based mapping rule with optional overrides
-private struct PatternRuleJSON: Codable {
-    let patterns: [String]
-    let categoryID: String
-    let overrides: [PatternOverrideJSON]?
-}
-
-/// An override that replaces the default categoryID when a condition is met
-private struct PatternOverrideJSON: Codable {
-    let ifContains: String
-    let categoryID: String
-}
+// Merchant name-matching rules (MerchantMappings and friends) are defined in
+// Features/Rewards/DataModel/MerchantSeedDatabase.swift — the unified
+// SeedDataMerchants.json is the single source for merchant data.
 
 /// Maps merchants to spending category IDs using multiple strategies
 struct MerchantCategoryMapper {
-    
-    /// Cached merchant mappings from JSON
-    private static var mappings: MerchantMappingsJSON? = loadMappings()
+
+    /// Cached merchant mappings: genericMappings + per-merchant map rules from SeedDataMerchants.json
+    private static var mappings: MerchantMappings? = MerchantSeedDatabase.combinedMappings
 
     /// Reload merchant mappings from the bundle JSON
     static func reloadFromBundle() {
-        mappings = loadMappings()
-    }
-
-    private static func loadMappings() -> MerchantMappingsJSON? {
-        guard let url = Bundle.main.url(forResource: "SeedDataMerchantMappings", withExtension: "json") else {
-            #if DEBUG
-            print("❌ MerchantCategoryMapper: SeedDataMerchantMappings.json not found in bundle")
-            #endif
-            return nil
-        }
-        do {
-            let data = try Data(contentsOf: url)
-            return try JSONDecoder().decode(MerchantMappingsJSON.self, from: data)
-        } catch {
-            #if DEBUG
-            print("❌ MerchantCategoryMapper: Failed to decode merchant mappings: \(error)")
-            #endif
-            return nil
-        }
+        MerchantSeedDatabase.reloadFromBundle()
+        mappings = MerchantSeedDatabase.combinedMappings
     }
     
     /// Maps a merchant to a category ID using multiple strategies

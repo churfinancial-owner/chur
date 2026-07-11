@@ -63,75 +63,75 @@ Format is a plain array of category IDs (the legacy `{"id": ..., "weight": ...}`
 
 ---
 
-## 2. Online Merchant
+## 2. Merchant — the unified seed
 
-`File: categories/merchants_mapping/SeedDataOnlineMerchants.json`
+`File: json/merchants_mapping/SeedDataMerchants.json` — **one entry per merchant** covers online search, map matching, and (optionally) an auto-generated brand category.
+
+> ⚠️ `SeedDataOnlineMerchants.json` and `SeedDataMerchantMappings.json` are **dead** — no code reads them. They remain on disk only as the data source for the ongoing migration into `SeedDataMerchants.json`.
 
 ```json
 {
-  "id": "netflix",
-  "name": "Netflix",
-  "domain": "netflix.com",
-  "category": "stream_netflix",
-  "merchantIconName": "icon_netflix",
-  "isBrandCategory": true,
-  "businessRegion": null,
-  "tags": ["streaming", "entertainment"],
-  "paymentMethods": null,
-  "sortOrder": 10,
-  "merchantDescription": null,
-  "featured": ["US", "HK", "TW"],
-  "popular": ["US", "HK", "TW"]
+  "merchants": [
+    {
+      "id": "netflix",
+      "name": "Netflix",
+      "domain": "netflix.com",
+      "category": "stream_netflix",
+      "merchantIconName": "icon_netflix",
+      "isBrandCategory": true,
+      "tags": ["streaming", "entertainment"],
+      "sortOrder": 10,
+      "featured": ["US", "HK", "TW"],
+      "popular": ["US", "HK", "TW"],
+      "brandCategory": { "parent": "video_streaming", "emoji": "▶️" },
+      "map": { "patterns": ["netflix"] }
+    }
+  ],
+  "genericMappings": { "...": "see section 3" }
 }
 ```
 
 ### Key fields
 
-| Field | Effect on pricing engine |
+| Field | Effect |
 |---|---|
 | `category` | Becomes `category:` param in `CardRateCalculator` |
+| `brandCategory` | **Auto-generates the target `SpendingCategory`** (`id` = `category`, name/icon from the merchant, `parent`/`links`/`emoji` from the block). No hand-authored category file entry needed. Omit it when the category is hand-authored (needed for `cardFilter`, localized names, `excludedPaymentMethods` — e.g. costco). Hand-authored wins on ID conflict, with a DEBUG warning. |
+| `map` | Map name-matching: `patterns` are case-insensitive substrings of the MapKit place name; optional `categoryID` (defaults to `category`) and `overrides`. Merchant rules are checked **before** `genericMappings.patternRules`. |
+| `searchable: false` | Map-only merchant — hidden from the Online search mode |
 | `isBrandCategory: true` | Enables `OnlineMerchantDatabase.merchant(forCategory:)` icon lookups; marks category as brand-exclusive |
-| `paymentMethods: null` | Online merchants: `null` → `acceptedPaymentMethods = Set()` → **no payment-method rewards apply**. Provide `["apple_pay"]` etc. to enable them |
-| `businessRegion` | `null` = global. Array = only shown in those regions |
-| `featured` | Appears in the 3×3 featured grid for those regions |
+| `paymentMethods` | Omitted/`null` → **no payment-method rewards apply** online. Provide `["apple_pay"]` etc. to enable them |
+| `businessRegion` | Omitted/`null` = global. Array = only shown in those regions |
+| `featured` / `popular` | Featured grid / default list for those country codes |
 
-**Channel passed to calculator:** always `"online"`.
+**Channel passed to calculator:** `"online"` for online search, `"in_store"` for map results.
 
 ---
 
-## 3. On-Map Merchant (MapKit / Nearby)
+## 3. Generic Map Mappings (non-merchant rules)
 
-`File: categories/merchants_mapping/SeedDataMerchantMappings.json`
-
-The file is an **object with four matching strategies** (decoded by `Nearby_Engine_CategoryMapper.swift`), not a flat array. A typical merchant goes in `patternRules`:
+`genericMappings` inside `SeedDataMerchants.json` holds map rules that don't belong to a single merchant entry: POI-gated brand prefixes, multi-brand patterns, and name quirks. Decoded into `MerchantMappings` (`MerchantSeedDatabase.swift`), consumed by `Nearby_Engine_CategoryMapper.swift`.
 
 ```json
-{
-  "exactMatches": { "netflix": "stream_netflix" },
-  "prefixMatches": [ { "prefix": "7-eleven", "categoryID": "convenience", "requiredPOI": null } ],
+"genericMappings": {
+  "exactMatches": { "amazon fresh": "wholefood" },
+  "prefixMatches": [
+    { "prefix": "costco", "categoryID": "costco", "requiredPOI": "MKPOICategoryStore" },
+    { "prefix": "costco", "categoryID": "costco_gas", "requiredPOI": "MKPOICategoryGasStation" }
+  ],
   "containsMatches": [ { "keyword": "marriott", "categoryID": "marriott_hotels", "requiredPOI": null } ],
-  "patternRules": [
-    {
-      "patterns": ["netflix", "hulu", "disney+", "peacock"],
-      "categoryID": "video_streaming",
-      "overrides": [ { "ifContains": "gas", "categoryID": "costco_gas" } ]
-    }
-  ]
+  "patternRules": [ { "patterns": ["hulu", "disney+"], "categoryID": "video_streaming" } ]
 }
 ```
 
-### Key fields
+Matching priority at runtime: `exactMatches` → `prefixMatches` (+POI) → `containsMatches` (+POI) → merchant `map` rules → generic `patternRules` → POI category → `everything`.
 
 | Field | Notes |
 |---|---|
 | `exactMatches` | Lowercased full place name → categoryID |
 | `prefixMatches` / `containsMatches` | Prefix / anywhere-substring match, optionally gated on a MapKit POI category (`requiredPOI`) |
-| `patterns` (in `patternRules`) | Case-insensitive substring match against the MapKit place name; `overrides` swap the categoryID when an extra keyword is present (e.g. Costco gas station) |
-| `categoryID` | `SpendingCategory.id` passed to `CardRateCalculator`. Use the closest stable category — brand targets (`stream_netflix`) are fine for tight patterns; generic children (`video_streaming`) are safer when map data varies |
-
-**Channel passed to calculator:** `"in_store"` (default for map results).
-
-> If a merchant exists in both files, the online entry uses `category: "stream_netflix"` (specific), while the map entry may use `"video_streaming"` (broad) — this is intentional, since map place names don't always identify the brand precisely.
+| `patternRules` | Substring match with optional `overrides` (e.g. `ifContains: "gas"` → `costco_gas`) |
+| `categoryID` | Use the closest stable category — brand targets for tight patterns, generic children when map data varies |
 
 ---
 
@@ -147,7 +147,7 @@ The icon lookup chain in the UI is:
 
 ## 5. Full Checklist
 
-### Category
+### Category — skip entirely if the merchant uses `brandCategory` auto-generation
 - [ ] Exists in a `SeedDataCategories_*.json` file
 - [ ] `level` set correctly: `"parent"` / `"child"` / `"target"`
 - [ ] `parentCategoryID` set to direct parent
@@ -156,17 +156,13 @@ The icon lookup chain in the UI is:
 - [ ] No `channels` restriction on parent/grandparent categories
 - [ ] Run the app in DEBUG — `SeedDataValidator` prints ⚠️ for broken refs and pricing invariants
 
-### Online merchant
-- [ ] Entry in `SeedDataOnlineMerchants.json`
-- [ ] `category` matches a valid `SpendingCategory.id`
+### Merchant (one entry in `SeedDataMerchants.json`)
+- [ ] `category` is either auto-generated via `brandCategory` **or** matches a hand-authored `SpendingCategory.id`
+- [ ] `map.patterns` added if the merchant has physical locations; specific enough to avoid over-matching unrelated places
+- [ ] `searchable: false` if the merchant should not appear in Online search
 - [ ] `isBrandCategory` set correctly (`true` = brand-exclusive category)
-- [ ] `paymentMethods` declared if Apple Pay / PayPal rewards should apply
-- [ ] Icon asset added to xcassets
-
-### On-map merchant
-- [ ] Pattern(s) in `SeedDataMerchantMappings.json`
-- [ ] Patterns are specific enough to avoid over-matching unrelated places
-- [ ] `categoryID` is the right specificity level for map data variability
+- [ ] `paymentMethods` declared if Apple Pay / PayPal rewards should apply online
+- [ ] Icon asset added to xcassets (name = `merchantIconName`)
 
 ---
 

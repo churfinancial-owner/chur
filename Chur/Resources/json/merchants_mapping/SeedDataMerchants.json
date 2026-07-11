@@ -1,0 +1,48 @@
+{
+  "merchants": [
+    {
+      "id": "netflix",
+      "name": "Netflix",
+      "domain": "netflix.com",
+      "category": "stream_netflix",
+      "merchantIconName": "icon_netflix",
+      "isBrandCategory": true,
+      "tags": ["streaming", "entertainment"],
+      "sortOrder": 10,
+      "featured": ["US", "HK", "TW"],
+      "popular": ["US", "HK", "TW"],
+      "brandCategory": { "parent": "video_streaming", "emoji": "▶️" },
+      "map": { "patterns": ["netflix"] }
+    },
+    {
+      "id": "amazon",
+      "name": "Amazon",
+      "domain": "amazon.com",
+      "category": "amazon",
+      "merchantIconName": "icon_amazon",
+      "isBrandCategory": true,
+      "tags": ["AWS", "Amazon Prime", "Amazon Fresh"],
+      "sortOrder": 1,
+      "featured": ["US", "HK"],
+      "popular": ["US", "HK", "TW", "CA"],
+      "map": { "patterns": ["amazon"] }
+    }
+  ],
+  "genericMappings": {
+    "exactMatches": {
+      "amazon fresh": "wholefood"
+    },
+    "prefixMatches": [
+      { "prefix": "costco", "categoryID": "costco", "requiredPOI": "MKPOICategoryStore" },
+      { "prefix": "costco", "categoryID": "costco", "requiredPOI": "MKPOICategoryFoodMarket" },
+      { "prefix": "costco", "categoryID": "costco_gas", "requiredPOI": "MKPOICategoryGasStation" }
+    ],
+    "containsMatches": [],
+    "patternRules": [
+      {
+        "patterns": ["hulu", "disney+", "paramount", "peacock", "hbomax", "mytv super"],
+        "categoryID": "video_streaming"
+      }
+    ]
+  }
+}

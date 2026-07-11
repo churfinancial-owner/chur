@@ -14,46 +14,12 @@ import UIKit
 
 enum SeedDataValidator {
 
-    /// Minimal decode of SeedDataOnlineMerchants.json — only what validation needs.
-    private struct OnlineMerchantEntry: Codable {
-        let id: String
-        let category: String
-        let merchantIconName: String?
-    }
-
-    /// Minimal mirror of SeedDataMerchantMappings.json — mirrors the private
-    /// structs in Nearby_Engine_CategoryMapper.swift; only categoryIDs are validated.
-    private struct MerchantMappings: Codable {
-        struct PrefixMatch: Codable { let prefix: String; let categoryID: String }
-        struct ContainsMatch: Codable { let keyword: String; let categoryID: String }
-        struct PatternRule: Codable {
-            struct Override: Codable { let ifContains: String; let categoryID: String }
-            let patterns: [String]
-            let categoryID: String
-            let overrides: [Override]?
-        }
-        let exactMatches: [String: String]
-        let prefixMatches: [PrefixMatch]?
-        let containsMatches: [ContainsMatch]?
-        let patternRules: [PatternRule]
-
-        /// Every categoryID referenced anywhere in the mapping file, with a label for reporting.
-        var allCategoryRefs: [(source: String, categoryID: String)] {
-            var refs: [(String, String)] = exactMatches.map { ("exactMatch '\($0.key)'", $0.value) }
-            refs += (prefixMatches ?? []).map { ("prefixMatch '\($0.prefix)'", $0.categoryID) }
-            refs += (containsMatches ?? []).map { ("containsMatch '\($0.keyword)'", $0.categoryID) }
-            for rule in patternRules {
-                refs.append(("patternRule \(rule.patterns)", rule.categoryID))
-                refs += (rule.overrides ?? []).map { ("patternRule \(rule.patterns) override", $0.categoryID) }
-            }
-            return refs
-        }
-    }
-
     static func run() {
         var issues: [String] = []
 
         // MARK: Category tree integrity
+        // loadCategoryTemplates() already includes brand categories auto-generated
+        // from SeedDataMerchants.json, so those participate in every check below.
         let templates = SeedDataLoader.loadCategoryTemplates()
         let categoryIDs = Set(templates.map(\.id))
 
@@ -77,30 +43,52 @@ enum SeedDataValidator {
             }
         }
 
-        // MARK: Online merchants
-        for merchant in decode([OnlineMerchantEntry].self, from: "SeedDataOnlineMerchants") {
+        // MARK: Unified merchant seed (SeedDataMerchants.json)
+        let seedFile = MerchantSeedDatabase.seed
+        if seedFile.merchants.isEmpty {
+            issues.append("SeedDataMerchants.json has no merchants (missing or failed to decode?)")
+        }
+        for merchant in seedFile.merchants {
             if !categoryIDs.contains(merchant.category) {
-                issues.append("Online merchant '\(merchant.id)': category '\(merchant.category)' does not exist")
+                issues.append("Merchant '\(merchant.id)': category '\(merchant.category)' does not exist")
             }
             if let icon = merchant.merchantIconName, UIImage(named: icon) == nil {
-                issues.append("Online merchant '\(merchant.id)': icon asset '\(icon)' not found")
+                issues.append("Merchant '\(merchant.id)': icon asset '\(icon)' not found")
+            }
+            if let mapCategory = merchant.map?.categoryID, !categoryIDs.contains(mapCategory) {
+                issues.append("Merchant '\(merchant.id)': map categoryID '\(mapCategory)' does not exist")
+            }
+            for override in merchant.map?.overrides ?? [] where !categoryIDs.contains(override.categoryID) {
+                issues.append("Merchant '\(merchant.id)': map override categoryID '\(override.categoryID)' does not exist")
+            }
+            if let parent = merchant.brandCategory?.parent, !categoryIDs.contains(parent) {
+                issues.append("Merchant '\(merchant.id)': brandCategory parent '\(parent)' does not exist")
+            }
+            for link in merchant.brandCategory?.links ?? [] where !categoryIDs.contains(link) {
+                issues.append("Merchant '\(merchant.id)': brandCategory link '\(link)' does not exist")
             }
         }
 
-        // MARK: Map merchant mappings
-        if let mappings = decodeObject(MerchantMappings.self, from: "SeedDataMerchantMappings") {
-            for ref in mappings.allCategoryRefs where !categoryIDs.contains(ref.categoryID) {
+        // MARK: Generic map mappings
+        if let generic = seedFile.genericMappings {
+            var refs: [(source: String, categoryID: String)] =
+                generic.exactMatches.map { ("exactMatch '\($0.key)'", $0.value) }
+            refs += (generic.prefixMatches ?? []).map { ("prefixMatch '\($0.prefix)'", $0.categoryID) }
+            refs += (generic.containsMatches ?? []).map { ("containsMatch '\($0.keyword)'", $0.categoryID) }
+            for rule in generic.patternRules {
+                refs.append(("patternRule \(rule.patterns)", rule.categoryID))
+                refs += (rule.overrides ?? []).map { ("patternRule \(rule.patterns) override", $0.categoryID) }
+            }
+            for ref in refs where !categoryIDs.contains(ref.categoryID) {
                 issues.append("Map mapping \(ref.source): categoryID '\(ref.categoryID)' does not exist")
             }
-        } else {
-            issues.append("Could not load or decode SeedDataMerchantMappings.json")
         }
 
         // MARK: Pricing invariants
         issues.append(contentsOf: checkPricingInvariants(templates: templates))
 
         if issues.isEmpty {
-            print("✅ SeedDataValidator: all seed data checks passed (\(templates.count) categories)")
+            print("✅ SeedDataValidator: all seed data checks passed (\(templates.count) categories, \(seedFile.merchants.count) merchants)")
         } else {
             for issue in issues { print("⚠️ SeedDataValidator: \(issue)") }
             print("⚠️ SeedDataValidator: \(issues.count) issue(s) found")
@@ -133,7 +121,7 @@ enum SeedDataValidator {
             ("costco", "groceries", false),       // ...but must NOT cascade to groceries
             ("wholefood", "groceries", true),     // parent chain
             ("wholefood", "amazon", true),        // cross-link
-            ("stream_netflix", "streaming", true) // 3-level ancestor walk
+            ("stream_netflix", "streaming", true) // auto-generated brand target → ancestor walk
         ]
 
         var issues: [String] = []
@@ -152,20 +140,6 @@ enum SeedDataValidator {
             }
         }
         return issues
-    }
-
-    private static func decode<T: Decodable & ExpressibleByArrayLiteral>(_ type: T.Type, from filename: String) -> T {
-        guard let decoded = decodeObject(T.self, from: filename) else {
-            print("⚠️ SeedDataValidator: could not load or decode '\(filename).json'")
-            return []
-        }
-        return decoded
-    }
-
-    private static func decodeObject<T: Decodable>(_ type: T.Type, from filename: String) -> T? {
-        guard let url = Bundle.main.url(forResource: filename, withExtension: "json"),
-              let data = try? Data(contentsOf: url) else { return nil }
-        return try? JSONDecoder().decode(T.self, from: data)
     }
 }
 #endif

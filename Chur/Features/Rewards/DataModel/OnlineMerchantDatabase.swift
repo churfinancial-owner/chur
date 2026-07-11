@@ -3,8 +3,8 @@
 //  Chur
 //
 //  Online merchant model and database loader.
-//  Loads curated online merchants from SeedDataOnlineMerchants.json
-//  and provides search/filtering capabilities for the Online search mode.
+//  Sources searchable merchants from the unified SeedDataMerchants.json
+//  (via MerchantSeedDatabase) and provides search/filtering for the Online search mode.
 //
 
 import Foundation
@@ -37,33 +37,20 @@ struct OnlineMerchantDatabase {
 
     /// Reload merchant data from the bundle JSON
     static func reloadFromBundle() {
+        MerchantSeedDatabase.reloadFromBundle()
         allMerchants = loadAllMerchants()
         _merchantByCategory = buildMerchantByCategory()
     }
 
     private static func loadAllMerchants() -> [OnlineMerchant] {
-        guard let url = Bundle.main.url(forResource: "SeedDataOnlineMerchants", withExtension: "json") else {
-            #if DEBUG
-            print("❌ OnlineMerchantDatabase: SeedDataOnlineMerchants.json not found in bundle")
-            #endif
-            return []
-        }
-        do {
-            let data = try Data(contentsOf: url)
-            let merchants = try JSONDecoder().decode([OnlineMerchant].self, from: data)
-            return merchants.sorted { lhs, rhs in
-                switch (lhs.sortOrder, rhs.sortOrder) {
-                case let (l?, r?) where l != r: return l < r
-                case (_?, nil): return true   // non-nil before nil
-                case (nil, _?): return false
-                default: return lhs.name < rhs.name
-                }
+        // Unified seed: searchable merchants from SeedDataMerchants.json
+        MerchantSeedDatabase.onlineMerchants.sorted { lhs, rhs in
+            switch (lhs.sortOrder, rhs.sortOrder) {
+            case let (l?, r?) where l != r: return l < r
+            case (_?, nil): return true   // non-nil before nil
+            case (nil, _?): return false
+            default: return lhs.name < rhs.name
             }
-        } catch {
-            #if DEBUG
-            print("❌ OnlineMerchantDatabase: Failed to decode: \(error)")
-            #endif
-            return []
         }
     }
     

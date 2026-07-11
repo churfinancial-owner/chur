@@ -281,6 +281,16 @@ Lightweight in-memory mirrors of the JSON seed data. `CardDatabase` loads these 
 
 In-memory representation of a benefit from the JSON catalog (`BenefitDatabase`). Mapped to a live `Benefit` @Model via `toBenefit(cardInstanceID:modelContext:)`.
 
+### Merchant seed types
+**File:** `Features/Rewards/DataModel/MerchantSeedDatabase.swift` (+ `OnlineMerchantDatabase.swift`)
+
+| Type | Description |
+|---|---|
+| `MerchantSeedFile` | Top-level shape of `SeedDataMerchants.json`: `merchants` + optional `genericMappings`. The **single source** for merchant data — legacy `SeedDataOnlineMerchants.json` / `SeedDataMerchantMappings.json` are dead (kept only as migration source). |
+| `MerchantEntry` | One merchant: online-search fields, optional `map` matching block, optional `brandCategory` block that auto-generates the target `SpendingCategory` at load (`SeedDataLoader.loadCategoryTemplates`; hand-authored categories win on ID conflict). `searchable: false` = map-only. |
+| `MerchantMappings` | Map name-matching rules (exact / prefix+POI / contains+POI / patterns+overrides), consumed by `MerchantCategoryMapper`. Merchant `map` rules are merged in ahead of generic pattern rules. |
+| `OnlineMerchant` | Runtime type for the Online search mode, derived from searchable `MerchantEntry`s. |
+
 ### SpendingCategory support types
 
 | Type | Fields | Description |
