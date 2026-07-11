@@ -89,6 +89,17 @@ enum ReminderTiming {
         leadDays(for: cycle(forFrequency: frequency))
     }
 
+    /// True while every cycle still uses its default lead time.
+    static var isRecommended: Bool {
+        Cycle.allCases.allSatisfy { leadDays(for: $0) == $0.defaultLeadDays }
+    }
+
+    static func resetToRecommended() {
+        for cycle in Cycle.allCases {
+            UserDefaults.standard.removeObject(forKey: cycle.storageKey)
+        }
+    }
+
     // MARK: - Derived schedules
 
     /// Days-before-expiry at which notifications fire: the user's lead time
