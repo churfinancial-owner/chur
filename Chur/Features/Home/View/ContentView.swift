@@ -10,7 +10,7 @@ struct ContentView: View {
     @State private var hasLoadedSearchTab = false
     @State private var hasScheduledInitialization = false
     @State private var cachedNearbyMerchants: [NearbyMerchant] = []
-    @State private var reminderRouter = BenefitReminderRouter.shared
+    @State private var reminderRouter = ReminderRouter.shared
     @State private var reminderDeepLinkTarget: BenefitDeepLinkTarget?
     @Query private var users: [User]
     @Query private var cards: [CreditCard]
@@ -51,11 +51,14 @@ struct ContentView: View {
             // logged this session; .active clears reminders made stale
             // elsewhere (e.g. day changes, restored backups).
             if newPhase == .background || newPhase == .active {
-                BenefitReminderScheduler.shared.requestReconcile(context: modelContext)
+                ReminderScheduler.shared.requestReconcile(context: modelContext)
             }
         }
         .onAppear { consumePendingReminderTap() }
         .onChange(of: reminderRouter.pendingBenefitID) { _, _ in
+            consumePendingReminderTap()
+        }
+        .onChange(of: reminderRouter.pendingCardsTab) { _, _ in
             consumePendingReminderTap()
         }
         .sheet(item: $reminderDeepLinkTarget) { target in
@@ -63,10 +66,19 @@ struct ContentView: View {
         }
     }
 
-    /// Resolves a tapped expiry-reminder notification to its card + benefit
-    /// and presents the detail sheet. Benefit IDs come from templates and can
-    /// repeat across cards, so the card ID is matched first.
+    /// Routes a tapped reminder notification: benefit reminders open that
+    /// benefit's detail sheet; fee and digest reminders switch to the Cards
+    /// tab. Benefit IDs come from templates and can repeat across cards, so
+    /// the card ID is matched first.
     private func consumePendingReminderTap() {
+        if reminderRouter.pendingCardsTab {
+            reminderRouter.clear()
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                selectedTab = 2
+            }
+            return
+        }
+
         guard let benefitID = reminderRouter.pendingBenefitID else { return }
         let cardID = reminderRouter.pendingCardID
         reminderRouter.clear()

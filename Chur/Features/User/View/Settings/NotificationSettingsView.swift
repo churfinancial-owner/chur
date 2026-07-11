@@ -7,7 +7,8 @@ import SwiftUI
 import SwiftData
 
 struct NotificationSettingsView: View {
-    @AppStorage(BenefitReminderScheduler.remindersEnabledKey) private var remindersEnabled: Bool = false
+    @AppStorage(ReminderScheduler.benefitRemindersEnabledKey) private var benefitRemindersEnabled: Bool = false
+    @AppStorage(ReminderScheduler.annualFeeRemindersEnabledKey) private var feeRemindersEnabled: Bool = false
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \CreditCard.dateAdded) private var cards: [CreditCard]
 
@@ -23,12 +24,14 @@ struct NotificationSettingsView: View {
 
     var body: some View {
         List {
-            // MARK: - Master Toggle
+            // MARK: - Category Toggles
             Section {
-                Toggle("Benefit expiry reminders", isOn: $remindersEnabled)
+                Toggle("Benefit expiry reminders", isOn: $benefitRemindersEnabled)
+                    .tint(Color.churOlive)
+                Toggle("Annual fee reminders", isOn: $feeRemindersEnabled)
                     .tint(Color.churOlive)
 
-                if remindersEnabled && systemPermissionDenied {
+                if (benefitRemindersEnabled || feeRemindersEnabled) && systemPermissionDenied {
                     Button {
                         openSystemSettings()
                     } label: {
@@ -42,7 +45,7 @@ struct NotificationSettingsView: View {
                     }
                 }
             } header: {
-                Text("EXPIRY REMINDERS")
+                Text("REMINDERS")
             }
 
             // MARK: - Timing Subpage
@@ -102,12 +105,15 @@ struct NotificationSettingsView: View {
             // Refresh the detail label when returning from the schedule subpage.
             scheduleIsRecommended = ReminderTiming.isRecommended
         }
-        .onChange(of: remindersEnabled) { _, enabled in
-            handleRemindersToggle(enabled)
+        .onChange(of: benefitRemindersEnabled) { _, enabled in
+            handleToggle(enabled) { benefitRemindersEnabled = false }
+        }
+        .onChange(of: feeRemindersEnabled) { _, enabled in
+            handleToggle(enabled) { feeRemindersEnabled = false }
         }
         .onDisappear {
             // Pick up any mute changes made in this screen.
-            BenefitReminderScheduler.shared.requestReconcile(context: modelContext)
+            ReminderScheduler.shared.requestReconcile(context: modelContext)
         }
         .alert("Notifications Disabled", isPresented: $showingPermissionDeniedAlert) {
             Button("Open Settings") { openSystemSettings() }
@@ -119,26 +125,28 @@ struct NotificationSettingsView: View {
 
     // MARK: - Permission handling
 
-    private func handleRemindersToggle(_ enabled: Bool) {
+    /// Shared handler for both category toggles: enabling requests
+    /// permission (reverting the toggle if denied); any change reconciles,
+    /// which drops the disabled category's reminders as stale.
+    private func handleToggle(_ enabled: Bool, revert: @escaping () -> Void) {
         Task {
             if enabled {
-                let granted = await BenefitReminderScheduler.shared.requestAuthorization()
+                let granted = await ReminderScheduler.shared.requestAuthorization()
                 if granted {
                     systemPermissionDenied = false
-                    await BenefitReminderScheduler.shared.reconcile(context: modelContext)
                 } else {
-                    remindersEnabled = false
+                    revert()
                     showingPermissionDeniedAlert = true
+                    return
                 }
-            } else {
-                await BenefitReminderScheduler.shared.removeAllReminders()
             }
+            await ReminderScheduler.shared.reconcile(context: modelContext)
         }
     }
 
     private func refreshPermissionState() async {
-        let authorized = await BenefitReminderScheduler.shared.isAuthorized()
-        systemPermissionDenied = remindersEnabled && !authorized
+        let authorized = await ReminderScheduler.shared.isAuthorized()
+        systemPermissionDenied = (benefitRemindersEnabled || feeRemindersEnabled) && !authorized
     }
 
     private func openSystemSettings() {

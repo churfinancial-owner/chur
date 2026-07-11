@@ -89,25 +89,58 @@ enum ReminderTiming {
         leadDays(for: cycle(forFrequency: frequency))
     }
 
-    /// True while every cycle still uses its default lead time.
+    /// True while every category still uses its default lead time.
     static var isRecommended: Bool {
         Cycle.allCases.allSatisfy { leadDays(for: $0) == $0.defaultLeadDays }
+            && annualFeeLeadDays == AnnualFee.defaultLeadDays
     }
 
     static func resetToRecommended() {
         for cycle in Cycle.allCases {
             UserDefaults.standard.removeObject(forKey: cycle.storageKey)
         }
+        UserDefaults.standard.removeObject(forKey: AnnualFee.storageKey)
+    }
+
+    // MARK: - Annual fee timing
+
+    /// Fee decisions need runway (retention offers, product changes),
+    /// so the default lead is much longer than any benefit cycle's.
+    enum AnnualFee {
+        static let options = [14, 30, 60]
+        static let defaultLeadDays = 30
+        static let lastCallDays = 7
+        static let storageKey = "reminderLead.annualFee"
+    }
+
+    static var annualFeeLeadDays: Int {
+        UserDefaults.standard.object(forKey: AnnualFee.storageKey) as? Int ?? AnnualFee.defaultLeadDays
+    }
+
+    static func setAnnualFeeLeadDays(_ days: Int) {
+        UserDefaults.standard.set(days, forKey: AnnualFee.storageKey)
+    }
+
+    static func annualFeeReminderDays() -> [Int] {
+        let lead = annualFeeLeadDays
+        if lead - AnnualFee.lastCallDays >= lastCallMinimumGap {
+            return [lead, AnnualFee.lastCallDays]
+        }
+        return [lead]
     }
 
     // MARK: - Derived schedules
 
+    /// A last call only fires when it lands at least this many days after
+    /// the first reminder — two pings within a couple of days is nagging.
+    static let lastCallMinimumGap = 3
+
     /// Days-before-expiry at which notifications fire: the user's lead time
-    /// plus the cycle's fixed last call (when distinct).
+    /// plus the cycle's fixed last call (when far enough apart).
     static func reminderDays(forFrequency frequency: String) -> [Int] {
         let cycle = cycle(forFrequency: frequency)
         let lead = leadDays(for: cycle)
-        if let lastCall = cycle.lastCallDays, lastCall < lead {
+        if let lastCall = cycle.lastCallDays, lead - lastCall >= lastCallMinimumGap {
             return [lead, lastCall]
         }
         return [lead]

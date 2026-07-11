@@ -18,8 +18,8 @@ struct ChurApp: App {
         )
         TransferPartnerDatabase.loadFromBundle(region: RegionDatabase.detectUserRegion())
         // Must happen before launch finishes so a notification tap that
-        // cold-starts the app is still routed to the benefit detail sheet.
-        BenefitReminderDelegate.shared.install()
+        // cold-starts the app is still routed to its destination.
+        ChurNotificationDelegate.shared.install()
     }
     
     let modelContainer: ModelContainer = {

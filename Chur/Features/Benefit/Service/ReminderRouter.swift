@@ -1,11 +1,12 @@
 //
-//  BenefitReminderRouter.swift
+//  ReminderRouter.swift
 //  Chur
 //
-//  Bridges benefit-reminder notification taps into SwiftUI. The
-//  UNUserNotificationCenter delegate stores the tapped benefit's IDs on the
-//  shared router; ContentView observes them and presents the benefit's
-//  detail sheet.
+//  Bridges notification taps into SwiftUI. ChurNotificationDelegate reads
+//  the tapped notification's "kind" and stores a destination on the shared
+//  router; ContentView observes it and navigates:
+//   • benefitExpiry      → that benefit's detail sheet
+//   • annualFee / digest → the Cards tab
 //
 
 import Foundation
@@ -14,16 +15,18 @@ import UserNotifications
 
 @Observable
 @MainActor
-final class BenefitReminderRouter {
-    static let shared = BenefitReminderRouter()
+final class ReminderRouter {
+    static let shared = ReminderRouter()
     private init() {}
 
     var pendingBenefitID: String?
     var pendingCardID: String?
+    var pendingCardsTab = false
 
     func clear() {
         pendingBenefitID = nil
         pendingCardID = nil
+        pendingCardsTab = false
     }
 }
 
@@ -34,10 +37,12 @@ struct BenefitDeepLinkTarget: Identifiable {
     var id: String { "\(card.id).\(benefit.id)" }
 }
 
-/// Must be installed before the app finishes launching so taps that
-/// cold-start the app are still delivered (see ChurApp.init).
-final class BenefitReminderDelegate: NSObject, UNUserNotificationCenterDelegate {
-    static let shared = BenefitReminderDelegate()
+/// The app's single UNUserNotificationCenter delegate, dispatching taps by
+/// the "kind" field each category stamps into its payload. Must be installed
+/// before the app finishes launching so taps that cold-start the app are
+/// still delivered (see ChurApp.init).
+final class ChurNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
+    static let shared = ChurNotificationDelegate()
 
     func install() {
         UNUserNotificationCenter.current().delegate = self
@@ -58,13 +63,21 @@ final class BenefitReminderDelegate: NSObject, UNUserNotificationCenterDelegate 
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
         let info = response.notification.request.content.userInfo
+        let kind = ReminderKind(rawValue: info["kind"] as? String ?? "")
         let benefitID = info["benefitID"] as? String
         let cardID = info["cardID"] as? String
 
         Task { @MainActor in
-            if let benefitID {
-                BenefitReminderRouter.shared.pendingBenefitID = benefitID
-                BenefitReminderRouter.shared.pendingCardID = cardID
+            switch kind {
+            case .benefitExpiry:
+                if let benefitID {
+                    ReminderRouter.shared.pendingBenefitID = benefitID
+                    ReminderRouter.shared.pendingCardID = cardID
+                }
+            case .annualFee, .digest:
+                ReminderRouter.shared.pendingCardsTab = true
+            case nil:
+                break
             }
             completionHandler()
         }
