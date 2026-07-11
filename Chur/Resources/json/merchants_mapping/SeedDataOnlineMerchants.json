@@ -94,7 +94,7 @@
         "name": "Lucky",
         "domain": "luckysupermarkets.com",
         "category": "groceries",
-        "merchantIconName": "icon_lucky",
+        "merchantIconName": "icon_lucky_supermarkets",
         "affiliateID": null,
         "isBrandCategory": true,
         "businessRegion": [
