@@ -18,9 +18,34 @@ enum CategoryLevel: String, Codable {
 }
 
 // MARK: - Category Link
+/// A cross-link to another category the tree can't express (e.g. costco → wholesale,
+/// wholefood → amazon). Encodes as a plain string ID; decodes from either "amazon"
+/// or the legacy {"id": "amazon", "weight": 1.0} object form still in older seed files.
 struct CategoryLink: Codable {
     var id: String       // references a SpendingCategory.id
-    var weight: Double   // 0.0 – 1.0, represents relationship strength
+
+    init(id: String) {
+        self.id = id
+    }
+
+    init(from decoder: Decoder) throws {
+        if let single = try? decoder.singleValueContainer(),
+           let plainID = try? single.decode(String.self) {
+            id = plainID
+            return
+        }
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(String.self, forKey: .id)
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(id)
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case id
+    }
 }
 
 // MARK: - Card Filter
@@ -296,10 +321,11 @@ extension SpendingCategory {
             .sorted { $0.sortOrder < $1.sortOrder }
     }
 
-    // Get all categories that link to a given ID (e.g. children of a parent)
+    // Get all categories that link to a given ID (e.g. children of a parent).
+    // Hierarchy comes from parentCategoryID; categoryLinks are additive cross-links.
     static func categories(linkedTo parentID: String, from allCategories: [SpendingCategory]) -> [SpendingCategory] {
         return allCategories
-            .filter { $0.categoryLinks?.contains { $0.id == parentID } == true }
+            .filter { $0.parentCategoryID == parentID || $0.categoryLinks?.contains { $0.id == parentID } == true }
             .sorted { $0.sortOrder < $1.sortOrder }
     }
 

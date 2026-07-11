@@ -239,7 +239,7 @@
 | `excludeFromParent` | `Bool` | Not Null | — | `true` = only exact-match rewards apply; parent/ancestor cascade is blocked. Used for merchants like Costco where generic "grocery" cards don't earn. |
 | `parentCategoryID` | `String?` | Nullable | Self-referential → `SpendingCategory.id` | Parent category slug (e.g. `"flights"` → `"travel"`). `nil` for top-level parent categories. |
 | `level` | `CategoryLevel?` | Nullable, enum | — | Hierarchy level: `parent`, `child`, `groupTarget`, or `target`. |
-| `categoryLinksJSON` | `String?` | Nullable, JSON string | Encodes `[CategoryLink]` with refs to `SpendingCategory.id` | Raw JSON storage for weighted semantic links to related categories. SwiftData persists as a plain `String`. Access via the computed `categoryLinks` property. |
+| `categoryLinksJSON` | `String?` | Nullable, JSON string | Encodes `[CategoryLink]` with refs to `SpendingCategory.id` | Raw JSON storage for additive cross-links (second parent, isolated-brand connection) — hierarchy itself comes from `parentCategoryID`. Encodes as `["amazon"]`; legacy `[{"id":..., "weight":...}]` form still decodes. SwiftData persists as a plain `String`. Access via the computed `categoryLinks` property. |
 | `cardFilterJSON` | `String?` | Nullable, JSON string | Encodes `CardFilter` | Raw JSON storage for card eligibility rules (network, issuer, cardType, per-region overrides). Access via the computed `cardFilter` property. |
 | `channels` | `[String]?` | Nullable | — | Channel constraints for matching (e.g. `["online"]` for PayPal Pay Anywhere). |
 | `excludedPaymentMethods` | `[String]?` | Nullable | — | Payment methods that do NOT work at this merchant (e.g. `["apple_pay", "mobile_pay"]` for Walmart). |
@@ -285,7 +285,7 @@ In-memory representation of a benefit from the JSON catalog (`BenefitDatabase`).
 
 | Type | Fields | Description |
 |---|---|---|
-| `CategoryLink` | `id: String`, `weight: Double` | Weighted link to another `SpendingCategory.id` (0.0–1.0). Stored as JSON in `SpendingCategory.categoryLinksJSON`. |
+| `CategoryLink` | `id: String` | Cross-link to another `SpendingCategory.id` (`weight` removed 2026-07 — it was never read by any consumer). Encodes as a plain string; decodes from string or legacy `{id, weight}` object. Stored as JSON in `SpendingCategory.categoryLinksJSON`. |
 | `CardFilter` | `networks`, `issuers`, `cardTypes`, `mode`, `regions` | Card eligibility rules. Supports both global and region-specific filter variants. Stored as JSON in `SpendingCategory.cardFilterJSON`. |
 | `LocalizedStrings` | `name: String`, `description: String` | Locale-keyed name + description pair. Stored as values in `Benefit.localized` dictionary. |
 

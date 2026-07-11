@@ -251,6 +251,19 @@ struct CardRateCalculator {
         return false
     }
 
+    /// Standalone category-matching check (payment-method fallback disabled).
+    /// Used by the DEBUG seed validator to assert pricing invariants without building a full calculator.
+    static func categoryMatches(rewardCategory: String, category: SpendingCategory, allCategories: [SpendingCategory]) -> Bool {
+        let byID = Dictionary(allCategories.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+        return matchWeight(
+            rewardCategory: rewardCategory,
+            category: category,
+            ancestorsByCategoryID: buildAncestorSets(categoryByID: byID),
+            allowPaymentMethodFallback: false,
+            acceptedPaymentMethods: nil
+        ) > 0
+    }
+
     // MARK: - Ancestor set builder
     /// Builds a map from category.id → set of all IDs reachable via step 5 of matchWeight.
     /// Includes: each ancestor's own ID, plus each ancestor's categoryLinks IDs.

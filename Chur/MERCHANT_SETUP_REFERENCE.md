@@ -9,40 +9,46 @@ Files live under `Resources/json/`.
 
 `File: categories/SeedDataCategories_<group>.json`
 
-Every merchant must resolve to a `SpendingCategory`. Categories form a tree:
+Every merchant must resolve to a `SpendingCategory`. Categories form a tree
+driven **entirely by `parentCategoryID`**:
 
 ```
 parent  (level: "parent", no parentCategoryID)
-  └─ child  (level: "child", parentCategoryID: "parent",
-              categoryLinks: [{id:"parent"}])
-       └─ target  (level: "target", parentCategoryID: "child",
-                    categoryLinks: [{id:"child"}])
+  └─ child  (level: "child", parentCategoryID: "parent")
+       └─ target  (level: "target", parentCategoryID: "child")
 ```
 
-**Real example (streaming):**
+**Real example (streaming — see `SeedDataCategories_streaming.json`, the template exemplar):**
 ```
 streaming           ← parent
-  └─ video_streaming  ← child,  categoryLinks: [{id:"streaming"}]
-       └─ stream_netflix  ← target, categoryLinks: [{id:"video_streaming"}]
+  └─ video_streaming  ← child,  parentCategoryID: "streaming"
+       └─ stream_netflix  ← target, parentCategoryID: "video_streaming"
 ```
 
 ### Rules
 
 | Rule | Why |
 |---|---|
-| Set `parentCategoryID` on every non-root category | Powers the step-5 ancestor walk in `matchWeight` |
-| `categoryLinks` must include the **direct parent** | Step 2 check — works even when `excludeFromParent: true` |
-| For deep hierarchies (3+ levels), also link **grandparent** in `categoryLinks` | A 2-hop parent walk is fragile: if an intermediate category is missing from `allCategories`, the walk breaks and rewards fall to `everything` |
+| Set `parentCategoryID` on every non-root category | Powers the step-5 ancestor walk in `matchWeight` — this alone makes all ancestor rewards apply |
+| **Omit `categoryLinks`** for normal categories | The parent chain already covers them; links are only for the two cases below |
 | Leave `excludeFromParent` absent/false unless this is an isolated brand | `true` = blocks all ancestor reward matching; only exact match + explicit `categoryLinks` + `everything` apply |
 | Don't add `channels` to parent categories (`streaming`, `video_streaming`) | Would block those reward categories for the channel passed to the calculator |
 
-**`categoryLinks` for a 3-level target — direct parent only is sufficient:**
+### When `categoryLinks` IS needed (the only two cases)
+
+Format is a plain array of category IDs (the legacy `{"id": ..., "weight": ...}` object form still decodes but should not be used in new entries):
+
 ```json
-"categoryLinks": [
-  { "id": "video_streaming", "weight": 1.0 }
-]
+"categoryLinks": ["amazon"]
 ```
-The pricing engine pre-computes a full ancestor set at init time (including each ancestor's own `categoryLinks`), so `streaming` is reachable from `stream_netflix` via `video_streaming.categoryLinks` automatically. You only need to list the grandparent in `categoryLinks` if you want it to work even with `excludeFromParent: true`.
+
+1. **Cross-link into another branch** — a second "parent" the tree can't express.
+   `wholefood` has `parentCategoryID: "groceries"` *and* `"categoryLinks": ["amazon"]`
+   so Amazon-card rewards also apply at Whole Foods.
+2. **Isolated brand** — `parentCategoryID: null` (or `excludeFromParent: true`) so no
+   ancestor cascade applies, with a link as the *only* reward connection.
+   `costco` has no parent and `"categoryLinks": ["wholesale"]`: wholesale cards match,
+   generic grocery cards do not.
 
 ### How `matchWeight` resolves (priority order)
 
@@ -133,10 +139,10 @@ The icon lookup chain in the UI is:
 - [ ] Exists in a `SeedDataCategories_*.json` file
 - [ ] `level` set correctly: `"parent"` / `"child"` / `"target"`
 - [ ] `parentCategoryID` set to direct parent
-- [ ] `categoryLinks` includes direct parent
-- [ ] For targets 3+ levels deep: `categoryLinks` also includes grandparent
+- [ ] No `categoryLinks` (only add for a cross-link or isolated brand — see section 1)
 - [ ] `excludeFromParent` is absent or `false` (unless isolated brand)
 - [ ] No `channels` restriction on parent/grandparent categories
+- [ ] Run the app in DEBUG — `SeedDataValidator` prints ⚠️ for broken refs and pricing invariants
 
 ### Online merchant
 - [ ] Entry in `SeedDataOnlineMerchants.json`
@@ -152,7 +158,25 @@ The icon lookup chain in the UI is:
 
 ---
 
-## 6. Common Failure: Falls to `everything`
+## 6. Cleaning Up a Legacy Category File
+
+Older `SeedDataCategories_*.json` files still carry redundant `categoryLinks`
+(and the obsolete `weight` field). To migrate one file — `SeedDataCategories_streaming.json`
+is the finished exemplar:
+
+1. Delete any `categoryLinks` whose only entry is the category's own `parentCategoryID`,
+   and any `"categoryLinks": null`.
+2. Keep links that point anywhere else (cross-links, isolated brands) and rewrite them
+   as plain strings: `"categoryLinks": ["amazon"]` — drop `weight`.
+3. If a kept link disagrees with `parentCategoryID` (e.g. old `stream_spotify`:
+   parent `streaming`, link `music_streaming`), decide which is the real parent —
+   usually the more specific one — and fix `parentCategoryID` instead of keeping the link.
+4. Build & run in DEBUG: `SeedDataValidator` must print ✅ (it checks refs and
+   pricing invariants for costco / wholefood / stream_netflix).
+
+---
+
+## 7. Common Failure: Falls to `everything`
 
 **Symptom:** Card rewards for `streaming` or `video_streaming` don't apply; only `everything` base rate shows.
 
@@ -160,8 +184,8 @@ The icon lookup chain in the UI is:
 
 | Cause | Diagnosis | Fix |
 |---|---|---|
-| `categoryLinks` missing the relevant ancestor | Step 2 skips; only needed now if `excludeFromParent: true` | Add grandparent to `categoryLinks` only when `excludeFromParent: true` |
-| Intermediate category missing from `allCategories` | Step 5 pre-computed set is built from `allCategories` at init; if missing, the ancestor path is broken | Ensure all ancestor categories are in a seed file — `CategorySyncService` logs `⚠️` for broken `parentCategoryID` refs in DEBUG |
+| `parentCategoryID` missing or wrong | Step 5 ancestor walk never reaches the reward category | Set `parentCategoryID` to the direct parent; `SeedDataValidator` flags unresolvable parents at launch in DEBUG |
+| Intermediate category missing from `allCategories` | Step 5 pre-computed set is built from `allCategories` at init; if missing, the ancestor path is broken | Ensure all ancestor categories are in a seed file — `SeedDataValidator` and `CategorySyncService` log `⚠️` in DEBUG |
 | `excludeFromParent: true` accidentally set | Step 4 blocks ancestor walk; only `categoryLinks` + `everything` match | Remove `excludeFromParent` or add ancestors to `categoryLinks` |
 | Card reward has `channels: ["in_store"]` | Blocked by direct `reward.channels` check for online merchant | Intentional — streaming rewards on some cards may be in-store only |
 | `categoryLinksJSON` corrupted in SwiftData | `categoryLinks` computed property returns nil; step 2 skips | Run CategorySyncService to re-sync from bundle templates |

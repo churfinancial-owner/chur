@@ -20,6 +20,9 @@ struct ChurApp: App {
         // Must happen before launch finishes so a notification tap that
         // cold-starts the app is still routed to its destination.
         ChurNotificationDelegate.shared.install()
+        #if DEBUG
+        SeedDataValidator.run()
+        #endif
     }
     
     let modelContainer: ModelContainer = {

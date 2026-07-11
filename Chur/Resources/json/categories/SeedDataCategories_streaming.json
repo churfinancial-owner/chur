@@ -9,8 +9,7 @@
     "sortOrder": 6,
     "isDefault": false,
     "isParent": true,
-    "level": "parent",
-    "categoryLinks": null
+    "level": "parent"
   },
   {
     "id": "video_streaming",
@@ -23,13 +22,7 @@
     "isDefault": false,
     "isParent": false,
     "parentCategoryID": "streaming",
-    "level": "child",
-    "categoryLinks": [
-      {
-        "id": "streaming",
-        "weight": 1.0
-      }
-    ]
+    "level": "child"
   },
   {
     "id": "stream_disneyplus",
@@ -43,13 +36,7 @@
     "isDefault": false,
     "isParent": false,
     "parentCategoryID": "video_streaming",
-    "level": "target",
-    "categoryLinks": [
-      {
-        "id": "video_streaming",
-        "weight": 1.0
-      }
-    ]
+    "level": "target"
   },
   {
     "id": "stream_hulu",
@@ -62,13 +49,7 @@
     "isDefault": false,
     "isParent": false,
     "parentCategoryID": "video_streaming",
-    "level": "target",
-    "categoryLinks": [
-      {
-        "id": "video_streaming",
-        "weight": 1.0
-      }
-    ]
+    "level": "target"
   },
   {
     "id": "stream_netflix",
@@ -82,13 +63,7 @@
     "isDefault": false,
     "isParent": false,
     "parentCategoryID": "video_streaming",
-    "level": "target",
-    "categoryLinks": [
-      {
-        "id": "video_streaming",
-        "weight": 1.0
-      }
-    ]
+    "level": "target"
   },
   {
     "id": "music_streaming",
@@ -101,13 +76,7 @@
     "isDefault": false,
     "isParent": false,
     "parentCategoryID": "streaming",
-    "level": "child",
-    "categoryLinks": [
-      {
-        "id": "streaming",
-        "weight": 1.0
-      }
-    ]
+    "level": "child"
   },
   {
     "id": "stream_spotify",
@@ -120,13 +89,7 @@
     "sortOrder": 62,
     "isDefault": false,
     "isParent": false,
-    "parentCategoryID": "streaming",
-    "level": "target",
-    "categoryLinks": [
-      {
-        "id": "music_streaming",
-        "weight": 1.0
-      }
-    ]
+    "parentCategoryID": "music_streaming",
+    "level": "target"
   }
 ]
