@@ -11,9 +11,6 @@ struct CardViewToggle: View {
     let card: CreditCard
     @Binding var selectedTab: CardViewTab
     
-    /// Sourced from Settings — how many days before expiry a benefit should be flagged.
-    @AppStorage("expiryWarningDays") private var expiryWarningDays: Int = 3
-    
     // MARK: - Computed Properties
     
     /// Benefit types shown in the list — must match `allowedBenefitTypes` in BenefitsListContentView.
@@ -54,8 +51,7 @@ struct CardViewToggle: View {
             guard let expiryDate = benefit.effectiveExpiryDate(cardAnniversaryDate: anniversaryDate) else { return false }
             
             // Check if expiring within warning window
-            let timeUntilExpiry = expiryDate.timeIntervalSince(now)
-            return timeUntilExpiry > 0 && timeUntilExpiry < 60 * 60 * 24 * Double(expiryWarningDays)
+            return ReminderTiming.isInWarningWindow(expiry: expiryDate, frequency: benefit.frequency, now: now)
         }
     }
     

@@ -22,9 +22,6 @@ struct BenefitsListContentView: View {
         self._selectedFrequency = selectedFrequency
     }
     
-    /// Sourced from Settings — how many days before expiry a benefit should be flagged.
-    @AppStorage("expiryWarningDays") private var expiryWarningDays: Int = 3
-
     /// Bumped when the mock date changes (time travel) to force SwiftUI to re-evaluate
     /// computed properties that depend on `Date.current()`.
     #if DEBUG
@@ -96,8 +93,7 @@ struct BenefitsListContentView: View {
                     guard let expiryDate = benefit.effectiveExpiryDate() else { return false }
                     let hasBalance = (analyzer.remainingBalance() ?? 0) > 0
                     return hasBalance
-                        && expiryDate.timeIntervalSinceNow > 0
-                        && expiryDate.timeIntervalSinceNow < 60 * 60 * 24 * Double(expiryWarningDays)
+                        && ReminderTiming.isInWarningWindow(expiry: expiryDate, frequency: benefit.frequency)
                 }
 
                 // IMPROVED: "Available" quick filter
@@ -249,7 +245,7 @@ struct BenefitsListContentView: View {
                         emptyStateView(message: "No benefits available.")
                     } else if filteredBenefits.isEmpty {
                         emptyStateView(message: selectedFrequency?.lowercased() == "expiring"
-                            ? "No benefits expiring in the next \(expiryWarningDays) day\(expiryWarningDays == 1 ? "" : "s")."
+                            ? "No benefits in their expiry warning window."
                             : selectedFrequency?.lowercased() == "available"
                             ? "All benefits have been fully redeemed."
                             : "No \(selectedFrequency?.lowercased() ?? "") perks found."

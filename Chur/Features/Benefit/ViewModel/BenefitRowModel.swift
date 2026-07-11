@@ -16,9 +16,6 @@ final class BenefitRowViewModel {
     let approvedYear: Int
     var modelContext: ModelContext
     
-    @ObservationIgnored
-    @AppStorage("expiryWarningDays") var expiryWarningDays: Int = 3
-    
     var didAutoApplyThisSession = false
     private let haptic = UIImpactFeedbackGenerator(style: .light)
 
@@ -111,8 +108,7 @@ final class BenefitRowViewModel {
         let now = Date.current()
         guard let expiry = benefit.effectiveExpiryDate(cardAnniversaryDate: anniversaryDate),
               (analyzer.remainingBalance(on: now) ?? 0) > 0 else { return false }
-        let warningDate = Calendar.current.date(byAdding: .day, value: expiryWarningDays, to: now) ?? now
-        return expiry > now && expiry < warningDate
+        return ReminderTiming.isInWarningWindow(expiry: expiry, frequency: benefit.frequency, now: now)
     }
 
     var shouldShowExpiryWarning: Bool {

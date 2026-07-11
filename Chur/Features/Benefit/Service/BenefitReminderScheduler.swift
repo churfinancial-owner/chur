@@ -18,10 +18,8 @@
 //  Call sites: app foreground/background (ContentView), settings toggles
 //  (NotificationSettingsView).
 //
-//  Reminder ladder (days before period end, delivered at 9 AM local):
-//    monthly            → 3
-//    quarterly          → 7, 1
-//    everything longer  → 14, 3
+//  Reminder timing (days before period end, delivered at 9 AM local) is
+//  user-configurable per benefit cycle — see ReminderTiming.
 //
 
 import Foundation
@@ -133,7 +131,7 @@ final class BenefitReminderScheduler {
                       expiry > now else { continue }
 
                 let periodKey = analyzer.periodKey()
-                for lead in Self.leadDays(for: benefit.frequency) {
+                for lead in ReminderTiming.reminderDays(forFrequency: benefit.frequency) {
                     guard let fireDate = deliveryDate(daysBefore: lead, expiry: expiry),
                           fireDate > now else { continue }
 
@@ -152,16 +150,6 @@ final class BenefitReminderScheduler {
 
         // Prioritize the soonest reminders when over the iOS pending cap.
         return Array(planned.sorted { $0.fireDate < $1.fireDate }.prefix(Self.maxPendingReminders))
-    }
-
-    /// Lead times scale with the benefit's cycle — a 3-day heads-up suits a
-    /// monthly credit but is too late for an annual one.
-    static func leadDays(for frequency: String) -> [Int] {
-        switch Benefit.BenefitFrequency(rawValue: frequency.lowercased()) {
-        case .monthly:   return [3]
-        case .quarterly: return [7, 1]
-        default:         return [14, 3] // semi-annual, annual, quadrennial, one-time with hard expiry
-        }
     }
 
     private func deliveryDate(daysBefore: Int, expiry: Date) -> Date? {

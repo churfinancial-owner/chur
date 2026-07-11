@@ -7,7 +7,6 @@ import SwiftUI
 import SwiftData
 
 struct NotificationSettingsView: View {
-    @AppStorage("expiryWarningDays") private var expiryWarningDays: Int = 3
     @AppStorage(BenefitReminderScheduler.remindersEnabledKey) private var remindersEnabled: Bool = false
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \CreditCard.dateAdded) private var cards: [CreditCard]
@@ -23,7 +22,7 @@ struct NotificationSettingsView: View {
 
     var body: some View {
         List {
-            // MARK: - Expiry Reminders (push notifications)
+            // MARK: - Master Toggle
             Section {
                 Toggle("Benefit expiry reminders", isOn: $remindersEnabled)
                     .tint(Color.churOlive)
@@ -44,48 +43,48 @@ struct NotificationSettingsView: View {
             } header: {
                 Text("EXPIRY REMINDERS")
             } footer: {
-                Text("Timed to each benefit's cycle: monthly benefits 3 days before expiry, quarterly 7 and 1 days before, longer cycles 14 and 3 days before. Delivered at 9 AM. Fully used benefits are never reminded.")
+                Text("Get notified before card benefits expire unused.")
             }
 
-            // MARK: - In-App Warning Timing
-            Section {
-                Stepper(
-                    "Expiry badge: \(expiryWarningDays) day\(expiryWarningDays == 1 ? "" : "s") before",
-                    value: $expiryWarningDays,
-                    in: 1...30
-                )
-            } header: {
-                Text("IN-APP WARNING TIMING")
-            } footer: {
-                Text("Controls when the ⏰ badge and the Expiring filter flag a benefit inside the app.")
-            }
-
-            // MARK: - Per-Benefit Mute Controls
-            if cardsWithBenefits.isEmpty {
+            if remindersEnabled {
+                // MARK: - Per-Cycle Timing
                 Section {
-                    HStack {
-                        Spacer()
-                        VStack(spacing: 8) {
-                            Image(systemName: "bell.badge")
-                                .font(.churBigTitle3())
-                                .foregroundStyle(Color.churMediumGray)
-                            Text("Add cards to manage benefit reminders")
-                                .font(.churFootnote())
-                                .foregroundStyle(Color.churMediumGray)
-                                .multilineTextAlignment(.center)
-                        }
-                        Spacer()
-                    }
-                    .padding(.vertical, 16)
-                    .listRowBackground(Color.clear)
-                }
-            } else {
-                Section {
-                    ForEach(cardsWithBenefits) { card in
-                        cardDisclosureGroup(card)
+                    ForEach(ReminderTiming.Cycle.allCases) { cycle in
+                        ReminderTimingPickerRow(cycle: cycle)
                     }
                 } header: {
-                    Text("BENEFIT REMINDERS")
+                    Text("REMINDER TIMING")
+                } footer: {
+                    Text("Controls when the ⏰ badge appears and when reminders are sent. A final reminder is also sent 1–3 days before longer cycles expire.")
+                }
+
+                // MARK: - Per-Benefit Mute Controls
+                if cardsWithBenefits.isEmpty {
+                    Section {
+                        HStack {
+                            Spacer()
+                            VStack(spacing: 8) {
+                                Image(systemName: "bell.badge")
+                                    .font(.churBigTitle3())
+                                    .foregroundStyle(Color.churMediumGray)
+                                Text("Add cards to manage benefit reminders")
+                                    .font(.churFootnote())
+                                    .foregroundStyle(Color.churMediumGray)
+                                    .multilineTextAlignment(.center)
+                            }
+                            Spacer()
+                        }
+                        .padding(.vertical, 16)
+                        .listRowBackground(Color.clear)
+                    }
+                } else {
+                    Section {
+                        ForEach(cardsWithBenefits) { card in
+                            cardDisclosureGroup(card)
+                        }
+                    } header: {
+                        Text("BENEFIT REMINDERS")
+                    }
                 }
             }
         }
@@ -98,7 +97,7 @@ struct NotificationSettingsView: View {
             handleRemindersToggle(enabled)
         }
         .onDisappear {
-            // Pick up any mute changes made in this screen.
+            // Pick up any mute or timing changes made in this screen.
             BenefitReminderScheduler.shared.requestReconcile(context: modelContext)
         }
         .alert("Notifications Disabled", isPresented: $showingPermissionDeniedAlert) {
@@ -167,6 +166,33 @@ struct NotificationSettingsView: View {
             Text(card.name)
                 .font(.churRowTextMedium())
                 .foregroundStyle(Color.churDarkGray)
+        }
+    }
+}
+
+// MARK: - Timing Picker Row
+
+private struct ReminderTimingPickerRow: View {
+    let cycle: ReminderTiming.Cycle
+    @Environment(\.modelContext) private var modelContext
+    @State private var selection: Int
+
+    init(cycle: ReminderTiming.Cycle) {
+        self.cycle = cycle
+        self._selection = State(initialValue: ReminderTiming.leadDays(for: cycle))
+    }
+
+    var body: some View {
+        Picker(cycle.displayName, selection: $selection) {
+            ForEach(cycle.options, id: \.self) { days in
+                Text("\(days) day\(days == 1 ? "" : "s")").tag(days)
+            }
+        }
+        .font(.churRowText())
+        .tint(Color.churOlive)
+        .onChange(of: selection) { _, newValue in
+            ReminderTiming.setLeadDays(newValue, for: cycle)
+            BenefitReminderScheduler.shared.requestReconcile(context: modelContext)
         }
     }
 }

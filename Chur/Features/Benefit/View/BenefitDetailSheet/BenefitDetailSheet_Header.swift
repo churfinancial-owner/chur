@@ -70,8 +70,7 @@ extension BenefitDetailSheet {
             let now = Date.current()
             let formatted = expiryDate.formatted(date: .long, time: .omitted)
             let isExpiringSoon = (localRemainingBalance ?? 0) > 0
-                && expiryDate.timeIntervalSince(now) > 0
-                && expiryDate.timeIntervalSince(now) < 60 * 60 * 24 * Double(expiryWarningDays)
+                && ReminderTiming.isInWarningWindow(expiry: expiryDate, frequency: frequency ?? "", now: now)
 
             BenefitInfoRow(
                 title: "BENEFIT EXPIRY DATE",

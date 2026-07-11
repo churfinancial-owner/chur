@@ -40,7 +40,6 @@ struct BenefitDetailSheet: View {
     // MARK: - State
     @State var localRemainingBalance: Int? = nil
     @State var localIsFullyRedeemed: Bool = false
-    @AppStorage("expiryWarningDays") var expiryWarningDays: Int = 3
 
     @State var selectedYear: Int = Calendar.current.component(.year, from: Date())
     @State var selectedPeriodIndex: Int = 1
