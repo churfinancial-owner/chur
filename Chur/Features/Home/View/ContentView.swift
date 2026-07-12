@@ -12,8 +12,6 @@ struct ContentView: View {
     @State private var cachedNearbyMerchants: [NearbyMerchant] = []
     @State private var reminderRouter = ReminderRouter.shared
     @State private var reminderDeepLinkTarget: BenefitDeepLinkTarget?
-    @State private var launchProgramProposals: [ProgramUpgradeProposal] = []
-    @State private var showProgramUpgradeAlert = false
     @Query private var users: [User]
     @Query private var cards: [CreditCard]
     @Query private var categories: [SpendingCategory]
@@ -66,31 +64,6 @@ struct ContentView: View {
         .sheet(item: $reminderDeepLinkTarget) { target in
             BenefitReminderDeepLinkSheet(benefit: target.benefit, card: target.card)
         }
-        .alert("Reward Program Update", isPresented: $showProgramUpgradeAlert) {
-            Button("Update") { applyLaunchProgramProposals() }
-            Button("Keep Current", role: .cancel) { declineLaunchProgramProposals() }
-        } message: {
-            Text(ProgramUpgradeDatabase.formatAlertMessage(for: launchProgramProposals))
-        }
-    }
-
-    /// Applies program changes detected at launch (e.g. a Freedom card
-    /// upgrading to Ultimate Rewards after a Sapphire was added).
-    private func applyLaunchProgramProposals() {
-        ProgramUpgradeDatabase.applyAll(launchProgramProposals, wallet: cards)
-        try? modelContext.save()
-        launchProgramProposals = []
-    }
-
-    /// Declining counts as a manual choice — set the override so the same
-    /// proposal doesn't re-alert on every launch. Reversible via
-    /// "Reset to auto" in the card's program editor.
-    private func declineLaunchProgramProposals() {
-        for proposal in launchProgramProposals {
-            proposal.card.rewardProgramOverride = proposal.fromProgram
-        }
-        try? modelContext.save()
-        launchProgramProposals = []
     }
 
     /// Routes a tapped reminder notification: benefit reminders open that
@@ -196,12 +169,12 @@ struct ContentView: View {
         // Sync persisted wallet cards with latest templates (rates, benefits, metadata)
         CardSyncService.syncWalletCards(modelContext: modelContext)
 
-        // Catch program upgrades/downgrades missed while the app was closed
-        // (trigger rules shipped in updates, backup restores, template rebuilds)
+        // Apply program upgrades/downgrades missed while the app was closed
+        // (trigger rules shipped in updates, backup restores, template rebuilds).
+        // Cards with a manual rewardProgramOverride are skipped by detection.
         let programProposals = ProgramUpgradeDatabase.detectPendingChanges(cards: cards)
         if !programProposals.isEmpty {
-            launchProgramProposals = programProposals
-            showProgramUpgradeAlert = true
+            ProgramUpgradeDatabase.applyAll(programProposals, wallet: cards)
         }
 
         // Only create test user if database is empty
