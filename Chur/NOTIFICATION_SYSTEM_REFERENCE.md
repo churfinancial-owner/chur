@@ -44,7 +44,7 @@ schedule anything — you call
 |---|---|---|---|
 | `benefitExpiry` | `ReminderScheduler.swift` | `benefitRemindersEnabled` | Benefit detail sheet |
 | `annualFee` | `ReminderScheduler_AnnualFee.swift` | `annualFeeRemindersEnabled` | Cards tab |
-| `digest` | `ReminderScheduler_Digest.swift` (derived, no toggle) | — | Cards tab |
+| `digest` | `ReminderScheduler_Digest.swift` (derived, no toggle) | — | Expiring Soon sheet (`ExpiringBenefitsView`) |
 
 **Benefit expiry** — one reminder per benefit per period per lead time.
 Skipped when: benefit inactive, not `isRemindable` (ongoing/unlimited),
@@ -133,7 +133,9 @@ churReminder.digest.<yyyy-MM-dd>
   work). It dispatches on `kind` and writes to `ReminderRouter.shared`;
   `ContentView` observes the router and navigates (benefit → detail
   sheet via `BenefitDeepLinkTarget`/`BenefitReminderDeepLinkSheet`;
-  fee/digest → Cards tab).
+  fee → Cards tab; digest → `ExpiringBenefitsView` sheet, a global list
+  of benefits in their warning window with balance left, grouped by
+  card, row tap opens the benefit detail sheet).
 - Permission is requested **in context** — when a user enables a toggle
   in Notification settings, never at launch. Denied → toggle reverts +
   alert deep-linking to iOS Settings. A revoked-permission warning row
@@ -164,9 +166,9 @@ churReminder.digest.<yyyy-MM-dd>
   dates are real-world calendar dates.
 - Notification copy is English-only for now (matches app chrome;
   `displayName` is localized). Localize when app chrome localizes.
-- `User.notificationsEnabled` (SwiftData) is a **dead field** — the real
-  switches are the UserDefaults keys above. Candidate for removal at the
-  next schema version.
+- The real notification switches are UserDefaults keys (see §2/§3) — there
+  is no SwiftData field (`User.notificationsEnabled` was removed in schema
+  v1.12).
 - Delivered-but-unread notifications are not cleared from Notification
   Center when they become stale (only *pending* ones are cancelled).
 
@@ -187,8 +189,6 @@ churReminder.digest.<yyyy-MM-dd>
 
 ## 10. Known follow-ups
 
-- Global "Expiring soon" screen as the digest tap target (currently Cards
-  tab) — valuable standalone feature.
 - Notification quick actions ("Mark as used", "Mute").
 - Localized notification copy (4 locales).
 - Remote push (APNs) would be an entirely separate stack — nothing here

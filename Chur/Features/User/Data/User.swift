@@ -16,7 +16,6 @@ class User {
     var appleUserID: String
     var googleUserID: String
     var onboardingCompleted: Bool
-    var notificationsEnabled: Bool
     var locationEnabled: Bool
     var dateAdded: Date
     var selectedCategories: [String]
@@ -38,7 +37,6 @@ class User {
         self.appleUserID = appleUserID
         self.googleUserID = ""
         self.onboardingCompleted = false
-        self.notificationsEnabled = false
         self.locationEnabled = false
         self.dateAdded = Date()
         self.selectedCategories = []

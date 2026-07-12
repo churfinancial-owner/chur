@@ -12,6 +12,7 @@ struct ContentView: View {
     @State private var cachedNearbyMerchants: [NearbyMerchant] = []
     @State private var reminderRouter = ReminderRouter.shared
     @State private var reminderDeepLinkTarget: BenefitDeepLinkTarget?
+    @State private var showExpiringList = false
     @Query private var users: [User]
     @Query private var cards: [CreditCard]
     @Query private var categories: [SpendingCategory]
@@ -61,16 +62,28 @@ struct ContentView: View {
         .onChange(of: reminderRouter.pendingCardsTab) { _, _ in
             consumePendingReminderTap()
         }
+        .onChange(of: reminderRouter.pendingExpiringList) { _, _ in
+            consumePendingReminderTap()
+        }
         .sheet(item: $reminderDeepLinkTarget) { target in
             BenefitReminderDeepLinkSheet(benefit: target.benefit, card: target.card)
+        }
+        .sheet(isPresented: $showExpiringList) {
+            ExpiringBenefitsView()
         }
     }
 
     /// Routes a tapped reminder notification: benefit reminders open that
-    /// benefit's detail sheet; fee and digest reminders switch to the Cards
-    /// tab. Benefit IDs come from templates and can repeat across cards, so
-    /// the card ID is matched first.
+    /// benefit's detail sheet; fee reminders switch to the Cards tab; digest
+    /// reminders open the global Expiring Soon sheet. Benefit IDs come from
+    /// templates and can repeat across cards, so the card ID is matched first.
     private func consumePendingReminderTap() {
+        if reminderRouter.pendingExpiringList {
+            reminderRouter.clear()
+            showExpiringList = true
+            return
+        }
+
         if reminderRouter.pendingCardsTab {
             reminderRouter.clear()
             withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {

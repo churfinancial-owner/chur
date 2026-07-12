@@ -49,6 +49,23 @@ enum ChurSchemaV1_11: VersionedSchema {
     ]
 }
 
+// MARK: - v1.12 — removes dead field User.notificationsEnabled
+// (real notification switches are UserDefaults keys, see NOTIFICATION_SYSTEM_REFERENCE.md)
+
+enum ChurSchemaV1_12: VersionedSchema {
+    static var versionIdentifier = Schema.Version(1, 12, 0)
+
+    static var models: [any PersistentModel.Type] = [
+        CreditCard.self,
+        User.self,
+        RewardRate.self,
+        RewardPlan.self,
+        Benefit.self,
+        BenefitUsageRecord.self,
+        SpendingCategory.self,
+    ]
+}
+
 // MARK: - Migration Plan
 
 enum ChurMigrationPlan: SchemaMigrationPlan {
@@ -56,6 +73,7 @@ enum ChurMigrationPlan: SchemaMigrationPlan {
     static var schemas: [any VersionedSchema.Type] = [
         ChurSchemaV1_10.self,
         ChurSchemaV1_11.self,
+        ChurSchemaV1_12.self,
     ]
 
     /// Lightweight migrations (new optional fields, new models) still need a
@@ -63,5 +81,7 @@ enum ChurMigrationPlan: SchemaMigrationPlan {
     /// are only for non-lightweight changes (renames, removals, type changes).
     static var stages: [MigrationStage] = [
         .lightweight(fromVersion: ChurSchemaV1_10.self, toVersion: ChurSchemaV1_11.self),
+        .custom(fromVersion: ChurSchemaV1_11.self, toVersion: ChurSchemaV1_12.self,
+                willMigrate: nil, didMigrate: nil),
     ]
 }

@@ -1,6 +1,6 @@
 # Chur — Data Dictionary
 
-**Schema version:** 1.11.0 (adds `RewardRate.groupLabel`)  
+**Schema version:** 1.12.0 (removes dead field `User.notificationsEnabled`)  
 **Migration plan:** `ChurMigrationPlan` in `Core/Sync/ChurSchema.swift`  
 **Backup version:** `ChurBackup.currentVersion = 1` — increment and add migration case in `CloudSyncManager.migrate(_:)` for any breaking DTO change  
 **Persistence:** SwiftData (SQLite on-device)  
@@ -42,7 +42,6 @@
 | `appleUserID` | `String` | Not Null, default `""` | — | Stable opaque user ID from Sign in with Apple. Empty if not signed in with Apple. |
 | `googleUserID` | `String` | Not Null, default `""` | — | Google user ID from GIDSignIn. Empty if not signed in with Google. |
 | `onboardingCompleted` | `Bool` | Not Null | — | Gate flag observed by `RootView`. `false` = route to onboarding flow. |
-| `notificationsEnabled` | `Bool` | Not Null | — | User's notification preference. Does **not** directly control OS permission. |
 | `locationEnabled` | `Bool` | Not Null | — | User's location preference. Does **not** directly control OS permission. |
 | `dateAdded` | `Date` | Not Null | — | Timestamp of account creation (first app launch). |
 | `selectedCategories` | `[String]` | Not Null, default `[]` | References `SpendingCategory.id` | Category IDs the user has opted into for Earning Power calculations. |

@@ -5,8 +5,9 @@
 //  Bridges notification taps into SwiftUI. ChurNotificationDelegate reads
 //  the tapped notification's "kind" and stores a destination on the shared
 //  router; ContentView observes it and navigates:
-//   • benefitExpiry      → that benefit's detail sheet
-//   • annualFee / digest → the Cards tab
+//   • benefitExpiry → that benefit's detail sheet
+//   • annualFee     → the Cards tab
+//   • digest        → the global Expiring Soon sheet
 //
 
 import Foundation
@@ -22,11 +23,13 @@ final class ReminderRouter {
     var pendingBenefitID: String?
     var pendingCardID: String?
     var pendingCardsTab = false
+    var pendingExpiringList = false
 
     func clear() {
         pendingBenefitID = nil
         pendingCardID = nil
         pendingCardsTab = false
+        pendingExpiringList = false
     }
 }
 
@@ -74,8 +77,10 @@ final class ChurNotificationDelegate: NSObject, UNUserNotificationCenterDelegate
                     ReminderRouter.shared.pendingBenefitID = benefitID
                     ReminderRouter.shared.pendingCardID = cardID
                 }
-            case .annualFee, .digest:
+            case .annualFee:
                 ReminderRouter.shared.pendingCardsTab = true
+            case .digest:
+                ReminderRouter.shared.pendingExpiringList = true
             case nil:
                 break
             }
