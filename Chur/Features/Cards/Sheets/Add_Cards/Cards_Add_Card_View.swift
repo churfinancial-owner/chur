@@ -146,7 +146,7 @@ struct CardsView_AddCardView: View {
         // Detect and apply program upgrades (e.g. CSR -> Sapphire)
         let currentWallet = cards + newlyAdded
         let proposals = ProgramUpgradeDatabase.detectPendingChanges(cards: currentWallet)
-        ProgramUpgradeDatabase.applyAll(proposals)
+        ProgramUpgradeDatabase.applyAll(proposals, wallet: currentWallet)
         
         try? modelContext.save()
         dismiss()

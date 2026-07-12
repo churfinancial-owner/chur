@@ -59,6 +59,31 @@ struct ProgramUpgradeDatabase {
         rules(forEligibleCard: templateID).first?.sourceProgram
     }
 
+    /// True if `program` is the upgrade target of `sourceProgram` for this card's
+    /// template — i.e. the name was set by an auto program upgrade, not drift
+    /// from the template. Used by CardSyncService to avoid reverting upgrades.
+    static func isUpgradedProgram(_ program: String, sourceProgram: String, templateID: String?) -> Bool {
+        guard let templateID else { return false }
+        return rules(forEligibleCard: templateID).contains {
+            $0.sourceProgram == sourceProgram && $0.targetProgram == program
+        }
+    }
+
+    /// Finds a user-customized point value for the given program anywhere in the wallet.
+    static func customPointValue(for program: String, in cards: [CreditCard]) -> Double? {
+        for card in cards {
+            for reward in card.rewards where reward.rewardProgramName == program && reward.hasCustomPointValue {
+                return reward.pointCashValue
+            }
+            for plan in card.rewardPlans {
+                for reward in plan.rewards where reward.rewardProgramName == program && reward.hasCustomPointValue {
+                    return reward.pointCashValue
+                }
+            }
+        }
+        return nil
+    }
+
     /// All possible programs this card could be assigned to (source + target).
     /// Returns empty array if the card has no upgrade rules.
     static func availablePrograms(forTemplateID templateID: String) -> [String] {
@@ -119,26 +144,34 @@ struct ProgramUpgradeDatabase {
     // MARK: - Apply
 
     /// Applies a single proposal: rewrites rewardProgramName and pointCashValue
-    /// on all rewards of the card.
-    static func applyProposal(_ proposal: ProgramUpgradeProposal) {
-        let newDefault = RewardProgramDefaults.defaultValue(for: proposal.toProgram)
+    /// on all rewards of the card. If the wallet already has a user-customized
+    /// value for the target program, that value is carried over instead of the default.
+    static func applyProposal(_ proposal: ProgramUpgradeProposal, wallet: [CreditCard] = []) {
+        let customValue = customPointValue(for: proposal.toProgram, in: wallet)
+        let newValue = customValue ?? RewardProgramDefaults.defaultValue(for: proposal.toProgram)?.pointCashValue
 
         for reward in proposal.card.rewards where reward.rewardProgramName == proposal.fromProgram {
             reward.rewardProgramName = proposal.toProgram
-            if let def = newDefault { reward.pointCashValue = def.pointCashValue }
+            if let newValue {
+                reward.pointCashValue = newValue
+                reward.hasCustomPointValue = customValue != nil
+            }
         }
         for plan in proposal.card.rewardPlans {
             for reward in plan.rewards where reward.rewardProgramName == proposal.fromProgram {
                 reward.rewardProgramName = proposal.toProgram
-                if let def = newDefault { reward.pointCashValue = def.pointCashValue }
+                if let newValue {
+                    reward.pointCashValue = newValue
+                    reward.hasCustomPointValue = customValue != nil
+                }
             }
         }
     }
 
     /// Applies all proposals in the array.
-    static func applyAll(_ proposals: [ProgramUpgradeProposal]) {
+    static func applyAll(_ proposals: [ProgramUpgradeProposal], wallet: [CreditCard] = []) {
         for proposal in proposals {
-            applyProposal(proposal)
+            applyProposal(proposal, wallet: wallet)
         }
     }
 

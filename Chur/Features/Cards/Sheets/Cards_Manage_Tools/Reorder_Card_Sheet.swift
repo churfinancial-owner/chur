@@ -203,7 +203,7 @@ struct CardOrderSheet: View {
             if cardOrder.isEmpty { dismiss(); return }
             let remainingCards = cards.filter { $0.id != card.id }
             let proposals = ProgramUpgradeDatabase.detectPendingChanges(cards: remainingCards)
-            ProgramUpgradeDatabase.applyAll(proposals)
+            ProgramUpgradeDatabase.applyAll(proposals, wallet: remainingCards)
             try? modelContext.save()
         }
     }

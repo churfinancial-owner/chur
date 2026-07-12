@@ -336,10 +336,18 @@ struct CardSyncService {
     private static func updateRewardFields(reward: RewardRate, template: RewardTemplate, card: CreditCard) -> Bool {
         var changed = false
         if reward.rate != template.rate { reward.rate = template.rate; changed = true }
-        // rewardProgramName: skip if user has manually switched the program for this card
-        if card.rewardProgramOverride == nil && reward.rewardProgramName != template.rewardProgramName { reward.rewardProgramName = template.rewardProgramName; changed = true }
-        // pointCashValue: skip if user has set a custom valuation
-        if !reward.hasCustomPointValue && reward.pointCashValue != template.pointCashValue { reward.pointCashValue = template.pointCashValue; changed = true }
+        // rewardProgramName: skip if user has manually switched the program for this card,
+        // or if the current name is the auto-upgrade target of the template program
+        // (set by ProgramUpgradeDatabase — reverting it here would undo the upgrade every launch)
+        let isAutoUpgraded = ProgramUpgradeDatabase.isUpgradedProgram(
+            reward.rewardProgramName,
+            sourceProgram: template.rewardProgramName,
+            templateID: card.templateID
+        )
+        if card.rewardProgramOverride == nil && !isAutoUpgraded && reward.rewardProgramName != template.rewardProgramName { reward.rewardProgramName = template.rewardProgramName; changed = true }
+        // pointCashValue: skip if user has set a custom valuation, or if the reward was
+        // auto-upgraded (the template value belongs to the source program, not the current one)
+        if !reward.hasCustomPointValue && !isAutoUpgraded && reward.pointCashValue != template.pointCashValue { reward.pointCashValue = template.pointCashValue; changed = true }
         if reward.pointCashValueCurrency != template.pointCashValueCurrency { reward.pointCashValueCurrency = template.pointCashValueCurrency; changed = true }
         // categories: user-owned for configurable rewards; template-owned otherwise
         if !reward.isUserConfigurable && reward.categories != template.categories { reward.categories = template.categories; changed = true }

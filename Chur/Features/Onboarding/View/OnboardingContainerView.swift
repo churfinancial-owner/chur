@@ -276,7 +276,7 @@ struct OnboardingContainerView: View {
         
         let allCards = (try? modelContext.fetch(FetchDescriptor<CreditCard>())) ?? []
         let proposals = ProgramUpgradeDatabase.detectPendingChanges(cards: allCards)
-        ProgramUpgradeDatabase.applyAll(proposals)
+        ProgramUpgradeDatabase.applyAll(proposals, wallet: allCards)
         
         try? modelContext.save()
     }
