@@ -90,7 +90,7 @@ final class ReminderScheduler {
         var desired: [PlannedReminder] = []
         if benefitsOn { desired += benefitReminders(for: cards) }
         if feesOn { desired += annualFeeReminders(for: cards) }
-        desired = Self.applyDigest(to: desired)
+        desired = Self.applyDigest(to: desired, cards: cards)
 
         // Prioritize the soonest reminders when over the iOS pending cap.
         desired = Array(desired.sorted { $0.fireDate < $1.fireDate }.prefix(Self.maxPendingReminders))
@@ -163,9 +163,7 @@ final class ReminderScheduler {
                         subtitle: card.name,
                         body: benefitBody(for: benefit, analyzer: analyzer, leadDays: lead, on: now),
                         threadID: card.id,
-                        payload: ["benefitID": benefit.id, "cardID": card.id],
-                        digestValue: analyzer.isValueBased ? analyzer.remainingBalance(on: now) : nil,
-                        digestCurrency: benefit.valueCurrency
+                        payload: ["benefitID": benefit.id, "cardID": card.id]
                     ))
                 }
             }
@@ -220,11 +218,6 @@ struct PlannedReminder {
     let body: String
     let threadID: String
     var payload: [String: String] = [:]
-
-    /// Remaining value/currency carried so the digest can sum totals;
-    /// not part of the notification itself.
-    var digestValue: Int? = nil
-    var digestCurrency: String? = nil
 
     func request() -> UNNotificationRequest {
         let content = UNMutableNotificationContent()

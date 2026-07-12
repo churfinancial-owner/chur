@@ -96,8 +96,12 @@ its window the same morning; quarter/year ends stack cycles. Rule:
 
 - **3+ benefit reminders on the same day** (`digestThreshold`) collapse
   into one summary: *"N benefits expiring soon — $X unused across M
-  cards."* The unused total is only quoted when all values share one
-  currency.
+  cards."* Only the trigger counts the day's batch; the body's numbers are
+  the **full in-window picture at the fire date**, computed by
+  `ExpiringBenefits` — the same query the Expiring Soon sheet runs — so the
+  notification always matches the sheet it opens. The unused total is only
+  quoted when all values share one currency (computed at reconcile time, so
+  redemptions between reconcile and 9 AM can leave it slightly stale).
 - **Fee reminders are never digested** — rare and high-stakes.
 - Digest identifier is per-day (`churReminder.digest.<yyyy-MM-dd>`), so
   reconciliation diffs it like any other reminder.

@@ -15,53 +15,14 @@ struct ExpiringBenefitsView: View {
     @Query private var cards: [CreditCard]
     @State private var detailTarget: BenefitDeepLinkTarget?
 
-    private struct ExpiringEntry: Identifiable {
-        let card: CreditCard
-        let benefit: Benefit
-        let remainingBalance: Int?
-        let expiryDate: Date
-        var id: String { "\(card.id).\(benefit.id)" }
-    }
-
-    /// Cards with their expiring benefits, soonest expiry first.
-    /// Mirrors BenefitRowViewModel.shouldShowExpiryWarning so the list
-    /// matches the ⏰ badges and the notification schedule.
-    private var groups: [(card: CreditCard, entries: [ExpiringEntry])] {
-        let now = Date.current()
-        var result: [(card: CreditCard, entries: [ExpiringEntry])] = []
-
-        for card in cards where card.status == "active" {
-            let anniversary = Calendar.current.date(from: DateComponents(
-                year: card.approvedYear, month: max(1, min(12, card.approvedMonth)), day: 1
-            ))
-            var entries: [ExpiringEntry] = []
-
-            for benefit in card.benefits {
-                guard benefit.isCurrentlyActive, !benefit.isMuted,
-                      !benefit.isLocked(approvedMonth: card.approvedMonth, approvedYear: card.approvedYear),
-                      let expiry = benefit.effectiveExpiryDate(cardAnniversaryDate: anniversary)
-                else { continue }
-
-                let analyzer = BenefitUsageAnalyzer(benefit: benefit, approvedMonth: card.approvedMonth)
-                let remaining = analyzer.remainingBalance(on: now)
-                guard (remaining ?? 0) > 0,
-                      ReminderTiming.isInWarningWindow(expiry: expiry, frequency: benefit.frequency, now: now)
-                else { continue }
-
-                entries.append(ExpiringEntry(
-                    card: card,
-                    benefit: benefit,
-                    remainingBalance: analyzer.isValueBased ? remaining : nil,
-                    expiryDate: expiry
-                ))
-            }
-
-            if !entries.isEmpty {
-                entries.sort { $0.expiryDate < $1.expiryDate }
-                result.append((card: card, entries: entries))
-            }
+    /// Cards with their expiring benefits, soonest expiry first. The entry
+    /// query lives in ExpiringBenefits so this list and the digest
+    /// notification body always count the same set.
+    private var groups: [(card: CreditCard, entries: [ExpiringBenefitEntry])] {
+        let byCard = Dictionary(grouping: ExpiringBenefits.entries(cards: cards)) { $0.card.id }
+        var result = byCard.values.map { group in
+            (card: group[0].card, entries: group.sorted { $0.expiryDate < $1.expiryDate })
         }
-
         result.sort { ($0.entries.first?.expiryDate ?? .distantFuture) < ($1.entries.first?.expiryDate ?? .distantFuture) }
         return result
     }
@@ -102,9 +63,6 @@ struct ExpiringBenefitsView: View {
         }
     }
 
-    /// One-line total so the count here can exceed a single notification's —
-    /// digests only count reminders that fired on one day, this lists all
-    /// benefits currently in their window.
     private var summaryHeader: some View {
         let benefitCount = groups.reduce(0) { $0 + $1.entries.count }
         return Text("^[\(benefitCount) benefits](inflect: true) expiring across ^[\(groups.count) cards](inflect: true)")
@@ -113,7 +71,7 @@ struct ExpiringBenefitsView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
     }
 
-    private func cardSection(card: CreditCard, entries: [ExpiringEntry]) -> some View {
+    private func cardSection(card: CreditCard, entries: [ExpiringBenefitEntry]) -> some View {
         VStack(alignment: .leading, spacing: 10) {
             Text(card.name.uppercased())
                 .font(.churSmallBold())
@@ -140,7 +98,7 @@ struct ExpiringBenefitsView: View {
         }
     }
 
-    private func entryRow(_ entry: ExpiringEntry) -> some View {
+    private func entryRow(_ entry: ExpiringBenefitEntry) -> some View {
         HStack(spacing: 12) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(entry.benefit.displayName)
