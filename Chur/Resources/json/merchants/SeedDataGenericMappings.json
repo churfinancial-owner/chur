@@ -1,11 +1,13 @@
 {
   "exactMatches": {
-    "amazon fresh": "wholefood"
-  },
-  {
-    "alo": "alo"
+    "amazon fresh": "wholefood",
+    "lucky": "lucky_supermarkets"
   },
   "prefixMatches": [
+    {
+      "prefix": "costco food court",
+      "categoryID": "costco_foodcourt"
+    },
     {
       "prefix": "costco",
       "categoryID": "costco",
@@ -17,26 +19,20 @@
       "requiredPOI": "MKPOICategoryFoodMarket"
     },
     {
-      "prefix": "costco food court",
-      "categoryID": "costco_foodcourt"
-    },
-    {
       "prefix": "costco",
       "categoryID": "costco_gas",
       "requiredPOI": "MKPOICategoryGasStation"
+    },
+    {
+      "prefix": "alo",
+      "categoryID": "alo",
+      "requiredPOI": "MKPOICategoryStore"
     }
   ],
   "containsMatches": [],
   "patternRules": [
     {
-      "patterns": [
-        "hulu",
-        "disney+",
-        "paramount",
-        "peacock",
-        "hbomax",
-        "mytv super"
-      ],
+      "patterns": ["hulu", "disney+", "paramount", "peacock", "hbomax", "mytv super"],
       "categoryID": "video_streaming"
     }
   ]
