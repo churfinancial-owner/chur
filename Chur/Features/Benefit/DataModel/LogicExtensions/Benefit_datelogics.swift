@@ -24,7 +24,10 @@ import Foundation
 
 extension Benefit {
     
-    func effectiveExpiryDate(cardAnniversaryDate: Date? = nil) -> Date? {
+    /// `on date:` is the reference "today" the period is resolved against —
+    /// pass a future date to get that period's expiry (used by the digest
+    /// notification, which is scheduled ahead of time).
+    func effectiveExpiryDate(cardAnniversaryDate: Date? = nil, on date: Date = Date.current()) -> Date? {
         // 1. Hard expiration wins unconditionally.
         if let hardExpiry = expirationDate {
             return hardExpiry
@@ -36,7 +39,7 @@ extension Benefit {
         guard isRecurring || hasAnniversaryReset else { return nil }
         
         let calendar = Calendar.current
-        let now = Date.current()
+        let now = date
         
         // Determine the anchor: card-anniversary date when available, calendar otherwise.
         let useAnniversary = resetType == "card_anniversary" && cardAnniversaryDate != nil

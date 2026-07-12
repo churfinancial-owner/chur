@@ -34,7 +34,7 @@ enum ExpiringBenefits {
             for benefit in card.benefits {
                 guard benefit.isCurrentlyActive, !benefit.isMuted,
                       !benefit.isLocked(approvedMonth: card.approvedMonth, approvedYear: card.approvedYear),
-                      let expiry = benefit.effectiveExpiryDate(cardAnniversaryDate: anniversary)
+                      let expiry = benefit.effectiveExpiryDate(cardAnniversaryDate: anniversary, on: date)
                 else { continue }
 
                 let analyzer = BenefitUsageAnalyzer(benefit: benefit, approvedMonth: card.approvedMonth)
