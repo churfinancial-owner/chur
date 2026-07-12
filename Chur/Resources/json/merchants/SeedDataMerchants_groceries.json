@@ -1,0 +1,230 @@
+[
+  {
+    "id": "vons",
+    "name": "Vons",
+    "domain": "vons.com",
+    "category": "supermarket_vons",
+    "merchantIconName": "icon_vons",
+    "isBrandCategory": true,
+    "tags": [
+      "supermarket",
+      "grocery"
+    ],
+    "sortOrder": 10,
+    "featured": [
+      "US"
+    ],
+    "popular": [
+      "US"
+    ],
+    "brandCategory": {
+      "parent": "supermarkets",
+      "emoji": "🔆"
+    },
+    "map": {
+      "patterns": [
+        "vons"
+      ]
+    }
+  },
+  {
+    "id": "lucky_supermarkets",
+    "name": "Lucky",
+    "domain": "luckysupermarkets.com",
+    "category": "lucky_supermarkets",
+    "merchantIconName": "icon_lucky_supermarkets",
+    "isBrandCategory": true,
+    "tags": [
+      "supermarket",
+      "grocery"
+    ],
+    "sortOrder": 10,
+    "featured": [
+      "US"
+    ],
+    "popular": [
+      "US"
+    ],
+    "brandCategory": {
+      "parent": "supermarkets",
+      "emoji": "🔆"
+    },
+    "map": {
+      "patterns": [
+        "lucky"
+      ]
+    }
+  },
+  {
+    "id": "aldi",
+    "name": "Aldi",
+    "domain": "aldi.us",
+    "category": "aldi",
+    "merchantIconName": "icon_aldi",
+    "isBrandCategory": true,
+    "tags": [
+      "supermarket",
+      "grocery"
+    ],
+    "sortOrder": 10,
+    "featured": [
+      "US",
+      "UK",
+      "AU"
+    ],
+    "popular": [
+      "US",
+      "UK",
+      "AU"
+    ],
+    "brandCategory": {
+      "parent": "supermarkets",
+      "emoji": "🔆"
+    },
+    "map": {
+      "patterns": [
+        "aldi"
+      ]
+    }
+  },
+  {
+    "id": "safeway",
+    "name": "Safeway",
+    "domain": "safeway.com",
+    "category": "safeway",
+    "merchantIconName": "icon_safeway",
+    "isBrandCategory": true,
+    "tags": [
+      "supermarket",
+      "grocery"
+    ],
+    "sortOrder": 10,
+    "featured": [
+      "US"
+    ],
+    "popular": [
+      "US"
+    ],
+    "brandCategory": {
+      "parent": "supermarkets",
+      "emoji": "🔆"
+    },
+    "map": {
+      "patterns": [
+        "safeway"
+      ]
+    }
+  },
+  {
+    "id": "albertsons",
+    "name": "Albertsons",
+    "domain": "albertsons.com",
+    "category": "albertsons",
+    "merchantIconName": "icon_albertsons",
+    "isBrandCategory": true,
+    "tags": [
+      "supermarket",
+      "grocery"
+    ],
+    "sortOrder": 10,
+    "featured": [
+      "US"
+    ],
+    "popular": [
+      "US"
+    ],
+    "brandCategory": {
+      "parent": "supermarkets",
+      "emoji": "🔆"
+    },
+    "map": {
+      "patterns": [
+        "albertsons"
+      ]
+    }
+  },
+  {
+    "id": "kroger",
+    "name": "Kroger",
+    "domain": "kroger.com",
+    "category": "kroger",
+    "merchantIconName": "icon_kroger",
+    "isBrandCategory": true,
+    "tags": [
+      "supermarket",
+      "grocery"
+    ],
+    "sortOrder": 10,
+    "featured": [
+      "US"
+    ],
+    "popular": [
+      "US"
+    ],
+    "brandCategory": {
+      "parent": "supermarkets",
+      "emoji": "🔆"
+    },
+    "map": {
+      "patterns": [
+        "kroger"
+      ]
+    }
+  },
+  {
+    "id": "trader_joes",
+    "name": "Trader Joe's",
+    "domain": "traderjoes.com",
+    "category": "trader_joes",
+    "merchantIconName": "icon_traderjoes",
+    "isBrandCategory": true,
+    "tags": [
+      "supermarket",
+      "grocery"
+    ],
+    "sortOrder": 10,
+    "featured": [
+      "US"
+    ],
+    "popular": [
+      "US"
+    ],
+    "brandCategory": {
+      "parent": "supermarkets",
+      "emoji": "🔆"
+    },
+    "map": {
+      "patterns": [
+        "trader joe"
+      ]
+    }
+  },
+  {
+    "id": "parknshop_hk",
+    "name": "PARKnSHOP",
+    "domain": "parknshop.com",
+    "category": "parknshop_hk",
+    "merchantIconName": "icon_parknshop",
+    "isBrandCategory": true,
+    "tags": [
+      "supermarket",
+      "grocery"
+    ],
+    "sortOrder": 10,
+    "featured": [
+      "HK"
+    ],
+    "popular": [
+      "HK"
+    ],
+    "brandCategory": {
+      "parent": "supermarkets",
+      "emoji": "🔆"
+    },
+    "map": {
+      "patterns": [
+        "parknshop"
+      ]
+    }
+  }
+]

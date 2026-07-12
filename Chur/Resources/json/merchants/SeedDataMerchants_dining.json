@@ -1,0 +1,255 @@
+[
+  {
+    "id": "mcdonalds",
+    "name": "McDonald's",
+    "domain": "mcdonalds.com",
+    "category": "mcdonalds",
+    "merchantIconName": "icon_mcdonalds",
+    "isBrandCategory": false,
+    "tags": [
+      "fast food",
+      "burger"
+    ],
+    "sortOrder": 19,
+    "featured": [
+      "US"
+    ],
+    "popular": [
+      "US",
+      "HK",
+      "TW"
+    ],
+    "brandCategory": {
+      "parent": "fast_food",
+      "emoji": "🍔"
+    },
+    "map": {
+      "patterns": [
+        "mcdonald's",
+        "mcdonalds"
+      ]
+    }
+  },
+  {
+    "id": "burgerking",
+    "name": "Burger King",
+    "domain": "bk.com",
+    "category": "burgerking",
+    "merchantIconName": "icon_burgerking",
+    "isBrandCategory": false,
+    "tags": [
+      "fast food",
+      "burger"
+    ],
+    "sortOrder": 20,
+    "featured": [],
+    "popular": [
+      "US"
+    ],
+    "brandCategory": {
+      "parent": "fast_food",
+      "emoji": "🍔"
+    },
+    "map": {
+      "patterns": [
+        "burger king"
+      ]
+    }
+  },
+  {
+    "id": "innout",
+    "name": "In-N-Out Burger",
+    "domain": "in-n-out.com",
+    "category": "innout",
+    "merchantIconName": "icon_innout",
+    "isBrandCategory": false,
+    "tags": [
+      "fast food",
+      "burger"
+    ],
+    "sortOrder": 21,
+    "featured": [
+      "US"
+    ],
+    "popular": [
+      "US"
+    ],
+    "brandCategory": {
+      "parent": "fast_food",
+      "emoji": "🍔"
+    },
+    "map": {
+      "patterns": [
+        "in-n-out"
+      ]
+    }
+  },
+  {
+    "id": "kfc",
+    "name": "KFC",
+    "domain": "kfc.com",
+    "category": "kfc",
+    "merchantIconName": "icon_kfc",
+    "isBrandCategory": false,
+    "tags": [
+      "fast food",
+      "chicken"
+    ],
+    "sortOrder": 22,
+    "featured": [],
+    "popular": [
+      "US",
+      "HK",
+      "TW"
+    ],
+    "brandCategory": {
+      "parent": "fast_food",
+      "emoji": "🍔"
+    },
+    "map": {
+      "patterns": [
+        "kfc"
+      ]
+    }
+  },
+  {
+    "id": "tacobells",
+    "name": "Taco Bell",
+    "domain": "tacobell.com",
+    "category": "tacobells",
+    "merchantIconName": "icon_tacobells",
+    "isBrandCategory": false,
+    "tags": [
+      "fast food",
+      "taco"
+    ],
+    "sortOrder": 23,
+    "featured": [],
+    "popular": [
+      "US"
+    ],
+    "brandCategory": {
+      "parent": "fast_food",
+      "emoji": "🍔"
+    },
+    "map": {
+      "patterns": [
+        "taco bell"
+      ]
+    }
+  },
+  {
+    "id": "chipotle",
+    "name": "Chipotle",
+    "domain": "chipotle.com",
+    "category": "chipotle",
+    "merchantIconName": "icon_chipotle",
+    "isBrandCategory": false,
+    "tags": [
+      "fast food",
+      "mexican"
+    ],
+    "sortOrder": 24,
+    "featured": [],
+    "popular": [
+      "US"
+    ],
+    "brandCategory": {
+      "parent": "fast_food",
+      "emoji": "🍔"
+    },
+    "map": {
+      "patterns": [
+        "chipotle"
+      ]
+    }
+  },
+  {
+    "id": "starbucks",
+    "name": "Starbucks",
+    "domain": "starbucks.com",
+    "category": "starbucks",
+    "merchantIconName": "icon_starbucks",
+    "isBrandCategory": true,
+    "tags": [
+      "coffee",
+      "cafe"
+    ],
+    "sortOrder": 4,
+    "featured": [
+      "US",
+      "HK",
+      "TW"
+    ],
+    "popular": [
+      "US",
+      "HK",
+      "TW",
+      "CA"
+    ],
+    "brandCategory": {
+      "parent": "cafe",
+      "emoji": "☕"
+    },
+    "map": {
+      "patterns": [
+        "starbucks"
+      ]
+    }
+  },
+  {
+    "id": "peetscoffee",
+    "name": "Peet's Coffee",
+    "domain": "peets.com",
+    "category": "peetscoffee",
+    "merchantIconName": "icon_peetscoffee",
+    "isBrandCategory": true,
+    "tags": [
+      "coffee",
+      "cafe"
+    ],
+    "sortOrder": 19,
+    "featured": [],
+    "popular": [
+      "US"
+    ],
+    "brandCategory": {
+      "parent": "cafe",
+      "emoji": "☕"
+    },
+    "map": {
+      "patterns": [
+        "peet's coffee",
+        "peet's"
+      ]
+    }
+  },
+  {
+    "id": "dunkin",
+    "name": "Dunkin'",
+    "domain": "dunkindonuts.com",
+    "category": "dunkin",
+    "merchantIconName": "icon_dunkin",
+    "isBrandCategory": true,
+    "tags": [
+      "coffee",
+      "cafe",
+      "donuts"
+    ],
+    "sortOrder": 20,
+    "featured": [],
+    "popular": [
+      "US"
+    ],
+    "brandCategory": {
+      "parent": "cafe",
+      "emoji": "☕"
+    },
+    "map": {
+      "patterns": [
+        "dunkin'",
+        "dunkin' donuts"
+      ]
+    }
+  }
+]

@@ -1,0 +1,55 @@
+[
+  {
+    "id": "state_farm_insurance",
+    "name": "State Farm",
+    "domain": "statefarm.com",
+    "category": "state_farm_insurance",
+    "merchantIconName": "icon_state_farm_insurance",
+    "isBrandCategory": false,
+    "tags": [
+      "insurance",
+      "auto",
+      "home"
+    ],
+    "sortOrder": 114,
+    "featured": [],
+    "popular": [
+      "US"
+    ],
+    "brandCategory": {
+      "parent": "insurance",
+      "emoji": "📝"
+    },
+    "map": {
+      "patterns": [
+        "state farm"
+      ]
+    }
+  },
+  {
+    "id": "geico_insurance",
+    "name": "Geico",
+    "domain": "geico.com",
+    "category": "geico_insurance",
+    "merchantIconName": "icon_geico_insurance",
+    "isBrandCategory": false,
+    "tags": [
+      "insurance",
+      "auto"
+    ],
+    "sortOrder": 115,
+    "featured": [],
+    "popular": [
+      "US"
+    ],
+    "brandCategory": {
+      "parent": "insurance",
+      "emoji": "📝"
+    },
+    "map": {
+      "patterns": [
+        "geico"
+      ]
+    }
+  }
+]

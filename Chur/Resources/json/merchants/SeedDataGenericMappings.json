@@ -1,0 +1,43 @@
+{
+  "exactMatches": {
+    "amazon fresh": "wholefood"
+  },
+  {
+    "alo": "alo"
+  },
+  "prefixMatches": [
+    {
+      "prefix": "costco",
+      "categoryID": "costco",
+      "requiredPOI": "MKPOICategoryStore"
+    },
+    {
+      "prefix": "costco",
+      "categoryID": "costco",
+      "requiredPOI": "MKPOICategoryFoodMarket"
+    },
+    {
+      "prefix": "costco food court",
+      "categoryID": "costco_foodcourt"
+    },
+    {
+      "prefix": "costco",
+      "categoryID": "costco_gas",
+      "requiredPOI": "MKPOICategoryGasStation"
+    }
+  ],
+  "containsMatches": [],
+  "patternRules": [
+    {
+      "patterns": [
+        "hulu",
+        "disney+",
+        "paramount",
+        "peacock",
+        "hbomax",
+        "mytv super"
+      ],
+      "categoryID": "video_streaming"
+    }
+  ]
+}

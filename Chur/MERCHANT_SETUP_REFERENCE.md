@@ -65,30 +65,25 @@ Format is a plain array of category IDs (the legacy `{"id": ..., "weight": ...}`
 
 ## 2. Merchant — the unified seed
 
-`File: json/merchants_mapping/SeedDataMerchants.json` — **one entry per merchant** covers online search, map matching, and (optionally) an auto-generated brand category.
-
-> ⚠️ `SeedDataOnlineMerchants.json` and `SeedDataMerchantMappings.json` are **dead** — no code reads them. They remain on disk only as the data source for the ongoing migration into `SeedDataMerchants.json`.
+`Files: json/merchants/SeedDataMerchants_<group>.json` — **one entry per merchant** covers online search, map matching, and (optionally) an auto-generated brand category. Each group file is a plain array; the loader concatenates all `SeedDataMerchants_*` files, so grouping (dining, groceries, fashion, retail, services, streaming, …) is purely organizational — add new group files freely. Don't put the same merchant `id` in two files (the DEBUG validator flags duplicates).
 
 ```json
-{
-  "merchants": [
-    {
-      "id": "netflix",
-      "name": "Netflix",
-      "domain": "netflix.com",
-      "category": "stream_netflix",
-      "merchantIconName": "icon_netflix",
-      "isBrandCategory": true,
-      "tags": ["streaming", "entertainment"],
-      "sortOrder": 10,
-      "featured": ["US", "HK", "TW"],
-      "popular": ["US", "HK", "TW"],
-      "brandCategory": { "parent": "video_streaming", "emoji": "▶️" },
-      "map": { "patterns": ["netflix"] }
-    }
-  ],
-  "genericMappings": { "...": "see section 3" }
-}
+[
+  {
+    "id": "netflix",
+    "name": "Netflix",
+    "domain": "netflix.com",
+    "category": "stream_netflix",
+    "merchantIconName": "icon_netflix",
+    "isBrandCategory": true,
+    "tags": ["streaming", "entertainment"],
+    "sortOrder": 10,
+    "featured": ["US", "HK", "TW"],
+    "popular": ["US", "HK", "TW"],
+    "brandCategory": { "parent": "video_streaming", "emoji": "▶️" },
+    "map": { "patterns": ["netflix"] }
+  }
+]
 ```
 
 ### Key fields
@@ -110,10 +105,10 @@ Format is a plain array of category IDs (the legacy `{"id": ..., "weight": ...}`
 
 ## 3. Generic Map Mappings (non-merchant rules)
 
-`genericMappings` inside `SeedDataMerchants.json` holds map rules that don't belong to a single merchant entry: POI-gated brand prefixes, multi-brand patterns, and name quirks. Decoded into `MerchantMappings` (`MerchantSeedDatabase.swift`), consumed by `Nearby_Engine_CategoryMapper.swift`.
+`File: json/merchants/SeedDataGenericMappings.json` holds map rules that don't belong to a single merchant entry: POI-gated brand prefixes, multi-brand patterns, and name quirks. Decoded into `MerchantMappings` (`MerchantSeedDatabase.swift`), consumed by `Nearby_Engine_CategoryMapper.swift`.
 
 ```json
-"genericMappings": {
+{
   "exactMatches": { "amazon fresh": "wholefood" },
   "prefixMatches": [
     { "prefix": "costco", "categoryID": "costco", "requiredPOI": "MKPOICategoryStore" },
@@ -156,7 +151,7 @@ The icon lookup chain in the UI is:
 - [ ] No `channels` restriction on parent/grandparent categories
 - [ ] Run the app in DEBUG — `SeedDataValidator` prints ⚠️ for broken refs and pricing invariants
 
-### Merchant (one entry in `SeedDataMerchants.json`)
+### Merchant (one entry in a `SeedDataMerchants_<group>.json` file)
 - [ ] `category` is either auto-generated via `brandCategory` **or** matches a hand-authored `SpendingCategory.id`
 - [ ] `map.patterns` added if the merchant has physical locations; specific enough to avoid over-matching unrelated places
 - [ ] `searchable: false` if the merchant should not appear in Online search

@@ -43,10 +43,17 @@ enum SeedDataValidator {
             }
         }
 
-        // MARK: Unified merchant seed (SeedDataMerchants.json)
+        // MARK: Unified merchant seed (SeedDataMerchants_*.json)
         let seedFile = MerchantSeedDatabase.seed
         if seedFile.merchants.isEmpty {
-            issues.append("SeedDataMerchants.json has no merchants (missing or failed to decode?)")
+            issues.append("No merchants loaded from SeedDataMerchants_*.json (missing or failed to decode?)")
+        }
+        // Entries span multiple group files — catch the same merchant pasted into two files
+        var seenMerchantIDs = Set<String>()
+        for merchant in seedFile.merchants {
+            if !seenMerchantIDs.insert(merchant.id).inserted {
+                issues.append("Merchant '\(merchant.id)': duplicate entry across SeedDataMerchants_*.json files")
+            }
         }
         for merchant in seedFile.merchants {
             if !categoryIDs.contains(merchant.category) {

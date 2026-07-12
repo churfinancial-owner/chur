@@ -1,0 +1,300 @@
+[
+  {
+    "id": "lululemon",
+    "name": "lululemon",
+    "domain": "lululemon.com",
+    "category": "lululemon",
+    "merchantIconName": "icon_lululemon",
+    "isBrandCategory": true,
+    "tags": [
+      "clothing",
+      "yoga",
+      "activewear"
+    ],
+    "sortOrder": 108,
+    "featured": [
+      "US",
+      "HK",
+      "TW"
+    ],
+    "popular": [
+      "US",
+      "HK",
+      "TW",
+      "CA"
+    ],
+    "brandCategory": {
+      "parent": "clothing_stores",
+      "emoji": "🧘"
+    },
+    "map": {
+      "patterns": [
+        "lululemon"
+      ]
+    }
+  },
+  {
+    "id": "alo",
+    "name": "Alo",
+    "domain": "aloyoga.com",
+    "category": "alo",
+    "merchantIconName": "icon_alo",
+    "isBrandCategory": true,
+    "tags": [
+      "clothing",
+      "yoga",
+      "activewear"
+    ],
+    "sortOrder": 109,
+    "featured": [],
+    "popular": [
+      "US"
+    ],
+    "brandCategory": {
+      "parent": "clothing_stores",
+      "emoji": "🧘"
+    },
+    "map": {
+      "patterns": [
+        "alo yoga",
+        "alo"
+      ]
+    }
+  },
+  {
+    "id": "nike",
+    "name": "Nike",
+    "domain": "nike.com",
+    "category": "nike",
+    "merchantIconName": "icon_nike",
+    "isBrandCategory": true,
+    "tags": [
+      "clothing",
+      "sportswear",
+      "shoes"
+    ],
+    "sortOrder": 110,
+    "featured": [
+      "US",
+      "HK",
+      "TW"
+    ],
+    "popular": [
+      "US",
+      "HK",
+      "TW",
+      "CA"
+    ],
+    "brandCategory": {
+      "parent": "clothing_stores",
+      "emoji": "👟"
+    },
+    "map": {
+      "patterns": [
+        "nike"
+      ]
+    }
+  },
+  {
+    "id": "adidas",
+    "name": "Adidas",
+    "domain": "adidas.com",
+    "category": "adidas",
+    "merchantIconName": "icon_adidas",
+    "isBrandCategory": true,
+    "tags": [
+      "clothing",
+      "sportswear",
+      "shoes"
+    ],
+    "sortOrder": 111,
+    "featured": [
+      "US",
+      "HK",
+      "TW"
+    ],
+    "popular": [
+      "US",
+      "HK",
+      "TW",
+      "CA"
+    ],
+    "brandCategory": {
+      "parent": "clothing_stores",
+      "emoji": "👟"
+    },
+    "map": {
+      "patterns": [
+        "adidas"
+      ]
+    }
+  },
+  {
+    "id": "patagonia",
+    "name": "Patagonia",
+    "domain": "patagonia.com",
+    "category": "patagonia",
+    "merchantIconName": "icon_patagonia",
+    "isBrandCategory": true,
+    "tags": [
+      "clothing",
+      "outdoor"
+    ],
+    "sortOrder": 112,
+    "featured": [
+      "US"
+    ],
+    "popular": [
+      "US"
+    ],
+    "brandCategory": {
+      "parent": "clothing_stores",
+      "emoji": "🏔️"
+    },
+    "map": {
+      "patterns": [
+        "patagonia"
+      ]
+    }
+  },
+  {
+    "id": "uniqlo",
+    "name": "Uniqlo",
+    "domain": "uniqlo.com",
+    "category": "uniqlo",
+    "merchantIconName": "icon_uniqlo",
+    "isBrandCategory": true,
+    "tags": [
+      "clothing",
+      "casual"
+    ],
+    "sortOrder": 117,
+    "featured": [
+      "US",
+      "HK",
+      "TW"
+    ],
+    "popular": [
+      "US",
+      "HK",
+      "TW"
+    ],
+    "brandCategory": {
+      "parent": "clothing_stores",
+      "emoji": "👕"
+    },
+    "map": {
+      "patterns": [
+        "uniqlo"
+      ]
+    }
+  },
+  {
+    "id": "asics",
+    "name": "Asics",
+    "domain": "asics.com",
+    "category": "asics",
+    "merchantIconName": "icon_asics",
+    "isBrandCategory": true,
+    "tags": [
+      "clothing",
+      "running",
+      "shoes"
+    ],
+    "sortOrder": 113,
+    "featured": [],
+    "popular": [
+      "US",
+      "HK",
+      "TW"
+    ],
+    "brandCategory": {
+      "parent": "clothing_stores",
+      "emoji": "🏃"
+    },
+    "map": {
+      "patterns": [
+        "asics"
+      ]
+    }
+  },
+  {
+    "id": "puma",
+    "name": "Puma",
+    "domain": "puma.com",
+    "category": "puma",
+    "merchantIconName": "icon_puma",
+    "isBrandCategory": true,
+    "tags": [
+      "clothing",
+      "sportswear",
+      "shoes"
+    ],
+    "sortOrder": 114,
+    "featured": [],
+    "popular": [
+      "US"
+    ],
+    "brandCategory": {
+      "parent": "clothing_stores",
+      "emoji": "🐾"
+    },
+    "map": {
+      "patterns": [
+        "puma"
+      ]
+    }
+  },
+  {
+    "id": "under_armour",
+    "name": "Under Armour",
+    "domain": "underarmour.com",
+    "category": "under_armour",
+    "merchantIconName": "icon_ua",
+    "isBrandCategory": true,
+    "tags": [
+      "clothing",
+      "sportswear"
+    ],
+    "sortOrder": 115,
+    "featured": [],
+    "popular": [
+      "US"
+    ],
+    "brandCategory": {
+      "parent": "clothing_stores",
+      "emoji": "👕"
+    },
+    "map": {
+      "patterns": [
+        "under armour"
+      ]
+    }
+  },
+  {
+    "id": "new_balance",
+    "name": "New Balance",
+    "domain": "newbalance.com",
+    "category": "new_balance",
+    "merchantIconName": "icon_nb",
+    "isBrandCategory": true,
+    "tags": [
+      "clothing",
+      "shoes"
+    ],
+    "sortOrder": 116,
+    "featured": [],
+    "popular": [
+      "US"
+    ],
+    "brandCategory": {
+      "parent": "clothing_stores",
+      "emoji": "👟"
+    },
+    "map": {
+      "patterns": [
+        "new balance"
+      ]
+    }
+  }
+]

@@ -2,13 +2,11 @@
 //  MerchantSeedDatabase.swift
 //  Chur
 //
-//  Unified merchant seed: SeedDataMerchants.json is the single source for
-//  online-search merchants, map name-matching rules, and auto-generated brand
-//  target categories. One entry per merchant replaces the three hand-authored
-//  pieces (online entry + map mapping + brand SpendingCategory).
-//
-//  Legacy SeedDataOnlineMerchants.json / SeedDataMerchantMappings.json are
-//  dead — no code reads them; their data is being migrated into this file.
+//  Unified merchant seed. Merchants live in SeedDataMerchants_<group>.json
+//  files (plain arrays, concatenated at load — grouping is organizational only,
+//  mirroring SeedDataCategories_*.json); non-merchant map rules live in
+//  SeedDataGenericMappings.json. One entry per merchant covers online search,
+//  map name-matching, and an optional auto-generated brand target category.
 //
 
 import Foundation
@@ -119,7 +117,8 @@ struct MerchantEntry: Codable {
 
 // MARK: - Seed File
 
-struct MerchantSeedFile: Codable {
+/// In-memory aggregate of all SeedDataMerchants_*.json files + SeedDataGenericMappings.json.
+struct MerchantSeedFile {
     let merchants: [MerchantEntry]
     let genericMappings: MerchantMappings?
 }
@@ -135,21 +134,40 @@ struct MerchantSeedDatabase {
     }
 
     private static func loadSeed() -> MerchantSeedFile {
-        guard let url = Bundle.main.url(forResource: "SeedDataMerchants", withExtension: "json") else {
-            #if DEBUG
-            print("❌ MerchantSeedDatabase: SeedDataMerchants.json not found in bundle")
-            #endif
-            return MerchantSeedFile(merchants: [], genericMappings: nil)
+        var merchants: [MerchantEntry] = []
+        let merchantURLs = Bundle.main.urls(forResourcesWithExtension: "json", subdirectory: nil)?
+            .filter { $0.lastPathComponent.hasPrefix("SeedDataMerchants_") } ?? []
+
+        for url in merchantURLs {
+            do {
+                let data = try Data(contentsOf: url)
+                let batch = try JSONDecoder().decode([MerchantEntry].self, from: data)
+                merchants.append(contentsOf: batch)
+            } catch {
+                #if DEBUG
+                print("❌ MerchantSeedDatabase: Failed to decode '\(url.lastPathComponent)': \(error)")
+                #endif
+            }
         }
-        do {
-            let data = try Data(contentsOf: url)
-            return try JSONDecoder().decode(MerchantSeedFile.self, from: data)
-        } catch {
-            #if DEBUG
-            print("❌ MerchantSeedDatabase: Failed to decode: \(error)")
-            #endif
-            return MerchantSeedFile(merchants: [], genericMappings: nil)
+        #if DEBUG
+        if merchantURLs.isEmpty {
+            print("❌ MerchantSeedDatabase: no SeedDataMerchants_*.json files found in bundle")
         }
+        #endif
+
+        var genericMappings: MerchantMappings?
+        if let url = Bundle.main.url(forResource: "SeedDataGenericMappings", withExtension: "json") {
+            do {
+                let data = try Data(contentsOf: url)
+                genericMappings = try JSONDecoder().decode(MerchantMappings.self, from: data)
+            } catch {
+                #if DEBUG
+                print("❌ MerchantSeedDatabase: Failed to decode SeedDataGenericMappings.json: \(error)")
+                #endif
+            }
+        }
+
+        return MerchantSeedFile(merchants: merchants, genericMappings: genericMappings)
     }
 
     /// Merchants shown in the Online search mode (searchable != false).

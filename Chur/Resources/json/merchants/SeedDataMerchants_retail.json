@@ -1,0 +1,106 @@
+[
+  {
+    "id": "ebay",
+    "name": "eBay",
+    "domain": "ebay.com",
+    "category": "ebay",
+    "merchantIconName": "icon_ebay",
+    "isBrandCategory": true,
+    "tags": [
+      "auction",
+      "marketplace"
+    ],
+    "sortOrder": 4,
+    "featured": [
+      "US",
+      "HK"
+    ],
+    "popular": [
+      "US",
+      "HK",
+      "TW",
+      "CA"
+    ],
+    "map": {
+      "patterns": [
+        "ebay"
+      ]
+    }
+  },
+  {
+    "id": "walmart",
+    "name": "Walmart",
+    "domain": "walmart.com",
+    "category": "walmart",
+    "merchantIconName": "icon_walmart",
+    "isBrandCategory": true,
+    "tags": [
+      "Walmart+",
+      "Walmart Grocery"
+    ],
+    "sortOrder": 2,
+    "featured": [
+      "US"
+    ],
+    "popular": [
+      "US"
+    ],
+    "map": {
+      "patterns": [
+        "walmart"
+      ]
+    }
+  },
+  {
+    "id": "target",
+    "name": "Target",
+    "domain": "target.com",
+    "category": "target_superstore",
+    "merchantIconName": "icon_target",
+    "isBrandCategory": true,
+    "tags": [
+      "Target"
+    ],
+    "sortOrder": 3,
+    "featured": [
+      "US"
+    ],
+    "popular": [
+      "US"
+    ],
+    "map": {
+      "patterns": [
+        "target"
+      ]
+    }
+  },
+  {
+    "id": "amazon",
+    "name": "Amazon",
+    "domain": "amazon.com",
+    "category": "amazon",
+    "merchantIconName": "icon_amazon",
+    "isBrandCategory": true,
+    "tags": [
+      "AWS",
+      "Amazon Prime",
+      "Amazon Fresh"
+    ],
+    "sortOrder": 1,
+    "featured": [
+      "US",
+      "HK"
+    ],
+    "popular": [
+      "US",
+      "HK",
+      "TW",
+      "CA"
+    ],
+    "map": {
+      "patterns": [
+        "amazon"
+      ]
+    }
+  }
+]
