@@ -15,6 +15,7 @@ struct UserDashboardView: View {
     @State private var selectedYear: Int = Calendar.current.component(.year, from: Date.now)
     #if DEBUG
     @State private var showingTimeTravel = false
+    @State private var showingReminderPreview = false
     #endif
     
     var currentUser: User? { users.first }
@@ -91,6 +92,7 @@ struct UserDashboardView: View {
             }
             #if DEBUG
             .sheet(isPresented: $showingTimeTravel) { TimeTravelSheet() }
+            .sheet(isPresented: $showingReminderPreview) { ReminderPreviewSheet() }
             #endif
             .alert("Reset All Data?", isPresented: $showResetAlert) {
                 Button("Cancel", role: .cancel) { }
@@ -172,6 +174,10 @@ struct UserDashboardView: View {
                         Menu {
                         Button(action: { showingTimeTravel = true }) {
                             Label("Time Travel", systemImage: "clock.arrow.2.circlepath")
+                        }
+
+                        Button(action: { showingReminderPreview = true }) {
+                            Label("Reminder Preview", systemImage: "bell.badge")
                         }
                         
                         Button(action: {
