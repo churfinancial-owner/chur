@@ -1,0 +1,421 @@
+[
+    {
+        "id": "flights",
+        "nameEN": "Flights",
+        "nameZH_Hans": "航班",
+        "nameZH_HK": "機票",
+        "nameZH_TW": "機票",
+        "emoji": "✈️",
+        "sortOrder": 21,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "travel",
+        "level": "child",
+        "categoryLinks": [
+            {
+                "id": "travel",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "korean_airline",
+        "nameEN": "Korean Airline",
+        "nameZH_Hans": "大韩航空",
+        "nameZH_HK": "大韓航空",
+        "nameZH_TW": "大韓航空",
+        "emoji": "✈️",
+        "iconName": "icon_korean_airline",
+        "sortOrder": 22,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "skyteam_airlines",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "skyteam_airlines",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "oneworld_airlines",
+        "nameEN": "Oneworld Alliance",
+        "nameZH_Hans": "寰宇一家",
+        "nameZH_HK": "寰宇一家",
+        "nameZH_TW": "寰宇一家",
+        "emoji": "✈️",
+        "iconName": "icon_oneworld_alliance",
+        "sortOrder": 25,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "flights",
+        "level": "groupTarget",
+        "categoryLinks": [
+            {
+                "id": "flights",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "british_airways",
+        "nameEN": "British Airways",
+        "nameZH_Hans": "英国航空",
+        "nameZH_HK": "英國航空",
+        "nameZH_TW": "英國航空",
+        "emoji": "✈️",
+        "iconName": "icon_british_airways",
+        "sortOrder": 25,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "oneworld_airlines",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "oneworld_airlines",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "iberia_airline",
+        "nameEN": "Iberia",
+        "nameZH_Hans": "西班牙国家航空",
+        "nameZH_HK": "西班牙國家航空",
+        "nameZH_TW": "西班牙國家航空",
+        "emoji": "✈️",
+        "iconName": "icon_iberia_airline",
+        "sortOrder": 25,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "oneworld_airlines",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "oneworld_airlines",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "aer_lingus_airline",
+        "nameEN": "Aer Lingus",
+        "nameZH_Hans": "爱尔兰航空",
+        "nameZH_HK": "愛爾蘭航空",
+        "nameZH_TW": "愛爾蘭航空",
+        "emoji": "✈️",
+        "iconName": "icon_aer_lingus_airline",
+        "sortOrder": 25,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "oneworld_airlines",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "oneworld_airlines",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "cathay_airline",
+        "nameEN": "Cathay Airline",
+        "nameZH_Hans": "国泰航空",
+        "nameZH_HK": "國泰航空",
+        "nameZH_TW": "國泰航空",
+        "emoji": "✈️",
+        "iconName": "icon_cathay",
+        "sortOrder": 25,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "oneworld_airlines",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "oneworld_airlines",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "hkexpress_airline",
+        "nameEN": "HK Express",
+        "nameZH_Hans": "香港快运",
+        "nameZH_HK": "香港快運",
+        "nameZH_TW": "香港快運",
+        "emoji": "✈️",
+        "iconName": "icon_hkexpress",
+        "sortOrder": 25,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "oneworld_airlines",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "oneworld_airlines",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "star_alliance_airlines",
+        "nameEN": "Star Alliance",
+        "nameZH_Hans": "星空联盟",
+        "nameZH_HK": "星空聯盟",
+        "nameZH_TW": "星空聯盟",
+        "emoji": "✈️",
+        "iconName": "icon_star_alliance",
+        "sortOrder": 25,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "flights",
+        "level": "groupTarget",
+        "categoryLinks": [
+            {
+                "id": "flights",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "aircanada_airline",
+        "nameEN": "Air Canada",
+        "nameZH_Hans": "加拿大航空",
+        "nameZH_HK": "加拿大航空",
+        "nameZH_TW": "加拿大航空",
+        "emoji": "✈️",
+        "iconName": "icon_aircanada_airline",
+        "sortOrder": 25,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "star_alliance_airlines",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "star_alliance_airlines",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "jetblue_airline",
+        "nameEN": "JetBlue Airways",
+        "nameZH_Hans": "捷蓝航空",
+        "nameZH_HK": "捷藍航空",
+        "nameZH_TW": "捷藍航空",
+        "emoji": "✈️",
+        "iconName": "icon_jetblue",
+        "sortOrder": 25,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "flights",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "flights",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "spirit_airline",
+        "nameEN": "Spirit Airline",
+        "nameZH_Hans": "精神航空",
+        "nameZH_HK": "精神航空",
+        "nameZH_TW": "精神航空",
+        "emoji": "✈️",
+        "iconName": "icon_spirit",
+        "sortOrder": 25,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "flights",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "flights",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "allegiant_airline",
+        "nameEN": "Allegiant Airline",
+        "nameZH_Hans": "忠实航空",
+        "nameZH_HK": "忠實航空",
+        "nameZH_TW": "忠實航空",
+        "emoji": "✈️",
+        "iconName": "icon_allegiant",
+        "sortOrder": 25,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "flights",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "flights",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "skyteam_airlines",
+        "nameEN": "SkyTeam Alliance",
+        "nameZH_Hans": "天合联盟",
+        "nameZH_HK": "天合聯盟",
+        "nameZH_TW": "天合聯盟",
+        "emoji": "✈️",
+        "iconName": "icon_skyteam_alliance",
+        "sortOrder": 25,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "flights",
+        "level": "groupTarget",
+        "categoryLinks": [
+            {
+                "id": "flights",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "delta_airline",
+        "nameEN": "Delta Airline",
+        "nameZH_Hans": "达美航空",
+        "nameZH_HK": "達美航空",
+        "nameZH_TW": "達美航空",
+        "emoji": "✈️",
+        "iconName": "icon_delta",
+        "sortOrder": 25,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "skyteam_airlines",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "skyteam_airlines",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "virgin_atlantic_airline",
+        "nameEN": "Virgin Atlantic",
+        "nameZH_Hans": "维珍大西洋",
+        "nameZH_HK": "維珍大西洋",
+        "nameZH_TW": "維珍大西洋",
+        "emoji": "✈️",
+        "iconName": "icon_virgin",
+        "sortOrder": 25,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "skyteam_airlines",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "skyteam_airlines",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "american_airline",
+        "nameEN": "American Airline",
+        "nameZH_Hans": "美国航空",
+        "nameZH_HK": "美國航空",
+        "nameZH_TW": "美國航空",
+        "emoji": "✈️",
+        "iconName": "icon_american_airline",
+        "sortOrder": 26,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "oneworld_airlines",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "oneworld_airlines",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "united_airline",
+        "nameEN": "United Airline",
+        "nameZH_Hans": "联合航空",
+        "nameZH_HK": "聯合航空",
+        "nameZH_TW": "聯合航空",
+        "emoji": "✈️",
+        "iconName": "icon_united",
+        "sortOrder": 26,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "star_alliance_airlines",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "star_alliance_airlines",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "alaska_airline",
+        "nameEN": "Alaska Airline",
+        "nameZH_Hans": "阿拉斯加航空",
+        "nameZH_HK": "阿拉斯加航空",
+        "nameZH_TW": "阿拉斯加航空",
+        "emoji": "✈️",
+        "iconName": "icon_alaska_airline",
+        "sortOrder": 27,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "oneworld_airlines",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "oneworld_airlines",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "hawaiian_airline",
+        "nameEN": "Hawaiian Airline",
+        "nameZH_Hans": "夏威夷航空",
+        "nameZH_HK": "夏威夷航空",
+        "nameZH_TW": "夏威夷航空",
+        "emoji": "✈️",
+        "iconName": "icon_hawaiian_airline",
+        "sortOrder": 27,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "flights",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "flights",
+                "weight": 1.0
+            }
+        ]
+    },
+    {
+        "id": "southwest_airline",
+        "nameEN": "Southwest Airline",
+        "nameZH_Hans": "西南航空",
+        "nameZH_HK": "西南航空",
+        "nameZH_TW": "西南航空",
+        "emoji": "✈️",
+        "iconName": "icon_southwest",
+        "sortOrder": 27,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "flights",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "flights",
+                "weight": 1.0
+            }
+        ]
+    }
+]

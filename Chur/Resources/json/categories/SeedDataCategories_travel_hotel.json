@@ -1,0 +1,181 @@
+[
+  {
+    "id": "hotels",
+    "nameEN": "Hotels",
+    "nameZH_Hans": "酒店",
+    "nameZH_HK": "酒店",
+    "nameZH_TW": "飯店",
+    "emoji": "🏨",
+    "sortOrder": 22,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "travel",
+    "level": "child",
+    "categoryLinks": [
+      {
+        "id": "travel",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "virgin_hotels",
+    "nameEN": "Virgin Hotels",
+    "nameZH_Hans": "维珍酒店",
+    "nameZH_HK": "維珍酒店",
+    "nameZH_TW": "維珍酒店",
+    "emoji": "🏨",
+    "iconName": "icon_virgin",
+    "sortOrder": 119,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "flights",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "flights",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "choice_hotels",
+    "nameEN": "Choice Hotels",
+    "nameZH_Hans": "Choice 酒店",
+    "nameZH_HK": "Choice 酒店",
+    "nameZH_TW": "Choice 飯店",
+    "emoji": "🏨",
+    "iconName": "icon_choice_hotel",
+    "sortOrder": 119,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "hotels",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "hotels",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "best_western_hotels",
+    "nameEN": "Best Western Hotels",
+    "nameZH_Hans": "Best Western 酒店",
+    "nameZH_HK": "Best Western 酒店",
+    "nameZH_TW": "Best Western 飯店",
+    "emoji": "🏨",
+    "iconName": "icon_bestwestern",
+    "sortOrder": 119,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "hotels",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "hotels",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "ihg_hotels",
+    "nameEN": "IHG Hotels",
+    "nameZH_Hans": "IHG 酒店",
+    "nameZH_HK": "IHG 酒店",
+    "nameZH_TW": "IHG 飯店",
+    "emoji": "🏨",
+    "iconName": "icon_ihg",
+    "sortOrder": 119,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "hotels",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "hotels",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "hilton_hotels",
+    "nameEN": "Hilton Hotels",
+    "nameZH_Hans": "Hilton 酒店",
+    "nameZH_HK": "Hilton 酒店",
+    "nameZH_TW": "Hilton 飯店",
+    "emoji": "🏨",
+    "iconName": "icon_hilton",
+    "sortOrder": 119,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "hotels",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "hotels",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "wyndham_hotels",
+    "nameEN": "Wyndham Hotels",
+    "nameZH_Hans": "温德姆酒店",
+    "nameZH_HK": "Wyndham酒店",
+    "nameZH_TW": "温德姆飯店",
+    "emoji": "🏨",
+    "iconName": "icon_wyndham_hotels",
+    "sortOrder": 119,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "hotels",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "hotels",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "marriott_hotels",
+    "nameEN": "Marriott Hotels",
+    "nameZH_Hans": "Marriott 酒店",
+    "nameZH_HK": "Marriott 酒店",
+    "nameZH_TW": "Marriott 飯店",
+    "emoji": "🏨",
+    "iconName": "icon_marriott",
+    "sortOrder": 120,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "hotels",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "hotels",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "hyatt_hotels",
+    "nameEN": "Hyatt Hotels",
+    "nameZH_Hans": "Hyatt 酒店",
+    "nameZH_HK": "Hyatt 酒店",
+    "nameZH_TW": "Hyatt 飯店",
+    "emoji": "🏨",
+    "iconName": "icon_hyatt",
+    "sortOrder": 121,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "hotels",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "hotels",
+        "weight": 1.0
+      }
+    ]
+  }
+]

@@ -1,0 +1,445 @@
+[
+  {
+    "id": "travel",
+    "nameEN": "Travel",
+    "nameZH_Hans": "旅游",
+    "nameZH_HK": "旅遊",
+    "nameZH_TW": "旅遊",
+    "emoji": "🏝️",
+    "sortOrder": 2,
+    "isDefault": true,
+    "isParent": true,
+    "level": "parent",
+    "categoryLinks": null
+  },
+  {
+    "id": "hotels",
+    "nameEN": "Hotels",
+    "nameZH_Hans": "酒店",
+    "nameZH_HK": "酒店",
+    "nameZH_TW": "飯店",
+    "emoji": "🏨",
+    "sortOrder": 22,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "travel",
+    "level": "child",
+    "categoryLinks": [
+      {
+        "id": "travel",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "car_rental",
+    "nameEN": "Car Rental",
+    "nameZH_Hans": "租车",
+    "nameZH_HK": "租車",
+    "nameZH_TW": "租車",
+    "emoji": "🚗",
+    "sortOrder": 23,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "travel",
+    "level": "child",
+    "categoryLinks": [
+      {
+        "id": "travel",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "cruises",
+    "nameEN": "Cruises",
+    "nameZH_Hans": "游轮",
+    "nameZH_HK": "郵輪",
+    "nameZH_TW": "郵輪",
+    "emoji": "🚢",
+    "sortOrder": 24,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "travel",
+    "level": "child",
+    "categoryLinks": [
+      {
+        "id": "travel",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "travel_agency",
+    "nameEN": "Travel Agency",
+    "nameZH_Hans": "旅行社",
+    "nameZH_HK": "旅行社",
+    "nameZH_TW": "旅行社",
+    "emoji": "🧳",
+    "sortOrder": 28,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "travel",
+    "level": "child",
+    "categoryLinks": [
+      {
+        "id": "travel",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "amex_travel_portal",
+    "nameEN": "Amex Travel",
+    "nameZH_Hans": "Amex旅行",
+    "nameZH_HK": "Amex旅遊",
+    "nameZH_TW": "Amex旅遊",
+    "emoji": "🖥️",
+    "iconName": "icon_amex",
+    "sortOrder": 105,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "travel",
+    "excludeFromParent": true,
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "travel",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "chase_travel_portal_flights",
+    "nameEN": "Portal: Flight",
+    "nameZH_Hans": "Portal 机票",
+    "nameZH_HK": "Portal 機票",
+    "nameZH_TW": "Portal 機票",
+    "emoji": "🖥️",
+    "iconName": "icon_chase",
+    "sortOrder": 106,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "flights",
+    "excludeFromParent": true,
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "flights",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "citi_travel_portal",
+    "nameEN": "Portal: Hotels/Cars/Cruises..",
+    "nameZH_Hans": "Portal 酒店,租车..",
+    "nameZH_HK": "Portal 酒店,租車..",
+    "nameZH_TW": "Portal 飯店,租車..",
+    "emoji": "🖥️",
+    "iconName": "icon_citi",
+    "sortOrder": 106,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "travel",
+    "excludeFromParent": true,
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "travel",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "citi_travel_portal_flight",
+    "nameEN": "Portal: Flight",
+    "nameZH_Hans": "Portal 机票",
+    "nameZH_HK": "Portal 機票",
+    "nameZH_TW": "Portal 機票",
+    "emoji": "🖥️",
+    "iconName": "icon_citi",
+    "sortOrder": 106,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "travel",
+    "excludeFromParent": true,
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "travel",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "chase_travel_portal",
+    "nameEN": "Portal: Hotels/Cars",
+    "nameZH_Hans": "Portal 酒店,租车..",
+    "nameZH_HK": "Portal 酒店,租車..",
+    "nameZH_TW": "Portal 飯店,租車..",
+    "emoji": "🖥️",
+    "iconName": "icon_chase",
+    "sortOrder": 106,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "travel",
+    "excludeFromParent": true,
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "travel",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "bofa_travel_portal",
+    "nameEN": "Travel Portals",
+    "nameZH_Hans": "Portal 机票",
+    "nameZH_HK": "Portal 機票",
+    "nameZH_TW": "Portal 機票",
+    "emoji": "🖥️",
+    "iconName": "icon_bofa",
+    "sortOrder": 107,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "flights",
+    "excludeFromParent": true,
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "flights",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "cap1_travel_portal_flight",
+    "nameEN": "Portal Flights",
+    "nameZH_Hans": "Portal 机票",
+    "nameZH_HK": "Portal 機票",
+    "nameZH_TW": "Portal 機票",
+    "emoji": "🖥️",
+    "iconName": "icon_cap1",
+    "sortOrder": 107,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "flights",
+    "excludeFromParent": true,
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "flights",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "robinhood_travel_portal",
+    "nameEN": "Travel Portals",
+    "nameZH_Hans": "Travel Portal",
+    "nameZH_HK": "Travel Portal",
+    "nameZH_TW": "Travel Portal",
+    "emoji": "🖥️",
+    "iconName": "icon_robinhood",
+    "sortOrder": 107,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "travel",
+    "excludeFromParent": true,
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "travel",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "cap1_travel_portal",
+    "nameEN": "Portal Hotel/Car",
+    "nameZH_Hans": "Portal 酒店,租车..",
+    "nameZH_HK": "Portal 酒店,租車..",
+    "nameZH_TW": "Portal 飯店,租車..",
+    "emoji": "🖥️",
+    "iconName": "icon_cap1",
+    "sortOrder": 107,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "travel",
+    "excludeFromParent": true,
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "travel",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "cap1_travel_portal_ent",
+    "nameEN": "Portal Entertainment",
+    "nameZH_Hans": "Portal 娱乐",
+    "nameZH_HK": "Portal 娛樂",
+    "nameZH_TW": "Portal 娛樂",
+    "emoji": "🖥️",
+    "iconName": "icon_cap1",
+    "sortOrder": 107,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "travel",
+    "excludeFromParent": true,
+    "level": "entertainment",
+    "categoryLinks": [
+      {
+        "id": "entertainment",
+        "weight": 1.0
+      }
+    ]
+  },
+
+  {
+    "id": "usbank_travel_portal_flights",
+    "nameEN": "Portal: Flight",
+    "nameZH_Hans": "Portal 机票",
+    "nameZH_HK": "Portal 機票",
+    "nameZH_TW": "Portal 機票",
+    "emoji": "🖥️",
+    "iconName": "icon_usbank",
+    "sortOrder": 108,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "flights",
+    "excludeFromParent": true,
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "flights",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "usbank_travel_portal",
+    "nameEN": "Portal: Hotels/Cars",
+    "nameZH_Hans": "Portal 酒店,租车..",
+    "nameZH_HK": "Portal 酒店,租車..",
+    "nameZH_TW": "Portal 飯店,租車..",
+    "emoji": "🖥️",
+    "iconName": "icon_usbank",
+    "sortOrder": 108,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "travel",
+    "excludeFromParent": true,
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "travel",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "united_travel_portal",
+    "nameEN": "Renowned Hotels & Resorts",
+    "nameZH_Hans": "Renowned",
+    "nameZH_HK": "Renowned",
+    "nameZH_TW": "Renowned",
+    "emoji": "🖥️",
+    "iconName": "icon_united",
+    "sortOrder": 109,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "travel",
+    "excludeFromParent": true,
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "travel",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "american_air_travel_portal",
+    "nameEN": "AA Travel Portal",
+    "nameZH_Hans": "AA Travel Portal",
+    "nameZH_HK": "AA Travel Portal",
+    "nameZH_TW": "AA Travel Portal",
+    "emoji": "🖥️",
+    "iconName": "icon_american_airline",
+    "sortOrder": 110,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "travel",
+    "excludeFromParent": true,
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "travel",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "cruises_Norwegian",
+    "nameEN": "Norwegian Cruises",
+    "nameZH_Hans": "Norwegian 游轮",
+    "nameZH_HK": "Norwegian 郵輪",
+    "nameZH_TW": "Norwegian 郵輪",
+    "emoji": "🚢",
+    "sortOrder": 130,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "cruises",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "cruises",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "virgin_voyages",
+    "nameEN": "Virgin Voyages",
+    "nameZH_Hans": "维珍游轮",
+    "nameZH_HK": "維珍郵輪",
+    "nameZH_TW": "維珍郵輪",
+    "emoji": "🚢",
+    "iconName": "icon_virgin",
+    "sortOrder": 131,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "cruises",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "cruises",
+        "weight": 1.0
+      }
+    ]
+  },
+  {
+    "id": "expedia",
+    "nameEN": "Expedia",
+    "nameZH_Hans": "Expedia 集团",
+    "nameZH_HK": "Expedia 集團",
+    "nameZH_TW": "Expedia 集團",
+    "emoji": "🧳",
+    "iconName": "icon_expedia",
+    "sortOrder": 280,
+    "isDefault": false,
+    "isParent": false,
+    "parentCategoryID": "travel_agency",
+    "level": "target",
+    "categoryLinks": [
+      {
+        "id": "travel_agency",
+        "weight": 1.0
+      }
+    ]
+  }
+]

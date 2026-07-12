@@ -1,0 +1,1012 @@
+{
+  "merchants": [
+    {
+      "id": "ebay",
+      "name": "eBay",
+      "domain": "ebay.com",
+      "category": "ebay",
+      "merchantIconName": "icon_ebay",
+      "isBrandCategory": true,
+      "tags": [
+        "auction",
+        "marketplace"
+      ],
+      "sortOrder": 4,
+      "featured": [
+        "US",
+        "HK"
+      ],
+      "popular": [
+        "US",
+        "HK",
+        "TW",
+        "CA"
+      ],
+      "map": {
+        "patterns": [
+          "ebay"
+        ]
+      }
+    },
+    {
+      "id": "lululemon",
+      "name": "lululemon",
+      "domain": "lululemon.com",
+      "category": "lululemon",
+      "merchantIconName": "icon_lululemon",
+      "isBrandCategory": true,
+      "tags": [
+        "clothing",
+        "yoga",
+        "activewear"
+      ],
+      "sortOrder": 108,
+      "featured": [
+        "US",
+        "HK",
+        "TW"
+      ],
+      "popular": [
+        "US",
+        "HK",
+        "TW",
+        "CA"
+      ],
+      "brandCategory": {
+        "parent": "clothing_stores",
+        "emoji": "🧘"
+      },
+      "map": {
+        "patterns": [
+          "lululemon"
+        ]
+      }
+    },
+    {
+      "id": "alo",
+      "name": "Alo",
+      "domain": "aloyoga.com",
+      "category": "alo",
+      "merchantIconName": "icon_alo",
+      "isBrandCategory": true,
+      "tags": [
+        "clothing",
+        "yoga",
+        "activewear"
+      ],
+      "sortOrder": 109,
+      "featured": [],
+      "popular": [
+        "US"
+      ],
+      "brandCategory": {
+        "parent": "clothing_stores",
+        "emoji": "🧘"
+      },
+      "map": {
+        "patterns": [
+          "alo yoga",
+          "alo"
+        ]
+      }
+    },
+    {
+      "id": "nike",
+      "name": "Nike",
+      "domain": "nike.com",
+      "category": "nike",
+      "merchantIconName": "icon_nike",
+      "isBrandCategory": true,
+      "tags": [
+        "clothing",
+        "sportswear",
+        "shoes"
+      ],
+      "sortOrder": 110,
+      "featured": [
+        "US",
+        "HK",
+        "TW"
+      ],
+      "popular": [
+        "US",
+        "HK",
+        "TW",
+        "CA"
+      ],
+      "brandCategory": {
+        "parent": "clothing_stores",
+        "emoji": "👟"
+      },
+      "map": {
+        "patterns": [
+          "nike"
+        ]
+      }
+    },
+    {
+      "id": "adidas",
+      "name": "Adidas",
+      "domain": "adidas.com",
+      "category": "adidas",
+      "merchantIconName": "icon_adidas",
+      "isBrandCategory": true,
+      "tags": [
+        "clothing",
+        "sportswear",
+        "shoes"
+      ],
+      "sortOrder": 111,
+      "featured": [
+        "US",
+        "HK",
+        "TW"
+      ],
+      "popular": [
+        "US",
+        "HK",
+        "TW",
+        "CA"
+      ],
+      "brandCategory": {
+        "parent": "clothing_stores",
+        "emoji": "👟"
+      },
+      "map": {
+        "patterns": [
+          "adidas"
+        ]
+      }
+    },
+    {
+      "id": "patagonia",
+      "name": "Patagonia",
+      "domain": "patagonia.com",
+      "category": "patagonia",
+      "merchantIconName": "icon_patagonia",
+      "isBrandCategory": true,
+      "tags": [
+        "clothing",
+        "outdoor"
+      ],
+      "sortOrder": 112,
+      "featured": [
+        "US"
+      ],
+      "popular": [
+        "US"
+      ],
+      "brandCategory": {
+        "parent": "clothing_stores",
+        "emoji": "🏔️"
+      },
+      "map": {
+        "patterns": [
+          "patagonia"
+        ]
+      }
+    },
+    {
+      "id": "uniqlo",
+      "name": "Uniqlo",
+      "domain": "uniqlo.com",
+      "category": "uniqlo",
+      "merchantIconName": "icon_uniqlo",
+      "isBrandCategory": true,
+      "tags": [
+        "clothing",
+        "casual"
+      ],
+      "sortOrder": 117,
+      "featured": [
+        "US",
+        "HK",
+        "TW"
+      ],
+      "popular": [
+        "US",
+        "HK",
+        "TW"
+      ],
+      "brandCategory": {
+        "parent": "clothing_stores",
+        "emoji": "👕"
+      },
+      "map": {
+        "patterns": [
+          "uniqlo"
+        ]
+      }
+    },
+    {
+      "id": "asics",
+      "name": "Asics",
+      "domain": "asics.com",
+      "category": "asics",
+      "merchantIconName": "icon_asics",
+      "isBrandCategory": true,
+      "tags": [
+        "clothing",
+        "running",
+        "shoes"
+      ],
+      "sortOrder": 113,
+      "featured": [],
+      "popular": [
+        "US",
+        "HK",
+        "TW"
+      ],
+      "brandCategory": {
+        "parent": "clothing_stores",
+        "emoji": "🏃"
+      },
+      "map": {
+        "patterns": [
+          "asics"
+        ]
+      }
+    },
+    {
+      "id": "puma",
+      "name": "Puma",
+      "domain": "puma.com",
+      "category": "puma",
+      "merchantIconName": "icon_puma",
+      "isBrandCategory": true,
+      "tags": [
+        "clothing",
+        "sportswear",
+        "shoes"
+      ],
+      "sortOrder": 114,
+      "featured": [],
+      "popular": [
+        "US"
+      ],
+      "brandCategory": {
+        "parent": "clothing_stores",
+        "emoji": "🐾"
+      },
+      "map": {
+        "patterns": [
+          "puma"
+        ]
+      }
+    },
+    {
+      "id": "under_armour",
+      "name": "Under Armour",
+      "domain": "underarmour.com",
+      "category": "under_armour",
+      "merchantIconName": "icon_ua",
+      "isBrandCategory": true,
+      "tags": [
+        "clothing",
+        "sportswear"
+      ],
+      "sortOrder": 115,
+      "featured": [],
+      "popular": [
+        "US"
+      ],
+      "brandCategory": {
+        "parent": "clothing_stores",
+        "emoji": "👕"
+      },
+      "map": {
+        "patterns": [
+          "under armour"
+        ]
+      }
+    },
+    {
+      "id": "new_balance",
+      "name": "New Balance",
+      "domain": "newbalance.com",
+      "category": "new_balance",
+      "merchantIconName": "icon_nb",
+      "isBrandCategory": true,
+      "tags": [
+        "clothing",
+        "shoes"
+      ],
+      "sortOrder": 116,
+      "featured": [],
+      "popular": [
+        "US"
+      ],
+      "brandCategory": {
+        "parent": "clothing_stores",
+        "emoji": "👟"
+      },
+      "map": {
+        "patterns": [
+          "new balance"
+        ]
+      }
+    },
+    {
+      "id": "mcdonalds",
+      "name": "McDonald's",
+      "domain": "mcdonalds.com",
+      "category": "mcdonalds",
+      "merchantIconName": "icon_mcdonalds",
+      "isBrandCategory": false,
+      "tags": [
+        "fast food",
+        "burger"
+      ],
+      "sortOrder": 19,
+      "featured": [
+        "US"
+      ],
+      "popular": [
+        "US",
+        "HK",
+        "TW"
+      ],
+      "brandCategory": {
+        "parent": "fast_food",
+        "emoji": "🍔"
+      },
+      "map": {
+        "patterns": [
+          "mcdonald's",
+          "mcdonalds"
+        ]
+      }
+    },
+    {
+      "id": "burgerking",
+      "name": "Burger King",
+      "domain": "bk.com",
+      "category": "burgerking",
+      "merchantIconName": "icon_burgerking",
+      "isBrandCategory": false,
+      "tags": [
+        "fast food",
+        "burger"
+      ],
+      "sortOrder": 20,
+      "featured": [],
+      "popular": [
+        "US"
+      ],
+      "brandCategory": {
+        "parent": "fast_food",
+        "emoji": "🍔"
+      },
+      "map": {
+        "patterns": [
+          "burger king"
+        ]
+      }
+    },
+    {
+      "id": "innout",
+      "name": "In-N-Out Burger",
+      "domain": "in-n-out.com",
+      "category": "innout",
+      "merchantIconName": "icon_innout",
+      "isBrandCategory": false,
+      "tags": [
+        "fast food",
+        "burger"
+      ],
+      "sortOrder": 21,
+      "featured": [
+        "US"
+      ],
+      "popular": [
+        "US"
+      ],
+      "brandCategory": {
+        "parent": "fast_food",
+        "emoji": "🍔"
+      },
+      "map": {
+        "patterns": [
+          "in-n-out"
+        ]
+      }
+    },
+    {
+      "id": "kfc",
+      "name": "KFC",
+      "domain": "kfc.com",
+      "category": "kfc",
+      "merchantIconName": "icon_kfc",
+      "isBrandCategory": false,
+      "tags": [
+        "fast food",
+        "chicken"
+      ],
+      "sortOrder": 22,
+      "featured": [],
+      "popular": [
+        "US",
+        "HK",
+        "TW"
+      ],
+      "brandCategory": {
+        "parent": "fast_food",
+        "emoji": "🍔"
+      },
+      "map": {
+        "patterns": [
+          "kfc"
+        ]
+      }
+    },
+    {
+      "id": "tacobells",
+      "name": "Taco Bell",
+      "domain": "tacobell.com",
+      "category": "tacobells",
+      "merchantIconName": "icon_tacobells",
+      "isBrandCategory": false,
+      "tags": [
+        "fast food",
+        "taco"
+      ],
+      "sortOrder": 23,
+      "featured": [],
+      "popular": [
+        "US"
+      ],
+      "brandCategory": {
+        "parent": "fast_food",
+        "emoji": "🍔"
+      },
+      "map": {
+        "patterns": [
+          "taco bell"
+        ]
+      }
+    },
+    {
+      "id": "chipotle",
+      "name": "Chipotle",
+      "domain": "chipotle.com",
+      "category": "chipotle",
+      "merchantIconName": "icon_chipotle",
+      "isBrandCategory": false,
+      "tags": [
+        "fast food",
+        "mexican"
+      ],
+      "sortOrder": 24,
+      "featured": [],
+      "popular": [
+        "US"
+      ],
+      "brandCategory": {
+        "parent": "fast_food",
+        "emoji": "🍔"
+      },
+      "map": {
+        "patterns": [
+          "chipotle"
+        ]
+      }
+    },
+    {
+      "id": "starbucks",
+      "name": "Starbucks",
+      "domain": "starbucks.com",
+      "category": "starbucks",
+      "merchantIconName": "icon_starbucks",
+      "isBrandCategory": true,
+      "tags": [
+        "coffee",
+        "cafe"
+      ],
+      "sortOrder": 4,
+      "featured": [
+        "US",
+        "HK",
+        "TW"
+      ],
+      "popular": [
+        "US",
+        "HK",
+        "TW",
+        "CA"
+      ],
+      "brandCategory": {
+        "parent": "cafe",
+        "emoji": "☕"
+      },
+      "map": {
+        "patterns": [
+          "starbucks"
+        ]
+      }
+    },
+    {
+      "id": "peetscoffee",
+      "name": "Peet's Coffee",
+      "domain": "peets.com",
+      "category": "peetscoffee",
+      "merchantIconName": "icon_peetscoffee",
+      "isBrandCategory": true,
+      "tags": [
+        "coffee",
+        "cafe"
+      ],
+      "sortOrder": 19,
+      "featured": [],
+      "popular": [
+        "US"
+      ],
+      "brandCategory": {
+        "parent": "cafe",
+        "emoji": "☕"
+      },
+      "map": {
+        "patterns": [
+          "peet's coffee",
+          "peet's"
+        ]
+      }
+    },
+    {
+      "id": "dunkin",
+      "name": "Dunkin'",
+      "domain": "dunkindonuts.com",
+      "category": "dunkin",
+      "merchantIconName": "icon_dunkin",
+      "isBrandCategory": true,
+      "tags": [
+        "coffee",
+        "cafe",
+        "donuts"
+      ],
+      "sortOrder": 20,
+      "featured": [],
+      "popular": [
+        "US"
+      ],
+      "brandCategory": {
+        "parent": "cafe",
+        "emoji": "☕"
+      },
+      "map": {
+        "patterns": [
+          "dunkin'",
+          "dunkin' donuts"
+        ]
+      }
+    },
+    {
+      "id": "walmart",
+      "name": "Walmart",
+      "domain": "walmart.com",
+      "category": "walmart",
+      "merchantIconName": "icon_walmart",
+      "isBrandCategory": true,
+      "tags": [
+        "Walmart+",
+        "Walmart Grocery"
+      ],
+      "sortOrder": 2,
+      "featured": [
+        "US"
+      ],
+      "popular": [
+        "US"
+      ],
+      "map": {
+        "patterns": [
+          "walmart"
+        ]
+      }
+    },
+    {
+      "id": "target",
+      "name": "Target",
+      "domain": "target.com",
+      "category": "target_superstore",
+      "merchantIconName": "icon_target",
+      "isBrandCategory": true,
+      "tags": [
+        "Target"
+      ],
+      "sortOrder": 3,
+      "featured": [
+        "US"
+      ],
+      "popular": [
+        "US"
+      ],
+      "map": {
+        "patterns": [
+          "target"
+        ]
+      }
+    },
+    {
+      "id": "vons",
+      "name": "Vons",
+      "domain": "vons.com",
+      "category": "supermarket_vons",
+      "merchantIconName": "icon_vons",
+      "isBrandCategory": true,
+      "tags": [
+        "supermarket",
+        "grocery"
+      ],
+      "sortOrder": 10,
+      "featured": [
+        "US"
+      ],
+      "popular": [
+        "US"
+      ],
+      "brandCategory": {
+        "parent": "supermarkets",
+        "emoji": "🔆"
+      },
+      "map": {
+        "patterns": [
+          "vons"
+        ]
+      }
+    },
+    {
+      "id": "lucky_supermarkets",
+      "name": "Lucky",
+      "domain": "luckysupermarkets.com",
+      "category": "lucky_supermarkets",
+      "merchantIconName": "icon_lucky_supermarkets",
+      "isBrandCategory": true,
+      "tags": [
+        "supermarket",
+        "grocery"
+      ],
+      "sortOrder": 10,
+      "featured": [
+        "US"
+      ],
+      "popular": [
+        "US"
+      ],
+      "brandCategory": {
+        "parent": "supermarkets",
+        "emoji": "🔆"
+      },
+      "map": {
+        "patterns": [
+          "lucky"
+        ]
+      }
+    },
+    {
+      "id": "aldi",
+      "name": "Aldi",
+      "domain": "aldi.us",
+      "category": "aldi",
+      "merchantIconName": "icon_aldi",
+      "isBrandCategory": true,
+      "tags": [
+        "supermarket",
+        "grocery"
+      ],
+      "sortOrder": 10,
+      "featured": [
+        "US",
+        "UK",
+        "AU"
+      ],
+      "popular": [
+        "US",
+        "UK",
+        "AU"
+      ],
+      "brandCategory": {
+        "parent": "supermarkets",
+        "emoji": "🔆"
+      },
+      "map": {
+        "patterns": [
+          "aldi"
+        ]
+      }
+    },
+    {
+      "id": "safeway",
+      "name": "Safeway",
+      "domain": "safeway.com",
+      "category": "safeway",
+      "merchantIconName": "icon_safeway",
+      "isBrandCategory": true,
+      "tags": [
+        "supermarket",
+        "grocery"
+      ],
+      "sortOrder": 10,
+      "featured": [
+        "US"
+      ],
+      "popular": [
+        "US"
+      ],
+      "brandCategory": {
+        "parent": "supermarkets",
+        "emoji": "🔆"
+      },
+      "map": {
+        "patterns": [
+          "safeway"
+        ]
+      }
+    },
+    {
+      "id": "albertsons",
+      "name": "Albertsons",
+      "domain": "albertsons.com",
+      "category": "albertsons",
+      "merchantIconName": "icon_albertsons",
+      "isBrandCategory": true,
+      "tags": [
+        "supermarket",
+        "grocery"
+      ],
+      "sortOrder": 10,
+      "featured": [
+        "US"
+      ],
+      "popular": [
+        "US"
+      ],
+      "brandCategory": {
+        "parent": "supermarkets",
+        "emoji": "🔆"
+      },
+      "map": {
+        "patterns": [
+          "albertsons"
+        ]
+      }
+    },
+    {
+      "id": "kroger",
+      "name": "Kroger",
+      "domain": "kroger.com",
+      "category": "kroger",
+      "merchantIconName": "icon_kroger",
+      "isBrandCategory": true,
+      "tags": [
+        "supermarket",
+        "grocery"
+      ],
+      "sortOrder": 10,
+      "featured": [
+        "US"
+      ],
+      "popular": [
+        "US"
+      ],
+      "brandCategory": {
+        "parent": "supermarkets",
+        "emoji": "🔆"
+      },
+      "map": {
+        "patterns": [
+          "kroger"
+        ]
+      }
+    },
+    {
+      "id": "trader_joes",
+      "name": "Trader Joe's",
+      "domain": "traderjoes.com",
+      "category": "trader_joes",
+      "merchantIconName": "icon_traderjoes",
+      "isBrandCategory": true,
+      "tags": [
+        "supermarket",
+        "grocery"
+      ],
+      "sortOrder": 10,
+      "featured": [
+        "US"
+      ],
+      "popular": [
+        "US"
+      ],
+      "brandCategory": {
+        "parent": "supermarkets",
+        "emoji": "🔆"
+      },
+      "map": {
+        "patterns": [
+          "trader joe"
+        ]
+      }
+    },
+    {
+      "id": "parknshop_hk",
+      "name": "PARKnSHOP",
+      "domain": "parknshop.com",
+      "category": "parknshop_hk",
+      "merchantIconName": "icon_parknshop",
+      "isBrandCategory": true,
+      "tags": [
+        "supermarket",
+        "grocery"
+      ],
+      "sortOrder": 10,
+      "featured": [
+        "HK"
+      ],
+      "popular": [
+        "HK"
+      ],
+      "brandCategory": {
+        "parent": "supermarkets",
+        "emoji": "🔆"
+      },
+      "map": {
+        "patterns": [
+          "parknshop"
+        ]
+      }
+    },
+    {
+      "id": "state_farm_insurance",
+      "name": "State Farm",
+      "domain": "statefarm.com",
+      "category": "state_farm_insurance",
+      "merchantIconName": "icon_state_farm_insurance",
+      "isBrandCategory": false,
+      "tags": [
+        "insurance",
+        "auto",
+        "home"
+      ],
+      "sortOrder": 114,
+      "featured": [],
+      "popular": [
+        "US"
+      ],
+      "brandCategory": {
+        "parent": "insurance",
+        "emoji": "📝"
+      },
+      "map": {
+        "patterns": [
+          "state farm"
+        ]
+      }
+    },
+    {
+      "id": "geico_insurance",
+      "name": "Geico",
+      "domain": "geico.com",
+      "category": "geico_insurance",
+      "merchantIconName": "icon_geico_insurance",
+      "isBrandCategory": false,
+      "tags": [
+        "insurance",
+        "auto"
+      ],
+      "sortOrder": 115,
+      "featured": [],
+      "popular": [
+        "US"
+      ],
+      "brandCategory": {
+        "parent": "insurance",
+        "emoji": "📝"
+      },
+      "map": {
+        "patterns": [
+          "geico"
+        ]
+      }
+    },
+    {
+      "id": "netflix",
+      "name": "Netflix",
+      "domain": "netflix.com",
+      "category": "stream_netflix",
+      "merchantIconName": "icon_netflix",
+      "isBrandCategory": true,
+      "tags": [
+        "streaming",
+        "entertainment"
+      ],
+      "sortOrder": 10,
+      "featured": [
+        "US",
+        "HK",
+        "TW"
+      ],
+      "popular": [
+        "US",
+        "HK",
+        "TW"
+      ],
+      "brandCategory": {
+        "parent": "video_streaming",
+        "emoji": "▶️"
+      },
+      "map": {
+        "patterns": [
+          "netflix"
+        ]
+      }
+    },
+    {
+      "id": "amazon",
+      "name": "Amazon",
+      "domain": "amazon.com",
+      "category": "amazon",
+      "merchantIconName": "icon_amazon",
+      "isBrandCategory": true,
+      "tags": [
+        "AWS",
+        "Amazon Prime",
+        "Amazon Fresh"
+      ],
+      "sortOrder": 1,
+      "featured": [
+        "US",
+        "HK"
+      ],
+      "popular": [
+        "US",
+        "HK",
+        "TW",
+        "CA"
+      ],
+      "map": {
+        "patterns": [
+          "amazon"
+        ]
+      }
+    }
+  ],
+  "genericMappings": {
+    "exactMatches": {
+      "amazon fresh": "wholefood"
+    },
+    "prefixMatches": [
+      {
+        "prefix": "costco",
+        "categoryID": "costco",
+        "requiredPOI": "MKPOICategoryStore"
+      },
+      {
+        "prefix": "costco",
+        "categoryID": "costco",
+        "requiredPOI": "MKPOICategoryFoodMarket"
+      },
+      {
+        "prefix": "costco food court",
+        "categoryID": "costco_foodcourt"
+      },
+      {
+        "prefix": "costco",
+        "categoryID": "costco_gas",
+        "requiredPOI": "MKPOICategoryGasStation"
+      }
+    ],
+    "containsMatches": [],
+    "patternRules": [
+      {
+        "patterns": [
+          "hulu",
+          "disney+",
+          "paramount",
+          "peacock",
+          "hbomax",
+          "mytv super"
+        ],
+        "categoryID": "video_streaming"
+      }
+    ]
+  }
+}

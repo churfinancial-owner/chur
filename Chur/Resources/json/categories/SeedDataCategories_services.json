@@ -48,50 +48,7 @@
     "isParent": true,
     "level": "parent",
     "categoryLinks": null
-  },
-  {
-    "id": "state_farm_insurance",
-    "nameEN": "State Farm",
-    "nameZH_Hans": "State Farm",
-    "nameZH_HK": "State Farm",
-    "nameZH_TW": "State Farm",
-    "emoji": "📝",
-    "iconName": "icon_state_farm_insurance",
-    "sortOrder": 114,
-    "isDefault": false,
-    "isParent": true,
-    "parentCategoryID": "insurance",
-    "level": "target",
-    "categoryLinks": [
-      {
-        "id": "insurance",
-        "weight": 1.0
-      }
-    ]
-  },
-  {
-    "id": "geico_insurance",
-    "nameEN": "Geico",
-    "nameZH_Hans": "Geico",
-    "nameZH_HK": "Geico",
-    "nameZH_TW": "Geico",
-    "emoji": "📝",
-    "iconName": "icon_geico_insurance",
-    "sortOrder": 114,
-    "isDefault": false,
-    "isParent": true,
-    "parentCategoryID": "insurance",
-    "level": "target",
-    "categoryLinks": [
-      {
-        "id": "insurance",
-        "weight": 1.0
-      }
-    ]
-  },
-
-
-  
+  },  
   {
     "id": "utilities",
     "nameEN": "Utilities",

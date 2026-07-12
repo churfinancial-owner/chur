@@ -77,26 +77,6 @@
     ]
   },
   {
-    "id": "lowes",
-    "nameEN": "Lowes",
-    "nameZH_Hans": "劳氏",
-    "nameZH_HK": "Lowes",
-    "nameZH_TW": "Lowes",
-    "emoji": "🛠️",
-    "sortOrder": 108,
-    "isDefault": false,
-    "isParent": false,
-    "parentCategoryID": "material_hardware",
-    "level": "target",
-    "categoryLinks": [
-      {
-        "id": "material_hardware",
-        "weight": 1.0
-      }
-    ]
-  },
-
-  {
     "id": "auto",
     "nameEN": "Auto",
     "nameZH_Hans": "汽车",
