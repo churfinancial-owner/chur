@@ -417,5 +417,271 @@
                 "weight": 1.0
             }
         ]
+    },
+    {
+        "id": "singapore_airlines",
+        "nameEN": "Singapore Airlines",
+        "nameZH_Hans": "新加坡航空",
+        "nameZH_HK": "新加坡航空",
+        "nameZH_TW": "新加坡航空",
+        "emoji": "✈️",
+        "iconName": "icon_singapore_airlines",
+        "sortOrder": 25,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "star_alliance_airlines",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "star_alliance_airlines"
+            }
+        ]
+    },
+    {
+        "id": "ana_airline",
+        "nameEN": "All Nippon Airways",
+        "nameZH_Hans": "全日空",
+        "nameZH_HK": "全日空",
+        "nameZH_TW": "全日空",
+        "emoji": "✈️",
+        "iconName": "icon_ana_airline",
+        "sortOrder": 25,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "star_alliance_airlines",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "star_alliance_airlines"
+            }
+        ]
+    },
+    {
+        "id": "jal_airline",
+        "nameEN": "Japan Airlines",
+        "nameZH_Hans": "日本航空",
+        "nameZH_HK": "日本航空",
+        "nameZH_TW": "日本航空",
+        "emoji": "✈️",
+        "iconName": "icon_jal_airline",
+        "sortOrder": 25,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "oneworld_airlines",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "oneworld_airlines"
+            }
+        ]
+    },
+    {
+        "id": "emirates",
+        "nameEN": "Emirates",
+        "nameZH_Hans": "阿联酋航空",
+        "nameZH_HK": "阿聯酋航空",
+        "nameZH_TW": "阿聯酋航空",
+        "emoji": "✈️",
+        "iconName": "icon_emirates",
+        "sortOrder": 25,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "flights",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "flights"
+            }
+        ]
+    },
+    {
+        "id": "eva_air",
+        "nameEN": "EVA Air",
+        "nameZH_Hans": "长荣航空",
+        "nameZH_HK": "長榮航空",
+        "nameZH_TW": "長榮航空",
+        "emoji": "✈️",
+        "iconName": "icon_eva_air",
+        "sortOrder": 25,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "star_alliance_airlines",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "star_alliance_airlines"
+            }
+        ]
+    },
+    {
+        "id": "lufthansa",
+        "nameEN": "Lufthansa",
+        "nameZH_Hans": "汉莎航空",
+        "nameZH_HK": "漢莎航空",
+        "nameZH_TW": "漢莎航空",
+        "emoji": "✈️",
+        "iconName": "icon_lufthansa",
+        "sortOrder": 25,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "star_alliance_airlines",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "star_alliance_airlines"
+            }
+        ]
+    },
+    {
+        "id": "qatar_airways",
+        "nameEN": "Qatar Airways",
+        "nameZH_Hans": "卡塔尔航空",
+        "nameZH_HK": "卡塔爾航空",
+        "nameZH_TW": "卡塔爾航空",
+        "emoji": "✈️",
+        "iconName": "icon_qatar_airways",
+        "sortOrder": 25,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "oneworld_airlines",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "oneworld_airlines"
+            }
+        ]
+    },
+    {
+        "id": "china_airlines",
+        "nameEN": "China Airlines",
+        "nameZH_Hans": "中华航空",
+        "nameZH_HK": "中華航空",
+        "nameZH_TW": "中華航空",
+        "emoji": "✈️",
+        "iconName": "icon_china_airlines",
+        "sortOrder": 25,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "skyteam_airlines",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "skyteam_airlines"
+            }
+        ]
+    },
+    {
+        "id": "starlux_airlines",
+        "nameEN": "Starlux Airlines",
+        "nameZH_Hans": "星宇航空",
+        "nameZH_HK": "星宇航空",
+        "nameZH_TW": "星宇航空",
+        "emoji": "✈️",
+        "iconName": "icon_starlux_airlines",
+        "sortOrder": 25,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "flights",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "flights"
+            }
+        ]
+    },
+    {
+        "id": "turkish_airlines",
+        "nameEN": "Turkish Airlines",
+        "nameZH_Hans": "土耳其航空",
+        "nameZH_HK": "土耳其航空",
+        "nameZH_TW": "土耳其航空",
+        "emoji": "✈️",
+        "iconName": "icon_turkish_airlines",
+        "sortOrder": 25,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "star_alliance_airlines",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "star_alliance_airlines"
+            }
+        ]
+    },
+    {
+        "id": "air_france",
+        "nameEN": "Air France",
+        "nameZH_Hans": "法国航空",
+        "nameZH_HK": "法國航空",
+        "nameZH_TW": "法國航空",
+        "emoji": "✈️",
+        "iconName": "icon_air_france",
+        "sortOrder": 25,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "skyteam_airlines",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "skyteam_airlines"
+            }
+        ]
+    },
+    {
+        "id": "klm_airline",
+        "nameEN": "KLM Royal Dutch Airlines",
+        "nameZH_Hans": "荷兰皇家航空",
+        "nameZH_HK": "荷蘭皇家航空",
+        "nameZH_TW": "荷蘭皇家航空",
+        "emoji": "✈️",
+        "iconName": "icon_klm_airline",
+        "sortOrder": 25,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "skyteam_airlines",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "skyteam_airlines"
+            }
+        ]
+    },
+    {
+        "id": "thai_airways",
+        "nameEN": "Thai Airways",
+        "nameZH_Hans": "泰国国际航空",
+        "nameZH_HK": "泰國國際航空",
+        "nameZH_TW": "泰國國際航空",
+        "emoji": "✈️",
+        "iconName": "icon_thai_airways",
+        "sortOrder": 25,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "star_alliance_airlines",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "star_alliance_airlines"
+            }
+        ]
+    },
+    {
+        "id": "asiana_airlines",
+        "nameEN": "Asiana Airlines",
+        "nameZH_Hans": "韩亚航空",
+        "nameZH_HK": "韓亞航空",
+        "nameZH_TW": "韓亞航空",
+        "emoji": "✈️",
+        "iconName": "icon_asiana_airlines",
+        "sortOrder": 25,
+        "isDefault": false,
+        "isParent": false,
+        "parentCategoryID": "star_alliance_airlines",
+        "level": "target",
+        "categoryLinks": [
+            {
+                "id": "star_alliance_airlines"
+            }
+        ]
     }
 ]

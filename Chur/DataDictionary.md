@@ -96,7 +96,7 @@
 | `noteIsVisible` | `Bool` | Not Null, default `true` | — | Whether the note is shown on the card face. |
 | `noteTextColor` | `String` | Not Null, default `"#FFFFFF"` | — | Hex color string for the note text. |
 | `noteBgColor` | `String` | Not Null, default `"#000000"` | — | Hex color string for the note background bubble. |
-| `rewardProgramOverride` | `String?` | Nullable | — | User-specified reward program name that overrides the template default (e.g. pointing UR earnings to a Hyatt valuation). |
+| `rewardProgramOverride` | `String?` | Nullable | — | User-selected reward program (set via RewardProgramEditorSheet). `nil` = auto mode: `ProgramUpgradeDatabase` upgrades/downgrades the program from `SeedDataProgramUpgrades.json` rules based on trigger cards in the wallet — applied silently at launch, card add, and card delete. Non-nil skips auto changes and template sync of `rewardProgramName`. |
 | `hasCustomAnnualFee` | `Bool` | Not Null, default `false` | — | `true` if the user manually edited the annual fee. Prevents sync from overwriting it. |
 | `hasCustomForeignFee` | `Bool` | Not Null, default `false` | — | `true` if the user manually edited the FX fee. Prevents sync from overwriting it. |
 | `slotSelections` | `[String: String]` | Not Null, default `[:]` | — | Configurable slot ID → user-selected category label (e.g. `"5pct_slot_1"` → `"Groceries"`). Single source of truth for configurable rewards; `reward.categories` is derived from this. |

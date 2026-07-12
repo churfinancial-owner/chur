@@ -27,6 +27,33 @@
     }
   },
   {
+    "id": "allstate_insurance",
+    "name": "Allstate",
+    "domain": "allstate.com",
+    "category": "allstate_insurance",
+    "merchantIconName": "icon_allstate_insurance",
+    "isBrandCategory": false,
+    "tags": [
+      "insurance",
+      "auto",
+      "home"
+    ],
+    "sortOrder": 116,
+    "featured": [],
+    "popular": [
+      "US"
+    ],
+    "brandCategory": {
+      "parent": "insurance",
+      "emoji": "📝"
+    },
+    "map": {
+      "patterns": [
+        "allstate"
+      ]
+    }
+  },
+  {
     "id": "geico_insurance",
     "name": "Geico",
     "domain": "geico.com",

@@ -83,7 +83,7 @@
     },
     "map": {
       "patterns": [
-        "aldi"
+        "aldi supermarket"
       ]
     }
   },
@@ -199,6 +199,22 @@
       ]
     }
   },
+  {
+      "id": "instacart",
+      "name": "Instacart",
+      "domain": "instacart.com",
+      "category": "instacart",
+      "merchantIconName": "icon_instacart",
+      "isBrandCategory": true,
+      "tags": ["grocery", "delivery"],
+      "sortOrder": 10,
+      "featured": ["US"],
+      "popular": ["US"],
+      "map": {
+        "patterns": ["instacart"]
+      }
+    },
+
   {
     "id": "parknshop_hk",
     "name": "PARKnSHOP",

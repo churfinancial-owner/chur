@@ -30,5 +30,50 @@
         "netflix"
       ]
     }
+  },
+  {
+    "id": "hulu",
+    "name": "Hulu",
+    "domain": "hulu.com",
+    "category": "stream_hulu",
+    "merchantIconName": "icon_hulu",
+    "isBrandCategory": true,
+    "tags": ["streaming", "entertainment"],
+    "sortOrder": 10,
+    "featured": ["US"],
+    "popular": ["US"],
+    "map": {
+      "patterns": ["hulu"]
+    }
+  },
+  {
+    "id": "disneyplus",
+    "name": "Disney+",
+    "domain": "disneyplus.com",
+    "category": "stream_disneyplus",
+    "merchantIconName": "icon_disneyplus",
+    "isBrandCategory": true,
+    "tags": ["streaming", "entertainment"],
+    "sortOrder": 11,
+    "featured": ["US"],
+    "popular": ["US"],
+    "map": {
+      "patterns": ["disney+", "disney plus"]
+    }
+  },
+  {
+    "id": "spotify",
+    "name": "Spotify",
+    "domain": "spotify.com",
+    "category": "stream_spotify",
+    "merchantIconName": "icon_spotify",
+    "isBrandCategory": true,
+    "tags": ["music", "streaming"],
+    "sortOrder": 12,
+    "featured": ["US", "HK", "TW"],
+    "popular": ["US", "HK", "TW"],
+    "map": {
+      "patterns": ["spotify"]
+    }
   }
 ]

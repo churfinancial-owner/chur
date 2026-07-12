@@ -1,4 +1,19 @@
 [
+    {
+    "id": "apple",
+    "name": "Apple",
+    "domain": "apple.com",
+    "category": "apple",
+    "merchantIconName": "icon_apple",
+    "isBrandCategory": true,
+    "tags": ["electronics", "tech", "store"],
+    "sortOrder": 300,
+    "featured": ["US", "HK", "TW", "CA"],
+    "popular": ["US", "HK", "TW", "CA"],
+    "map": {
+      "patterns": ["apple store"]
+    }
+  },
   {
     "id": "ebay",
     "name": "eBay",

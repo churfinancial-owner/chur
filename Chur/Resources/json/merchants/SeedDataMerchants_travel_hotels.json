@@ -1,0 +1,107 @@
+[
+  {
+    "id": "marriott_hotels",
+    "name": "Marriott Hotels",
+    "domain": "marriott.com",
+    "category": "marriott_hotels",
+    "merchantIconName": "icon_marriott",
+    "isBrandCategory": true,
+    "tags": ["hotel", "marriott bonvoy", "travel"],
+    "sortOrder": 400,
+    "featured": ["US"],
+    "popular": ["US"],
+    "map": {
+      "patterns": ["marriott", "w hotel", "ritz-carlton", "st. regis", "sheraton", "westin", "aloft", "moxy", "renaissance", "fairfield", "residence inn", "springhill suites", "element"]
+    }
+  },
+  {
+    "id": "hilton_hotels",
+    "name": "Hilton Hotels",
+    "domain": "hilton.com",
+    "category": "hilton_hotels",
+    "merchantIconName": "icon_hilton",
+    "isBrandCategory": true,
+    "tags": ["hotel", "hilton honors", "travel"],
+    "sortOrder": 401,
+    "featured": [],
+    "popular": ["US"],
+    "map": {
+      "patterns": ["hilton", "waldorf astoria", "conrad", "hampton inn", "doubletree", "embassy suites", "homewood suites", "home2 suites", "canopy", "curio"]
+    }
+  },
+  {
+    "id": "hyatt_hotels",
+    "name": "Hyatt Hotels",
+    "domain": "hyatt.com",
+    "category": "hyatt_hotels",
+    "merchantIconName": "icon_hyatt",
+    "isBrandCategory": true,
+    "tags": ["hotel", "world of hyatt", "travel"],
+    "sortOrder": 402,
+    "featured": [],
+    "popular": ["US"],
+    "map": {
+      "patterns": ["hyatt", "park hyatt", "grand hyatt", "hyatt regency", "hyatt centric", "hyatt place", "hyatt house", "andaz", "thompson", "alila"]
+    }
+  },
+  {
+    "id": "ihg_hotels",
+    "name": "IHG Hotels",
+    "domain": "ihg.com",
+    "category": "ihg_hotels",
+    "merchantIconName": "icon_ihg",
+    "isBrandCategory": true,
+    "tags": ["hotel", "travel"],
+    "sortOrder": 403,
+    "featured": [],
+    "popular": ["US"],
+    "map": {
+      "patterns": ["ihg", "holiday inn", "crowne plaza", "intercontinental", "hotel indigo", "kimpton"]
+    }
+  },
+  {
+    "id": "choice_hotels",
+    "name": "Choice Hotels",
+    "domain": "choicehotels.com",
+    "category": "choice_hotels",
+    "merchantIconName": "icon_choice_hotel",
+    "isBrandCategory": true,
+    "tags": ["hotel", "travel", "lodging"],
+    "sortOrder": 404,
+    "featured": [],
+    "popular": ["US"],
+    "map": {
+      "patterns": ["choice hotels", "choice hotel"]
+    }
+  },
+  {
+    "id": "best_western_hotels",
+    "name": "Best Western Hotels",
+    "domain": "bestwestern.com",
+    "category": "best_western_hotels",
+    "merchantIconName": "icon_bestwestern",
+    "isBrandCategory": true,
+    "tags": ["hotel", "travel", "lodging"],
+    "sortOrder": 405,
+    "featured": [],
+    "popular": ["US"],
+    "map": {
+      "patterns": ["best western"]
+    }
+  },
+  {
+    "id": "wyndham_hotels",
+    "name": "Wyndham Hotels",
+    "domain": "wyndhamhotels.com",
+    "category": "wyndham_hotels",
+    "merchantIconName": "icon_wyndham_hotels",
+    "isBrandCategory": true,
+    "tags": ["hotel", "travel", "lodging"],
+    "sortOrder": 406,
+    "featured": [],
+    "popular": ["US"],
+    "map": {
+      "patterns": ["wyndham"]
+    }
+  }
+]

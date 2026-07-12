@@ -251,5 +251,74 @@
         "dunkin' donuts"
       ]
     }
+  },
+  {
+    "id": "doordash",
+    "name": "DoorDash",
+    "domain": "doordash.com",
+    "category": "doordash",
+    "merchantIconName": "icon_doordash",
+    "isBrandCategory": true,
+    "tags": [
+      "food",
+      "delivery",
+      "dashpass"
+    ],
+    "sortOrder": 11,
+    "featured": [],
+    "popular": [
+      "US"
+    ],
+    "map": {
+      "patterns": [
+        "doordash"
+      ]
+    }
+  },
+    {
+    "id": "uber_eats",
+    "name": "Uber Eats",
+    "domain": "uber.com",
+    "category": "uber_eats",
+    "merchantIconName": "icon_ubereats",
+    "isBrandCategory": true,
+    "tags": [
+      "food",
+      "delivery",
+      "uber"
+    ],
+    "sortOrder": 12,
+    "featured": [],
+    "popular": [
+      "US"
+    ],
+    "map": {
+      "patterns": [
+        "uber"
+      ]
+    }
+  },
+  {
+    "id": "grubhub",
+    "name": "Grubhub",
+    "domain": "grubhub.com",
+    "category": "grubhub",
+    "merchantIconName": "icon_grubhub",
+    "isBrandCategory": true,
+    "tags": [
+      "food",
+      "delivery",
+      "seamless"
+    ],
+    "sortOrder": 13,
+    "featured": [],
+    "popular": [
+      "US"
+    ],
+    "map": {
+      "patterns": [
+        "grubhub"
+      ]
+    }
   }
 ]
