@@ -104,12 +104,12 @@ enum ReminderTiming {
 
     // MARK: - Annual fee timing
 
-    /// Fee decisions need runway (retention offers, product changes),
-    /// so the default lead is much longer than any benefit cycle's.
+    /// First reminder a week out, last call on the fee day itself —
+    /// the day the charge posts is the day action is still possible.
     enum AnnualFee {
-        static let options = [14, 30, 60]
-        static let defaultLeadDays = 30
-        static let lastCallDays = 7
+        static let options = [7, 14, 30]
+        static let defaultLeadDays = 7
+        static let lastCallDays = 0
         static let storageKey = "reminderLead.annualFee"
     }
 

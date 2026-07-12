@@ -77,6 +77,7 @@ struct ExpiringBenefitsView: View {
                             subtitle: "Benefits show up here when they enter their reminder window with value left to use."
                         )
                     } else {
+                        summaryHeader
                         ForEach(groups, id: \.card.id) { group in
                             cardSection(card: group.card, entries: group.entries)
                         }
@@ -99,6 +100,17 @@ struct ExpiringBenefitsView: View {
         .sheet(item: $detailTarget) { target in
             BenefitReminderDeepLinkSheet(benefit: target.benefit, card: target.card)
         }
+    }
+
+    /// One-line total so the count here can exceed a single notification's —
+    /// digests only count reminders that fired on one day, this lists all
+    /// benefits currently in their window.
+    private var summaryHeader: some View {
+        let benefitCount = groups.reduce(0) { $0 + $1.entries.count }
+        return Text("^[\(benefitCount) benefits](inflect: true) expiring across ^[\(groups.count) cards](inflect: true)")
+            .font(.churSmallMedium())
+            .foregroundStyle(Color.churMediumGray)
+            .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     private func cardSection(card: CreditCard, entries: [ExpiringEntry]) -> some View {

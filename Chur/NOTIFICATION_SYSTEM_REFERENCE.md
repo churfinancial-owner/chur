@@ -71,7 +71,7 @@ from anywhere else; never hardcode day counts in views.
 | Quarterly | 3 / 7 / 14 | 7 | 1 day |
 | Semi-annual | 7 / 14 / 30 | 14 | 3 days |
 | Annual & one-time (catch-all) | 7 / 14 / 30 | 14 | 3 days |
-| Annual fee | 14 / 30 / 60 | 30 | 7 days |
+| Annual fee | 7 / 14 / 30 | 7 | 0 days (fee day) |
 
 Rules:
 

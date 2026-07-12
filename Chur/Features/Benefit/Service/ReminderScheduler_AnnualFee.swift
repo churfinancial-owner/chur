@@ -4,9 +4,10 @@
 //
 //  Annual fee reminder planner. The fee date is the card's anniversary
 //  (approvedMonth/approvedDay each year). Lead time is user-configurable
-//  (ReminderTiming.annualFeeLeadDays, default 30 days) plus a fixed
-//  7-day last call. Cards with a $0 fee never remind — downgrading a
-//  card to no-fee (via the custom fee field) silences it naturally.
+//  (ReminderTiming.annualFeeLeadDays, default 7 days) plus a fixed
+//  last call on the fee day itself. Cards with a $0 fee never remind —
+//  downgrading a card to no-fee (via the custom fee field) silences it
+//  naturally.
 //
 //  Fee reminders are always delivered individually — they are rare and
 //  high-stakes, so the digest never absorbs them.
@@ -43,7 +44,9 @@ extension ReminderScheduler {
                     fireDate: fireDate,
                     title: card.name,
                     subtitle: "Annual fee",
-                    body: "\(symbol)\(card.annualFee) annual fee posts \(dateText) (in \(lead) days). Time to review keep, downgrade, or cancel.",
+                    body: lead == 0
+                        ? "\(symbol)\(card.annualFee) annual fee posts today. Time to review keep, downgrade, or cancel."
+                        : "\(symbol)\(card.annualFee) annual fee posts \(dateText) (in \(lead) days). Time to review keep, downgrade, or cancel.",
                     threadID: card.id,
                     payload: ["cardID": card.id]
                 ))
