@@ -40,7 +40,7 @@ enum ExpiringBenefits {
                 let analyzer = BenefitUsageAnalyzer(benefit: benefit, approvedMonth: card.approvedMonth)
                 let remaining = analyzer.remainingBalance(on: date)
                 guard (remaining ?? 0) > 0,
-                      ReminderTiming.isInWarningWindow(expiry: expiry, frequency: benefit.frequency, now: date)
+                      ReminderTiming.isInWarningWindow(expiry: expiry, now: date)
                 else { continue }
 
                 entries.append(ExpiringBenefitEntry(

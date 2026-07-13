@@ -249,7 +249,7 @@
     "name": "Under Armour",
     "domain": "underarmour.com",
     "category": "under_armour",
-    "merchantIconName": "icon_ua",
+    "merchantIconName": "icon_underarmour",
     "isBrandCategory": true,
     "tags": [
       "clothing",
@@ -275,7 +275,7 @@
     "name": "New Balance",
     "domain": "newbalance.com",
     "category": "new_balance",
-    "merchantIconName": "icon_nb",
+    "merchantIconName": "icon_newbalance",
     "isBrandCategory": true,
     "tags": [
       "clothing",

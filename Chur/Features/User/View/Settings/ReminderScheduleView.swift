@@ -2,9 +2,9 @@
 //  ReminderScheduleView.swift
 //  Chur
 //
-//  Subpage of Notification settings: per-cycle benefit reminder lead
-//  times plus the annual fee lead time (see ReminderTiming), with a
-//  reset back to the recommended defaults.
+//  Subpage of Notification settings: one benefit reminder lead time (all
+//  frequencies) plus the annual fee lead time (see ReminderTiming), with
+//  a reset back to the recommended defaults.
 //
 
 import SwiftUI
@@ -20,20 +20,18 @@ struct ReminderScheduleView: View {
     var body: some View {
         List {
             Section {
-                ForEach(ReminderTiming.Cycle.allCases) { cycle in
-                    LeadDaysPickerRow(
-                        title: cycle.displayName,
-                        options: cycle.options,
-                        current: ReminderTiming.leadDays(for: cycle),
-                        save: { ReminderTiming.setLeadDays($0, for: cycle) },
-                        onChanged: { isRecommended = ReminderTiming.isRecommended }
-                    )
-                }
+                LeadDaysPickerRow(
+                    title: "Benefits",
+                    options: ReminderTiming.benefitOptions,
+                    current: ReminderTiming.benefitLeadDays,
+                    save: { ReminderTiming.setBenefitLeadDays($0) },
+                    onChanged: { isRecommended = ReminderTiming.isRecommended }
+                )
                 .id(resetTick)
             } header: {
                 Text("BENEFITS — DAYS BEFORE EXPIRY")
             } footer: {
-                Text("How long before expiry each benefit shows the ⏰ badge and sends a reminder. A final reminder is also sent 1–3 days before longer cycles expire. When several benefits expire on the same day, they arrive as one summary notification.")
+                Text("One schedule for every benefit: this is when the ⏰ badge appears, when the single reminder is sent, and what the Expiring Soon list shows. When several benefits expire around the same day, they arrive as one summary notification.")
             }
 
             Section {
@@ -48,7 +46,7 @@ struct ReminderScheduleView: View {
             } header: {
                 Text("ANNUAL FEE — DAYS BEFORE IT POSTS")
             } footer: {
-                Text("A final notice is also sent 7 days before the fee posts.")
+                Text("One notice per card each year.")
             }
 
             Section {
@@ -96,7 +94,7 @@ private struct LeadDaysPickerRow: View {
     var body: some View {
         Picker(title, selection: $selection) {
             ForEach(options, id: \.self) { days in
-                Text("\(days) day\(days == 1 ? "" : "s")").tag(days)
+                Text(days == 0 ? "On the day" : "\(days) day\(days == 1 ? "" : "s")").tag(days)
             }
         }
         .font(.churRowText())

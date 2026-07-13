@@ -108,7 +108,7 @@ final class BenefitRowViewModel {
         let now = Date.current()
         guard let expiry = benefit.effectiveExpiryDate(cardAnniversaryDate: anniversaryDate),
               (analyzer.remainingBalance(on: now) ?? 0) > 0 else { return false }
-        return ReminderTiming.isInWarningWindow(expiry: expiry, frequency: benefit.frequency, now: now)
+        return ReminderTiming.isInWarningWindow(expiry: expiry, now: now)
     }
 
     var shouldShowExpiryWarning: Bool {

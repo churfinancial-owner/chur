@@ -3,113 +3,42 @@
 //  Chur
 //
 //  Single source of truth for expiry warning timing, shared by:
-//   • the in-app ⏰ badge, red expiry highlight, and "Expiring" filter
-//     (via isInWarningWindow)
-//   • BenefitReminderScheduler's notification schedule (via reminderDays)
+//   • the in-app ⏰ badge, red expiry highlight, "Expiring" filter, and
+//     the Expiring Soon sheet (via isInWarningWindow)
+//   • ReminderScheduler's notification schedule
 //
-//  One user-configurable lead time per benefit cycle, stored in
-//  UserDefaults (device-local, no schema impact). Cycles longer than
-//  monthly also get a fixed, non-configurable "last call" reminder close
-//  to expiry. This replaces the old global "expiryWarningDays" setting.
+//  One lead time for ALL benefit frequencies and one for the annual fee,
+//  stored in UserDefaults (device-local, no schema impact). Each reminder
+//  fires exactly once per period — no last calls.
 //
 
 import Foundation
 
 enum ReminderTiming {
 
-    enum Cycle: String, CaseIterable, Identifiable {
-        case monthly
-        case quarterly
-        case semiAnnual
-        case catchAll // annual, quadrennial, one-time with a hard expiry
+    // MARK: - Benefit lead time (one schedule for every cycle)
 
-        var id: String { rawValue }
+    /// Days before expiry that the warning window opens, the ⏰ badge shows,
+    /// and the (single) notification fires — identical for monthly,
+    /// quarterly, semi-annual, annual, and one-time benefits.
+    static let benefitOptions = [1, 3, 7]
+    static let defaultBenefitLeadDays = 7
+    static let benefitStorageKey = "reminderLead.benefits"
 
-        var displayName: String {
-            switch self {
-            case .monthly:    return "Monthly benefits"
-            case .quarterly:  return "Quarterly benefits"
-            case .semiAnnual: return "Semi-annual benefits"
-            case .catchAll:   return "Annual & one-time"
-            }
-        }
-
-        /// Selectable lead times (days before expiry), bounded so a lead
-        /// can never exceed the cycle length.
-        var options: [Int] {
-            switch self {
-            case .monthly:    return [1, 3, 5, 7]
-            case .quarterly:  return [3, 7, 14]
-            case .semiAnnual: return [7, 14, 30]
-            case .catchAll:   return [7, 14, 30]
-            }
-        }
-
-        var defaultLeadDays: Int {
-            switch self {
-            case .monthly:              return 3
-            case .quarterly:            return 7
-            case .semiAnnual, .catchAll: return 14
-            }
-        }
-
-        /// Fixed final reminder near expiry; not user-configurable.
-        /// Monthly has none — two pings per month would be spammy.
-        var lastCallDays: Int? {
-            switch self {
-            case .monthly:              return nil
-            case .quarterly:            return 1
-            case .semiAnnual, .catchAll: return 3
-            }
-        }
-
-        var storageKey: String { "reminderLead.\(rawValue)" }
+    static var benefitLeadDays: Int {
+        UserDefaults.standard.object(forKey: benefitStorageKey) as? Int ?? defaultBenefitLeadDays
     }
 
-    static func cycle(forFrequency frequency: String) -> Cycle {
-        switch Benefit.BenefitFrequency(rawValue: frequency.lowercased()) {
-        case .monthly:    return .monthly
-        case .quarterly:  return .quarterly
-        case .semiAnnual: return .semiAnnual
-        default:          return .catchAll
-        }
+    static func setBenefitLeadDays(_ days: Int) {
+        UserDefaults.standard.set(days, forKey: benefitStorageKey)
     }
 
-    // MARK: - Stored lead times
+    // MARK: - Annual fee lead time
 
-    static func leadDays(for cycle: Cycle) -> Int {
-        UserDefaults.standard.object(forKey: cycle.storageKey) as? Int ?? cycle.defaultLeadDays
-    }
-
-    static func setLeadDays(_ days: Int, for cycle: Cycle) {
-        UserDefaults.standard.set(days, forKey: cycle.storageKey)
-    }
-
-    static func leadDays(forFrequency frequency: String) -> Int {
-        leadDays(for: cycle(forFrequency: frequency))
-    }
-
-    /// True while every category still uses its default lead time.
-    static var isRecommended: Bool {
-        Cycle.allCases.allSatisfy { leadDays(for: $0) == $0.defaultLeadDays }
-            && annualFeeLeadDays == AnnualFee.defaultLeadDays
-    }
-
-    static func resetToRecommended() {
-        for cycle in Cycle.allCases {
-            UserDefaults.standard.removeObject(forKey: cycle.storageKey)
-        }
-        UserDefaults.standard.removeObject(forKey: AnnualFee.storageKey)
-    }
-
-    // MARK: - Annual fee timing
-
-    /// First reminder a week out, last call on the fee day itself —
-    /// the day the charge posts is the day action is still possible.
+    /// Single notice; 0 = the morning the fee posts.
     enum AnnualFee {
-        static let options = [7, 14, 30]
-        static let defaultLeadDays = 7
-        static let lastCallDays = 0
+        static let options = [0, 7, 14]
+        static let defaultLeadDays = 0
         static let storageKey = "reminderLead.annualFee"
     }
 
@@ -121,37 +50,25 @@ enum ReminderTiming {
         UserDefaults.standard.set(days, forKey: AnnualFee.storageKey)
     }
 
-    static func annualFeeReminderDays() -> [Int] {
-        let lead = annualFeeLeadDays
-        if lead - AnnualFee.lastCallDays >= lastCallMinimumGap {
-            return [lead, AnnualFee.lastCallDays]
-        }
-        return [lead]
+    // MARK: - Recommended defaults
+
+    static var isRecommended: Bool {
+        benefitLeadDays == defaultBenefitLeadDays
+            && annualFeeLeadDays == AnnualFee.defaultLeadDays
     }
 
-    // MARK: - Derived schedules
-
-    /// A last call only fires when it lands at least this many days after
-    /// the first reminder — two pings within a couple of days is nagging.
-    static let lastCallMinimumGap = 3
-
-    /// Days-before-expiry at which notifications fire: the user's lead time
-    /// plus the cycle's fixed last call (when far enough apart).
-    static func reminderDays(forFrequency frequency: String) -> [Int] {
-        let cycle = cycle(forFrequency: frequency)
-        let lead = leadDays(for: cycle)
-        if let lastCall = cycle.lastCallDays, lead - lastCall >= lastCallMinimumGap {
-            return [lead, lastCall]
-        }
-        return [lead]
+    static func resetToRecommended() {
+        UserDefaults.standard.removeObject(forKey: benefitStorageKey)
+        UserDefaults.standard.removeObject(forKey: AnnualFee.storageKey)
     }
+
+    // MARK: - Warning window
 
     /// Whether a benefit expiring at `expiry` is inside its warning window.
-    /// The window opens at the cycle's lead time — the same moment the first
-    /// notification fires — and stays open until expiry.
-    static func isInWarningWindow(expiry: Date, frequency: String, now: Date = Date.current()) -> Bool {
-        let lead = leadDays(forFrequency: frequency)
+    /// The window opens `benefitLeadDays` before expiry — the same moment
+    /// the notification fires — and stays open until expiry.
+    static func isInWarningWindow(expiry: Date, now: Date = Date.current()) -> Bool {
         let remaining = expiry.timeIntervalSince(now)
-        return remaining > 0 && remaining < Double(lead) * 86_400
+        return remaining > 0 && remaining < Double(benefitLeadDays) * 86_400
     }
 }

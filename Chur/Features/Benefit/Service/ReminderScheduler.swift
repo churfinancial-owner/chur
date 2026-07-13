@@ -21,8 +21,9 @@
 //  Call sites: app foreground/background (ContentView), settings toggles
 //  and timing pickers (NotificationSettingsView / ReminderScheduleView).
 //
-//  Timing (days before the deadline, delivered at 9 AM local) is
-//  user-configurable per category — see ReminderTiming.
+//  Timing (days before the deadline, delivered at 9 AM local) is one
+//  user-configurable lead for all benefits plus one for the annual fee —
+//  see ReminderTiming. Each reminder fires once; there are no last calls.
 //
 
 import Foundation
@@ -151,21 +152,20 @@ final class ReminderScheduler {
                       expiry > now else { continue }
 
                 let periodKey = analyzer.periodKey()
-                for lead in ReminderTiming.reminderDays(forFrequency: benefit.frequency) {
-                    guard let fireDate = Self.deliveryDate(daysBefore: lead, deadline: expiry),
-                          fireDate > now else { continue }
+                let lead = ReminderTiming.benefitLeadDays
+                guard let fireDate = Self.deliveryDate(daysBefore: lead, deadline: expiry),
+                      fireDate > now else { continue }
 
-                    planned.append(PlannedReminder(
-                        identifier: "\(Self.identifierPrefix)benefit.\(card.id).\(benefit.id).\(periodKey).\(lead)d",
-                        kind: .benefitExpiry,
-                        fireDate: fireDate,
-                        title: benefit.displayName,
-                        subtitle: card.name,
-                        body: benefitBody(for: benefit, analyzer: analyzer, leadDays: lead, on: now),
-                        threadID: card.id,
-                        payload: ["benefitID": benefit.id, "cardID": card.id]
-                    ))
-                }
+                planned.append(PlannedReminder(
+                    identifier: "\(Self.identifierPrefix)benefit.\(card.id).\(benefit.id).\(periodKey).\(lead)d",
+                    kind: .benefitExpiry,
+                    fireDate: fireDate,
+                    title: benefit.displayName,
+                    subtitle: card.name,
+                    body: benefitBody(for: benefit, analyzer: analyzer, leadDays: lead, on: now),
+                    threadID: card.id,
+                    payload: ["benefitID": benefit.id, "cardID": card.id]
+                ))
             }
         }
         return planned

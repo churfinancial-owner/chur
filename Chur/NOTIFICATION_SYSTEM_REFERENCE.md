@@ -60,30 +60,25 @@ it naturally) or card inactive.
 
 ## 3. Timing — `ReminderTiming` is the single source of truth
 
-One user-configurable lead time per benefit cycle drives **both** the
+**One lead time for all benefit frequencies** and one for the annual fee
+(simplified for MVP, 2026-07-12). The benefit lead drives **both** the
 in-app warning window (⏰ badge, red expiry highlight, "Expiring" filter,
-card-tab alarm) and the notification schedule. Never read a lead time
-from anywhere else; never hardcode day counts in views.
+card-tab alarm, Expiring Soon sheet) and the notification schedule. Never
+read a lead time from anywhere else; never hardcode day counts in views.
 
-| Category | Options (days) | Default | Fixed last call |
+| Category | Options (days) | Default | Reminders per period |
 |---|---|---|---|
-| Monthly | 1 / 3 / 5 / 7 | 3 | none |
-| Quarterly | 3 / 7 / 14 | 7 | 1 day |
-| Semi-annual | 7 / 14 / 30 | 14 | 3 days |
-| Annual & one-time (catch-all) | 7 / 14 / 30 | 14 | 3 days |
-| Annual fee | 7 / 14 / 30 | 7 | 0 days (fee day) |
+| Benefits (every frequency) | 1 / 3 / 7 | 7 | 1 — no last calls |
+| Annual fee | 0 (fee day) / 7 / 14 | 0 | 1 — no last calls |
 
 Rules:
 
-- Stored in UserDefaults (`reminderLead.<cycle>`, `reminderLead.annualFee`)
-  — device-local, not synced, no schema impact.
-- **Last calls are not user-configurable** and are skipped when they land
-  within `lastCallMinimumGap` (3) days of the first reminder — two pings
-  a couple of days apart is nagging.
+- Stored in UserDefaults (`reminderLead.benefits`, `reminderLead.annualFee`)
+  — device-local, not synced, no schema impact. (The abandoned per-cycle
+  keys `reminderLead.<cycle>` are ignored.)
 - Delivery is at 9 AM local (`ReminderScheduler.deliveryHour`).
-- `ReminderTiming.isInWarningWindow(expiry:frequency:)` is the one
-  question views ask; `reminderDays(forFrequency:)` /
-  `annualFeeReminderDays()` are what planners ask.
+- `ReminderTiming.isInWarningWindow(expiry:now:)` is the one question
+  views ask; planners read `benefitLeadDays` / `annualFeeLeadDays`.
 - `isRecommended` / `resetToRecommended()` back the "Recommended/Custom"
   label and reset button in settings.
 

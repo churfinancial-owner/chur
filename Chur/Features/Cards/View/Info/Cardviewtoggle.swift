@@ -51,7 +51,7 @@ struct CardViewToggle: View {
             guard let expiryDate = benefit.effectiveExpiryDate(cardAnniversaryDate: anniversaryDate) else { return false }
             
             // Check if expiring within warning window
-            return ReminderTiming.isInWarningWindow(expiry: expiryDate, frequency: benefit.frequency, now: now)
+            return ReminderTiming.isInWarningWindow(expiry: expiryDate, now: now)
         }
     }
     

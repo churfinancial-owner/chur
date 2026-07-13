@@ -93,7 +93,7 @@ struct BenefitsListContentView: View {
                     guard let expiryDate = benefit.effectiveExpiryDate() else { return false }
                     let hasBalance = (analyzer.remainingBalance() ?? 0) > 0
                     return hasBalance
-                        && ReminderTiming.isInWarningWindow(expiry: expiryDate, frequency: benefit.frequency)
+                        && ReminderTiming.isInWarningWindow(expiry: expiryDate)
                 }
 
                 // IMPROVED: "Available" quick filter

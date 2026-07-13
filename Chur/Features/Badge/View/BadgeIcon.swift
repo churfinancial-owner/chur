@@ -117,17 +117,26 @@ struct BadgeIcon: View {
                 )
             )
     }
-
     @ViewBuilder
     private var content: some View {
         ZStack {
-            Color.churOlive.opacity(0.8) // Base color for symbols/emojis
+            // Clear background canvas matching the tall window bounds
+            Color.clear
+                .frame(width: windowWidth, height: windowHeight)
             
             if let icon = badge.icon, UIImage(named: icon) != nil {
                 Image(icon)
                     .resizable()
-                    .scaledToFill()
-                    .frame(width: windowWidth, height: windowHeight)
+                    // IMPORTANT: Use .scaledToFit so the square asset keeps its 1:1 format
+                    // and fits entirely within the horizontal width of the window frame.
+                    .scaledToFit()
+                    .frame(width: windowWidth - 10) // Leave subtle padding so art borders don't hit the bezel
+                    // Add a cute, clean backdrop behind the illustration transparency
+                    .background(
+                        Circle()
+                            .fill(Color.white.opacity(0.15))
+                            .blur(radius: 4)
+                    )
             } else if let icon = badge.icon {
                 Image(systemName: icon)
                     .resizable()

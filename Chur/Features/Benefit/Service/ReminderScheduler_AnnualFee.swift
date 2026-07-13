@@ -3,11 +3,10 @@
 //  Chur
 //
 //  Annual fee reminder planner. The fee date is the card's anniversary
-//  (approvedMonth/approvedDay each year). Lead time is user-configurable
-//  (ReminderTiming.annualFeeLeadDays, default 7 days) plus a fixed
-//  last call on the fee day itself. Cards with a $0 fee never remind —
-//  downgrading a card to no-fee (via the custom fee field) silences it
-//  naturally.
+//  (approvedMonth/approvedDay each year). One notice per year, lead time
+//  user-configurable (ReminderTiming.annualFeeLeadDays, default 0 = the
+//  day the fee posts). Cards with a $0 fee never remind — downgrading a
+//  card to no-fee (via the custom fee field) silences it naturally.
 //
 //  Fee reminders are always delivered individually — they are rare and
 //  high-stakes, so the digest never absorbs them.
@@ -34,23 +33,22 @@ extension ReminderScheduler {
             let symbol = card.currency.currencySymbol
             let dateText = feeDate.formatted(.dateTime.month(.abbreviated).day())
 
-            for lead in ReminderTiming.annualFeeReminderDays() {
-                guard let fireDate = Self.deliveryDate(daysBefore: lead, deadline: feeDate),
-                      fireDate > now else { continue }
+            let lead = ReminderTiming.annualFeeLeadDays
+            guard let fireDate = Self.deliveryDate(daysBefore: lead, deadline: feeDate),
+                  fireDate > now else { continue }
 
-                planned.append(PlannedReminder(
-                    identifier: "\(Self.identifierPrefix)fee.\(card.id).\(feeYear).\(lead)d",
-                    kind: .annualFee,
-                    fireDate: fireDate,
-                    title: card.name,
-                    subtitle: "Annual fee",
-                    body: lead == 0
-                        ? "\(symbol)\(card.annualFee) annual fee posts today. Time to review keep, downgrade, or cancel."
-                        : "\(symbol)\(card.annualFee) annual fee posts \(dateText) (in \(lead) days). Time to review keep, downgrade, or cancel.",
-                    threadID: card.id,
-                    payload: ["cardID": card.id]
-                ))
-            }
+            planned.append(PlannedReminder(
+                identifier: "\(Self.identifierPrefix)fee.\(card.id).\(feeYear).\(lead)d",
+                kind: .annualFee,
+                fireDate: fireDate,
+                title: card.name,
+                subtitle: "Annual fee",
+                body: lead == 0
+                    ? "\(symbol)\(card.annualFee) annual fee posts today. Time to review keep, downgrade, or cancel."
+                    : "\(symbol)\(card.annualFee) annual fee posts \(dateText) (in \(lead) days). Time to review keep, downgrade, or cancel.",
+                threadID: card.id,
+                payload: ["cardID": card.id]
+            ))
         }
         return planned
     }
