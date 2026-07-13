@@ -20,11 +20,14 @@ struct ChurApp: App {
         // Must happen before launch finishes so a notification tap that
         // cold-starts the app is still routed to its destination.
         ChurNotificationDelegate.shared.install()
+        // Must also happen before launch finishes (BGTaskScheduler requirement).
+        ReminderBackgroundRefresh.register(container: modelContainer)
+        ReminderBackgroundRefresh.schedule()
         #if DEBUG
         SeedDataValidator.run()
         #endif
     }
-    
+
     let modelContainer: ModelContainer = {
         let schema = Schema(ChurSchemaV1_12.models, version: ChurSchemaV1_12.versionIdentifier)
         let config = ModelConfiguration("Chur", schema: schema, isStoredInMemoryOnly: false)

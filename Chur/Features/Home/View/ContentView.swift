@@ -54,6 +54,9 @@ struct ContentView: View {
             if newPhase == .background || newPhase == .active {
                 ReminderScheduler.shared.requestReconcile(context: modelContext)
             }
+            if newPhase == .background {
+                ReminderBackgroundRefresh.schedule()
+            }
         }
         .onAppear { consumePendingReminderTap() }
         .onChange(of: reminderRouter.pendingBenefitID) { _, _ in

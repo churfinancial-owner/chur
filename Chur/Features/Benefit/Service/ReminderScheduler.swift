@@ -93,6 +93,14 @@ final class ReminderScheduler {
         if feesOn { desired += annualFeeReminders(for: cards) }
         desired = Self.applyDigest(to: desired, cards: cards)
 
+        // A catch-up reminder (see fireDate(daysBefore:deadline:now:)) can
+        // already have been delivered by an earlier reconcile; drop it so
+        // reopening the app doesn't re-notify for the same period.
+        let deliveredIDs = Set(await center.deliveredNotifications()
+            .map(\.request.identifier)
+            .filter(Self.isOwnedIdentifier))
+        desired = desired.filter { !deliveredIDs.contains($0.identifier) }
+
         // Prioritize the soonest reminders when over the iOS pending cap.
         desired = Array(desired.sorted { $0.fireDate < $1.fireDate }.prefix(Self.maxPendingReminders))
 
@@ -153,8 +161,7 @@ final class ReminderScheduler {
 
                 let periodKey = analyzer.periodKey()
                 let lead = ReminderTiming.benefitLeadDays
-                guard let fireDate = Self.deliveryDate(daysBefore: lead, deadline: expiry),
-                      fireDate > now else { continue }
+                guard let fireDate = Self.fireDate(daysBefore: lead, deadline: expiry, now: now) else { continue }
 
                 planned.append(PlannedReminder(
                     identifier: "\(Self.identifierPrefix)benefit.\(card.id).\(benefit.id).\(periodKey).\(lead)d",
@@ -162,7 +169,7 @@ final class ReminderScheduler {
                     fireDate: fireDate,
                     title: benefit.displayName,
                     subtitle: card.name,
-                    body: benefitBody(for: benefit, analyzer: analyzer, leadDays: lead, on: now),
+                    body: benefitBody(for: benefit, analyzer: analyzer, on: now, fireDate: fireDate, expiry: expiry),
                     threadID: card.id,
                     payload: ["benefitID": benefit.id, "cardID": card.id]
                 ))
@@ -171,8 +178,8 @@ final class ReminderScheduler {
         return planned
     }
 
-    private func benefitBody(for benefit: Benefit, analyzer: BenefitUsageAnalyzer, leadDays: Int, on now: Date) -> String {
-        let when = leadDays == 1 ? "tomorrow" : "in \(leadDays) days"
+    private func benefitBody(for benefit: Benefit, analyzer: BenefitUsageAnalyzer, on now: Date, fireDate: Date, expiry: Date) -> String {
+        let when = Self.relativeWhenText(from: fireDate, to: expiry)
 
         if analyzer.isValueBased, let remaining = analyzer.remainingBalance(on: now), remaining > 0 {
             let symbol = benefit.valueCurrency.currencySymbol
@@ -191,6 +198,26 @@ final class ReminderScheduler {
         let calendar = Calendar.current
         guard let day = calendar.date(byAdding: .day, value: -daysBefore, to: deadline) else { return nil }
         return calendar.date(bySettingHour: deliveryHour, minute: 0, second: 0, of: day)
+    }
+
+    /// The ideal delivery time, or — if reconcile is running after that
+    /// moment (e.g. the app wasn't opened during the lead window) — a
+    /// near-immediate catch-up time, as long as the deadline itself is
+    /// still ahead. Returns nil only once the deadline has passed.
+    static func fireDate(daysBefore lead: Int, deadline: Date, now: Date) -> Date? {
+        guard deadline > now else { return nil }
+        guard let ideal = deliveryDate(daysBefore: lead, deadline: deadline) else { return nil }
+        return max(ideal, now.addingTimeInterval(60))
+    }
+
+    /// "Expires in N days" phrasing derived from the actual gap between
+    /// delivery and the deadline, not the configured lead — the two only
+    /// coincide when delivery happens at the ideal time; a catch-up
+    /// reminder fires with less notice than the configured lead.
+    static func relativeWhenText(from fireDate: Date, to deadline: Date) -> String {
+        let days = Int(ceil(deadline.timeIntervalSince(fireDate) / 86_400))
+        if days <= 0 { return "today" }
+        return days == 1 ? "tomorrow" : "in \(days) days"
     }
 
     /// Mirrors BenefitRowViewModel.anniversaryDate so both derive the same

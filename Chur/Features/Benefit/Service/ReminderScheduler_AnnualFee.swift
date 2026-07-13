@@ -34,8 +34,8 @@ extension ReminderScheduler {
             let dateText = feeDate.formatted(.dateTime.month(.abbreviated).day())
 
             let lead = ReminderTiming.annualFeeLeadDays
-            guard let fireDate = Self.deliveryDate(daysBefore: lead, deadline: feeDate),
-                  fireDate > now else { continue }
+            guard let fireDate = Self.fireDate(daysBefore: lead, deadline: feeDate, now: now) else { continue }
+            let when = Self.relativeWhenText(from: fireDate, to: feeDate)
 
             planned.append(PlannedReminder(
                 identifier: "\(Self.identifierPrefix)fee.\(card.id).\(feeYear).\(lead)d",
@@ -43,9 +43,9 @@ extension ReminderScheduler {
                 fireDate: fireDate,
                 title: card.name,
                 subtitle: "Annual fee",
-                body: lead == 0
+                body: when == "today"
                     ? "\(symbol)\(card.annualFee) annual fee posts today. Time to review keep, downgrade, or cancel."
-                    : "\(symbol)\(card.annualFee) annual fee posts \(dateText) (in \(lead) days). Time to review keep, downgrade, or cancel.",
+                    : "\(symbol)\(card.annualFee) annual fee posts \(dateText) (\(when)). Time to review keep, downgrade, or cancel.",
                 threadID: card.id,
                 payload: ["cardID": card.id]
             ))

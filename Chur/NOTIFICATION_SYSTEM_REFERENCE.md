@@ -30,7 +30,9 @@ always:
 **Reconcile triggers:** scenePhase `.active` and `.background`
 (`ContentView`), settings toggles and timing pickers
 (`NotificationSettingsView`, `ReminderScheduleView`), leaving the
-notifications settings screen (picks up mute changes).
+notifications settings screen (picks up mute changes), and the
+`ChurFinancial.reminderRefresh` background task (§9) when iOS grants it
+time without the app being opened at all.
 
 If you add a code path that changes what should be reminded, you don't
 schedule anything — you call
@@ -81,6 +83,22 @@ Rules:
   views ask; planners read `benefitLeadDays` / `annualFeeLeadDays`.
 - `isRecommended` / `resetToRecommended()` back the "Recommended/Custom"
   label and reset button in settings.
+
+**Catch-up on late reconcile.** `reconcile(context:)` only runs when
+triggered (see §1) — if it doesn't run again until *after* the ideal
+delivery moment (`deadline - lead @ 9 AM`) has already passed, the
+reminder is not dropped: `ReminderScheduler.fireDate(daysBefore:deadline:
+now:)` clamps the fire time to `now + 60s` instead, as long as the
+deadline itself hasn't passed. This is what actually guarantees a
+reminder still arrives even when reconcile runs late (see §9 for why that
+happens more than you'd expect). Notification copy ("expires in N days")
+is derived from the actual `fireDate → deadline` gap
+(`ReminderScheduler.relativeWhenText`), not the configured lead, so a
+catch-up reminder doesn't overstate how much time is left. To avoid
+re-notifying every time the app reopens during the rest of that period,
+`reconcile` also fetches `center.deliveredNotifications()` and excludes
+already-delivered identifiers from the desired set before diffing against
+pending requests.
 
 ---
 
@@ -171,7 +189,30 @@ churReminder.digest.<yyyy-MM-dd>
 - Delivered-but-unread notifications are not cleared from Notification
   Center when they become stale (only *pending* ones are cancelled).
 
-## 9. Adding a new category (e.g. card recommendations)
+## 9. Background refresh
+
+`ReminderBackgroundRefresh` (`Features/Benefit/Service/
+ReminderBackgroundRefresh.swift`) registers a `BGAppRefreshTask`
+(`ChurFinancial.reminderRefresh`, declared in `Info.plist` under
+`BGTaskSchedulerPermittedIdentifiers`) in `ChurApp.init()`, before launch
+finishes. It reschedules itself (`schedule()`, ~4h out) after every run —
+and `ContentView` also calls `schedule()` on backgrounding — so a request
+is always pending while the app isn't in the foreground.
+
+**iOS never guarantees this runs on any schedule.** It's opportunistic,
+gated on device state (charging, Wi-Fi, battery) and learned usage
+patterns — an app opened infrequently (Chur's whole premise) tends to get
+*less* background budget, not more, and can go days without a background
+run. Treat it as a best-effort layer that shrinks the odds of `reconcile`
+running late, not something that makes the §3 catch-up logic unnecessary
+— the catch-up is the actual guarantee.
+
+To force-trigger it for testing (can't wait on the real scheduler): pause
+at a breakpoint after `BGTaskScheduler.shared.register(...)` runs, then in
+the LLDB console: `e -l objc -- (void)[[BGTaskScheduler sharedScheduler]
+_simulateLaunchForTaskWithIdentifier:@"ChurFinancial.reminderRefresh"]`.
+
+## 10. Adding a new category (e.g. card recommendations)
 
 1. Add a case to `ReminderKind` and a toggle key on `ReminderScheduler`.
 2. Write a planner in `ReminderScheduler_<Category>.swift` returning
@@ -186,7 +227,7 @@ churReminder.digest.<yyyy-MM-dd>
 6. Decide digest interaction (default: not digested).
 7. Update this file.
 
-## 10. Known follow-ups
+## 11. Known follow-ups
 
 - Notification quick actions ("Mark as used", "Mute").
 - Localized notification copy (4 locales).
