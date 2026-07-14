@@ -67,8 +67,21 @@ enum ReminderTiming {
     /// Whether a benefit expiring at `expiry` is inside its warning window.
     /// The window opens `benefitLeadDays` before expiry — the same moment
     /// the notification fires — and stays open until expiry.
+    ///
+    /// Compares calendar days, not elapsed seconds: `expiry` almost always
+    /// resolves to 23:59:59 (calendar month/quarter/year ends, most
+    /// anniversary cycles), while reminders fire at a fixed 9 AM. Elapsed-
+    /// seconds math would put the notification's own fire moment outside
+    /// the window it's supposed to represent — day-granularity avoids that
+    /// entirely, matching what "N days before expiry" actually means.
     static func isInWarningWindow(expiry: Date, now: Date = Date.current()) -> Bool {
-        let remaining = expiry.timeIntervalSince(now)
-        return remaining > 0 && remaining < Double(benefitLeadDays) * 86_400
+        guard expiry > now else { return false }
+        let calendar = Calendar.current
+        let daysUntil = calendar.dateComponents(
+            [.day],
+            from: calendar.startOfDay(for: now),
+            to: calendar.startOfDay(for: expiry)
+        ).day ?? 0
+        return daysUntil <= benefitLeadDays
     }
 }
