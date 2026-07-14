@@ -10,6 +10,7 @@
     "value": 350,
     "valueCurrency": "USD",
     "frequency": "annual",
+    "resetType": "card_anniversary",
     "activationDelayPeriods": 1,
     "isRecurring": true,
     "usageLimit": 1,
