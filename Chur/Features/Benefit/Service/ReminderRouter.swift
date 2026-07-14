@@ -6,7 +6,7 @@
 //  the tapped notification's "kind" and stores a destination on the shared
 //  router; ContentView observes it and navigates:
 //   • benefitExpiry → that benefit's detail sheet
-//   • annualFee     → the Cards tab
+//   • annualFee     → the Cards tab, scrolled to that card
 //   • digest        → the global Expiring Soon sheet
 //
 
@@ -24,6 +24,11 @@ final class ReminderRouter {
     var pendingCardID: String?
     var pendingCardsTab = false
     var pendingExpiringList = false
+
+    /// Card to scroll the wallet carousel to once the Cards tab appears
+    /// (annual fee taps). Kept out of clear() — it must survive past
+    /// ContentView's tab switch until CardsView consumes it.
+    var pendingScrollToCardID: String?
 
     func clear() {
         pendingBenefitID = nil
@@ -79,6 +84,7 @@ final class ChurNotificationDelegate: NSObject, UNUserNotificationCenterDelegate
                 }
             case .annualFee:
                 ReminderRouter.shared.pendingCardsTab = true
+                ReminderRouter.shared.pendingScrollToCardID = cardID
             case .digest:
                 ReminderRouter.shared.pendingExpiringList = true
             case nil:

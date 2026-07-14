@@ -159,9 +159,12 @@ churReminder.digest.<yyyy-MM-dd>
   work). It dispatches on `kind` and writes to `ReminderRouter.shared`;
   `ContentView` observes the router and navigates (benefit → detail
   sheet via `BenefitDeepLinkTarget`/`BenefitReminderDeepLinkSheet`;
-  fee → Cards tab; digest → `ExpiringBenefitsView` sheet, a global list
-  of benefits in their warning window with balance left, grouped by
-  card, row tap opens the benefit detail sheet).
+  fee → Cards tab, then `CardsView` scrolls the wallet carousel to that
+  card via `ReminderRouter.pendingScrollToCardID` → `CardsViewModel.
+  pendingScrollToCardID` (the same mechanism `GoToCardSheet` uses);
+  digest → `ExpiringBenefitsView` sheet, a global list of benefits in
+  their warning window with balance left, grouped by card, row tap opens
+  the benefit detail sheet).
 - Permission is requested **in context** — when a user enables a toggle
   in Notification settings, never at launch. Denied → toggle reverts +
   alert deep-linking to iOS Settings. A revoked-permission warning row

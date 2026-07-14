@@ -14,6 +14,7 @@ struct CardsView: View {
     
     @State private var vm = CardsViewModel()
     @State private var showPopup = false
+    @State private var reminderRouter = ReminderRouter.shared
 
     var sortedCards: [CreditCard] {
         vm.getSortedCards(cards: cards, user: users.first)
@@ -100,8 +101,21 @@ struct CardsView: View {
                         vm.pendingScrollToCardID = cardID
                     }
                 }
+                .onAppear { consumePendingReminderScroll() }
+                .onChange(of: reminderRouter.pendingScrollToCardID) { _, _ in
+                    consumePendingReminderScroll()
+                }
             }
         }
+    }
+
+    /// Picks up the card an annual fee reminder tap wants the wallet
+    /// carousel scrolled to (ReminderRouter.pendingScrollToCardID), reusing
+    /// the same scroll mechanism GoToCardSheet uses.
+    private func consumePendingReminderScroll() {
+        guard let cardID = reminderRouter.pendingScrollToCardID else { return }
+        reminderRouter.pendingScrollToCardID = nil
+        vm.pendingScrollToCardID = cardID
     }
 }
 
