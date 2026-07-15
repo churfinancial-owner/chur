@@ -98,13 +98,26 @@ struct NearbyPlacesService {
         request.naturalLanguageQuery = query
         request.region = MKCoordinateRegion(center: location, latitudinalMeters: radius, longitudinalMeters: radius)
         
-        let response = try await MKLocalSearch(request: request).start()
+        let response = try await runSearch(request)
         let merchants = response.mapItems.compactMap { convertToMerchant(mapItem: $0, userLocation: location) }
         return Array(merchants.prefix(Self.maxMerchantsToProcess))
     }
 
     // MARK: - Private Core Logic
-    
+
+    /// Runs an `MKLocalSearch` request, retrying once after a brief delay if Apple's
+    /// undocumented rate limit kicks in (`MKError.loadingThrottled`), so a burst of
+    /// searches (e.g. driving, or bouncing between screens) surfaces as a short delay
+    /// instead of a hard "search failed" error.
+    private func runSearch(_ request: MKLocalSearch.Request) async throws -> MKLocalSearch.Response {
+        do {
+            return try await MKLocalSearch(request: request).start()
+        } catch let error as MKError where error.code == .loadingThrottled {
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+            return try await MKLocalSearch(request: request).start()
+        }
+    }
+
     private func performSearch(
         location: CLLocationCoordinate2D,
         radius: CLLocationDistance,
@@ -123,7 +136,7 @@ struct NearbyPlacesService {
         request.resultTypes = .pointOfInterest
         request.naturalLanguageQuery = nil
         
-        let response = try await MKLocalSearch(request: request).start()
+        let response = try await runSearch(request)
 
         // MKLocalSearch results are relevance-ordered, not distance-ordered — sort
         // before truncating or the true closest results in this bucket can get cut.

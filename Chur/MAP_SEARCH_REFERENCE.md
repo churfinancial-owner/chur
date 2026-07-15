@@ -117,8 +117,17 @@ the bucket/cap mechanism in §1, not category matching.
 Both screens share the same risk surface: a full "All" search fans out to
 6 parallel `MKLocalSearch` requests (§1), and Apple doesn't publish a
 numeric rate limit for `MKLocalSearch` — but it's known to return
-`MKError.loadingThrottled` if hit too fast/too often. Keep this in mind
-before adding more buckets or more search triggers.
+`MKError.loadingThrottled` (`MKErrorDomain` code 3) if hit too fast/too
+often. Keep this in mind before adding more buckets or more search
+triggers.
+
+**Throttling recovery**: `NearbyPlacesService.runSearch(_:)` catches
+`MKError.loadingThrottled` specifically and retries once after a 2s
+delay before giving up — every `MKLocalSearch` call in this file goes
+through it. This turns an occasional throttle hit into a brief delay
+instead of a hard "search failed" error reaching the user. If you add a
+new `MKLocalSearch` call site in this file, route it through `runSearch`
+rather than calling `MKLocalSearch(request:).start()` directly.
 
 **Home screen throttling** (`Features/Home/View/Nearby/View_NearbyRecommendations.swift`):
 - `LocationManager` (`Core/Map/Access_LocationManager.swift`) sets
