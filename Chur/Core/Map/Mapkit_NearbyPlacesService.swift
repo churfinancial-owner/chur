@@ -4,6 +4,7 @@
 //
 //  Service for searching nearby places using MapKit's local search.
 //  Uses a parallelized bucket strategy to ensure diverse results across categories.
+//  See Chur/MAP_SEARCH_REFERENCE.md for the bucket design and known gotchas.
 //
 //  Created by Pak Ho on 2/28/26.
 
@@ -13,15 +14,18 @@ import CoreLocation
 import Contacts
 
 struct NearbyPlacesService {
-    
+
     // MARK: - Constants
     static let defaultRadius: CLLocationDistance = 8047 // ~5 miles
-    static let maxMerchantsToProcess = 25 // Cap to keep the recommendation engine fast
-    
+    static let maxMerchantsToProcess = 40 // Cap to keep the recommendation engine fast
+
     // MARK: - Search Buckets
-    private static let foodBuckets: [MKPointOfInterestCategory] = [.restaurant, .cafe, .bakery, .brewery, .winery, .nightlife, .distillery, .foodMarket]
+    // Each bucket gets its own 10-result cap, so buckets should group POI categories
+    // that don't crowd each other out (e.g. groceries live in retailBuckets, not diningBuckets).
+    private static let diningBuckets: [MKPointOfInterestCategory] = [.restaurant, .cafe, .bakery]
+    private static let nightlifeBuckets: [MKPointOfInterestCategory] = [.brewery, .winery, .distillery, .nightlife]
     private static let transportBuckets: [MKPointOfInterestCategory] = [.gasStation, .evCharger, .publicTransport, .parking, .carRental]
-    private static let retailBuckets: [MKPointOfInterestCategory] = [.store, .pharmacy]
+    private static let retailBuckets: [MKPointOfInterestCategory] = [.store, .pharmacy, .foodMarket]
     private static let travelBuckets: [MKPointOfInterestCategory] = [.hotel, .hospital, .postOffice, .university]
     private static let entertainmentBuckets: [MKPointOfInterestCategory] = [.theater, .movieTheater, .amusementPark, .museum, .fitnessCenter, .golf, .spa, .beauty, .stadium, .musicVenue]
 
@@ -49,7 +53,8 @@ struct NearbyPlacesService {
 
                 // Scenario B: "All" Search (Parallel Bucket Strategy)
                 let bucketGroups = [
-                    Self.foodBuckets,
+                    Self.diningBuckets,
+                    Self.nightlifeBuckets,
                     Self.transportBuckets,
                     Self.retailBuckets,
                     Self.travelBuckets,
@@ -119,9 +124,12 @@ struct NearbyPlacesService {
         request.naturalLanguageQuery = nil
         
         let response = try await MKLocalSearch(request: request).start()
-        
-        // Take the top 'limit' closest from this specific bucket
-        let merchants = response.mapItems.compactMap { convertToMerchant(mapItem: $0, userLocation: location) }
+
+        // MKLocalSearch results are relevance-ordered, not distance-ordered — sort
+        // before truncating or the true closest results in this bucket can get cut.
+        let merchants = response.mapItems
+            .compactMap { convertToMerchant(mapItem: $0, userLocation: location) }
+            .sorted { $0.distance < $1.distance }
         return Array(merchants.prefix(limit))
     }
     

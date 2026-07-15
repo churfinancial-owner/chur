@@ -34,6 +34,7 @@ You are a token-conscious engineering assistant. Balance thorough, holistic code
 - `Chur/MERCHANT_SETUP_REFERENCE.md` — how to add merchants/categories to the seed JSON so the pricing engine matches correctly. Follow it exactly; `matchWeight` resolution order is documented there.
 - `Chur/REWARD_SETUP_REFERENCE.md` — cheatsheet for authoring reward JSON: all patterns (plain/multi-category, groupLabel display grouping, configurable slots, rotating, plans) and their gotchas. **Update it whenever a reward JSON field or pattern changes.**
 - `Chur/NOTIFICATION_SYSTEM_REFERENCE.md` — how local reminder notifications work (reconciliation model, categories, timing rules, digest, tap routing, how to add a category). **Read before touching `Reminder*` files or notification settings; update it whenever a category, timing rule, or routing behavior changes.**
+- `Chur/MAP_SEARCH_REFERENCE.md` — how nearby/map merchant search works (bucketed parallel MapKit search, caps, category matching). **Read before touching `Core/Map/Mapkit_*`, `Nearby_Engine*`, or `Features/Search/*`; update it whenever a bucket, cap, or POI category mapping changes.**
 
 ## Project layout
 

@@ -10,8 +10,8 @@
 //  2. Pattern matching (CHILD-level categories like "fast_food", "gas_stations")
 //  3. MapKit POI category mapping (converts MKPointOfInterestCategory to category IDs)
 //
-//  Note: Works in conjunction with NearbyPlacesService.rewardRelevantCategories
-//  which defines which POI categories are requested from MapKit.
+//  Note: Works in conjunction with NearbyPlacesService's bucket definitions,
+//  which define which POI categories are requested from MapKit.
 //
 //  Created by Pak Ho on 3/1/26.
 //
@@ -162,7 +162,7 @@ struct MerchantCategoryMapper {
     
     /// Maps MapKit's MKPointOfInterestCategory to our internal category IDs
     /// Returns "everything" if no specific mapping exists
-    /// Note: Should stay aligned with NearbyPlacesService.rewardRelevantCategories
+    /// Note: Should stay aligned with NearbyPlacesService's bucket definitions
     private static func mapPOICategory(_ poiCategory: String) -> String {
         // MapKit POI categories to our category IDs
         switch poiCategory {
