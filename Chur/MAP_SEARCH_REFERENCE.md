@@ -109,3 +109,52 @@ the bucket/cap mechanism in §1, not category matching.
   `CardRateCalculator.swift`) can fail to find a matching card reward
   (`hasMatch: false`, "❓" fallback) — this affects what reward is shown,
   never whether the merchant itself appears in the list.
+
+---
+
+## 5. Query volume and card-matching cost
+
+Both screens share the same risk surface: a full "All" search fans out to
+6 parallel `MKLocalSearch` requests (§1), and Apple doesn't publish a
+numeric rate limit for `MKLocalSearch` — but it's known to return
+`MKError.loadingThrottled` if hit too fast/too often. Keep this in mind
+before adding more buckets or more search triggers.
+
+**Home screen throttling** (`Features/Home/View/Nearby/View_NearbyRecommendations.swift`):
+- `LocationManager` (`Core/Map/Access_LocationManager.swift`) sets
+  `distanceFilter = 100`, so CoreLocation itself won't deliver a new
+  `location` more often than every ~100m of movement — walking/shopping
+  is already naturally throttled at the OS level.
+- On top of that, the `.onChange(of: locationManager.location)` handler
+  adds a **3-second debounce** (`Task.sleep` before searching) to cover
+  sustained driving, where 100m ticks can arrive every few seconds and
+  would otherwise re-fire the 6-bucket search on every tick.
+- The full map search screen (`Search_Map_ViewModel.swift`) has its own,
+  separate 0.8s debounce on camera/filter changes (`cancelAndSearch()`) —
+  keep both in sync in spirit if you touch either.
+- Neither screen caches results by location (`lastSearchedCenter` in
+  `Search_Map_ViewModel.swift` is currently unused for this) — panning
+  back over an already-searched area re-queries MapKit. Not a problem
+  today given the debounces above, but worth knowing if throttling
+  reports come in.
+
+**Card-matching cost** (`Nearby_Engine.swift`, `CardRateCalculator.swift`):
+- `CardRateCalculator.CategoryMaps` precomputes the category→ancestor-set
+  map once; `NearbyRecommendationEngine.recommendAll`/`recommendAllOnline`
+  build it **once per batch** and pass it to every `recommend(for:)` call,
+  instead of each merchant's `CardRateCalculator` rebuilding the same map
+  from scratch. If you add a new call site that matches many merchants at
+  once, build a `CategoryMaps` up front and pass it through rather than
+  relying on the default (which still rebuilds per-instance — needed for
+  existing single-merchant callers like the debug calculator popup).
+- The home screen caches its `recommendations` in `@State` and only
+  recomputes on `.onChange(of: nearbyMerchants)`, a `cardsFingerprint`
+  (hash of card/plan/reward IDs — `CreditCard` is a SwiftData `@Model`
+  class, so comparing the array by reference won't catch in-place reward
+  changes; see `EarningPowerTabView.cardsFingerprint` for the same
+  pattern), or `boostEnrollments`. Don't turn `recommendations` back into
+  a plain computed `var` — that reruns the full matching pass on every
+  SwiftUI re-render, not just when the inputs change.
+- The full map search screen already avoids this class of cost entirely:
+  it defers card matching to the per-merchant detail popup opened on tap
+  (`Search_Map_View.swift`), rather than matching the whole visible list.
