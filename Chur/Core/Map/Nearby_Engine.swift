@@ -18,7 +18,7 @@ import Foundation
 import CoreLocation
 
 // MARK: - Nearby Merchant Model
-struct NearbyMerchant: Identifiable {
+struct NearbyMerchant: Identifiable, Equatable {
     let id: String
     let name: String              // "McDonald's"
     let categoryID: String        // Maps to SpendingCategory.id like "dining"
@@ -66,7 +66,9 @@ struct NearbyRecommendationEngine {
     
     /// Generate a recommendation for a specific merchant
     /// Always returns a recommendation, even if no card matches
-    func recommend(for merchant: NearbyMerchant) -> NearbyRecommendation {
+    /// `categoryMaps` lets batch callers (`recommendAll`) share one precomputed
+    /// category-ancestor map across merchants instead of rebuilding it each call.
+    func recommend(for merchant: NearbyMerchant, categoryMaps: CardRateCalculator.CategoryMaps? = nil) -> NearbyRecommendation {
         // 1. Find the spending category that matches this merchant
         guard let category = allCategories.first(where: { $0.id == merchant.categoryID }) else {
             // No category match - return recommendation with no card
@@ -93,7 +95,8 @@ struct NearbyRecommendationEngine {
             boostEnrollments: boostEnrollments,
             region: merchant.region,
             channel: "in_store",
-            acceptedRegions: merchant.acceptedRegions
+            acceptedRegions: merchant.acceptedRegions,
+            categoryMaps: categoryMaps
         )
         
         #if DEBUG
@@ -166,17 +169,19 @@ struct NearbyRecommendationEngine {
     
     /// Generate recommendations for multiple merchants (in-store / nearby)
     func recommendAll(for merchants: [NearbyMerchant]) -> [NearbyRecommendation] {
-        merchants.map { recommend(for: $0) }
+        let categoryMaps = CardRateCalculator.CategoryMaps(allCategories: allCategories)
+        return merchants.map { recommend(for: $0, categoryMaps: categoryMaps) }
     }
-    
+
     /// Generate recommendations for online merchants.
     /// Uses `channel: "online"` so channel-restricted rewards (e.g. PayPal online-only) are included.
     func recommendAllOnline(for merchants: [NearbyMerchant]) -> [NearbyRecommendation] {
-        merchants.map { recommendOnline(for: $0) }
+        let categoryMaps = CardRateCalculator.CategoryMaps(allCategories: allCategories)
+        return merchants.map { recommendOnline(for: $0, categoryMaps: categoryMaps) }
     }
-    
+
     /// Recommend for an online merchant — identical to `recommend(for:)` but with channel = "online"
-    private func recommendOnline(for merchant: NearbyMerchant) -> NearbyRecommendation {
+    private func recommendOnline(for merchant: NearbyMerchant, categoryMaps: CardRateCalculator.CategoryMaps? = nil) -> NearbyRecommendation {
         guard let category = allCategories.first(where: { $0.id == merchant.categoryID }) else {
             return NearbyRecommendation(
                 id: merchant.id,
@@ -200,7 +205,8 @@ struct NearbyRecommendationEngine {
             // Online merchants require explicit declaration to earn payment-method rewards.
             // nil paymentMethods → empty set (no PM rewards), vs in-store where nil = no restriction.
             acceptedPaymentMethods: merchant.paymentMethods ?? Set<String>(),
-            acceptedRegions: merchant.acceptedRegions
+            acceptedRegions: merchant.acceptedRegions,
+            categoryMaps: categoryMaps
         )
         
         guard let bestCard = calculator.bestCard else {

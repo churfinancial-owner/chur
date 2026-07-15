@@ -27,22 +27,29 @@ struct NearbyRecommendationsSection: View {
     @State private var searchError: String?
     @State private var locationLabel: String?
     @State private var currentSearchTask: Task<Void, Never>?
-    
+    // Cached so a card-matching pass over `nearbyMerchants` only reruns when the
+    // inputs actually change, not on every unrelated SwiftUI re-render of this view.
+    @State private var recommendations: [NearbyRecommendation] = []
+
     private let placesService = NearbyPlacesService()
-    
-    private var recommendations: [NearbyRecommendation] {
-        let engine = NearbyRecommendationEngine(
-            cards: cards,
-            allCategories: categories,
-            boostEnrollments: boostEnrollments
-        )
-        
-        return engine.recommendAll(for: nearbyMerchants)
-            .sorted { $0.merchant.distance < $1.merchant.distance }
-            .prefix(10)
-            .map { $0 }
+
+    /// `CreditCard` is a SwiftData `@Model` class, so `onChange(of: cards)` on the array
+    /// wouldn't reliably detect in-place reward/plan changes — hash the fields that affect
+    /// matching instead (same approach as `EarningPowerTabView.cardsFingerprint`).
+    private var cardsFingerprint: Int {
+        var hasher = Hasher()
+        for card in cards {
+            hasher.combine(card.id)
+            hasher.combine(card.selectedPlanID)
+            hasher.combine(card.rewardPlans.count)
+            for plan in card.rewardPlans {
+                hasher.combine(plan.id)
+                hasher.combine(plan.rewards.count)
+            }
+        }
+        return hasher.finalize()
     }
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             headerView
@@ -80,11 +87,32 @@ struct NearbyRecommendationsSection: View {
             guard newLocation.horizontalAccuracy > 0, newLocation.horizontalAccuracy < 100 else { return }
             currentSearchTask?.cancel()
             currentSearchTask = Task {
+                // CoreLocation's distanceFilter (100m) already throttles jitter/walking updates.
+                // This debounce guards the sustained-driving case, where 100m updates can arrive
+                // every few seconds and would otherwise re-fire the 6-bucket MapKit search each time.
+                try? await Task.sleep(nanoseconds: 3_000_000_000)
+                guard !Task.isCancelled else { return }
                 await resolveLocationContext(for: newLocation)
                 await searchNearbyPlaces()
             }
         }
+        .onChange(of: nearbyMerchants) { _, _ in updateRecommendations() }
+        .onChange(of: cardsFingerprint) { _, _ in updateRecommendations() }
+        .onChange(of: boostEnrollments) { _, _ in updateRecommendations() }
+    }
 
+    // MARK: - Recommendations
+
+    private func updateRecommendations() {
+        let engine = NearbyRecommendationEngine(
+            cards: cards,
+            allCategories: categories,
+            boostEnrollments: boostEnrollments
+        )
+        recommendations = engine.recommendAll(for: nearbyMerchants)
+            .sorted { $0.merchant.distance < $1.merchant.distance }
+            .prefix(10)
+            .map { $0 }
     }
     
     // MARK: - Subviews

@@ -39,6 +39,21 @@ struct CardRateCalculator {
         let boost: Double
     }
 
+    /// `categoryByID`/`ancestorsByCategoryID`, precomputed once and shared across many
+    /// `CardRateCalculator` instances that match different merchants against the same
+    /// category set (e.g. `NearbyRecommendationEngine.recommendAll`), instead of every
+    /// instance rebuilding the same ancestor-set map from scratch.
+    struct CategoryMaps {
+        fileprivate let categoryByID: [String: SpendingCategory]
+        fileprivate let ancestorsByCategoryID: [String: Set<String>]
+
+        init(allCategories: [SpendingCategory]) {
+            let byID = Dictionary(allCategories.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+            self.categoryByID = byID
+            self.ancestorsByCategoryID = CardRateCalculator.buildAncestorSets(categoryByID: byID)
+        }
+    }
+
     init(
         cards: [CreditCard],
         category: SpendingCategory,
@@ -50,15 +65,16 @@ struct CardRateCalculator {
         allowPaymentMethodFallback: Bool = true,
         forceCrossBorder: Bool = false,
         acceptedPaymentMethods: Set<String>? = nil,
-        acceptedRegions: Set<String>? = nil
+        acceptedRegions: Set<String>? = nil,
+        categoryMaps: CategoryMaps? = nil
     ) {
         self.cards = cards
         self.category = category
         self.rate = rate
         self.allCategories = allCategories
-        let builtCategoryByID = Dictionary(allCategories.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
-        self.categoryByID = builtCategoryByID
-        self.ancestorsByCategoryID = Self.buildAncestorSets(categoryByID: builtCategoryByID)
+        let maps = categoryMaps ?? CategoryMaps(allCategories: allCategories)
+        self.categoryByID = maps.categoryByID
+        self.ancestorsByCategoryID = maps.ancestorsByCategoryID
         self.boostEnrollments = boostEnrollments
         self.region = region
         self.channel = channel
@@ -71,7 +87,7 @@ struct CardRateCalculator {
         self.cachedMatchingRewards = Self.computeAllMatchingRewards(
             cards: cards,
             category: category,
-            categoryByID: builtCategoryByID,
+            categoryByID: maps.categoryByID,
             ancestorsByCategoryID: self.ancestorsByCategoryID,
             boostEnrollments: boostEnrollments,
             region: region,
