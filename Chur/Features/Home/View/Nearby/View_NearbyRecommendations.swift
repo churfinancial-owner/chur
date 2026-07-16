@@ -101,6 +101,11 @@ struct NearbyRecommendationsSection: View {
         .onChange(of: nearbyMerchants) { _, _ in updateRecommendations() }
         .onChange(of: cardsFingerprint) { _, _ in updateRecommendations() }
         .onChange(of: boostEnrollments) { _, _ in updateRecommendations() }
+        .onChange(of: locationManager.errorMessage) { _, newValue in
+            // Don't get stuck showing the loading skeleton forever if CoreLocation
+            // genuinely fails to produce a fix (as opposed to just taking a moment).
+            if newValue != nil { isSearching = false }
+        }
     }
 
     // MARK: - Recommendations
@@ -177,13 +182,17 @@ struct NearbyRecommendationsSection: View {
     // MARK: - Core Logic (Private)
     
     private func searchNearbyPlaces() async {
+        // Waiting on the first GPS fix is still "searching," not "no places found" —
+        // isSearching flips back off via the errorMessage watcher below if location fails.
         guard let location = locationManager.location else {
+            isSearching = true
             locationManager.requestLocation()
             return
         }
 
         // Reject low-accuracy or invalid fixes before kicking off a MapKit search
         guard location.horizontalAccuracy > 0, location.horizontalAccuracy < 100 else {
+            isSearching = true
             locationManager.requestLocation()
             return
         }
