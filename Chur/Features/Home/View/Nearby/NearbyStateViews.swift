@@ -48,6 +48,67 @@ struct LocationErrorView: View {
     }
 }
 
+// MARK: - Loading State
+/// Shown while a nearby search (including a throttled-retry delay) is in flight and no
+/// results have arrived yet — without this, that wait renders as blank space, which reads
+/// as the app being unresponsive rather than loading.
+struct NearbyLoadingState: View {
+    @State private var pulse = false
+
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 16) {
+                ForEach(0..<3, id: \.self) { _ in
+                    NearbyLoadingCard()
+                }
+            }
+            .padding(.vertical, 10)
+            .opacity(pulse ? 0.5 : 1)
+            .animation(.easeInOut(duration: 0.9).repeatForever(autoreverses: true), value: pulse)
+        }
+        .onAppear { pulse = true }
+    }
+}
+
+private struct NearbyLoadingCard: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(alignment: .top, spacing: 8) {
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.churLightGray.opacity(0.3))
+                    .frame(width: 120, height: 16)
+                Spacer(minLength: 4)
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.churLightGray.opacity(0.3))
+                    .frame(width: 24, height: 24)
+            }
+
+            HStack(spacing: 12) {
+                RoundedRectangle(cornerRadius: 6)
+                    .fill(Color.churLightGray.opacity(0.3))
+                    .frame(width: 60, height: 38)
+
+                VStack(alignment: .leading, spacing: 4) {
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(Color.churLightGray.opacity(0.3))
+                        .frame(width: 80, height: 12)
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(Color.churLightGray.opacity(0.3))
+                        .frame(width: 50, height: 20)
+                }
+                Spacer(minLength: 0)
+            }
+        }
+        .padding(16)
+        .frame(width: 280, height: 110)
+        .background(
+            RoundedRectangle(cornerRadius: 18)
+                .fill(Color.white)
+                .shadow(color: .black.opacity(0.05), radius: 10, x: 0, y: 5)
+        )
+    }
+}
+
 // MARK: - Generic Empty State
 struct LocationEmptyState: View {
     var body: some View {

@@ -64,7 +64,9 @@ struct NearbyRecommendationsSection: View {
                 LocationErrorView(errorMessage: error) {
                     Task { await searchNearbyPlaces() }
                 }
-            } else if recommendations.isEmpty && !isSearching {
+            } else if recommendations.isEmpty && isSearching {
+                NearbyLoadingState()
+            } else if recommendations.isEmpty {
                 LocationEmptyState()
             } else {
                 horizontalScrollView
