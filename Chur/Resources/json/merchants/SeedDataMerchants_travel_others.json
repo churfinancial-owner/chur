@@ -1,0 +1,15 @@
+[
+  {
+    "id": "airbnb",
+    "name": "Airbnb",
+    "domain": "airbnb.com",
+    "category": "vacation_homes",
+    "merchantIconName": "icon_airbnb",
+    "isBrandCategory": false,
+    "tags": ["travel", "airbnb", "vacation"],
+    "sortOrder": 313,
+    "featured": ["US"],
+    "popular": ["US"],
+    "map": { "patterns": ["airbnb rental"] }
+  }
+]

@@ -226,12 +226,14 @@
                     {
                         "rate": 3.0,
                         "rewardProgramName": "Ultimate Rewards",
-                        "category": "video_streaming"
+                        "category": "video_streaming",
+                        "groupLabel": "Streaming"
                     },
                     {
                         "rate": 3.0,
                         "rewardProgramName": "Ultimate Rewards",
-                        "category": "music_streaming"
+                        "category": "music_streaming",
+                        "groupLabel": "Streaming"
                     },
                     {
                         "rate": 3.0,

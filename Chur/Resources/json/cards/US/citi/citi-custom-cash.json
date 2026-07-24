@@ -1,6 +1,6 @@
 {
     "id": "citi-custom-cash",
-    "name": "Custom Cash",
+    "name": "Custom Cash (Legacy)",
     "issuer": "Citi",
     "network": "Mastercard",
     "imageName": "citi-custom-cash",
