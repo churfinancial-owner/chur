@@ -13,11 +13,11 @@
     "categoryLinks": null
   },
   {
-    "id": "hotels",
-    "nameEN": "Hotels",
-    "nameZH_Hans": "酒店",
-    "nameZH_HK": "酒店",
-    "nameZH_TW": "飯店",
+    "id": "vacation_homes",
+    "nameEN": "Vacation Homes",
+    "nameZH_Hans": "民宿",
+    "nameZH_HK": "民宿",
+    "nameZH_TW": "民宿",
     "emoji": "🏨",
     "sortOrder": 22,
     "isDefault": false,

@@ -231,7 +231,18 @@
                     {
                         "rate": 3.0,
                         "rewardProgramName": "Ultimate Rewards",
+                        "category": "music_streaming"
+                    },
+                    {
+                        "rate": 3.0,
+                        "rewardProgramName": "Ultimate Rewards",
                         "category": "online_supermarkets"
+                    },
+                    {
+                        "rate": 3.0,
+                        "rewardProgramName": "Ultimate Rewards",
+                        "category": "vacation_homes",
+                        "groupLabel": "Vacation Homes"
                     },
                     {
                         "rate": 2.0,
