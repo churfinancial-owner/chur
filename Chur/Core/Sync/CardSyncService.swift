@@ -30,8 +30,18 @@ struct CardSyncService {
         var result = SyncResult()
 
         for card in cards {
-            guard let templateID = card.templateID,
-                  let template = CardDatabase.getCard(id: templateID) else { continue }
+            guard let templateID = card.templateID else {
+                #if DEBUG
+                print("⚠️ CardSync: card \(card.id) (\(card.name)) has no templateID — skipping sync")
+                #endif
+                continue
+            }
+            guard let template = CardDatabase.getCard(id: templateID) else {
+                #if DEBUG
+                print("⚠️ CardSync: card \(card.id) (\(card.name)) has orphaned templateID '\(templateID)' — no matching template found, skipping sync")
+                #endif
+                continue
+            }
 
             // 1. Sync card-level metadata
             if syncCardMetadata(card: card, template: template) {
