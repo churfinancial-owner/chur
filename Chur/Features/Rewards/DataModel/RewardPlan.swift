@@ -19,10 +19,15 @@ class RewardPlan {
     var planEndDate: Date?            // When this plan ended (nil = current/ongoing)
     var isCustomPlan: Bool            // true if user created this plan
     var isPromo: Bool                 // true for promotional/limited-time plans
-    
+
+    /// Set when a card Product Change supersedes this plan. Archived plans are kept for
+    /// their historical reward-rate record but excluded from `CreditCard.activePlan` /
+    /// `availablePlansForNewUsers` and from resync — never deleted.
+    var archivedDate: Date?
+
     var card: CreditCard?             // Back-reference to the card
     @Relationship(deleteRule: .cascade) var rewards: [RewardRate]  // The actual reward rates
-    
+
     init(id: String,
          name: String,
          isDefault: Bool = false,
@@ -30,8 +35,9 @@ class RewardPlan {
          planStartDate: Date? = nil,
          planEndDate: Date? = nil,
          isCustomPlan: Bool = false,
-         isPromo: Bool = false) {
-        
+         isPromo: Bool = false,
+         archivedDate: Date? = nil) {
+
         self.id = id
         self.name = name
         self.isDefault = isDefault
@@ -40,6 +46,7 @@ class RewardPlan {
         self.planEndDate = planEndDate
         self.isCustomPlan = isCustomPlan
         self.isPromo = isPromo
+        self.archivedDate = archivedDate
         self.rewards = []
     }
 }

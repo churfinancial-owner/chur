@@ -8,7 +8,7 @@ import SwiftData
 
 struct CardsView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var cards: [CreditCard]
+    @Query(filter: #Predicate<CreditCard> { $0.status != "cancelled" }) private var cards: [CreditCard]
     @Query private var users: [User]
     @Query private var categories: [SpendingCategory]
     
@@ -101,6 +101,9 @@ struct CardsView: View {
                         vm.pendingScrollToCardID = cardID
                     }
                 }
+                .sheet(isPresented: $vm.showingClosedCards) {
+                    ClosedCardsSheet()
+                }
                 .onAppear { consumePendingReminderScroll() }
                 .onChange(of: reminderRouter.pendingScrollToCardID) { _, _ in
                     consumePendingReminderScroll()
@@ -169,6 +172,9 @@ private extension CardsView {
             }
             Button { vm.showingApprovedDates = true } label: {
                 Label("Edit Approved Dates", systemImage: "calendar")
+            }
+            Button { vm.showingClosedCards = true } label: {
+                Label("Closed Cards", systemImage: "archivebox")
             }
         } label: {
             ZStack {

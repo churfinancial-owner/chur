@@ -1,11 +1,34 @@
 import SwiftUI
+import SwiftData
 
 struct CardInformationSection: View {
     @Bindable var card: CreditCard
     @Binding var activeSheet: CardInfoContentView.ActiveSheet?
 
+    @State private var showingStatusActions = false
+    @State private var showingCancelConfirm = false
+
+    @Query private var productChangeEvents: [CardProductChangeEvent]
+
+    init(card: CreditCard, activeSheet: Binding<CardInfoContentView.ActiveSheet?>) {
+        self.card = card
+        self._activeSheet = activeSheet
+        let cardID = card.id
+        self._productChangeEvents = Query(
+            filter: #Predicate<CardProductChangeEvent> { $0.cardID == cardID },
+            sort: \CardProductChangeEvent.changeDate,
+            order: .reverse
+        )
+    }
+
     private var currentNetworkLabel: String { Self.networkOptionLabel(from: card.network) }
     private var currentCardTypeLabel: String { Self.cardTypeDisplayLabel(for: card.cardType) }
+    private var statusDisplay: String { card.status == "cancelled" ? "Cancelled" : "Active" }
+    private var previousProductLabel: String? {
+        guard let latest = productChangeEvents.first,
+              let fromTemplate = CardDatabase.getCard(id: latest.fromTemplateID) else { return nil }
+        return "Previously \(fromTemplate.name) until \(latest.changeDate.formatted(.dateTime.month().day().year()))"
+    }
 
     var approvedDateDisplay: String {
         let components = DateComponents(year: card.approvedYear, month: card.approvedMonth, day: card.approvedDay)
@@ -35,12 +58,45 @@ struct CardInformationSection: View {
                 DetailRow(label: "Approved Date", value: approvedDateDisplay, isEditable: true) {
                     activeSheet = .approvedDate
                 }
+                CardRowDivider()
+                DetailRow(label: "Status", value: statusDisplay, isEditable: true) {
+                    showingStatusActions = true
+                }
+                if let previousProductLabel {
+                    Text(previousProductLabel)
+                        .font(.churSmall())
+                        .foregroundStyle(Color.churMediumGray)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.top, 4)
+                }
             }
             .padding(.horizontal, 20)
             .padding(.bottom, 20)
         }
         .background(Color.white)
         .clipShape(RoundedRectangle(cornerRadius: 16))
+        .confirmationDialog("Card Status", isPresented: $showingStatusActions, titleVisibility: .visible) {
+            if card.status == "cancelled" {
+                Button("Reactivate Card") {
+                    CardProductChangeService.reactivate(card: card)
+                }
+            } else {
+                Button("Product Change") {
+                    activeSheet = .productChangePicker
+                }
+                Button("Cancel Card", role: .destructive) {
+                    showingCancelConfirm = true
+                }
+            }
+        }
+        .alert("Cancel \(card.name)?", isPresented: $showingCancelConfirm) {
+            Button("Cancel Card", role: .destructive) {
+                CardProductChangeService.cancel(card: card)
+            }
+            Button("Keep Card", role: .cancel) {}
+        } message: {
+            Text("This removes the card from your wallet and reward calculations. Its history is kept — you can reactivate it later from Closed Cards.")
+        }
     }
 
     // MARK: - Static Formatting Logic

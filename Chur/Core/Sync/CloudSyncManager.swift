@@ -66,6 +66,7 @@ struct CreditCardBackup: Codable {
     let currency: String
     let country: String
     let status: String
+    let cancelledDate: Date?
     let hasForeignTransactionFee: Bool
     let foreignTransactionFeeRate: Double?
     let note: String
@@ -188,6 +189,7 @@ extension CreditCardBackup {
             currency: card.currency,
             country: card.country,
             status: card.status,
+            cancelledDate: card.cancelledDate,
             hasForeignTransactionFee: card.hasForeignTransactionFee,
             foreignTransactionFeeRate: card.foreignTransactionFeeRate,
             note: card.note,

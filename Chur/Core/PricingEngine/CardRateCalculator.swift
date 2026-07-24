@@ -68,6 +68,8 @@ struct CardRateCalculator {
         acceptedRegions: Set<String>? = nil,
         categoryMaps: CategoryMaps? = nil
     ) {
+        // Cancelled cards never earn rewards — exclude them for every caller in one place.
+        let cards = cards.filter { $0.status != "cancelled" }
         self.cards = cards
         self.category = category
         self.rate = rate

@@ -93,6 +93,7 @@ struct BackupRestoreService {
             // Fields not in CreditCard.init
             card.noteIsVisible = cardBackup.noteIsVisible ?? true
             card.status = cardBackup.status
+            card.cancelledDate = cardBackup.cancelledDate
             card.hasCustomAnnualFee = cardBackup.hasCustomAnnualFee
             card.hasCustomForeignFee = cardBackup.hasCustomForeignFee
             card.selectedPlanID = cardBackup.selectedPlanID

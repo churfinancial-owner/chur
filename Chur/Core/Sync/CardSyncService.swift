@@ -30,40 +30,7 @@ struct CardSyncService {
         var result = SyncResult()
 
         for card in cards {
-            guard let templateID = card.templateID else {
-                #if DEBUG
-                print("⚠️ CardSync: card \(card.id) (\(card.name)) has no templateID — skipping sync")
-                #endif
-                continue
-            }
-            guard let template = CardDatabase.getCard(id: templateID) else {
-                #if DEBUG
-                print("⚠️ CardSync: card \(card.id) (\(card.name)) has orphaned templateID '\(templateID)' — no matching template found, skipping sync")
-                #endif
-                continue
-            }
-
-            // 1. Sync card-level metadata
-            if syncCardMetadata(card: card, template: template) {
-                result.cardsUpdated += 1
-            }
-
-            // 2. Sync benefits (add missing, remove stale, update changed)
-            let benefitDelta = syncBenefits(card: card, template: template, modelContext: modelContext)
-            result.benefitsAdded += benefitDelta.added
-            result.benefitsRemoved += benefitDelta.removed
-            result.benefitsUpdated += benefitDelta.updated
-
-            // 3. Migrate legacy slot selections before plan sync may rebuild rewards
-            migrateSlotSelectionsIfNeeded(card: card)
-
-            // 4. Sync non-custom reward plans
-            let planDelta = syncRewardPlans(card: card, template: template, modelContext: modelContext)
-            result.plansRebuilt += planDelta.plansRebuilt
-            result.rewardsPatched += planDelta.rewardsPatched
-
-            // 5. Re-derive reward.categories from slotSelections (the canonical source of truth)
-            card.applySlotSelections()
+            result.merge(syncCard(card, modelContext: modelContext))
         }
 
         if result.hasChanges {
@@ -83,6 +50,52 @@ struct CardSyncService {
             print("✅ CardSync: Everything up to date")
         }
         #endif
+
+        return result
+    }
+
+    /// Syncs a single wallet card against its template. Skips (with a debug log) if the
+    /// card has no `templateID`, or if `templateID` no longer resolves to a known template
+    /// (e.g. the seed JSON's `id` was renamed/removed after the card was added or
+    /// product-changed). Shared by `syncWalletCards` and `CardProductChangeService`.
+    @discardableResult
+    static func syncCard(_ card: CreditCard, modelContext: ModelContext) -> SyncResult {
+        var result = SyncResult()
+
+        guard let templateID = card.templateID else {
+            #if DEBUG
+            print("⚠️ CardSync: card \(card.id) (\(card.name)) has no templateID — skipping sync")
+            #endif
+            return result
+        }
+        guard let template = CardDatabase.getCard(id: templateID) else {
+            #if DEBUG
+            print("⚠️ CardSync: card \(card.id) (\(card.name)) has orphaned templateID '\(templateID)' — no matching template found, skipping sync")
+            #endif
+            return result
+        }
+
+        // 1. Sync card-level metadata
+        if syncCardMetadata(card: card, template: template) {
+            result.cardsUpdated += 1
+        }
+
+        // 2. Sync benefits (add missing, remove stale, update changed)
+        let benefitDelta = syncBenefits(card: card, template: template, modelContext: modelContext)
+        result.benefitsAdded += benefitDelta.added
+        result.benefitsRemoved += benefitDelta.removed
+        result.benefitsUpdated += benefitDelta.updated
+
+        // 3. Migrate legacy slot selections before plan sync may rebuild rewards
+        migrateSlotSelectionsIfNeeded(card: card)
+
+        // 4. Sync non-custom reward plans
+        let planDelta = syncRewardPlans(card: card, template: template, modelContext: modelContext)
+        result.plansRebuilt += planDelta.plansRebuilt
+        result.rewardsPatched += planDelta.rewardsPatched
+
+        // 5. Re-derive reward.categories from slotSelections (the canonical source of truth)
+        card.applySlotSelections()
 
         return result
     }
@@ -133,7 +146,7 @@ struct CardSyncService {
 
         let prefix = "\(cardInstanceID)_"
         var existingByTemplateID: [String: Benefit] = [:]
-        for benefit in card.benefits {
+        for benefit in card.benefits where benefit.archivedDate == nil {
             if benefit.id.hasPrefix(prefix) {
                 let templateBenefitID = String(benefit.id.dropFirst(prefix.count))
                 existingByTemplateID[templateBenefitID] = benefit
@@ -252,7 +265,7 @@ struct CardSyncService {
         guard !template.rewardPlans.isEmpty else { return PlanDelta() }
 
         let customPlans = card.rewardPlans.filter { $0.isCustomPlan }
-        let templatePlans = card.rewardPlans.filter { !$0.isCustomPlan }
+        let templatePlans = card.rewardPlans.filter { !$0.isCustomPlan && $0.archivedDate == nil }
 
         let existingIDs = Set(templatePlans.map { $0.id })
         let newIDs = Set(template.rewardPlans.map { $0.id })
@@ -444,6 +457,15 @@ struct CardSyncService {
 
         var hasChanges: Bool {
             cardsUpdated > 0 || benefitsAdded > 0 || benefitsRemoved > 0 || benefitsUpdated > 0 || plansRebuilt > 0 || rewardsPatched > 0
+        }
+
+        mutating func merge(_ other: SyncResult) {
+            cardsUpdated += other.cardsUpdated
+            benefitsAdded += other.benefitsAdded
+            benefitsRemoved += other.benefitsRemoved
+            benefitsUpdated += other.benefitsUpdated
+            plansRebuilt += other.plansRebuilt
+            rewardsPatched += other.rewardsPatched
         }
 
         var description: String {

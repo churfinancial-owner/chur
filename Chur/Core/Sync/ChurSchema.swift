@@ -66,6 +66,24 @@ enum ChurSchemaV1_12: VersionedSchema {
     ]
 }
 
+// MARK: - v1.13 — card lifecycle: CreditCard.cancelledDate, Benefit.archivedDate,
+// RewardPlan.archivedDate, new CardProductChangeEvent model (Cancel / Product Change feature)
+
+enum ChurSchemaV1_13: VersionedSchema {
+    static var versionIdentifier = Schema.Version(1, 13, 0)
+
+    static var models: [any PersistentModel.Type] = [
+        CreditCard.self,
+        User.self,
+        RewardRate.self,
+        RewardPlan.self,
+        Benefit.self,
+        BenefitUsageRecord.self,
+        SpendingCategory.self,
+        CardProductChangeEvent.self,
+    ]
+}
+
 // MARK: - Migration Plan
 
 enum ChurMigrationPlan: SchemaMigrationPlan {
@@ -74,6 +92,7 @@ enum ChurMigrationPlan: SchemaMigrationPlan {
         ChurSchemaV1_10.self,
         ChurSchemaV1_11.self,
         ChurSchemaV1_12.self,
+        ChurSchemaV1_13.self,
     ]
 
     /// Lightweight migrations (new optional fields, new models) still need a
@@ -83,5 +102,6 @@ enum ChurMigrationPlan: SchemaMigrationPlan {
         .lightweight(fromVersion: ChurSchemaV1_10.self, toVersion: ChurSchemaV1_11.self),
         .custom(fromVersion: ChurSchemaV1_11.self, toVersion: ChurSchemaV1_12.self,
                 willMigrate: nil, didMigrate: nil),
+        .lightweight(fromVersion: ChurSchemaV1_12.self, toVersion: ChurSchemaV1_13.self),
     ]
 }
