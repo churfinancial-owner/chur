@@ -1,6 +1,6 @@
 # Chur — Data Dictionary
 
-**Schema version:** 1.13.0 (adds `CreditCard.cancelledDate`, `Benefit.archivedDate`, `RewardPlan.archivedDate`, new `CardProductChangeEvent` model — Cancel / Product Change feature)  
+**Schema version:** 1.13.0 (adds `CreditCard.cancelledDate`, new `CardProductChangeEvent` model — Cancel / Product Change feature)  
 **Migration plan:** `ChurMigrationPlan` in `Core/Sync/ChurSchema.swift`  
 **Backup version:** `ChurBackup.currentVersion = 1` — increment and add migration case in `CloudSyncManager.migrate(_:)` for any breaking DTO change  
 **Persistence:** SwiftData (SQLite on-device)  
@@ -84,7 +84,7 @@
 | `currency` | `String` | Not Null, default `"USD"` | — | Billing currency code (ISO 4217) for this card. |
 | `country` | `String` | Not Null, default `"US"` | — | Country where the card was issued (ISO 3166-1 alpha-2). |
 | `status` | `String` | Not Null, default `"active"` | — | Card lifecycle status. Expected values: `"active"`, `"cancelled"`. Cancelled cards are excluded from the wallet display and `CardRateCalculator`, but never deleted (see `CardProductChangeService.cancel`/`reactivate`). |
-| `cancelledDate` | `Date?` | Nullable | — | Set when `status` becomes `"cancelled"`; cleared on reactivate. Powers the Closed Cards list sort order. |
+| `cancelledDate` | `Date?` | Nullable | — | Set when `status` becomes `"cancelled"` — either a manual cancel, or as the first step of `CardProductChangeService.productChange` (which cancels this card and adds a separate new `CreditCard` for the target template — see `CardProductChangeEvent`). Cleared on reactivate. |
 | `hasForeignTransactionFee` | `Bool` | Not Null | — | Whether this card charges a foreign transaction fee. |
 | `foreignTransactionFeeRate` | `Double?` | Nullable | — | FX fee rate (e.g. `0.03` = 3%). `nil` when `hasForeignTransactionFee` is `false`. |
 | `rewards` | `[RewardRate]` | Not Null, cascade delete | 1:N → `RewardRate` (legacy direct relationship) | Legacy reward rates attached directly to the card (pre-plan system). Superseded by `rewardPlans`. |
@@ -119,7 +119,6 @@
 | `planEndDate` | `Date?` | Nullable | — | When this plan structure ended. `nil` = still current/ongoing. |
 | `isCustomPlan` | `Bool` | Not Null, default `false` | — | `true` if the user created this plan manually rather than from the catalog. |
 | `isPromo` | `Bool` | Not Null, default `false` | — | `true` for promotional or limited-time plans (e.g. a sign-up bonus rate period). |
-| `archivedDate` | `Date?` | Nullable | — | Set by `CardProductChangeService.productChange` when this plan's card switches templates. Archived plans are kept (never deleted, for their historical reward-rate record) but excluded from `CreditCard.activePlan`/`availablePlansForNewUsers` and from resync. Distinct from `planEndDate`, which models a template's own real-world structure change over time. |
 | `card` | `CreditCard?` | Nullable | N:1 → `CreditCard` (back-reference) | Back-reference to the owning card. Managed automatically by SwiftData. |
 | `rewards` | `[RewardRate]` | Not Null, cascade delete | 1:N → `RewardRate` | The reward rates that make up this plan. |
 
@@ -198,7 +197,6 @@
 | `isActivatedByUser` | `Bool` | Not Null, default `false` | — | Permanent unlock flag for `"lockonce"` mode. |
 | `activatedAt` | `Date?` | Nullable | — | Timestamp of the user's last activation. Used by `"lockbyfrequency"` to validate current period. |
 | `isMuted` | `Bool` | Not Null (`@Attribute`), default `false` | — | Suppresses reminder notifications for this specific benefit. |
-| `archivedDate` | `Date?` | Nullable | — | Set by `CardProductChangeService.productChange` when this benefit's card switches templates. Archived benefits are kept (never deleted, for `usageHistory`) but excluded from active benefit lists and from resync. |
 | `usageHistory` | `[BenefitUsageRecord]` | Not Null, cascade delete | 1:N → `BenefitUsageRecord` | Full redemption history for this benefit. |
 
 ---
@@ -225,14 +223,15 @@
 ## 7. CardProductChangeEvent
 
 **File:** `Features/Cards/DataModel/CardProductChangeEvent.swift`  
-**Role:** One immutable row per Product Change, recording that a wallet card instance switched from one card template to another. Powers the "previously X" history shown in Card Information. Never mutated or deleted after creation. Not currently included in the cloud backup DTOs (see `CloudSyncManager.swift`) — same limitation as `RewardPlan`'s structural data, which also isn't independently backed up.
+**Role:** One immutable row per Product Change. A Product Change is modeled as **cancel the old card, add a new one** (`CardProductChangeService.productChange`) rather than an in-place mutation — this event is the only link between the two otherwise-independent `CreditCard` rows. Powers the Card History timeline and the "previously X" note shown on the new card's Card Information. Never mutated or deleted after creation. Not currently included in the cloud backup DTOs (see `CloudSyncManager.swift`).
 
 | Field | Type | Constraints | Relationship | Description |
 |---|---|---|---|---|
 | `id` | `String` | Not Null, application PK (UUID) | — | Default: `UUID().uuidString`. |
-| `cardID` | `String` | Not Null | References `CreditCard.id` | The wallet card instance that changed products. |
-| `fromTemplateID` | `String` | Not Null | References `CardDatabase` (static JSON, not persisted) | The template the card switched away from. `"unknown"` if the card had no `templateID` before the switch. |
-| `toTemplateID` | `String` | Not Null | References `CardDatabase` (static JSON, not persisted) | The template the card switched to — matches `CreditCard.templateID` at the time of the event. |
+| `fromCardID` | `String` | Not Null | References `CreditCard.id` | The old wallet card instance, which `productChange` cancels (`status = "cancelled"`) but never deletes — it keeps its own real benefits/reward plans/usage history, unchanged. |
+| `toCardID` | `String` | Not Null | References `CreditCard.id` | The new wallet card instance, built the same way the normal Add Card flow builds one, with `approvedMonth`/`Day`/`Year` copied from `fromCardID` so the real-world account age is preserved. `dateAdded`/`note` are not copied — they start fresh. |
+| `fromTemplateID` | `String` | Not Null | References `CardDatabase` (static JSON, not persisted) | The template `fromCardID` was using. `"unknown"` if it had no `templateID`. |
+| `toTemplateID` | `String` | Not Null | References `CardDatabase` (static JSON, not persisted) | The template `toCardID` was created from — matches `toCardID.templateID`. |
 | `changeDate` | `Date` | Not Null | — | When the Product Change occurred. |
 
 ---
@@ -336,7 +335,8 @@ CreditCard
       └── usageHistory (cascade) ─1:N────────▶  BenefitUsageRecord
 
 CardProductChangeEvent
- ├── cardID ──────────────────references──▶  CreditCard.id
+ ├── fromCardID ──────────────references──▶  CreditCard.id  (old card, now cancelled)
+ ├── toCardID ────────────────references──▶  CreditCard.id  (new card, freshly added)
  ├── fromTemplateID ──────────references──▶  CardDatabase (static JSON)
  └── toTemplateID ────────────references──▶  CardDatabase (static JSON)
 
@@ -344,7 +344,7 @@ SpendingCategory
  └── parentCategoryID ─────self-ref──────────▶  SpendingCategory.id
 ```
 
-**Cascade behaviour:** Deleting a `CreditCard` deletes all its `RewardPlan`, `RewardRate` (via plan), and `Benefit` records, and all `BenefitUsageRecord` history. The `User` record is never cascade-deleted; it is reset to its `anonymous` defaults instead. `CardProductChangeEvent` rows are not cascade-linked to `CreditCard` (plain string `cardID` reference, not a SwiftData relationship) — they survive even if the card is later deleted, and are not currently cleaned up in that case (see Audit Notes).
+**Cascade behaviour:** Deleting a `CreditCard` deletes all its `RewardPlan`, `RewardRate` (via plan), and `Benefit` records, and all `BenefitUsageRecord` history. The `User` record is never cascade-deleted; it is reset to its `anonymous` defaults instead. `CardProductChangeEvent` rows are not cascade-linked to `CreditCard` (plain string `fromCardID`/`toCardID` references, not SwiftData relationships) — they survive even if either card is later deleted, and are not currently cleaned up in that case (see Audit Notes).
 
 ---
 
@@ -365,5 +365,5 @@ SpendingCategory
 | 10 | **Low** | Open | Hex color strings | `CreditCard.noteTextColor` / `noteBgColor` unvalidated. Add hex-format check on write. |
 | 11 | **Info** | Open | `User` singleton | No uniqueness constraint. Add boot-time assertion and a merge/delete repair path. |
 | 12 | **Info** | Open | `BenefitUsageRecord` import | Idempotent re-import requires caller-supplied `externalID`; `id` uniqueness alone is insufficient. |
-| 13 | **Medium** | Open | Archived data not backed up | `Benefit.archivedDate` / `RewardPlan.archivedDate` records (from Product Change) are not represented in the `ChurBackup` DTOs — same pre-existing gap as `RewardPlan`'s structural data generally (only user-set values are backed up; structure is always rebuilt from `CardDatabase` templates). A cloud restore to a new device will lose archived benefit/plan history, though usage history tied to *currently active* benefits is preserved via `BenefitUserData`. |
-| 14 | **Low** | Open | `CardProductChangeEvent` orphaning | Not cascade-linked to `CreditCard` (see Relationships Overview) — rows survive card deletion with no cleanup path. Low impact today (history-only, never read after its card is gone), but worth a cleanup pass if `CardProductChangeEvent` volume grows. |
+| 13 | **Low** | Open | `CardProductChangeEvent` orphaning | Not cascade-linked to `CreditCard` (see Relationships Overview) — rows survive card deletion with no cleanup path. Low impact today (history-only, never read after its card is gone), but worth a cleanup pass if `CardProductChangeEvent` volume grows. |
+| 14 | **Low** | Open | `CardProductChangeEvent` not backed up | Not represented in the `ChurBackup` DTOs (see `CloudSyncManager.swift`) — a cloud restore to a new device loses the Card History timeline linkage, though both `CreditCard` rows it links (and their own benefit/usage data) restore normally on their own. |

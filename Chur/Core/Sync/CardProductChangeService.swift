@@ -3,8 +3,6 @@
 //  Chur
 //
 //  Card lifecycle transitions: Cancel and Product Change.
-//  Both preserve the wallet card's identity (id, dateAdded, approvedDate, note) and
-//  usage history — neither ever deletes the CreditCard row.
 
 import Foundation
 import SwiftData
@@ -24,42 +22,34 @@ struct CardProductChangeService {
         card.cancelledDate = nil
     }
 
-    /// Switches a wallet card from its current template to a new one (e.g. Citi Costco
-    /// Visa → Citi Custom Cash), preserving `id`/`dateAdded`/`approvedDate`/`note`/usage
-    /// history while archiving the old benefits/reward plans (kept, not deleted) and
-    /// building fresh ones from the new template.
+    /// Switches a wallet card to a different product (e.g. Citi Costco Visa → Citi Custom
+    /// Cash). This is modeled as **cancelling the old card and adding a new one**, not an
+    /// in-place mutation: `fromCard` is cancelled (kept, with its real benefits/reward
+    /// plans/usage history intact, exactly like a manual cancel), and a brand-new
+    /// `CreditCard` is built from `toTemplateID` the same way the normal "Add Card" flow
+    /// does. Only the approved date carries over, so the new card's real-world account age
+    /// is preserved; `dateAdded`/`note` start fresh. A `CardProductChangeEvent` links the
+    /// two cards for the Card History timeline and the new card's "previously X" note.
     ///
-    /// Returns `false` (no changes made) if `toTemplateID` doesn't resolve to a known template.
+    /// Returns the new card, or `nil` if `toTemplateID` doesn't resolve to a known template
+    /// (no changes are made in that case).
     @discardableResult
-    static func productChange(card: CreditCard, toTemplateID: String, modelContext: ModelContext) -> Bool {
-        guard CardDatabase.getCard(id: toTemplateID) != nil else { return false }
+    static func productChange(fromCard: CreditCard, toTemplateID: String, modelContext: ModelContext) -> CreditCard? {
+        guard let newTemplate = CardDatabase.getCard(id: toTemplateID) else { return nil }
 
         let now = Date.current()
-        let fromTemplateID = card.templateID ?? "unknown"
+        let fromTemplateID = fromCard.templateID ?? "unknown"
 
-        // Archive (never delete) the old benefits and non-custom reward plans so their
-        // usage history / rate history stays queryable, but they stop counting as "current".
-        for benefit in card.benefits where benefit.archivedDate == nil {
-            benefit.archivedDate = now
-        }
-        for plan in card.rewardPlans where !plan.isCustomPlan && plan.archivedDate == nil {
-            plan.archivedDate = now
-            plan.isDefault = false
-        }
-        card.selectedPlanID = nil
+        cancel(card: fromCard)
 
-        // New product = new defaults; user customizations belonged to the old product.
-        card.hasCustomImage = false
-        card.hasCustomAnnualFee = false
-        card.hasCustomForeignFee = false
-        card.slotSelections = [:]
-        card.rewardProgramOverride = nil
-
-        card.templateID = toTemplateID
-        CardSyncService.syncCard(card, modelContext: modelContext)
+        let newCard = newTemplate.toCreditCard(modelContext: modelContext)
+        newCard.approvedMonth = fromCard.approvedMonth
+        newCard.approvedDay = fromCard.approvedDay
+        newCard.approvedYear = fromCard.approvedYear
 
         let event = CardProductChangeEvent(
-            cardID: card.id,
+            fromCardID: fromCard.id,
+            toCardID: newCard.id,
             fromTemplateID: fromTemplateID,
             toTemplateID: toTemplateID,
             changeDate: now
@@ -67,6 +57,6 @@ struct CardProductChangeService {
         modelContext.insert(event)
 
         try? modelContext.save()
-        return true
+        return newCard
     }
 }

@@ -101,8 +101,8 @@ struct CardsView: View {
                         vm.pendingScrollToCardID = cardID
                     }
                 }
-                .sheet(isPresented: $vm.showingClosedCards) {
-                    ClosedCardsSheet()
+                .sheet(isPresented: $vm.showingCardHistory) {
+                    CardHistorySheet()
                 }
                 .onAppear { consumePendingReminderScroll() }
                 .onChange(of: reminderRouter.pendingScrollToCardID) { _, _ in
@@ -173,8 +173,8 @@ private extension CardsView {
             Button { vm.showingApprovedDates = true } label: {
                 Label("Edit Approved Dates", systemImage: "calendar")
             }
-            Button { vm.showingClosedCards = true } label: {
-                Label("Closed Cards", systemImage: "archivebox")
+            Button { vm.showingCardHistory = true } label: {
+                Label("Card History", systemImage: "clock.arrow.circlepath")
             }
         } label: {
             ZStack {

@@ -146,7 +146,7 @@ struct CardSyncService {
 
         let prefix = "\(cardInstanceID)_"
         var existingByTemplateID: [String: Benefit] = [:]
-        for benefit in card.benefits where benefit.archivedDate == nil {
+        for benefit in card.benefits {
             if benefit.id.hasPrefix(prefix) {
                 let templateBenefitID = String(benefit.id.dropFirst(prefix.count))
                 existingByTemplateID[templateBenefitID] = benefit
@@ -265,7 +265,7 @@ struct CardSyncService {
         guard !template.rewardPlans.isEmpty else { return PlanDelta() }
 
         let customPlans = card.rewardPlans.filter { $0.isCustomPlan }
-        let templatePlans = card.rewardPlans.filter { !$0.isCustomPlan && $0.archivedDate == nil }
+        let templatePlans = card.rewardPlans.filter { !$0.isCustomPlan }
 
         let existingIDs = Set(templatePlans.map { $0.id })
         let newIDs = Set(template.rewardPlans.map { $0.id })

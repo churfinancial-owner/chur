@@ -77,11 +77,6 @@ class Benefit {
     // Notification Preferences
     @Attribute var isMuted: Bool = false
 
-    /// Set when a card Product Change supersedes this benefit. Archived benefits are kept
-    /// for their `usageHistory` record but excluded from active benefit lists and from
-    /// resync — never deleted.
-    var archivedDate: Date?
-
     // Usage History
     @Relationship(deleteRule: .cascade) var usageHistory: [BenefitUsageRecord] = []
 

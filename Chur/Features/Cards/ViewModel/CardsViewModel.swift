@@ -20,7 +20,7 @@ class CardsViewModel {
     var showingCardOrder = false
     var showingApprovedDates = false
     var showingGoToCard = false
-    var showingClosedCards = false
+    var showingCardHistory = false
     /// Set to a card.id to trigger a programmatic centered scroll via the carousel's proxy.
     var pendingScrollToCardID: String? = nil
     var selectedFrequency: String? = nil

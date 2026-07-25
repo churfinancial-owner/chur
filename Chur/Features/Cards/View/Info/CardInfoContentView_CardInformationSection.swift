@@ -15,7 +15,7 @@ struct CardInformationSection: View {
         self._activeSheet = activeSheet
         let cardID = card.id
         self._productChangeEvents = Query(
-            filter: #Predicate<CardProductChangeEvent> { $0.cardID == cardID },
+            filter: #Predicate<CardProductChangeEvent> { $0.toCardID == cardID },
             sort: \CardProductChangeEvent.changeDate,
             order: .reverse
         )
@@ -95,7 +95,7 @@ struct CardInformationSection: View {
             }
             Button("Keep Card", role: .cancel) {}
         } message: {
-            Text("This removes the card from your wallet and reward calculations. Its history is kept — you can reactivate it later from Closed Cards.")
+            Text("This removes the card from your wallet and reward calculations. Its history is kept — you can reactivate it later from Card History.")
         }
     }
 

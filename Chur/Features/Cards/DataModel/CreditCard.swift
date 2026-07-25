@@ -99,16 +99,14 @@ class CreditCard {
 extension CreditCard {
     /// The currently active reward plan for this card
     var activePlan: RewardPlan? {
-        let livePlans = rewardPlans.filter { $0.archivedDate == nil }
-
         // If user has selected a specific plan, use that
         if let selectedPlanID = selectedPlanID,
-           let selectedPlan = livePlans.first(where: { $0.id == selectedPlanID }) {
+           let selectedPlan = rewardPlans.first(where: { $0.id == selectedPlanID }) {
             return selectedPlan
         }
 
         // Otherwise, use the default plan
-        return livePlans.first(where: { $0.isDefault })
+        return rewardPlans.first(where: { $0.isDefault })
     }
     
     /// The active reward rates based on the selected or default plan
@@ -124,12 +122,12 @@ extension CreditCard {
     
     /// Whether this card has multiple plans available
     var hasMultiplePlans: Bool {
-        return rewardPlans.filter { $0.archivedDate == nil }.count > 1
+        return rewardPlans.count > 1
     }
 
     /// All available plans for new users (used when browsing cards)
     var availablePlansForNewUsers: [RewardPlan] {
-        return rewardPlans.filter { $0.archivedDate == nil && $0.isAvailableForNewUsers }
+        return rewardPlans.filter { $0.isAvailableForNewUsers }
     }
 }
 

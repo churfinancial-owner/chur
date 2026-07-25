@@ -56,13 +56,13 @@ struct ProductChangePickerSheet: View {
             )) {
                 Button("Switch", role: .destructive) {
                     if let template = pendingTemplate {
-                        CardProductChangeService.productChange(card: card, toTemplateID: template.id, modelContext: modelContext)
+                        CardProductChangeService.productChange(fromCard: card, toTemplateID: template.id, modelContext: modelContext)
                     }
                     dismiss()
                 }
                 Button("Cancel", role: .cancel) { pendingTemplate = nil }
             } message: {
-                Text("\(card.name)'s benefits and reward rates will switch to \(pendingTemplate?.name ?? "the new card"). Its approved date, notes, and usage history are kept.")
+                Text("\(card.name) will be cancelled and \(pendingTemplate?.name ?? "the new card") added in its place, keeping the same approved date. \(card.name)'s history stays viewable in Card History.")
             }
         }
     }
