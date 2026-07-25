@@ -2,10 +2,10 @@
 //  CardHistorySheet.swift
 //  Chur
 //
-//  Timeline of every card the user has ever added: active cards, plain cancels, and
-//  Product Change chains (e.g. Citi Costco Visa → Citi Custom Cash). A Product Change
-//  cancels the old CreditCard row and adds a new one (CardProductChangeService), linked
-//  by a CardProductChangeEvent — this view walks those links to reconstruct each lineage.
+//  A single chronological timeline across every card the user has ever added —
+//  active, cancelled, and product-changed-away — ordered by each card's real-world
+//  approved date (not dateAdded), newest at top, oldest at bottom. Reads like a
+//  credit history rather than a per-card list.
 //
 
 import SwiftUI
@@ -16,68 +16,65 @@ struct CardHistorySheet: View {
     @Query private var allCards: [CreditCard]
     @Query private var events: [CardProductChangeEvent]
 
-    private enum EndReason {
-        case ongoing
-        case cancelled
-        case productChanged(toName: String)
+    private enum NodeStatus {
+        case active
+        case cancelled(Date?)
+        case productChanged(toName: String, Date)
     }
 
-    private struct LineageNode: Identifiable {
+    private struct HistoryNode: Identifiable {
         let card: CreditCard
-        let startDate: Date
-        let endDate: Date?
-        let endReason: EndReason
+        let approvedDate: Date
+        let status: NodeStatus
         var id: String { card.id }
     }
 
-    /// One array per lineage (oldest card first), newest lineage first.
-    private var lineages: [[LineageNode]] {
+    private var nodes: [HistoryNode] {
         let cardsByID = Dictionary(uniqueKeysWithValues: allCards.map { ($0.id, $0) })
         let eventByFromID = Dictionary(uniqueKeysWithValues: events.map { ($0.fromCardID, $0) })
-        let toCardIDs = Set(events.map { $0.toCardID })
 
-        // A lineage starts at any card that wasn't itself created by a Product Change.
-        let roots = allCards.filter { !toCardIDs.contains($0.id) }
-
-        let chains: [[LineageNode]] = roots.map { root in
-            var chain: [LineageNode] = []
-            var current = root
-            var start = current.dateAdded
-            while true {
-                if let event = eventByFromID[current.id], let next = cardsByID[event.toCardID] {
-                    chain.append(LineageNode(card: current, startDate: start, endDate: event.changeDate, endReason: .productChanged(toName: next.name)))
-                    current = next
-                    start = event.changeDate
-                } else if current.status == "cancelled" {
-                    chain.append(LineageNode(card: current, startDate: start, endDate: current.cancelledDate, endReason: .cancelled))
-                    break
-                } else {
-                    chain.append(LineageNode(card: current, startDate: start, endDate: nil, endReason: .ongoing))
-                    break
-                }
+        let built: [HistoryNode] = allCards.map { card in
+            let status: NodeStatus
+            if let event = eventByFromID[card.id] {
+                status = .productChanged(toName: cardsByID[event.toCardID]?.name ?? "another card", event.changeDate)
+            } else if card.status == "cancelled" {
+                status = .cancelled(card.cancelledDate)
+            } else {
+                status = .active
             }
-            return chain
+            return HistoryNode(card: card, approvedDate: Self.approvedDate(for: card), status: status)
         }
 
-        return chains.sorted { ($0.last?.startDate ?? .distantPast) > ($1.last?.startDate ?? .distantPast) }
+        return built.sorted { a, b in
+            if a.approvedDate != b.approvedDate { return a.approvedDate > b.approvedDate }
+            return a.card.dateAdded > b.card.dateAdded
+        }
+    }
+
+    private static func approvedDate(for card: CreditCard) -> Date {
+        let components = DateComponents(year: card.approvedYear, month: card.approvedMonth, day: card.approvedDay)
+        return Calendar.current.date(from: components) ?? card.dateAdded
     }
 
     var body: some View {
         NavigationStack {
             Group {
-                if lineages.isEmpty {
+                if nodes.isEmpty {
                     EmptyStatePlaceholder(
                         icon: "clock.arrow.circlepath",
                         title: "No Card History",
-                        subtitle: "As you add, cancel, or product-change cards, their timeline shows up here."
+                        subtitle: "As you add, cancel, or product-change cards, your timeline shows up here."
                     )
                 } else {
                     ScrollView {
-                        VStack(spacing: 16) {
-                            ForEach(Array(lineages.enumerated()), id: \.offset) { _, lineage in
-                                lineageCard(lineage)
+                        VStack(alignment: .leading, spacing: 0) {
+                            ForEach(Array(nodes.enumerated()), id: \.element.id) { index, node in
+                                timelineRow(node, isLast: index == nodes.count - 1)
                             }
                         }
+                        .padding(16)
+                        .background(Color.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
                         .padding(16)
                     }
                 }
@@ -93,29 +90,16 @@ struct CardHistorySheet: View {
         }
     }
 
-    private func lineageCard(_ lineage: [LineageNode]) -> some View {
-        VStack(alignment: .leading, spacing: 0) {
-            ForEach(Array(lineage.enumerated()), id: \.element.id) { index, node in
-                timelineRow(node, isLast: index == lineage.count - 1)
-            }
-        }
-        .padding(16)
-        .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-    }
-
     @ViewBuilder
-    private func timelineRow(_ node: LineageNode, isLast: Bool) -> some View {
+    private func timelineRow(_ node: HistoryNode, isLast: Bool) -> some View {
         HStack(alignment: .top, spacing: 12) {
-            VStack(spacing: 0) {
-                Image(systemName: icon(for: node.endReason))
-                    .font(.churRowTextMedium())
-                    .foregroundStyle(iconColor(for: node.endReason))
+            VStack(spacing: 4) {
+                cardIcon(node.card)
                 if !isLast {
                     Rectangle()
                         .fill(Color.churMediumGray.opacity(0.3))
                         .frame(width: 2)
-                        .frame(minHeight: 24)
+                        .frame(minHeight: 28)
                 }
             }
 
@@ -126,11 +110,18 @@ struct CardHistorySheet: View {
                 Text(node.card.issuer)
                     .font(.churSmall())
                     .foregroundStyle(Color.churMediumGray)
-                Text(dateRangeText(node))
-                    .font(.churSmall())
-                    .foregroundStyle(Color.churMediumGray)
 
-                if case .cancelled = node.endReason {
+                HStack(spacing: 6) {
+                    Circle()
+                        .fill(statusColor(node.status))
+                        .frame(width: 6, height: 6)
+                    Text(statusText(node.status))
+                        .font(.churSmall())
+                        .foregroundStyle(Color.churMediumGray)
+                }
+                .padding(.top, 2)
+
+                if case .cancelled = node.status {
                     Button("Reactivate") {
                         CardProductChangeService.reactivate(card: node.card)
                     }
@@ -139,39 +130,50 @@ struct CardHistorySheet: View {
                     .padding(.top, 2)
                 }
             }
-            .padding(.bottom, isLast ? 0 : 16)
+            .padding(.bottom, isLast ? 0 : 20)
 
             Spacer()
         }
     }
 
-    private func icon(for reason: EndReason) -> String {
-        switch reason {
-        case .ongoing: return "checkmark.circle.fill"
-        case .cancelled: return "xmark.circle.fill"
-        case .productChanged: return "arrow.triangle.2.circlepath.circle.fill"
+    @ViewBuilder
+    private func cardIcon(_ card: CreditCard) -> some View {
+        if let uiImage = UIImage(named: card.imageName) {
+            Image(uiImage: uiImage)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 44, height: 28)
+                .clipShape(RoundedRectangle(cornerRadius: 6))
+                .shadow(color: .black.opacity(0.1), radius: 1, x: 0, y: 1)
+        } else {
+            RoundedRectangle(cornerRadius: 6)
+                .fill(Color.cardColor(for: card.issuer))
+                .frame(width: 44, height: 28)
+                .overlay {
+                    Text(card.issuer.prefix(1))
+                        .font(.churNanoBold())
+                        .foregroundStyle(.white)
+                }
         }
     }
 
-    private func iconColor(for reason: EndReason) -> Color {
-        switch reason {
-        case .ongoing: return .churOlive
+    private func statusColor(_ status: NodeStatus) -> Color {
+        switch status {
+        case .active: return .churOlive
         case .cancelled: return Color.churMediumGray
         case .productChanged: return .blue
         }
     }
 
-    private func dateRangeText(_ node: LineageNode) -> String {
-        let start = node.startDate.formatted(.dateTime.month(.abbreviated).day().year())
-        switch node.endReason {
-        case .ongoing:
-            return "\(start) – Present"
-        case .cancelled:
-            let end = (node.endDate ?? node.startDate).formatted(.dateTime.month(.abbreviated).day().year())
-            return "\(start) – \(end) (Cancelled)"
-        case .productChanged(let toName):
-            let end = (node.endDate ?? node.startDate).formatted(.dateTime.month(.abbreviated).day().year())
-            return "\(start) – \(end) (Changed to \(toName))"
+    private func statusText(_ status: NodeStatus) -> String {
+        switch status {
+        case .active:
+            return "Active"
+        case .cancelled(let date):
+            guard let date else { return "Cancelled" }
+            return "Cancelled \(date.formatted(.dateTime.month(.abbreviated).day().year()))"
+        case .productChanged(let toName, let date):
+            return "Changed to \(toName) · \(date.formatted(.dateTime.month(.abbreviated).day().year()))"
         }
     }
 }
