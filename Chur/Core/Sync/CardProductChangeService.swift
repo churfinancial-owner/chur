@@ -31,6 +31,11 @@ struct CardProductChangeService {
     /// is preserved; `dateAdded`/`note` start fresh. A `CardProductChangeEvent` links the
     /// two cards for the Card History timeline and the new card's "previously X" note.
     ///
+    /// Same-day correction: if `fromCard` was itself created by a product change earlier
+    /// *today*, this is treated as fixing that mistake rather than a new hop — the
+    /// intermediate card and its event are deleted outright, and the new event links back
+    /// to the original card, so the lineage reads as a single direct change.
+    ///
     /// Returns the new card, or `nil` if `toTemplateID` doesn't resolve to a known template
     /// (no changes are made in that case).
     @discardableResult
@@ -38,19 +43,37 @@ struct CardProductChangeService {
         guard let newTemplate = CardDatabase.getCard(id: toTemplateID) else { return nil }
 
         let now = Date.current()
-        let fromTemplateID = fromCard.templateID ?? "unknown"
+        let approvedMonth = fromCard.approvedMonth
+        let approvedDay = fromCard.approvedDay
+        let approvedYear = fromCard.approvedYear
+        var effectiveFromCardID = fromCard.id
+        var effectiveFromTemplateID = fromCard.templateID ?? "unknown"
 
-        cancel(card: fromCard)
+        let fromCardID = fromCard.id
+        let incomingEvent = try? modelContext.fetch(
+            FetchDescriptor<CardProductChangeEvent>(predicate: #Predicate { $0.toCardID == fromCardID })
+        ).first
+
+        if let incomingEvent, Calendar.current.isDate(incomingEvent.changeDate, inSameDayAs: now) {
+            // `fromCard` was itself a same-day product change — collapse it away instead
+            // of keeping it as a real lineage step.
+            effectiveFromCardID = incomingEvent.fromCardID
+            effectiveFromTemplateID = incomingEvent.fromTemplateID
+            modelContext.delete(incomingEvent)
+            modelContext.delete(fromCard)
+        } else {
+            cancel(card: fromCard)
+        }
 
         let newCard = newTemplate.toCreditCard(modelContext: modelContext)
-        newCard.approvedMonth = fromCard.approvedMonth
-        newCard.approvedDay = fromCard.approvedDay
-        newCard.approvedYear = fromCard.approvedYear
+        newCard.approvedMonth = approvedMonth
+        newCard.approvedDay = approvedDay
+        newCard.approvedYear = approvedYear
 
         let event = CardProductChangeEvent(
-            fromCardID: fromCard.id,
+            fromCardID: effectiveFromCardID,
             toCardID: newCard.id,
-            fromTemplateID: fromTemplateID,
+            fromTemplateID: effectiveFromTemplateID,
             toTemplateID: toTemplateID,
             changeDate: now
         )

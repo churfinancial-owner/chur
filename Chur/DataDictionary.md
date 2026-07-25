@@ -228,7 +228,7 @@
 | Field | Type | Constraints | Relationship | Description |
 |---|---|---|---|---|
 | `id` | `String` | Not Null, application PK (UUID) | — | Default: `UUID().uuidString`. |
-| `fromCardID` | `String` | Not Null | References `CreditCard.id` | The old wallet card instance, which `productChange` cancels (`status = "cancelled"`) but never deletes — it keeps its own real benefits/reward plans/usage history, unchanged. |
+| `fromCardID` | `String` | Not Null | References `CreditCard.id` | The old wallet card instance, which `productChange` cancels (`status = "cancelled"`) but never deletes — it keeps its own real benefits/reward plans/usage history, unchanged. **Exception:** if `fromCardID` was itself created by a same-*calendar-day* product change (i.e. it's the `toCardID` of another event dated today), it's treated as a same-day correction — that intermediate card and its event are deleted outright, and this event links back to the original card instead, collapsing the chain to a single hop. |
 | `toCardID` | `String` | Not Null | References `CreditCard.id` | The new wallet card instance, built the same way the normal Add Card flow builds one, with `approvedMonth`/`Day`/`Year` copied from `fromCardID` so the real-world account age is preserved. `dateAdded`/`note` are not copied — they start fresh. |
 | `fromTemplateID` | `String` | Not Null | References `CardDatabase` (static JSON, not persisted) | The template `fromCardID` was using. `"unknown"` if it had no `templateID`. |
 | `toTemplateID` | `String` | Not Null | References `CardDatabase` (static JSON, not persisted) | The template `toCardID` was created from — matches `toCardID.templateID`. |
