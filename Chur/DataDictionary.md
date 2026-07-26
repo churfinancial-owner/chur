@@ -6,7 +6,7 @@
 **Persistence:** SwiftData (SQLite on-device)  
 **Cloud sync:** Google Drive App Data (JSON snapshot, Google-authenticated users only); Apple Sign In users currently have no cloud backup — CloudKit planned  
 **Seed data authoring:** see `Resources/json/REWARD_SETUP_REFERENCE.md` (rewards) and `Resources/json/MERCHANT_SETUP_REFERENCE.md` (categories/merchants)  
-**Last updated:** 2026-07-24
+**Last updated:** 2026-07-26
 
 > SwiftData auto-generates an opaque `PersistentIdentifier` for every `@Model` instance.  
 > This acts as the internal primary key and is not exposed as a Swift property.  
