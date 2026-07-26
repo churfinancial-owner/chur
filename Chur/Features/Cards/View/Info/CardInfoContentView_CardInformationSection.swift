@@ -5,9 +5,6 @@ struct CardInformationSection: View {
     @Bindable var card: CreditCard
     @Binding var activeSheet: CardInfoContentView.ActiveSheet?
 
-    @State private var showingStatusActions = false
-    @State private var showingCancelConfirm = false
-
     @Query private var productChangeEvents: [CardProductChangeEvent]
 
     init(card: CreditCard, activeSheet: Binding<CardInfoContentView.ActiveSheet?>) {
@@ -60,7 +57,7 @@ struct CardInformationSection: View {
                 }
                 CardRowDivider()
                 DetailRow(label: "Status", value: statusDisplay, isEditable: true) {
-                    showingStatusActions = true
+                    activeSheet = .cardStatus
                 }
                 if let previousProductLabel {
                     Text(previousProductLabel)
@@ -75,28 +72,6 @@ struct CardInformationSection: View {
         }
         .background(Color.white)
         .clipShape(RoundedRectangle(cornerRadius: 16))
-        .confirmationDialog("Card Status", isPresented: $showingStatusActions, titleVisibility: .visible) {
-            if card.status == "cancelled" {
-                Button("Reactivate Card") {
-                    CardProductChangeService.reactivate(card: card)
-                }
-            } else {
-                Button("Product Change") {
-                    activeSheet = .productChangePicker
-                }
-                Button("Cancel Card", role: .destructive) {
-                    showingCancelConfirm = true
-                }
-            }
-        }
-        .alert("Cancel \(card.name)?", isPresented: $showingCancelConfirm) {
-            Button("Cancel Card", role: .destructive) {
-                CardProductChangeService.cancel(card: card)
-            }
-            Button("Keep Card", role: .cancel) {}
-        } message: {
-            Text("This removes the card from your wallet and reward calculations. Its history is kept — you can reactivate it later from Card History.")
-        }
     }
 
     // MARK: - Static Formatting Logic

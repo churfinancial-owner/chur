@@ -23,7 +23,7 @@ struct CardInfoSheetPresenter: View {
         case .network: NetworkPickerSheet(card: card)
         case .cardType: CardTypePickerSheet(card: card)
         case .userNote: CardsUserNoteSheet(card: card)
-        case .productChangePicker: ProductChangePickerSheet(card: card)
+        case .cardStatus: CardStatusSheet(card: card)
         }
     }
 }

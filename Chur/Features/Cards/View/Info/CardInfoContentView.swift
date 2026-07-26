@@ -27,7 +27,7 @@ struct CardInfoContentView: View {
         case annualFee, approvedDate, foreignFee, pointValues, configurableRewards, boost, rewardPlan
         case network, cardType
         case userNote
-        case productChangePicker
+        case cardStatus
         var id: String { rawValue }
     }
 
