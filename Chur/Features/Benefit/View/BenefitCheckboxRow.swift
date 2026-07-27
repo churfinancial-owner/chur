@@ -38,17 +38,28 @@ struct BenefitCheckboxRow: View {
                     VStack(alignment: .leading, spacing: 2) {
                         HStack(alignment: .center) {
                             titleButton(vm)
-                            if vm.isUnlimited && vm.usageCountThisPeriod > 0 {
-                                Text("x\(vm.usageCountThisPeriod)")
-                                    .font(.churFootnoteBold())
-                                    .foregroundStyle(Color.churOlive)
-                            }
-                            if vm.isCountLimited, let limit = benefit.usageLimit, vm.usageCountThisPeriod > 0 {
-                                Text("\(vm.usageCountThisPeriod)/\(limit)")
-                                    .font(.churFootnoteBold())
-                                    .foregroundStyle(vm.isFullyRedeemed ? Color.churMediumGray : Color.churOlive)
-                            }
                             Spacer()
+
+                            // Amount and usage count are mutually exclusive — a benefit shows
+                            // its dollar value until something is logged this period, then
+                            // shows how many times it's been used instead.
+                            if let amount = vm.rowAmountLabel {
+                                Text(amount)
+                                    .font(.churCaption())
+                                    .foregroundStyle(Color.churDarkGray)
+                            } else if vm.isValueBased && vm.usageEntryCountThisPeriod > 0 {
+                                Text("x\(vm.usageEntryCountThisPeriod)")
+                                    .font(.churCaption())
+                                    .foregroundStyle(Color.churDarkGray)
+                            } else if vm.isCountLimited, let limit = benefit.usageLimit, vm.usageCountThisPeriod > 0 {
+                                Text("\(vm.usageCountThisPeriod)/\(limit)")
+                                    .font(.churCaption())
+                                    .foregroundStyle(Color.churDarkGray)
+                            } else if vm.isUnlimited && vm.usageCountThisPeriod > 0 {
+                                Text("x\(vm.usageCountThisPeriod)")
+                                    .font(.churCaption())
+                                    .foregroundStyle(Color.churDarkGray)
+                            }
                             
                             if vm.shouldShowExpiryWarning {
                                 Text("⏰").font(.churSmall())

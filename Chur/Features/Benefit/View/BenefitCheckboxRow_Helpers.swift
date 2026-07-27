@@ -19,17 +19,10 @@ extension BenefitCheckboxRow {
             if vm.needsActivation { showingActivationConfirmation = true }
             else if !vm.isLocked { showingDetail = true }
         } label: {
-            HStack(spacing: 4) {
-                if let prefix = vm.valuePrefixLabel, !vm.isLocked {
-                    Text(prefix)
-                        .font(.churRowText())
-                        .foregroundStyle(vm.isUsedInPeriod ? Color.churMediumGray : Color.churDarkGray)
-                }
-                Text(benefit.displayName)
-                    .font(.churRowText())
-                    .foregroundStyle(vm.isLocked || vm.isUsedInPeriod ? Color.churMediumGray : Color.churDarkGray)
-                    .lineLimit(1)
-            }
+            Text(benefit.displayName)
+                .font(.churRowText())
+                .foregroundStyle(vm.isLocked || vm.isUsedInPeriod ? Color.churMediumGray : Color.churDarkGray)
+                .lineLimit(1)
         }
         .buttonStyle(.plain)
     }

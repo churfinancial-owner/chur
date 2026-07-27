@@ -183,7 +183,17 @@ struct BenefitsListContentView: View {
                 // MARK: - Header
                 HStack(alignment: .center, spacing: 12) {
 
-                    // MARK: - Filter Bubble Picker
+                    // MARK: - Benefit Count Label
+                    Text("BENEFITS (\(filteredBenefits.count))")
+                        .font(.churSmallBold())
+                        .foregroundStyle(Color.churOlive)
+                        .tracking(1.0)
+
+                    Spacer()
+
+                    // MARK: - Filter Menu Trigger
+                    // Collapsed to a small dot when no filter is active (ALL); expands into
+                    // a labeled pill once the user picks a quick filter or frequency.
                     Picker("", selection: $selectedFrequency) {
                         Text("ALL").tag(String?.none)
 
@@ -202,36 +212,38 @@ struct BenefitsListContentView: View {
                     .labelsHidden()
                     .tint(.clear)
                     .background(
-                        ZStack {
-                            Capsule()
-                                .fill(activeFilterColor)
+                        Group {
+                            if let selectedFrequency {
+                                Capsule()
+                                    .fill(activeFilterColor)
+                                    .overlay {
+                                        HStack(spacing: 6) {
+                                            Text(selectedFrequency.uppercased())
+                                                .font(.churSmallBold())
+                                                .foregroundStyle(.white)
+                                                .fixedSize()
 
-                            Capsule()
-                                .stroke(selectedFrequency == nil ? Color.churLightGray : activeFilterColor, lineWidth: 1)
-
-                            HStack(spacing: 6) {
-                                Text((selectedFrequency ?? "ALL").uppercased())
-                                    .font(.churSmallBold())
-                                    .foregroundStyle(selectedFrequency == nil ? Color.churMediumGray : .white)
-                                    .fixedSize()
-
-                                Image(systemName: "chevron.down")
-                                    .font(.system(size: 8, weight: .heavy))
-                                    .foregroundStyle(selectedFrequency == nil ? Color.churMediumGray : .white)
+                                            Image(systemName: "chevron.down")
+                                                .font(.system(size: 8, weight: .heavy))
+                                                .foregroundStyle(.white)
+                                        }
+                                        .padding(.horizontal, 12)
+                                        .padding(.vertical, 8)
+                                    }
+                            } else {
+                                Circle()
+                                    .fill(Color.churOlive)
+                                    .frame(width: 24, height: 24)
+                                    .overlay {
+                                        Text("⋯")
+                                            .font(.system(size: 11, weight: .bold))
+                                            .foregroundStyle(.white)
+                                    }
                             }
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 8)
                         }
+                        .animation(.easeInOut(duration: 0.15), value: selectedFrequency)
                     )
                     .id("global_frequency_picker")
-
-                    // MARK: - Benefit Count Label
-                    Text("BENEFITS (\(filteredBenefits.count))")
-                        .font(.churSmallBold())
-                        .foregroundStyle(Color.churOlive)
-                        .tracking(1.0)
-
-                    Spacer()
                 }
                 .padding([.horizontal, .top], 20)
                 .padding(.bottom, 12)
