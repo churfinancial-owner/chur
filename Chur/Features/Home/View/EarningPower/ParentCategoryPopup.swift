@@ -137,6 +137,7 @@ struct ParentCategoryParallaxSheet: View {
                 text: headerLabel,
                 icon: headerLabel == "SUB-CATEGORY" ? "arrow.turn.down.right" : "folder.fill"
             )
+            .padding(.trailing, 110)
 
             Text(category.displayName)
                 .font(.system(size: 34, weight: .heavy, design: .rounded))
@@ -144,6 +145,7 @@ struct ParentCategoryParallaxSheet: View {
                 .lineLimit(2)
                 .minimumScaleFactor(0.8)
                 .padding(.top, 10)
+                .padding(.trailing, 110)
 
             HStack(spacing: 6) {
                 Text("Here's what earns you the most.")

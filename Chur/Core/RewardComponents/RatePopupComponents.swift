@@ -405,7 +405,9 @@ struct MerchantIconView: View {
                 .resizable()
                 .scaledToFit()
         } else if let category {
-            CategoryIconView(category: category, font: .system(size: 30))
+            // 80pt matches the emoji size ParentCategoryParallaxSheet uses directly in the
+            // same PopupHeaderWatermark circle — keeps both popups' fallback icon consistent.
+            CategoryIconView(category: category, font: .system(size: 80))
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
             Image(systemName: "storefront")
