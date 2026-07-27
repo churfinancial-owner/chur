@@ -172,6 +172,15 @@ struct BenefitsListContentView: View {
         return ordered + unknown
     }
 
+    /// Width reserved for the expanded filter pill's label, sized to the longest
+    /// possible option (e.g. "SEMI-ANNUAL") so switching between shorter and longer
+    /// selections re-centers the text instead of visibly resizing the pill.
+    private var filterPillMinWidth: CGFloat {
+        let allLabels = ["AVAILABLE", "EXPIRING"] + allDisplayOptions.map { $0.uppercased() }
+        let widestCharCount = allLabels.map(\.count).max() ?? 0
+        return CGFloat(widestCharCount) * 6.5
+    }
+
     // MARK: - Body
 
     var body: some View {
@@ -219,7 +228,8 @@ struct BenefitsListContentView: View {
                             color: activeFilterColor == .clear ? .churOlive : activeFilterColor,
                             style: .filled(),
                             compact: true,
-                            isCollapsed: selectedFrequency == nil
+                            isCollapsed: selectedFrequency == nil,
+                            expandedMinWidth: filterPillMinWidth
                         )
                     }
                     .animation(.easeInOut(duration: 0.15), value: selectedFrequency)

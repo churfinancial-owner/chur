@@ -64,7 +64,12 @@ struct ChurStatusPill: View {
     var style: Style = .filled()
     var compact: Bool = false
     var isCollapsed: Bool = false
-    
+    /// Reserves this much width for the label when expanded, so switching between
+    /// options of different lengths (e.g. "MONTHLY" -> "SEMI-ANNUAL") doesn't force a
+    /// visible relayout/resize of the pill — the text just re-centers. No effect when
+    /// `isCollapsed` (the circular single-letter state doesn't need it).
+    var expandedMinWidth: CGFloat? = nil
+
     
     /// Canonical frequency → color mapping. Pass a custom `default` when an
     /// unknown frequency should fall back to something other than churOlive.
@@ -111,6 +116,7 @@ struct ChurStatusPill: View {
             Text(isCollapsed ? String(label.prefix(1)) : label)
                 .font(.system(size: fontSize, weight: .bold, design: .rounded))
                 .foregroundStyle(labelColor)
+                .frame(minWidth: isCollapsed ? nil : expandedMinWidth)
         }
         .padding(.horizontal, isCollapsed ? vPad : hPad) // Make it circular when collapsed
         .padding(.vertical, vPad)
