@@ -40,15 +40,17 @@ struct BenefitCheckboxRow: View {
                             titleButton(vm)
                             Spacer()
 
-                            // Amount and usage count are mutually exclusive — a benefit shows
-                            // its dollar value until something is logged this period, then
-                            // shows how many times it's been used instead.
+                            if vm.shouldShowExpiryWarning {
+                                Text("⏰").font(.churSmall())
+                            }
+
+                            // Amount and usage count are mutually exclusive — value-based
+                            // benefits show their remaining dollar value (even after a
+                            // partial log) until fully redeemed, then show nothing;
+                            // count-based benefits show how many times they've been used
+                            // instead, against their limit ("1/4") or "/∞" if uncapped.
                             if let amount = vm.rowAmountLabel {
                                 Text(amount)
-                                    .font(.churCaption())
-                                    .foregroundStyle(Color.churDarkGray)
-                            } else if vm.isValueBased && vm.usageEntryCountThisPeriod > 0 {
-                                Text("x\(vm.usageEntryCountThisPeriod)")
                                     .font(.churCaption())
                                     .foregroundStyle(Color.churDarkGray)
                             } else if vm.isCountLimited, let limit = benefit.usageLimit, vm.usageCountThisPeriod > 0 {
@@ -56,15 +58,11 @@ struct BenefitCheckboxRow: View {
                                     .font(.churCaption())
                                     .foregroundStyle(Color.churDarkGray)
                             } else if vm.isUnlimited && vm.usageCountThisPeriod > 0 {
-                                Text("x\(vm.usageCountThisPeriod)")
+                                Text("\(vm.usageCountThisPeriod)/∞")
                                     .font(.churCaption())
                                     .foregroundStyle(Color.churDarkGray)
                             }
-                            
-                            if vm.shouldShowExpiryWarning {
-                                Text("⏰").font(.churSmall())
-                            }
-                            
+
                             // Enhanced Interactive Pill
                             ChurStatusPill(
                                 label: benefit.frequency.uppercased(),

@@ -86,20 +86,13 @@ final class BenefitRowViewModel {
 
     // MARK: - Display Helpers
 
-    var isValueBased: Bool { analyzer.isValueBased }
-
-    /// Number of usage log entries in the current period. Distinct from `usageCountThisPeriod`,
-    /// which for value-based benefits returns the dollar amount used (not an entry count) —
-    /// this is always a true count, for any benefit type.
-    var usageEntryCountThisPeriod: Int { analyzer.recordsForCurrentPeriod().count }
-
     /// Dollar amount to show at the row's trailing edge (before the frequency pill), for
-    /// value-based benefits only, and only while nothing has been logged this period — once
-    /// used, the trailing slot shows a usage count instead (see BenefitCheckboxRow).
+    /// value-based benefits only. Shows the remaining balance even after a partial log;
+    /// once fully redeemed (remaining == 0) it returns nil and the row shows nothing there.
     var rowAmountLabel: String? {
-        guard analyzer.isValueBased, usageEntryCountThisPeriod == 0 else { return nil }
+        guard analyzer.isValueBased,
+              let remaining = analyzer.remainingBalance(), remaining > 0 else { return nil }
         let symbol = benefit.valueCurrency.currencySymbol
-        guard let remaining = analyzer.remainingBalance() else { return nil }
         return "\(symbol)\(remaining)"
     }
 
