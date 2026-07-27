@@ -192,57 +192,58 @@ struct BenefitsListContentView: View {
                     Spacer()
 
                     // MARK: - Filter Menu Trigger
-                    // Collapsed to a small dot when no filter is active (ALL); expands into
-                    // a labeled pill once the user picks a quick filter or frequency.
-                    Picker("", selection: $selectedFrequency) {
-                        Text("ALL").tag(String?.none)
+                    // Collapsed to a small dot — same size/shape as a row's collapsed
+                    // frequency badge (ChurStatusPill compact + isCollapsed) — when no
+                    // filter is active; expands into a labeled pill once the user picks a
+                    // quick filter or frequency. The Picker is nested inside a Menu (rather
+                    // than styled directly) so the visible trigger is a plain custom label
+                    // sized to its own content, not a native Picker's reserved layout —
+                    // matching how the row's own pill hugs its row exactly.
+                    Menu {
+                        Picker("", selection: $selectedFrequency) {
+                            Text("ALL").tag(String?.none)
 
-                        Section("Quick Filters") {
-                            Text("✅ AVAILABLE").tag(String?.some("Available"))
-                            Text("⏰ EXPIRING").tag(String?.some("Expiring"))
-                        }
+                            Section("Quick Filters") {
+                                Text("✅ AVAILABLE").tag(String?.some("Available"))
+                                Text("⏰ EXPIRING").tag(String?.some("Expiring"))
+                            }
 
-                        Section("By Frequency") {
-                            ForEach(allDisplayOptions, id: \.self) { freq in
-                                Text(freq.uppercased()).tag(String?.some(freq))
+                            Section("By Frequency") {
+                                ForEach(allDisplayOptions, id: \.self) { freq in
+                                    Text(freq.uppercased()).tag(String?.some(freq))
+                                }
                             }
                         }
-                    }
-                    .pickerStyle(.menu)
-                    .labelsHidden()
-                    .tint(.clear)
-                    .background(
-                        Group {
-                            if let selectedFrequency {
-                                Capsule()
-                                    .fill(activeFilterColor)
-                                    .overlay {
-                                        HStack(spacing: 6) {
-                                            Text(selectedFrequency.uppercased())
-                                                .font(.churSmallBold())
-                                                .foregroundStyle(.white)
-                                                .fixedSize()
+                    } label: {
+                        if let selectedFrequency {
+                            Capsule()
+                                .fill(activeFilterColor)
+                                .overlay {
+                                    HStack(spacing: 6) {
+                                        Text(selectedFrequency.uppercased())
+                                            .font(.churSmallBold())
+                                            .foregroundStyle(.white)
+                                            .fixedSize()
 
-                                            Image(systemName: "chevron.down")
-                                                .font(.system(size: 8, weight: .heavy))
-                                                .foregroundStyle(.white)
-                                        }
-                                        .padding(.horizontal, 12)
-                                        .padding(.vertical, 8)
-                                    }
-                            } else {
-                                Circle()
-                                    .fill(Color.churOlive)
-                                    .frame(width: 24, height: 24)
-                                    .overlay {
-                                        Text("⋯")
-                                            .font(.system(size: 11, weight: .bold))
+                                        Image(systemName: "chevron.down")
+                                            .font(.system(size: 8, weight: .heavy))
                                             .foregroundStyle(.white)
                                     }
-                            }
+                                    .padding(.horizontal, 12)
+                                    .padding(.vertical, 8)
+                                }
+                                .fixedSize()
+                        } else {
+                            ChurStatusPill(
+                                label: "⋯",
+                                color: .churOlive,
+                                style: .filled(),
+                                compact: true,
+                                isCollapsed: true
+                            )
                         }
-                        .animation(.easeInOut(duration: 0.15), value: selectedFrequency)
-                    )
+                    }
+                    .animation(.easeInOut(duration: 0.15), value: selectedFrequency)
                     .id("global_frequency_picker")
                 }
                 .padding([.horizontal, .top], 20)
