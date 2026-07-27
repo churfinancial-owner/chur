@@ -192,13 +192,12 @@ struct BenefitsListContentView: View {
                     Spacer()
 
                     // MARK: - Filter Menu Trigger
-                    // Collapsed to a small dot — same size/shape as a row's collapsed
-                    // frequency badge (ChurStatusPill compact + isCollapsed) — when no
-                    // filter is active; expands into a labeled pill once the user picks a
-                    // quick filter or frequency. The Picker is nested inside a Menu (rather
-                    // than styled directly) so the visible trigger is a plain custom label
-                    // sized to its own content, not a native Picker's reserved layout —
-                    // matching how the row's own pill hugs its row exactly.
+                    // Reuses ChurStatusPill directly (same component the row's frequency
+                    // badge uses) so both collapsed ("...", no filter active) and expanded
+                    // (selected filter name) states look and behave exactly like a row's
+                    // pill. The Picker is nested inside a Menu (rather than styled directly)
+                    // so the visible trigger is a plain custom label sized to its own
+                    // content, not a native Picker's reserved layout.
                     Menu {
                         Picker("", selection: $selectedFrequency) {
                             Text("ALL").tag(String?.none)
@@ -215,33 +214,13 @@ struct BenefitsListContentView: View {
                             }
                         }
                     } label: {
-                        if let selectedFrequency {
-                            Capsule()
-                                .fill(activeFilterColor)
-                                .overlay {
-                                    HStack(spacing: 6) {
-                                        Text(selectedFrequency.uppercased())
-                                            .font(.churSmallBold())
-                                            .foregroundStyle(.white)
-                                            .fixedSize()
-
-                                        Image(systemName: "chevron.down")
-                                            .font(.system(size: 8, weight: .heavy))
-                                            .foregroundStyle(.white)
-                                    }
-                                    .padding(.horizontal, 12)
-                                    .padding(.vertical, 8)
-                                }
-                                .fixedSize()
-                        } else {
-                            ChurStatusPill(
-                                label: "⋯",
-                                color: .churOlive,
-                                style: .filled(),
-                                compact: true,
-                                isCollapsed: true
-                            )
-                        }
+                        ChurStatusPill(
+                            label: selectedFrequency?.uppercased() ?? "⋯",
+                            color: activeFilterColor == .clear ? .churOlive : activeFilterColor,
+                            style: .filled(),
+                            compact: true,
+                            isCollapsed: selectedFrequency == nil
+                        )
                     }
                     .animation(.easeInOut(duration: 0.15), value: selectedFrequency)
                     .id("global_frequency_picker")
