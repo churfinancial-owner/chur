@@ -79,52 +79,55 @@ struct YearDetailSheet: View {
     }
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            ScrollView {
-                VStack(spacing: 0) {
-                    PatternHeaderBanner(imageName: "HeaderPattern5")
-
-                    DetailSheetTitleBlock(title: "\(year)", subtitle: "SUMMARY")
-
-                    premiumDashboardCard
-                        .padding(24)
-
-                    VStack(alignment: .leading, spacing: 20) {
-                        HStack {
-                            Text("Wallet")
-                                .font(.churFootnoteBold())
-                                .foregroundStyle(Color.churDarkGray.opacity(0.6))
-                            
-                            Spacer()
-                            
-                            sortPickerButton
-                        }
-                        .padding(.horizontal, 28)
-
-                        VStack(spacing: 12) {
-                            ForEach(cardSnapshots) { snapshot in
-                                EnhancedCardRow(
-                                    snapshot: snapshot,
-                                    isExpanded: expandedCardID == snapshot.id,
-                                    toggleExpanded: {
-                                        UIImpactFeedbackGenerator(style: .soft).impactOccurred()
-                                        withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-                                            expandedCardID = (expandedCardID == snapshot.id) ? nil : snapshot.id
-                                        }
-                                    }
-                                )
-                            }
-                        }
-                        .padding(.horizontal, 20)
+        ScrollView {
+            VStack(spacing: 0) {
+                ToolSheetHeaderBanner(onClose: { dismiss() }) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("\(year)")
+                            .font(.system(size: 24, weight: .heavy, design: .rounded))
+                            .foregroundStyle(Color.churDarkGray)
+                        Text("SUMMARY")
+                            .font(.system(size: 11, weight: .heavy, design: .rounded))
+                            .tracking(1)
+                            .foregroundStyle(Color.churMediumGray)
                     }
-                    Spacer(minLength: 100)
                 }
-            }
-            .background(Color.churOffWhite)
-            .ignoresSafeArea()
 
-            SheetDismissButton { dismiss() }
+                premiumDashboardCard
+                    .padding(24)
+
+                VStack(alignment: .leading, spacing: 20) {
+                    HStack {
+                        Text("Wallet")
+                            .font(.churFootnoteBold())
+                            .foregroundStyle(Color.churDarkGray.opacity(0.6))
+
+                        Spacer()
+
+                        sortPickerButton
+                    }
+                    .padding(.horizontal, 28)
+
+                    VStack(spacing: 12) {
+                        ForEach(cardSnapshots) { snapshot in
+                            EnhancedCardRow(
+                                snapshot: snapshot,
+                                isExpanded: expandedCardID == snapshot.id,
+                                toggleExpanded: {
+                                    UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+                                    withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                                        expandedCardID = (expandedCardID == snapshot.id) ? nil : snapshot.id
+                                    }
+                                }
+                            )
+                        }
+                    }
+                    .padding(.horizontal, 20)
+                }
+                Spacer(minLength: 100)
+            }
         }
+        .background(Color.churOffWhite)
     }
 
     private var sortPickerButton: some View {

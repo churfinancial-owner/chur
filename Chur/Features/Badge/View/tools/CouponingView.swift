@@ -49,44 +49,36 @@ struct CouponingView: View {
     // MARK: - Body
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            ScrollViewReader { proxy in
-                ScrollView {
-                    VStack(spacing: 0) {
-                        // MARK: - Pattern Header
-                        PatternHeaderBanner(imageName: "HeaderPattern5")
-
+        ScrollViewReader { proxy in
+            ScrollView {
+                VStack(spacing: 0) {
+                    ToolSheetHeaderBanner(onClose: { dismiss() }) {
                         heroHeader
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.horizontal, 24)
-                            .padding(.top, 12)
+                    }
 
-                        if totalCreditCount == 0 {
-                            emptyState
-                                .padding(.horizontal, 24)
-                                .padding(.top, 24)
-                        } else {
-                            donutChartCard(proxy: proxy)
-                                .padding(.horizontal, 24)
-                                .padding(.top, 24)
-
-                            VStack(spacing: 16) {
-                                ForEach(groupedSections) { section in
-                                    carouselSection(section: section)
-                                        .id(section.category.rawValue)
-                                }
-                            }
+                    if totalCreditCount == 0 {
+                        emptyState
                             .padding(.horizontal, 24)
                             .padding(.top, 24)
+                    } else {
+                        donutChartCard(proxy: proxy)
+                            .padding(.horizontal, 24)
+                            .padding(.top, 24)
+
+                        VStack(spacing: 16) {
+                            ForEach(groupedSections) { section in
+                                carouselSection(section: section)
+                                    .id(section.category.rawValue)
+                            }
                         }
-
-                        Spacer(minLength: 40)
+                        .padding(.horizontal, 24)
+                        .padding(.top, 24)
                     }
-                }
-                .background(Color.churOffWhite)
-            }
 
-            SheetDismissButton { dismiss() }
+                    Spacer(minLength: 40)
+                }
+            }
+            .background(Color.churOffWhite)
         }
         .toolbar(.hidden, for: .navigationBar)
     }
@@ -100,7 +92,7 @@ struct CouponingView: View {
                 .foregroundStyle(Color.white)
                 .padding(.horizontal, 10)
                 .padding(.vertical, 6)
-                .background(Color.purple)
+                .background(Color.churCouponEntertainment)
                 .clipShape(Capsule())
 
             Text("Couponing")

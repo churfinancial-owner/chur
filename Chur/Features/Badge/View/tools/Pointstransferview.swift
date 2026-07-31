@@ -20,41 +20,38 @@ struct PointTransferView: View {
     ]
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            ScrollView {
-                LazyVStack(spacing: 0) {
-                    PatternHeaderBanner(imageName: "HeaderPattern5")
-
-                    VStack(alignment: .leading, spacing: 28) {
-                        heroHeader
-                        searchBar
-                        
-                        if !filteredBanks.isEmpty {
-                            partnerSection(title: "POINT SOURCES", icon: "building.columns.fill", items: filteredBanks, color: .blue, isBank: true)
-                        }
-                        
-                        if !filteredAirlines.isEmpty {
-                            partnerSection(title: "AIRLINES", icon: "airplane", items: filteredAirlines, color: .purple, isBank: false)
-                        }
-                        
-                        if !filteredHotels.isEmpty {
-                            partnerSection(title: "HOTELS", icon: "bed.double.fill", items: filteredHotels, color: .orange, isBank: false)
-                        }
-                        
-                        if !searchText.isEmpty && filteredBanks.isEmpty && filteredAirlines.isEmpty && filteredHotels.isEmpty {
-                            emptySearchState
-                        }
-                        
-                        Spacer(minLength: 60)
-                    }
-                    .padding(.horizontal, 22)
+        ScrollView {
+            LazyVStack(spacing: 0) {
+                ToolSheetHeaderBanner(onClose: { dismiss() }) {
+                    heroHeader
                 }
-            }
-            .background(Color.churOffWhite)
-            .ignoresSafeArea(edges: .top)
 
-            dismissButton
+                VStack(alignment: .leading, spacing: 28) {
+                    searchBar
+
+                    if !filteredBanks.isEmpty {
+                        partnerSection(title: "POINT SOURCES", icon: "building.columns.fill", items: filteredBanks, color: .blue, isBank: true)
+                    }
+
+                    if !filteredAirlines.isEmpty {
+                        partnerSection(title: "AIRLINES", icon: "airplane", items: filteredAirlines, color: .purple, isBank: false)
+                    }
+
+                    if !filteredHotels.isEmpty {
+                        partnerSection(title: "HOTELS", icon: "bed.double.fill", items: filteredHotels, color: .orange, isBank: false)
+                    }
+
+                    if !searchText.isEmpty && filteredBanks.isEmpty && filteredAirlines.isEmpty && filteredHotels.isEmpty {
+                        emptySearchState
+                    }
+
+                    Spacer(minLength: 60)
+                }
+                .padding(.horizontal, 22)
+                .padding(.top, 20)
+            }
         }
+        .background(Color.churOffWhite)
         .onAppear { runSearch() }
         // Updated to the non-deprecated onChange syntax
         .onChange(of: searchText) { _, _ in runSearch() }
@@ -90,18 +87,17 @@ struct PointTransferView: View {
                 .font(.churBadgeBold())
                 .foregroundStyle(.black)
                 .padding(.horizontal, 10).padding(.vertical, 6)
-                .background(Color.churPillColor1Orange).clipShape(Capsule())
+                .background(Color.churWarning).clipShape(Capsule())
 
             Text("Transfer Partners")
                 .font(.churTitle())
                 .foregroundStyle(Color.churDarkGray)
-            
+
             headerDescription
                 .font(.churFootnoteMedium())
                 .foregroundStyle(Color.churMediumGray)
                 .lineSpacing(3)
         }
-        .padding(.top, 16)
     }
 
     private var searchBar: some View {
@@ -134,10 +130,6 @@ struct PointTransferView: View {
         Text(" means active; yellow ") +
         Text(Image(systemName: "lock.fill")).foregroundColor(.yellow) +
         Text(" is locked.")
-    }
-
-    private var dismissButton: some View {
-        SheetDismissButton { dismiss() }
     }
 
     @ViewBuilder
