@@ -167,17 +167,17 @@ struct OnboardingSignInStep: View {
         switch result {
         case .success(let authorization):
             guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential else {
-                signInError = "Unexpected credential type"
+                signInError = String(localized: "Unexpected credential type")
                 return
             }
-            
+
             UINotificationFeedbackGenerator().notificationOccurred(.success)
             onSignedIn(credential.user, credential.fullName?.givenName ?? "", credential.email ?? "")
 
         case .failure(let error):
             if (error as? ASAuthorizationError)?.code == .canceled { return }
             UINotificationFeedbackGenerator().notificationOccurred(.error)
-            signInError = "Sign in failed. Please try again."
+            signInError = String(localized: "Sign in failed. Please try again.")
         }
     }
 
@@ -190,7 +190,7 @@ struct OnboardingSignInStep: View {
 
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let rootVC = windowScene.windows.first?.rootViewController else {
-            signInError = "Unable to present sign in"
+            signInError = String(localized: "Unable to present sign in")
             return
         }
 
@@ -207,12 +207,12 @@ struct OnboardingSignInStep: View {
             if let error = error {
                 if (error as NSError).code == GIDSignInError.canceled.rawValue { return }
                 UINotificationFeedbackGenerator().notificationOccurred(.error)
-                signInError = "Google sign in failed."
+                signInError = String(localized: "Google sign in failed.")
                 return
             }
 
             guard let user = result?.user, let profile = user.profile else {
-                signInError = "Unable to get user profile"
+                signInError = String(localized: "Unable to get user profile")
                 return
             }
 
@@ -227,9 +227,9 @@ struct OnboardingSignInStep: View {
 
 private struct BackupTooltipContent: View {
     private let items: [(String, String)] = [
-        ("creditcard.fill",      "Cards, approved dates & notes"),
-        ("checkmark.seal.fill",  "Benefit history & usage"),
-        ("slider.horizontal.3",  "Preferences & settings"),
+        ("creditcard.fill",      String(localized: "Cards, approved dates & notes")),
+        ("checkmark.seal.fill",  String(localized: "Benefit history & usage")),
+        ("slider.horizontal.3",  String(localized: "Preferences & settings")),
     ]
 
     var body: some View {

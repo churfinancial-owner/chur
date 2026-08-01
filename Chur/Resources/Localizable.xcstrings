@@ -1,6 +1,16 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "Access quick tools to boost perks" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用快速工具提升優惠"
+          }
+        }
+      }
+    },
     "Account" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -11,12 +21,102 @@
         }
       }
     },
+    "Add Your Cards" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增你的卡片"
+          }
+        }
+      }
+    },
+    "Back up your wallet privately to your account\n — only you can access it." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "私密備份你的錢包至你的帳戶\n——只有你可以查閱。"
+          }
+        }
+      }
+    },
+    "Backups are stored privately in your own account. Chur has no access to this data." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "備份會私密儲存在你自己的帳戶內，Chur 無法查看此資料。"
+          }
+        }
+      }
+    },
+    "Based on your location" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "根據你的位置"
+          }
+        }
+      }
+    },
+    "Benefit history & usage" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "優惠記錄及使用情況"
+          }
+        }
+      }
+    },
     "Card Rate (4x)" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "卡片倍數 (4x)"
+          }
+        }
+      }
+    },
+    "Cards, approved dates & notes" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "卡片、批核日期及備註"
+          }
+        }
+      }
+    },
+    "Choose a different region" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇其他地區"
+          }
+        }
+      }
+    },
+    "Continue" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "繼續"
+          }
+        }
+      }
+    },
+    "Continue without signing in" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "略過登入，繼續使用"
           }
         }
       }
@@ -61,6 +161,36 @@
         }
       }
     },
+    "Finish" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成"
+          }
+        }
+      }
+    },
+    "Finish & Setup Wallet" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成並設置錢包"
+          }
+        }
+      }
+    },
+    "Google sign in failed." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Google 登入失敗。"
+          }
+        }
+      }
+    },
     "Language" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -71,12 +201,32 @@
         }
       }
     },
+    "Let's go →" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開始使用 →"
+          }
+        }
+      }
+    },
     "Notifications" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "通知"
+          }
+        }
+      }
+    },
+    "Preferences & settings" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "個人偏好及設定"
           }
         }
       }
@@ -141,12 +291,252 @@
         }
       }
     },
+    "Secure Your Wallet" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保護你的錢包"
+          }
+        }
+      }
+    },
+    "Select the cards currently in your wallet." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇你錢包中現有的卡片。"
+          }
+        }
+      }
+    },
     "Settings" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "設定"
+          }
+        }
+      }
+    },
+    "Sign in failed. Please try again." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "登入失敗，請再試一次。"
+          }
+        }
+      }
+    },
+    "Skip" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "略過"
+          }
+        }
+      }
+    },
+    "Smarter." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更精明。"
+          }
+        }
+      }
+    },
+    "SUGGESTED FOR YOU" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "為你推薦"
+          }
+        }
+      }
+    },
+    "Suggest the best card for every purchase" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "為每次消費推薦最佳卡片"
+          }
+        }
+      }
+    },
+    "Tap to add a profile photo" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "點按以新增個人頭像"
+          }
+        }
+      }
+    },
+    "Tap to change photo" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "點按以更改頭像"
+          }
+        }
+      }
+    },
+    "Terms of Service" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "服務條款"
+          }
+        }
+      }
+    },
+    "Track and maximize your card benefits" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "追蹤並善用你的卡片優惠"
+          }
+        }
+      }
+    },
+    "Unable to get user profile" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法取得使用者資料"
+          }
+        }
+      }
+    },
+    "Unable to present sign in" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法顯示登入畫面"
+          }
+        }
+      }
+    },
+    "Unexpected credential type" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未預期的登入憑證類型"
+          }
+        }
+      }
+    },
+    "We never store or see your data." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我們絕不儲存或查看你的資料。"
+          }
+        }
+      }
+    },
+    "We'll tailor your rewards and card suggestions to your local market." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我們將根據你所在的市場調整獎賞及卡片建議。"
+          }
+        }
+      }
+    },
+    "We’ve found your latest backup and are\nrestoring your wallet now..." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我們找到你最新的備份，\n正在還原你的錢包……"
+          }
+        }
+      }
+    },
+    "Welcome back!" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "歡迎回來！"
+          }
+        }
+      }
+    },
+    "What gets backed up" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "備份內容"
+          }
+        }
+      }
+    },
+    "What should we call you?" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我們應該如何稱呼你？"
+          }
+        }
+      }
+    },
+    "What's backed up?" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "備份內容是甚麼？"
+          }
+        }
+      }
+    },
+    "Where are you based?" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你身處哪個地區？"
+          }
+        }
+      }
+    },
+    "Your Wallet. " : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的錢包，"
+          }
+        }
+      }
+    },
+    "Your name" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的名字"
           }
         }
       }

@@ -76,9 +76,9 @@ struct OnboardingWelcomeStep: View {
                     
                     // --- Neatly Listed Features (Cute, Centered Cards) ---
                     VStack(alignment: .center, spacing: 10) {
-                        FeatureRowOnboarding(icon: "📍", text: "Suggest the best card for every purchase")
-                        FeatureRowOnboarding(icon: "🎁", text: "Track and maximize your card benefits")
-                        FeatureRowOnboarding(icon: "🔧", text: "Access quick tools to boost perks")
+                        FeatureRowOnboarding(icon: "📍", text: String(localized: "Suggest the best card for every purchase"))
+                        FeatureRowOnboarding(icon: "🎁", text: String(localized: "Track and maximize your card benefits"))
+                        FeatureRowOnboarding(icon: "🔧", text: String(localized: "Access quick tools to boost perks"))
                     }
                     .padding(.horizontal, 28)
                 }
