@@ -7,28 +7,6 @@
 
 import SwiftUI
 
-// MARK: - Shared Sheet Header
-
-struct DetailSheetTitleBlock: View {
-    let title: String
-    let subtitle: String
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(title)
-                .font(.churBigTitle3())
-                .foregroundStyle(Color.churDarkGray)
-            Text(subtitle)
-                .font(.churSmallBold())
-                .foregroundStyle(Color.churMediumGray)
-                .tracking(0.5)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.horizontal, 24)
-        .padding(.top, 16)
-    }
-}
-
 // MARK: - Shared Data Models
 struct BenefitDetail: Identifiable {
     let id = UUID()
