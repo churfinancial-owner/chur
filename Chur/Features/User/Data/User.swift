@@ -25,6 +25,7 @@ class User {
     var showEffectiveRate: Bool     // Display effective rate (rate × pointCashValue) instead of raw multiplier
     var boostEnrollments: [String: String] // [programID: tierName] e.g. ["bofa-preferred-rewards": "Platinum Honors"]
     var country: String // User's preferred country for card database (e.g., "US", "HK")
+    var languagePreference: String // AppLanguage.rawValue, e.g. "system", "english", "zh-Hant-HK"
     var earningPowerTravelModeEnabled: Bool // Force Earning Power calculations to apply cross-border FX fee logic
     var profilePhotoData: Data? // Profile photo stored as compressed JPEG
     var profileEmoji: String // Emoji avatar for the user profile
@@ -50,7 +51,8 @@ class User {
         self.profileEmoji = "😊"
         self.authProvider = "anonymous"
         self.strategyPreferences = []
-        
+        self.languagePreference = AppLanguage.system.rawValue
+
         // Default country based on user's locale
         self.country = Self.detectUserCountry()
     }

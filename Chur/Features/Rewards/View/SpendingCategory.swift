@@ -263,25 +263,15 @@ class SpendingCategory {
     }
 
     var displayName: String {
-        let languageCode = Locale.current.language.languageCode?.identifier
-        let regionCode = Locale.current.region?.identifier
-        
-        // Check for Chinese variants
-        if languageCode == "zh" {
-            // Hong Kong
-            if regionCode == "HK" {
-                return nameZH_HK
-            }
-            // Taiwan
-            else if regionCode == "TW" {
-                return nameZH_TW
-            }
-            // Mainland China (default for other Chinese locales)
-            else {
-                return nameZH_Hans
+        for key in AppLocale.localePriorityKeys(for: AppLocale.current) {
+            switch key {
+            case "zh-Hant-HK": return nameZH_HK
+            case "zh-Hant-TW": return nameZH_TW
+            case "zh-Hans":    return nameZH_Hans
+            case "en":         return nameEN
+            default: continue
             }
         }
-        
         return nameEN
     }
     

@@ -84,6 +84,23 @@ enum ChurSchemaV1_13: VersionedSchema {
     ]
 }
 
+// MARK: - v1.14 — adds User.languagePreference (optional, defaults to "system")
+
+enum ChurSchemaV1_14: VersionedSchema {
+    static var versionIdentifier = Schema.Version(1, 14, 0)
+
+    static var models: [any PersistentModel.Type] = [
+        CreditCard.self,
+        User.self,
+        RewardRate.self,
+        RewardPlan.self,
+        Benefit.self,
+        BenefitUsageRecord.self,
+        SpendingCategory.self,
+        CardProductChangeEvent.self,
+    ]
+}
+
 // MARK: - Migration Plan
 
 enum ChurMigrationPlan: SchemaMigrationPlan {
@@ -93,6 +110,7 @@ enum ChurMigrationPlan: SchemaMigrationPlan {
         ChurSchemaV1_11.self,
         ChurSchemaV1_12.self,
         ChurSchemaV1_13.self,
+        ChurSchemaV1_14.self,
     ]
 
     /// Lightweight migrations (new optional fields, new models) still need a
@@ -103,5 +121,6 @@ enum ChurMigrationPlan: SchemaMigrationPlan {
         .custom(fromVersion: ChurSchemaV1_11.self, toVersion: ChurSchemaV1_12.self,
                 willMigrate: nil, didMigrate: nil),
         .lightweight(fromVersion: ChurSchemaV1_12.self, toVersion: ChurSchemaV1_13.self),
+        .lightweight(fromVersion: ChurSchemaV1_13.self, toVersion: ChurSchemaV1_14.self),
     ]
 }

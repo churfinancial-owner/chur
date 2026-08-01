@@ -30,6 +30,12 @@ struct SettingsView: View {
                     }
 
                     NavigationLink {
+                        LanguageSettingsView(user: user)
+                    } label: {
+                        Label("Language", systemImage: "character.bubble")
+                    }
+
+                    NavigationLink {
                         NotificationSettingsView()
                     } label: {
                         Label("Notifications", systemImage: "bell")

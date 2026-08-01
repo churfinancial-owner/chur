@@ -29,13 +29,6 @@ extension Benefit {
     }
 
     private var localePriorityKeys: [String] {
-        let lang = Locale.current.language.languageCode?.identifier
-        let region = Locale.current.region?.identifier
-        guard lang == "zh" else { return ["en"] }
-        switch region {
-        case "HK": return ["zh-Hant-HK", "zh-Hant", "zh", "en"]
-        case "TW": return ["zh-Hant-TW", "zh-Hant", "zh", "en"]
-        default:   return ["zh-Hans", "zh", "en"]
-        }
+        AppLocale.localePriorityKeys(for: AppLocale.current)
     }
 }

@@ -52,6 +52,7 @@
 | `showEffectiveRate` | `Bool` | Not Null, default `false` | — | If `true`, displays effective cash-back rate (rate × pointCashValue) instead of raw multiplier. |
 | `boostEnrollments` | `[String: String]` | Not Null, default `[:]` | Key references `BoostProgram.id` (static) | Maps boost program ID → enrolled tier name (e.g. `"bofa-preferred-rewards"` → `"Platinum Honors"`). |
 | `country` | `String` | Not Null, default locale-detected | — | User's preferred country for card database filtering (e.g. `"US"`, `"HK"`). |
+| `languagePreference` | `String` | Not Null, default `"system"` | — | User's explicit app language override. `AppLanguage.rawValue`: `"system"`, `"english"`, or `"zh-Hant-HK"`. `"system"` means follow device `Locale.current`. Resolved via `AppLocale` (`Core/Localization/AppLocale.swift`), mirrored to `UserDefaults["appLanguage"]` for synchronous access before a `User`/`ModelContext` is available. |
 | `earningPowerTravelModeEnabled` | `Bool` | Not Null, default `false` | — | Forces cross-border FX fee logic in Earning Power calculations regardless of current location. |
 | `profilePhotoData` | `Data?` | Nullable | — | Compressed JPEG binary of the user's profile photo. Nil = no photo set. |
 | `profileEmoji` | `String` | Not Null, default `"😊"` | — | Emoji avatar shown when no photo is set. |
@@ -165,7 +166,7 @@
 | `id` | `String` | Not Null, application PK | — | Composite key: `"\(cardInstanceID)_\(templateID)"`. Ties this benefit to one card instance. |
 | `benefitType` | `String` | Not Null | — | Backend benefit category (e.g. `"credit"`, `"insurance"`, `"lounge_access"`, `"protection"`, `"voucher"`). |
 | `displayGroup` | `String` | Not Null | — | UI grouping label (e.g. `"travel"`, `"dining"`, `"lifestyle"`, `"protection"`, `"membership"`). |
-| `localized` | `[String: LocalizedStrings]` | Not Null | — | Dictionary of locale key → `{name, description}`. Keys: `"en"`, `"zh-Hans"`, `"zh-Hant-HK"`, `"zh-Hant-TW"`. |
+| `localized` | `[String: LocalizedStrings]` | Not Null | — | Dictionary of locale key → `{name, description}`. Keys: `"en"`, `"zh-Hans"`, `"zh-Hant-HK"`, `"zh-Hant-TW"`. Resolution (`displayName`/`displayDescription` in `Benefit_LocalizedStrings.swift`) goes through the shared `AppLocale.localePriorityKeys(for:)` fallback chain — same helper `SpendingCategory.displayName` uses — instead of resolving independently. |
 | `value` | `Int` | Not Null, default `0` | — | Monetary value of the benefit in `valueCurrency`. `0` for non-monetary benefits. |
 | `valueCurrency` | `String` | Not Null, default `"USD"` | — | Currency of `value` (ISO 4217). |
 | `calendarMonthOverrides` | `[Int: Int]?` | Nullable, keys 1–12 | — | Per-calendar-month value overrides (key = month number, value = override amount). |

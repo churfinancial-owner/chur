@@ -130,6 +130,7 @@ struct BackupRestoreService {
         if !src.email.isEmpty            { user.email = src.email }
         user.profileEmoji                = src.profileEmoji
         user.country                     = src.country
+        user.languagePreference          = src.languagePreference ?? AppLanguage.system.rawValue
         user.selectedCategories          = src.selectedCategories
         user.deselectedCategories        = src.deselectedCategories
         user.explicitlySelectedParentCategories = src.explicitlySelectedParentCategories

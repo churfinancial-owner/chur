@@ -11,7 +11,11 @@ import GoogleSignIn
 
 @main
 struct ChurApp: App {
-    
+    // Mirrors User.languagePreference (see AppLocale.swift) so a language change made
+    // in Settings updates this view's environment locale immediately, without waiting
+    // on a ModelContext round-trip.
+    @AppStorage("appLanguage") private var appLanguageRaw: String = AppLanguage.system.rawValue
+
     init() {
         GIDSignIn.sharedInstance.configuration = GIDConfiguration(
             clientID: Config.googleClientID
@@ -29,7 +33,7 @@ struct ChurApp: App {
     }
 
     let modelContainer: ModelContainer = {
-        let schema = Schema(ChurSchemaV1_13.models, version: ChurSchemaV1_13.versionIdentifier)
+        let schema = Schema(ChurSchemaV1_14.models, version: ChurSchemaV1_14.versionIdentifier)
         let config = ModelConfiguration("Chur", schema: schema, isStoredInMemoryOnly: false)
         do {
             return try ModelContainer(for: schema, migrationPlan: ChurMigrationPlan.self, configurations: [config])
@@ -56,6 +60,7 @@ struct ChurApp: App {
     var body: some Scene {
         WindowGroup {
             RootView()
+                .environment(\.locale, AppLocale.resolve(AppLanguage(rawValue: appLanguageRaw) ?? .system))
                 .task { DateRefreshObserver.shared.start() }
                 .task { restoreGoogleSignIn() }
                 .onOpenURL { url in

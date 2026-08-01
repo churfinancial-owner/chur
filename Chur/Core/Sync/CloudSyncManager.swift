@@ -26,7 +26,7 @@ struct ChurBackup: Codable {
     // Increment this when the backup DTO shape changes in a breaking way.
     // Add a migration case to CloudSyncManager.migrate(_:) at the same time.
     // New fields added to any DTO must be optional so older backups decode safely.
-    static let currentVersion = 1
+    static let currentVersion = 2
     let version: Int
     let exportedAt: Date
     let user: UserBackup
@@ -38,6 +38,7 @@ struct UserBackup: Codable {
     let email: String
     let profileEmoji: String
     let country: String
+    let languagePreference: String? // added in v2; nil for backups created before this field existed
     let selectedCategories: [String]
     let deselectedCategories: [String]
     let explicitlySelectedParentCategories: [String]
@@ -143,6 +144,7 @@ extension UserBackup {
             email: user.email,
             profileEmoji: user.profileEmoji,
             country: user.country,
+            languagePreference: user.languagePreference,
             selectedCategories: user.selectedCategories,
             deselectedCategories: user.deselectedCategories,
             explicitlySelectedParentCategories: user.explicitlySelectedParentCategories,
@@ -368,15 +370,11 @@ actor CloudSyncManager {
 
     private static func migrate(_ backup: ChurBackup) -> ChurBackup {
         guard backup.version < ChurBackup.currentVersion else { return backup }
-        // No migrations needed yet — we are at version 1 (the baseline).
-        // Future example:
-        //   var result = backup
-        //   if result.version == 1 {
-        //       result = ChurBackup(version: 2, exportedAt: result.exportedAt,
-        //                           user: result.user, cards: result.cards)
-        //   }
-        //   return result
-        return backup
+        // v1 -> v2: added UserBackup.languagePreference (optional, decodes to nil for
+        // older backups). No field rewrite needed — BackupRestoreService already
+        // nil-coalesces it to AppLanguage.system when applying to User.
+        return ChurBackup(version: ChurBackup.currentVersion, exportedAt: backup.exportedAt,
+                           user: backup.user, cards: backup.cards)
     }
 
     // MARK: - Delete
