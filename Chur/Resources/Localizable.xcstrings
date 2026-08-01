@@ -181,6 +181,46 @@
         }
       }
     },
+    "Good Afternoon" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "午安"
+          }
+        }
+      }
+    },
+    "Good Evening" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "晚上好"
+          }
+        }
+      }
+    },
+    "Good Morning~" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "早晨~"
+          }
+        }
+      }
+    },
+    "Good Night!" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "晚安！"
+          }
+        }
+      }
+    },
     "Google sign in failed." : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -251,6 +291,16 @@
         }
       }
     },
+    "Remove Photo" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除相片"
+          }
+        }
+      }
+    },
     "Reward Display" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -287,6 +337,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "按每一元實際回贈百分比排序獎賞。"
+          }
+        }
+      }
+    },
+    "SUGGESTED FOR YOU" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "為你推薦"
           }
         }
       }
@@ -351,22 +411,32 @@
         }
       }
     },
-    "SUGGESTED FOR YOU" : {
-      "localizations" : {
-        "zh-Hant-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "為你推薦"
-          }
-        }
-      }
-    },
     "Suggest the best card for every purchase" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "為每次消費推薦最佳卡片"
+          }
+        }
+      }
+    },
+    "Tap circle to add a photo" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "點按圓圈新增相片"
+          }
+        }
+      }
+    },
+    "Tap photo to change" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "點按相片以更改"
           }
         }
       }
@@ -461,22 +531,22 @@
         }
       }
     },
-    "We’ve found your latest backup and are\nrestoring your wallet now..." : {
-      "localizations" : {
-        "zh-Hant-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "我們找到你最新的備份，\n正在還原你的錢包……"
-          }
-        }
-      }
-    },
     "Welcome back!" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "歡迎回來！"
+          }
+        }
+      }
+    },
+    "We’ve found your latest backup and are\nrestoring your wallet now..." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我們找到你最新的備份，\n正在還原你的錢包……"
           }
         }
       }

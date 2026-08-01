@@ -82,13 +82,13 @@ struct CurvedHeaderView: View {
         let hour = Calendar.current.component(.hour, from: Date.current())
         switch hour {
         case 0..<12:
-            return "Good Morning~"
+            return String(localized: "Good Morning~")
         case 12..<17:
-            return "Good Afternoon"
+            return String(localized: "Good Afternoon")
         case 17..<22:
-            return "Good Evening"
+            return String(localized: "Good Evening")
         default:
-            return "Good Night!"
+            return String(localized: "Good Night!")
         }
     }
     
