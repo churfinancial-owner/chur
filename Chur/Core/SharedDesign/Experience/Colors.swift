@@ -19,7 +19,7 @@ extension Color {
 
     /// Soft warm gray behind `ToolSheetHeaderBanner`'s white dot pattern — a neutral
     /// backdrop that doesn't compete with any sheet's own accent pill color.
-    static let churBannerBackground = Color(hex: "EBEBE7")
+    static let churBannerBackground = Color(hex: "dfe6d8").opacity(0.85).opacity(0.65)
     
     // MARK: - Accents
     static let churSuccess = Color(hex: "7FAA65")
