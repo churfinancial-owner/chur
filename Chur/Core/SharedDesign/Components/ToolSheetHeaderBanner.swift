@@ -14,17 +14,26 @@
 import SwiftUI
 
 struct ToolSheetHeaderBanner<Content: View>: View {
+    /// Reserves this much height for `content` (excluding the banner's own top/bottom
+    /// padding) so banners with less content — e.g. Year Summary's 2-line title+eyebrow
+    /// versus Couponing's 3-line pill+title+subtitle — still render at the same overall
+    /// banner height.
+    var minContentHeight: CGFloat = 92
     var onClose: () -> Void
     @ViewBuilder var content: () -> Content
 
     var body: some View {
         content()
-            .frame(maxWidth: .infinity, alignment: .leading)
+            .frame(maxWidth: .infinity, minHeight: minContentHeight, alignment: .topLeading)
             .padding(.top, 22)
             .padding(.horizontal, 20)
             .padding(.bottom, 22)
-            .background(Color.churBannerBackground)
-            .background(DotPatternBackground())
+            .background {
+                ZStack {
+                    Color.churBannerBackground
+                    DotPatternBackground()
+                }
+            }
             .overlay(alignment: .top) {
                 Capsule()
                     .fill(Color.black.opacity(0.15))
