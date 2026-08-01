@@ -79,6 +79,7 @@ struct MonthDetailSheet: View {
                                 headerBadge("FEES", color: .red)
                                 headerBadge("REDEEMED", color: .green)
                             }
+                            .hidden()
 
                             Text(formattedDate)
                                 .font(.churBigTitle3())

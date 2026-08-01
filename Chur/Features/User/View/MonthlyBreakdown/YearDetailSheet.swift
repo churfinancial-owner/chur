@@ -88,12 +88,13 @@ struct YearDetailSheet: View {
                             headerBadge("CARDS", color: .blue)
                             headerBadge("REDEEMED", color: .green)
                         }
+                        .hidden()
 
                         Text(verbatim: "\(year)")
                             .font(.churBigTitle3())
                             .foregroundStyle(Color.churDarkGray)
 
-                        Text("Summary")
+                        Text("Year to Date Summary")
                             .font(.churCaptionMedium())
                             .foregroundStyle(Color.churDarkGray.opacity(0.7))
                             .lineSpacing(2)
