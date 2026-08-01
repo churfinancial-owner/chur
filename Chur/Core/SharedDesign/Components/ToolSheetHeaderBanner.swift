@@ -31,7 +31,7 @@ struct ToolSheetHeaderBanner<Content: View>: View {
             .background {
                 ZStack {
                     Color.churBannerBackground
-                    DotPatternBackground()
+                    RepeatingPatternBackground(glyph: .dot(radius: 2), color: .white, spacing: 16)
                 }
             }
             .overlay(alignment: .top) {
@@ -45,27 +45,5 @@ struct ToolSheetHeaderBanner<Content: View>: View {
                     .padding(.top, 2)
             }
             .clipShape(.rect(topLeadingRadius: 24, topTrailingRadius: 24))
-    }
-}
-
-/// Repeating dot pattern — white, 2pt radius, on a 16x16pt grid.
-private struct DotPatternBackground: View {
-    var body: some View {
-        Canvas { context, size in
-            let spacing: CGFloat = 16
-            let dotRadius: CGFloat = 2
-            let dotColor = Color.white
-
-            var y = spacing / 2
-            while y < size.height {
-                var x = spacing / 2
-                while x < size.width {
-                    let rect = CGRect(x: x - dotRadius, y: y - dotRadius, width: dotRadius * 2, height: dotRadius * 2)
-                    context.fill(Path(ellipseIn: rect), with: .color(dotColor))
-                    x += spacing
-                }
-                y += spacing
-            }
-        }
     }
 }

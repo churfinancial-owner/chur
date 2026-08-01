@@ -104,7 +104,16 @@ struct MerchantDetailSheet: View {
             }
         }
         .clipped()
-        .background(Color.churOffWhite)
+        .background {
+            ZStack {
+                Color.churOffWhite
+                RepeatingPatternBackground(
+                    glyph: .symbol("$", font: .system(size: 13, weight: .bold, design: .rounded)),
+                    color: Color.churOlive.opacity(0.06),
+                    spacing: 28
+                )
+            }
+        }
     }
 
     // MARK: - Shop Now
