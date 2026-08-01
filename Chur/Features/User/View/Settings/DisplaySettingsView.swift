@@ -9,9 +9,12 @@ struct DisplaySettingsView: View {
     @Bindable var user: User
 
     private var footerText: String {
+        // Text(_:) with a plain String argument is displayed verbatim (no catalog
+        // lookup) — String(localized:) resolves the translation first so the
+        // literals below are still eligible for the String Catalog.
         user.showEffectiveRate
-            ? "Rewards sorted by effective % return per dollar spent."
-            : "Rewards sorted by card rate."
+            ? String(localized: "Rewards sorted by effective % return per dollar spent.")
+            : String(localized: "Rewards sorted by card rate.")
     }
 
     var body: some View {
