@@ -25,6 +25,15 @@ private enum SearchSection: String, CaseIterable {
         case .features: return "sparkles"
         }
     }
+
+    var displayName: String {
+        switch self {
+        case .cards:    return String(localized: "Cards")
+        case .rewards:  return String(localized: "Rewards")
+        case .benefits: return String(localized: "Benefits")
+        case .features: return String(localized: "Features")
+        }
+    }
 }
 
 private struct SearchResult: Identifiable {
@@ -204,7 +213,7 @@ struct GoToCardSheet: View {
                 // Issuer chips
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 8) {
-                        BankPill(title: "All", isSelected: selectedIssuer == nil) {
+                        BankPill(title: String(localized: "All"), isSelected: selectedIssuer == nil) {
                             selectedIssuer = nil
                         }
                         ForEach(popularWalletIssuers, id: \.self) { issuer in
@@ -219,7 +228,7 @@ struct GoToCardSheet: View {
                         }
                         if !otherWalletIssuers.isEmpty {
                             BankPill(
-                                title: "Other",
+                                title: String(localized: "Other"),
                                 isSelected: selectedIssuer == otherBucket
                             ) {
                                 selectedIssuer = selectedIssuer == otherBucket ? nil : otherBucket
@@ -288,7 +297,7 @@ struct GoToCardSheet: View {
                         Image(systemName: entry.section.icon)
                             .font(.churMicroBold())
                             .foregroundStyle(Color.churOlive)
-                        Text(entry.section.rawValue.uppercased())
+                        Text(entry.section.displayName.uppercased())
                             .font(.churHeadline())
                             .foregroundStyle(Color.churOlive)
                             .tracking(0.5)

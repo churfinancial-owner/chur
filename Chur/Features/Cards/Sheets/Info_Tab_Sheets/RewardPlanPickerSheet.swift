@@ -180,23 +180,23 @@ private struct PlanRow: View {
                     // Badges
                     HStack(spacing: 6) {
                         if plan.isDefault {
-                            badge(text: "Default", color: .churOlive)
+                            badge(text: String(localized: "Default"), color: .churOlive)
                         }
-                        
+
                         if plan.isPromo {
-                            badge(text: "Promo", color: .blue)
+                            badge(text: String(localized: "Promo"), color: .blue)
                         }
-                        
+
                         if plan.isCustomPlan {
-                            badge(text: "Custom", color: .churInfo)
+                            badge(text: String(localized: "Custom"), color: .churInfo)
                         }
-                        
+
                         if !plan.isAvailableForNewUsers && !plan.isCustomPlan {
-                            badge(text: "Legacy", color: .churMediumGray)
+                            badge(text: String(localized: "Legacy"), color: .churMediumGray)
                         }
-                        
+
                         if let endDate = plan.planEndDate, endDate < Date() {
-                            badge(text: "Expired", color: .churError)
+                            badge(text: String(localized: "Expired"), color: .churError)
                         }
                     }
                 }

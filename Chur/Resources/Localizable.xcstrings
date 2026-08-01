@@ -1,6 +1,66 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "3X points on your choice of grocery or dining. Your 3X category choice remains in effect for the entire calendar year." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "於你選擇的雜貨或餐飲類別賺取3倍積分，你的3倍類別選擇於整個年曆年度內有效。"
+          }
+        }
+      }
+    },
+    "ACTIONS" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "操作"
+          }
+        }
+      }
+    },
+    "ANNUAL FEE" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "年費"
+          }
+        }
+      }
+    },
+    "APPEARANCE" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "外觀"
+          }
+        }
+      }
+    },
+    "APPROVAL DATE" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "批核日期"
+          }
+        }
+      }
+    },
+    "AVAILABLE PLANS" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可用計劃"
+          }
+        }
+      }
+    },
     "Access quick tools to boost perks" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -21,12 +81,152 @@
         }
       }
     },
+    "Active" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用中"
+          }
+        }
+      }
+    },
+    "Add Another" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增多一張"
+          }
+        }
+      }
+    },
+    "Add Cards" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增卡片"
+          }
+        }
+      }
+    },
     "Add Your Cards" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "新增你的卡片"
+          }
+        }
+      }
+    },
+    "Add Your First Card" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增你的第一張卡片"
+          }
+        }
+      }
+    },
+    "Add your credit cards to start tracking\nbenefits and maximizing your rewards." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增你的信用卡，開始追蹤\n優惠並提升你的獎賞。"
+          }
+        }
+      }
+    },
+    "All" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部"
+          }
+        }
+      }
+    },
+    "Already in Your Wallet" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已在你的錢包中"
+          }
+        }
+      }
+    },
+    "Amount" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "金額"
+          }
+        }
+      }
+    },
+    "Annual Fee" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "年費"
+          }
+        }
+      }
+    },
+    "Approval Dates" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "批核日期"
+          }
+        }
+      }
+    },
+    "Approved Date" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "批核日期"
+          }
+        }
+      }
+    },
+    "As you add, cancel, or product-change cards, your timeline shows up here." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "當你新增、取消或轉換卡片產品時，時間軸會顯示在這裡。"
+          }
+        }
+      }
+    },
+    "Authorized User" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "授權使用人"
+          }
+        }
+      }
+    },
+    "Auto-detected" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自動偵測"
           }
         }
       }
@@ -71,12 +271,152 @@
         }
       }
     },
+    "Benefits" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "優惠"
+          }
+        }
+      }
+    },
+    "Bonus Categories" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "額外獎賞類別"
+          }
+        }
+      }
+    },
+    "Business" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "商業"
+          }
+        }
+      }
+    },
+    "CARD TYPE" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "卡片類型"
+          }
+        }
+      }
+    },
+    "CURRENT STATUS" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目前狀態"
+          }
+        }
+      }
+    },
+    "Cancel" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取消"
+          }
+        }
+      }
+    },
+    "Cancel Card" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取消卡片"
+          }
+        }
+      }
+    },
+    "Cancelled" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已取消"
+          }
+        }
+      }
+    },
+    "Card History" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "卡片記錄"
+          }
+        }
+      }
+    },
+    "Card Name" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "卡片名稱"
+          }
+        }
+      }
+    },
+    "Card Note" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "卡片備註"
+          }
+        }
+      }
+    },
     "Card Rate (4x)" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "卡片倍數 (4x)"
+          }
+        }
+      }
+    },
+    "Card Status" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "卡片狀態"
+          }
+        }
+      }
+    },
+    "Card Type" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "卡片類型"
+          }
+        }
+      }
+    },
+    "Cards" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "卡片"
           }
         }
       }
@@ -101,6 +441,46 @@
         }
       }
     },
+    "Choose the payment network for your card." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇你卡片的付款網絡。"
+          }
+        }
+      }
+    },
+    "Choose when this card was approved." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇此卡片的批核日期。"
+          }
+        }
+      }
+    },
+    "Clear" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除"
+          }
+        }
+      }
+    },
+    "Coming soon..." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "即將推出……"
+          }
+        }
+      }
+    },
     "Continue" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -117,6 +497,116 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "略過登入，繼續使用"
+          }
+        }
+      }
+    },
+    "Current Rewards" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目前獎賞"
+          }
+        }
+      }
+    },
+    "Custom" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自訂"
+          }
+        }
+      }
+    },
+    "Custom value" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自訂數值"
+          }
+        }
+      }
+    },
+    "DEFAULT" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "預設"
+          }
+        }
+      }
+    },
+    "DONE" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成"
+          }
+        }
+      }
+    },
+    "Dark Theme" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深色主題"
+          }
+        }
+      }
+    },
+    "Date Approved" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "批核日期"
+          }
+        }
+      }
+    },
+    "Default" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "預設"
+          }
+        }
+      }
+    },
+    "Delete" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除"
+          }
+        }
+      }
+    },
+    "Delete Card" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除卡片"
+          }
+        }
+      }
+    },
+    "Delete Card?" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除卡片？"
           }
         }
       }
@@ -141,12 +631,72 @@
         }
       }
     },
+    "Edit Approved Dates" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "編輯批核日期"
+          }
+        }
+      }
+    },
+    "Edit Card" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "編輯卡片"
+          }
+        }
+      }
+    },
+    "Edit the fee if your card's annual fee differs from the default." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如你的卡片年費與預設不同，可在此編輯。"
+          }
+        }
+      }
+    },
     "Effective Rate (5%)" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "實際回贈率 (5%)"
+          }
+        }
+      }
+    },
+    "Expired" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已過期"
+          }
+        }
+      }
+    },
+    "FOREIGN TRANSACTION FEE" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "海外交易手續費"
+          }
+        }
+      }
+    },
+    "Features" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "功能"
           }
         }
       }
@@ -177,6 +727,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "完成並設置錢包"
+          }
+        }
+      }
+    },
+    "Foreign Transaction Fee" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "海外交易手續費"
+          }
+        }
+      }
+    },
+    "Go To Card" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "前往卡片"
           }
         }
       }
@@ -231,12 +801,52 @@
         }
       }
     },
+    "Info" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "資訊"
+          }
+        }
+      }
+    },
+    "Issuer" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "發卡機構"
+          }
+        }
+      }
+    },
+    "Keep Card" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保留卡片"
+          }
+        }
+      }
+    },
     "Language" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "語言"
+          }
+        }
+      }
+    },
+    "Legacy" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "舊有"
           }
         }
       }
@@ -251,12 +861,212 @@
         }
       }
     },
+    "Light Theme" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "淺色主題"
+          }
+        }
+      }
+    },
+    "Manage whether this card is active, cancelled, or switched to a different product." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "管理此卡片為使用中、已取消或轉換至其他產品。"
+          }
+        }
+      }
+    },
+    "Manual override" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "手動覆寫"
+          }
+        }
+      }
+    },
+    "NETWORK" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "網絡"
+          }
+        }
+      }
+    },
+    "NOTE" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "備註"
+          }
+        }
+      }
+    },
+    "Network" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "網絡"
+          }
+        }
+      }
+    },
+    "No Card History" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有卡片記錄"
+          }
+        }
+      }
+    },
+    "No cards found" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "找不到卡片"
+          }
+        }
+      }
+    },
+    "No plan selected" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選擇計劃"
+          }
+        }
+      }
+    },
+    "No plans available" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有可用計劃"
+          }
+        }
+      }
+    },
+    "Not enrolled" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未登記"
+          }
+        }
+      }
+    },
     "Notifications" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "通知"
+          }
+        }
+      }
+    },
+    "Other" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其他"
+          }
+        }
+      }
+    },
+    "Override the default foreign transaction fee for this card." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "為此卡片覆寫預設的海外交易手續費。"
+          }
+        }
+      }
+    },
+    "POINT VALUES" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "積分價值"
+          }
+        }
+      }
+    },
+    "Personal" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "個人"
+          }
+        }
+      }
+    },
+    "Pick one 3% category and one 2% category where you spend the most — you'll automatically earn extra points there each billing cycle." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇一個3%類別及一個2%類別（你消費最多的類別），每個結賬週期都會自動賺取額外積分。"
+          }
+        }
+      }
+    },
+    "Pick the one category where you spend the most — you'll automatically earn 3% there each billing cycle." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇你消費最多的類別——每個結賬週期都會自動賺取3%回贈。"
+          }
+        }
+      }
+    },
+    "Pick the one category where you spend the most — you'll automatically earn 5% there each billing cycle." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇你消費最多的類別——每個結賬週期都會自動賺取5%回贈。"
+          }
+        }
+      }
+    },
+    "Pick two 5% categories and one 2% everyday category. You can change these once per quarter." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇兩個5%類別及一個2%日常類別，你每季可更改一次。"
+          }
+        }
+      }
+    },
+    "Point Values" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "積分價值"
           }
         }
       }
@@ -281,6 +1091,86 @@
         }
       }
     },
+    "Product Change" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "產品轉換"
+          }
+        }
+      }
+    },
+    "Program" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "計劃"
+          }
+        }
+      }
+    },
+    "Promo" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "推廣"
+          }
+        }
+      }
+    },
+    "REWARD PROGRAM" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "獎賞計劃"
+          }
+        }
+      }
+    },
+    "REWARD SETUP" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "獎賞設定"
+          }
+        }
+      }
+    },
+    "Rate" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "費率"
+          }
+        }
+      }
+    },
+    "Reactivate" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新啟用"
+          }
+        }
+      }
+    },
+    "Reactivate Card" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新啟用卡片"
+          }
+        }
+      }
+    },
     "Region & Currency" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -291,12 +1181,42 @@
         }
       }
     },
+    "Relationship Boost" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "關係優惠加成"
+          }
+        }
+      }
+    },
     "Remove Photo" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "移除相片"
+          }
+        }
+      }
+    },
+    "Reorder Cards" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新排序卡片"
+          }
+        }
+      }
+    },
+    "Reorder/Delete" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新排序／刪除"
           }
         }
       }
@@ -317,6 +1237,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "獎賞顯示模式"
+          }
+        }
+      }
+    },
+    "Reward Plan" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "獎賞計劃"
+          }
+        }
+      }
+    },
+    "Rewards" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "獎賞"
           }
         }
       }
@@ -351,12 +1291,62 @@
         }
       }
     },
+    "Save" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "儲存"
+          }
+        }
+      }
+    },
+    "Search cards, rewards, benefits..." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜尋卡片、獎賞、優惠……"
+          }
+        }
+      }
+    },
+    "Search cards..." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜尋卡片……"
+          }
+        }
+      }
+    },
     "Secure Your Wallet" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "保護你的錢包"
+          }
+        }
+      }
+    },
+    "Select a category for each reward tier." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "為每個獎賞等級選擇一個類別。"
+          }
+        }
+      }
+    },
+    "Select the account type for this card." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇此卡片的帳戶類型。"
           }
         }
       }
@@ -371,12 +1361,52 @@
         }
       }
     },
+    "Select which reward structure to use for this card. You can switch between plans at any time." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇此卡片使用的獎賞結構，你可以隨時切換計劃。"
+          }
+        }
+      }
+    },
+    "Set Up Categories" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定類別"
+          }
+        }
+      }
+    },
+    "Set a custom valuation for your points and miles. This override applies to all cards sharing this rewards program." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "為你的積分及里數設定自訂價值，此設定適用於所有使用此獎賞計劃的卡片。"
+          }
+        }
+      }
+    },
     "Settings" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "設定"
+          }
+        }
+      }
+    },
+    "Show on Card" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "於卡片上顯示"
           }
         }
       }
@@ -411,12 +1441,52 @@
         }
       }
     },
+    "Sort Options" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "排序選項"
+          }
+        }
+      }
+    },
+    "Student" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "學生"
+          }
+        }
+      }
+    },
     "Suggest the best card for every purchase" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "為每次消費推薦最佳卡片"
+          }
+        }
+      }
+    },
+    "Switch" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "轉換"
+          }
+        }
+      }
+    },
+    "THEME" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "主題"
           }
         }
       }
@@ -471,12 +1541,52 @@
         }
       }
     },
+    "This card doesn't have any reward plans configured yet." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此卡片尚未設定任何獎賞計劃。"
+          }
+        }
+      }
+    },
+    "This card has one reward plan available." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此卡片只有一個可用的獎賞計劃。"
+          }
+        }
+      }
+    },
+    "This removes the card from your wallet and reward calculations. Its history is kept — you can reactivate it later from Card History." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這會將卡片從你的錢包及獎賞計算中移除。其記錄會被保留——你可以稍後在卡片記錄中重新啟用。"
+          }
+        }
+      }
+    },
     "Track and maximize your card benefits" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "追蹤並善用你的卡片優惠"
+          }
+        }
+      }
+    },
+    "Try adjusting your search or filter." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請嘗試調整搜尋或篩選條件。"
           }
         }
       }
@@ -507,6 +1617,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未預期的登入憑證類型"
+          }
+        }
+      }
+    },
+    "Use base earning rates only" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只使用基本回贈率"
           }
         }
       }
@@ -581,12 +1701,32 @@
         }
       }
     },
+    "What's this card for?" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這張卡片是用來做甚麼的？"
+          }
+        }
+      }
+    },
     "Where are you based?" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "你身處哪個地區？"
+          }
+        }
+      }
+    },
+    "YOUR TIER" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的等級"
           }
         }
       }
@@ -607,6 +1747,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你的名字"
+          }
+        }
+      }
+    },
+    "Your wallet is empty" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的錢包是空的"
           }
         }
       }

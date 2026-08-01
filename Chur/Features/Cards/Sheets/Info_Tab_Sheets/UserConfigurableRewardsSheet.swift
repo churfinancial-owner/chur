@@ -81,17 +81,17 @@ struct UserConfigurableRewardsSheet: View {
     private var headerSubtitle: String {
         switch card.templateID {
         case "us-bank-cash-plus":
-            return "Pick two 5% categories and one 2% everyday category. You can change these once per quarter."
+            return String(localized: "Pick two 5% categories and one 2% everyday category. You can change these once per quarter.")
         case "citi-custom-cash":
-            return "Pick the one category where you spend the most — you'll automatically earn 5% there each billing cycle."
+            return String(localized: "Pick the one category where you spend the most — you'll automatically earn 5% there each billing cycle.")
         case "bofa-customized-cash":
-            return "Pick the one category where you spend the most — you'll automatically earn 3% there each billing cycle."
+            return String(localized: "Pick the one category where you spend the most — you'll automatically earn 3% there each billing cycle.")
         case "synchrony-venmo-visa":
-            return "Pick one 3% category and one 2% category where you spend the most — you'll automatically earn extra points there each billing cycle."
+            return String(localized: "Pick one 3% category and one 2% category where you spend the most — you'll automatically earn extra points there each billing cycle.")
         case "cardless-bilt-obsidian":
-            return "3X points on your choice of grocery or dining. Your 3X category choice remains in effect for the entire calendar year."
+            return String(localized: "3X points on your choice of grocery or dining. Your 3X category choice remains in effect for the entire calendar year.")
         default:
-            return "Select a category for each reward tier."
+            return String(localized: "Select a category for each reward tier.")
         }
     }
 

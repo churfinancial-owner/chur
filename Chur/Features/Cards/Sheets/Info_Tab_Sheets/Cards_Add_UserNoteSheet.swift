@@ -29,6 +29,12 @@ private enum NotePreset: String, CaseIterable {
         case .darkOnLight: return .churOliveLight
         }
     }
+    var displayName: String {
+        switch self {
+        case .lightOnDark: return String(localized: "Dark Theme")
+        case .darkOnLight: return String(localized: "Light Theme")
+        }
+    }
 }
 
 struct CardsUserNoteSheet: View {
@@ -223,7 +229,7 @@ struct CardsUserNoteSheet: View {
             HStack(spacing: 5) {
                 Image(systemName: "note.text")
                     .font(.churMicroBold())
-                Text(p.rawValue)
+                Text(p.displayName)
                     .font(.churFootnoteBold())
             }
             .foregroundStyle(p.textColor)

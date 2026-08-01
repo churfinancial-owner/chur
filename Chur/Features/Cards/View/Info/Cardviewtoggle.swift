@@ -87,7 +87,7 @@ struct CardViewToggle: View {
                     selectedTab = .benefits
                 }
             } label: {
-                labelWithBubble(text: "Benefits", count: benefitsTotalCount + featuresCount, showAlarm: hasExpiringBenefits)
+                labelWithBubble(text: String(localized: "Benefits"), count: benefitsTotalCount + featuresCount, showAlarm: hasExpiringBenefits)
                     .foregroundStyle(selectedTab == .benefits ? .white : Color.churMediumGray)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 10)
