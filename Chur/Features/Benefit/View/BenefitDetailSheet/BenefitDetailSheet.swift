@@ -114,7 +114,11 @@ struct BenefitDetailSheet: View {
         .background {
             ZStack {
                 Color.churOffWhite
-                RepeatingPatternBackground(glyph: .dot(radius: 2), color: Color.churPatternGlyph, spacing: 16)
+                RepeatingPatternBackground(
+                    glyph: .sfSymbol("gift.fill", font: .system(size: 13, weight: .bold)),
+                    color: Color.churOlive.opacity(0.08),
+                    spacing: 30
+                )
             }
         }
         .clipShape(.rect(topLeadingRadius: 24, topTrailingRadius: 24))
