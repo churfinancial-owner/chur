@@ -46,49 +46,43 @@ struct BenefitDetailSheet: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 32) {
+            VStack(alignment: .leading, spacing: 0) {
                 // --- 1. Header & Description ---
-                VStack(alignment: .leading, spacing: 12) {
-                    heroHeader // Defined in BenefitDetailSheet_Header.swift
-                    
-                    Text(description)
-                        .font(.churCaptionMedium())
-                        .foregroundStyle(Color.churDarkGray.opacity(0.7))
-                        .lineSpacing(3)
-                        .fixedSize(horizontal: false, vertical: true)
+                headerSection
+
+                VStack(alignment: .leading, spacing: 32) {
+                    // --- 2. Interactive Progress Visualization ---
+                    // This component now acts as the trigger for the management sub-view
+                    BenefitProgressBar(
+                        name: name,
+                        usageHistory: usageHistory,
+                        frequency: frequency,
+                        periodBudget: periodBudget,
+                        valueCurrency: valueCurrency,
+                        isCountLimited: isCountLimited,
+                        isUnlimited: isUnlimited,
+                        trackingMode: trackingMode,
+                        expiryDate: expiryDate,
+                        selectedYear: $selectedYear,
+                        selectedPeriodIndex: $selectedPeriodIndex,
+                        autoApplyEnabled: autoApplyEnabled,
+                        localRemainingBalance: $localRemainingBalance,
+                        localIsFullyRedeemed: $localIsFullyRedeemed,
+                        remainingBalance: remainingBalance,
+                        isFullyRedeemed: isFullyRedeemed,
+                        onLogUsage: onLogUsage,
+                        onLogUsageAt: onLogUsageAt,
+                        onDeleteRecord: onDeleteRecord,
+                        onAutoApplyToggled: onAutoApplyToggled,
+                        onCatchUp: onCatchUp
+                    )
+
+                    // --- 3. Preferences ---
+                    preferencesSection
                 }
-                
-                // --- 2. Interactive Progress Visualization ---
-                // This component now acts as the trigger for the management sub-view
-                BenefitProgressBar(
-                    name: name,
-                    usageHistory: usageHistory,
-                    frequency: frequency,
-                    periodBudget: periodBudget,
-                    valueCurrency: valueCurrency,
-                    isCountLimited: isCountLimited,
-                    isUnlimited: isUnlimited,
-                    trackingMode: trackingMode,
-                    expiryDate: expiryDate,
-                    selectedYear: $selectedYear,
-                    selectedPeriodIndex: $selectedPeriodIndex,
-                    autoApplyEnabled: autoApplyEnabled,
-                    localRemainingBalance: $localRemainingBalance,
-                    localIsFullyRedeemed: $localIsFullyRedeemed,
-                    remainingBalance: remainingBalance,
-                    isFullyRedeemed: isFullyRedeemed,
-                    onLogUsage: onLogUsage,
-                    onLogUsageAt: onLogUsageAt,
-                    onDeleteRecord: onDeleteRecord,
-                    onAutoApplyToggled: onAutoApplyToggled,
-                    onCatchUp: onCatchUp
-                )
-                
-                // --- 3. Preferences ---
-                preferencesSection
+                .padding(24)
+                .padding(.bottom, 30)
             }
-            .padding(24)
-            .padding(.bottom, 30)
         }
         .background(Color.churOffWhite.ignoresSafeArea())
         .onAppear {
@@ -102,6 +96,30 @@ struct BenefitDetailSheet: View {
         }
     }
     
+    // MARK: - Header
+
+    private var headerSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            heroHeader // Defined in BenefitDetailSheet_Header.swift
+
+            Text(description)
+                .font(.churCaptionMedium())
+                .foregroundStyle(Color.churDarkGray.opacity(0.7))
+                .lineSpacing(3)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(.horizontal, 24)
+        .padding(.top, 20)
+        .padding(.bottom, 20)
+        .background {
+            ZStack {
+                Color.churOffWhite
+                RepeatingPatternBackground(glyph: .dot(radius: 2), color: Color.churPatternGlyph, spacing: 16)
+            }
+        }
+        .clipShape(.rect(topLeadingRadius: 24, topTrailingRadius: 24))
+    }
+
     private func setupInitialState() {
         localRemainingBalance = remainingBalance
         localIsFullyRedeemed = isFullyRedeemed
