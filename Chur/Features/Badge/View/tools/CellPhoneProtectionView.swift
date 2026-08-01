@@ -37,7 +37,7 @@ struct CellPhoneProtectionView: View {
                     ToolSheetHeaderBanner(onClose: { dismiss() }) {
                         VStack(alignment: .leading, spacing: 6) {
                             Text("PROTECTIONS")
-                                .font(.churBadgeBold())
+                                .font(.churMicroBold())
                                 .foregroundStyle(Color.white)
                                 .padding(.horizontal, 10)
                                 .padding(.vertical, 6)
@@ -45,11 +45,11 @@ struct CellPhoneProtectionView: View {
                                 .clipShape(Capsule())
 
                             Text("Cell Phone Protection")
-                                .font(.churTitle())
+                                .font(.churBigTitle3())
                                 .foregroundStyle(Color.churDarkGray)
 
                             Text("Cards that cover phone damage, theft, and screen repair. Plans and coverage terms change frequently. Information may not reflect the latest provider updates; always verify with your card issuer.")
-                                .font(.churSmallMedium())
+                                .font(.churCaptionMedium())
                                 .foregroundStyle(Color.churDarkGray.opacity(0.7))
                                 .lineSpacing(2)
                         }

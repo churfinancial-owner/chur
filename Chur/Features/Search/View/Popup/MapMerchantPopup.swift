@@ -71,7 +71,7 @@ struct MerchantDetailSheet: View {
             .padding(.trailing, 110)
 
             Text(viewModel.merchant.name)
-                .font(.system(size: 34, weight: .heavy, design: .rounded))
+                .font(.churBigTitle3())
                 .foregroundStyle(Color.churDarkGray)
                 .lineLimit(2)
                 .minimumScaleFactor(0.75)
@@ -80,8 +80,8 @@ struct MerchantDetailSheet: View {
 
             HStack(spacing: 6) {
                 Text("Here's your best card here.")
-                    .font(.system(size: 13, weight: .medium, design: .rounded))
-                    .foregroundStyle(Color.churMediumGray)
+                    .font(.churCaptionMedium())
+                    .foregroundStyle(Color.churDarkGray.opacity(0.7))
                 Button {
                     withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) { showFormula.toggle() }
                 } label: {
@@ -108,8 +108,8 @@ struct MerchantDetailSheet: View {
             ZStack {
                 Color.churOffWhite
                 RepeatingPatternBackground(
-                    glyph: .symbol("$", font: .system(size: 15, weight: .bold, design: .rounded)),
-                    color: Color.churPatternGlyph,
+                    glyph: .symbol("$", font: .system(size: 13, weight: .bold, design: .rounded)),
+                    color: Color.churOlive.opacity(0.09),
                     spacing: 28
                 )
             }

@@ -82,21 +82,21 @@ struct PointTransferView: View {
 
     // MARK: - Subviews
     private var heroHeader: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 6) {
             Text("TRAVEL")
-                .font(.churBadgeBold())
+                .font(.churMicroBold())
                 .foregroundStyle(.black)
                 .padding(.horizontal, 10).padding(.vertical, 6)
                 .background(Color.churWarning).clipShape(Capsule())
 
             Text("Transfer Partners")
-                .font(.churTitle())
+                .font(.churBigTitle3())
                 .foregroundStyle(Color.churDarkGray)
 
             headerDescription
-                .font(.churFootnoteMedium())
+                .font(.churCaptionMedium())
                 .foregroundStyle(Color.churDarkGray.opacity(0.7))
-                .lineSpacing(3)
+                .lineSpacing(2)
         }
     }
 

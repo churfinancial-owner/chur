@@ -32,7 +32,7 @@ struct LoungeAccessView: View {
                     ToolSheetHeaderBanner(onClose: { dismiss() }) {
                         VStack(alignment: .leading, spacing: 6) {
                             Text("TRAVEL")
-                                .font(.churBadgeBold())
+                                .font(.churMicroBold())
                                 .foregroundStyle(.black)
                                 .padding(.horizontal, 10)
                                 .padding(.vertical, 6)
@@ -40,11 +40,11 @@ struct LoungeAccessView: View {
                                 .clipShape(Capsule())
 
                             Text("Lounge Access")
-                                .font(.churTitle())
+                                .font(.churBigTitle3())
                                 .foregroundStyle(Color.churDarkGray)
 
                             Text("Airport lounges you can access with your cards.")
-                                .font(.churSmallMedium())
+                                .font(.churCaptionMedium())
                                 .foregroundStyle(Color.churDarkGray.opacity(0.7))
                                 .lineSpacing(2)
                         }

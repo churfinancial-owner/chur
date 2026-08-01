@@ -17,8 +17,7 @@ extension Color {
     static let churLightGray = Color(hex: "D3D3D3")
     static let churDarkGray = Color(hex: "4A4A4A")
 
-    /// Shared color for the repeating dot/$ patterns behind header banners
-    /// (`ToolSheetHeaderBanner`, `MerchantDetailSheet`) — faint olive on off-white.
+    /// Faint olive dot pattern behind `ToolSheetHeaderBanner`'s content.
     static let churPatternGlyph = Color.churOlive.opacity(0.12)
     
     // MARK: - Accents

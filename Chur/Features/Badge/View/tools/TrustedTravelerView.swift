@@ -51,7 +51,7 @@ struct TrustedTravelerView: View {
                     ToolSheetHeaderBanner(onClose: { dismiss() }) {
                         VStack(alignment: .leading, spacing: 6) {
                             Text("TRAVEL")
-                                .font(.churBadgeBold())
+                                .font(.churMicroBold())
                                 .foregroundStyle(.black)
                                 .padding(.horizontal, 10)
                                 .padding(.vertical, 6)
@@ -59,11 +59,11 @@ struct TrustedTravelerView: View {
                                 .clipShape(Capsule())
 
                             Text("Trusted Traveler")
-                                .font(.churTitle())
+                                .font(.churBigTitle3())
                                 .foregroundStyle(Color.churDarkGray)
 
                             Text("Security programs covered by your cards — TSA PreCheck, Global Entry, CLEAR, and NEXUS.")
-                                .font(.churSmallMedium())
+                                .font(.churCaptionMedium())
                                 .foregroundStyle(Color.churDarkGray.opacity(0.7))
                                 .lineSpacing(2)
                         }

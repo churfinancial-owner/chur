@@ -57,7 +57,7 @@ struct AutoRentalCoverageView: View {
                     ToolSheetHeaderBanner(onClose: { dismiss() }) {
                         VStack(alignment: .leading, spacing: 6) {
                             Text("PROTECTIONS")
-                                .font(.churSmallBold())
+                                .font(.churMicroBold())
                                 .foregroundStyle(Color.white)
                                 .padding(.horizontal, 10)
                                 .padding(.vertical, 6)
@@ -65,7 +65,7 @@ struct AutoRentalCoverageView: View {
                                 .clipShape(Capsule())
 
                             Text("Auto Rental Coverage")
-                                .font(.churTitle())
+                                .font(.churBigTitle3())
                                 .foregroundStyle(Color.churDarkGray)
 
                             Text("Rental car collision and damage coverage through your cards. Plans and coverage terms change frequently. Information may not reflect the latest provider updates; always verify with your card issuer.")
