@@ -4,7 +4,7 @@
 //
 //  Shared header banner for full-screen tool sheets (Couponing, Transfer Partners,
 //  Year Summary, and future ones) — replaces the old photographic/illustrated
-//  PatternHeaderBanner with a flat white dot-pattern background. Owns the
+//  PatternHeaderBanner with a flat off-white olive dot-pattern background. Owns the
 //  banner's background, grab handle, and close button chrome only; callers pass their
 //  own title/pill/subtitle content.
 //
@@ -30,8 +30,8 @@ struct ToolSheetHeaderBanner<Content: View>: View {
             .padding(.bottom, 22)
             .background {
                 ZStack {
-                    Color.churBannerBackground
-                    RepeatingPatternBackground(glyph: .dot(radius: 2), color: .white, spacing: 16)
+                    Color.churOffWhite
+                    RepeatingPatternBackground(glyph: .dot(radius: 2), color: Color.churPatternGlyph, spacing: 16)
                 }
             }
             .overlay(alignment: .top) {

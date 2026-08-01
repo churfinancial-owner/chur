@@ -108,8 +108,8 @@ struct MerchantDetailSheet: View {
             ZStack {
                 Color.churOffWhite
                 RepeatingPatternBackground(
-                    glyph: .symbol("$", font: .system(size: 13, weight: .bold, design: .rounded)),
-                    color: Color.churOlive.opacity(0.06),
+                    glyph: .symbol("$", font: .system(size: 15, weight: .bold, design: .rounded)),
+                    color: Color.churPatternGlyph,
                     spacing: 28
                 )
             }

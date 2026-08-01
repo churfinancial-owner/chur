@@ -17,9 +17,9 @@ extension Color {
     static let churLightGray = Color(hex: "D3D3D3")
     static let churDarkGray = Color(hex: "4A4A4A")
 
-    /// Soft warm gray behind `ToolSheetHeaderBanner`'s white dot pattern — a neutral
-    /// backdrop that doesn't compete with any sheet's own accent pill color.
-    static let churBannerBackground = Color(hex: "dfe6d8").opacity(0.45)
+    /// Shared color for the repeating dot/$ patterns behind header banners
+    /// (`ToolSheetHeaderBanner`, `MerchantDetailSheet`) — faint olive on off-white.
+    static let churPatternGlyph = Color.churOlive.opacity(0.12)
     
     // MARK: - Accents
     static let churSuccess = Color(hex: "7FAA65")
