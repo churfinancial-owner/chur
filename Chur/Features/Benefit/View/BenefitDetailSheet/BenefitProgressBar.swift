@@ -50,8 +50,6 @@ struct BenefitProgressBar: View {
     var body: some View {
         if freq != "one-time" && freq != "quadrennial" {
             VStack(alignment: .leading, spacing: 16) {
-                Divider()
-                
                 HStack {
                     Text("PROGRESS")
                         .font(.churMicroBold())
