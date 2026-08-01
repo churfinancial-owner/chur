@@ -4,7 +4,7 @@
 //
 //  Shared header banner for full-screen tool sheets (Couponing, Transfer Partners,
 //  Year Summary, and future ones) — replaces the old photographic/illustrated
-//  PatternHeaderBanner with a flat, on-brand olive dot-pattern background. Owns the
+//  PatternHeaderBanner with a flat white dot-pattern background. Owns the
 //  banner's background, grab handle, and close button chrome only; callers pass their
 //  own title/pill/subtitle content.
 //
@@ -60,13 +60,13 @@ struct ToolSheetHeaderBanner<Content: View>: View {
     }
 }
 
-/// Repeating dot pattern — olive tint, 2pt radius at 20% opacity, on a 16x16pt grid.
+/// Repeating dot pattern — white, 2pt radius, on a 16x16pt grid.
 private struct DotPatternBackground: View {
     var body: some View {
         Canvas { context, size in
             let spacing: CGFloat = 16
             let dotRadius: CGFloat = 2
-            let dotColor = Color.churOlive.opacity(0.2)
+            let dotColor = Color.white
 
             var y = spacing / 2
             while y < size.height {

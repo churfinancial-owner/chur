@@ -101,7 +101,7 @@ struct CouponingView: View {
 
             Text("Credits and perks you receive through your cards.")
                 .font(.churCaptionMedium())
-                .foregroundStyle(Color.churMediumGray)
+                .foregroundStyle(Color.churDarkGray.opacity(0.7))
                 .lineSpacing(2)
         }
     }
@@ -376,14 +376,4 @@ private enum CouponCategoryGroup: String, CaseIterable, Identifiable {
     static func from(_ displayGroup: String) -> CouponCategoryGroup {
         CouponCategoryGroup(rawValue: displayGroup) ?? .other
     }
-}
-
-// MARK: - Preview
-
-#Preview {
-    let schema = Schema(ChurSchemaV1_13.models, version: ChurSchemaV1_13.versionIdentifier)
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: schema, configurations: [config])
-    return CouponingView()
-        .modelContainer(container)
 }

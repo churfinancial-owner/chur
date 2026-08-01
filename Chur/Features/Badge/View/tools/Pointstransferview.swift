@@ -95,7 +95,7 @@ struct PointTransferView: View {
 
             headerDescription
                 .font(.churFootnoteMedium())
-                .foregroundStyle(Color.churMediumGray)
+                .foregroundStyle(Color.churDarkGray.opacity(0.7))
                 .lineSpacing(3)
         }
     }

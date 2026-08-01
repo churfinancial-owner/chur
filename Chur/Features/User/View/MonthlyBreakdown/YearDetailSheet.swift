@@ -89,7 +89,7 @@ struct YearDetailSheet: View {
                         Text("SUMMARY")
                             .font(.system(size: 11, weight: .heavy, design: .rounded))
                             .tracking(1)
-                            .foregroundStyle(Color.churMediumGray)
+                            .foregroundStyle(Color.churDarkGray.opacity(0.7))
                     }
                 }
 

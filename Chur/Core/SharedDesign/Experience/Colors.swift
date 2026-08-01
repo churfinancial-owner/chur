@@ -17,9 +17,9 @@ extension Color {
     static let churLightGray = Color(hex: "D3D3D3")
     static let churDarkGray = Color(hex: "4A4A4A")
 
-    /// Soft teal wash behind `ToolSheetHeaderBanner`'s olive dot pattern — a playful,
-    /// versatile contrast that doesn't compete with any sheet's own accent pill color.
-    static let churBannerBackground = Color(hex: "DCE9E8")
+    /// Soft warm gray behind `ToolSheetHeaderBanner`'s white dot pattern — a neutral
+    /// backdrop that doesn't compete with any sheet's own accent pill color.
+    static let churBannerBackground = Color(hex: "EBEBE7")
     
     // MARK: - Accents
     static let churSuccess = Color(hex: "7FAA65")
