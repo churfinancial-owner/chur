@@ -53,30 +53,26 @@ struct AutoRentalCoverageView: View {
         ZStack(alignment: .topTrailing) {
             ScrollView {
                 VStack(spacing: 0) {
-                    // MARK: - Pattern Header
-                    PatternHeaderBanner(imageName: "HeaderPattern5")
+                    // MARK: - Hero Banner
+                    ToolSheetHeaderBanner(onClose: { dismiss() }) {
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("PROTECTIONS")
+                                .font(.churSmallBold())
+                                .foregroundStyle(Color.white)
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 6)
+                                .background(Color.green)
+                                .clipShape(Capsule())
 
-                    // MARK: - Hero Header
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("PROTECTIONS")
-                            .font(.churSmallBold())
-                            .foregroundStyle(Color.white)
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 6)
-                            .background(Color.green)
-                            .clipShape(Capsule())
+                            Text("Auto Rental Coverage")
+                                .font(.churTitle())
+                                .foregroundStyle(Color.churDarkGray)
 
-                        Text("Auto Rental Coverage")
-                            .font(.churTitle())
-                            .foregroundStyle(Color.churDarkGray)
-
-                        Text("Rental car collision and damage coverage through your cards. Plans and coverage terms change frequently. Information may not reflect the latest provider updates; always verify with your card issuer.")
-                            .font(.churCaptionMedium())
-                            .foregroundStyle(Color.churMediumGray)
+                            Text("Rental car collision and damage coverage through your cards. Plans and coverage terms change frequently. Information may not reflect the latest provider updates; always verify with your card issuer.")
+                                .font(.churCaptionMedium())
+                                .foregroundStyle(Color.churDarkGray.opacity(0.7))
+                        }
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal, 24)
-                    .padding(.top, 12)
 
                     // MARK: - Summary Bar
                     if !matchedCards.isEmpty {
@@ -127,8 +123,6 @@ struct AutoRentalCoverageView: View {
                 }
             }
             .background(Color.churOffWhite)
-
-            SheetDismissButton { dismiss() }
         }
         .toolbar(.hidden, for: .navigationBar)
     }

@@ -27,7 +27,7 @@ struct MonthDetailSheet: View {
     }
     
     private var formattedDate: String {
-        let monthName = Calendar.current.monthSymbols[month - 1].uppercased()
+        let monthName = Calendar.current.monthSymbols[month - 1]
         return "\(monthName) \(year)"
     }
 
@@ -72,10 +72,24 @@ struct MonthDetailSheet: View {
         ZStack(alignment: .topTrailing) {
             ScrollView {
                 VStack(spacing: 0) {
-                    PatternHeaderBanner(imageName: "HeaderPattern5")
-                    
-                    // 1. Header & Title
-                    DetailSheetTitleBlock(title: formattedDate, subtitle: "MONTHLY ACTIVITY")
+                    // 1. Hero Banner
+                    ToolSheetHeaderBanner(onClose: { dismiss() }) {
+                        VStack(alignment: .leading, spacing: 6) {
+                            HStack(spacing: 6) {
+                                headerBadge("FEES", color: .red)
+                                headerBadge("REDEEMED", color: .green)
+                            }
+
+                            Text(formattedDate)
+                                .font(.churBigTitle3())
+                                .foregroundStyle(Color.churDarkGray)
+
+                            Text("Monthly activity")
+                                .font(.churCaptionMedium())
+                                .foregroundStyle(Color.churDarkGray.opacity(0.7))
+                                .lineSpacing(2)
+                        }
+                    }
 
                     // 2. Summary Dashboard
                     summaryDashboard
@@ -115,13 +129,20 @@ struct MonthDetailSheet: View {
                 }
             }
             .background(Color.churOffWhite)
-            .ignoresSafeArea()
-
-            SheetDismissButton { dismiss() }
         }
     }
 
     // MARK: - Components
+
+    private func headerBadge(_ label: String, color: Color) -> some View {
+        Text(label)
+            .font(.churMicroBold())
+            .foregroundStyle(Color.white)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 6)
+            .background(color)
+            .clipShape(Capsule())
+    }
 
     private var summaryDashboard: some View {
         HStack(spacing: 16) {

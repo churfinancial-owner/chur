@@ -14,10 +14,12 @@ struct SheetDismissButton: View {
 
     var body: some View {
         Button(action: action) {
-            Image(systemName: "xmark.circle.fill")
-                .font(.churBigTitle3())
-                .symbolRenderingMode(.palette)
-                .foregroundStyle(color, .white)
+            Text("✕")
+                .font(.churFootnote())
+                .foregroundStyle(color)
+                .frame(width: 28, height: 28)
+                .background(Color.white.opacity(0.7))
+                .clipShape(Circle())
         }
         .padding(.top, 12)
         .padding(.trailing, 16)

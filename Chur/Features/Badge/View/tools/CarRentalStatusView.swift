@@ -35,31 +35,27 @@ struct CarRentalStatusView: View {
         ZStack(alignment: .topTrailing) {
             ScrollView {
                 VStack(spacing: 0) {
-                    // MARK: - Pattern Header
-                    PatternHeaderBanner(imageName: "HeaderPattern5")
+                    // MARK: - Hero Banner
+                    ToolSheetHeaderBanner(onClose: { dismiss() }) {
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("TRAVEL")
+                                .font(.churBadgeBold())
+                                .foregroundStyle(.black)
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 6)
+                                .background(Color.churPillColor1Orange)
+                                .clipShape(Capsule())
 
-                    // MARK: - Hero Header
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("TRAVEL")
-                            .font(.churBadgeBold())
-                            .foregroundStyle(.black)
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 6)
-                            .background(Color.churPillColor1Orange)
-                            .clipShape(Capsule())
+                            Text("Car Rental Status")
+                                .font(.churTitle())
+                                .foregroundStyle(Color.churDarkGray)
 
-                        Text("Car Rental Status")
-                            .font(.churTitle())
-                            .foregroundStyle(Color.churDarkGray)
-
-                        Text("Elite rental car statuses you receive through your cards.")
-                            .font(.churSmallBold())
-                            .foregroundStyle(Color.churMediumGray)
-                            .lineSpacing(2)
+                            Text("Elite rental car statuses you receive through your cards.")
+                                .font(.churSmallBold())
+                                .foregroundStyle(Color.churDarkGray.opacity(0.7))
+                                .lineSpacing(2)
+                        }
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal, 24)
-                    .padding(.top, 12)
 
                     // MARK: - Programs
                     if programGroups.isEmpty {
@@ -80,8 +76,6 @@ struct CarRentalStatusView: View {
                 }
             }
             .background(Color.churOffWhite)
-
-            SheetDismissButton { dismiss() }
         }
         .toolbar(.hidden, for: .navigationBar)
     }

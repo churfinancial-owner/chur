@@ -41,22 +41,10 @@ struct ToolSheetHeaderBanner<Content: View>: View {
                     .padding(.top, 8)
             }
             .overlay(alignment: .topTrailing) {
-                closeButton
-                    .padding(.top, 14)
-                    .padding(.trailing, 16)
+                SheetDismissButton(action: onClose)
+                    .padding(.top, 2)
             }
             .clipShape(.rect(topLeadingRadius: 24, topTrailingRadius: 24))
-    }
-
-    private var closeButton: some View {
-        Button(action: onClose) {
-            Text("✕")
-                .font(.churFootnote())
-                .foregroundStyle(Color.churDarkGray)
-                .frame(width: 28, height: 28)
-                .background(Color.white.opacity(0.7))
-                .clipShape(Circle())
-        }
     }
 }
 

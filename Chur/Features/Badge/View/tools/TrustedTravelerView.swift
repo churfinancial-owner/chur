@@ -47,11 +47,8 @@ struct TrustedTravelerView: View {
         ZStack(alignment: .topTrailing) {
             ScrollView {
                 VStack(spacing: 0) {
-                    // MARK: - Pattern Header
-                    PatternHeaderBanner(imageName: "HeaderPattern5")
-
-                    VStack(alignment: .leading, spacing: 24) {
-                        // MARK: - Hero Header
+                    // MARK: - Hero Banner
+                    ToolSheetHeaderBanner(onClose: { dismiss() }) {
                         VStack(alignment: .leading, spacing: 6) {
                             Text("TRAVEL")
                                 .font(.churBadgeBold())
@@ -67,11 +64,12 @@ struct TrustedTravelerView: View {
 
                             Text("Security programs covered by your cards — TSA PreCheck, Global Entry, CLEAR, and NEXUS.")
                                 .font(.churSmallMedium())
-                                .foregroundStyle(Color.churMediumGray)
+                                .foregroundStyle(Color.churDarkGray.opacity(0.7))
                                 .lineSpacing(2)
                         }
-                        .padding(.top, 12)
+                    }
 
+                    VStack(alignment: .leading, spacing: 24) {
                         // MARK: - Programs
                         if programGroups.isEmpty {
                             emptyState
@@ -86,12 +84,10 @@ struct TrustedTravelerView: View {
                         Spacer(minLength: 40)
                     }
                     .padding(.horizontal, 24)
+                    .padding(.top, 24)
                 }
             }
             .background(Color.churOffWhite)
-            .ignoresSafeArea(edges: .top)
-
-            SheetDismissButton { dismiss() }
         }
         .toolbar(.hidden, for: .navigationBar)
     }

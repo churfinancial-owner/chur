@@ -62,11 +62,8 @@ struct HotelStatusView: View {
         ZStack(alignment: .topTrailing) {
             ScrollView {
                 VStack(spacing: 0) {
-                    // MARK: - Pattern Header
-                    PatternHeaderBanner(imageName: "HeaderPattern5")
-
-                    VStack(alignment: .leading, spacing: 24) {
-                        // MARK: - Hero Header
+                    // MARK: - Hero Banner
+                    ToolSheetHeaderBanner(onClose: { dismiss() }) {
                         VStack(alignment: .leading, spacing: 6) {
                             Text("TRAVEL")
                                 .font(.churBadgeBold())
@@ -82,11 +79,12 @@ struct HotelStatusView: View {
 
                             Text("Elite hotel statuses you receive through your cards.")
                                 .font(.churSmallMedium())
-                                .foregroundStyle(Color.churMediumGray)
+                                .foregroundStyle(Color.churDarkGray.opacity(0.7))
                                 .lineSpacing(2)
                         }
-                        .padding(.top, 12)
+                    }
 
+                    VStack(alignment: .leading, spacing: 24) {
                         // MARK: - Status List
                         if groupedEntries.isEmpty {
                             emptyState
@@ -112,12 +110,10 @@ struct HotelStatusView: View {
                         Spacer(minLength: 40)
                     }
                     .padding(.horizontal, 24)
+                    .padding(.top, 24)
                 }
             }
             .background(Color.churOffWhite)
-            .ignoresSafeArea(edges: .top)
-
-            SheetDismissButton { dismiss() }
         }
         .toolbar(.hidden, for: .navigationBar)
     }
