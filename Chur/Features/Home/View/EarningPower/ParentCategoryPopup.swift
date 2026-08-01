@@ -140,7 +140,7 @@ struct ParentCategoryParallaxSheet: View {
             .padding(.trailing, 110)
 
             Text(category.displayName)
-                .font(.system(size: 34, weight: .heavy, design: .rounded))
+                .font(.churBigTitle3())
                 .foregroundStyle(Color.churDarkGray)
                 .lineLimit(2)
                 .minimumScaleFactor(0.8)
@@ -149,8 +149,8 @@ struct ParentCategoryParallaxSheet: View {
 
             HStack(spacing: 6) {
                 Text("Here's what earns you the most.")
-                    .font(.system(size: 13, weight: .medium, design: .rounded))
-                    .foregroundStyle(Color.churMediumGray)
+                    .font(.churCaptionMedium())
+                    .foregroundStyle(Color.churDarkGray.opacity(0.7))
                 Button {
                     withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) { showFormula.toggle() }
                 } label: {
@@ -173,7 +173,16 @@ struct ParentCategoryParallaxSheet: View {
             }
         }
         .clipped()
-        .background(Color.churOffWhite)
+        .background {
+            ZStack {
+                Color.churOffWhite
+                RepeatingPatternBackground(
+                    glyph: .symbol("$", font: .system(size: 13, weight: .bold, design: .rounded)),
+                    color: Color.churOlive.opacity(0.09),
+                    spacing: 28
+                )
+            }
+        }
     }
 
     // MARK: - Related Categories
