@@ -27,11 +27,11 @@ struct ToolSheetHeaderBanner<Content: View>: View {
             .frame(maxWidth: .infinity, minHeight: minContentHeight, alignment: .topLeading)
             .padding(.top, 22)
             .padding(.horizontal, 20)
-            .padding(.bottom, 22)
+            .padding(.bottom, 28)
             .background {
                 ZStack {
                     Color.churOffWhite
-                    RepeatingPatternBackground(glyph: .dot(radius: 2), color: Color.churPatternGlyph, spacing: 16)
+                    RepeatingPatternBackground(glyph: .dot(radius: 6), color: Color.churPatternGlyph, spacing: 32)
                 }
             }
             .overlay(alignment: .top) {

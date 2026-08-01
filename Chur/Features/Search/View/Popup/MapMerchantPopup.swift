@@ -95,7 +95,7 @@ struct MerchantDetailSheet: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal, 20)
         .padding(.top, 36)
-        .padding(.bottom, 10)
+        .padding(.bottom, 16)
         .overlay(alignment: .topTrailing) {
             PopupHeaderWatermark(categoryID: viewModel.category.id) {
                 MerchantIconView(iconName: viewModel.merchantIconName, category: viewModel.category)

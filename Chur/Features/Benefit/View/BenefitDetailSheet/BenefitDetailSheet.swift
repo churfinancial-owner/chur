@@ -110,7 +110,7 @@ struct BenefitDetailSheet: View {
         }
         .padding(.horizontal, 24)
         .padding(.top, 20)
-        .padding(.bottom, 20)
+        .padding(.bottom, 26)
         .background {
             ZStack {
                 Color.churOffWhite

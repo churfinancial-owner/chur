@@ -18,7 +18,7 @@ extension Color {
     static let churDarkGray = Color(hex: "4A4A4A")
 
     /// Faint olive dot pattern behind `ToolSheetHeaderBanner`'s content.
-    static let churPatternGlyph = Color.churOlive.opacity(0.12)
+    static let churPatternGlyph = Color.churOlive.opacity(0.06)
     
     // MARK: - Accents
     static let churSuccess = Color(hex: "7FAA65")
