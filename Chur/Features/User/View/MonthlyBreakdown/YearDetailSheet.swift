@@ -208,11 +208,11 @@ struct EnhancedCardRow: View {
     let toggleExpanded: () -> Void
     
     private var health: (color: Color, label: String) {
-        if snapshot.isNoFee { return (Color.churOlive, snapshot.redeemed > 0 ? "Profit" : "Active") }
+        if snapshot.isNoFee { return (Color.churOlive, snapshot.redeemed > 0 ? String(localized: "Profit") : String(localized: "Active")) }
         let ratio = Double(snapshot.redeemed) / Double(snapshot.fee)
-        if ratio >= 1.0 { return (Color.churOlive, "GREAT") }
-        if ratio >= 0.5 { return (Color.green, "Good") }
-        return (Color.red.opacity(0.6), "Loss")
+        if ratio >= 1.0 { return (Color.churOlive, String(localized: "GREAT")) }
+        if ratio >= 0.5 { return (Color.green, String(localized: "Good")) }
+        return (Color.red.opacity(0.6), String(localized: "Loss"))
     }
 
     var body: some View {
@@ -248,8 +248,8 @@ struct EnhancedCardRow: View {
             if isExpanded {
                 VStack(spacing: 20) {
                     HStack(spacing: 20) {
-                        statPill(label: "FEE", value: "$\(snapshot.fee)", color: .red)
-                        statPill(label: "REDEEMED", value: "$\(snapshot.redeemed)", color: Color.churOlive)
+                        statPill(label: String(localized: "FEE"), value: "$\(snapshot.fee)", color: .red)
+                        statPill(label: String(localized: "REDEEMED"), value: "$\(snapshot.redeemed)", color: Color.churOlive)
                     }
                     .padding(.horizontal, 20)
                     .padding(.bottom, 10)

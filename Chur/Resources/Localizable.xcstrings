@@ -31,6 +31,16 @@
         }
       }
     },
+    "ANNUAL FEE — DAYS BEFORE IT POSTS" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "年費——扣款前天數"
+          }
+        }
+      }
+    },
     "APPEARANCE" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -131,6 +141,16 @@
         }
       }
     },
+    "Add cards to manage benefit reminders" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增卡片以管理優惠提醒"
+          }
+        }
+      }
+    },
     "Add your credit cards to start tracking\nbenefits and maximizing your rewards." : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -147,6 +167,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "全部"
+          }
+        }
+      }
+    },
+    "All local data will be cleared and you'll be returned to the start. Your cloud backup will be preserved and can be restored when you sign in again." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有本機資料將被清除，你會返回起始畫面。你的雲端備份會被保留，並可在你再次登入時還原。"
+          }
+        }
+      }
+    },
+    "Allow notifications for Chur in iOS Settings to get benefit expiry reminders." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請在 iOS 設定中允許 Chur 傳送通知，以獲取優惠到期提醒。"
           }
         }
       }
@@ -177,6 +217,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "年費"
+          }
+        }
+      }
+    },
+    "Annual Fees" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "年費"
+          }
+        }
+      }
+    },
+    "Annual fee" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "年費"
+          }
+        }
+      }
+    },
+    "Annual fee reminders" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "年費提醒"
           }
         }
       }
@@ -231,12 +301,82 @@
         }
       }
     },
+    "BENEFIT REMINDERS" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "優惠提醒"
+          }
+        }
+      }
+    },
+    "BENEFITS — DAYS BEFORE EXPIRY" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "優惠——到期前天數"
+          }
+        }
+      }
+    },
+    "Back Up Now" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即備份"
+          }
+        }
+      }
+    },
     "Back up your wallet privately to your account\n — only you can access it." : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "私密備份你的錢包至你的帳戶\n——只有你可以查閱。"
+          }
+        }
+      }
+    },
+    "Backed up privately to your Google Drive. Only you can access it." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "私密備份至你的 Google Drive，只有你可以查閱。"
+          }
+        }
+      }
+    },
+    "Backing Up…" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "備份中……"
+          }
+        }
+      }
+    },
+    "Backup & Sync" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "備份與同步"
+          }
+        }
+      }
+    },
+    "Backup Found" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "找到備份"
           }
         }
       }
@@ -251,12 +391,32 @@
         }
       }
     },
+    "Balance control & Low APR" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "餘額管理及低年利率"
+          }
+        }
+      }
+    },
     "Based on your location" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "根據你的位置"
+          }
+        }
+      }
+    },
+    "Benefit expiry reminders" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "優惠到期提醒"
           }
         }
       }
@@ -291,6 +451,26 @@
         }
       }
     },
+    "Bonus Chaser" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "獎賞獵人"
+          }
+        }
+      }
+    },
+    "Brand loyal & exclusive perks" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "品牌忠誠及專屬優惠"
+          }
+        }
+      }
+    },
     "Business" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -301,12 +481,62 @@
         }
       }
     },
+    "Buy me a coffee" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請我喝杯咖啡"
+          }
+        }
+      }
+    },
+    "By Health" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按健康度"
+          }
+        }
+      }
+    },
+    "By Renewal" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按續期日"
+          }
+        }
+      }
+    },
+    "By Value" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按價值"
+          }
+        }
+      }
+    },
     "CARD TYPE" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "卡片類型"
+          }
+        }
+      }
+    },
+    "CHOOSE A CARD STRATEGY" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇你的理財風格"
           }
         }
       }
@@ -431,6 +661,16 @@
         }
       }
     },
+    "Cash King" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "現金回贈王"
+          }
+        }
+      }
+    },
     "Choose a different region" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -471,6 +711,16 @@
         }
       }
     },
+    "Cloud Backup" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "雲端備份"
+          }
+        }
+      }
+    },
     "Coming soon..." : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -497,6 +747,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "略過登入，繼續使用"
+          }
+        }
+      }
+    },
+    "Create a postcard of your card collection" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "為你的卡片收藏製作明信片"
+          }
+        }
+      }
+    },
+    "Credit Build" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "信用建立者"
           }
         }
       }
@@ -571,6 +841,16 @@
         }
       }
     },
+    "Debt Crusher" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還債達人"
+          }
+        }
+      }
+    },
     "Default" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -587,6 +867,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "刪除"
+          }
+        }
+      }
+    },
+    "Delete Account" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除帳戶"
+          }
+        }
+      }
+    },
+    "Delete Account & All Data" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除帳戶及所有資料"
+          }
+        }
+      }
+    },
+    "Delete Backup" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除備份"
+          }
+        }
+      }
+    },
+    "Delete Backup?" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除備份？"
           }
         }
       }
@@ -611,12 +931,32 @@
         }
       }
     },
+    "Dining, takout & experiences" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "餐飲、外賣及體驗"
+          }
+        }
+      }
+    },
     "Display" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "顯示"
+          }
+        }
+      }
+    },
+    "Display Currency" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顯示貨幣"
           }
         }
       }
@@ -671,12 +1011,42 @@
         }
       }
     },
+    "Email" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "電郵"
+          }
+        }
+      }
+    },
+    "Everyday, every spend" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日常每一筆消費"
+          }
+        }
+      }
+    },
     "Expired" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "已過期"
+          }
+        }
+      }
+    },
+    "FEE" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "年費"
           }
         }
       }
@@ -711,6 +1081,16 @@
         }
       }
     },
+    "Fees" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "年費"
+          }
+        }
+      }
+    },
     "Finish" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -731,6 +1111,26 @@
         }
       }
     },
+    "Flights and miles" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "機票與里數"
+          }
+        }
+      }
+    },
+    "Foodie" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "美食愛好者"
+          }
+        }
+      }
+    },
     "Foreign Transaction Fee" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -741,12 +1141,32 @@
         }
       }
     },
+    "GREAT" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "極佳"
+          }
+        }
+      }
+    },
     "Go To Card" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "前往卡片"
+          }
+        }
+      }
+    },
+    "Good" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "良好"
           }
         }
       }
@@ -801,6 +1221,46 @@
         }
       }
     },
+    "Google sign in failed. Please try again." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Google 登入失敗，請再試一次。"
+          }
+        }
+      }
+    },
+    "Guardian" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保障至上"
+          }
+        }
+      }
+    },
+    "Hotel Hopper" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "住宿達人"
+          }
+        }
+      }
+    },
+    "In Use" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用中"
+          }
+        }
+      }
+    },
     "Info" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -821,6 +1281,16 @@
         }
       }
     },
+    "Jetsetter" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "飛行常客"
+          }
+        }
+      }
+    },
     "Keep Card" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -831,12 +1301,32 @@
         }
       }
     },
+    "Keep Local Data" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保留本機資料"
+          }
+        }
+      }
+    },
     "Language" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "語言"
+          }
+        }
+      }
+    },
+    "Last Backed Up" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上次備份時間"
           }
         }
       }
@@ -871,6 +1361,36 @@
         }
       }
     },
+    "Loss" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "虧損"
+          }
+        }
+      }
+    },
+    "Loyalist" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "品牌忠實客"
+          }
+        }
+      }
+    },
+    "MONTHLY BREAKDOWN" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每月明細"
+          }
+        }
+      }
+    },
     "Manage whether this card is active, cancelled, or switched to a different product." : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -887,6 +1407,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "手動覆寫"
+          }
+        }
+      }
+    },
+    "Monthly activity" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每月活動"
           }
         }
       }
@@ -911,12 +1441,32 @@
         }
       }
     },
+    "Name" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "姓名"
+          }
+        }
+      }
+    },
     "Network" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "網絡"
+          }
+        }
+      }
+    },
+    "Never" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從未"
           }
         }
       }
@@ -961,6 +1511,16 @@
         }
       }
     },
+    "Not Now" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "現在不要"
+          }
+        }
+      }
+    },
     "Not enrolled" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -971,12 +1531,112 @@
         }
       }
     },
+    "Not set" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未設定"
+          }
+        }
+      }
+    },
+    "Nothing tracked for this month yet." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本月尚未有任何記錄。"
+          }
+        }
+      }
+    },
     "Notifications" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "通知"
+          }
+        }
+      }
+    },
+    "Notifications Disabled" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知已停用"
+          }
+        }
+      }
+    },
+    "Notifications are off in iOS Settings — tap to fix" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知已在 iOS 設定中關閉——點按以修正"
+          }
+        }
+      }
+    },
+    "OVERALL" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "總覽"
+          }
+        }
+      }
+    },
+    "On This Device" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此裝置上"
+          }
+        }
+      }
+    },
+    "One notice per card each year." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每張卡片每年發送一次通知。"
+          }
+        }
+      }
+    },
+    "One schedule for every benefit: this is when the ⏰ badge appears, when the single reminder is sent, and what the Expiring Soon list shows. When several benefits expire around the same day, they arrive as one summary notification." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有優惠使用同一時間表：這決定了⏰標記何時出現、提醒何時發送，以及「即將到期」清單顯示的內容。當多個優惠在相近日子到期時，會合併為一則摘要通知。"
+          }
+        }
+      }
+    },
+    "Open Settings" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "前往設定"
+          }
+        }
+      }
+    },
+    "Optimizer" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全能優化者"
           }
         }
       }
@@ -1031,6 +1691,16 @@
         }
       }
     },
+    "Pick one for this corner" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "為此角落選擇一個"
+          }
+        }
+      }
+    },
     "Pick the one category where you spend the most — you'll automatically earn 3% there each billing cycle." : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -1081,6 +1751,16 @@
         }
       }
     },
+    "Preparing postcard…" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "準備明信片中……"
+          }
+        }
+      }
+    },
     "Privacy Policy" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -1101,6 +1781,26 @@
         }
       }
     },
+    "Profile Photo" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "個人頭像相片"
+          }
+        }
+      }
+    },
+    "Profit" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "盈利"
+          }
+        }
+      }
+    },
     "Program" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -1117,6 +1817,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "推廣"
+          }
+        }
+      }
+    },
+    "Pure cash back, no hassle" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "純現金回贈，簡單方便"
+          }
+        }
+      }
+    },
+    "REDEEMED" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已兌換"
+          }
+        }
+      }
+    },
+    "REMINDER TIMING" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提醒時間"
+          }
+        }
+      }
+    },
+    "REMINDERS" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提醒"
           }
         }
       }
@@ -1171,6 +1911,46 @@
         }
       }
     },
+    "Recommended" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "建議設定"
+          }
+        }
+      }
+    },
+    "Redeemed" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已兌換"
+          }
+        }
+      }
+    },
+    "Redeemed Benefits" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已兌換優惠"
+          }
+        }
+      }
+    },
+    "Region" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "地區"
+          }
+        }
+      }
+    },
     "Region & Currency" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -1191,12 +1971,32 @@
         }
       }
     },
+    "Reminder Schedule" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提醒時間表"
+          }
+        }
+      }
+    },
     "Remove Photo" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "移除相片"
+          }
+        }
+      }
+    },
+    "Remove Strategy" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除理財風格"
           }
         }
       }
@@ -1217,6 +2017,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "重新排序／刪除"
+          }
+        }
+      }
+    },
+    "Reset Account" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重設帳戶"
+          }
+        }
+      }
+    },
+    "Reset to Recommended" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重設為建議設定"
+          }
+        }
+      }
+    },
+    "Restore from Backup" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從備份還原"
           }
         }
       }
@@ -1297,6 +2127,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "儲存"
+          }
+        }
+      }
+    },
+    "Scale spend & business perks" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拓展業務開支及商務優惠"
+          }
+        }
+      }
+    },
+    "Scene Seeker" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "娛樂達人"
           }
         }
       }
@@ -1401,6 +2251,26 @@
         }
       }
     },
+    "Share Postcard" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享明信片"
+          }
+        }
+      }
+    },
+    "Share your wallet" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享你的錢包"
+          }
+        }
+      }
+    },
     "Show on Card" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -1411,12 +2281,42 @@
         }
       }
     },
+    "Shows, movies & events" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "表演、電影及活動"
+          }
+        }
+      }
+    },
+    "Sign Out" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "登出"
+          }
+        }
+      }
+    },
     "Sign in failed. Please try again." : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "登入失敗，請再試一次。"
+          }
+        }
+      }
+    },
+    "Signed in with" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "登入方式"
           }
         }
       }
@@ -1451,6 +2351,26 @@
         }
       }
     },
+    "Stays, upgrades & suites" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "住宿、升級及套房"
+          }
+        }
+      }
+    },
+    "Step-by-step credit growth" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "逐步建立信用"
+          }
+        }
+      }
+    },
     "Student" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -1467,6 +2387,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "為每次消費推薦最佳卡片"
+          }
+        }
+      }
+    },
+    "Support the developer ☕" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "支持開發者 ☕"
           }
         }
       }
@@ -1531,12 +2461,32 @@
         }
       }
     },
+    "Tap to swap, or remove" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "點按以更換或移除"
+          }
+        }
+      }
+    },
     "Terms of Service" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "服務條款"
+          }
+        }
+      }
+    },
+    "The Boss" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "商務老闆"
           }
         }
       }
@@ -1571,12 +2521,42 @@
         }
       }
     },
+    "This will delete all your cards and preferences on this device and return you to the start. This cannot be undone." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這會刪除此裝置上所有的卡片及偏好設定，並返回起始畫面，此操作無法復原。"
+          }
+        }
+      }
+    },
+    "This will permanently delete all your cards, benefits, and cloud backup. This cannot be undone." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這會永久刪除你所有的卡片、優惠及雲端備份，此操作無法復原。"
+          }
+        }
+      }
+    },
     "Track and maximize your card benefits" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "追蹤並善用你的卡片優惠"
+          }
+        }
+      }
+    },
+    "Travel & Purchase Protection" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "旅遊及購物保障"
           }
         }
       }
@@ -1621,12 +2601,42 @@
         }
       }
     },
+    "Upcoming Fees" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "即將到期年費"
+          }
+        }
+      }
+    },
     "Use base earning rates only" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "只使用基本回贈率"
+          }
+        }
+      }
+    },
+    "User" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用者"
+          }
+        }
+      }
+    },
+    "Wallet" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "錢包"
           }
         }
       }
@@ -1657,6 +2667,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "歡迎回來！"
+          }
+        }
+      }
+    },
+    "Welcome offers & big wins" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "迎新優惠及大獎賞"
           }
         }
       }
@@ -1731,12 +2751,72 @@
         }
       }
     },
+    "Year to Date Summary" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "年度至今摘要"
+          }
+        }
+      }
+    },
+    "Your Google account has a saved backup. Choose whether to restore it or keep the data currently on this device." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的 Google 帳戶有已儲存的備份，請選擇還原備份或保留此裝置上目前的資料。"
+          }
+        }
+      }
+    },
+    "Your Perks" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的優惠"
+          }
+        }
+      }
+    },
+    "Your Postcard" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的明信片"
+          }
+        }
+      }
+    },
+    "Your Support" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "支持我們"
+          }
+        }
+      }
+    },
     "Your Wallet. " : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "你的錢包，"
+          }
+        }
+      }
+    },
+    "Your backup will be permanently removed from your Google Drive. Your local data on this device will not be affected." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的備份將從 Google Drive 永久移除，此裝置上的本機資料不會受影響。"
           }
         }
       }
@@ -1751,12 +2831,32 @@
         }
       }
     },
+    "Your region determines which cards and reward rates are shown." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的地區會決定顯示哪些卡片及獎賞率。"
+          }
+        }
+      }
+    },
     "Your wallet is empty" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "你的錢包是空的"
+          }
+        }
+      }
+    },
+    "Your wallet, your story." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的錢包，你的故事。"
           }
         }
       }

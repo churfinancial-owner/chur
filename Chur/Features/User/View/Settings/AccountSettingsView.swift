@@ -123,19 +123,19 @@ struct AccountSettingsView: View {
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showDeleteAccountConfirmation) {
             DeleteAccountConfirmationSheet(
-                title: "Delete Account",
-                message: "This will permanently delete all your cards, benefits, and cloud backup. This cannot be undone.",
+                title: String(localized: "Delete Account"),
+                message: String(localized: "This will permanently delete all your cards, benefits, and cloud backup. This cannot be undone."),
                 confirmWord: "DELETE",
-                buttonLabel: "Delete Account & All Data",
+                buttonLabel: String(localized: "Delete Account & All Data"),
                 onConfirm: performDeleteAccount
             )
         }
         .sheet(isPresented: $showResetAllDataConfirmation) {
             DeleteAccountConfirmationSheet(
-                title: "Reset Account",
-                message: "This will delete all your cards and preferences on this device and return you to the start. This cannot be undone.",
+                title: String(localized: "Reset Account"),
+                message: String(localized: "This will delete all your cards and preferences on this device and return you to the start. This cannot be undone."),
                 confirmWord: "RESET",
-                buttonLabel: "Reset Account",
+                buttonLabel: String(localized: "Reset Account"),
                 onConfirm: performResetAllData
             )
         }
@@ -243,7 +243,7 @@ struct AccountSettingsView: View {
         switch result {
         case .success(let authorization):
             guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential else {
-                signInError = "Unexpected credential type"
+                signInError = String(localized: "Unexpected credential type")
                 return
             }
             user.appleUserID = credential.user
@@ -253,7 +253,7 @@ struct AccountSettingsView: View {
             signInError = nil
         case .failure(let error):
             if (error as? ASAuthorizationError)?.code == .canceled { return }
-            signInError = "Sign in failed. Please try again."
+            signInError = String(localized: "Sign in failed. Please try again.")
         }
     }
 
@@ -266,7 +266,7 @@ struct AccountSettingsView: View {
 
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let rootVC = windowScene.windows.first?.rootViewController else {
-            signInError = "Unable to present sign in"
+            signInError = String(localized: "Unable to present sign in")
             return
         }
 
@@ -282,11 +282,11 @@ struct AccountSettingsView: View {
         ) { result, error in
             if let error = error {
                 if (error as NSError).code == GIDSignInError.canceled.rawValue { return }
-                signInError = "Google sign in failed. Please try again."
+                signInError = String(localized: "Google sign in failed. Please try again.")
                 return
             }
             guard let googleUser = result?.user, let profile = googleUser.profile else {
-                signInError = "Unable to get user profile"
+                signInError = String(localized: "Unable to get user profile")
                 return
             }
             user.googleUserID = googleUser.userID ?? ""

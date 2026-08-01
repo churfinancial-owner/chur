@@ -21,7 +21,7 @@ struct ReminderScheduleView: View {
         List {
             Section {
                 LeadDaysPickerRow(
-                    title: "Benefits",
+                    title: String(localized: "Benefits"),
                     options: ReminderTiming.benefitOptions,
                     current: ReminderTiming.benefitLeadDays,
                     save: { ReminderTiming.setBenefitLeadDays($0) },
@@ -36,7 +36,7 @@ struct ReminderScheduleView: View {
 
             Section {
                 LeadDaysPickerRow(
-                    title: "Annual fee",
+                    title: String(localized: "Annual fee"),
                     options: ReminderTiming.AnnualFee.options,
                     current: ReminderTiming.annualFeeLeadDays,
                     save: { ReminderTiming.setAnnualFeeLeadDays($0) },

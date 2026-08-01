@@ -42,36 +42,36 @@ enum FinancialStrategy: String, CaseIterable, Identifiable {
     
     var displayName: String {
         switch self {
-        case .jetsetter:    return "Jetsetter"
-        case .hotelhopper:  return "Hotel Hopper"
-        case .foodie:       return "Foodie"
-        case .sceneseeker:  return "Scene Seeker"
-        case .bonuschaser:  return "Bonus Chaser"
-        case .cashking:     return "Cash King"
-        case .optimizer:    return "Optimizer"
-        case .boss:         return "The Boss"
-        case .debtcrusher:  return "Debt Crusher"
-        case .guardian:     return "Guardian"
-        case .loyalist:     return "Loyalist"
-        case .builder:      return "Credit Build"
+        case .jetsetter:    return String(localized: "Jetsetter")
+        case .hotelhopper:  return String(localized: "Hotel Hopper")
+        case .foodie:       return String(localized: "Foodie")
+        case .sceneseeker:  return String(localized: "Scene Seeker")
+        case .bonuschaser:  return String(localized: "Bonus Chaser")
+        case .cashking:     return String(localized: "Cash King")
+        case .optimizer:    return String(localized: "Optimizer")
+        case .boss:         return String(localized: "The Boss")
+        case .debtcrusher:  return String(localized: "Debt Crusher")
+        case .guardian:     return String(localized: "Guardian")
+        case .loyalist:     return String(localized: "Loyalist")
+        case .builder:      return String(localized: "Credit Build")
 
         }
     }
-    
+
     var tagline: String {
         switch self {
-        case .jetsetter:    return "Flights and miles"
-        case .hotelhopper:  return "Stays, upgrades & suites"
-        case .foodie:       return "Dining, takout & experiences"
-        case .sceneseeker:  return "Shows, movies & events"
-        case .bonuschaser:  return "Welcome offers & big wins"
-        case .cashking:     return "Pure cash back, no hassle"
-        case .optimizer:    return "Everyday, every spend"
-        case .boss:         return "Scale spend & business perks"
-        case .debtcrusher:  return "Balance control & Low APR"
-        case .guardian:     return "Travel & Purchase Protection"
-        case .loyalist:     return "Brand loyal & exclusive perks"
-        case .builder:      return "Step-by-step credit growth"
+        case .jetsetter:    return String(localized: "Flights and miles")
+        case .hotelhopper:  return String(localized: "Stays, upgrades & suites")
+        case .foodie:       return String(localized: "Dining, takout & experiences")
+        case .sceneseeker:  return String(localized: "Shows, movies & events")
+        case .bonuschaser:  return String(localized: "Welcome offers & big wins")
+        case .cashking:     return String(localized: "Pure cash back, no hassle")
+        case .optimizer:    return String(localized: "Everyday, every spend")
+        case .boss:         return String(localized: "Scale spend & business perks")
+        case .debtcrusher:  return String(localized: "Balance control & Low APR")
+        case .guardian:     return String(localized: "Travel & Purchase Protection")
+        case .loyalist:     return String(localized: "Brand loyal & exclusive perks")
+        case .builder:      return String(localized: "Step-by-step credit growth")
         }
     }
     
