@@ -45,7 +45,7 @@ extension BenefitDetailSheet {
             }
 
             Text(name)
-                .font(.churTitle())
+                .font(.churBigTitle3())
                 .foregroundStyle(Color.churDarkGray)
                 .fixedSize(horizontal: false, vertical: true)
         }

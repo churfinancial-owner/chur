@@ -52,8 +52,8 @@ struct BenefitDetailSheet: View {
                     heroHeader // Defined in BenefitDetailSheet_Header.swift
                     
                     Text(description)
-                        .font(.churSmallBold())
-                        .foregroundStyle(Color.churMediumGray)
+                        .font(.churCaptionMedium())
+                        .foregroundStyle(Color.churDarkGray.opacity(0.7))
                         .lineSpacing(3)
                         .fixedSize(horizontal: false, vertical: true)
                 }
