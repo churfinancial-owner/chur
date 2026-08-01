@@ -82,14 +82,21 @@ struct YearDetailSheet: View {
         ScrollView {
             VStack(spacing: 0) {
                 ToolSheetHeaderBanner(onClose: { dismiss() }) {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text("\(year)")
-                            .font(.system(size: 24, weight: .heavy, design: .rounded))
+                    VStack(alignment: .leading, spacing: 6) {
+                        HStack(spacing: 6) {
+                            headerBadge("ANNUAL FEES", color: .red)
+                            headerBadge("CARDS", color: .blue)
+                            headerBadge("REDEEMED", color: .green)
+                        }
+
+                        Text(verbatim: "\(year)")
+                            .font(.churBigTitle3())
                             .foregroundStyle(Color.churDarkGray)
-                        Text("SUMMARY")
-                            .font(.system(size: 11, weight: .heavy, design: .rounded))
-                            .tracking(1)
+
+                        Text("Summary")
+                            .font(.churCaptionMedium())
                             .foregroundStyle(Color.churDarkGray.opacity(0.7))
+                            .lineSpacing(2)
                     }
                 }
 
@@ -128,6 +135,16 @@ struct YearDetailSheet: View {
             }
         }
         .background(Color.churOffWhite)
+    }
+
+    private func headerBadge(_ label: String, color: Color) -> some View {
+        Text(label)
+            .font(.churMicroBold())
+            .foregroundStyle(Color.white)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 6)
+            .background(color)
+            .clipShape(Capsule())
     }
 
     private var sortPickerButton: some View {
