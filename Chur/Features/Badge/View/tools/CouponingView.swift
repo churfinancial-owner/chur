@@ -377,3 +377,13 @@ private enum CouponCategoryGroup: String, CaseIterable, Identifiable {
         CouponCategoryGroup(rawValue: displayGroup) ?? .other
     }
 }
+
+// MARK: - Preview
+
+#Preview {
+    let schema = Schema(ChurSchemaV1_13.models, version: ChurSchemaV1_13.versionIdentifier)
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: schema, configurations: [config])
+    return CouponingView()
+        .modelContainer(container)
+}
