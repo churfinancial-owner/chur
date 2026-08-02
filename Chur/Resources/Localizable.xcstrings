@@ -1,6 +1,26 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    " is locked." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "代表已鎖定。"
+          }
+        }
+      }
+    },
+    " means active; yellow " : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "代表已啟用；黃色"
+          }
+        }
+      }
+    },
     "3X points on your choice of grocery or dining. Your 3X category choice remains in effect for the entire calendar year." : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -21,12 +41,32 @@
         }
       }
     },
+    "AIRLINES" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "航空公司"
+          }
+        }
+      }
+    },
     "ALL" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "全部"
+          }
+        }
+      }
+    },
+    "ALSO COVERED" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其他保障"
           }
         }
       }
@@ -181,6 +221,76 @@
         }
       }
     },
+    "Add a card that covers TSA PreCheck, Global Entry, CLEAR, or NEXUS to see your coverage here." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增一張涵蓋 TSA PreCheck、Global Entry、CLEAR 或 NEXUS 的卡片，即可在此查看你的保障。"
+          }
+        }
+      }
+    },
+    "Add a card with auto rental coverage to see your protection here." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增一張有租車保障的卡片，即可在此查看你的保障。"
+          }
+        }
+      }
+    },
+    "Add a card with cell phone protection to see your coverage here." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增一張有手機保障的卡片，即可在此查看你的保障。"
+          }
+        }
+      }
+    },
+    "Add a card with credit benefits to see them here." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增一張有信用額優惠的卡片，即可在此查看。"
+          }
+        }
+      }
+    },
+    "Add a card with hotel elite status benefits to see them here." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增一張有酒店尊尚會籍優惠的卡片，即可在此查看。"
+          }
+        }
+      }
+    },
+    "Add a card with lounge benefits to see your access here." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增一張有貴賓室優惠的卡片，即可在此查看你的使用權。"
+          }
+        }
+      }
+    },
+    "Add a card with rental car elite status to see your coverage here." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增一張有租車尊尚會籍的卡片，即可在此查看你的保障。"
+          }
+        }
+      }
+    },
     "Add cards to manage benefit reminders" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -197,6 +307,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "新增你的信用卡，開始追蹤\n優惠並提升你的獎賞。"
+          }
+        }
+      }
+    },
+    "Airport lounges you can access with your cards." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你可使用卡片進入的機場貴賓室。"
           }
         }
       }
@@ -341,6 +461,16 @@
         }
       }
     },
+    "Auto Rental Coverage" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "租車保障"
+          }
+        }
+      }
+    },
     "Auto-detected" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -387,6 +517,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "優惠——到期前天數"
+          }
+        }
+      }
+    },
+    "BUSINESS" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "商務"
           }
         }
       }
@@ -621,12 +761,32 @@
         }
       }
     },
+    "CHECKED BAGS" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "寄艙行李"
+          }
+        }
+      }
+    },
     "CHOOSE A CARD STRATEGY" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "選擇你的理財風格"
+          }
+        }
+      }
+    },
+    "CONVENIENCE" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "便利"
           }
         }
       }
@@ -677,6 +837,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已取消"
+          }
+        }
+      }
+    },
+    "Car Rental Status" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "租車會籍狀態"
           }
         }
       }
@@ -751,6 +921,16 @@
         }
       }
     },
+    "Cards that cover phone damage, theft, and screen repair. Plans and coverage terms change frequently. Information may not reflect the latest provider updates; always verify with your card issuer." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "涵蓋手機損毀、失竊及螢幕維修的卡片。計劃及保障條款經常更改，資訊未必反映供應商的最新更新，請務必向發卡機構核實。"
+          }
+        }
+      }
+    },
     "Cards, approved dates & notes" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -767,6 +947,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "現金回贈王"
+          }
+        }
+      }
+    },
+    "Cell Phone Protection" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "手機保障"
           }
         }
       }
@@ -851,6 +1041,16 @@
         }
       }
     },
+    "Couponing" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "優惠券"
+          }
+        }
+      }
+    },
     "Create a postcard of your card collection" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -867,6 +1067,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "信用建立者"
+          }
+        }
+      }
+    },
+    "Credits and perks you receive through your cards." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "透過你的卡片獲得的信用額及優惠。"
           }
         }
       }
@@ -907,6 +1117,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "預設"
+          }
+        }
+      }
+    },
+    "DINING" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "餐飲"
           }
         }
       }
@@ -1081,6 +1301,16 @@
         }
       }
     },
+    "ENTERTAINMENT" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "娛樂"
+          }
+        }
+      }
+    },
     "Edit Approved Dates" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -1117,6 +1347,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "實際回贈率 (5%)"
+          }
+        }
+      }
+    },
+    "Elite hotel statuses you receive through your cards." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "透過你的卡片獲得的酒店尊尚會籍狀態。"
+          }
+        }
+      }
+    },
+    "Elite rental car statuses you receive through your cards." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "透過你的卡片獲得的租車尊尚會籍狀態。"
           }
         }
       }
@@ -1371,12 +1621,32 @@
         }
       }
     },
+    "HOTELS" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "酒店"
+          }
+        }
+      }
+    },
     "Hotel Hopper" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "住宿達人"
+          }
+        }
+      }
+    },
+    "Hotel Status" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "酒店會籍狀態"
           }
         }
       }
@@ -1437,6 +1707,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "保留本機資料"
+          }
+        }
+      }
+    },
+    "LIFESTYLE" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "生活品味"
+          }
+        }
+      }
+    },
+    "LIMITED" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有限次"
           }
         }
       }
@@ -1527,6 +1817,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "虧損"
+          }
+        }
+      }
+    },
+    "Lounge Access" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "貴賓室使用權"
           }
         }
       }
@@ -1691,6 +1991,16 @@
         }
       }
     },
+    "No car rental status yet" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚未有租車會籍狀態"
+          }
+        }
+      }
+    },
     "No cards found" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -1701,12 +2011,52 @@
         }
       }
     },
+    "No credits yet" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚未有信用額"
+          }
+        }
+      }
+    },
+    "No hotel status yet" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚未有酒店會籍狀態"
+          }
+        }
+      }
+    },
+    "No lounge access yet" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚未有貴賓室使用權"
+          }
+        }
+      }
+    },
     "No past periods to fill this year" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "今年沒有過往期間需要填寫"
+          }
+        }
+      }
+    },
+    "No phone protection yet" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚未有手機保障"
           }
         }
       }
@@ -1727,6 +2077,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "沒有可用計劃"
+          }
+        }
+      }
+    },
+    "No rental coverage yet" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚未有租車保障"
+          }
+        }
+      }
+    },
+    "No trusted traveler programs yet" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚未有信任旅客計劃"
           }
         }
       }
@@ -1807,6 +2177,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "通知已在 iOS 設定中關閉——點按以修正"
+          }
+        }
+      }
+    },
+    "OTHER" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其他"
           }
         }
       }
@@ -1901,6 +2281,16 @@
         }
       }
     },
+    "POINT SOURCES" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "積分來源"
+          }
+        }
+      }
+    },
     "POINT VALUES" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -1921,12 +2311,32 @@
         }
       }
     },
+    "PRIMARY" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "主要"
+          }
+        }
+      }
+    },
     "PROGRESS" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "進度"
+          }
+        }
+      }
+    },
+    "PROTECTIONS" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保障"
           }
         }
       }
@@ -2017,6 +2427,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "準備明信片中……"
+          }
+        }
+      }
+    },
+    "Primary Auto Rental Collision Damage Waiver (CDW) provides first-tier reimbursement for covered theft or collision damage, eliminating the requirement to file a claim with your personal insurer. Secondary coverage acts as supplemental protection, covering eligible costs and deductibles not reimbursed by your primary automobile policy." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "主要租車碰撞損毀豁免（CDW）為受保的失竊或碰撞損毀提供首層賠償，毋須向你的個人保險公司申索。次要保障則作為補充保障，涵蓋你主要汽車保單未賠償的合資格費用及自負額。"
+          }
+        }
+      }
+    },
+    "Primary vs Secondary" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "主要與次要保障"
           }
         }
       }
@@ -2321,6 +2751,16 @@
         }
       }
     },
+    "Rental car collision and damage coverage through your cards. Plans and coverage terms change frequently. Information may not reflect the latest provider updates; always verify with your card issuer." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "透過你的卡片提供的租車碰撞及損毀保障。計劃及保障條款經常更改，資訊未必反映供應商的最新更新，請務必向發卡機構核實。"
+          }
+        }
+      }
+    },
     "Reorder Cards" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -2431,6 +2871,26 @@
         }
       }
     },
+    "SECONDARY" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "次要"
+          }
+        }
+      }
+    },
+    "SHOPPING" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "購物"
+          }
+        }
+      }
+    },
     "SUGGESTED FOR YOU" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -2491,12 +2951,32 @@
         }
       }
     },
+    "Search partners..." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜尋夥伴……"
+          }
+        }
+      }
+    },
     "Secure Your Wallet" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "保護你的錢包"
+          }
+        }
+      }
+    },
+    "Security programs covered by your cards — TSA PreCheck, Global Entry, CLEAR, and NEXUS." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的卡片涵蓋的安檢計劃——TSA PreCheck、Global Entry、CLEAR 及 NEXUS。"
           }
         }
       }
@@ -2741,6 +3221,36 @@
         }
       }
     },
+    "TOP PICK" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "推薦之選"
+          }
+        }
+      }
+    },
+    "TOP PICKS FOR YOU" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "為你推薦"
+          }
+        }
+      }
+    },
+    "TRAVEL" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "旅遊"
+          }
+        }
+      }
+    },
     "Tap circle to add a photo" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -2777,6 +3287,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "點按以更改頭像"
+          }
+        }
+      }
+    },
+    "Tap to see paths. Blue " : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "點按以查看轉換路徑。藍色"
           }
         }
       }
@@ -2871,6 +3391,16 @@
         }
       }
     },
+    "Transfer Partners" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "轉換夥伴"
+          }
+        }
+      }
+    },
     "Travel & Purchase Protection" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -2881,12 +3411,42 @@
         }
       }
     },
+    "Trusted Traveler" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "信任旅客計劃"
+          }
+        }
+      }
+    },
     "Try adjusting your search or filter." : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "請嘗試調整搜尋或篩選條件。"
+          }
+        }
+      }
+    },
+    "UNLIMITED" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無限次"
+          }
+        }
+      }
+    },
+    "UNLOCK REQUIRED" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要解鎖"
           }
         }
       }
@@ -3227,6 +3787,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你的錢包，你的故事。"
+          }
+        }
+      }
+    },
+    "coupons" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "優惠券"
           }
         }
       }

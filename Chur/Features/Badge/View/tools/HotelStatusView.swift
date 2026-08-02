@@ -159,7 +159,7 @@ struct HotelStatusView: View {
     private func cardChip(card: PerkCardRef) -> some View { PerkCardChip(card: card) }
 
     private var emptyState: some View {
-        EmptyStatePlaceholder(icon: "bed.double", title: "No hotel status yet", subtitle: "Add a card with hotel elite status benefits to see them here.")
+        EmptyStatePlaceholder(icon: "bed.double", title: String(localized: "No hotel status yet"), subtitle: String(localized: "Add a card with hotel elite status benefits to see them here."))
     }
 }
 

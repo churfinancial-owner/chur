@@ -281,7 +281,7 @@ struct CouponingView: View {
     }
 
     private var emptyState: some View {
-        EmptyStatePlaceholder(icon: "scissors", title: "No credits yet", subtitle: "Add a card with credit benefits to see them here.")
+        EmptyStatePlaceholder(icon: "scissors", title: String(localized: "No credits yet"), subtitle: String(localized: "Add a card with credit benefits to see them here."))
     }
 }
 
@@ -336,14 +336,14 @@ private enum CouponCategoryGroup: String, CaseIterable, Identifiable {
 
     var label: String {
         switch self {
-        case .dining:         return "DINING"
-        case .shopping:       return "SHOPPING"
-        case .entertainment:  return "ENTERTAINMENT"
-        case .convenience:    return "CONVENIENCE"
-        case .travel:         return "TRAVEL"
-        case .checkedBags:    return "CHECKED BAGS"
-        case .business:       return "BUSINESS"
-        case .other:          return "OTHER"
+        case .dining:         return String(localized: "DINING")
+        case .shopping:       return String(localized: "SHOPPING")
+        case .entertainment:  return String(localized: "ENTERTAINMENT")
+        case .convenience:    return String(localized: "CONVENIENCE")
+        case .travel:         return String(localized: "TRAVEL")
+        case .checkedBags:    return String(localized: "CHECKED BAGS")
+        case .business:       return String(localized: "BUSINESS")
+        case .other:          return String(localized: "OTHER")
         }
     }
 

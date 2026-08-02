@@ -30,15 +30,15 @@ struct PointTransferView: View {
                     searchBar
 
                     if !filteredBanks.isEmpty {
-                        partnerSection(title: "POINT SOURCES", icon: "building.columns.fill", items: filteredBanks, color: .blue, isBank: true)
+                        partnerSection(title: String(localized: "POINT SOURCES"), icon: "building.columns.fill", items: filteredBanks, color: .blue, isBank: true)
                     }
 
                     if !filteredAirlines.isEmpty {
-                        partnerSection(title: "AIRLINES", icon: "airplane", items: filteredAirlines, color: .purple, isBank: false)
+                        partnerSection(title: String(localized: "AIRLINES"), icon: "airplane", items: filteredAirlines, color: .purple, isBank: false)
                     }
 
                     if !filteredHotels.isEmpty {
-                        partnerSection(title: "HOTELS", icon: "bed.double.fill", items: filteredHotels, color: .orange, isBank: false)
+                        partnerSection(title: String(localized: "HOTELS"), icon: "bed.double.fill", items: filteredHotels, color: .orange, isBank: false)
                     }
 
                     if !searchText.isEmpty && filteredBanks.isEmpty && filteredAirlines.isEmpty && filteredHotels.isEmpty {
