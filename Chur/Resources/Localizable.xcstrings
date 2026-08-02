@@ -2241,7 +2241,7 @@
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "外幣交易費用"
+            "value" : "外幣手續費: -%@%%"
           }
         }
       }
@@ -3104,7 +3104,7 @@
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "沒有符合"
+            "value" : "找不到符合「%@」的夥伴"
           }
         }
       }
@@ -4110,7 +4110,7 @@
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "還原為預設"
+            "value" : "還原為預設 ($%lld)"
           }
         }
       }
@@ -4122,7 +4122,7 @@
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "還原為預設"
+            "value" : "還原為預設 (%@)"
           }
         }
       }
