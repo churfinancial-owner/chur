@@ -31,13 +31,13 @@ struct AccountSettingsView: View {
                 HStack {
                     Text("Name")
                     Spacer()
-                    Text(user.firstName.isEmpty ? "Not set" : user.firstName)
+                    Text(user.firstName.isEmpty ? String(localized: "Not set") : user.firstName)
                         .foregroundStyle(Color.churMediumGray)
                 }
                 HStack {
                     Text("Email")
                     Spacer()
-                    Text(user.email.isEmpty ? "Not set" : user.email)
+                    Text(user.email.isEmpty ? String(localized: "Not set") : user.email)
                         .foregroundStyle(Color.churMediumGray)
                 }
                 if isSignedIn {
