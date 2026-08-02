@@ -301,6 +301,16 @@
         }
       }
     },
+    "Add cards to see your best earning rates" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增卡片以查看你的最佳回贈率"
+          }
+        }
+      }
+    },
     "Add your credit cards to start tracking\nbenefits and maximizing your rewards." : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -1111,6 +1121,16 @@
         }
       }
     },
+    "Customize Categories" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自訂類別"
+          }
+        }
+      }
+    },
     "DEFAULT" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -1261,6 +1281,16 @@
         }
       }
     },
+    "Dining" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "餐飲"
+          }
+        }
+      }
+    },
     "Dining, takout & experiences" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -1381,12 +1411,32 @@
         }
       }
     },
+    "Enable Location" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "啟用定位"
+          }
+        }
+      }
+    },
     "Everyday, every spend" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "日常每一筆消費"
+          }
+        }
+      }
+    },
+    "Everything Else" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其他所有"
           }
         }
       }
@@ -1611,6 +1661,16 @@
         }
       }
     },
+    "Groceries" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "雜貨"
+          }
+        }
+      }
+    },
     "Guardian" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -1627,6 +1687,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "酒店"
+          }
+        }
+      }
+    },
+    "Here's what earns you the most." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這是為你賺取最多回贈的方式。"
           }
         }
       }
@@ -1787,6 +1857,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "淺色主題"
+          }
+        }
+      }
+    },
+    "Location Disabled" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "定位已停用"
           }
         }
       }
@@ -2011,6 +2091,16 @@
         }
       }
     },
+    "No categories selected" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選擇任何類別"
+          }
+        }
+      }
+    },
     "No credits yet" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -2061,6 +2151,16 @@
         }
       }
     },
+    "No places found nearby" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "附近找不到地點"
+          }
+        }
+      }
+    },
     "No plan selected" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -2097,6 +2197,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "尚未有信任旅客計劃"
+          }
+        }
+      }
+    },
+    "None" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有"
           }
         }
       }
@@ -2401,6 +2511,16 @@
         }
       }
     },
+    "Please enable in settings" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請在設定中啟用"
+          }
+        }
+      }
+    },
     "Point Values" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -2567,6 +2687,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已兌換"
+          }
+        }
+      }
+    },
+    "RELATED CATEGORIES" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "相關類別"
           }
         }
       }
@@ -2927,6 +3057,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "娛樂達人"
+          }
+        }
+      }
+    },
+    "Search Failed" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜尋失敗"
           }
         }
       }
@@ -3401,6 +3541,16 @@
         }
       }
     },
+    "Travel" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "旅遊"
+          }
+        }
+      }
+    },
     "Travel & Purchase Protection" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -3417,6 +3567,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "信任旅客計劃"
+          }
+        }
+      }
+    },
+    "Try Again" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再試一次"
           }
         }
       }
@@ -3561,12 +3721,32 @@
         }
       }
     },
+    "Wallet Specific" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "限錢包內"
+          }
+        }
+      }
+    },
     "We never store or see your data." : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "我們絕不儲存或查看你的資料。"
+          }
+        }
+      }
+    },
+    "We'll show you the best cards for places near you" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我們會為你附近的地點顯示最佳卡片"
           }
         }
       }
@@ -3811,12 +3991,32 @@
         }
       }
     },
+    "⚡ EARNING POWER" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚡ 賺取能力"
+          }
+        }
+      }
+    },
     "✅ AVAILABLE" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "✅ 可用"
+          }
+        }
+      }
+    },
+    "📍 NEARBY" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "📍 附近"
           }
         }
       }

@@ -178,10 +178,10 @@ struct EarningPowerSection: View {
         VStack(spacing: 16) {
             let columns = Array(repeating: GridItem(.flexible(), spacing: 12), count: 2)
             LazyVGrid(columns: columns, spacing: 12) {
-                emptyWalletTile(emoji: "✈️", label: "Travel")
-                emptyWalletTile(emoji: "🍽️", label: "Dining")
-                emptyWalletTile(emoji: "🛒", label: "Groceries")
-                emptyWalletTile(emoji: "💳", label: "Everything Else")
+                emptyWalletTile(emoji: "✈️", label: String(localized: "Travel"))
+                emptyWalletTile(emoji: "🍽️", label: String(localized: "Dining"))
+                emptyWalletTile(emoji: "🛒", label: String(localized: "Groceries"))
+                emptyWalletTile(emoji: "💳", label: String(localized: "Everything Else"))
             }
             .allowsHitTesting(false)
             
