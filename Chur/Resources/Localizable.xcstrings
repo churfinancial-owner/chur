@@ -5359,6 +5359,16 @@
         }
       }
     },
+    "Your %lld" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的 %lld"
+          }
+        }
+      }
+    },
     "Your Google account has a saved backup. Choose whether to restore it or keep the data currently on this device." : {
       "localizations" : {
         "zh-Hant-HK" : {

@@ -45,7 +45,7 @@ struct UserDashboardView: View {
                         }
 
                         // --- Divider 1→2 with Year Capsule ---
-                        waveDivider(label: "Your \(selectedYear)")
+                        waveDivider(label: String(localized: "Your \(selectedYear)", locale: AppLocale.current))
                             .padding(.top, 20)
 
                         // --- Section 3: Wallet Summary & Timeline ---
