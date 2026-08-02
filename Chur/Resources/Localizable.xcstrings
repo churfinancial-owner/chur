@@ -531,6 +531,16 @@
         }
       }
     },
+    "BEST CARD TO USE" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最佳使用卡片"
+          }
+        }
+      }
+    },
     "BUSINESS" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -691,6 +701,16 @@
         }
       }
     },
+    "Bonus categories not set up" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚未設定額外獎賞類別"
+          }
+        }
+      }
+    },
     "Brand loyal & exclusive perks" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -757,6 +777,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "按價值"
+          }
+        }
+      }
+    },
+    "CARD RATE" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "卡片倍數"
           }
         }
       }
@@ -887,6 +917,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "卡片備註"
+          }
+        }
+      }
+    },
+    "Card Rate" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "卡片倍數"
           }
         }
       }
@@ -1331,6 +1371,26 @@
         }
       }
     },
+    "EARNING RATES" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "回贈率"
+          }
+        }
+      }
+    },
+    "EFFECTIVE RATE" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "實際回贈率"
+          }
+        }
+      }
+    },
     "ENTERTAINMENT" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -1367,6 +1427,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "如你的卡片年費與預設不同，可在此編輯。"
+          }
+        }
+      }
+    },
+    "Effective Rate" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "實際回贈率"
           }
         }
       }
@@ -1881,6 +1951,16 @@
         }
       }
     },
+    "Loading cards..." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "載入卡片中……"
+          }
+        }
+      }
+    },
     "Location Disabled" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -1947,6 +2027,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "手動"
+          }
+        }
+      }
+    },
+    "MERCHANTS" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "商戶"
           }
         }
       }
@@ -2131,6 +2221,16 @@
         }
       }
     },
+    "No earning rates defined" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未有設定回贈率"
+          }
+        }
+      }
+    },
     "No hotel status yet" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -2147,6 +2247,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "尚未有貴賓室使用權"
+          }
+        }
+      }
+    },
+    "No matching cards" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有符合的卡片"
           }
         }
       }
@@ -2227,6 +2337,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "沒有"
+          }
+        }
+      }
+    },
+    "None of your cards earn rewards in this category." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的卡片在此類別中沒有獎賞回贈。"
           }
         }
       }
@@ -2321,12 +2441,32 @@
         }
       }
     },
+    "OTHER GREAT OPTIONS" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其他優質選擇"
+          }
+        }
+      }
+    },
     "OVERALL" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "總覽"
+          }
+        }
+      }
+    },
+    "Offers" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "優惠"
           }
         }
       }
@@ -2547,6 +2687,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "請在設定中啟用"
+          }
+        }
+      }
+    },
+    "Point Value" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "積分價值"
           }
         }
       }
@@ -2851,6 +3001,16 @@
         }
       }
     },
+    "Regular" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一般"
+          }
+        }
+      }
+    },
     "Relationship Boost" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -3047,6 +3207,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "購物"
+          }
+        }
+      }
+    },
+    "SIGN-UP BONUS" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "迎新獎賞"
           }
         }
       }
@@ -3291,6 +3461,16 @@
         }
       }
     },
+    "Show Less" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顯示較少"
+          }
+        }
+      }
+    },
     "Show on Card" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -3327,6 +3507,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "登入失敗，請再試一次。"
+          }
+        }
+      }
+    },
+    "Sign in with Google" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用 Google 登入"
           }
         }
       }
@@ -3437,6 +3627,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "主題"
+          }
+        }
+      }
+    },
+    "TOP EARNING" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最高回贈"
           }
         }
       }
@@ -3787,6 +3987,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "使用者"
+          }
+        }
+      }
+    },
+    "VALUE" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "價值"
+          }
+        }
+      }
+    },
+    "View Offer" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看優惠"
           }
         }
       }
