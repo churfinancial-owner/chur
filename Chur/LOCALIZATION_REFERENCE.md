@@ -115,7 +115,7 @@ registered, `AppLocale` seam, `User.languagePreference` + Settings UI +
 backup sync (`ChurBackup.currentVersion = 2`).
 
 **String migration (Phase 4): in progress, feature-by-feature.**
-Catalog currently has **286 keys** (`zh-Hant-HK` only). Done, in order:
+Catalog currently has **410 keys** (`zh-Hant-HK` only). Done, in order:
 
 | Area | Files | Status |
 |---|---|---|
@@ -124,15 +124,17 @@ Catalog currently has **286 keys** (`zh-Hant-HK` only). Done, in order:
 | Shared chrome (Home greeting, ProfilePhotoPicker) | 2 | ✅ |
 | Cards (Add Card, wallet mgmt, Info tab pickers, card note) | 25 | ✅ |
 | User (Account/Backup/Region/Notification/Reminder settings, delete/restore sheets, photo editor, Financial Aura picker, postcard share, support, dashboard, Month/Year breakdown) | 16 | ✅ |
+| Benefit (checkbox row, detail sheet, progress bar, period mgmt, automation, log usage, usage history, benefits list, Expiring Soon) | 9 | ✅ |
+| Badge (7 perk tools — Auto Rental, Car Rental, Cell Phone, Couponing, Hotel Status, Lounge Access, Trusted Traveler — + Transfer Partners + collection section) | 9 | ✅ |
+| Home (category picker, Earning Power tab, Nearby state views) — `Parallaxheaderview.swift` needed no changes (all data-driven) | 6 | ✅ |
+| Search (merchant detail popup, map/search view) — `NearbyMapPin`/`NearbyPlaceRow`/`OnlineMerchantRow` needed no changes (all data-driven) | 5 | ✅ |
 
-**Remaining (~41 files, not started):**
+One adjacent file outside the Features tree was also touched because a Feature view called into it: `Chur/Features/Home/ViewModel/CategoryPickerViewModel.swift` (`cycleButtonLabel`) — same displayName-separation fix as `FinancialStrategy`. `Chur/Core/RewardComponents/RatePopupComponents.swift`'s `HeaderCapsuleBubble` itself (the `Text(text)` verbatim site) was **not** touched — only its callers' literal args were wrapped; still needs its own pass when Core/RewardComponents comes up.
+
+**Remaining (~12 files, not started):**
 
 | Area | Files |
 |---|---|
-| Benefit | 9 |
-| Badge (Couponing, Cell Phone Protection, etc. tools) | 9 |
-| Home | 6 |
-| Search | 5 |
 | News | 5 |
 | CardRecommendations | 3 |
 | Core/RewardComponents (`EarningRatesSection.swift`, `RatePopupComponents.swift`) | 2 |
@@ -158,8 +160,8 @@ Excluded from scope entirely: `Chur/Debug/*` (5 files, dev-only tooling).
 
 1. Check out `claude/app-localization-setup-mzadsw` (already the active
    branch — don't create a new one unless this PR has since merged).
-2. Pick the next feature from the "Remaining" table (Benefit is the
-   natural next one — same size class as User/Cards).
+2. Pick the next feature from the "Remaining" table (News and
+   CardRecommendations are next; the last few are single-file areas).
 3. For each file: read it in full, classify every `Text`/`Label`/`Button`/
    `.navigationTitle`/`Toggle`/`Section`/`.alert`/`TextField` literal
    against the 8 recipe categories above, apply code edits (recipe #2/#3)
