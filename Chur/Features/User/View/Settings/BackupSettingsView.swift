@@ -99,7 +99,7 @@ struct BackupSettingsView: View {
     // MARK: - Helpers
 
     private var lastSyncedAtText: String {
-        guard let date = lastSyncedAt else { return String(localized: "Never") }
+        guard let date = lastSyncedAt else { return String(localized: "Never", locale: AppLocale.current) }
         let formatter = DateFormatter()
         formatter.timeStyle = .short
         formatter.dateStyle = .none

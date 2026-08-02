@@ -7,11 +7,11 @@ struct RewardSetupSection: View {
     @Binding var activeSheet: CardInfoContentView.ActiveSheet?
 
     var rewardPlanDisplay: String {
-        card.activePlan?.name ?? (card.rewards.isEmpty ? String(localized: "No plan selected") : String(localized: "Current Rewards"))
+        card.activePlan?.name ?? (card.rewards.isEmpty ? String(localized: "No plan selected", locale: AppLocale.current) : String(localized: "Current Rewards", locale: AppLocale.current))
     }
 
     var boostDisplay: String {
-        guard let program = card.boostProgram, let tier = user?.boostEnrollments[program.id] else { return String(localized: "Not enrolled") }
+        guard let program = card.boostProgram, let tier = user?.boostEnrollments[program.id] else { return String(localized: "Not enrolled", locale: AppLocale.current) }
         let pct = Int((BoostProgramDatabase.multiplier(programID: program.id, tierName: tier) - 1.0) * 100)
         return "\(tier) (+\(pct)%)"
     }
@@ -30,22 +30,22 @@ struct RewardSetupSection: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            CardSectionHeader(title: String(localized: "REWARD SETUP"))
+            CardSectionHeader(title: String(localized: "REWARD SETUP", locale: AppLocale.current))
             VStack(spacing: 0) {
                 if card.activeRewards.contains(where: { $0.isUserConfigurable }) {
                     configurableRow
                     CardRowDivider()
                 }
-                DetailRow(label: String(localized: "Reward Plan"), value: rewardPlanDisplay, isEditable: card.hasMultiplePlans) {
+                DetailRow(label: String(localized: "Reward Plan", locale: AppLocale.current), value: rewardPlanDisplay, isEditable: card.hasMultiplePlans) {
                     activeSheet = .rewardPlan
                 }
                 CardRowDivider()
-                DetailRow(label: String(localized: "Point Values"), value: uniqueProgramSummary, isEditable: true) {
+                DetailRow(label: String(localized: "Point Values", locale: AppLocale.current), value: uniqueProgramSummary, isEditable: true) {
                     activeSheet = .pointValues
                 }
                 if card.boostProgram != nil {
                     CardRowDivider()
-                    DetailRow(label: String(localized: "Relationship Boost"), value: boostDisplay, isEditable: true) {
+                    DetailRow(label: String(localized: "Relationship Boost", locale: AppLocale.current), value: boostDisplay, isEditable: true) {
                         activeSheet = .boost
                     }
                 }
@@ -67,7 +67,7 @@ struct RewardSetupSection: View {
 
         return Group {
             if configured.isEmpty {
-                DetailRow(label: String(localized: "Bonus Categories"), value: "0/\(total) configured", isEditable: true) {
+                DetailRow(label: String(localized: "Bonus Categories", locale: AppLocale.current), value: "0/\(total) configured", isEditable: true) {
                     activeSheet = .configurableRewards
                 }
             } else {

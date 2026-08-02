@@ -57,7 +57,7 @@ struct MerchantDetailSheet: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
                     HeaderCapsuleBubble(
-                        text: viewModel.channel == "online" ? String(localized: "Online") : String(localized: "In-Store"),
+                        text: viewModel.channel == "online" ? String(localized: "Online", locale: AppLocale.current) : String(localized: "In-Store", locale: AppLocale.current),
                         icon: viewModel.channel == "online" ? "globe" : "storefront.fill"
                     )
                     if let region = viewModel.merchant.region {

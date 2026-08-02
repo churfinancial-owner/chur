@@ -29,7 +29,7 @@ struct LocationPermissionDenied: View {
         VStack(spacing: 12) {
             Image(systemName: "location.slash").font(.churHero()).foregroundStyle(.gray)
             Text("Location Disabled").font(.headline)
-            Text(errorMessage ?? String(localized: "Please enable in settings")).multilineTextAlignment(.center)
+            Text(errorMessage ?? String(localized: "Please enable in settings", locale: AppLocale.current)).multilineTextAlignment(.center)
         }.padding()
     }
 }

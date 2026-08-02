@@ -31,8 +31,8 @@ private enum NotePreset: String, CaseIterable {
     }
     var displayName: String {
         switch self {
-        case .lightOnDark: return String(localized: "Dark Theme")
-        case .darkOnLight: return String(localized: "Light Theme")
+        case .lightOnDark: return String(localized: "Dark Theme", locale: AppLocale.current)
+        case .darkOnLight: return String(localized: "Light Theme", locale: AppLocale.current)
         }
     }
 }

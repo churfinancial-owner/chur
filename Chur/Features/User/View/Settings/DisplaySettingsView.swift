@@ -13,8 +13,8 @@ struct DisplaySettingsView: View {
         // lookup) — String(localized:) resolves the translation first so the
         // literals below are still eligible for the String Catalog.
         user.showEffectiveRate
-            ? String(localized: "Rewards sorted by effective % return per dollar spent.")
-            : String(localized: "Rewards sorted by card rate.")
+            ? String(localized: "Rewards sorted by effective % return per dollar spent.", locale: AppLocale.current)
+            : String(localized: "Rewards sorted by card rate.", locale: AppLocale.current)
     }
 
     var body: some View {

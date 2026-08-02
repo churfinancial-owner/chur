@@ -114,7 +114,7 @@ struct EarningRatesSection: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            header(String(localized: "EARNING RATES"))
+            header(String(localized: "EARNING RATES", locale: AppLocale.current))
 
             VStack(alignment: .leading, spacing: 0) {
                 if mainAndSubRates.isEmpty && targetRates.isEmpty && unconfiguredRewards.isEmpty {
@@ -130,7 +130,7 @@ struct EarningRatesSection: View {
                         }
 
                         if !targetRates.isEmpty {
-                            rateSubSection(title: String(localized: "MERCHANTS"), items: targetRates)
+                            rateSubSection(title: String(localized: "MERCHANTS", locale: AppLocale.current), items: targetRates)
                         }
                     }
                     .padding(.horizontal, 20)
@@ -208,7 +208,7 @@ struct EarningRatesSection: View {
         } else if item.reward.isRotating, let end = item.reward.rewardEndDate {
             dateBadge(label: "Rotating · Ends \(end.formatted(.dateTime.month(.abbreviated).day()))", color: .green)
         } else if items.contains(where: { $0.category.id == item.category.id && $0.reward.isRotating && !item.reward.isRotating }) {
-            dateBadge(label: String(localized: "Regular"), color: .blue)
+            dateBadge(label: String(localized: "Regular", locale: AppLocale.current), color: .blue)
         }
     }
 

@@ -95,9 +95,9 @@ class CategoryPickerViewModel {
     }
     
     var cycleButtonLabel: String {
-        if allCategoriesSelected { return String(localized: "All") }
-        else if walletCategoriesSelected { return String(localized: "Wallet Specific") }
-        else { return String(localized: "None") }
+        if allCategoriesSelected { return String(localized: "All", locale: AppLocale.current) }
+        else if walletCategoriesSelected { return String(localized: "Wallet Specific", locale: AppLocale.current) }
+        else { return String(localized: "None", locale: AppLocale.current) }
     }
     
     // MARK: - Actions

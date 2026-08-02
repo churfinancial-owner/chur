@@ -44,8 +44,8 @@ struct ExpiringBenefitsView: View {
                     if groups.isEmpty {
                         EmptyStatePlaceholder(
                             icon: "checkmark.circle",
-                            title: String(localized: "Nothing expiring soon"),
-                            subtitle: String(localized: "Benefits show up here when they enter their reminder window with value left to use.")
+                            title: String(localized: "Nothing expiring soon", locale: AppLocale.current),
+                            subtitle: String(localized: "Benefits show up here when they enter their reminder window with value left to use.", locale: AppLocale.current)
                         )
                     } else {
                         summaryHeader

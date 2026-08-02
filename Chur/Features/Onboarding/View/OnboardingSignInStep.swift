@@ -167,7 +167,7 @@ struct OnboardingSignInStep: View {
         switch result {
         case .success(let authorization):
             guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential else {
-                signInError = String(localized: "Unexpected credential type")
+                signInError = String(localized: "Unexpected credential type", locale: AppLocale.current)
                 return
             }
 
@@ -177,7 +177,7 @@ struct OnboardingSignInStep: View {
         case .failure(let error):
             if (error as? ASAuthorizationError)?.code == .canceled { return }
             UINotificationFeedbackGenerator().notificationOccurred(.error)
-            signInError = String(localized: "Sign in failed. Please try again.")
+            signInError = String(localized: "Sign in failed. Please try again.", locale: AppLocale.current)
         }
     }
 
@@ -190,7 +190,7 @@ struct OnboardingSignInStep: View {
 
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let rootVC = windowScene.windows.first?.rootViewController else {
-            signInError = String(localized: "Unable to present sign in")
+            signInError = String(localized: "Unable to present sign in", locale: AppLocale.current)
             return
         }
 
@@ -207,12 +207,12 @@ struct OnboardingSignInStep: View {
             if let error = error {
                 if (error as NSError).code == GIDSignInError.canceled.rawValue { return }
                 UINotificationFeedbackGenerator().notificationOccurred(.error)
-                signInError = String(localized: "Google sign in failed.")
+                signInError = String(localized: "Google sign in failed.", locale: AppLocale.current)
                 return
             }
 
             guard let user = result?.user, let profile = user.profile else {
-                signInError = String(localized: "Unable to get user profile")
+                signInError = String(localized: "Unable to get user profile", locale: AppLocale.current)
                 return
             }
 
@@ -227,9 +227,9 @@ struct OnboardingSignInStep: View {
 
 private struct BackupTooltipContent: View {
     private let items: [(String, String)] = [
-        ("creditcard.fill",      String(localized: "Cards, approved dates & notes")),
-        ("checkmark.seal.fill",  String(localized: "Benefit history & usage")),
-        ("slider.horizontal.3",  String(localized: "Preferences & settings")),
+        ("creditcard.fill",      String(localized: "Cards, approved dates & notes", locale: AppLocale.current)),
+        ("checkmark.seal.fill",  String(localized: "Benefit history & usage", locale: AppLocale.current)),
+        ("slider.horizontal.3",  String(localized: "Preferences & settings", locale: AppLocale.current)),
     ]
 
     var body: some View {

@@ -158,7 +158,7 @@ struct TrustedTravelerView: View {
     }
 
     private var emptyState: some View {
-        EmptyStatePlaceholder(icon: "shield.checkered", title: String(localized: "No trusted traveler programs yet"), subtitle: String(localized: "Add a card that covers TSA PreCheck, Global Entry, CLEAR, or NEXUS to see your coverage here."))
+        EmptyStatePlaceholder(icon: "shield.checkered", title: String(localized: "No trusted traveler programs yet", locale: AppLocale.current), subtitle: String(localized: "Add a card that covers TSA PreCheck, Global Entry, CLEAR, or NEXUS to see your coverage here.", locale: AppLocale.current))
     }
 }
 
