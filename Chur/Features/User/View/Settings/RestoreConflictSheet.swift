@@ -43,7 +43,7 @@ struct RestoreConflictSheet: View {
                 infoRow(
                     icon: "icloud.fill",
                     iconColor: .blue,
-                    title: String(localized: "Cloud Backup", locale: AppLocale.current),
+                    title: AppLocale.string("Cloud Backup"),
                     detail: cardCountLabel(backup.cards.count),
                     subtitle: "Saved \(formattedBackupDate)"
                 )
@@ -51,7 +51,7 @@ struct RestoreConflictSheet: View {
                 infoRow(
                     icon: "iphone",
                     iconColor: Color.churMediumGray,
-                    title: String(localized: "On This Device", locale: AppLocale.current),
+                    title: AppLocale.string("On This Device"),
                     detail: cardCountLabel(localCardCount),
                     subtitle: nil
                 )

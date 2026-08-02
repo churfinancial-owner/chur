@@ -96,10 +96,10 @@ struct CardOrderSheet: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
                         Section("Sort Options") {
-                            sortButton(title: String(localized: "Card Name", locale: AppLocale.current), criteria: .name)
-                            sortButton(title: String(localized: "Issuer", locale: AppLocale.current), criteria: .issuer)
-                            sortButton(title: String(localized: "Annual Fee", locale: AppLocale.current), criteria: .annualFee)
-                            sortButton(title: String(localized: "Date Approved", locale: AppLocale.current), criteria: .approved)
+                            sortButton(title: AppLocale.string("Card Name"), criteria: .name)
+                            sortButton(title: AppLocale.string("Issuer"), criteria: .issuer)
+                            sortButton(title: AppLocale.string("Annual Fee"), criteria: .annualFee)
+                            sortButton(title: AppLocale.string("Date Approved"), criteria: .approved)
                         }
                     } label: {
                         Image(systemName: "arrow.up.arrow.down").foregroundStyle(Color.churOlive)

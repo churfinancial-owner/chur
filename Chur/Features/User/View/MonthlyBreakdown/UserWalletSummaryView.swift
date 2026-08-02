@@ -32,11 +32,11 @@ struct UserWalletSummaryView: View {
             
             // 1. Stats Row
             HStack(alignment: .center, spacing: 0) {
-                statBox(title: "Annual Fees", value: "$\(totalAnnualFees)", icon: "banknote.fill", color: .red)
+                statBox(title: AppLocale.string("Annual Fees"), value: "$\(totalAnnualFees)", icon: "banknote.fill", color: .red)
                 separator
-                statBox(title: "Cards", value: "\(cards.filter { $0.approvedYear <= selectedYear }.count)", icon: "creditcard.fill", color: .blue)
+                statBox(title: AppLocale.string("Cards"), value: "\(cards.filter { $0.approvedYear <= selectedYear }.count)", icon: "creditcard.fill", color: .blue)
                 separator
-                statBox(title: "Redeemed", value: "$\(totalAnnualSavings)", icon: "gift.fill", color: .green)
+                statBox(title: AppLocale.string("Redeemed"), value: "$\(totalAnnualSavings)", icon: "gift.fill", color: .green)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 12)

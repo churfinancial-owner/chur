@@ -208,11 +208,11 @@ struct EnhancedCardRow: View {
     let toggleExpanded: () -> Void
     
     private var health: (color: Color, label: String) {
-        if snapshot.isNoFee { return (Color.churOlive, snapshot.redeemed > 0 ? String(localized: "Profit", locale: AppLocale.current) : String(localized: "Active", locale: AppLocale.current)) }
+        if snapshot.isNoFee { return (Color.churOlive, snapshot.redeemed > 0 ? AppLocale.string("Profit") : AppLocale.string("Active")) }
         let ratio = Double(snapshot.redeemed) / Double(snapshot.fee)
-        if ratio >= 1.0 { return (Color.churOlive, String(localized: "GREAT", locale: AppLocale.current)) }
-        if ratio >= 0.5 { return (Color.green, String(localized: "Good", locale: AppLocale.current)) }
-        return (Color.red.opacity(0.6), String(localized: "Loss", locale: AppLocale.current))
+        if ratio >= 1.0 { return (Color.churOlive, AppLocale.string("GREAT")) }
+        if ratio >= 0.5 { return (Color.green, AppLocale.string("Good")) }
+        return (Color.red.opacity(0.6), AppLocale.string("Loss"))
     }
 
     var body: some View {
@@ -248,8 +248,8 @@ struct EnhancedCardRow: View {
             if isExpanded {
                 VStack(spacing: 20) {
                     HStack(spacing: 20) {
-                        statPill(label: String(localized: "FEE", locale: AppLocale.current), value: "$\(snapshot.fee)", color: .red)
-                        statPill(label: String(localized: "REDEEMED", locale: AppLocale.current), value: "$\(snapshot.redeemed)", color: Color.churOlive)
+                        statPill(label: AppLocale.string("FEE"), value: "$\(snapshot.fee)", color: .red)
+                        statPill(label: AppLocale.string("REDEEMED"), value: "$\(snapshot.redeemed)", color: Color.churOlive)
                     }
                     .padding(.horizontal, 20)
                     .padding(.bottom, 10)

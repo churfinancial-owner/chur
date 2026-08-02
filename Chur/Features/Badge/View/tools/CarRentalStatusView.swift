@@ -121,7 +121,7 @@ struct CarRentalStatusView: View {
     private func cardChip(card: PerkCardRef) -> some View { PerkCardChip(card: card) }
 
     private var emptyState: some View {
-        EmptyStatePlaceholder(icon: "car.fill", title: String(localized: "No car rental status yet", locale: AppLocale.current), subtitle: String(localized: "Add a card with rental car elite status to see your coverage here.", locale: AppLocale.current))
+        EmptyStatePlaceholder(icon: "car.fill", title: AppLocale.string("No car rental status yet"), subtitle: AppLocale.string("Add a card with rental car elite status to see your coverage here."))
     }
 }
 

@@ -118,7 +118,7 @@ struct LoungeAccessView: View {
     @ViewBuilder
     private func accessBadge(for benefit: Benefit) -> some View {
         let isUnlimited = benefit.usageLimit == -1
-        let label = isUnlimited ? String(localized: "UNLIMITED", locale: AppLocale.current) : String(localized: "LIMITED", locale: AppLocale.current)
+        let label = isUnlimited ? AppLocale.string("UNLIMITED") : AppLocale.string("LIMITED")
         let color: Color = isUnlimited ? .churOlive : .orange
         let needsUnlock = isUnlimited && benefit.activationMode != "unlock"
 
@@ -148,7 +148,7 @@ struct LoungeAccessView: View {
     }
 
     private var emptyState: some View {
-        EmptyStatePlaceholder(icon: "airplane.departure", title: String(localized: "No lounge access yet", locale: AppLocale.current), subtitle: String(localized: "Add a card with lounge benefits to see your access here.", locale: AppLocale.current))
+        EmptyStatePlaceholder(icon: "airplane.departure", title: AppLocale.string("No lounge access yet"), subtitle: AppLocale.string("Add a card with lounge benefits to see your access here."))
     }
 }
 

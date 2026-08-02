@@ -67,11 +67,11 @@ enum BadgeCategory: String, Codable {
     var displayName: String {
         switch self {
         case .lifestyle:
-            return String(localized: "Lifestyle", locale: AppLocale.current)
+            return AppLocale.string("Lifestyle")
         case .travelAccess:
-            return String(localized: "Travel", locale: AppLocale.current)
+            return AppLocale.string("Travel")
         case .protections:
-            return String(localized: "Protections", locale: AppLocale.current)
+            return AppLocale.string("Protections")
         }
     }
 }

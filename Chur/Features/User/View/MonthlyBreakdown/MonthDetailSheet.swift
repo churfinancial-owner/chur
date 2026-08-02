@@ -101,7 +101,7 @@ struct MonthDetailSheet: View {
                         
                         // --- ANNUAL FEES ---
                         if !monthlyFeeItems.isEmpty {
-                            enhancedSection(title: String(localized: "Upcoming Fees", locale: AppLocale.current), icon: "creditcard.and.123", color: .red) {
+                            enhancedSection(title: AppLocale.string("Upcoming Fees"), icon: "creditcard.and.123", color: .red) {
                                 ForEach(0..<monthlyFeeItems.count, id: \.self) { i in
                                     let item = monthlyFeeItems[i]
                                     enhancedRow(card: item.card, title: item.card.name, amount: "-$\(item.amount)", color: .red)
@@ -112,7 +112,7 @@ struct MonthDetailSheet: View {
 
                         // --- BENEFITS REDEEMED ---
                         if !groupedBenefits.isEmpty {
-                            enhancedSection(title: String(localized: "Redeemed Benefits", locale: AppLocale.current), icon: "sparkles", color: .green) {
+                            enhancedSection(title: AppLocale.string("Redeemed Benefits"), icon: "sparkles", color: .green) {
                                 ForEach(groupedBenefits) { group in
                                     BenefitGroupRow(group: group)
                                     if group.id != groupedBenefits.last?.id { thinDivider }
@@ -147,8 +147,8 @@ struct MonthDetailSheet: View {
 
     private var summaryDashboard: some View {
         HStack(spacing: 16) {
-            summaryStatPill(label: String(localized: "Fees", locale: AppLocale.current), value: "$\(totalMonthlyFees)", color: .red)
-            summaryStatPill(label: String(localized: "Redeemed", locale: AppLocale.current), value: "$\(totalMonthlySavings)", color: Color.churOlive)
+            summaryStatPill(label: AppLocale.string("Fees"), value: "$\(totalMonthlyFees)", color: .red)
+            summaryStatPill(label: AppLocale.string("Redeemed"), value: "$\(totalMonthlySavings)", color: Color.churOlive)
         }
     }
     

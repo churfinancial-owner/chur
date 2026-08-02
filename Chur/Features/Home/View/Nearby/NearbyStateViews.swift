@@ -18,7 +18,7 @@ struct LocationPermissionPrompt: View {
             Button(action: onRequestPermission) {
                 Text("Enable Location").padding().background(Color.churOlive).foregroundColor(.white).cornerRadius(10)
             }
-        }.padding()
+        }.frame(maxWidth: .infinity).padding()
     }
 }
 
@@ -29,8 +29,8 @@ struct LocationPermissionDenied: View {
         VStack(spacing: 12) {
             Image(systemName: "location.slash").font(.churHero()).foregroundStyle(.gray)
             Text("Location Disabled").font(.headline)
-            Text(errorMessage ?? String(localized: "Please enable in settings", locale: AppLocale.current)).multilineTextAlignment(.center)
-        }.padding()
+            Text(errorMessage ?? AppLocale.string("Please enable in settings")).multilineTextAlignment(.center)
+        }.frame(maxWidth: .infinity).padding()
     }
 }
 
@@ -44,7 +44,7 @@ struct LocationErrorView: View {
             Text("Search Failed").font(.headline)
             Text(errorMessage).multilineTextAlignment(.center)
             Button("Try Again", action: onRetry)
-        }.padding()
+        }.frame(maxWidth: .infinity).padding()
     }
 }
 

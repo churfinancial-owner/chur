@@ -108,10 +108,10 @@ struct CardInformationSection: View {
 
     static func cardTypeDisplayLabel(for option: String) -> String {
         switch option {
-        case "personal":        return String(localized: "Personal", locale: AppLocale.current)
-        case "business":        return String(localized: "Business", locale: AppLocale.current)
-        case "student":         return String(localized: "Student", locale: AppLocale.current)
-        case "authorized_user": return String(localized: "Authorized User", locale: AppLocale.current)
+        case "personal":        return AppLocale.string("Personal")
+        case "business":        return AppLocale.string("Business")
+        case "student":         return AppLocale.string("Student")
+        case "authorized_user": return AppLocale.string("Authorized User")
         default: return option.replacingOccurrences(of: "_", with: " ").capitalized
         }
     }

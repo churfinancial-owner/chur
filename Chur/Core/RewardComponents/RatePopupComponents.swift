@@ -187,12 +187,12 @@ struct BestCardStatStrip: View {
 
     var body: some View {
         HStack(spacing: 0) {
-            statCell(value: rateText, label: String(localized: "CARD RATE", locale: AppLocale.current), mode: .points)
+            statCell(value: rateText, label: AppLocale.string("CARD RATE"), mode: .points)
             Rectangle()
                 .fill(Color.black.opacity(0.06))
                 .frame(width: 1)
                 .padding(.vertical, 8)
-            statCell(value: effectivePctText, label: String(localized: "EFFECTIVE RATE", locale: AppLocale.current), mode: isEffectiveNegative ? .effectiveNegative : .effectivePositive)
+            statCell(value: effectivePctText, label: AppLocale.string("EFFECTIVE RATE"), mode: isEffectiveNegative ? .effectiveNegative : .effectivePositive)
         }
         .background(Color.white)
         .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -223,11 +223,11 @@ struct RateFormulaRow: View {
 
     var body: some View {
         HStack(spacing: 0) {
-            rateColumn(label: String(localized: "Card Rate", locale: AppLocale.current), text: formattedRate, mode: .points)
+            rateColumn(label: AppLocale.string("Card Rate"), text: formattedRate, mode: .points)
             operatorLabel("×")
-            rateColumn(label: String(localized: "Point Value", locale: AppLocale.current), text: pointValueText, mode: .programpointvalue)
+            rateColumn(label: AppLocale.string("Point Value"), text: pointValueText, mode: .programpointvalue)
             operatorLabel("=")
-            rateColumn(label: String(localized: "Effective Rate", locale: AppLocale.current), text: effectiveRateText, mode: isNegative ? .effectiveNegative : .effectivePositive)
+            rateColumn(label: AppLocale.string("Effective Rate"), text: effectiveRateText, mode: isNegative ? .effectiveNegative : .effectivePositive)
         }
         .transition(.opacity.combined(with: .move(edge: .top)))
     }
@@ -265,7 +265,7 @@ struct RecommendationStackView: View {
     var body: some View {
         VStack(spacing: 20) {
             if let best = bestCardSummary {
-                RateTileContainer(title: String(localized: "BEST CARD TO USE", locale: AppLocale.current), bannerColor: .churGold) {
+                RateTileContainer(title: AppLocale.string("BEST CARD TO USE"), bannerColor: .churGold) {
                     PopupBestCardContent(
                         summary: best,
                         card: cards.first(where: { $0.name == best.name }),
@@ -273,12 +273,12 @@ struct RecommendationStackView: View {
                     )
                 }
                 if !otherCardRates.isEmpty {
-                    RateTileContainer(title: String(localized: "OTHER GREAT OPTIONS", locale: AppLocale.current), bannerColor: .churMediumGray) {
+                    RateTileContainer(title: AppLocale.string("OTHER GREAT OPTIONS"), bannerColor: .churMediumGray) {
                         comparisonContent
                     }
                 }
             } else {
-                EmptyStatePlaceholder(icon: "creditcard.trianglebadge.exclamationmark", title: String(localized: "No matching cards", locale: AppLocale.current), subtitle: String(localized: "None of your cards earn rewards in this category.", locale: AppLocale.current))
+                EmptyStatePlaceholder(icon: "creditcard.trianglebadge.exclamationmark", title: AppLocale.string("No matching cards"), subtitle: AppLocale.string("None of your cards earn rewards in this category."))
             }
         }
         .padding(.horizontal, 16)
@@ -291,7 +291,7 @@ struct RecommendationStackView: View {
                     VStack(spacing: 10) {
                         ForEach(otherCardRates.prefix(5), id: \.name) { comparisonRow(for: $0) }
                     }.padding(16)
-                    RateToggleButton(text: String(localized: "Show Less", locale: AppLocale.current), icon: "chevron.up") {
+                    RateToggleButton(text: AppLocale.string("Show Less"), icon: "chevron.up") {
                         withAnimation(.spring(response: 0.3)) { isExpanded = false }
                     }
                 }

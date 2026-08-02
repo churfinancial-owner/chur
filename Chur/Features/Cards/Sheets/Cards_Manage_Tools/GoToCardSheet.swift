@@ -28,10 +28,10 @@ private enum SearchSection: String, CaseIterable {
 
     var displayName: String {
         switch self {
-        case .cards:    return String(localized: "Cards", locale: AppLocale.current)
-        case .rewards:  return String(localized: "Rewards", locale: AppLocale.current)
-        case .benefits: return String(localized: "Benefits", locale: AppLocale.current)
-        case .features: return String(localized: "Features", locale: AppLocale.current)
+        case .cards:    return AppLocale.string("Cards")
+        case .rewards:  return AppLocale.string("Rewards")
+        case .benefits: return AppLocale.string("Benefits")
+        case .features: return AppLocale.string("Features")
         }
     }
 }
@@ -213,7 +213,7 @@ struct GoToCardSheet: View {
                 // Issuer chips
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 8) {
-                        BankPill(title: String(localized: "All", locale: AppLocale.current), isSelected: selectedIssuer == nil) {
+                        BankPill(title: AppLocale.string("All"), isSelected: selectedIssuer == nil) {
                             selectedIssuer = nil
                         }
                         ForEach(popularWalletIssuers, id: \.self) { issuer in
@@ -228,7 +228,7 @@ struct GoToCardSheet: View {
                         }
                         if !otherWalletIssuers.isEmpty {
                             BankPill(
-                                title: String(localized: "Other", locale: AppLocale.current),
+                                title: AppLocale.string("Other"),
                                 isSelected: selectedIssuer == otherBucket
                             ) {
                                 selectedIssuer = selectedIssuer == otherBucket ? nil : otherBucket

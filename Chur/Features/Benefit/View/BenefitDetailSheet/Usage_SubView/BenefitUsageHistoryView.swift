@@ -148,7 +148,7 @@ struct BenefitUsageHistoryView: View {
                 HStack(spacing: 4) {
                     let isManual = record.source == nil || record.source == "manual"
                     
-                    Text(isManual ? String(localized: "MANUAL", locale: AppLocale.current) : (record.source?.uppercased() ?? String(localized: "AUTO", locale: AppLocale.current)))
+                    Text(isManual ? AppLocale.string("MANUAL") : (record.source?.uppercased() ?? AppLocale.string("AUTO")))
                         .font(.system(size: 8, weight: .black, design: .rounded))
                         .kerning(0.5)
                 }

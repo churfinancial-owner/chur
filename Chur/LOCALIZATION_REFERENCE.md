@@ -49,20 +49,52 @@ deferred, Phase 7 = docs).
    variable, computed property, `@State`, or a custom view's `String`
    parameter before reaching `Text(...)`, SwiftUI uses the *verbatim*
    `Text(StringProtocol)` initializer, which does **not** look up the
-   catalog. Fix: wrap the literal in
-   `String(localized: "...", locale: AppLocale.current)` at the point
-   it's first assigned/passed — not at the `Text()` call site. **Always
-   pass `locale: AppLocale.current` explicitly — never bare
-   `String(localized: "...")`.** `String(localized:)` defaults its
-   `locale:` parameter to `Locale.current` (the device's *system*
-   language) and does **not** participate in SwiftUI's
-   `.environment(\.locale, ...)` the way a literal `Text("...")` does.
-   A first pass of this migration used the bare form everywhere, which
-   quietly ignored the in-app Language override for every one of those
-   ~170 call sites (they'd only look translated if the device's system
-   language happened to already match) — caught only once Xcode's real
-   build flagged the mismatch. Already fixed project-wide; keep the
-   `locale:` argument on every future occurrence of this pattern.
+   catalog. Fix: wrap the literal in `AppLocale.string("...")` at the
+   point it's first assigned/passed — not at the `Text()` call site.
+   **Always use `AppLocale.string(...)` for this pattern — never
+   `String(localized: "...")` (bare) or `String(localized: "...",
+   locale: AppLocale.current)`.**
+   - Bare `String(localized: "...")` defaults its `locale:` parameter
+     to `Locale.current` (the device's *system* language) and does
+     **not** participate in SwiftUI's `.environment(\.locale, ...)` the
+     way a literal `Text("...")` does. A first pass of this migration
+     used the bare form everywhere, which quietly ignored the in-app
+     Language override for every one of those ~170 call sites (they'd
+     only look translated if the device's system language happened to
+     already match) — caught only once Xcode's real build flagged the
+     mismatch.
+   - `String(localized: "...", locale: AppLocale.current)` (explicit
+     locale, no `bundle:`) was the fix applied for the above — but
+     turned out to have its **own** bug, confirmed on-device (2026-08-02,
+     real `xcodebuild`/simulator run, not just code reading): passing an
+     explicit `locale:` to `String(localized:)` silently falls back to
+     the source-language (English) string instead of resolving the
+     matching `.lproj` bundle, even though the exact same key/locale
+     combination resolves correctly via `Bundle(path:).localizedString(forKey:)`
+     or via `LocalizedStringResource(key, locale:, bundle: .atURL(...))`.
+     Root-caused with a standalone `swift` script loading the built
+     `.app` bundle directly (see repro below) — ruled out project/catalog
+     config in the process.
+   - **Current fix, use for all new code:** `AppLocale.string(_:table:comment:)`
+     in `AppLocale.swift`, which wraps `LocalizedStringResource(key,
+     table:, locale: current, bundle: .atURL(Bundle.main.bundleURL))` —
+     this does **not** have the bug. Fixed project-wide (mechanical
+     `String(localized: "X", locale: AppLocale.current)` →
+     `AppLocale.string("X")` across all ~45 files) and verified on-device
+     that previously-broken strings ("Your %lld" wave divider, "Annual
+     Fees"/"Cards"/"Redeemed" stat labels, "Good Afternoon" greeting) now
+     render in `zh-Hant-HK`. Keep using `AppLocale.string(...)` for every
+     future occurrence of this pattern — do not reintroduce
+     `String(localized:locale:)`.
+   - Repro, if this needs re-investigating on a newer Swift/Xcode version
+     (run from a machine with Xcode, after `xcodebuild ... build` for
+     `iphonesimulator`):
+     ```swift
+     let bundle = Bundle(path: "/path/to/Chur.app")!
+     let locale = Locale(identifier: "zh-Hant-HK")
+     String(localized: "Good Afternoon", bundle: bundle, locale: locale) // BUGGY: returns "Good Afternoon"
+     String(localized: LocalizedStringResource("Good Afternoon", locale: locale, bundle: .atURL(bundle.bundleURL))) // correct: "午安"
+     ```
    Hit so far: computed properties returning conditional strings
    (`footerText`, `greeting`, `lastSyncedAtText`, `headerSubtitle`,
    `rewardPlanDisplay`, `boostDisplay`), custom component params
@@ -190,8 +222,26 @@ Two adjacent files outside the Features tree were also touched because a Feature
   are string literals — if either branch is a variable/property, wrap
   the literal branch(es) in `String(localized:)`.
 - All ~170 pre-existing `String(localized: "...")` call sites were
-  missing `locale: AppLocale.current` — see recipe item 2. Fixed
-  project-wide; don't reintroduce the bare form.
+  missing `locale: AppLocale.current`, then (once that was fixed) hit
+  the `String(localized:locale:)` runtime bug described in recipe item
+  2 — see there for the full history. All now use `AppLocale.string(...)`.
+- `Localizable.xcstrings`'s top-level `"version"` field was accidentally
+  bumped from `"1.0"` to `"1.1"` in commit `771ba56` ("localization
+  update") and stayed that way for several commits. `"1.1"` is not a
+  schema version Xcode's String Catalog compiler recognizes (Xcode only
+  ever writes `"1.0"`) — while it didn't error the build, it's suspected
+  to have contributed to translations silently not applying. Reverted to
+  `"1.0"` on 2026-08-02. If hand-editing this file with a script again,
+  double check `"version"` stays `"1.0"` after the edit.
+- `UserWalletSummaryView.swift`'s `statBox(title: String, ...)` helper
+  had exactly the recipe-item-2 verbatim-`Text` gotcha (`"Annual Fees"`/
+  `"Cards"`/`"Redeemed"` passed as raw string literals into a `String`
+  parameter, then `Text(title)`) despite this file being in a row marked
+  "✅" in the Progress table below — the table tracked file-level
+  migration passes, not this per-call-site gotcha. Worth a repo-wide
+  grep for `Text(<lowercaseIdentifier>)` where the identifier is a
+  `String` parameter, next time a "translated in the catalog but not
+  showing" report comes in for a file already marked done.
 
 ## How to resume in a new session
 

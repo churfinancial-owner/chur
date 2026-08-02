@@ -31,13 +31,13 @@ struct AccountSettingsView: View {
                 HStack {
                     Text("Name")
                     Spacer()
-                    Text(user.firstName.isEmpty ? String(localized: "Not set", locale: AppLocale.current) : user.firstName)
+                    Text(user.firstName.isEmpty ? AppLocale.string("Not set") : user.firstName)
                         .foregroundStyle(Color.churMediumGray)
                 }
                 HStack {
                     Text("Email")
                     Spacer()
-                    Text(user.email.isEmpty ? String(localized: "Not set", locale: AppLocale.current) : user.email)
+                    Text(user.email.isEmpty ? AppLocale.string("Not set") : user.email)
                         .foregroundStyle(Color.churMediumGray)
                 }
                 if isSignedIn {
@@ -123,19 +123,19 @@ struct AccountSettingsView: View {
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showDeleteAccountConfirmation) {
             DeleteAccountConfirmationSheet(
-                title: String(localized: "Delete Account", locale: AppLocale.current),
-                message: String(localized: "This will permanently delete all your cards, benefits, and cloud backup. This cannot be undone.", locale: AppLocale.current),
+                title: AppLocale.string("Delete Account"),
+                message: AppLocale.string("This will permanently delete all your cards, benefits, and cloud backup. This cannot be undone."),
                 confirmWord: "DELETE",
-                buttonLabel: String(localized: "Delete Account & All Data", locale: AppLocale.current),
+                buttonLabel: AppLocale.string("Delete Account & All Data"),
                 onConfirm: performDeleteAccount
             )
         }
         .sheet(isPresented: $showResetAllDataConfirmation) {
             DeleteAccountConfirmationSheet(
-                title: String(localized: "Reset Account", locale: AppLocale.current),
-                message: String(localized: "This will delete all your cards and preferences on this device and return you to the start. This cannot be undone.", locale: AppLocale.current),
+                title: AppLocale.string("Reset Account"),
+                message: AppLocale.string("This will delete all your cards and preferences on this device and return you to the start. This cannot be undone."),
                 confirmWord: "RESET",
-                buttonLabel: String(localized: "Reset Account", locale: AppLocale.current),
+                buttonLabel: AppLocale.string("Reset Account"),
                 onConfirm: performResetAllData
             )
         }
@@ -243,7 +243,7 @@ struct AccountSettingsView: View {
         switch result {
         case .success(let authorization):
             guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential else {
-                signInError = String(localized: "Unexpected credential type", locale: AppLocale.current)
+                signInError = AppLocale.string("Unexpected credential type")
                 return
             }
             user.appleUserID = credential.user
@@ -253,7 +253,7 @@ struct AccountSettingsView: View {
             signInError = nil
         case .failure(let error):
             if (error as? ASAuthorizationError)?.code == .canceled { return }
-            signInError = String(localized: "Sign in failed. Please try again.", locale: AppLocale.current)
+            signInError = AppLocale.string("Sign in failed. Please try again.")
         }
     }
 
@@ -266,7 +266,7 @@ struct AccountSettingsView: View {
 
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let rootVC = windowScene.windows.first?.rootViewController else {
-            signInError = String(localized: "Unable to present sign in", locale: AppLocale.current)
+            signInError = AppLocale.string("Unable to present sign in")
             return
         }
 
@@ -282,11 +282,11 @@ struct AccountSettingsView: View {
         ) { result, error in
             if let error = error {
                 if (error as NSError).code == GIDSignInError.canceled.rawValue { return }
-                signInError = String(localized: "Google sign in failed. Please try again.", locale: AppLocale.current)
+                signInError = AppLocale.string("Google sign in failed. Please try again.")
                 return
             }
             guard let googleUser = result?.user, let profile = googleUser.profile else {
-                signInError = String(localized: "Unable to get user profile", locale: AppLocale.current)
+                signInError = AppLocale.string("Unable to get user profile")
                 return
             }
             user.googleUserID = googleUser.userID ?? ""

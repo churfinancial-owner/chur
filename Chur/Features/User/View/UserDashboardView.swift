@@ -45,7 +45,7 @@ struct UserDashboardView: View {
                         }
 
                         // --- Divider 1→2 with Year Capsule ---
-                        waveDivider(label: String(localized: "Your \(selectedYear)", locale: AppLocale.current))
+                        waveDivider(label: AppLocale.string("Your \(String(selectedYear))"))
                             .padding(.top, 20)
 
                         // --- Section 3: Wallet Summary & Timeline ---
@@ -54,7 +54,7 @@ struct UserDashboardView: View {
                             .background(Color("churOffWhite"))
                         
                         // --- Divider 3→4 with Perks Capsule ---
-                        waveDivider(label: String(localized: "Your Perks", locale: AppLocale.current))
+                        waveDivider(label: AppLocale.string("Your Perks"))
                             .padding(.bottom, 16)
                         
                         // --- Section 4: Badges ---
@@ -63,7 +63,7 @@ struct UserDashboardView: View {
                             .padding(.bottom, 32)
 
                         // --- Divider 4→5 with Support Capsule ---
-                        waveDivider(label: String(localized: "Your Support", locale: AppLocale.current))
+                        waveDivider(label: AppLocale.string("Your Support"))
                             .padding(.top, 16)
                             .padding(.bottom, 16)
 
@@ -145,7 +145,7 @@ struct UserDashboardView: View {
                 HStack(alignment: .top) {
                     // Title Section
                     VStack(alignment: .leading, spacing: 0) {
-                        Text(currentUser?.firstName ?? String(localized: "User", locale: AppLocale.current))
+                        Text(currentUser?.firstName ?? AppLocale.string("User"))
                             .font(.churHero())
                             .foregroundStyle(.white)
                             .shadow(color: .black.opacity(0.2), radius: 2, x: 0, y: 1)

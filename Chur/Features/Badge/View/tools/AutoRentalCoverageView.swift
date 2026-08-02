@@ -79,14 +79,14 @@ struct AutoRentalCoverageView: View {
                         HStack(spacing: 12) {
                             if !primaryCards.isEmpty {
                                 summaryPill(
-                                    label: String(localized: "PRIMARY", locale: AppLocale.current),
+                                    label: AppLocale.string("PRIMARY"),
                                     count: primaryCards.count,
                                     color: .churOlive
                                 )
                             }
                             if !secondaryCards.isEmpty {
                                 summaryPill(
-                                    label: String(localized: "SECONDARY", locale: AppLocale.current),
+                                    label: AppLocale.string("SECONDARY"),
                                     count: secondaryCards.count,
                                     color: .orange
                                 )
@@ -231,7 +231,7 @@ struct AutoRentalCoverageView: View {
     }
 
     private var emptyState: some View {
-        EmptyStatePlaceholder(icon: "car.side", title: String(localized: "No rental coverage yet", locale: AppLocale.current), subtitle: String(localized: "Add a card with auto rental coverage to see your protection here.", locale: AppLocale.current))
+        EmptyStatePlaceholder(icon: "car.side", title: AppLocale.string("No rental coverage yet"), subtitle: AppLocale.string("Add a card with auto rental coverage to see your protection here."))
     }
 
     // MARK: - JSON Loading

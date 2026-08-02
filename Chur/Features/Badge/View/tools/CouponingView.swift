@@ -281,7 +281,7 @@ struct CouponingView: View {
     }
 
     private var emptyState: some View {
-        EmptyStatePlaceholder(icon: "scissors", title: String(localized: "No credits yet", locale: AppLocale.current), subtitle: String(localized: "Add a card with credit benefits to see them here.", locale: AppLocale.current))
+        EmptyStatePlaceholder(icon: "scissors", title: AppLocale.string("No coupons yet"), subtitle: AppLocale.string("Add a card with credit benefits to see them here."))
     }
 }
 
@@ -336,14 +336,14 @@ private enum CouponCategoryGroup: String, CaseIterable, Identifiable {
 
     var label: String {
         switch self {
-        case .dining:         return String(localized: "DINING", locale: AppLocale.current)
-        case .shopping:       return String(localized: "SHOPPING", locale: AppLocale.current)
-        case .entertainment:  return String(localized: "ENTERTAINMENT", locale: AppLocale.current)
-        case .convenience:    return String(localized: "CONVENIENCE", locale: AppLocale.current)
-        case .travel:         return String(localized: "TRAVEL", locale: AppLocale.current)
-        case .checkedBags:    return String(localized: "CHECKED BAGS", locale: AppLocale.current)
-        case .business:       return String(localized: "BUSINESS", locale: AppLocale.current)
-        case .other:          return String(localized: "OTHER", locale: AppLocale.current)
+        case .dining:         return AppLocale.string("DINING")
+        case .shopping:       return AppLocale.string("SHOPPING")
+        case .entertainment:  return AppLocale.string("ENTERTAINMENT")
+        case .convenience:    return AppLocale.string("CONVENIENCE")
+        case .travel:         return AppLocale.string("TRAVEL")
+        case .checkedBags:    return AppLocale.string("CHECKED BAGS")
+        case .business:       return AppLocale.string("BUSINESS")
+        case .other:          return AppLocale.string("OTHER")
         }
     }
 

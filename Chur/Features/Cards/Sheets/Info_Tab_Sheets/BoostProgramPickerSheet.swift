@@ -37,7 +37,7 @@ struct BoostProgramPickerSheet: View {
                 .padding()
             }
             .background(Color.churOffWhite)
-            .navigationTitle(program?.name ?? String(localized: "Relationship Boost", locale: AppLocale.current))
+            .navigationTitle(program?.name ?? AppLocale.string("Relationship Boost"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {

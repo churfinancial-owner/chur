@@ -42,36 +42,36 @@ enum FinancialStrategy: String, CaseIterable, Identifiable {
     
     var displayName: String {
         switch self {
-        case .jetsetter:    return String(localized: "Jetsetter", locale: AppLocale.current)
-        case .hotelhopper:  return String(localized: "Hotel Hopper", locale: AppLocale.current)
-        case .foodie:       return String(localized: "Foodie", locale: AppLocale.current)
-        case .sceneseeker:  return String(localized: "Scene Seeker", locale: AppLocale.current)
-        case .bonuschaser:  return String(localized: "Bonus Chaser", locale: AppLocale.current)
-        case .cashking:     return String(localized: "Cash King", locale: AppLocale.current)
-        case .optimizer:    return String(localized: "Optimizer", locale: AppLocale.current)
-        case .boss:         return String(localized: "The Boss", locale: AppLocale.current)
-        case .debtcrusher:  return String(localized: "Debt Crusher", locale: AppLocale.current)
-        case .guardian:     return String(localized: "Guardian", locale: AppLocale.current)
-        case .loyalist:     return String(localized: "Loyalist", locale: AppLocale.current)
-        case .builder:      return String(localized: "Credit Build", locale: AppLocale.current)
+        case .jetsetter:    return AppLocale.string("Jetsetter")
+        case .hotelhopper:  return AppLocale.string("Hotel Hopper")
+        case .foodie:       return AppLocale.string("Foodie")
+        case .sceneseeker:  return AppLocale.string("Scene Seeker")
+        case .bonuschaser:  return AppLocale.string("Bonus Chaser")
+        case .cashking:     return AppLocale.string("Cash King")
+        case .optimizer:    return AppLocale.string("Optimizer")
+        case .boss:         return AppLocale.string("The Boss")
+        case .debtcrusher:  return AppLocale.string("Debt Crusher")
+        case .guardian:     return AppLocale.string("Guardian")
+        case .loyalist:     return AppLocale.string("Loyalist")
+        case .builder:      return AppLocale.string("Credit Build")
 
         }
     }
 
     var tagline: String {
         switch self {
-        case .jetsetter:    return String(localized: "Flights and miles", locale: AppLocale.current)
-        case .hotelhopper:  return String(localized: "Stays, upgrades & suites", locale: AppLocale.current)
-        case .foodie:       return String(localized: "Dining, takout & experiences", locale: AppLocale.current)
-        case .sceneseeker:  return String(localized: "Shows, movies & events", locale: AppLocale.current)
-        case .bonuschaser:  return String(localized: "Welcome offers & big wins", locale: AppLocale.current)
-        case .cashking:     return String(localized: "Pure cash back, no hassle", locale: AppLocale.current)
-        case .optimizer:    return String(localized: "Everyday, every spend", locale: AppLocale.current)
-        case .boss:         return String(localized: "Scale spend & business perks", locale: AppLocale.current)
-        case .debtcrusher:  return String(localized: "Balance control & Low APR", locale: AppLocale.current)
-        case .guardian:     return String(localized: "Travel & Purchase Protection", locale: AppLocale.current)
-        case .loyalist:     return String(localized: "Brand loyal & exclusive perks", locale: AppLocale.current)
-        case .builder:      return String(localized: "Step-by-step credit growth", locale: AppLocale.current)
+        case .jetsetter:    return AppLocale.string("Flights and miles")
+        case .hotelhopper:  return AppLocale.string("Stays, upgrades & suites")
+        case .foodie:       return AppLocale.string("Dining, takout & experiences")
+        case .sceneseeker:  return AppLocale.string("Shows, movies & events")
+        case .bonuschaser:  return AppLocale.string("Welcome offers & big wins")
+        case .cashking:     return AppLocale.string("Pure cash back, no hassle")
+        case .optimizer:    return AppLocale.string("Everyday, every spend")
+        case .boss:         return AppLocale.string("Scale spend & business perks")
+        case .debtcrusher:  return AppLocale.string("Balance control & Low APR")
+        case .guardian:     return AppLocale.string("Travel & Purchase Protection")
+        case .loyalist:     return AppLocale.string("Brand loyal & exclusive perks")
+        case .builder:      return AppLocale.string("Step-by-step credit growth")
         }
     }
     

@@ -198,7 +198,7 @@ struct BankFilterPillRow: View {
             HStack(spacing: 8) {
                 // Popular Cards pill
                 BankPill(
-                    title: String(localized: "Popular", locale: AppLocale.current),
+                    title: AppLocale.string("Popular"),
                     isSelected: filterState.selectedFilter == "Popular Cards"
                 ) {
                     if filterState.selectedFilter == "Popular Cards" {
@@ -229,7 +229,7 @@ struct BankFilterPillRow: View {
                 // "Other" pill for remaining issuers
                 if hasOtherIssuers {
                     BankPill(
-                        title: String(localized: "Other", locale: AppLocale.current),
+                        title: AppLocale.string("Other"),
                         isSelected: filterState.selectedFilter == "Other"
                     ) {
                         if filterState.selectedFilter == "Other" {

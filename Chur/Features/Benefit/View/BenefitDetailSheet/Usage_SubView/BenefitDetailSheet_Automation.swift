@@ -51,7 +51,7 @@ struct BenefitDetailSheet_Automation_Content: View {
                             }
                         )) {
                             automationRowLabel(
-                                title: String(localized: "Auto-log future benefits", locale: AppLocale.current),
+                                title: AppLocale.string("Auto-log future benefits"),
                                 subtitle: autoLogSubtitle,
                                 icon: autoApplyEnabled.wrappedValue ? "bolt.fill" : "bolt.slash.fill",
                                 isActive: autoApplyEnabled.wrappedValue && canEnable
@@ -76,10 +76,10 @@ struct BenefitDetailSheet_Automation_Content: View {
                         List {
                             HStack {
                                 automationRowLabel(
-                                    title: String(localized: "Quick log prior periods", locale: AppLocale.current),
+                                    title: AppLocale.string("Quick log prior periods"),
                                     subtitle: hasMissingPeriods
                                         ? "Swipe to fill \(catchUpDates.count) periods this year"
-                                        : String(localized: "No past periods to fill this year", locale: AppLocale.current),
+                                        : AppLocale.string("No past periods to fill this year"),
                                     icon: "sparkles",
                                     isActive: hasMissingPeriods
                                 )
@@ -167,7 +167,7 @@ private extension BenefitDetailSheet_Automation_Content {
         let isOn = autoApplyEnabled?.wrappedValue ?? false
         let amount = currentPeriodUsedAmount
         guard amount > 0 else {
-            return isOn ? String(localized: "Auto-logging each period", locale: AppLocale.current) : String(localized: "Log a usage in the latest period to enable", locale: AppLocale.current)
+            return isOn ? AppLocale.string("Auto-logging each period") : AppLocale.string("Log a usage in the latest period to enable")
         }
         let symbol = valueCurrency ?? ""
         if isValueBased {

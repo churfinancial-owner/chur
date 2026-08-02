@@ -144,7 +144,7 @@ private extension BenefitDetailSheet_LogUsage_Content {
                             countToLog = 1
                         }
                     } label: {
-                        Text(year == currentCalendarYear ? String(localized: "CURRENT", locale: AppLocale.current) : String(year))
+                        Text(year == currentCalendarYear ? AppLocale.string("CURRENT") : String(year))
                             .font(.churBadgeBold())
                             // Unified: Text stays a neutral dark/medium gray
                             .foregroundStyle(isSelected ? Color.churDarkGray : Color.churMediumGray)
@@ -260,7 +260,7 @@ private extension BenefitDetailSheet_LogUsage_Content {
         VStack(spacing: 20) {
             headerValueView(value: "\(countToLog)", suffix: countToLog == 1 ? "use" : "uses")
             Stepper("", value: $countToLog, in: 1...99).labelsHidden()
-            actionButton(label: String(localized: "Log Usage", locale: AppLocale.current)) {
+            actionButton(label: AppLocale.string("Log Usage")) {
                 if isCurrentPeriod { onLogUsage?(countToLog) }
                 else { onLogUsageAt?(countToLog, selectedPeriodDate) }
             }
@@ -286,7 +286,7 @@ private extension BenefitDetailSheet_LogUsage_Content {
         return VStack(spacing: 20) {
             headerValueView(value: "\(countToLog)", suffix: "uses", isExhausted: isExhausted)
             Stepper("", value: $countToLog, in: 1...max(1, localRemaining)).labelsHidden().disabled(isExhausted)
-            actionButton(label: isExhausted ? String(localized: "Fully Redeemed", locale: AppLocale.current) : "Log \(countToLog) Uses", isActive: !isExhausted) {
+            actionButton(label: isExhausted ? AppLocale.string("Fully Redeemed") : "Log \(countToLog) Uses", isActive: !isExhausted) {
                 if isCurrentPeriod { onLogUsage?(countToLog) }
                 else { onLogUsageAt?(countToLog, selectedPeriodDate) }
             }

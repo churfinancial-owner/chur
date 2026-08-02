@@ -16,9 +16,9 @@ struct OnboardingWelcomeStep: View {
 
     private typealias CardData = (color: Color, issuer: String, name: String, rate: String, category: String, credit: String)
     private let cards: [CardData] = [
-        (.churChase, "My Bank", "Diamond", "3x", "Dining", "$300 Travel Credits"),
-        (.churAmex,  "Piggy Bank",    "Card #26",    "4x", "Groceries", "$15 Streaming Credits"),
-        (.churGold,  "CHUR",    "Best card", "5x", "This location", "$100 Dining Credits"),
+        (.churChase, AppLocale.string("My Bank"), AppLocale.string("Diamond"), "3x", AppLocale.string("Dining"), AppLocale.string("$300 Travel Credits")),
+        (.churAmex,  AppLocale.string("Piggy Bank"), AppLocale.string("Card #26"), "4x", AppLocale.string("Groceries"), AppLocale.string("$15 Streaming Credits")),
+        (.churGold,  "CHUR", AppLocale.string("Best card"), "5x", AppLocale.string("This location"), AppLocale.string("$100 Dining Credits")),
     ]
 
     var body: some View {
@@ -76,9 +76,9 @@ struct OnboardingWelcomeStep: View {
                     
                     // --- Neatly Listed Features (Cute, Centered Cards) ---
                     VStack(alignment: .center, spacing: 10) {
-                        FeatureRowOnboarding(icon: "📍", text: String(localized: "Suggest the best card for every purchase", locale: AppLocale.current))
-                        FeatureRowOnboarding(icon: "🎁", text: String(localized: "Track and maximize your card benefits", locale: AppLocale.current))
-                        FeatureRowOnboarding(icon: "🔧", text: String(localized: "Access quick tools to boost perks", locale: AppLocale.current))
+                        FeatureRowOnboarding(icon: "📍", text: AppLocale.string("Suggest the best card for every purchase"))
+                        FeatureRowOnboarding(icon: "🎁", text: AppLocale.string("Track and maximize your card benefits"))
+                        FeatureRowOnboarding(icon: "🔧", text: AppLocale.string("Access quick tools to boost perks"))
                     }
                     .padding(.horizontal, 28)
                 }

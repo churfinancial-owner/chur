@@ -49,6 +49,15 @@ enum AppLocale {
         resolve(activeLanguage)
     }
 
+    /// Looks up `key` in the app's String Catalog for `current`, bypassing a bug in
+    /// `String(localized:locale:)` where passing an explicit `locale:` silently falls back
+    /// to the source-language string instead of resolving the matching `.lproj` bundle.
+    /// `LocalizedStringResource` with an explicit `bundle: .atURL(...)` does not have this
+    /// bug, so route every explicit-locale lookup through it instead.
+    static func string(_ key: String.LocalizationValue, table: String? = nil, comment: StaticString? = nil) -> String {
+        String(localized: LocalizedStringResource(key, table: table, locale: current, bundle: .atURL(Bundle.main.bundleURL)))
+    }
+
     /// Resolves the effective Locale for a given user override, falling back to
     /// the device locale when the override is `.system`.
     static func resolve(_ override: AppLanguage) -> Locale {

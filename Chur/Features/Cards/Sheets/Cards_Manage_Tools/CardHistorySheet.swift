@@ -62,8 +62,8 @@ struct CardHistorySheet: View {
                 if nodes.isEmpty {
                     EmptyStatePlaceholder(
                         icon: "clock.arrow.circlepath",
-                        title: String(localized: "No Card History", locale: AppLocale.current),
-                        subtitle: String(localized: "As you add, cancel, or product-change cards, your timeline shows up here.", locale: AppLocale.current)
+                        title: AppLocale.string("No Card History"),
+                        subtitle: AppLocale.string("As you add, cancel, or product-change cards, your timeline shows up here.")
                     )
                 } else {
                     ScrollView {
