@@ -32,10 +32,24 @@ deferred, Phase 7 = docs).
   key). Currently only `zh-Hant-HK` has translations populated.
 - **Project config**: `zh-Hant-HK` registered in `Chur.xcodeproj/project.pbxproj`
   (`knownRegions`) and `Chur/Info.plist` (`CFBundleLocalizations`).
-- **`Benefit.localized` / `SpendingCategory.name*`** (pre-existing
-  model-content localization) now resolve through `AppLocale` instead of
+- **`Benefit.localized` / `SpendingCategory.name*` / `Badge.displayName`**
+  (model-content localization) all resolve through `AppLocale` instead of
   independently branching on `Locale.current` — see
-  `Benefit_LocalizedStrings.swift` / `SpendingCategory.swift`.
+  `Benefit_LocalizedStrings.swift` / `SpendingCategory.swift` / `Badge.swift`.
+  **`Badge.swift` was missed in the original Phase 2 pass** (only Benefit
+  and SpendingCategory were migrated at the time — Badge wasn't yet
+  identified as in-scope) and kept reading `Locale.current` directly until
+  caught later; see "Known-fixed bugs" below. **When migrating a new
+  feature, always check its `DataModel`/model files for `Locale.current`
+  usage, not just its View files** — a feature's data layer is easy to
+  overlook since it doesn't show up in a grep for `Text(`/`Label(` etc.
+- **Audited (this session): every remaining `Locale.current` reference
+  in the codebase is for `.region`** (currency/country detection in
+  `RegionDatabase`, `EarningRatesSection`, `EarningPowerTabViewModel`,
+  `ParentCategoryPopup`) — a legitimately separate, independently
+  user-configurable axis (Region & Currency setting vs. Language
+  setting), not a language-resolution bug. No other Badge-style misses
+  found as of `b36adf4`.
 
 ## How a string gets migrated (the recipe)
 
@@ -112,19 +126,24 @@ deferred, Phase 7 = docs).
    `CardInfoContentView_CardInformationSection.cardTypeDisplayLabel(for:)`,
    `FinancialStrategy.displayName`/`.tagline`. `networkOptionLabel` (Visa,
    Mastercard, etc.) was deliberately left alone — proper nouns.
-4. **Interpolated `Text("... \(x) ...")` / alert messages** — **deliberately
-   deferred, not hand-authored.** Xcode's String Catalog stores these with a
-   `substitutions` structure keyed by argument position, which is easy to
-   get subtly wrong by hand (no Xcode/xcodebuild available in this
-   container to verify). Every occurrence found so far has been left
-   alone and is tracked as a follow-up requiring a real Xcode build to
-   auto-extract correctly. Examples: "Reset to default (\(value))",
-   "Are you sure you want to delete \(card.name)?...", "Saved \(date)",
-   "\(rate) \(category) ✨".
+4. **Interpolated `Text("... \(x) ...")` / alert messages** — for a
+   *single*-argument interpolation, it's safe to hand-write: wrap in
+   `String(localized: "Text \(x) more text", locale: AppLocale.current)`
+   and add the resulting key (Swift converts `\(x)` to `%@`/`%lld`/etc.
+   automatically — e.g. `"Your \(selectedYear)"` → catalog key
+   `"Your %lld"`). For *multi*-argument interpolations, the catalog needs
+   positional specifiers (`%1$@`, `%2$@`, ...) that are easy to get wrong
+   by hand without Xcode's own extraction to verify against (no
+   Xcode/xcodebuild in this container) — defer those specifically rather
+   than guess the numbering. Most single- and multi-argument strings from
+   the original migration pass were later filled in after Pak Ho's local
+   Xcode build re-extracted the whole project correctly (see Progress) —
+   only a few Debug-only/News ones remain unfilled by design.
 5. **Pluralized counts** ("1 card" vs "N cards", "N benefit(s)", "N day(s)")
    — needs a stringsdict-style plural variation in the catalog (Chinese has
    no plural forms, so the fallback English pattern doesn't translate
-   1:1). Not yet done anywhere — flagged at each occurrence, not migrated.
+   1:1). Still not done anywhere — requires Xcode's plural-variation UI,
+   not a plain string substitution; flagged at each occurrence, not migrated.
 6. **Proper nouns** — card names, merchant names, network names (Visa/
    Mastercard/...), product names ("Google Drive") — never translated,
    consistent with the project's existing card/merchant convention.
@@ -160,7 +179,7 @@ backup sync (`ChurBackup.currentVersion = 2`).
 
 **String migration (Phase 4): complete except News (explicitly out of
 scope — not shipping in this MVP).**
-Catalog currently has **563 keys** (`zh-Hant-HK` only) — grew from 432
+Catalog currently has **566 keys** (`zh-Hant-HK` only) — grew from 432
 after Pak Ho did a real Xcode build locally (this container has no
 Xcode/xcodebuild) and pushed the result: Xcode re-extracted the whole
 project and correctly generated `%1$@`/`%2$@`-style positional format
@@ -225,14 +244,15 @@ Two adjacent files outside the Features tree were also touched because a Feature
   missing `locale: AppLocale.current`, then (once that was fixed) hit
   the `String(localized:locale:)` runtime bug described in recipe item
   2 — see there for the full history. All now use `AppLocale.string(...)`.
-- `Localizable.xcstrings`'s top-level `"version"` field was accidentally
-  bumped from `"1.0"` to `"1.1"` in commit `771ba56` ("localization
-  update") and stayed that way for several commits. `"1.1"` is not a
-  schema version Xcode's String Catalog compiler recognizes (Xcode only
-  ever writes `"1.0"`) — while it didn't error the build, it's suspected
-  to have contributed to translations silently not applying. Reverted to
-  `"1.0"` on 2026-08-02. If hand-editing this file with a script again,
-  double check `"version"` stays `"1.0"` after the edit.
+- `Localizable.xcstrings`'s top-level `"version"` field oscillated
+  between `"1.0"` and `"1.1"` across several commits/sessions — this
+  was chased as a suspected bug at one point, but is **not** one:
+  different Xcode versions normalize this field differently on save
+  (confirmed by watching Pak Ho's own Xcode rewrite it back to `"1.1"`
+  after a manual edit to `"1.0"`), and translations work correctly
+  either way. Don't hand-edit this field or treat its value as
+  meaningful; whatever Xcode's String Catalog editor writes on save is
+  correct for that machine.
 - `UserWalletSummaryView.swift`'s `statBox(title: String, ...)` helper
   had exactly the recipe-item-2 verbatim-`Text` gotcha (`"Annual Fees"`/
   `"Cards"`/`"Redeemed"` passed as raw string literals into a `String`
@@ -241,22 +261,42 @@ Two adjacent files outside the Features tree were also touched because a Feature
   migration passes, not this per-call-site gotcha. Worth a repo-wide
   grep for `Text(<lowercaseIdentifier>)` where the identifier is a
   `String` parameter, next time a "translated in the catalog but not
-  showing" report comes in for a file already marked done.
+  showing" report comes in for a file already marked done. This turned
+  out to be exactly the "ANNUAL FEES / CARDS / REDEEMED untranslated"
+  report Pak Ho raised — confirmed and fixed on-device 2026-08-02 (see
+  above), not the `YearDetailSheet.swift` `.hidden()` badges or the
+  `MonthDetailSheet.swift` stat pills, which were both already fine.
+- `Badge.swift`'s `displayName`/`displayDescription` read `Locale.current`
+  directly instead of going through `AppLocale` — see the new Architecture
+  bullet above. Fixed in `b36adf4`; also wrapped `BadgeCategory.displayName`
+  ("Lifestyle"/"Travel"/"Protections"), which was a bare hardcoded switch
+  never localized at all. `BadgeTier.displayName` ("Locked"/"I"/"II"/"III")
+  was checked and left alone — confirmed unused for display (`BadgeCard`
+  only reads `tier.rawValue` for the progress dots).
+- `AppLocale.string(...)` (like `String(localized:)` before it) supports
+  string interpolation directly — you do **not** need to strip
+  interpolation out and defer it. E.g. `AppLocale.string("Your
+  \(selectedYear)")` produces a proper `"Your %lld"` catalog key, same
+  shape Xcode's own extraction produces. Only defer a string if you
+  can't safely hand-write its catalog key by inspection (multi-argument
+  interpolations, since the positional numbering — `%1$@`, `%2$@` — is
+  easy to get wrong by hand).
 
 ## How to resume in a new session
 
 Phase 4's file-by-file migration is done except News (skipped by user
 decision). What's left is follow-up work, in rough priority order:
 
-1. **Interpolated strings and pluralized counts** — every migrated file
-   above has some deferred (see recipe items 4-5): "Reset to default
-   (\(value))", "Are you sure you want to delete \(name)?", "N card(s)",
-   "N use(s)", date-formatted subtitles, etc. This needs an actual Xcode
-   build (not available in this container) to let Xcode auto-extract the
-   correct `substitutions`/plural-variation structure into
-   `Localizable.xcstrings`, then translate each. Do this on a machine
-   with Xcode: open the project, build, open the String Catalog editor,
-   fill in `zh-Hant-HK` for every row still marked "New".
+1. **Remaining pluralized counts** — most interpolated strings were
+   resolved this session (Xcode's real build extracted them correctly
+   with `%1$@`/`%2$@` positional specifiers, and nearly all got
+   translated — see Progress above). What's left is specifically
+   **plural-variation strings** ("1 card" vs "N cards", "N benefit(s)",
+   "N day(s)", "N Entry/Entries") — Chinese has no plural forms, so
+   these need the catalog's plural-category variation UI in Xcode
+   (device categories: one/other), not a plain string substitution.
+   Also worth a spot-check in Xcode for any row still marked "New" —
+   run a build, open the String Catalog editor, filter by state.
 2. **Phase 5 — Benefit JSON content**: translate the 268
    `Chur/Resources/json/benefits/**/*.json` files' `localized["zh-Hant-HK"]`
    entries (pure content work, prioritize by most-held cards' benefits
