@@ -114,8 +114,9 @@ deferred, Phase 7 = docs).
 registered, `AppLocale` seam, `User.languagePreference` + Settings UI +
 backup sync (`ChurBackup.currentVersion = 2`).
 
-**String migration (Phase 4): in progress, feature-by-feature.**
-Catalog currently has **410 keys** (`zh-Hant-HK` only). Done, in order:
+**String migration (Phase 4): complete except News (explicitly out of
+scope — not shipping in this MVP).**
+Catalog currently has **432 keys** (`zh-Hant-HK` only). Done, in order:
 
 | Area | Files | Status |
 |---|---|---|
@@ -128,20 +129,16 @@ Catalog currently has **410 keys** (`zh-Hant-HK` only). Done, in order:
 | Badge (7 perk tools — Auto Rental, Car Rental, Cell Phone, Couponing, Hotel Status, Lounge Access, Trusted Traveler — + Transfer Partners + collection section) | 9 | ✅ |
 | Home (category picker, Earning Power tab, Nearby state views) — `Parallaxheaderview.swift` needed no changes (all data-driven) | 6 | ✅ |
 | Search (merchant detail popup, map/search view) — `NearbyMapPin`/`NearbyPlaceRow`/`OnlineMerchantRow` needed no changes (all data-driven) | 5 | ✅ |
+| CardRecommendations (floating button, stack overlay, recommended card view) | 3 | ✅ |
+| Core/RewardComponents (`EarningRatesSection.swift`, `RatePopupComponents.swift` — shared tile/row components used by both Cards and Home/CardRecommendations popups) | 2 | ✅ |
+| Core/SignIn (`GoogleSignInButton.swift`) | 1 | ✅ |
+| Core/CardSearchBar (`CardPickerCoreView.swift`) | 1 | ✅ |
 
-One adjacent file outside the Features tree was also touched because a Feature view called into it: `Chur/Features/Home/ViewModel/CategoryPickerViewModel.swift` (`cycleButtonLabel`) — same displayName-separation fix as `FinancialStrategy`. `Chur/Core/RewardComponents/RatePopupComponents.swift`'s `HeaderCapsuleBubble` itself (the `Text(text)` verbatim site) was **not** touched — only its callers' literal args were wrapped; still needs its own pass when Core/RewardComponents comes up.
+Two adjacent files outside the Features tree were also touched because a Feature view called into them: `Chur/Features/Home/ViewModel/CategoryPickerViewModel.swift` (`cycleButtonLabel`) and `Chur/Features/CardRecommendations/DataModel/CardRecommendation.swift`'s `BonusRating` (checked, needed no change — `displayText` is star-emoji glyphs, no words).
 
-**Remaining (~12 files, not started):**
-
-| Area | Files |
-|---|---|
-| News | 5 |
-| CardRecommendations | 3 |
-| Core/RewardComponents (`EarningRatesSection.swift`, `RatePopupComponents.swift`) | 2 |
-| Core/SignIn (`GoogleSignInButton.swift`) | 1 |
-| Core/CardSearchBar (`CardPickerCoreView.swift`) | 1 |
-
-Excluded from scope entirely: `Chur/Debug/*` (5 files, dev-only tooling).
+**Explicitly out of scope (user decision, not a migration gap):**
+- **News** (5 files) — feature isn't shipping in this MVP, skip entirely.
+- `Chur/Debug/*` (5 files) — dev-only tooling, per policy.
 
 **Not started at all:**
 - **Phase 5 — Benefit JSON content**: all 268 files in
@@ -158,20 +155,30 @@ Excluded from scope entirely: `Chur/Debug/*` (5 files, dev-only tooling).
 
 ## How to resume in a new session
 
-1. Check out `claude/app-localization-setup-mzadsw` (already the active
-   branch — don't create a new one unless this PR has since merged).
-2. Pick the next feature from the "Remaining" table (News and
-   CardRecommendations are next; the last few are single-file areas).
-3. For each file: read it in full, classify every `Text`/`Label`/`Button`/
-   `.navigationTitle`/`Toggle`/`Section`/`.alert`/`TextField` literal
-   against the 8 recipe categories above, apply code edits (recipe #2/#3)
-   where needed, then batch-add catalog entries via a small Python script
-   (see commit history for the pattern — `git log --oneline` on this
-   branch shows one commit per feature migrated).
-4. Verify: JSON validity (`python3 -c "import json; json.load(open(...))"`),
-   exact-literal cross-check against source (`grep -oE '"[^"]*"'` per file,
-   diff against new catalog keys), and paren/brace balance on every edited
-   Swift file (no Xcode/xcodebuild available in this container to
-   compile-check).
-5. Commit per feature (not one giant commit) — matches the existing
-   history and makes review/rollback easy. Push after each.
+Phase 4's file-by-file migration is done except News (skipped by user
+decision). What's left is follow-up work, in rough priority order:
+
+1. **Interpolated strings and pluralized counts** — every migrated file
+   above has some deferred (see recipe items 4-5): "Reset to default
+   (\(value))", "Are you sure you want to delete \(name)?", "N card(s)",
+   "N use(s)", date-formatted subtitles, etc. This needs an actual Xcode
+   build (not available in this container) to let Xcode auto-extract the
+   correct `substitutions`/plural-variation structure into
+   `Localizable.xcstrings`, then translate each. Do this on a machine
+   with Xcode: open the project, build, open the String Catalog editor,
+   fill in `zh-Hant-HK` for every row still marked "New".
+2. **Phase 5 — Benefit JSON content**: translate the 268
+   `Chur/Resources/json/benefits/**/*.json` files' `localized["zh-Hant-HK"]`
+   entries (pure content work, prioritize by most-held cards' benefits
+   first if a usage signal is available).
+3. **Business-logic-coupled labels deferred during migration** — e.g.
+   `ParentCategoryPopup.headerLabel` ("GENERAL CATEGORY"/"SUB-CATEGORY"),
+   `CardTypeSelector`/`RegionSelector` filter options — each needs a
+   proper identifier/display-label split (like `cardTypeDisplayLabel`)
+   before it can be translated safely.
+4. If News ships later after all: same recipe as every other feature —
+   read each file, classify every literal against the 8 categories
+   above, wrap verbatim sites, batch-add catalog entries, verify
+   (JSON validity + exact-literal cross-check + paren/brace balance —
+   no Xcode/xcodebuild in this container to compile-check), commit per
+   feature.
