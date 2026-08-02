@@ -244,12 +244,12 @@ struct BenefitsListContentView: View {
                 // MARK: - Content
                 VStack(spacing: 0) {
                     if card.benefits.isEmpty {
-                        emptyStateView(message: "No benefits available.")
+                        emptyStateView(message: String(localized: "No benefits available."))
                     } else if filteredBenefits.isEmpty {
                         emptyStateView(message: selectedFrequency?.lowercased() == "expiring"
-                            ? "No benefits in their expiry warning window."
+                            ? String(localized: "No benefits in their expiry warning window.")
                             : selectedFrequency?.lowercased() == "available"
-                            ? "All benefits have been fully redeemed."
+                            ? String(localized: "All benefits have been fully redeemed.")
                             : "No \(selectedFrequency?.lowercased() ?? "") perks found."
                         )
                     } else {

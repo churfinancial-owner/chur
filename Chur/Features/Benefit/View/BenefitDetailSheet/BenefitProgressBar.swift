@@ -221,7 +221,7 @@ struct BenefitProgressBar: View {
         } else {
             let yearUsage = usageHistory.filter { calendar.component(.year, from: $0.redeemedAt) == selectedYear }.reduce(0) { $0 + $1.redeemedAmount }
             let isFull = yearUsage > 0 && (!isValueBased || yearUsage >= (periodBudget ?? 0))
-            return (freq == "one-time" ? "One-Time" : String(selectedYear), yearUsage, isFull)
+            return (freq == "one-time" ? String(localized: "One-Time") : String(selectedYear), yearUsage, isFull)
         }
     }
     
@@ -231,7 +231,7 @@ struct BenefitProgressBar: View {
         } else if let budget = periodBudget {
             return "\(used) of \(budget)"
         } else {
-            return used > 0 ? "\(used) use\(used == 1 ? "" : "s")" : "No Records"
+            return used > 0 ? "\(used) use\(used == 1 ? "" : "s")" : String(localized: "No Records")
         }
     }
 }

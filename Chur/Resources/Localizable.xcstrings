@@ -21,6 +21,26 @@
         }
       }
     },
+    "ALL" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部"
+          }
+        }
+      }
+    },
+    "AMOUNT TO RECORD" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄金額"
+          }
+        }
+      }
+    },
     "ANNUAL FEE" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -57,6 +77,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "批核日期"
+          }
+        }
+      }
+    },
+    "AUTO" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自動"
+          }
+        }
+      }
+    },
+    "AUTOMATION" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自動化"
           }
         }
       }
@@ -167,6 +207,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "全部"
+          }
+        }
+      }
+    },
+    "All benefits have been fully redeemed." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有優惠已全部兌換。"
           }
         }
       }
@@ -297,6 +347,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "自動偵測"
+          }
+        }
+      }
+    },
+    "Auto-log future benefits" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自動記錄未來優惠"
+          }
+        }
+      }
+    },
+    "Auto-logging each period" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每期自動記錄"
           }
         }
       }
@@ -441,6 +511,16 @@
         }
       }
     },
+    "Benefits show up here when they enter their reminder window with value left to use." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "當優惠進入提醒期間並仍有剩餘價值時，會顯示在這裡。"
+          }
+        }
+      }
+    },
     "Bonus Categories" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -491,6 +571,16 @@
         }
       }
     },
+    "By Frequency" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按頻率"
+          }
+        }
+      }
+    },
     "By Health" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -537,6 +627,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "選擇你的理財風格"
+          }
+        }
+      }
+    },
+    "CURRENT" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目前"
           }
         }
       }
@@ -931,6 +1031,16 @@
         }
       }
     },
+    "Delete Records?" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除記錄？"
+          }
+        }
+      }
+    },
     "Dining, takout & experiences" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -1041,6 +1151,16 @@
         }
       }
     },
+    "Expiring Soon" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "即將到期"
+          }
+        }
+      }
+    },
     "FEE" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -1137,6 +1257,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "海外交易手續費"
+          }
+        }
+      }
+    },
+    "Fully Redeemed" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已全部兌換"
           }
         }
       }
@@ -1311,6 +1441,16 @@
         }
       }
     },
+    "LOG HISTORY" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄歷史"
+          }
+        }
+      }
+    },
     "Language" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -1361,6 +1501,26 @@
         }
       }
     },
+    "Log Usage" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄使用"
+          }
+        }
+      }
+    },
+    "Log a usage in the latest period to enable" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在最新期間記錄一次使用以啟用"
+          }
+        }
+      }
+    },
     "Loss" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -1377,6 +1537,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "品牌忠實客"
+          }
+        }
+      }
+    },
+    "MANUAL" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "手動"
           }
         }
       }
@@ -1481,12 +1651,62 @@
         }
       }
     },
+    "No Records" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有記錄"
+          }
+        }
+      }
+    },
+    "No activity for this period" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此期間沒有活動記錄"
+          }
+        }
+      }
+    },
+    "No benefits available." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有可用的優惠。"
+          }
+        }
+      }
+    },
+    "No benefits in their expiry warning window." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有優惠處於到期提醒期間。"
+          }
+        }
+      }
+    },
     "No cards found" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "找不到卡片"
+          }
+        }
+      }
+    },
+    "No past periods to fill this year" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今年沒有過往期間需要填寫"
           }
         }
       }
@@ -1537,6 +1757,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未設定"
+          }
+        }
+      }
+    },
+    "Nothing expiring soon" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有即將到期的優惠"
           }
         }
       }
@@ -1621,6 +1851,16 @@
         }
       }
     },
+    "One-Time" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一次性"
+          }
+        }
+      }
+    },
     "Open Settings" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -1667,6 +1907,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "積分價值"
+          }
+        }
+      }
+    },
+    "PREFERENCES" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "偏好設定"
+          }
+        }
+      }
+    },
+    "PROGRESS" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "進度"
           }
         }
       }
@@ -1831,6 +2091,46 @@
         }
       }
     },
+    "Quick Filters" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快速篩選"
+          }
+        }
+      }
+    },
+    "Quick Log" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快速記錄"
+          }
+        }
+      }
+    },
+    "Quick log prior periods" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快速記錄過往期間"
+          }
+        }
+      }
+    },
+    "RECORD USAGE" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記錄使用"
+          }
+        }
+      }
+    },
     "REDEEMED" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -1977,6 +2277,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "提醒時間表"
+          }
+        }
+      }
+    },
+    "Reminders" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提醒"
+          }
+        }
+      }
+    },
+    "Reminders silenced" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提醒已靜音"
           }
         }
       }
@@ -2591,12 +2911,52 @@
         }
       }
     },
+    "Unchecking will delete all records in this period." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取消勾選將刪除此期間的所有記錄。"
+          }
+        }
+      }
+    },
     "Unexpected credential type" : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "未預期的登入憑證類型"
+          }
+        }
+      }
+    },
+    "Unlock" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解鎖"
+          }
+        }
+      }
+    },
+    "Unlock Benefit?" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解鎖優惠？"
+          }
+        }
+      }
+    },
+    "Unlock to start tracking." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解鎖以開始追蹤。"
           }
         }
       }
@@ -2761,6 +3121,16 @@
         }
       }
     },
+    "You'll be reminded before this expires" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "到期前你會收到提醒"
+          }
+        }
+      }
+    },
     "Your Google account has a saved backup. Choose whether to restore it or keep the data currently on this device." : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -2857,6 +3227,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你的錢包，你的故事。"
+          }
+        }
+      }
+    },
+    "⏰ EXPIRING" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⏰ 即將到期"
+          }
+        }
+      }
+    },
+    "✅ AVAILABLE" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "✅ 可用"
           }
         }
       }

@@ -114,7 +114,7 @@ struct BenefitCheckboxRow: View {
             }
             Button("Cancel", role: .cancel) { }
         } message: {
-            Text(benefit.activationInstructions ?? "Unlock to start tracking.")
+            Text(benefit.activationInstructions ?? String(localized: "Unlock to start tracking."))
         }
         .alert("Delete Records?", isPresented: $showingWipeConfirmation) {
             Button("Delete", role: .destructive) { viewModel?.reverseUsage() }
