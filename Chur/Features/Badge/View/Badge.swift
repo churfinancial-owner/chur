@@ -27,26 +27,29 @@ struct Badge: Codable, Identifiable, Hashable {
     let detectionRules: [BadgeRule]
     
     var displayName: String {
-        switch localePriority {
-        case "HK": return nameZH_HK
-        case "TW": return nameZH_TW
-        case "zh": return nameZH_Hans
-        default:   return nameEN
+        for key in AppLocale.localePriorityKeys(for: AppLocale.current) {
+            switch key {
+            case "zh-Hant-HK": return nameZH_HK
+            case "zh-Hant-TW": return nameZH_TW
+            case "zh-Hans":    return nameZH_Hans
+            case "en":         return nameEN
+            default: continue
+            }
         }
+        return nameEN
     }
 
     var displayDescription: String {
-        switch localePriority {
-        case "HK": return descriptionZH_HK
-        case "TW": return descriptionZH_TW
-        case "zh": return descriptionZH_Hans
-        default:   return descriptionEN
+        for key in AppLocale.localePriorityKeys(for: AppLocale.current) {
+            switch key {
+            case "zh-Hant-HK": return descriptionZH_HK
+            case "zh-Hant-TW": return descriptionZH_TW
+            case "zh-Hans":    return descriptionZH_Hans
+            case "en":         return descriptionEN
+            default: continue
+            }
         }
-    }
-
-    private var localePriority: String {
-        guard Locale.current.language.languageCode?.identifier == "zh" else { return "en" }
-        return Locale.current.region?.identifier ?? "zh"
+        return descriptionEN
     }
     
     // Use icon if available, fallback to emoji
@@ -64,11 +67,11 @@ enum BadgeCategory: String, Codable {
     var displayName: String {
         switch self {
         case .lifestyle:
-            return "Lifestyle"
+            return String(localized: "Lifestyle", locale: AppLocale.current)
         case .travelAccess:
-            return "Travel"
+            return String(localized: "Travel", locale: AppLocale.current)
         case .protections:
-            return "Protections"
+            return String(localized: "Protections", locale: AppLocale.current)
         }
     }
 }

@@ -2696,6 +2696,16 @@
         }
       }
     },
+    "Lifestyle" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "生活品味"
+          }
+        }
+      }
+    },
     "Light Theme" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -3717,6 +3727,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "推廣"
+          }
+        }
+      }
+    },
+    "Protections" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保障"
           }
         }
       }
