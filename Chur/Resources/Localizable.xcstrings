@@ -1701,6 +1701,16 @@
         }
       }
     },
+    "Here's your best card here." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這是你在這裡的最佳卡片。"
+          }
+        }
+      }
+    },
     "Hotel Hopper" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -1727,6 +1737,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "使用中"
+          }
+        }
+      }
+    },
+    "In-Store" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "實體店"
           }
         }
       }
@@ -2347,6 +2367,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "一次性"
+          }
+        }
+      }
+    },
+    "Online" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "網上"
           }
         }
       }
@@ -3061,6 +3091,16 @@
         }
       }
     },
+    "Search" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜尋"
+          }
+        }
+      }
+    },
     "Search Failed" : {
       "localizations" : {
         "zh-Hant-HK" : {
@@ -3091,12 +3131,42 @@
         }
       }
     },
+    "Search nearby..." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜尋附近……"
+          }
+        }
+      }
+    },
+    "Search online..." : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜尋網上……"
+          }
+        }
+      }
+    },
     "Search partners..." : {
       "localizations" : {
         "zh-Hant-HK" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "搜尋夥伴……"
+          }
+        }
+      }
+    },
+    "Search this area" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜尋此區域"
           }
         }
       }
@@ -3207,6 +3277,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "分享你的錢包"
+          }
+        }
+      }
+    },
+    "Shop Now" : {
+      "localizations" : {
+        "zh-Hant-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即選購"
           }
         }
       }

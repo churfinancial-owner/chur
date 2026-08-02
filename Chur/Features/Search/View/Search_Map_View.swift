@@ -235,7 +235,7 @@ struct NearbyPlacesListView: View {
     
     private var searchThisAreaButton: some View {
         let query = vm.searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-        let buttonLabel = query.isEmpty ? "Search this area" : "Search \"\(query)\" here"
+        let buttonLabel = query.isEmpty ? String(localized: "Search this area") : "Search \"\(query)\" here"
         
         return Button {
             triggerSearch()
