@@ -49,9 +49,21 @@ deferred, Phase 7 = docs).
    variable, computed property, `@State`, or a custom view's `String`
    parameter before reaching `Text(...)`, SwiftUI uses the *verbatim*
    `Text(StringProtocol)` initializer, which does **not** look up the
-   catalog. Fix: wrap the literal in `String(localized: "...")` at the
-   point it's first assigned/passed — not at the `Text()` call site. This
-   has hit: computed properties returning conditional strings
+   catalog. Fix: wrap the literal in
+   `String(localized: "...", locale: AppLocale.current)` at the point
+   it's first assigned/passed — not at the `Text()` call site. **Always
+   pass `locale: AppLocale.current` explicitly — never bare
+   `String(localized: "...")`.** `String(localized:)` defaults its
+   `locale:` parameter to `Locale.current` (the device's *system*
+   language) and does **not** participate in SwiftUI's
+   `.environment(\.locale, ...)` the way a literal `Text("...")` does.
+   A first pass of this migration used the bare form everywhere, which
+   quietly ignored the in-app Language override for every one of those
+   ~170 call sites (they'd only look translated if the device's system
+   language happened to already match) — caught only once Xcode's real
+   build flagged the mismatch. Already fixed project-wide; keep the
+   `locale:` argument on every future occurrence of this pattern.
+   Hit so far: computed properties returning conditional strings
    (`footerText`, `greeting`, `lastSyncedAtText`, `headerSubtitle`,
    `rewardPlanDisplay`, `boostDisplay`), custom component params
    (`RatePill`/`BankPill`/`DetailRow`/`CardSectionHeader`/
@@ -116,7 +128,14 @@ backup sync (`ChurBackup.currentVersion = 2`).
 
 **String migration (Phase 4): complete except News (explicitly out of
 scope — not shipping in this MVP).**
-Catalog currently has **432 keys** (`zh-Hant-HK` only). Done, in order:
+Catalog currently has **563 keys** (`zh-Hant-HK` only) — grew from 432
+after Pak Ho did a real Xcode build locally (this container has no
+Xcode/xcodebuild) and pushed the result: Xcode re-extracted the whole
+project and correctly generated `%1$@`/`%2$@`-style positional format
+specifiers plus auto-generated context comments for every interpolated
+string this migration had deferred by hand. Most of those got
+translated (by Pak Ho and in a follow-up pass here); a few Debug-only
+and News ones are still untranslated by design. Done, in order:
 
 | Area | Files | Status |
 |---|---|---|
@@ -149,9 +168,30 @@ Two adjacent files outside the Features tree were also touched because a Feature
   is the reference for what "done" looks like.
 - **Phase 6 — Cards/Merchants proper nouns**: deliberately deferred, no
   schema change planned.
-- **Interpolated strings / pluralized counts** flagged throughout the
-  migrated files above (see recipe items 4-5) — need a real Xcode build
-  pass to auto-extract correctly rather than hand-authoring.
+- A handful of interpolated strings only found via Xcode's real
+  extraction remain untranslated by design: Debug-only ones
+  (`Chur/Debug/*`, `View_CardAnalysisRow.swift`) and News's
+  `"Spend %@ • Fee %@"` (News out of scope). Everything else Xcode
+  extracted got translated.
+- **Business-logic-coupled labels** flagged during migration still need
+  a proper display-label split before they can be translated safely —
+  see recipe item 3. Known instances: `ParentCategoryPopup.headerLabel`
+  ("GENERAL CATEGORY"/"SUB-CATEGORY", compared by exact string equality
+  to pick an icon), `CardTypeSelector`/`RegionSelector` filter options.
+
+**Known-fixed bugs worth remembering (don't reintroduce):**
+- `AccountSettingsView`'s `Text(user.firstName.isEmpty ? "Not set" :
+  user.firstName)` — a ternary with one dynamic (non-literal) branch
+  forces SwiftUI to the verbatim `Text(String)` overload even though it
+  looks like the same pattern as other in-place-extractable ternaries.
+  Xcode's real build flagged this specific key as
+  `extractionState: "stale"` (never actually reachable), which is how
+  it was caught. When in doubt, check whether *both* ternary branches
+  are string literals — if either branch is a variable/property, wrap
+  the literal branch(es) in `String(localized:)`.
+- All ~170 pre-existing `String(localized: "...")` call sites were
+  missing `locale: AppLocale.current` — see recipe item 2. Fixed
+  project-wide; don't reintroduce the bare form.
 
 ## How to resume in a new session
 
