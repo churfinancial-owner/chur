@@ -56,7 +56,7 @@ struct BenefitUsageHistoryView: View {
                 
                 Spacer()
                 
-                Text("\(recordsForSelectedPeriod.count) \(recordsForSelectedPeriod.count == 1 ? "Entry" : "Entries")")
+                Text("^[\(recordsForSelectedPeriod.count) Entry](inflect: true)")
                     .font(.churBadgeBold())
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
@@ -138,7 +138,7 @@ struct BenefitUsageHistoryView: View {
             VStack(alignment: .leading, spacing: 4) {
                 let amountText = isValueBased ?
                     "\(valueCurrency!.currencySymbol)\(record.redeemedAmount)" :
-                    "\(record.redeemedAmount) \(record.redeemedAmount == 1 ? "use" : "uses")"
+                    AppLocale.string("\(record.redeemedAmount) use\(record.redeemedAmount == 1 ? "" : "s")")
                 
                 Text(amountText)
                     .font(.churSubheadline())

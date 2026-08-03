@@ -258,7 +258,7 @@ private extension BenefitDetailSheet_LogUsage_Content {
 
     var unlimitedEntry: some View {
         VStack(spacing: 20) {
-            headerValueView(value: "\(countToLog)", suffix: countToLog == 1 ? "use" : "uses")
+            headerValueView(value: "\(countToLog)", suffix: countToLog == 1 ? AppLocale.string("use") : AppLocale.string("uses"))
             Stepper("", value: $countToLog, in: 1...99).labelsHidden()
             actionButton(label: AppLocale.string("Log Usage")) {
                 if isCurrentPeriod { onLogUsage?(countToLog) }
@@ -272,7 +272,7 @@ private extension BenefitDetailSheet_LogUsage_Content {
         return VStack(spacing: 20) {
             headerValueView(value: "\(Int(sliderAmount))", prefix: currency)
             Slider(value: $sliderAmount, in: 0...max(1, maxAmount), step: 1).tint(Color.churOlive)
-            actionButton(label: "Log \(currency)\(Int(sliderAmount))", isActive: sliderAmount > 0) {
+            actionButton(label: AppLocale.string("Log \(currency)\(Int(sliderAmount))"), isActive: sliderAmount > 0) {
                 if isCurrentPeriod { onLogUsage?(Int(sliderAmount)) }
                 else { onLogUsageAt?(Int(sliderAmount), selectedPeriodDate) }
                 sliderAmount = 0
@@ -284,9 +284,9 @@ private extension BenefitDetailSheet_LogUsage_Content {
         let localRemaining = localRemainingBalance ?? remainingBalance ?? 0
         let isExhausted = localRemaining == 0
         return VStack(spacing: 20) {
-            headerValueView(value: "\(countToLog)", suffix: "uses", isExhausted: isExhausted)
+            headerValueView(value: "\(countToLog)", suffix: AppLocale.string("uses"), isExhausted: isExhausted)
             Stepper("", value: $countToLog, in: 1...max(1, localRemaining)).labelsHidden().disabled(isExhausted)
-            actionButton(label: isExhausted ? AppLocale.string("Fully Redeemed") : "Log \(countToLog) Uses", isActive: !isExhausted) {
+            actionButton(label: isExhausted ? AppLocale.string("Fully Redeemed") : AppLocale.string("Log \(countToLog) Uses"), isActive: !isExhausted) {
                 if isCurrentPeriod { onLogUsage?(countToLog) }
                 else { onLogUsageAt?(countToLog, selectedPeriodDate) }
             }

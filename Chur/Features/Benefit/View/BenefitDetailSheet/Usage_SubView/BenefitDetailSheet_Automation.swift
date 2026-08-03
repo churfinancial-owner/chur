@@ -171,10 +171,10 @@ private extension BenefitDetailSheet_Automation_Content {
         }
         let symbol = valueCurrency ?? ""
         if isValueBased {
-            return isOn ? "Auto-logging \(symbol)\(amount) each period" : "Will log \(symbol)\(amount) each period"
+            return isOn ? AppLocale.string("Auto-logging \(symbol)\(amount) each period") : AppLocale.string("Will log \(symbol)\(amount) each period")
         } else {
-            let uses = "\(amount) use\(amount == 1 ? "" : "s")"
-            return isOn ? "Auto-logging \(uses) each period" : "Will log \(uses) each period"
+            let uses = AppLocale.string("\(amount) use\(amount == 1 ? "" : "s")")
+            return isOn ? AppLocale.string("Auto-logging \(uses) each period") : AppLocale.string("Will log \(uses) each period")
         }
     }
 

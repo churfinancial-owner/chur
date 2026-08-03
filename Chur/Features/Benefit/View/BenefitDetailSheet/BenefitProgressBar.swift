@@ -227,11 +227,11 @@ struct BenefitProgressBar: View {
     
     private func usageSummaryText(used: Int) -> String {
         if isValueBased, let currency = valueCurrency, let budget = periodBudget {
-            return "\(currency.currencySymbol)\(used) of \(currency.currencySymbol)\(budget)"
+            return AppLocale.string("\(currency.currencySymbol)\(used) of \(currency.currencySymbol)\(budget)")
         } else if let budget = periodBudget {
-            return "\(used) of \(budget)"
+            return AppLocale.string("\(used) of \(budget)")
         } else {
-            return used > 0 ? "\(used) use\(used == 1 ? "" : "s")" : AppLocale.string("No Records")
+            return used > 0 ? AppLocale.string("\(used) use\(used == 1 ? "" : "s")") : AppLocale.string("No Records")
         }
     }
 }

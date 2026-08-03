@@ -91,7 +91,7 @@ struct RestoreConflictSheet: View {
     }
 
     private func cardCountLabel(_ count: Int) -> String {
-        count == 1 ? "1 card" : "\(count) cards"
+        count == 1 ? AppLocale.string("1 card") : AppLocale.string("\(count) cards")
     }
 
     private func infoRow(icon: String, iconColor: Color, title: String, detail: String, subtitle: String?) -> some View {

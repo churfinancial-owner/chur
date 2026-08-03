@@ -281,6 +281,47 @@ Two adjacent files outside the Features tree were also touched because a Feature
   can't safely hand-write its catalog key by inspection (multi-argument
   interpolations, since the positional numbering — `%1$@`, `%2$@` — is
   easy to get wrong by hand).
+- **Push notification content was entirely missed by the original
+  migration** — `ReminderScheduler.swift`, `ReminderScheduler_AnnualFee.swift`,
+  `ReminderScheduler_Digest.swift`, `ExpiringBenefits.swift`'s `summary().totalText`.
+  None of this showed up in a grep for `Text(`/`Label(` since it's
+  `UNNotificationContent` title/subtitle/body strings, not SwiftUI views.
+  Fixed 2026-08-02 (all wrapped in `AppLocale.string(...)`). Caught a
+  bug the fix itself would have introduced: `ReminderScheduler_AnnualFee.swift`
+  compared `relativeWhenText(...) == "today"` — once `"today"` is
+  localized that comparison silently breaks. Added
+  `ReminderScheduler.isToday(from:to:)` (duplicates the day-boundary
+  math, not the localized string) for callers that need to branch on
+  "is this today?" — **never string-compare the output of a function
+  that returns `AppLocale.string(...)`.**
+- **`CardTypeSelector`/`RegionSelector` filter options**: fixed for
+  `CardTypeSelector` — `filterState.selectedCardType` doubles as a
+  `UserDefaults` persistence key and a card-database filter key
+  (lowercased into a lookup string in `Cards_Add_Card_ViewModel.swift`),
+  so the identifier itself can't be translated. Added a
+  `displayName(for:)` mapping used only at the 3 `Text`/`Label` call
+  sites, identifier untouched — same pattern as `cardTypeDisplayLabel`.
+  Checked `RegionSelector` too: its identifier is `region.id` (ISO
+  code), `region.name` is pure display data never compared anywhere —
+  no coupling bug there, nothing to fix.
+- **`ParentCategoryPopup.headerLabel`**: fixed — was a raw `String`
+  compared by exact value (`headerLabel == "SUB-CATEGORY"`) to pick an
+  icon, and also displayed directly. Replaced with a
+  `CategoryHeaderKind` enum (`.general`/`.subCategory`) exposing
+  `displayLabel`/`icon` computed properties; the business logic never
+  touches the localized string now.
+- **Cards → Info tab labels were still English** despite the Progress
+  table marking "Cards... Info tab pickers" done — that only covered
+  the picker *sheets* (Network/Card Type/etc.), not the info-row labels
+  themselves. `CardInfoContentView_CardInformationSection.swift`,
+  `CardInfoContentView_FeesTermsSection.swift`, and
+  `CardInfoContentView_UserNotes.swift` all passed raw literals into
+  `DetailRow(label:)`/`CardSectionHeader(title:)` (both render via
+  verbatim `Text(String)` — recipe item 2). The sibling file in the
+  same tab, `CardInfoContentView_RewardSetupSection.swift`, was already
+  done correctly, which is presumably why this slipped through — a
+  file-level "done" checkmark doesn't guarantee every sibling file in
+  the same folder was actually covered. Fixed 2026-08-02.
 
 ## How to resume in a new session
 

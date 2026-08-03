@@ -23,7 +23,7 @@ struct CategoryDetailSheetParallax: View {
             cards: cards,
             allCategories: allCategories,
             currentRegionCodeOverride: currentRegionCodeOverride,
-            headerLabel: "SUB-CATEGORY",
+            headerKind: .subCategory,
             showRelatedCategories: false
         )
     }

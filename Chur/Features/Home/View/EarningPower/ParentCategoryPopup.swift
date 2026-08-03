@@ -8,13 +8,36 @@
 import SwiftUI
 import SwiftData
 
+/// The two header states this sheet can render. Kept as an identifier-based enum
+/// rather than the raw display string, so business logic (icon selection) never
+/// has to compare against a localized value — see `CategoryHeaderKind.icon` and
+/// `.displayLabel` for the two things that used to be derived from the string.
+enum CategoryHeaderKind {
+    case general
+    case subCategory
+
+    var displayLabel: String {
+        switch self {
+        case .general: return AppLocale.string("GENERAL CATEGORY")
+        case .subCategory: return AppLocale.string("SUB-CATEGORY")
+        }
+    }
+
+    var icon: String {
+        switch self {
+        case .general: return "folder.fill"
+        case .subCategory: return "arrow.turn.down.right"
+        }
+    }
+}
+
 struct ParentCategoryParallaxSheet: View {
     let category: SpendingCategory
     let rate: Double
     let cards: [CreditCard]
     let allCategories: [SpendingCategory]
     let currentRegionCodeOverride: String?
-    var headerLabel: String = "GENERAL CATEGORY"
+    var headerKind: CategoryHeaderKind = .general
     var showRelatedCategories: Bool = true
 
     @Query private var users: [User]
@@ -134,8 +157,8 @@ struct ParentCategoryParallaxSheet: View {
     private var headerSection: some View {
         VStack(alignment: .leading, spacing: 0) {
             HeaderCapsuleBubble(
-                text: headerLabel,
-                icon: headerLabel == "SUB-CATEGORY" ? "arrow.turn.down.right" : "folder.fill"
+                text: headerKind.displayLabel,
+                icon: headerKind.icon
             )
             .padding(.trailing, 110)
 

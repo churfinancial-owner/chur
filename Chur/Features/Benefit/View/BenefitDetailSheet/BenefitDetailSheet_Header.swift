@@ -35,7 +35,7 @@ extension BenefitDetailSheet {
                     if days >= 0 {
                         let expiryColor: Color = days <= 7 ? .red : .pink
                         ChurStatusPill(
-                            label: days == 0 ? "Last day" : "\(days)d",
+                            label: days == 0 ? AppLocale.string("Last day") : AppLocale.string("\(days)d"),
                             color: expiryColor,
                             icon: "alarm",
                             style: .tinted
@@ -53,11 +53,11 @@ extension BenefitDetailSheet {
 
     @ViewBuilder
     func remainingBalanceRow(balance: Int) -> some View {
-        let label = localIsFullyRedeemed ? "Fully redeemed!" : (isValueBased ? "\(valueCurrency!) \(balance) remaining" : "\(balance) use\(balance == 1 ? "" : "s") remaining")
+        let label = localIsFullyRedeemed ? AppLocale.string("Fully redeemed!") : (isValueBased ? AppLocale.string("\(valueCurrency!) \(balance) remaining") : AppLocale.string("\(balance) use\(balance == 1 ? "" : "s") remaining"))
         let rowColor: Color = localIsFullyRedeemed ? .gray : (balance == 0 ? .red : .churOlive)
 
         BenefitInfoRow(
-            title: localIsFullyRedeemed ? "FULLY REDEEMED THIS PERIOD ✓" : "BALANCE REMAINING THIS PERIOD",
+            title: localIsFullyRedeemed ? AppLocale.string("FULLY REDEEMED THIS PERIOD ✓") : AppLocale.string("BALANCE REMAINING THIS PERIOD"),
             value: label,
             icon: localIsFullyRedeemed ? "checkmark.seal.fill" : "arrow.down.circle.fill",
             color: rowColor

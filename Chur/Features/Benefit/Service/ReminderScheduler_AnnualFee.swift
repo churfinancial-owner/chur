@@ -42,10 +42,10 @@ extension ReminderScheduler {
                 kind: .annualFee,
                 fireDate: fireDate,
                 title: card.name,
-                subtitle: "Annual fee",
-                body: when == "today"
-                    ? "\(symbol)\(card.annualFee) annual fee posts today. Time to review keep, downgrade, or cancel."
-                    : "\(symbol)\(card.annualFee) annual fee posts \(dateText) (\(when)). Time to review keep, downgrade, or cancel.",
+                subtitle: AppLocale.string("Annual fee"),
+                body: Self.isToday(from: fireDate, to: feeDate)
+                    ? AppLocale.string("\(symbol)\(card.annualFee) annual fee posts today. Time to review keep, downgrade, or cancel.")
+                    : AppLocale.string("\(symbol)\(card.annualFee) annual fee posts \(dateText) (\(when)). Time to review keep, downgrade, or cancel."),
                 threadID: card.id,
                 payload: ["cardID": card.id]
             ))

@@ -5,8 +5,8 @@ struct UserNoteSection: View {
     @Binding var activeSheet: CardInfoContentView.ActiveSheet?
 
     private var notePreview: String {
-        if card.note.isEmpty { return "Add a note..." }
-        
+        if card.note.isEmpty { return AppLocale.string("Add a note...") }
+
         if card.note.count > 20 {
             return String(card.note.prefix(20)) + "..."
         }
@@ -15,10 +15,10 @@ struct UserNoteSection: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            CardSectionHeader(title: "YOUR TOOLS")
+            CardSectionHeader(title: AppLocale.string("YOUR TOOLS"))
             VStack(spacing: 0) {
                 DetailRow(
-                    label: "Personal Note",
+                    label: AppLocale.string("Personal Note"),
                     value: notePreview,
                     isEditable: true
                 ) {

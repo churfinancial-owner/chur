@@ -20,11 +20,11 @@ struct CardInformationSection: View {
 
     private var currentNetworkLabel: String { Self.networkOptionLabel(from: card.network) }
     private var currentCardTypeLabel: String { Self.cardTypeDisplayLabel(for: card.cardType) }
-    private var statusDisplay: String { card.status == "cancelled" ? "Cancelled" : "Active" }
+    private var statusDisplay: String { card.status == "cancelled" ? AppLocale.string("Cancelled") : AppLocale.string("Active") }
     private var previousProductLabel: String? {
         guard let latest = productChangeEvents.first,
               let fromTemplate = CardDatabase.getCard(id: latest.fromTemplateID) else { return nil }
-        return "Previously \(fromTemplate.name) until \(latest.changeDate.formatted(.dateTime.month().day().year()))"
+        return AppLocale.string("Previously \(fromTemplate.name) until \(latest.changeDate.formatted(.dateTime.month().day().year()))")
     }
 
     var approvedDateDisplay: String {
@@ -37,26 +37,26 @@ struct CardInformationSection: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            CardSectionHeader(title: "CARD INFORMATION")
+            CardSectionHeader(title: AppLocale.string("CARD INFORMATION"))
 
             VStack(spacing: 0) {
-                DetailRow(label: "Issuer", value: card.issuer, isEditable: false)
+                DetailRow(label: AppLocale.string("Issuer"), value: card.issuer, isEditable: false)
                 CardRowDivider()
-                DetailRow(label: "Card Name", value: card.name, isEditable: false)
+                DetailRow(label: AppLocale.string("Card Name"), value: card.name, isEditable: false)
                 CardRowDivider()
-                DetailRow(label: "Network", value: currentNetworkLabel, isEditable: true) {
+                DetailRow(label: AppLocale.string("Network"), value: currentNetworkLabel, isEditable: true) {
                     activeSheet = .network
                 }
                 CardRowDivider()
-                DetailRow(label: "Card Type", value: currentCardTypeLabel, isEditable: true) {
+                DetailRow(label: AppLocale.string("Card Type"), value: currentCardTypeLabel, isEditable: true) {
                     activeSheet = .cardType
                 }
                 CardRowDivider()
-                DetailRow(label: "Approved Date", value: approvedDateDisplay, isEditable: true) {
+                DetailRow(label: AppLocale.string("Approved Date"), value: approvedDateDisplay, isEditable: true) {
                     activeSheet = .approvedDate
                 }
                 CardRowDivider()
-                DetailRow(label: "Status", value: statusDisplay, isEditable: true) {
+                DetailRow(label: AppLocale.string("Status"), value: statusDisplay, isEditable: true) {
                     activeSheet = .cardStatus
                 }
                 if let previousProductLabel {

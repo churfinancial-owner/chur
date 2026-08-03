@@ -183,13 +183,13 @@ final class ReminderScheduler {
 
         if analyzer.isValueBased, let remaining = analyzer.remainingBalance(on: now), remaining > 0 {
             let symbol = benefit.valueCurrency.currencySymbol
-            return "\(symbol)\(remaining) left — expires \(when)."
+            return AppLocale.string("\(symbol)\(remaining) left — expires \(when).")
         }
         if analyzer.isCountLimited, let limit = benefit.usageLimit {
             let remaining = max(0, limit - analyzer.usedThisPeriod(on: now))
-            return "\(remaining) of \(limit) uses left — expires \(when)."
+            return AppLocale.string("\(remaining) of \(limit) uses left — expires \(when).")
         }
-        return "Expires \(when)."
+        return AppLocale.string("Expires \(when).")
     }
 
     // MARK: - Shared helpers
@@ -216,8 +216,14 @@ final class ReminderScheduler {
     /// reminder fires with less notice than the configured lead.
     static func relativeWhenText(from fireDate: Date, to deadline: Date) -> String {
         let days = Int(ceil(deadline.timeIntervalSince(fireDate) / 86_400))
-        if days <= 0 { return "today" }
-        return days == 1 ? "tomorrow" : "in \(days) days"
+        if days <= 0 { return AppLocale.string("today") }
+        return days == 1 ? AppLocale.string("tomorrow") : AppLocale.string("in \(days) days")
+    }
+
+    /// Same day-boundary check `relativeWhenText` uses internally, exposed so callers
+    /// can branch on "is this today?" without string-comparing its (localized) output.
+    static func isToday(from fireDate: Date, to deadline: Date) -> Bool {
+        Int(ceil(deadline.timeIntervalSince(fireDate) / 86_400)) <= 0
     }
 
     /// Mirrors BenefitRowViewModel.anniversaryDate so both derive the same

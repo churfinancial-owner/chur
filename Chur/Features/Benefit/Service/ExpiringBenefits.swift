@@ -64,7 +64,7 @@ enum ExpiringBenefits {
         var totalText = ""
         if currencies.count == 1, let currency = currencies.first {
             let total = entries.compactMap(\.remainingBalance).reduce(0, +)
-            if total > 0 { totalText = " — \(currency.currencySymbol)\(total) unused" }
+            if total > 0 { totalText = AppLocale.string(" — \(currency.currencySymbol)\(total) unused") }
         }
         return (entries.count, cardCount, totalText)
     }

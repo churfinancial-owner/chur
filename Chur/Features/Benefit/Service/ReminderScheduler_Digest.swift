@@ -48,16 +48,16 @@ extension ReminderScheduler {
         let fireDate = group.map(\.fireDate).min() ?? day
 
         let summary = ExpiringBenefits.summary(cards: cards, on: fireDate)
-        let benefitText = summary.benefits == 1 ? "1 benefit" : "\(summary.benefits) benefits"
-        let cardText = summary.cards == 1 ? "1 card" : "\(summary.cards) cards"
+        let benefitText = summary.benefits == 1 ? AppLocale.string("1 benefit") : AppLocale.string("\(summary.benefits) benefits")
+        let cardText = summary.cards == 1 ? AppLocale.string("1 card") : AppLocale.string("\(summary.cards) cards")
 
         return PlannedReminder(
             identifier: "\(identifierPrefix)digest.\(dayKey)",
             kind: .digest,
             fireDate: fireDate,
-            title: "Benefits expiring soon",
+            title: AppLocale.string("Benefits expiring soon"),
             subtitle: "",
-            body: "\(benefitText) expiring soon\(summary.totalText) across \(cardText). Tap to review.",
+            body: AppLocale.string("\(benefitText) expiring soon\(summary.totalText) across \(cardText). Tap to review."),
             threadID: "digest"
         )
     }

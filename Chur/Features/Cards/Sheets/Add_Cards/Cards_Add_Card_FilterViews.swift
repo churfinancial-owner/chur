@@ -144,9 +144,21 @@ struct RegionSelector: View {
 // MARK: - Card Type Selector
 struct CardTypeSelector: View {
     @Bindable var filterState: CardAddFilterState
-    
+
     let availableCardTypes = ["All Types", "Personal", "Business"]
-    
+
+    /// `filterState.selectedCardType` doubles as a persistence key (`UserDefaults`)
+    /// and a card-database filter identifier (`Cards_Add_Card_ViewModel.swift`
+    /// lowercases it into a lookup key) — never translate the identifier itself.
+    /// This is the display-only mapping, per the project's `displayName` convention.
+    private func displayName(for cardType: String) -> String {
+        switch cardType {
+        case "Personal": return AppLocale.string("Personal")
+        case "Business": return AppLocale.string("Business")
+        default: return AppLocale.string("All Types")
+        }
+    }
+
     var body: some View {
         Menu {
             ForEach(availableCardTypes, id: \.self) { cardType in
@@ -155,17 +167,17 @@ struct CardTypeSelector: View {
                     filterState.updateFilters(persistSelections: true)
                 } label: {
                     if cardType == filterState.selectedCardType {
-                        Label(cardType, systemImage: "checkmark")
+                        Label(displayName(for: cardType), systemImage: "checkmark")
                             .symbolRenderingMode(.monochrome)
                             .foregroundStyle(Color.churOlive)
                     } else {
-                        Text(cardType)
+                        Text(displayName(for: cardType))
                     }
                 }
             }
         } label: {
             HStack(spacing: 6) {
-                Text(filterState.selectedCardType)
+                Text(displayName(for: filterState.selectedCardType))
                     .font(.churSubheadline())
                 Image(systemName: "chevron.down")
                     .font(.churBadge())
