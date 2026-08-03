@@ -11,3 +11,8 @@ enum Config {
     static let sanityProjectID = "0fcg3g46"
     static let sanityDataset = "production"
 }
+
+enum FeatureFlags {
+    /// News feed section on Home. Off for go-live; flip on when the feature is ready.
+    static let homeNewsFeedEnabled = false
+}

@@ -92,7 +92,6 @@ struct RecommendationCard: View {
         .background(
             RoundedRectangle(cornerRadius: 18)
                 .fill(Color.white)
-                .shadow(color: .black.opacity(0.05), radius: 10, x: 0, y: 5)
         )
         .onTapGesture {
             showDetailPopup = true

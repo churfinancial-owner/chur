@@ -147,7 +147,7 @@ struct EarningPowerSection: View {
             }
             Spacer()
             if !cards.isEmpty {
-                OliveIconButton(icon: "slider.horizontal.3") { showingCategoryPicker = true }
+                OliveRingIconButton(icon: "slider.horizontal.3") { showingCategoryPicker = true }
             }
         }
     }

@@ -48,7 +48,9 @@ struct CategoryBubble: View {
                         Text(category.displayName)
                             .font(.system(size: 14, weight: .bold, design: .rounded))
                             .foregroundStyle(Color.churDarkGray)
-                            .lineLimit(1)
+                            .multilineTextAlignment(.center)
+                            .lineLimit(2)
+                            .frame(height: 34, alignment: .top)
 
                         RatePill(
                             rate: rate,
@@ -61,7 +63,7 @@ struct CategoryBubble: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                 }
                 .padding(.horizontal, 12)
-                .padding(.top, 14)
+                .padding(.top, 16)
                 .padding(.bottom, 12)
 
                 // Hairline divider

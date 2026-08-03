@@ -165,7 +165,7 @@ struct NearbyRecommendationsSection: View {
     }
     
     private var listPopupButton: some View {
-        OliveIconButton(icon: "signpost.right.and.left") { onOpenSearch?() }
+        OliveRingIconButton(icon: "signpost.right.and.left") { onOpenSearch?() }
     }
     
     private var horizontalScrollView: some View {

@@ -5,7 +5,8 @@
 //  Main home screen container that orchestrates the primary user experience:
 //  - Displays curved gradient header with personalized greeting
 //  - Shows nearby merchant recommendations with best card suggestions
-//  - Integrates news feed and earning power analysis
+//  - This Month recap, Expiring Soon preview, and Earning Power analysis
+//  - News feed is currently hidden behind FeatureFlags.homeNewsFeedEnabled
 //  - Passes user data, cards, and categories to child components
 //
 //  Created by Pak Ho on 1/22/26.
@@ -35,9 +36,9 @@ struct HomeView: View {
         NavigationStack {
             ZStack(alignment: .top) {
                 ScrollView {
-                    VStack(spacing: 8) {
+                    VStack(spacing: 20) {
                         Color.clear.frame(height: 140)
-                        
+
                         // SECTION 2: Nearby Recommendations
                         NearbyRecommendationsSection(
                             cards: cards,
@@ -52,12 +53,22 @@ struct HomeView: View {
                                 currentCountryCode = countryCode
                             }
                         )
-                        .frame(minHeight: 200, alignment: .top)
-                        
-                        // SECTION 3: News Feed
-                        NewsFeedSection()
-                            .frame(minHeight: 230, alignment: .top)
-                                                
+                        // Trimmed from 200 to match the loaded card row's natural height (~170) —
+                        // 200 was leaving dead space below the cards vs. the other sections.
+                        .frame(minHeight: 170, alignment: .top)
+
+                        // SECTION 3: News Feed (disabled for go-live, see FeatureFlags.homeNewsFeedEnabled)
+                        if FeatureFlags.homeNewsFeedEnabled {
+                            NewsFeedSection()
+                                .frame(minHeight: 230, alignment: .top)
+                        }
+
+                        // SECTION 3b: This Month recap (reuses UserWalletSummaryView's stat styling + MonthDetailSheet)
+                        MonthlyRecapHomeSection(cards: cards)
+
+                        // SECTION 3c: Expiring Soon preview (reuses ExpiringBenefitsView's data + row styling)
+                        ExpiringSoonHomeSection(cards: cards)
+
                         // SECTION 4: Earning Power
                         if let user = currentUser {
                             EarningPowerSection(

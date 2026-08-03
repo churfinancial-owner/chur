@@ -158,11 +158,11 @@ private extension CardsView {
     }
 
     var addCardButton: some View {
-        OliveIconButton(icon: "plus") { vm.showingAddCard = true }
+        OliveRingIconButton(icon: "plus") { vm.showingAddCard = true }
     }
 
     var goToCardButton: some View {
-        OliveIconButton(icon: "magnifyingglass") { vm.showingGoToCard = true }
+        OliveRingIconButton(icon: "magnifyingglass") { vm.showingGoToCard = true }
     }
 
     var walletMenu: some View {
@@ -177,14 +177,7 @@ private extension CardsView {
                 Label("Card History", systemImage: "clock.arrow.circlepath")
             }
         } label: {
-            ZStack {
-                Circle()
-                    .fill(Color.churOliveLight)
-                    .frame(width: 32, height: 32)
-                Image(systemName: "creditcard")
-                    .font(.churImageMedium())
-                    .foregroundStyle(.churDarkOlive)
-            }
+            OliveRingIcon(icon: "creditcard")
         }
     }
     
