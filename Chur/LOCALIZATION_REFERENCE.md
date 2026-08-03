@@ -5,12 +5,23 @@ patterns to follow when migrating the rest. Read this before touching UI
 strings or locale-resolution logic. **Update it whenever the architecture,
 progress, or a new gotcha changes.**
 
-Branch: `claude/app-localization-setup-mzadsw`. Full plan lives in
-`/root/.claude/plans/look-at-the-latest-cosmic-hejlsberg.md` (Phase 1-3
-engineering foundation — already shipped, see below) and the fuller
-roadmap discussed in chat (Phase 4 = this string migration, Phase 5 =
-benefit-JSON translation content, Phase 6 = Cards/Merchants proper nouns
-deferred, Phase 7 = docs).
+Merged to `main` 2026-08-02 (the working branch, `claude/app-localization-setup-mzadsw`,
+was deleted after the fast-forward merge — don't look for it). Original plan
+lived in `/root/.claude/plans/look-at-the-latest-cosmic-hejlsberg.md` (Phase
+1-3 engineering foundation) and the fuller roadmap discussed in chat (Phase 4
+= UI string migration, Phase 5 = benefit-JSON translation content, Phase 6 =
+Cards/Merchants proper nouns deferred, Phase 7 = docs).
+
+**Note on tooling availability**: earlier notes in this doc say things like
+"no Xcode/xcodebuild in this container" — that was true for the sessions that
+wrote those notes, but is **not a fixed constraint of this environment**. A
+later session confirmed `xcodebuild`, `xcrun simctl`, and a real `swift`
+interpreter are all available and were used extensively (building for
+`iphonesimulator`, installing/launching on a booted simulator, seeding
+SwiftData/UserDefaults directly via `sqlite3`/`simctl spawn defaults` to reach
+otherwise-hard-to-navigate app states, and computing exact String Catalog keys
+by evaluating `LocalizedStringResource` in a standalone `swift` script). Check
+current tool access yourself rather than trusting old "not available" notes.
 
 ## Architecture (shipped)
 
@@ -133,17 +144,37 @@ deferred, Phase 7 = docs).
    automatically — e.g. `"Your \(selectedYear)"` → catalog key
    `"Your %lld"`). For *multi*-argument interpolations, the catalog needs
    positional specifiers (`%1$@`, `%2$@`, ...) that are easy to get wrong
-   by hand without Xcode's own extraction to verify against (no
-   Xcode/xcodebuild in this container) — defer those specifically rather
-   than guess the numbering. Most single- and multi-argument strings from
-   the original migration pass were later filled in after Pak Ho's local
-   Xcode build re-extracted the whole project correctly (see Progress) —
-   only a few Debug-only/News ones remain unfilled by design.
+   by hand-guessing — but you don't have to guess: write a throwaway
+   `swift` script that evaluates `LocalizedStringResource("your \(a) and
+   \(b) string")` and prints its `.key` (see the repro snippet a few
+   paragraphs up for the exact pattern) to get the *exact* key Xcode
+   would generate, then hand-write the translation against that
+   confirmed key. Most single- and multi-argument strings from the
+   original migration pass were filled in after Pak Ho's local Xcode
+   build re-extracted the whole project correctly (see Progress) — only
+   a few Debug-only/News ones remain unfilled by design.
 5. **Pluralized counts** ("1 card" vs "N cards", "N benefit(s)", "N day(s)")
-   — needs a stringsdict-style plural variation in the catalog (Chinese has
-   no plural forms, so the fallback English pattern doesn't translate
-   1:1). Still not done anywhere — requires Xcode's plural-variation UI,
-   not a plain string substitution; flagged at each occurrence, not migrated.
+   — Chinese has no plural forms, so a single non-inflected translation
+   covers every count; you do **not** need Xcode's stringsdict plural-variation
+   UI for this app's one target language. Two working patterns, pick based
+   on where the string lives:
+   - **Inside a literal `Text("...")` call** — use Apple's markdown
+     auto-inflection: `Text("^[\(count) card](inflect: true)")`. This
+     produces a catalog key like `"^[%lld card](inflect: true)"`; the
+     `zh-Hant-HK` translation is just `"%lld 張卡"` (no plural markup
+     needed) and English gets automatic singular/plural for free. Only
+     works because it's a *literal* `Text()` call (environment-locale
+     resolution, not `String(localized:)`) — see recipe item 2's bug.
+   - **Everywhere else** (computed properties, notification body text,
+     anything returning a plain `String`) — inflection markdown is
+     **not** reliably processed outside `Text()`'s markdown-parsing
+     pipeline, so instead wrap the whole hand-branched ternary in
+     `AppLocale.string(...)`, e.g. `AppLocale.string("\(count) use\(count
+     == 1 ? "" : "s")")`, producing key `"%lld use%@"`. Translate once
+     ignoring the `%@` (Chinese doesn't need it): `"%lld 次"`.
+   Done for ~15 sites across Benefit usage/redemption UI and push
+   notification text — see "Known-fixed bugs" below for the exact
+   before/after and the file list.
 6. **Proper nouns** — card names, merchant names, network names (Visa/
    Mastercard/...), product names ("Google Drive") — never translated,
    consistent with the project's existing card/merchant convention.
@@ -177,16 +208,18 @@ deferred, Phase 7 = docs).
 registered, `AppLocale` seam, `User.languagePreference` + Settings UI +
 backup sync (`ChurBackup.currentVersion = 2`).
 
-**String migration (Phase 4): complete except News (explicitly out of
-scope — not shipping in this MVP).**
-Catalog currently has **566 keys** (`zh-Hant-HK` only) — grew from 432
-after Pak Ho did a real Xcode build locally (this container has no
-Xcode/xcodebuild) and pushed the result: Xcode re-extracted the whole
-project and correctly generated `%1$@`/`%2$@`-style positional format
-specifiers plus auto-generated context comments for every interpolated
-string this migration had deferred by hand. Most of those got
-translated (by Pak Ho and in a follow-up pass here); a few Debug-only
-and News ones are still untranslated by design. Done, in order:
+**String migration (Phase 4): complete**, including News (see correction
+below — it's live and in scope, not skipped) and pluralized/notification
+strings and known business-logic-coupled labels (all fixed 2026-08-02).
+Catalog currently has **622 keys** (`zh-Hant-HK` only) — grew from 432
+after Pak Ho did a real Xcode build locally and pushed the result (Xcode
+re-extracted the whole project and correctly generated `%1$@`/`%2$@`-style
+positional format specifiers plus auto-generated context comments for every
+interpolated string this migration had deferred by hand), then to 566 after
+a follow-up translation pass, then to 622 after fixing the bugs described
+under "Known-fixed bugs" below. A handful of Debug-only and 2 News strings
+are still untranslated by design (see "Not started at all"). File-level
+areas done, in order first migrated:
 
 | Area | Files | Status |
 |---|---|---|
@@ -207,8 +240,16 @@ and News ones are still untranslated by design. Done, in order:
 Two adjacent files outside the Features tree were also touched because a Feature view called into them: `Chur/Features/Home/ViewModel/CategoryPickerViewModel.swift` (`cycleButtonLabel`) and `Chur/Features/CardRecommendations/DataModel/CardRecommendation.swift`'s `BonusRating` (checked, needed no change — `displayText` is star-emoji glyphs, no words).
 
 **Explicitly out of scope (user decision, not a migration gap):**
-- **News** (5 files) — feature isn't shipping in this MVP, skip entirely.
 - `Chur/Debug/*` (5 files) — dev-only tooling, per policy.
+
+**Correction (2026-08-02): News is NOT out of scope** — earlier notes in this
+doc said News "isn't shipping in this MVP, skip entirely," but it's actually
+**live** on the Home screen (the "CHUR 新聞"/"CHUR NEWS" section with real
+article cards) and turns out to already be almost fully translated — checked
+every `Text`/`Button`/etc. literal across `Chur/Features/News/**/*.swift`
+against the catalog and only 2 interpolated strings were missing (see below).
+If a future report says News strings are untranslated, don't assume it's
+"out of scope, ignore" — verify first.
 
 **Not started at all:**
 - **Phase 5 — Benefit JSON content**: all 268 files in
@@ -216,19 +257,22 @@ Two adjacent files outside the Features tree were also touched because a Feature
   entry; the schema already supports `"zh-Hant-HK"` per file. Pure
   translation-content work, no code changes — `Benefit_LocalizedStrings.swift`
   already falls back to `"en"` gracefully. `Chur/Resources/json/categories/*.json`
-  is the reference for what "done" looks like.
+  is the reference for what "done" looks like. **Not just a HK-only
+  find-and-replace** — Pak Ho flagged (2026-08-02) that many benefits are
+  region-specific (e.g. US-only cards/benefits), and translating US-only
+  content to `zh-Hant-HK` isn't worth doing. Scope this by region before
+  starting: figure out which of the 268 files' benefits are actually
+  reachable by a HK-region user (via `RegionDatabase`/card availability),
+  and prioritize/limit the translation pass to those.
 - **Phase 6 — Cards/Merchants proper nouns**: deliberately deferred, no
   schema change planned.
-- A handful of interpolated strings only found via Xcode's real
-  extraction remain untranslated by design: Debug-only ones
-  (`Chur/Debug/*`, `View_CardAnalysisRow.swift`) and News's
-  `"Spend %@ • Fee %@"` (News out of scope). Everything else Xcode
-  extracted got translated.
-- **Business-logic-coupled labels** flagged during migration still need
-  a proper display-label split before they can be translated safely —
-  see recipe item 3. Known instances: `ParentCategoryPopup.headerLabel`
-  ("GENERAL CATEGORY"/"SUB-CATEGORY", compared by exact string equality
-  to pick an icon), `CardTypeSelector`/`RegionSelector` filter options.
+- Debug-only interpolated strings (`Chur/Debug/*`, `View_CardAnalysisRow.swift`)
+  remain untranslated by design (out of scope, see above). News's
+  `"Spend \(record.spendingReq ?? ...)"` and `"Updated \(post.formattedDate)"`
+  (in `NewsDetail_SharedComponents.swift`) are the only two News strings
+  still untranslated — News itself is in scope (see correction above),
+  these two just happen to be multi-part interpolations nobody has hand-verified
+  the exact catalog key for yet.
 
 **Known-fixed bugs worth remembering (don't reintroduce):**
 - `AccountSettingsView`'s `Text(user.firstName.isEmpty ? "Not set" :
@@ -325,31 +369,37 @@ Two adjacent files outside the Features tree were also touched because a Feature
 
 ## How to resume in a new session
 
-Phase 4's file-by-file migration is done except News (skipped by user
-decision). What's left is follow-up work, in rough priority order:
+Phase 4's file-by-file migration is done, including News (see correction
+above — it was never actually out of scope). Pluralization and the known
+business-logic-coupled labels are also done (2026-08-02). What's left, in
+rough priority order:
 
-1. **Remaining pluralized counts** — most interpolated strings were
-   resolved this session (Xcode's real build extracted them correctly
-   with `%1$@`/`%2$@` positional specifiers, and nearly all got
-   translated — see Progress above). What's left is specifically
-   **plural-variation strings** ("1 card" vs "N cards", "N benefit(s)",
-   "N day(s)", "N Entry/Entries") — Chinese has no plural forms, so
-   these need the catalog's plural-category variation UI in Xcode
-   (device categories: one/other), not a plain string substitution.
-   Also worth a spot-check in Xcode for any row still marked "New" —
-   run a build, open the String Catalog editor, filter by state.
-2. **Phase 5 — Benefit JSON content**: translate the 268
-   `Chur/Resources/json/benefits/**/*.json` files' `localized["zh-Hant-HK"]`
-   entries (pure content work, prioritize by most-held cards' benefits
-   first if a usage signal is available).
-3. **Business-logic-coupled labels deferred during migration** — e.g.
-   `ParentCategoryPopup.headerLabel` ("GENERAL CATEGORY"/"SUB-CATEGORY"),
-   `CardTypeSelector`/`RegionSelector` filter options — each needs a
-   proper identifier/display-label split (like `cardTypeDisplayLabel`)
-   before it can be translated safely.
-4. If News ships later after all: same recipe as every other feature —
-   read each file, classify every literal against the 8 categories
-   above, wrap verbatim sites, batch-add catalog entries, verify
-   (JSON validity + exact-literal cross-check + paren/brace balance —
-   no Xcode/xcodebuild in this container to compile-check), commit per
-   feature.
+1. **Phase 5 — Benefit JSON content**, region-scoped. Don't just
+   find-and-replace all 268 files — first work out which benefits a
+   HK-region user can actually reach (via `RegionDatabase`/card
+   availability), and limit the translation pass to those; translating
+   US-only benefit content to `zh-Hant-HK` isn't worth doing. Pure
+   content work otherwise, no code changes needed —
+   `Benefit_LocalizedStrings.swift` already falls back to `"en"`
+   gracefully. `Chur/Resources/json/categories/*.json` is the reference
+   for what "done" looks like.
+2. **The 2 remaining News interpolated strings** in
+   `NewsDetail_SharedComponents.swift` (`"Spend ..."`, `"Updated ..."`)
+   — compute their exact catalog keys the same way this session did for
+   everything else (a standalone `swift` script evaluating
+   `LocalizedStringResource(...)`, or an actual Xcode build), then
+   translate.
+3. **General audit technique, if a "still shows English" report comes in
+   for an area marked done**: a file-level ✅ in the Progress table only
+   means someone touched that file — it does *not* guarantee every
+   custom-component call site in it was caught (see the `UserWalletSummaryView`
+   and Cards Info-tab bugs above, both in files marked done). Grep the
+   specific file for `Text(<lowercaseIdentifier>)` and
+   `SomeComponent(label: "literal"` / `title: "literal"` patterns — a
+   *raw string literal* passed into a custom component's `String`
+   parameter (not `AppLocale.string(...)`) is the single most common
+   recurring bug in this codebase. Also worth checking `Chur/Debug/*`-adjacent
+   or non-View files (`Service/`, `ViewModel/`) for the same pattern —
+   push notification content was missed entirely for exactly this
+   reason (it's not `Text(`/`Label(`, so it never showed up in the
+   obvious greps).
