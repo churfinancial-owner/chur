@@ -15,5 +15,8 @@ DerivedData/
 .swiftpm/
 .build/
 
+# Generated content bundles (ChurContentPublish output — uploaded to R2, not committed)
+dist/
+
 # Secrets / local overrides (add real secret files here as needed)
 *.local.json
