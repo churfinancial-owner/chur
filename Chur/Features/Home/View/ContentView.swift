@@ -41,10 +41,14 @@ struct ContentView: View {
             customInstagramMenuBar
         }
         .task { await newsService.fetchNewsIfNeeded() }
+        .task { await refreshRemoteContent() }
         .onAppear {
             scheduleInitialDataInitialization()
         }
         .onChange(of: scenePhase) { _, newPhase in
+            if newPhase == .active {
+                Task { await refreshRemoteContent() }
+            }
             if newPhase == .background {
                 uploadBackupOnBackground()
             }
@@ -155,6 +159,16 @@ struct ContentView: View {
         Task {
             try? await CloudSyncManager.shared.uploadBackup(backup)
         }
+    }
+
+    /// Pulls newly published card/reward content, then rebuilds the template
+    /// cache and reconciles wallet cards against it. CardSyncService protects
+    /// user-edited fields via the `hasCustom*` flags, so this can't clobber
+    /// anything the user set themselves.
+    private func refreshRemoteContent() async {
+        guard await RemoteContentService.shared.refreshIfNeeded() else { return }
+        CardDatabase.reloadFromBundle()
+        _ = CardSyncService.syncWalletCards(modelContext: modelContext)
     }
 
     private func scheduleInitialDataInitialization() {
