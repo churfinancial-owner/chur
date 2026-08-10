@@ -59,7 +59,7 @@ struct ExpiringSoonHomeSection: View {
                 .font(.churHeadline())
                 .foregroundStyle(Color.churOlive)
             Spacer()
-            OliveRingIconButton(icon: "clock.badge") { showAll = true }
+            OliveRingIconButton(icon: "arrow.right") { showAll = true }
         }
     }
 

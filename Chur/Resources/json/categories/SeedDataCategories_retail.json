@@ -2,9 +2,9 @@
     {
         "id": "retail",
         "nameEN": "Retail",
-        "nameZH_Hans": "商家",
-        "nameZH_HK": "商家",
-        "nameZH_TW": "商家",
+        "nameZH_Hans": "零售",
+        "nameZH_HK": "零售",
+        "nameZH_TW": "零售",
         "emoji": "🛍",
         "sortOrder": 10,
         "isDefault": false,
