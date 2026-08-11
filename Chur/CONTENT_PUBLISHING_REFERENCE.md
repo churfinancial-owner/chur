@@ -20,6 +20,8 @@ git push origin main                                    # 4. push
 
 **Steps 2 and 3 are one action.** Publishing without committing makes the live data and the repo disagree, and the next publish silently reverts your change.
 
+> Working on a branch rather than `main`? Replace `main` in step 4 with the branch name — see [Branches](#branches--when-the-commands-say-something-other-than-main). Check with `git branch --show-current`.
+
 ---
 
 ## What is remote, and what still needs an app release
@@ -179,6 +181,41 @@ Both are known and harmless — see `ROADMAP.md`. They don't block publishing. `
 
 ---
 
+## Branches — when the commands say something other than `main`
+
+Normal work happens directly on `main`, and every command in this guide assumes that. Occasionally work happens on a **branch** — a parallel copy of the project, used for anything risky enough that you'd want `main` left untouched while it's in progress.
+
+**Check which one you're on before pushing:**
+
+```bash
+git branch --show-current
+```
+
+If it prints anything other than `main`, substitute that name everywhere this guide says `main`:
+
+```bash
+git push origin claude/credit-card-app-growth-47raln
+git pull origin claude/credit-card-app-growth-47raln
+```
+
+Pushing to the wrong branch isn't destructive — it just puts your work somewhere you didn't expect, and it's fixable.
+
+**Two lines of history exist while a branch is open.** Switching between them swaps the files in your folder, so work committed on one branch appears to vanish when you switch to the other. It hasn't — it comes back when you switch back.
+
+**Merging a branch back into `main`** combines them:
+
+```bash
+git checkout main
+git merge <branch-name>
+git push origin main
+```
+
+After that, `main` has everything and the guide's commands work verbatim again.
+
+If git reports a **conflict** during the merge, it means the same file was edited on both sides and git can't decide which version wins. It's routine but fiddly the first time — worth getting help rather than guessing.
+
+---
+
 ## Git cheat sheet
 
 | Task | Command |
@@ -190,6 +227,8 @@ Both are known and harmless — see `ROADMAP.md`. They don't block publishing. `
 | Upload to GitHub | `git push origin main` |
 | Download latest | `git pull origin main` |
 | Which branch? | `git branch --show-current` |
+| Switch branch | `git checkout <branch-name>` |
+| Merge a branch into main | `git checkout main` then `git merge <branch-name>` |
 | Undo last commit | `git revert HEAD` |
 | Discard uncommitted edits to one file | `git checkout -- path/to/file` |
 
