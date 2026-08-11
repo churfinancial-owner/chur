@@ -19,5 +19,5 @@ enum FeatureFlags {
     /// Remote card/reward content from content.chur.app (see ROADMAP.md §P1).
     /// Off until the pipeline is verified on device — when off, the app reads
     /// bundled JSON exactly as it always has.
-    static let remoteContentEnabled = false
+    static let remoteContentEnabled = true
 }
