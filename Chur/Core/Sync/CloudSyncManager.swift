@@ -26,11 +26,15 @@ struct ChurBackup: Codable {
     // Increment this when the backup DTO shape changes in a breaking way.
     // Add a migration case to CloudSyncManager.migrate(_:) at the same time.
     // New fields added to any DTO must be optional so older backups decode safely.
-    static let currentVersion = 2
+    static let currentVersion = 3
     let version: Int
     let exportedAt: Date
     let user: UserBackup
     let cards: [CreditCardBackup]
+    /// Card History timeline. Added in v3; nil for older backups.
+    /// Not derivable from the cards themselves — a Product Change is the only
+    /// link between two otherwise-independent CreditCard rows.
+    let productChangeEvents: [CardProductChangeEventBackup]?
 }
 
 struct UserBackup: Codable {
@@ -47,6 +51,26 @@ struct UserBackup: Codable {
     let boostEnrollments: [String: String]
     let strategyPreferences: [String]
     let earningPowerTravelModeEnabled: Bool
+    /// Added in v3. The profile photo is user content — `profileEmoji` was being
+    /// backed up while the photo it replaces was not, so a restore silently
+    /// downgraded the avatar.
+    let profilePhotoData: Data?
+    /// Added in v3. Without it a restore resets "member since" to the restore date.
+    let dateAdded: Date?
+}
+
+/// One Product Change event. Added in v3.
+///
+/// Deliberately a flat copy of the model: the IDs are plain strings rather than
+/// SwiftData relationships, so the event survives even when one of the cards it
+/// references has since been deleted — and the backup must preserve that.
+struct CardProductChangeEventBackup: Codable {
+    let id: String
+    let fromCardID: String
+    let toCardID: String
+    let fromTemplateID: String
+    let toTemplateID: String
+    let changeDate: Date
 }
 
 struct CreditCardBackup: Codable {
@@ -76,6 +100,17 @@ struct CreditCardBackup: Codable {
     let rewardProgramOverride: String?
     let hasCustomAnnualFee: Bool
     let hasCustomForeignFee: Bool
+    // Note styling, added in v3. The note text was backed up but the colour
+    // preset the user picked for it was not, so restored notes reset to
+    // white-on-black.
+    let noteTextColor: String?
+    let noteBgColor: String?
+    // Added in v3. `imageName` was already backed up, but without this flag it
+    // restores as false and the next CardSyncService pass overwrites the user's
+    // art with the template's — losing it one step after the restore.
+    let hasCustomImage: Bool?
+    // Added in v3. Without it a restore resets every card's "added" date to now.
+    let dateAdded: Date?
     // Configurable slot → selected label (e.g. "5pct_slot_1" → "Groceries")
     let slotSelections: [String: String]?
     // User-specific reward customizations (only rates with custom point values stored)
@@ -103,6 +138,14 @@ struct BenefitUserData: Codable {
     let autoApplyEnabled: Bool
     let autoApplyUntil: Date?
     let isActive: Bool
+    /// Added in v3. `autoApplyEnabled` and `autoApplyUntil` were backed up but
+    /// the amount was not, so auto-apply came back with the wrong number:
+    /// `BenefitRowModel` falls back to `remaining` when this is nil, meaning a
+    /// user who set $10/month would start replaying the full period budget.
+    let autoApplyAmount: Int?
+    /// Added in v3. Without it every muted benefit un-mutes on restore and the
+    /// user gets a wave of reminders they had explicitly switched off.
+    let isMuted: Bool?
     let usageHistory: [BenefitUsageBackup]
 }
 
@@ -126,12 +169,31 @@ struct BenefitUsageBackup: Codable {
 
 extension ChurBackup {
     @MainActor
-    static func snapshot(of user: User, cards: [CreditCard]) -> ChurBackup {
+    static func snapshot(
+        of user: User,
+        cards: [CreditCard],
+        productChangeEvents: [CardProductChangeEvent] = []
+    ) -> ChurBackup {
         ChurBackup(
             version: currentVersion,
             exportedAt: Date(),
             user: UserBackup.snapshot(of: user),
-            cards: cards.map { CreditCardBackup.snapshot(of: $0) }
+            cards: cards.map { CreditCardBackup.snapshot(of: $0) },
+            productChangeEvents: productChangeEvents.map { CardProductChangeEventBackup.snapshot(of: $0) }
+        )
+    }
+}
+
+extension CardProductChangeEventBackup {
+    @MainActor
+    static func snapshot(of event: CardProductChangeEvent) -> CardProductChangeEventBackup {
+        CardProductChangeEventBackup(
+            id: event.id,
+            fromCardID: event.fromCardID,
+            toCardID: event.toCardID,
+            fromTemplateID: event.fromTemplateID,
+            toTemplateID: event.toTemplateID,
+            changeDate: event.changeDate
         )
     }
 }
@@ -152,7 +214,9 @@ extension UserBackup {
             showEffectiveRate: user.showEffectiveRate,
             boostEnrollments: user.boostEnrollments,
             strategyPreferences: user.strategyPreferences,
-            earningPowerTravelModeEnabled: user.earningPowerTravelModeEnabled
+            earningPowerTravelModeEnabled: user.earningPowerTravelModeEnabled,
+            profilePhotoData: user.profilePhotoData,
+            dateAdded: user.dateAdded
         )
     }
 }
@@ -200,6 +264,10 @@ extension CreditCardBackup {
             rewardProgramOverride: card.rewardProgramOverride,
             hasCustomAnnualFee: card.hasCustomAnnualFee,
             hasCustomForeignFee: card.hasCustomForeignFee,
+            noteTextColor: card.noteTextColor,
+            noteBgColor: card.noteBgColor,
+            hasCustomImage: card.hasCustomImage,
+            dateAdded: card.dateAdded,
             slotSelections: card.slotSelections.isEmpty ? nil : card.slotSelections,
             rewardUserData: rewardUserData,
             benefitUserData: card.benefits.map { BenefitUserData.snapshot(of: $0) }
@@ -217,6 +285,8 @@ extension BenefitUserData {
             autoApplyEnabled: benefit.autoApplyEnabled,
             autoApplyUntil: benefit.autoApplyUntil,
             isActive: benefit.isActive,
+            autoApplyAmount: benefit.autoApplyAmount,
+            isMuted: benefit.isMuted,
             usageHistory: benefit.usageHistory.map { BenefitUsageBackup.snapshot(of: $0) }
         )
     }
@@ -373,8 +443,17 @@ actor CloudSyncManager {
         // v1 -> v2: added UserBackup.languagePreference (optional, decodes to nil for
         // older backups). No field rewrite needed — BackupRestoreService already
         // nil-coalesces it to AppLanguage.system when applying to User.
+        //
+        // v2 -> v3: added ChurBackup.productChangeEvents, UserBackup.profilePhotoData
+        // and .dateAdded, CreditCardBackup.noteTextColor / .noteBgColor /
+        // .hasCustomImage / .dateAdded, BenefitUserData.autoApplyAmount / .isMuted.
+        // All optional and all decode to nil, which BackupRestoreService treats as
+        // "leave the freshly seeded default alone" — the same state a v2 restore
+        // produced. So no field rewrite is needed here either; a v2 backup restores
+        // exactly as well as it did before, and no better.
         return ChurBackup(version: ChurBackup.currentVersion, exportedAt: backup.exportedAt,
-                           user: backup.user, cards: backup.cards)
+                           user: backup.user, cards: backup.cards,
+                           productChangeEvents: backup.productChangeEvents)
     }
 
     // MARK: - Delete

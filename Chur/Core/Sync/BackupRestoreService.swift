@@ -12,6 +12,8 @@
 //  3. Call CardSyncService to seed benefits and reward plans from templates.
 //  4. Apply user-specific overrides (configurable reward labels, custom point
 //     values, benefit activation state, usage history).
+//  5. Reinsert Card History (CardProductChangeEvent) independently — those rows
+//     reference cards by plain string ID, not by relationship.
 //
 
 import Foundation
@@ -78,6 +80,7 @@ struct BackupRestoreService {
                 issuer: cardBackup.issuer,
                 network: cardBackup.network,
                 imageName: cardBackup.imageName,
+                hasCustomImage: cardBackup.hasCustomImage ?? false,
                 cardType: cardBackup.cardType,
                 isAuthorizedUser: cardBackup.isAuthorizedUser,
                 annualFee: cardBackup.annualFee,
@@ -88,10 +91,18 @@ struct BackupRestoreService {
                 country: cardBackup.country,
                 hasForeignTransactionFee: cardBackup.hasForeignTransactionFee,
                 foreignTransactionFeeRate: cardBackup.foreignTransactionFeeRate,
-                note: cardBackup.note
+                note: cardBackup.note,
+                noteIsVisible: cardBackup.noteIsVisible ?? true,
+                // v2 backups have no colours — fall back to the init defaults
+                // rather than writing nil, so an old backup restores exactly as
+                // it did before.
+                noteTextColor: cardBackup.noteTextColor ?? "#FFFFFF",
+                noteBgColor: cardBackup.noteBgColor ?? "#000000"
             )
             // Fields not in CreditCard.init
-            card.noteIsVisible = cardBackup.noteIsVisible ?? true
+            // `init` stamps dateAdded with Date(); overwrite it so the wallet
+            // keeps the card's real age instead of the restore time.
+            if let dateAdded = cardBackup.dateAdded { card.dateAdded = dateAdded }
             card.status = cardBackup.status
             card.cancelledDate = cardBackup.cancelledDate
             card.hasCustomAnnualFee = cardBackup.hasCustomAnnualFee
@@ -120,7 +131,43 @@ struct BackupRestoreService {
         // 6. Restore card display order
         user.cardDisplayOrder = backup.user.cardDisplayOrder
 
+        // 7. Restore the Card History timeline
+        applyProductChangeEvents(backup.productChangeEvents, modelContext: modelContext)
+
         try? modelContext.save()
+    }
+
+    // MARK: - Product Change History
+
+    /// Reinserts Product Change events (backup v3+).
+    ///
+    /// These are not cascade-linked to `CreditCard` — `fromCardID` / `toCardID`
+    /// are plain strings — so they are restored independently of which cards
+    /// made it back, exactly as they survive a card deletion locally. Events are
+    /// never mutated after creation, so matching on `id` alone is enough to keep
+    /// this idempotent across repeated restores.
+    private static func applyProductChangeEvents(
+        _ events: [CardProductChangeEventBackup]?,
+        modelContext: ModelContext
+    ) {
+        guard let events, !events.isEmpty else { return }
+
+        let existingIDs = Set(
+            (try? modelContext.fetch(FetchDescriptor<CardProductChangeEvent>()))?.map { $0.id } ?? []
+        )
+
+        for entry in events where !existingIDs.contains(entry.id) {
+            modelContext.insert(
+                CardProductChangeEvent(
+                    id: entry.id,
+                    fromCardID: entry.fromCardID,
+                    toCardID: entry.toCardID,
+                    fromTemplateID: entry.fromTemplateID,
+                    toTemplateID: entry.toTemplateID,
+                    changeDate: entry.changeDate
+                )
+            )
+        }
     }
 
     // MARK: - User Preferences
@@ -138,6 +185,11 @@ struct BackupRestoreService {
         user.boostEnrollments            = src.boostEnrollments
         user.strategyPreferences         = src.strategyPreferences
         user.earningPowerTravelModeEnabled = src.earningPowerTravelModeEnabled
+        // Both added in backup v3. Guarded rather than assigned straight through:
+        // a v2 backup decodes these as nil, and nil there means "this backup
+        // predates the field", not "the user cleared it".
+        if let photo = src.profilePhotoData { user.profilePhotoData = photo }
+        if let dateAdded = src.dateAdded    { user.dateAdded = dateAdded }
         // cardDisplayOrder is applied after cards are inserted (step 6 in restore)
     }
 
@@ -178,6 +230,12 @@ struct BackupRestoreService {
             benefit.activatedAt       = entry.activatedAt
             benefit.autoApplyEnabled  = entry.autoApplyEnabled
             benefit.autoApplyUntil    = entry.autoApplyUntil
+            // Both added in backup v3. Assigned unguarded because nil is also the
+            // freshly-seeded value for each: a v2 backup lands on the same state
+            // it produced before, and `autoApplyAmount = nil` legitimately means
+            // "replay the full remaining budget".
+            benefit.autoApplyAmount   = entry.autoApplyAmount
+            benefit.isMuted           = entry.isMuted ?? false
             // isActive is intentionally not restored — template controls visibility
 
             // Insert usage records, skipping any that already exist

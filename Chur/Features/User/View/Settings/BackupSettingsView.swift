@@ -9,6 +9,7 @@ import SwiftData
 struct BackupSettingsView: View {
     @Bindable var user: User
     @Query private var cards: [CreditCard]
+    @Query private var productChangeEvents: [CardProductChangeEvent]
 
     @State private var isSyncing = false
     @State private var syncError: String?
@@ -71,7 +72,7 @@ struct BackupSettingsView: View {
     // MARK: - Actions
 
     private func performBackup() {
-        let backup = ChurBackup.snapshot(of: user, cards: cards)
+        let backup = ChurBackup.snapshot(of: user, cards: cards, productChangeEvents: productChangeEvents)
         isSyncing = true
         syncError = nil
         Task {
