@@ -1,7 +1,7 @@
 # Chur — Data Dictionary
 
 **Schema version:** 2.0.0 — frozen baseline. Collapses the non-functional v1.10 … v1.14 ladder, which listed the same live `@Model` classes in every version and so could never migrate anything (audit note 1b)  
-**Migration plan:** `ChurMigrationPlan` in `Core/Sync/ChurSchema.swift` — **read its header before changing any `@Model`**  
+**Migration plan:** `ChurMigrationPlan` in `Core/Sync/ChurSchema.swift` — **read its header before changing any `@Model`**. Pre-launch, model changes do *not* each need a new version (there is no shipped store to migrate from); after v1.0 ships, every one does. The header spells out both modes  
 **Schema guard:** `Core/Sync/SchemaFingerprint.swift` fails a DEBUG assertion if a model changes without a version bump  
 **Store recovery:** `Core/Sync/ChurStoreRecovery.swift` quarantines an unreadable store and starts fresh instead of crashing on launch  
 **Backup version:** `ChurBackup.currentVersion = 3` — increment and add migration case in `CloudSyncManager.migrate(_:)` for any breaking DTO change  

@@ -23,8 +23,27 @@
 //  Because nothing had shipped, that fake ladder was collapsed into the single
 //  frozen baseline `ChurSchemaV2_0` below (2026-08-11).
 //
-//  HOW TO MAKE A SCHEMA CHANGE
-//  ───────────────────────────
+//  BEFORE THE FIRST APP STORE RELEASE — READ THIS FIRST
+//  ────────────────────────────────────────────────────
+//  While nothing has shipped, no user store exists at any version, so there is
+//  nothing to migrate FROM. Do NOT add a version for every model change during
+//  development — you would rebuild the fake ladder this file was rewritten to
+//  delete.
+//
+//  Pre-launch workflow for a model change:
+//    1. Edit the live model freely. Keep editing `ChurSchemaV2_0` in place.
+//    2. `SchemaFingerprint` will fail its DEBUG assertion. That is expected —
+//       paste the new value it prints into `SchemaFingerprint.recorded`.
+//    3. Delete the app from the simulator, or let `ChurStoreRecovery` quarantine
+//       the old store on next launch. Both are fine; no user is affected.
+//
+//  The moment v1.0 is on the App Store, that stops being true and the procedure
+//  below becomes mandatory for every single model change. Bump this note to say
+//  "SHIPPED — full procedure required" on release day so the switch is explicit
+//  rather than remembered.
+//
+//  HOW TO MAKE A SCHEMA CHANGE (required once shipped)
+//  ──────────────────────────────────────────────────
 //  Say you want to add `User.spendProfile` (a P3 requirement).
 //
 //  1. FREEZE THE OLD SHAPE FIRST — before touching `User.swift`.
