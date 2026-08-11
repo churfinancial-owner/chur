@@ -11,9 +11,9 @@ Last reviewed: 2026-08-05.
 | | |
 |---|---|
 | **What it does** | Per-dollar, point-of-sale ranker — "which card should I use at this merchant, right now" |
-| **Data** | 175 cards, 268 benefit templates, 193 categories, 77 merchants — ~500 JSON files in `Resources/json/`, all bundled into the binary |
+| **Data** | 175 cards, 268 benefit templates, 193 categories, 77 merchants — ~500 JSON files in `Resources/json/`, bundled into the binary as the offline baseline. **Cards and rewards also publish remotely** (P1a); everything else is bundle-only |
 | **Persistence** | On-device SwiftData (`ChurSchemaV1_14`) + Google Drive appDataFolder backup |
-| **Backend** | None. Two outbound calls only: Google Drive (`Core/Sync/CloudSyncManager.swift`) and Sanity CMS (`Features/News/Service/NewsService.swift`) |
+| **Backend** | No application server. Three outbound calls: Cloudflare R2 content (`Core/Content/`), Google Drive (`Core/Sync/CloudSyncManager.swift`), Sanity CMS (`Features/News/Service/NewsService.swift`) |
 | **Analytics** | None |
 | **Monetization** | None active. `CardRecommendation.affiliateURL` and `OnlineMerchant.affiliateID` exist but are dormant |
 
@@ -48,24 +48,56 @@ See `DataDictionary.md` audit note 1b for the full write-up.
 
 CDN-hosted aggregated JSON bundles + a version manifest, with the bundled JSON retained permanently as offline fallback.
 
-- Client contract stays **the JSON shapes that already exist**, so the hosting choice stays swappable and a future Android app consumes the identical manifest — no second API.
-- New `ContentStore` resolver (cache-first, bundle-fallback) replaces the 30 `Bundle.main` call sites. **Stage A covers only `Features/Cards/DataModel/CardDatabase.swift` and `Features/Benefit/DataModel/Setup/BenefitDatabase_Loading.swift`** — the domains that actually change often. Everything else migrates later.
-- Propagation into user wallets is already built: `Core/Sync/CardSyncService.swift` → `syncWalletCards(modelContext:)` reconciles against updated templates and already protects user edits via the `hasCustom*` flags.
-- Write the content cache into an **App Group container from day one** — P4's widget needs to read it, and retrofitting means redoing the write path.
-- Safety: reject any payload failing sha256 or decode, keep the previous cache, gate old clients with `minAppVersion`. A bad publish must never brick the app.
-
 **Architectural invariant — do not break:** the app only ever reads static JSON from the CDN. It never queries a database or CMS directly. This is what keeps the authoring layer swappable, stops a vendor outage from breaking app launches, and lets Android consume the identical files.
 
-**Shipping split:**
-
-| | Scope |
-|---|---|
-| **P1a** | Publish script + R2 bucket + `Core/Content/` (4 files) + App Group entitlement + cards & rewards wired. Prove the loop end-to-end by changing one rate. |
-| **P1b** | Benefits domain, card art published to CDN, Settings row showing content version + manual refresh, `Debug/Testing/SeedDataValidator.swift` extended to validate candidate payloads. |
-| **P1c** | Written JSON contract spec + shared pricing-engine test vectors (see §5 Android). |
+- Client contract stays **the JSON shapes that already exist**, so the hosting choice stays swappable and a future Android app consumes the identical manifest — no second API.
+- Propagation into user wallets is already built: `Core/Sync/CardSyncService.swift` → `syncWalletCards(modelContext:)` reconciles against updated templates and already protects user edits via the `hasCustom*` flags.
+- Safety: reject any payload failing sha256 or decode, keep the previous cache, gate old clients with `minAppVersion`. A bad publish must never brick the app.
 
 - **Why:** a wrong reward rate currently cannot be fixed without an App Store release, and offers change weekly.
 - **Cost of not doing it:** data goes stale between releases — the one thing that destroys trust in a card app. Plus every Android feature gets rebuilt from scratch.
+
+#### P1a — ✅ DONE (2026-08-11)
+
+Live at `https://content.chur.app`. A reward-rate change was published and reached the simulator without an App Store build, then reverted the same way.
+
+| Piece | Where |
+|---|---|
+| Publish script | `Scripts/ChurContentPublish` — `swift run ChurContentPublish [--upload]` |
+| Hosting | Cloudflare R2 bucket `chur-content`, custom domain `content.chur.app` |
+| Client | `Chur/Core/Content/` — `ContentDomain`, `ContentManifest`, `ContentStore`, `RemoteContentService` |
+| Wiring | `CardDatabase.loadCachedCards()` prefers remote; refresh on launch/foreground in `ContentView`; version + manual refresh in the DEBUG hammer menu |
+| Switch | `FeatureFlags.remoteContentEnabled` in `App/Config.swift` |
+
+Domains live: **cards, rewards**. Payload is ~200 KB total (~30 KB gzipped) — far smaller than the 1 MB on disk, since per-file overhead and whitespace dominated.
+
+**Operating rule: commit *and* publish.** The repo stays the source of truth; the CDN is a copy. Publishing without committing makes them drift, and the next run of the script republishes the old values.
+
+#### P1a — lessons worth keeping
+
+- **`manifest.json` is the only file that makes a version live.** Bundles are inert payload. A publish that uploads new bundles but not the manifest changes nothing, and the app is correct to ignore it. This cost real time — the bundles were re-uploaded three times while the stale manifest kept serving v1.
+- **`cf-cache-status: DYNAMIC` means Cloudflare is *not* caching**, so CDN caching can be ruled out as a cause immediately. It was the first suspect and the wrong one. No cache rule is needed for R2 custom domains serving JSON.
+- **Byte counts in the script output are a free diff.** A one-character rate edit (`5.0` → `10.0`) moved rewards from 118325 to 118326 bytes, which confirmed the edit landed before anything was uploaded.
+- **`dist/` accumulating versions was the root cause** of the stale-manifest confusion. The script now clears it each run so it only ever holds the current three files.
+- **Upload order matters:** bundles first, manifest last. A manifest pointing at bundles that failed to upload would fail every client's checksum check. Same reasoning as `RemoteContentService` staging all domains before committing any.
+- **Old bundles should not be deleted from R2.** They're ~200 KB against a 10 GB free tier, and keeping them allows a rollback by republishing a manifest that points at an earlier version — no re-upload, no release.
+- **App Groups need a paid Apple Developer account.** The entitlement shows red without one. `ContentStore.containerURL` falls back to Application Support, so P1a works regardless; this only blocks P4's widget sharing the cache.
+
+#### P1b — next
+
+Ordered by value-to-effort, not listed arbitrarily:
+
+1. **Benefits** — highest value, smallest change. `BenefitDatabase` has the identical shape to `CardDatabase` (`cachedBenefits` / `loadCachedBenefits()` / `reloadFromBundle()`), so it's one `ContentDomain` case, one aggregation in the script, one branch, one validation case. 268 files that change constantly as credits and partners rotate. `CardSyncService.syncBenefits` already handles propagation.
+2. **Merchants** — similar, but `Resources/json/merchants/SeedDataGenericMappings.json` is a dict of exact matches plus prefix/contains arrays, a different shape from the 77 per-merchant files. The script needs two aggregation shapes.
+3. **Card art to the CDN** — required before a *new* card can ship without a release (see §5b). Two call sites render bare `Image(name)` with no fallback.
+4. **User-facing Settings row** for content version + manual refresh (currently DEBUG-only).
+5. **`Debug/Testing/SeedDataValidator.swift`** extended to validate a candidate payload before publishing.
+
+**Categories are deliberately excluded from P1b.** They're persisted as `SpendingCategory` models, and `User.selectedCategories` / `deselectedCategories` / `explicitlySelectedParentCategories` all store category IDs. A remote publish that renamed or removed a category would silently orphan every user's saved preferences, with no build error to catch it. Making the taxonomy remotely mutable requires first committing to a rule — most likely "never remove, only deprecate" — which is a data-modelling decision, not plumbing.
+
+#### P1c
+
+Written JSON contract spec + shared pricing-engine test vectors (see §5 Android).
 
 ### P2 — Analytics baseline
 
@@ -99,12 +131,15 @@ Best-card-for-category (`AppIntent`-configurable) + expiring-benefit countdown d
 
 ## 4. Stack decisions
 
-| Need | Choice | Cost |
+| Need | Choice | Status |
 |---|---|---|
-| Serving content bundles | Cloudflare R2 + CDN | $0 (10 GB storage, zero egress) |
-| Authoring | Repo JSON to start; add TinaCMS or Decap **only when** hand-editing hurts | $0 |
-| Analytics | TelemetryDeck | €0–9/mo |
+| Serving content bundles | Cloudflare R2 (`chur-content`) + `content.chur.app` | ✅ Live, $0 |
+| Publishing | `swift run ChurContentPublish --upload` (wrangler via `npx`) | ✅ Live |
+| Authoring | Repo JSON; add TinaCMS or Decap **only when** hand-editing hurts | Not needed yet |
+| Analytics | TelemetryDeck | Not started (P2) |
 | Server-side compute | None needed. Cloudflare Workers ($5/mo) if that changes | — |
+
+`chur.app` DNS moved to Cloudflare (registrar: Namecheap). The root domain serves a GitHub Pages site and ImprovMX handles mail — both survived the nameserver change. Keep the R2 `r2.dev` subdomain disabled so content has exactly one public URL.
 
 **Rejected:** Sanity (owner preference). Supabase — its edge over plain file hosting was server compute, an analytics sink, and a table editor; the first two are no longer needed, and the third partly evaporates because reward plans normalize into `jsonb` and render as raw JSON text anyway. Not worth $25/mo plus a week of schema modelling. Firebase (painful nested-document editing, fights bulk publish), Airtable (per-seat cost + API rate limits), self-hosted PocketBase (a VPS to operate).
 
