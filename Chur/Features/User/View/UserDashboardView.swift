@@ -193,7 +193,21 @@ struct UserDashboardView: View {
                         }
                         
                         Divider()
-                        
+
+                        Section("Content: \(ContentStore.debugStatusLabel)") {
+                            Button(action: {
+                                Task {
+                                    guard await RemoteContentService.shared.refresh() else { return }
+                                    CardDatabase.reloadFromBundle()
+                                    _ = CardSyncService.syncWalletCards(modelContext: modelContext)
+                                }
+                            }) {
+                                Label("Refresh Remote Content", systemImage: "arrow.down.circle")
+                            }
+                        }
+
+                        Divider()
+
                         Button(role: .destructive, action: { showResetAlert = true }) {
                             Label("Reset All Data", systemImage: "trash")
                         }

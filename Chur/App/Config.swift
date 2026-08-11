@@ -15,4 +15,9 @@ enum Config {
 enum FeatureFlags {
     /// News feed section on Home. Off for go-live; flip on when the feature is ready.
     static let homeNewsFeedEnabled = false
+
+    /// Remote card/reward content from content.chur.app (see ROADMAP.md §P1).
+    /// Off until the pipeline is verified on device — when off, the app reads
+    /// bundled JSON exactly as it always has.
+    static let remoteContentEnabled = true
 }

@@ -124,7 +124,13 @@ class UserDashboardViewModel {
         
         // 2. Clear all UserDefaults for this app
         clearAllUserDefaults()
-        
+
+        // 2b. Cached remote content lives in the App Group container and its
+        // version in the App Group defaults suite, so neither is touched by
+        // clearAllUserDefaults(). Without this the reload below would restore
+        // the remotely published cards a reset is supposed to clear.
+        ContentStore.clear()
+
         // 3. Refresh in-memory JSON caches so they're ready for the next session
         BenefitDatabase.reloadFromBundle()
         CardDatabase.reloadFromBundle()

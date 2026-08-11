@@ -249,6 +249,10 @@ struct CardDatabase {
         return cardsByID[id]
     }
 
+    /// Rebuilds the card cache. Prefers remotely published content when
+    /// `FeatureFlags.remoteContentEnabled` is on and a payload is cached,
+    /// otherwise reads the bundled JSON. Name kept for symmetry with the other
+    /// `reloadFromBundle()` databases called together in reset_refresh_tool.
     static func reloadFromBundle() {
         cachedCards = loadCachedCards()
         cardsByID = Dictionary(cachedCards.map { ($0.id, $0) }, uniquingKeysWith: { _, last in last })
@@ -258,10 +262,14 @@ struct CardDatabase {
     private static var cardsByID: [String: CardTemplate] = Dictionary(cachedCards.map { ($0.id, $0) }, uniquingKeysWith: { _, last in last })
 
     private static func loadCachedCards() -> [CardTemplate] {
-        // Try to load from folder structure first
+        // Remotely published content wins when present and decodable; a decode
+        // failure here is the last safety net for a bad publish, so it falls
+        // through to the bundled JSON rather than leaving the user with nothing.
         var cards: [_CardJSON] = []
-        
-        if let folderCards = loadCardsFromFolders() {
+
+        if let remoteCards: [_CardJSON] = decodeRemote(.cards) {
+            cards = remoteCards
+        } else if let folderCards = loadCardsFromFolders() {
             cards = folderCards
         } else if let legacyCards: [_CardJSON] = CardDatabase.parseJSON(from: TestDataConfiguration.SeedFiles.cards) {
             cards = legacyCards
@@ -270,16 +278,21 @@ struct CardDatabase {
             return []
         }
 
-        // Load rewards dynamically from all *-rewards.json files in the rewards folder
+        // Rewards: one merged dictionary keyed by card template ID, either
+        // published as a single bundle or merged from the *-rewards.json files.
         var rewardsMap: [String: _RewardStructure] = [:]
-        
-        let discoveredRewardFiles = CardDatabase.discoverRewardFiles()
-        for file in discoveredRewardFiles {
-            if let partialMap: [String: _RewardStructure] = CardDatabase.parseJSON(from: file) {
-                rewardsMap.merge(partialMap) { _, new in new }
+
+        if let remoteRewards: [String: _RewardStructure] = decodeRemote(.rewards) {
+            rewardsMap = remoteRewards
+        } else {
+            let discoveredRewardFiles = CardDatabase.discoverRewardFiles()
+            for file in discoveredRewardFiles {
+                if let partialMap: [String: _RewardStructure] = CardDatabase.parseJSON(from: file) {
+                    rewardsMap.merge(partialMap) { _, new in new }
+                }
             }
         }
-        
+
         // Fallback to monolithic file if no split files were loaded
         if rewardsMap.isEmpty {
             if let monolithicMap: [String: _RewardStructure] = CardDatabase.parseJSON(from: TestDataConfiguration.SeedFiles.rewards) {
@@ -518,6 +531,19 @@ struct CardDatabase {
                 return nil
             }
             return String(url.deletingPathExtension().lastPathComponent)
+        }
+    }
+
+    /// Decodes a remotely published bundle, or nil when the feature is off,
+    /// nothing is cached, or the payload doesn't match the expected shape.
+    private static func decodeRemote<T: Codable>(_ domain: ContentDomain) -> T? {
+        guard FeatureFlags.remoteContentEnabled,
+              let data = ContentStore.data(for: domain) else { return nil }
+        do {
+            return try JSONDecoder().decode(T.self, from: data)
+        } catch {
+            print("❌ CardDatabase: remote '\(domain.rawValue)' failed to decode, using bundled JSON: \(error)")
+            return nil
         }
     }
 
