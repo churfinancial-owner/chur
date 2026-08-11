@@ -5,9 +5,17 @@
 //  Aggregates Chur/Resources/json/ into CDN-ready content bundles + a manifest.
 //
 //  Usage:
-//    swift run ChurContentPublish [--repo <path>] [--out <path>]
-//                                 [--version <int>] [--base-url <url>]
-//                                 [--min-app-version <semver>]
+//    swift run ChurContentPublish                    # write dist/ only
+//    swift run ChurContentPublish --upload           # write dist/ and push to R2
+//
+//  Options:
+//    --repo <path>             repo root (default: found by walking up)
+//    --out <path>              output dir (default: <repo>/dist)
+//    --version <int>           override version (default: previous + 1)
+//    --base-url <url>          CDN base (default: https://content.chur.app)
+//    --min-app-version <ver>   gate old clients (default: 1.0.0)
+//    --upload                  upload via `npx wrangler` — needs Node + `wrangler login`
+//    --bucket <name>           R2 bucket (default: chur-content)
 //
 //  Deliberately parses generic JSON rather than importing the app's Codable
 //  types: _CardJSON and _RewardStructure are private to CardDatabase.swift,
@@ -33,6 +41,8 @@ struct Arguments {
     var version: Int?
     var baseURL: String
     var minAppVersion: String
+    var upload: Bool
+    var bucket: String
 
     static func parse() throws -> Arguments {
         var repo: String?
@@ -40,9 +50,17 @@ struct Arguments {
         var version: Int?
         var baseURL = "https://content.chur.app"
         var minAppVersion = "1.0.0"
+        var upload = false
+        var bucket = "chur-content"
 
         var iterator = CommandLine.arguments.dropFirst().makeIterator()
         while let flag = iterator.next() {
+            // Boolean flags take no value, so handle them before reading ahead.
+            if flag == "--upload" {
+                upload = true
+                continue
+            }
+
             guard let value = iterator.next() else {
                 throw PublishError("Missing value for \(flag)")
             }
@@ -56,6 +74,7 @@ struct Arguments {
                 version = parsed
             case "--base-url": baseURL = value.hasSuffix("/") ? String(value.dropLast()) : value
             case "--min-app-version": minAppVersion = value
+            case "--bucket": bucket = value
             default: throw PublishError("Unknown flag \(flag)")
             }
         }
@@ -67,7 +86,9 @@ struct Arguments {
                          outDir: outDir,
                          version: version,
                          baseURL: baseURL,
-                         minAppVersion: minAppVersion)
+                         minAppVersion: minAppVersion,
+                         upload: upload,
+                         bucket: bucket)
     }
 
     /// Walks up from the working directory looking for Chur/Resources/json.
@@ -178,6 +199,37 @@ func write(_ value: Any, domain: String, version: Int, to outDir: URL) throws ->
     return BundleEntry(domain: domain, filename: filename, sha256: sha256Hex(data), bytes: data.count)
 }
 
+/// Empties the output directory so it only ever holds the current version's
+/// three files. Without this, versions accumulate and it stops being obvious
+/// which files to upload — the single easiest way to publish a stale manifest.
+/// Must run *after* resolveVersion, which reads the previous manifest.
+func clean(_ outDir: URL) throws {
+    guard let existing = try? FileManager.default.contentsOfDirectory(at: outDir,
+                                                                     includingPropertiesForKeys: nil) else { return }
+    for file in existing where file.pathExtension == "json" {
+        try FileManager.default.removeItem(at: file)
+    }
+}
+
+/// Uploads a file to R2 via wrangler. Kept behind --upload so the script has
+/// no Node dependency by default.
+func upload(_ file: URL, key: String, bucket: String) throws {
+    let process = Process()
+    process.executableURL = URL(fileURLWithPath: "/usr/bin/env")
+    process.arguments = [
+        "npx", "--yes", "wrangler", "r2", "object", "put",
+        "\(bucket)/\(key)",
+        "--file", file.path,
+        "--content-type", "application/json",
+        "--remote"
+    ]
+    try process.run()
+    process.waitUntilExit()
+    guard process.terminationStatus == 0 else {
+        throw PublishError("wrangler failed uploading \(key) (exit \(process.terminationStatus))")
+    }
+}
+
 /// Next version = highest previously published + 1, so re-running never
 /// silently overwrites a bundle a shipped app may already have cached.
 func resolveVersion(explicit: Int?, outDir: URL) -> Int {
@@ -212,7 +264,11 @@ do {
     }
 
     try FileManager.default.createDirectory(at: args.outDir, withIntermediateDirectories: true)
+
+    // Read the previous version before clearing — the old manifest is what
+    // the auto-increment is based on.
     let version = resolveVersion(explicit: args.version, outDir: args.outDir)
+    try clean(args.outDir)
 
     let entries = [
         try write(cards, domain: "cards", version: version, to: args.outDir),
@@ -233,7 +289,27 @@ do {
     print("   cards:   \(cards.count) cards, \(entries[0].bytes) bytes")
     print("   rewards: \(rewards.count) entries, \(entries[1].bytes) bytes")
     print("   manifest: \(manifestData.count) bytes, base URL \(args.baseURL)")
-    print("\nUpload all three files to the R2 bucket root.")
+
+    if args.upload {
+        // Bundles first, manifest last: the manifest is what makes a version
+        // live, so it must never point at bundles that aren't uploaded yet.
+        print("\nUploading to R2 bucket '\(args.bucket)'…")
+        for entry in entries {
+            try upload(args.outDir.appendingPathComponent(entry.filename),
+                       key: entry.filename,
+                       bucket: args.bucket)
+            print("   ✓ \(entry.filename)")
+        }
+        try upload(args.outDir.appendingPathComponent("manifest.json"),
+                   key: "manifest.json",
+                   bucket: args.bucket)
+        print("   ✓ manifest.json")
+        print("\n✅ Published. Verify: curl -s \(args.baseURL)/manifest.json | grep contentVersion")
+    } else {
+        print("\nUpload all three files in \(args.outDir.lastPathComponent)/ to the R2 bucket root.")
+        print("manifest.json is the one that matters — nothing goes live without it.")
+        print("Or re-run with --upload to do it automatically.")
+    }
 } catch let error as PublishError {
     FileHandle.standardError.write(Data("❌ \(error.description)\n".utf8))
     exit(1)
