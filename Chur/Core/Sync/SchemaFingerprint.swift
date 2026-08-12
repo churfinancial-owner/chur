@@ -34,8 +34,8 @@ enum SchemaFingerprint {
     /// Empty means "not yet recorded" — the first DEBUG launch prints the value
     /// to paste here. Update it in the same commit as any schema version bump.
     ///
-    /// v2.0 — pending first run (see console on launch).
-    static let recorded = ""
+    /// v2.0 — recorded 2026-08-12 from a DEBUG launch against `ChurSchemaV2_0`.
+    static let recorded = "d4c5a1e2a92dbf8e"
 
     #if DEBUG
 
