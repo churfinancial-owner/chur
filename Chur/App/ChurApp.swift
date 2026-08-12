@@ -32,19 +32,9 @@ struct ChurApp: App {
         #endif
     }
 
-    let modelContainer: ModelContainer = {
-        let schema = Schema(ChurSchemaV1_14.models, version: ChurSchemaV1_14.versionIdentifier)
-        let config = ModelConfiguration("Chur", schema: schema, isStoredInMemoryOnly: false)
-        do {
-            return try ModelContainer(for: schema, migrationPlan: ChurMigrationPlan.self, configurations: [config])
-        } catch {
-            #if DEBUG
-            fatalError("❌ ModelContainer failed to initialise: \(error)\n\nTip: If you changed the schema, delete the app from the simulator to reset the store.")
-            #else
-            fatalError("Failed to create ModelContainer: \(error)")
-            #endif
-        }
-    }()
+    /// Built by `ChurStoreRecovery`, which quarantines an unreadable store and
+    /// starts fresh rather than crashing on launch. See that file for why.
+    let modelContainer: ModelContainer = ChurStoreRecovery.makeContainer()
 
     /// Restores the previous Google Sign-In session on launch.
     /// Without this, GIDSignIn.sharedInstance.currentUser is nil after every app restart,

@@ -16,6 +16,7 @@ struct ContentView: View {
     @Query private var users: [User]
     @Query private var cards: [CreditCard]
     @Query private var categories: [SpendingCategory]
+    @Query private var productChangeEvents: [CardProductChangeEvent]
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -155,7 +156,7 @@ struct ContentView: View {
 
     private func uploadBackupOnBackground() {
         guard let user = users.first, !user.googleUserID.isEmpty else { return }
-        let backup = ChurBackup.snapshot(of: user, cards: cards)
+        let backup = ChurBackup.snapshot(of: user, cards: cards, productChangeEvents: productChangeEvents)
         Task {
             try? await CloudSyncManager.shared.uploadBackup(backup)
         }

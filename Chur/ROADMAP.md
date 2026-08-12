@@ -2,7 +2,7 @@
 
 Growth priorities and the reasoning behind them. **Update whenever priorities shift or a phase completes.**
 
-Last reviewed: 2026-08-05.
+Last reviewed: 2026-08-12.
 
 ---
 
@@ -12,7 +12,7 @@ Last reviewed: 2026-08-05.
 |---|---|
 | **What it does** | Per-dollar, point-of-sale ranker — "which card should I use at this merchant, right now" |
 | **Data** | 175 cards, 268 benefit templates, 193 categories, 77 merchants — ~500 JSON files in `Resources/json/`, bundled into the binary as the offline baseline. **Cards and rewards also publish remotely** (P1a); everything else is bundle-only |
-| **Persistence** | On-device SwiftData (`ChurSchemaV1_14`) + Google Drive appDataFolder backup |
+| **Persistence** | On-device SwiftData (`ChurSchemaV2_0`, migration-ready) + Google Drive appDataFolder backup (`ChurBackup` v3) |
 | **Backend** | No application server. Three outbound calls: Cloudflare R2 content (`Core/Content/`), Google Drive (`Core/Sync/CloudSyncManager.swift`), Sanity CMS (`Features/News/Service/NewsService.swift`) |
 | **Analytics** | None |
 | **Monetization** | None active. `CardRecommendation.affiliateURL` and `OnlineMerchant.affiliateID` exist but are dormant |
@@ -35,14 +35,31 @@ The gap: `CreditCard.annualFee` and redeemed value **never meet in code**. `Feat
 
 ## 3. Priority stack
 
-### P0 — Fix the SwiftData migration blocker
+### P0 — ✅ DONE (2026-08-12) — SwiftData migration blocker
 
-Every `ChurSchemaV1_10`…`ChurSchemaV1_14` enum in `Core/Sync/ChurSchema.swift` lists the **same live `@Model` classes**, so staged migration can never actually run. `App/ChurApp.swift:42` then `fatalError`s in release with no recovery path.
+Every `ChurSchemaV1_10`…`ChurSchemaV1_14` enum listed the **same live `@Model` classes**, so a version snapshot was a *pointer* to the models rather than a *photograph* of them. Add a field and all five versions silently described the new shape at once, leaving SwiftData with nothing to migrate from. `App/ChurApp.swift` then `fatalError`d on launch with no recovery path — the delete-and-reinstall that had been the dev workaround becomes total data loss in the field.
 
-See `DataDictionary.md` audit note 1b for the full write-up.
+| Piece | Where |
+|---|---|
+| Frozen baseline | `ChurSchemaV2_0` in `Core/Sync/ChurSchema.swift` — collapses the synthetic v1.10 … v1.14 ladder (nothing had shipped, so no store existed at those versions) |
+| The recipe | `ChurSchema.swift` header — freeze the old shape as a nested `@Model` copy *before* editing the live one, then add the next version + stage |
+| Drift guard | `Core/Sync/SchemaFingerprint.swift` — DEBUG assertion when a model changes without a version bump |
+| Recovery net | `Core/Sync/ChurStoreRecovery.swift` — quarantines an unreadable store (moves, never deletes) and starts fresh; `StoreRecoveryNoticeView` explains it and points at Drive restore |
+| Backup completeness | `ChurBackup.currentVersion = 3` — nine previously-dropped user values now survive a restore (DataDictionary audit notes 14–16) |
 
-- **Why:** P3 and P4 both add persistence and are blocked behind it.
-- **Cost of not doing it:** the first schema change after launch wipes real users' wallets and benefit history, with a hard crash and no recovery. Unrecoverable in the field.
+**Verified 2026-08-12** on a simulator, by deliberately corrupting `Chur.store` and relaunching: the failure was caught, the old store quarantined (moved, not deleted), the recovery notice shown instead of a crash, and the wallet restored from Google Drive afterwards. The fingerprint guard is recorded and silent on a matching schema.
+
+**Still unproven:** no *real* staged migration has run yet, because no model has changed since. The first one — likely `User.spendProfile` for P3 — is the real test. Follow the header recipe; the fingerprint guard will stop you if you skip a step.
+
+**Lessons worth keeping**
+
+- **A `VersionedSchema` must be a photograph, not a pointer.** This is the whole bug in one line. `models: [CreditCard.self]` in five different enums is five pointers to one mutable thing.
+- **The mistake was invisible to every tool.** It compiled, it ran, and the DEBUG workaround (delete the app) *looked* like normal schema-change friction rather than a defect. That's why the fix includes a tripwire and not just a correct baseline — being right once doesn't help if the next change silently un-fixes it.
+- **Fake history is worse than no history.** Four of the five versions were authored in a single commit, describing stores that never existed. They looked like diligence and provided nothing. Delete synthetic versions rather than migrating through them.
+- **A backup is only a safety net for the users who have one.** Sign-in is skippable and Apple Sign In has no backup at all, so store recovery is an empty start for those users. Worth remembering before treating "they can just restore" as an answer.
+- **SwiftData matches on entity shape, not on the version number.** A v1.14 store opened cleanly under v2.0 because this work changed no model fields — the entities were byte-identical and there was nothing to migrate. Bumping a version identifier alone is not a migration and does not invalidate an existing store. This also meant the recovery path had to be tested by deliberately corrupting a store; it would never have fired on its own.
+- **The recovery screen is insurance against your own future mistake, not against user behaviour.** The realistic triggers are a bad migration stage in a future release, a TestFlight downgrade, a kill mid-migration, or a full disk — in that order. If it ever starts appearing often, that is a release regression signalling itself, which makes it the single best candidate for the first P2 analytics event.
+- **Auditing the backup found worse bugs than the one being fixed.** `autoApplyAmount` being dropped meant a restored benefit replayed the full period budget instead of the user's chosen amount — silently wrong money, and nothing to do with migration. Field-by-field DTO audits are cheap; do one whenever a model gains user-editable state.
 
 ### P1 — Remote content pipeline
 
@@ -114,7 +131,7 @@ Join `CreditCard.annualFee` + benefit budgets (`BenefitUsageAnalyzer_Balance.per
 
 Outputs: per-card keep / review / downgrade verdict; wallet-level "left on the table" (unredeemed budget this period) and "misrouted spend" (you'd earn $Y more using card Z for groceries).
 
-- Requires a new persisted field on `User` (spend profile) → **blocked on P0**.
+- Requires a new persisted field on `User` (spend profile) → will be the **first real staged migration**; follow the recipe in `ChurSchema.swift`.
 - Also upgrades `CardRecommendationEngine.recommend()` from taste-based (`strategyPreferences` only) to spend-aware. Note its weights don't sum to 1 — issuer diversity is `0.5`, larger than strategy match at `0.45`, likely a typo to fix while there.
 - Surfaces in `UserWalletSummaryView` and Card Info; the net-value number should also flow into `SharePostcardView` — it's the most shareable number in the category.
 
@@ -125,7 +142,7 @@ Outputs: per-card keep / review / downgrade verdict; wallet-level "left on the t
 
 Best-card-for-category (`AppIntent`-configurable) + expiring-benefit countdown driven by `Features/Benefit/Service/ExpiringBenefits.swift`.
 
-- Needs a Widget Extension target, entitlements (none exist today), and moving `ModelConfiguration` to a `groupContainer` — which relocates the store file and needs a one-time migration → **blocked on P0**.
+- Needs a Widget Extension target, entitlements (none exist today), and moving `ModelConfiguration` to a `groupContainer` — which relocates the store file and needs a one-time migration. P0 unblocked this; note the store path is now built inside `ChurStoreRecovery.makeContainer()`, so the `groupContainer` change goes there.
 - **Why:** `ReminderScheduler` already drives the retention loop; a widget gives it a home-screen surface.
 - **Cost of not doing it:** lowest-stakes item here. Upside, not a gap.
 

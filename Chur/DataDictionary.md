@@ -1,16 +1,40 @@
 # Chur — Data Dictionary
 
-**Schema version:** 1.13.0 (adds `CreditCard.cancelledDate`, new `CardProductChangeEvent` model — Cancel / Product Change feature)  
-**Migration plan:** `ChurMigrationPlan` in `Core/Sync/ChurSchema.swift`  
-**Backup version:** `ChurBackup.currentVersion = 1` — increment and add migration case in `CloudSyncManager.migrate(_:)` for any breaking DTO change  
+**Schema version:** 2.0.0 — frozen baseline. Collapses the non-functional v1.10 … v1.14 ladder, which listed the same live `@Model` classes in every version and so could never migrate anything (audit note 1b)  
+**Migration plan:** `ChurMigrationPlan` in `Core/Sync/ChurSchema.swift` — **read its header before changing any `@Model`**. Pre-launch, model changes do *not* each need a new version (there is no shipped store to migrate from); after v1.0 ships, every one does. The header spells out both modes  
+**Schema guard:** `Core/Sync/SchemaFingerprint.swift` fails a DEBUG assertion if a model changes without a version bump  
+**Store recovery:** `Core/Sync/ChurStoreRecovery.swift` quarantines an unreadable store and starts fresh instead of crashing on launch  
+**Backup version:** `ChurBackup.currentVersion = 3` — increment and add migration case in `CloudSyncManager.migrate(_:)` for any breaking DTO change  
 **Persistence:** SwiftData (SQLite on-device)  
-**Cloud sync:** Google Drive App Data (JSON snapshot, Google-authenticated users only); Apple Sign In users currently have no cloud backup — CloudKit planned  
+**Cloud sync:** Google Drive App Data (JSON snapshot, Google-authenticated users only); Apple Sign In users and anonymous users currently have no cloud backup — CloudKit planned. For those users the local store is the only copy, which is why the migration plan has to be correct rather than leaning on store recovery  
 **Seed data authoring:** see `Resources/json/REWARD_SETUP_REFERENCE.md` (rewards) and `Resources/json/MERCHANT_SETUP_REFERENCE.md` (categories/merchants)  
-**Last updated:** 2026-07-26
+**Last updated:** 2026-08-12
 
 > SwiftData auto-generates an opaque `PersistentIdentifier` for every `@Model` instance.  
 > This acts as the internal primary key and is not exposed as a Swift property.  
 > Where a model defines its own `id: String`, that field is the **application-level primary key** — used for cross-reference and sync, but distinct from SwiftData's internal PK.
+
+---
+
+## At a glance — model registry
+
+Every `@Model` in the app, whether the schema persists it, and how much of it survives a cloud restore. **A model missing from `ChurSchemaV2_0.models` is silently not persisted** — no build error, no runtime warning, it just never reaches disk.
+
+| Model | File | In `ChurSchemaV2_0` | Cloud backup | § |
+|---|---|---|---|---|
+| `User` | `Features/User/Data/User.swift` | ✅ | Partial — preferences and identity; auth fields re-derived at sign-in | [1](#1-user) |
+| `CreditCard` | `Features/Cards/DataModel/CreditCard.swift` | ✅ | Partial — identity + user edits; rewards/benefits re-seeded | [2](#2-creditcard) |
+| `RewardPlan` | `Features/Rewards/DataModel/RewardPlan.swift` | ✅ | ❌ — re-seeded from template; only `CreditCard.selectedPlanID` carries over (audit note 16) | [3](#3-rewardplan) |
+| `RewardRate` | `Features/Rewards/DataModel/RewardRate.swift` | ✅ | Partial — only `hasCustomPointValue` + `pointCashValue`; the rest re-seeded | [4](#4-rewardrate) |
+| `Benefit` | `Features/Benefit/DataModel/Models/Benefit.swift` | ✅ | Partial — user state only (activation, auto-apply, mute); template content re-seeded | [5](#5-benefit) |
+| `BenefitUsageRecord` | `Features/Benefit/DataModel/Models/BenefitUsageRecord.swift` | ✅ | ✅ Full | [6](#6-benefitusagerecord) |
+| `CardProductChangeEvent` | `Features/Cards/DataModel/CardProductChangeEvent.swift` | ✅ | ✅ Full (since backup v3) | [7](#7-cardproductchangeevent) |
+| `SpendingCategory` | `Features/Rewards/View/SpendingCategory.swift` | ✅ | ❌ — seed data, rebuilt from JSON. The user's *choices* live on `User.selectedCategories` etc. | [8](#8-spendingcategory) |
+| `MerchantReward` | `Features/Rewards/DataModel/MerchantReward.swift` | ❌ **not registered** | ❌ | [9](#9-merchantreward--orphaned) |
+
+**The restore model, in one line:** the backup carries only what the user authored — template content is re-seeded from JSON by `CardSyncService`, then user deltas are applied on top (`BackupRestoreService`). This is why "Partial" is correct rather than a gap: a restored card gets current reward rates rather than stale ones from whenever the backup was taken.
+
+**The failure mode it creates:** any *new* user-editable field is invisible to the backup until someone adds it to the DTO, and nothing fails when they don't — the field just silently resets on every restore. That is exactly how the nine fields in audit notes 14–15 were lost, including one that produced wrong money (`Benefit.autoApplyAmount`). **When you add a user-editable field to a model, add it to `CloudSyncManager` and `BackupRestoreService` in the same commit.**
 
 ---
 
@@ -224,7 +248,7 @@
 ## 7. CardProductChangeEvent
 
 **File:** `Features/Cards/DataModel/CardProductChangeEvent.swift`  
-**Role:** One immutable row per Product Change. A Product Change is modeled as **cancel the old card, add a new one** (`CardProductChangeService.productChange`) rather than an in-place mutation — this event is the only link between the two otherwise-independent `CreditCard` rows. Powers the Card History timeline and the "previously X" note shown on the new card's Card Information. Never mutated or deleted after creation. Not currently included in the cloud backup DTOs (see `CloudSyncManager.swift`).
+**Role:** One immutable row per Product Change. A Product Change is modeled as **cancel the old card, add a new one** (`CardProductChangeService.productChange`) rather than an in-place mutation — this event is the only link between the two otherwise-independent `CreditCard` rows. Powers the Card History timeline and the "previously X" note shown on the new card's Card Information. Never mutated or deleted after creation. Included in the cloud backup as `CardProductChangeEventBackup` since backup v3, restored independently of the cards it references (`BackupRestoreService.applyProductChangeEvents`).
 
 | Field | Type | Constraints | Relationship | Description |
 |---|---|---|---|---|
@@ -270,7 +294,7 @@
 **File:** `Features/Rewards/DataModel/MerchantReward.swift`  
 **Role:** Originally intended as a per-card merchant-specific reward override. **Not currently registered in the SwiftData schema** (not included in the `models` list in `Core/Sync/ChurSchema.swift`).
 
-> **Action required:** Either add `MerchantReward.self` to the schema registration in `ChurApp.swift`, or delete this file if the feature was superseded by `RewardRate.merchantIdentifier`.
+> **Not a bug — a decision that hasn't been made.** Because it is absent from `ChurSchemaV2_0.models`, any instance created would be silently discarded rather than persisted. Two ways out, both requiring a deliberate choice: register it in a **new** `VersionedSchema` (adding a model is a schema change — follow the recipe in `ChurSchema.swift`), or delete the file if `RewardRate.merchantIdentifier` has superseded it. Leaving it as-is is safe; the risk is only that someone assumes it works. See audit note 4.
 
 | Field | Type | Constraints | Description |
 |---|---|---|---|
@@ -353,18 +377,20 @@ SpendingCategory
 
 | # | Severity | Status | Area | Finding |
 |---|---|---|---|---|
-| 1 | **High** | ✅ Done | Schema migration | `ChurMigrationPlan` + `ChurSchemaV1_10` created in `Core/Sync/ChurSchema.swift`; `ChurApp.swift` now uses `migrationPlan:`. Add a new `VersionedSchema` + `MigrationStage` for every future schema change. |
-| 1b | **High** | Open (pre-launch blocker) | Schema migration | The versioned schemas all reference the same live `@Model` classes, so staged migration can never actually run — any model change breaks existing stores (confirmed 2026-07-11 adding `groupLabel`; dev fix = delete app from simulator). Before first App Store release: freeze the shipped schema as real model snapshots, and replace the release-mode `fatalError` in `ChurApp.swift` with a recovery path (fresh store + restore from cloud backup). |
+| 1 | **High** | ✅ Done | Schema migration | `ChurMigrationPlan` created in `Core/Sync/ChurSchema.swift`; the container is built with `migrationPlan:`. Superseded by note 1b — the plan existed but could not work. The versions named here (`ChurSchemaV1_10` … `V1_14`) no longer exist; the baseline is `ChurSchemaV2_0`. |
+| 1b | **High** | ✅ Done (2026-08-11) | Schema migration | Was: every versioned schema referenced the same live `@Model` classes, so staged migration could never run and any model change broke existing stores (confirmed 2026-07-11 adding `groupLabel`). Fixed in three parts: (a) the synthetic v1.10 … v1.14 ladder collapsed into the single frozen baseline `ChurSchemaV2_0`, with the freeze-the-old-shape-first recipe written into the `ChurSchema.swift` header; (b) `SchemaFingerprint` fails a DEBUG assertion when a model changes without a version bump, so the mistake can no longer ship silently; (c) `ChurStoreRecovery` replaces the launch `fatalError` with quarantine-and-restart plus a recovery notice pointing at Drive restore. Recovery verified 2026-08-12 by corrupting a simulator store: failure caught, store quarantined, notice shown, wallet restored from Drive. **Not yet exercised against a real staged migration** — the first one lands with the next model change. |
 | 2 | **High** | ✅ Done | Backup versioning | `CloudSyncManager.migrate(_:)` added. `downloadBackup()` runs migration after decode. New DTO fields must be `optional`. Increment `ChurBackup.currentVersion` and add a migration case for each breaking change. |
 | 3 | **Medium** | Deferred | Apple backup | Apple Sign In users have no cloud backup. CloudKit planned after Google flow is stable. |
-| 4 | **Medium** | Placeholder | `MerchantReward` | Kept as `@Model` placeholder for future use. Not registered in schema — register in `ChurSchemaVX_Y` (with a version bump) when ready to use. |
+| 4 | **Medium** | Placeholder | `MerchantReward` | Kept as `@Model` placeholder for future use. Not in `ChurSchemaV2_0.models`, so instances would be silently discarded rather than persisted. Registering it is itself a schema change — add a new `VersionedSchema` + stage, don't edit the baseline. |
 | 5 | **Medium** | Open | `User.authProvider` | Raw `String` with no enum enforcement. Migrate to `Codable` enum before v1.1. |
 | 6 | **Medium** | Open | String closed-value fields | `Benefit.frequency`, `resetType`, `activationMode`, `trackingMode` — no validation layer. Add on-write checks or enum-backed storage. |
 | 7 | **Medium** | Open | Dual reward path | Legacy `CreditCard.rewards` (direct) co-exists with `rewardPlans`. Remove once all cards have plans; requires a `MigrationStage`. |
 | 8 | **Medium** | Open | `selectedConfigurableLabel` | Redundant with `CreditCard.slotSelections`. Remove to eliminate drift risk. |
-| 9 | **Low** | Open | `User.profilePhotoData` | Raw JPEG `Data` inline in model. Add `@Attribute(.externalStorage)` to avoid loading on every `User` fetch. |
+| 9 | **Low** | Open | `User.profilePhotoData` | Raw JPEG `Data` inline in model. Add `@Attribute(.externalStorage)` to avoid loading on every `User` fetch — note that is a schema change and needs a new version. Backup size is not a concern: `ProfilePhotoPicker.compress` caps at 400px / quality 0.7, so the base64 payload added to the v3 backup is tens of KB. |
 | 10 | **Low** | Open | Hex color strings | `CreditCard.noteTextColor` / `noteBgColor` unvalidated. Add hex-format check on write. |
 | 11 | **Info** | Open | `User` singleton | No uniqueness constraint. Add boot-time assertion and a merge/delete repair path. |
 | 12 | **Info** | Open | `BenefitUsageRecord` import | Idempotent re-import requires caller-supplied `externalID`; `id` uniqueness alone is insufficient. |
 | 13 | **Low** | Open | `CardProductChangeEvent` orphaning | Not cascade-linked to `CreditCard` (see Relationships Overview) — rows survive card deletion with no cleanup path. Low impact today (history-only, never read after its card is gone), but worth a cleanup pass if `CardProductChangeEvent` volume grows. |
-| 14 | **Low** | Open | `CardProductChangeEvent` not backed up | Not represented in the `ChurBackup` DTOs (see `CloudSyncManager.swift`) — a cloud restore to a new device loses the Card History timeline linkage, though both `CreditCard` rows it links (and their own benefit/usage data) restore normally on their own. |
+| 14 | **Low** | ✅ Done (2026-08-11) | `CardProductChangeEvent` not backed up | Added to `ChurBackup` as `productChangeEvents` in backup v3. Restored via `BackupRestoreService.applyProductChangeEvents`, keyed on `id` so repeated restores stay idempotent. |
+| 15 | **Medium** | ✅ Done (2026-08-11) | Backup coverage gaps | Audit of every `@Model` field against the DTOs found seven more silently-dropped values, all fixed in backup v3: `Benefit.autoApplyAmount` (restored auto-apply replayed the **full period budget** instead of the user's amount), `Benefit.isMuted` (muted benefits un-muted and resumed notifications), `User.profilePhotoData`, `User.dateAdded`, `CreditCard.noteTextColor` / `noteBgColor`, `CreditCard.hasCustomImage` (restored `false`, so the next `CardSyncService` pass overwrote user art), `CreditCard.dateAdded`. |
+| 16 | **Low** | Open | Custom `RewardPlan` not backed up | `RewardPlan.isCustomPlan` exists and `CardSyncService` explicitly preserves custom plans during sync, but nothing in the app ever sets it to `true` — the feature is scaffolding, so there is no bug today. Whenever custom-plan creation ships, the backup must carry the plan and its rates: restore re-seeds plans from templates, so a custom plan would vanish and `selectedPlanID` would dangle. |
