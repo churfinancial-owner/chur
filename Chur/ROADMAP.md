@@ -2,7 +2,7 @@
 
 Growth priorities and the reasoning behind them. **Update whenever priorities shift or a phase completes.**
 
-Last reviewed: 2026-08-11.
+Last reviewed: 2026-08-12.
 
 ---
 
@@ -35,7 +35,7 @@ The gap: `CreditCard.annualFee` and redeemed value **never meet in code**. `Feat
 
 ## 3. Priority stack
 
-### P0 — ✅ DONE (2026-08-11) — SwiftData migration blocker
+### P0 — ✅ DONE (2026-08-12) — SwiftData migration blocker
 
 Every `ChurSchemaV1_10`…`ChurSchemaV1_14` enum listed the **same live `@Model` classes**, so a version snapshot was a *pointer* to the models rather than a *photograph* of them. Add a field and all five versions silently described the new shape at once, leaving SwiftData with nothing to migrate from. `App/ChurApp.swift` then `fatalError`d on launch with no recovery path — the delete-and-reinstall that had been the dev workaround becomes total data loss in the field.
 
@@ -47,7 +47,9 @@ Every `ChurSchemaV1_10`…`ChurSchemaV1_14` enum listed the **same live `@Model`
 | Recovery net | `Core/Sync/ChurStoreRecovery.swift` — quarantines an unreadable store (moves, never deletes) and starts fresh; `StoreRecoveryNoticeView` explains it and points at Drive restore |
 | Backup completeness | `ChurBackup.currentVersion = 3` — nine previously-dropped user values now survive a restore (DataDictionary audit notes 14–16) |
 
-**Still unproven:** no *real* staged migration has run yet, because there hasn't been a model change since. The first one — likely `User.spendProfile` for P3 — is the real test. Follow the header recipe and the fingerprint guard will tell you if you skipped a step.
+**Verified 2026-08-12** on a simulator, by deliberately corrupting `Chur.store` and relaunching: the failure was caught, the old store quarantined (moved, not deleted), the recovery notice shown instead of a crash, and the wallet restored from Google Drive afterwards. The fingerprint guard is recorded and silent on a matching schema.
+
+**Still unproven:** no *real* staged migration has run yet, because no model has changed since. The first one — likely `User.spendProfile` for P3 — is the real test. Follow the header recipe; the fingerprint guard will stop you if you skip a step.
 
 **Lessons worth keeping**
 
@@ -55,6 +57,8 @@ Every `ChurSchemaV1_10`…`ChurSchemaV1_14` enum listed the **same live `@Model`
 - **The mistake was invisible to every tool.** It compiled, it ran, and the DEBUG workaround (delete the app) *looked* like normal schema-change friction rather than a defect. That's why the fix includes a tripwire and not just a correct baseline — being right once doesn't help if the next change silently un-fixes it.
 - **Fake history is worse than no history.** Four of the five versions were authored in a single commit, describing stores that never existed. They looked like diligence and provided nothing. Delete synthetic versions rather than migrating through them.
 - **A backup is only a safety net for the users who have one.** Sign-in is skippable and Apple Sign In has no backup at all, so store recovery is an empty start for those users. Worth remembering before treating "they can just restore" as an answer.
+- **SwiftData matches on entity shape, not on the version number.** A v1.14 store opened cleanly under v2.0 because this work changed no model fields — the entities were byte-identical and there was nothing to migrate. Bumping a version identifier alone is not a migration and does not invalidate an existing store. This also meant the recovery path had to be tested by deliberately corrupting a store; it would never have fired on its own.
+- **The recovery screen is insurance against your own future mistake, not against user behaviour.** The realistic triggers are a bad migration stage in a future release, a TestFlight downgrade, a kill mid-migration, or a full disk — in that order. If it ever starts appearing often, that is a release regression signalling itself, which makes it the single best candidate for the first P2 analytics event.
 - **Auditing the backup found worse bugs than the one being fixed.** `autoApplyAmount` being dropped meant a restored benefit replayed the full period budget instead of the user's chosen amount — silently wrong money, and nothing to do with migration. Field-by-field DTO audits are cheap; do one whenever a model gains user-editable state.
 
 ### P1 — Remote content pipeline
