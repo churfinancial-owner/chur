@@ -8,7 +8,7 @@
             "description": "Receive a statement credit for one monthly Walmart+ membership (up to $12.95 plus tax) when you pay with your Card."
         }
     },
-    "value": 12.95,
+    "value": 13,
     "valueCurrency": "USD",
     "frequency": "monthly",
     "isRecurring": true,

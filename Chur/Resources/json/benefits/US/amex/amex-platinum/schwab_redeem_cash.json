@@ -8,6 +8,7 @@
             "description": "Redeem Membership Rewards® points for deposits into your eligible Schwab account at a rate of 1.1 cents per point ($110 per 10,000 points) for the first 1,000,000 points redeemed per calendar year."
         }
     },
+    "value": 0,
     "valueCurrency": "USD",
     "frequency": "annual",
     "isRecurring": true,
