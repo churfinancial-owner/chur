@@ -93,6 +93,12 @@ struct MerchantEntry: Codable {
         let parent: String?     // parentCategoryID; nil = isolated brand (no ancestor cascade)
         let links: [String]?    // extra cross-links (e.g. isolated brand → "wholesale")
         let emoji: String?      // defaults to 🏷️
+
+        /// "hidden" drops the synthesized category from the picker while keeping
+        /// its id resolvable. This is how a brand category is retired: deleting
+        /// the merchant instead would strand every `User.selectedCategories`
+        /// entry pointing at it, which the publish id-lock refuses.
+        let visibility: String?
     }
 
     func toOnlineMerchant() -> OnlineMerchant {
@@ -129,11 +135,43 @@ struct MerchantSeedDatabase {
 
     private(set) static var seed: MerchantSeedFile = loadSeed()
 
+    /// Rebuilds the merchant seed. Prefers remotely published content when
+    /// `FeatureFlags.remoteContentEnabled` is on and a payload is cached,
+    /// otherwise reads the bundled JSON. Name kept for symmetry with the other
+    /// `reloadFromBundle()` databases called together in reset_refresh_tool.
     static func reloadFromBundle() {
         seed = loadSeed()
     }
 
+    /// Decodes a remotely published bundle, or nil when the feature is off,
+    /// nothing is cached, or the payload doesn't match the expected shape.
+    /// Each half falls back independently, so bad mappings can't cost the
+    /// merchant list (and vice versa).
+    private static func decodeRemote<T: Decodable>(_ domain: ContentDomain) -> T? {
+        guard FeatureFlags.remoteContentEnabled,
+              let data = ContentStore.data(for: domain) else { return nil }
+        do {
+            return try JSONDecoder().decode(T.self, from: data)
+        } catch {
+            #if DEBUG
+            print("❌ MerchantSeedDatabase: remote '\(domain.rawValue)' failed to decode, using bundled JSON: \(error)")
+            #endif
+            return nil
+        }
+    }
+
     private static func loadSeed() -> MerchantSeedFile {
+        // Remotely published content wins when present and decodable; a decode
+        // failure is the last safety net for a bad publish, so it falls through
+        // to the bundled JSON rather than leaving the user with nothing.
+        let remoteMerchants: [MerchantEntry]? = decodeRemote(.merchants)
+        let remoteMappings: MerchantMappings? = decodeRemote(.merchantMappings)
+
+        if let remoteMerchants, !remoteMerchants.isEmpty {
+            return MerchantSeedFile(merchants: remoteMerchants,
+                                    genericMappings: remoteMappings ?? bundledMappings())
+        }
+
         var merchants: [MerchantEntry] = []
         let merchantURLs = Bundle.main.urls(forResourcesWithExtension: "json", subdirectory: nil)?
             .filter { $0.lastPathComponent.hasPrefix("SeedDataMerchants_") } ?? []
@@ -155,19 +193,22 @@ struct MerchantSeedDatabase {
         }
         #endif
 
-        var genericMappings: MerchantMappings?
-        if let url = Bundle.main.url(forResource: "SeedDataGenericMappings", withExtension: "json") {
-            do {
-                let data = try Data(contentsOf: url)
-                genericMappings = try JSONDecoder().decode(MerchantMappings.self, from: data)
-            } catch {
-                #if DEBUG
-                print("❌ MerchantSeedDatabase: Failed to decode SeedDataGenericMappings.json: \(error)")
-                #endif
-            }
-        }
+        return MerchantSeedFile(merchants: merchants,
+                                genericMappings: remoteMappings ?? bundledMappings())
+    }
 
-        return MerchantSeedFile(merchants: merchants, genericMappings: genericMappings)
+    private static func bundledMappings() -> MerchantMappings? {
+        guard let url = Bundle.main.url(forResource: "SeedDataGenericMappings", withExtension: "json") else {
+            return nil
+        }
+        do {
+            return try JSONDecoder().decode(MerchantMappings.self, from: try Data(contentsOf: url))
+        } catch {
+            #if DEBUG
+            print("❌ MerchantSeedDatabase: Failed to decode SeedDataGenericMappings.json: \(error)")
+            #endif
+            return nil
+        }
     }
 
     /// Merchants shown in the Online search mode (searchable != false).
@@ -219,7 +260,7 @@ struct MerchantSeedDatabase {
                 cardFilter: nil,
                 excludedPaymentMethods: nil,
                 channels: nil,
-                visibility: nil
+                visibility: spec.visibility
             )
         }
     }

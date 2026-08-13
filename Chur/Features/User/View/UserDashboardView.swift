@@ -200,6 +200,9 @@ struct UserDashboardView: View {
                                     guard await RemoteContentService.shared.refresh() else { return }
                                     CardDatabase.reloadFromBundle()
                                     BenefitDatabase.reloadFromBundle()
+                                    OnlineMerchantDatabase.reloadFromBundle()
+                                    MerchantCategoryMapper.reloadFromBundle()
+                                    CategorySyncService.syncCategories(modelContext: modelContext)
                                     _ = CardSyncService.syncWalletCards(modelContext: modelContext)
                                 }
                             }) {
