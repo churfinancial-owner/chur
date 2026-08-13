@@ -55,6 +55,18 @@ struct SettingsView: View {
                     Button("Privacy Policy") { /* TODO: open privacy policy URL */ }
                         .foregroundStyle(Color.churMediumGray)
                 }
+
+                // Metadata, not a control — centered and unselectable so it
+                // doesn't read as a tappable row. Diagnostics copying will live
+                // on the universal report-an-issue button instead.
+                Section {
+                    Text(verbatim: AppVersion.footerLabel)
+                        .font(.churFootnote())
+                        .foregroundStyle(Color.churMediumGray)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .listRowBackground(Color.clear)
+                        .accessibilityLabel(Text(verbatim: AppVersion.footerLabel))
+                }
             }
             .scrollContentBackground(.hidden)
             .background(Color.churOffWhite)
