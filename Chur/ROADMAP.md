@@ -2,7 +2,7 @@
 
 Growth priorities and the reasoning behind them. **Update whenever priorities shift or a phase completes.**
 
-Last reviewed: 2026-08-12.
+Last reviewed: 2026-08-13.
 
 ---
 
@@ -11,7 +11,7 @@ Last reviewed: 2026-08-12.
 | | |
 |---|---|
 | **What it does** | Per-dollar, point-of-sale ranker — "which card should I use at this merchant, right now" |
-| **Data** | 175 cards, 268 benefit templates, 193 categories, 77 merchants — ~500 JSON files in `Resources/json/`, bundled into the binary as the offline baseline. **Cards and rewards also publish remotely** (P1a); everything else is bundle-only |
+| **Data** | 175 cards, 267 benefit templates, 193 categories, 77 merchants — ~500 JSON files in `Resources/json/`, bundled into the binary as the offline baseline. **Cards, rewards and benefits also publish remotely** (P1a, P1b); everything else is bundle-only |
 | **Persistence** | On-device SwiftData (`ChurSchemaV2_0`, migration-ready) + Google Drive appDataFolder backup (`ChurBackup` v3) |
 | **Backend** | No application server. Three outbound calls: Cloudflare R2 content (`Core/Content/`), Google Drive (`Core/Sync/CloudSyncManager.swift`), Sanity CMS (`Features/News/Service/NewsService.swift`) |
 | **Analytics** | None |
@@ -86,7 +86,7 @@ Live at `https://content.chur.app`. A reward-rate change was published and reach
 | Wiring | `CardDatabase.loadCachedCards()` prefers remote; refresh on launch/foreground in `ContentView`; version + manual refresh in the DEBUG hammer menu |
 | Switch | `FeatureFlags.remoteContentEnabled` in `App/Config.swift` |
 
-Domains live: **cards, rewards**. Payload is ~200 KB total (~30 KB gzipped) — far smaller than the 1 MB on disk, since per-file overhead and whitespace dominated.
+Domains live: **cards, rewards** (benefits added in P1b). Payload is ~200 KB total (~30 KB gzipped) — far smaller than the 1 MB on disk, since per-file overhead and whitespace dominated.
 
 **Operating rule: commit *and* publish.** The repo stays the source of truth; the CDN is a copy. Publishing without committing makes them drift, and the next run of the script republishes the old values.
 
@@ -100,15 +100,27 @@ Domains live: **cards, rewards**. Payload is ~200 KB total (~30 KB gzipped) — 
 - **Old bundles should not be deleted from R2.** They're ~200 KB against a 10 GB free tier, and keeping them allows a rollback by republishing a manifest that points at an earlier version — no re-upload, no release.
 - **App Groups need a paid Apple Developer account.** The entitlement shows red without one. `ContentStore.containerURL` falls back to Application Support, so P1a works regardless; this only blocks P4's widget sharing the cache.
 
-#### P1b — next
+#### P1b
 
 Ordered by value-to-effort, not listed arbitrarily:
 
-1. **Benefits** — highest value, smallest change. `BenefitDatabase` has the identical shape to `CardDatabase` (`cachedBenefits` / `loadCachedBenefits()` / `reloadFromBundle()`), so it's one `ContentDomain` case, one aggregation in the script, one branch, one validation case. 268 files that change constantly as credits and partners rotate. `CardSyncService.syncBenefits` already handles propagation.
+1. ~~**Benefits**~~ — ✅ DONE (2026-08-13). One `ContentDomain` case, one aggregation in the script, one branch in `BenefitDatabase.loadCachedBenefits()`, one validation case, exactly as predicted. Both refresh call sites now reload `BenefitDatabase` before `CardSyncService.syncWalletCards`, which reads it. Verified on a simulator: 267 benefits load, and the two Schwab tiers appear on the Amex Schwab Platinum. See the lessons below — the plumbing was the easy half.
 2. **Merchants** — similar, but `Resources/json/merchants/SeedDataGenericMappings.json` is a dict of exact matches plus prefix/contains arrays, a different shape from the 77 per-merchant files. The script needs two aggregation shapes.
 3. **Card art to the CDN** — required before a *new* card can ship without a release (see §5b). Two call sites render bare `Image(name)` with no fallback.
 4. **User-facing Settings row** for content version + manual refresh (currently DEBUG-only).
 5. **`Debug/Testing/SeedDataValidator.swift`** extended to validate a candidate payload before publishing.
+
+**Item 2 (merchants) has a hidden dependency on the category rule below.** `MerchantEntry.brandCategory` synthesizes `SpendingCategory` templates at load time (`MerchantSeedDatabase.brandCategoryTemplates()`), so publishing merchants makes part of the taxonomy remotely mutable — the exact thing item "categories excluded" is protecting. It degrades safely today because `CategorySyncService` deactivates orphans rather than deleting them, but renaming a merchant's `category` would still strand user selections. Decide the deprecation rule before starting item 2, not during.
+
+#### P1b item 1 — lessons worth keeping
+
+The remote plumbing took one commit. Everything below came from actually running it, and none of it was about the CDN.
+
+- **Remote content silently outranks your local edits, and nothing says so.** Once any version is cached, editing `Resources/json/` and rebuilding changes nothing — `CardDatabase.reloadFromBundle()` re-reads the remote cache despite its name, and the only escape was `resetAllData()`, which wipes the wallet. This cost most of a session: the app kept showing a benefit id that had been renamed days earlier. Fixed with a non-destructive **Clear Content Cache** debug action. Any future domain that goes remote inherits this trap.
+- **`try?` on a per-file decode is a silent data-loss bug.** `enumerateFolder` skips any file that doesn't match `_BenefitJSON`, so **ten** benefits — 3.7% of the catalog — had never loaded in any build. No crash, no log, just perks that quietly didn't exist. Two causes: a required `value` missing or fractional (`12.95` against `value: Int`), and `"description": null` against a non-optional `String`. A tolerant decode is right for a *field* (losing a sentence beats losing the benefit) and wrong for a *file* (which just hides the problem).
+- **Publishing forces latent data problems into the open, which is a feature.** Two files claimed `marriott_gold_status`; on-device the winner depended on enumeration order, so the bug was invisible. Publishing would have frozen an arbitrary choice into every client, so the script now refuses to publish a duplicate id. Aggregating data is a free audit of it.
+- **The diagnostic was worth more than the fix.** Three guesses at why a benefit wasn't showing (`benefitType`? `displayGroup`? sync?) all missed. Twenty lines in `SeedDataValidator` comparing card benefit references against what actually loaded named the real cause immediately — and surfaced the other seven broken files as a side effect. Reach for the check that turns a guess into a fact earlier than feels necessary.
+- **`value: Int` can't hold $12.95.** Widening it to `Double` touches `BenefitTemplate` *and* the `Benefit` `@Model`, so it's a schema migration — deferred to P3, where the spend-profile migration already has to happen. Rounded to 13 meanwhile, overstating by $0.60/year. Worth doing properly when P3 opens the schema anyway.
 
 **Categories are deliberately excluded from P1b.** They're persisted as `SpendingCategory` models, and `User.selectedCategories` / `deselectedCategories` / `explicitlySelectedParentCategories` all store category IDs. A remote publish that renamed or removed a category would silently orphan every user's saved preferences, with no build error to catch it. Making the taxonomy remotely mutable requires first committing to a rule — most likely "never remove, only deprecate" — which is a data-modelling decision, not plumbing.
 
