@@ -183,6 +183,16 @@ struct ContentView: View {
         // deactivates rather than deletes, so user picks survive.
         CategorySyncService.syncCategories(modelContext: modelContext)
         _ = CardSyncService.syncWalletCards(modelContext: modelContext)
+
+        // A publish can point a card at new art; fetch it while the network is
+        // known to be up rather than the next time the user opens their wallet.
+        prefetchWalletArt()
+    }
+
+    /// Keeps the user's own card art on disk. Cheap when everything is cached —
+    /// it only checks for presence, and downloads nothing it already has.
+    private func prefetchWalletArt() {
+        CardArtLoader.shared.prefetch(cards.map { $0.imageName })
     }
 
     private func scheduleInitialDataInitialization() {
@@ -212,6 +222,11 @@ struct ContentView: View {
         
         // Sync persisted wallet cards with latest templates (rates, benefits, metadata)
         CardSyncService.syncWalletCards(modelContext: modelContext)
+
+        // Runs on every launch, including the ones where no content refresh
+        // happens — a card added while art was still bundled would otherwise
+        // never be fetched.
+        prefetchWalletArt()
 
         // Apply program upgrades/downgrades missed while the app was closed
         // (trigger rules shipped in updates, backup restores, template rebuilds).

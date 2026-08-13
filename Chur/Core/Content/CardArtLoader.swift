@@ -82,6 +82,37 @@ final class CardArtLoader {
         return image
     }
 
+    /// True when art is already available without a download — bundled, in
+    /// memory, or on disk. Deliberately does not decode: prefetch only needs to
+    /// know whether the bytes exist.
+    func isAvailable(_ imageName: String) -> Bool {
+        if CardArtStore.bundledImage(named: imageName) != nil { return true }
+        if memory.object(forKey: imageName as NSString) != nil { return true }
+        guard let ref = reference(for: imageName),
+              let url = CardArtStore.fileURL(for: imageName,
+                                             sha256: ref.sha256,
+                                             pathExtension: ref.pathExtension) else { return false }
+        return FileManager.default.fileExists(atPath: url.path)
+    }
+
+    /// Downloads art for cards the user owns, so their own wallet survives going
+    /// offline. Browsing stays lazy — this is only the handful of cards they
+    /// added, which is the difference between "a new install with no signal
+    /// shows nothing" and "only cards you don't own show placeholders".
+    ///
+    /// Sequential on purpose: a wallet is a few cards, and this must never
+    /// compete for bandwidth with art the user is currently looking at.
+    func prefetch(_ imageNames: [String]) {
+        let missing = imageNames.filter { !isAvailable($0) }
+        guard !missing.isEmpty else { return }
+
+        Task { [weak self] in
+            for name in missing {
+                _ = await self?.image(for: name)
+            }
+        }
+    }
+
     /// Drops decoded images. The disk cache is cleared by ContentStore.clear().
     func clearMemory() {
         memory.removeAllObjects()
