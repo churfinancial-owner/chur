@@ -11,7 +11,11 @@
 
 import SwiftUI
 
-private enum HomeHeaderStyle {
+enum HomeHeaderStyle {
+    /// Height of the curved header. Internal rather than private because
+    /// anything floating over the header — the wallet's refresh status, for
+    /// one — has to know where the curve ends, and a duplicated literal would
+    /// drift the first time this changes.
     static let height: CGFloat = 160
 
     static var backgroundGradient: LinearGradient {
