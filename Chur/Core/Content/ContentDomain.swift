@@ -11,6 +11,7 @@ import Foundation
 enum ContentDomain: String, CaseIterable {
     case cards
     case rewards
+    case benefits
 
     /// Stable on-disk cache name. Remote bundles are version-stamped
     /// (`cards-42.json`) but the cache is not, so reads never need the version.

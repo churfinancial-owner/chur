@@ -162,13 +162,18 @@ struct ContentView: View {
         }
     }
 
-    /// Pulls newly published card/reward content, then rebuilds the template
-    /// cache and reconciles wallet cards against it. CardSyncService protects
-    /// user-edited fields via the `hasCustom*` flags, so this can't clobber
-    /// anything the user set themselves.
+    /// Pulls newly published card/reward/benefit content, then rebuilds the
+    /// template caches and reconciles wallet cards against them. CardSyncService
+    /// protects user-edited fields via the `hasCustom*` flags, so this can't
+    /// clobber anything the user set themselves.
+    ///
+    /// Both databases must reload before the sync: CardSyncService.syncBenefits
+    /// reads BenefitDatabase, so skipping it would apply new cards against stale
+    /// benefit templates.
     private func refreshRemoteContent() async {
         guard await RemoteContentService.shared.refreshIfNeeded() else { return }
         CardDatabase.reloadFromBundle()
+        BenefitDatabase.reloadFromBundle()
         _ = CardSyncService.syncWalletCards(modelContext: modelContext)
     }
 

@@ -10,7 +10,43 @@
 import Foundation
 
 extension BenefitDatabase {
-    
+
+    /// Decodes the remotely published benefits bundle, or nil when the feature
+    /// is off, nothing is cached, or the payload isn't a usable array.
+    ///
+    /// Entries are decoded one at a time so a single malformed benefit is
+    /// skipped rather than discarding the whole domain. That matches the bundle
+    /// path, where `enumerateFolder` drops a file it can't decode — three seed
+    /// files fail `_BenefitJSON` today (`schwab_appreciation_bonus` and
+    /// `schwab_redeem_cash` have no `value`, `amex_walmartplus` has a fractional
+    /// one against `value: Int`). An all-or-nothing decode here would let those
+    /// three permanently force every client back to bundled JSON, silently
+    /// disabling remote benefits.
+    static func loadRemoteBenefits(formatter: ISO8601DateFormatter) -> [BenefitTemplate]? {
+        guard FeatureFlags.remoteContentEnabled,
+              let data = ContentStore.data(for: .benefits) else { return nil }
+
+        let decoded: [_FailableBenefit]
+        do {
+            decoded = try JSONDecoder().decode([_FailableBenefit].self, from: data)
+        } catch {
+            print("❌ BenefitDatabase: remote 'benefits' is not an array, using bundled JSON: \(error)")
+            return nil
+        }
+
+        let benefits = decoded.compactMap { $0.value }.map { convertBenefit($0, formatter: formatter) }
+        guard !benefits.isEmpty else {
+            print("❌ BenefitDatabase: remote 'benefits' decoded to nothing, using bundled JSON")
+            return nil
+        }
+
+        let skipped = decoded.count - benefits.count
+        if skipped > 0 {
+            print("⚠️ BenefitDatabase: skipped \(skipped) remote benefit(s) that failed to decode")
+        }
+        return benefits
+    }
+
     /// Logic to find and enumerate benefit JSON files across multiple possible paths.
     static func loadBenefitsFromFolders() -> [BenefitTemplate]? {
         let fileManager = FileManager.default
@@ -45,6 +81,17 @@ extension BenefitDatabase {
             }
         }
         return results.isEmpty ? nil : results
+    }
+
+    /// Element wrapper that turns a decode failure into nil instead of failing
+    /// the enclosing array. Never throws, so `[_FailableBenefit]` only fails
+    /// when the payload isn't an array at all.
+    struct _FailableBenefit: Decodable {
+        let value: _BenefitJSON?
+
+        init(from decoder: Decoder) throws {
+            value = try? _BenefitJSON(from: decoder)
+        }
     }
 
     private static func scanBundleRoot() -> [BenefitTemplate]? {

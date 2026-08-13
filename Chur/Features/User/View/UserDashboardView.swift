@@ -199,6 +199,7 @@ struct UserDashboardView: View {
                                 Task {
                                     guard await RemoteContentService.shared.refresh() else { return }
                                     CardDatabase.reloadFromBundle()
+                                    BenefitDatabase.reloadFromBundle()
                                     _ = CardSyncService.syncWalletCards(modelContext: modelContext)
                                 }
                             }) {

@@ -9,8 +9,9 @@
 //    2. the payload must pass structural validation
 //    3. every domain must succeed before any is committed (no half-applied
 //       versions, which would pair new cards with stale rewards)
-//    4. CardDatabase's decode is a final net — it falls back to bundled JSON
-//       if the cached payload can't be decoded
+//    4. the reading database's decode is a final net — CardDatabase and
+//       BenefitDatabase both fall back to bundled JSON if the cached payload
+//       can't be decoded
 //
 //  Any failure leaves the previous cache untouched.
 //
@@ -143,6 +144,13 @@ final class RemoteContentService {
         case .rewards:
             guard let dictionary = parsed as? [String: Any], !dictionary.isEmpty else {
                 throw ContentError.validationFailed("rewards: expected a non-empty object keyed by card id")
+            }
+        case .benefits:
+            guard let array = parsed as? [[String: Any]], !array.isEmpty else {
+                throw ContentError.validationFailed("benefits: expected a non-empty array of objects")
+            }
+            guard array.allSatisfy({ ($0["id"] as? String)?.isEmpty == false }) else {
+                throw ContentError.validationFailed("benefits: every entry needs a non-empty 'id'")
             }
         }
     }
