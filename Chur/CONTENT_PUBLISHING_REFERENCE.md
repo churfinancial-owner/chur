@@ -30,12 +30,12 @@ git push origin main                                    # 4. push
 |---|---|---|
 | Cards | `Chur/Resources/json/cards/**` | ✅ Yes |
 | Reward rates | `Chur/Resources/json/rewards/*.json` | ✅ Yes |
-| Benefits | `Chur/Resources/json/benefits/**` | ❌ App release |
+| Benefits | `Chur/Resources/json/benefits/**` | ✅ Yes |
 | Categories | `Chur/Resources/json/categories/*.json` | ❌ App release |
 | Merchants | `Chur/Resources/json/merchants/*.json` | ❌ App release |
 | Card images | `Chur/Resources/Assets.xcassets/Cards/` | ❌ App release |
 
-So: **rates, fees and card details publish instantly. Everything else doesn't** — see `ROADMAP.md` §P1b.
+So: **rates, fees, card details and perks publish instantly. Categories, merchants and artwork don't** — see `ROADMAP.md` §P1b.
 
 A brand-new card can be published, but it will render **without artwork** until an app release adds the image.
 
@@ -71,13 +71,15 @@ Expected output:
 
 ```
 ✅ contentVersion 7 → /Users/pakho/Documents/Product/chur/dist
-   cards:   175 cards, 82972 bytes
-   rewards: 169 entries, 118325 bytes
-   manifest: 530 bytes, base URL https://content.chur.app
+   cards:    175 cards, 82972 bytes
+   rewards:  169 entries, 118325 bytes
+   benefits: 267 benefits, 186000 bytes
+   manifest: 700 bytes, base URL https://content.chur.app
 
 Uploading to R2 bucket 'chur-content'…
    ✓ cards-7.json
    ✓ rewards-7.json
+   ✓ benefits-7.json
    ✓ manifest.json
 
 ✅ Published.
@@ -143,7 +145,19 @@ git push origin main
 
 ## Troubleshooting
 
-### The app doesn't show my change
+### My local JSON edit doesn't show up in the simulator
+
+**This one is not about publishing at all, and it wastes hours if you don't know it.**
+
+Remote content **wins over the bundled JSON by design** — that is the entire point of P1a. So once any version has been published and cached, the app ignores your local edits to cards, rewards and benefits. Editing the file, rebuilding, even **Reload JSONs** all change nothing, because `CardDatabase.reloadFromBundle()` re-reads the same cached remote copy despite its name.
+
+**Fix:** hammer menu → **Clear Content Cache**. It drops the cached bundles, reloads from your build, and re-syncs the wallet. Your data is untouched — this is not "Reset All Data".
+
+How to recognise it: the app shows values you can't find anywhere in the repo. During P1b an Amex card kept referencing a benefit id that had been renamed days earlier — the app was reading a `cards-N.json` published weeks before.
+
+Rule of thumb: **editing JSON locally → Clear Content Cache. Testing a real publish → Refresh Remote Content.**
+
+### The app doesn't show my change (after publishing)
 
 Work through in this order:
 
@@ -175,9 +189,25 @@ You're already inside that folder. Either run `swift run ChurContentPublish --up
 ```
 ⚠️  Reward entries with no matching card (1): sc-hk-cathay
 ⚠️  Cards with no reward data (7): ...
+⚠️  Benefits referenced by a card but not authored (8): resy_credit_120, ...
 ```
 
-Both are known and harmless — see `ROADMAP.md`. They don't block publishing. `wf-autograph` is the only US card in that list and is worth filling in eventually.
+All three are known and harmless — see `ROADMAP.md`. They don't block publishing. `wf-autograph` is the only US card in the second list and is worth filling in eventually. The third means a card promises a perk that has no JSON file: the row simply never appears, so those are content gaps to fill, not errors.
+
+A **duplicate benefit id does** stop the publish, on purpose. Two files claiming one id means the winner depends on folder-enumeration order, and publishing would freeze that arbitrary choice into every client. Delete or rename one.
+
+### A benefit I authored never appears in the app
+
+`enumerateFolder` decodes each file with `try?`, so a file that doesn't match `_BenefitJSON` is skipped in silence — no crash, no log, just a missing perk. Ten benefits were invisible this way before P1b.
+
+The launch validator now catches it. Look for these lines in the Xcode console:
+
+```
+ℹ️ SeedDataValidator: 267 benefits loaded
+⚠️ SeedDataValidator: Card 'x': benefit 'y' did not load — no file with that id, or its JSON failed to decode
+```
+
+Compare the count against the file count (`find Chur/Resources/json/benefits -name '*.json' | wc -l`). A gap means files are failing to decode. Usual causes: a missing `value` (required, and must be a whole number — `12.95` fails), or a required field set to `null`.
 
 ---
 
