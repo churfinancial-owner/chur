@@ -38,6 +38,10 @@
       "comment" : "Wallet pull-to-refresh: new content was applied",
       "extractionState" : "manual"
     },
+    "Checking for updates…" : {
+      "comment" : "Wallet pull-to-refresh: in progress",
+      "extractionState" : "manual"
+    },
     "Chur %@ (%@)" : {
       "comment" : "Settings footer: app name, version, build number",
       "extractionState" : "manual"
