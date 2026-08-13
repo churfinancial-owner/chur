@@ -149,6 +149,36 @@ func loadCards(repoRoot: URL) throws -> [[String: Any]] {
     return cards
 }
 
+/// benefits/**/*.json — one benefit object per file, aggregated into an array.
+/// Mirrors BenefitDatabase.loadBenefitsFromFolders(), which enumerates the whole
+/// tree; the US/ and CA/ folders are organizational, not a scoping mechanism.
+///
+/// A duplicate id is fatal rather than a warning. BenefitDatabase.getBenefit(id:)
+/// returns the first match, so two files claiming one id means the winner is
+/// whichever the enumeration reaches first — publishing that only freezes an
+/// arbitrary choice into every client.
+func loadBenefits(repoRoot: URL) throws -> [[String: Any]] {
+    let dir = repoRoot.appendingPathComponent("Chur/Resources/json/benefits")
+    var benefits: [[String: Any]] = []
+    var seenIDs: [String: String] = [:]   // id -> relative path that claimed it
+
+    for url in try jsonFiles(in: dir) {
+        let object = try parseObject(at: url)
+        guard let id = object["id"] as? String, !id.isEmpty else {
+            throw PublishError("\(url.lastPathComponent): missing or empty string field 'id'")
+        }
+        let relativePath = url.path.replacingOccurrences(of: dir.path + "/", with: "")
+        if let existing = seenIDs[id] {
+            throw PublishError("Duplicate benefit id '\(id)' in \(relativePath) and \(existing)")
+        }
+        seenIDs[id] = relativePath
+        benefits.append(object)
+    }
+
+    guard !benefits.isEmpty else { throw PublishError("No benefits found under \(dir.path)") }
+    return benefits
+}
+
 /// rewards/*-rewards.json — each a dictionary keyed by card template ID,
 /// merged into one dictionary. Mirrors CardDatabase.discoverRewardFiles().
 func loadRewards(repoRoot: URL) throws -> [String: Any] {
@@ -200,7 +230,7 @@ func write(_ value: Any, domain: String, version: Int, to outDir: URL) throws ->
 }
 
 /// Empties the output directory so it only ever holds the current version's
-/// three files. Without this, versions accumulate and it stops being obvious
+/// bundles plus its manifest. Without this, versions accumulate and it stops being obvious
 /// which files to upload — the single easiest way to publish a stale manifest.
 /// Must run *after* resolveVersion, which reads the previous manifest.
 func clean(_ outDir: URL) throws {
@@ -249,6 +279,7 @@ do {
 
     let cards = try loadCards(repoRoot: args.repoRoot)
     let rewards = try loadRewards(repoRoot: args.repoRoot)
+    let benefits = try loadBenefits(repoRoot: args.repoRoot)
 
     // Reward keys with no card are harmless at runtime (nothing looks them up)
     // but usually mean a renamed or removed card left its rates behind.
@@ -263,6 +294,17 @@ do {
         print("⚠️  Cards with no reward data (\(cardsWithoutRewards.count)): \(cardsWithoutRewards.joined(separator: ", "))")
     }
 
+    // A card listing a benefit id with no file is silently skipped by
+    // CardSyncService.syncBenefits — the perk just never appears on the card.
+    // Warn rather than block: one missing benefit must not stop a publish that
+    // fixes a reward rate.
+    let benefitIDs = Set(benefits.compactMap { $0["id"] as? String })
+    let referencedBenefitIDs = Set(cards.flatMap { ($0["benefits"] as? [String]) ?? [] })
+    let missingBenefits = referencedBenefitIDs.subtracting(benefitIDs).sorted()
+    if !missingBenefits.isEmpty {
+        print("⚠️  Benefits referenced by a card but not authored (\(missingBenefits.count)): \(missingBenefits.joined(separator: ", "))")
+    }
+
     try FileManager.default.createDirectory(at: args.outDir, withIntermediateDirectories: true)
 
     // Read the previous version before clearing — the old manifest is what
@@ -272,7 +314,8 @@ do {
 
     let entries = [
         try write(cards, domain: "cards", version: version, to: args.outDir),
-        try write(rewards, domain: "rewards", version: version, to: args.outDir)
+        try write(rewards, domain: "rewards", version: version, to: args.outDir),
+        try write(benefits, domain: "benefits", version: version, to: args.outDir)
     ]
 
     let formatter = ISO8601DateFormatter()
@@ -286,8 +329,9 @@ do {
     try manifestData.write(to: args.outDir.appendingPathComponent("manifest.json"), options: .atomic)
 
     print("✅ contentVersion \(version) → \(args.outDir.path)")
-    print("   cards:   \(cards.count) cards, \(entries[0].bytes) bytes")
-    print("   rewards: \(rewards.count) entries, \(entries[1].bytes) bytes")
+    print("   cards:    \(cards.count) cards, \(entries[0].bytes) bytes")
+    print("   rewards:  \(rewards.count) entries, \(entries[1].bytes) bytes")
+    print("   benefits: \(benefits.count) benefits, \(entries[2].bytes) bytes")
     print("   manifest: \(manifestData.count) bytes, base URL \(args.baseURL)")
 
     if args.upload {
@@ -306,7 +350,7 @@ do {
         print("   ✓ manifest.json")
         print("\n✅ Published. Verify: curl -s \(args.baseURL)/manifest.json | grep contentVersion")
     } else {
-        print("\nUpload all three files in \(args.outDir.lastPathComponent)/ to the R2 bucket root.")
+        print("\nUpload every file in \(args.outDir.lastPathComponent)/ to the R2 bucket root.")
         print("manifest.json is the one that matters — nothing goes live without it.")
         print("Or re-run with --upload to do it automatically.")
     }
