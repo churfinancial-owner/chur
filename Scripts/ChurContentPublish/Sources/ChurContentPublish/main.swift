@@ -201,6 +201,197 @@ func loadRewards(repoRoot: URL) throws -> [String: Any] {
     return merged
 }
 
+// MARK: - Load-bearing IDs
+
+/// Category ids as the app assembles them: hand-authored files plus the ones
+/// synthesized from merchant `brandCategory` blocks. Mirrors
+/// SeedDataLoader.loadCategoryTemplates() + MerchantSeedDatabase.brandCategoryTemplates().
+/// Read-only here — categories and merchants aren't published yet, but their ids
+/// are already user-referenced, so the lock has to cover them.
+func loadCategoryIDs(repoRoot: URL) throws -> Set<String> {
+    var ids: Set<String> = []
+
+    let categoryDir = repoRoot.appendingPathComponent("Chur/Resources/json/categories")
+    for url in try jsonFiles(in: categoryDir) {
+        let parsed = try JSONSerialization.jsonObject(with: try Data(contentsOf: url))
+        guard let array = parsed as? [[String: Any]] else {
+            throw PublishError("\(url.lastPathComponent): expected an array of category objects")
+        }
+        for object in array {
+            if let id = object["id"] as? String, !id.isEmpty { ids.insert(id) }
+        }
+    }
+
+    let merchantDir = repoRoot.appendingPathComponent("Chur/Resources/json/merchants")
+    for url in try jsonFiles(in: merchantDir)
+    where url.lastPathComponent.hasPrefix("SeedDataMerchants_") {
+        let parsed = try JSONSerialization.jsonObject(with: try Data(contentsOf: url))
+        guard let array = parsed as? [[String: Any]] else { continue }
+        for entry in array where entry["brandCategory"] != nil {
+            if let category = entry["category"] as? String, !category.isEmpty { ids.insert(category) }
+        }
+    }
+
+    return ids
+}
+
+/// Every id namespace that persisted user data points at, keyed by namespace name.
+///
+/// Renaming or removing one of these is destructive in a way no compiler catches:
+/// the JSON is just strings, and the damage lands on devices 30 minutes after a
+/// publish. Slots are scoped per card because `card.slotSelections` is.
+func loadBearingIDs(cards: [[String: Any]],
+                    rewards: [String: Any],
+                    benefits: [[String: Any]],
+                    categoryIDs: Set<String>) -> [String: Set<String>] {
+    var planIDs: Set<String> = []
+    var slots: Set<String> = []
+
+    for (cardID, structure) in rewards {
+        var rewardObjects: [[String: Any]] = []
+
+        if let container = structure as? [String: Any], let plans = container["plans"] as? [[String: Any]] {
+            for plan in plans {
+                if let planID = plan["planID"] as? String, !planID.isEmpty { planIDs.insert(planID) }
+                rewardObjects += (plan["rewards"] as? [[String: Any]]) ?? []
+            }
+        } else if let simple = structure as? [[String: Any]] {
+            rewardObjects = simple
+        }
+
+        for reward in rewardObjects {
+            if let slot = reward["configurableSlot"] as? String, !slot.isEmpty {
+                slots.insert("\(cardID):\(slot)")
+            }
+        }
+    }
+
+    return [
+        "cards": Set(cards.compactMap { $0["id"] as? String }),
+        "benefits": Set(benefits.compactMap { $0["id"] as? String }),
+        "plans": planIDs,
+        "slots": slots,
+        "categories": categoryIDs
+    ]
+}
+
+/// What each namespace costs when an id disappears — printed with the error so
+/// the consequence is in front of you at the moment you'd otherwise override it.
+let namespaceStakes: [String: String] = [
+    "cards": "CreditCard.templateID — the card silently stops syncing and keeps stale rates forever",
+    "benefits": "Benefit.id — CardSyncService deletes the benefit, and usageHistory cascades, so the user's redemption history is destroyed",
+    "plans": "card.selectedPlanID — the user's chosen reward plan resets to nil",
+    "slots": "card.slotSelections — the user's category picks are orphaned and reward categories re-derive wrong",
+    "categories": "User.selectedCategories / deselectedCategories — the user's picks go inert"
+]
+
+/// Append-only registry of every id ever published, per namespace.
+///
+/// Lives beside the publisher rather than in Resources/json because it is
+/// publishing infrastructure, not seed data — the app must not bundle it.
+struct IDLock {
+    var namespaces: [String: (active: Set<String>, retired: Set<String>)]
+
+    static let filename = "id-lock.json"
+
+    static func load(from url: URL) throws -> IDLock? {
+        guard let data = try? Data(contentsOf: url) else { return nil }
+        guard let root = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let stored = root["namespaces"] as? [String: [String: Any]] else {
+            throw PublishError("\(filename) is malformed — expected a 'namespaces' object")
+        }
+        var namespaces: [String: (active: Set<String>, retired: Set<String>)] = [:]
+        for (name, entry) in stored {
+            namespaces[name] = (
+                active: Set((entry["active"] as? [String]) ?? []),
+                retired: Set((entry["retired"] as? [String]) ?? [])
+            )
+        }
+        return IDLock(namespaces: namespaces)
+    }
+
+    func write(to url: URL) throws {
+        let body: [String: Any] = [
+            "version": 1,
+            "note": "Ids that persisted user data points at. Append-only: never rename or remove one. "
+                  + "To retire an id, move it from 'active' to 'retired' — and leave the entry itself in the "
+                  + "seed data, hidden (categories: visibility 'hidden'; benefits: isActive false), so existing "
+                  + "user references keep resolving. ChurContentPublish refuses to publish if an active id disappears.",
+            "namespaces": namespaces.mapValues { value in
+                ["active": value.active.sorted(), "retired": value.retired.sorted()]
+            }
+        ]
+        try canonicalData(body).write(to: url, options: .atomic)
+    }
+}
+
+/// Compares the current ids against the lock, adds new ones, and refuses the
+/// publish when an active id has vanished. Runs before anything is written or
+/// uploaded, so a violation costs nothing but a re-run.
+func enforceIDLock(current: [String: Set<String>], lockURL: URL) throws {
+    let existing = try IDLock.load(from: lockURL)
+
+    guard var lock = existing else {
+        let seeded = IDLock(namespaces: current.mapValues { (active: $0, retired: []) })
+        try seeded.write(to: lockURL)
+        let total = current.values.reduce(0) { $0 + $1.count }
+        print("🔒 Seeded \(IDLock.filename) with \(total) ids across \(current.count) namespaces — commit it.")
+        return
+    }
+
+    var violations: [(namespace: String, ids: [String])] = []
+    var additions: [(namespace: String, count: Int)] = []
+    var mutated = false
+
+    for (namespace, ids) in current.sorted(by: { $0.key < $1.key }) {
+        let entry = lock.namespaces[namespace] ?? (active: [], retired: [])
+
+        let missing = entry.active.subtracting(ids).sorted()
+        if !missing.isEmpty {
+            violations.append((namespace, missing))
+        }
+
+        // A retired id that came back is fine — it just becomes active again.
+        let added = ids.subtracting(entry.active).sorted()
+        if !added.isEmpty {
+            lock.namespaces[namespace] = (
+                active: entry.active.union(ids),
+                retired: entry.retired.subtracting(ids)
+            )
+            additions.append((namespace, added.count))
+            mutated = true
+        }
+    }
+
+    guard violations.isEmpty else {
+        var message = "ID lock violation — publishing refused.\n"
+        for (namespace, ids) in violations {
+            message += "\n   \(namespace): \(ids.joined(separator: ", "))"
+            if let stakes = namespaceStakes[namespace] {
+                message += "\n      \(stakes)"
+            }
+        }
+        message += """
+
+        \nThese ids are gone from the seed data but shipped to users already.
+        A rename counts twice: the new id is added and the old one disappears.
+
+        Either restore the id, or retire it deliberately:
+          1. keep the entry in the seed data, hidden — categories: "visibility": "hidden", benefits: "isActive": false
+          2. move the id from "active" to "retired" in Scripts/ChurContentPublish/\(IDLock.filename)
+
+        There is no override flag. That is the point.
+        """
+        throw PublishError(message)
+    }
+
+    if mutated {
+        try lock.write(to: lockURL)
+        let summary = additions.map { "\($0.namespace) +\($0.count)" }.joined(separator: ", ")
+        print("🔒 \(IDLock.filename) updated (\(summary)) — commit it alongside the JSON.")
+    }
+}
+
 // MARK: - Writing
 
 func canonicalData(_ value: Any) throws -> Data {
@@ -304,6 +495,15 @@ do {
     if !missingBenefits.isEmpty {
         print("⚠️  Benefits referenced by a card but not authored (\(missingBenefits.count)): \(missingBenefits.joined(separator: ", "))")
     }
+
+    // Load-bearing ids are checked before anything is written or uploaded, so a
+    // violation costs a re-run rather than a bad publish.
+    let categoryIDs = try loadCategoryIDs(repoRoot: args.repoRoot)
+    let currentIDs = loadBearingIDs(cards: cards, rewards: rewards, benefits: benefits, categoryIDs: categoryIDs)
+    let lockURL = args.repoRoot
+        .appendingPathComponent("Scripts/ChurContentPublish")
+        .appendingPathComponent(IDLock.filename)
+    try enforceIDLock(current: currentIDs, lockURL: lockURL)
 
     try FileManager.default.createDirectory(at: args.outDir, withIntermediateDirectories: true)
 
