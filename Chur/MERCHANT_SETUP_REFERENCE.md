@@ -91,7 +91,7 @@ Format is a plain array of category IDs (the legacy `{"id": ..., "weight": ...}`
 | Field | Effect |
 |---|---|
 | `category` | Becomes `category:` param in `CardRateCalculator` |
-| `brandCategory` | **Auto-generates the target `SpendingCategory`** (`id` = `category`, name/icon from the merchant, `parent`/`links`/`emoji` from the block). No hand-authored category file entry needed. Omit it when the category is hand-authored (needed for `cardFilter`, localized names, `excludedPaymentMethods` — e.g. costco). Hand-authored wins on ID conflict, with a DEBUG warning. |
+| `brandCategory` | **Auto-generates the target `SpendingCategory`** (`id` = `category`, name/icon from the merchant, `parent`/`links`/`emoji`/`visibility` from the block). No hand-authored category file entry needed. Omit it when the category is hand-authored (needed for `cardFilter`, localized names, `excludedPaymentMethods` — e.g. costco). Hand-authored wins on ID conflict, with a DEBUG warning. |
 | `map` | Map name-matching: `patterns` are case-insensitive substrings of the MapKit place name; optional `categoryID` (defaults to `category`) and `overrides`. Merchant rules are checked **before** `genericMappings.patternRules`. |
 | `searchable: false` | Map-only merchant — hidden from the Online search mode |
 | `isBrandCategory: true` | Enables `OnlineMerchantDatabase.merchant(forCategory:)` icon lookups; marks category as brand-exclusive |
@@ -100,6 +100,17 @@ Format is a plain array of category IDs (the legacy `{"id": ..., "weight": ...}`
 | `featured` / `popular` | Featured grid / default list for those country codes |
 
 **Channel passed to calculator:** `"online"` for online search, `"in_store"` for map results.
+
+### ⚠️ `id` and `category` are permanent — retiring a merchant
+
+Merchants publish remotely (P1b), so an edit here reaches devices in 30 minutes without a build. Two fields can't be changed once shipped:
+
+- **`category`** — with `brandCategory`, this *is* a category id, and `User.selectedCategories` stores it. Renaming it deactivates the old category and leaves every user who picked that brand pointing at nothing.
+- **`id`** — used for icon lookups and map rules; renaming silently drops both.
+
+**To retire a merchant, don't delete the entry.** Set `searchable: false` to remove it from Online search, and add `"visibility": "hidden"` inside its `brandCategory` block to drop the category from the picker. The id keeps resolving, so existing user selections survive.
+
+`swift run ChurContentPublish` refuses to publish if a category id disappears — see the load-bearing ids table in `DataDictionary.md`. Deleting a merchant with a `brandCategory` block will trip it, by design.
 
 ---
 
