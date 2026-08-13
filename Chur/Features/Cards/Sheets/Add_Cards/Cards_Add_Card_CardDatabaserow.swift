@@ -28,17 +28,9 @@ struct CardDatabaseRow: View {
     var body: some View {
         HStack(spacing: 12) {
             // Card image with colored fallback
-            if let uiImage = UIImage(named: template.imageName) {
-                Image(uiImage: uiImage)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 60, height: 38)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                    .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
-            } else {
+            CardArtView(imageName: template.imageName) {
                 RoundedRectangle(cornerRadius: 8)
                     .fill(cardColor)
-                    .frame(width: 60, height: 38)
                     .overlay {
                         VStack(spacing: 2) {
                             Text(template.issuer)
@@ -51,6 +43,9 @@ struct CardDatabaseRow: View {
                         }
                     }
             }
+            .frame(width: 60, height: 38)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+            .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
             
             // Card info
             VStack(alignment: .leading, spacing: 3) {

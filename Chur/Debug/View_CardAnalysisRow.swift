@@ -15,24 +15,18 @@ struct CardAnalysisRow: View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: 12) {
                 // Card image or placeholder
-                if let uiImage = UIImage(named: analysis.card.imageName) {
-                    Image(uiImage: uiImage)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 60, height: 38)
-                        .clipShape(RoundedRectangle(cornerRadius: 6))
-                        .shadow(color: .black.opacity(0.08), radius: 2, x: 0, y: 1)
-                } else {
+                CardArtView(imageName: analysis.card.imageName, contentMode: .fit) {
                     RoundedRectangle(cornerRadius: 6)
                         .fill(cardColor(for: analysis.card.issuer))
-                        .frame(width: 60, height: 38)
                         .overlay {
                             Text(analysis.card.issuer.prefix(1))
                                 .font(.churCaption())
                                 .foregroundStyle(.white)
                         }
-                        .shadow(color: .black.opacity(0.08), radius: 2, x: 0, y: 1)
                 }
+                .frame(width: 60, height: 38)
+                .clipShape(RoundedRectangle(cornerRadius: 6))
+                .shadow(color: .black.opacity(0.08), radius: 2, x: 0, y: 1)
                 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(analysis.card.name)

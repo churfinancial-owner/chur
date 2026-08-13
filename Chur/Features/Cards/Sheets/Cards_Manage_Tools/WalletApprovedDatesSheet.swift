@@ -92,14 +92,10 @@ struct WalletApprovedDatesSheet: View {
         
         HStack(spacing: 12) {
             // Card Thumbnail
-            if let uiImage = UIImage(named: card.imageName) {
-                Image(uiImage: uiImage)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 44, height: 28)
-                    .clipShape(RoundedRectangle(cornerRadius: 6))
-                    .shadow(color: .black.opacity(0.08), radius: 2, x: 0, y: 1)
-            }
+            CardArtView(imageName: card.imageName, placeholderCornerRadius: 6)
+                .frame(width: 44, height: 28)
+                .clipShape(RoundedRectangle(cornerRadius: 6))
+                .shadow(color: .black.opacity(0.08), radius: 2, x: 0, y: 1)
             
             // Card Info
             VStack(alignment: .leading, spacing: 0) {

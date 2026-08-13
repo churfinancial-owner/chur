@@ -246,6 +246,78 @@ func loadMerchantMappings(repoRoot: URL) throws -> [String: Any] {
     return object
 }
 
+// MARK: - Card art
+
+/// One card image, keyed by the `imageName` a card's JSON refers to.
+struct CardArt {
+    let imageName: String
+    let source: URL
+    let sha256: String
+    let bytes: Int
+
+    /// Content-addressed remote key. A changed image gets a new key, so nothing
+    /// ever has to be cache-invalidated and a rollback is just an old manifest
+    /// pointing at keys that are still there.
+    var key: String { "art/\(imageName)-\(String(sha256.prefix(8))).png" }
+}
+
+/// Every `*.imageset` under Assets.xcassets/Cards. The imageset folder name is
+/// the `imageName` cards refer to, which is what `UIImage(named:)` resolves.
+func loadCardArt(repoRoot: URL) throws -> [CardArt] {
+    let dir = repoRoot.appendingPathComponent("Chur/Resources/Assets.xcassets/Cards")
+    guard let enumerator = FileManager.default.enumerator(at: dir, includingPropertiesForKeys: nil) else {
+        throw PublishError("Could not read \(dir.path)")
+    }
+
+    var art: [CardArt] = []
+    var emptySets: [String] = []
+
+    for case let url as URL in enumerator where url.pathExtension == "imageset" {
+        let imageName = url.deletingPathExtension().lastPathComponent
+        let contents = (try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil)) ?? []
+
+        guard let png = contents.first(where: { $0.pathExtension.lowercased() == "png" }) else {
+            emptySets.append(imageName)
+            continue
+        }
+
+        let data = try Data(contentsOf: png)
+        art.append(CardArt(imageName: imageName, source: png, sha256: sha256Hex(data), bytes: data.count))
+    }
+
+    if !emptySets.isEmpty {
+        print("⚠️  Imagesets with no PNG (\(emptySets.count)): \(emptySets.sorted().joined(separator: ", "))")
+    }
+
+    return art.sorted { $0.imageName < $1.imageName }
+}
+
+/// Keys already pushed to R2. Uploading 163 images through `npx wrangler` takes
+/// minutes, and content-addressed keys never change once written — so a normal
+/// publish should upload nothing. Committed so the record survives a fresh clone.
+struct ArtIndex {
+    static let filename = "art-uploaded.json"
+    var keys: Set<String>
+
+    static func load(from url: URL) -> ArtIndex {
+        guard let data = try? Data(contentsOf: url),
+              let root = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let keys = root["keys"] as? [String] else {
+            return ArtIndex(keys: [])
+        }
+        return ArtIndex(keys: Set(keys))
+    }
+
+    func write(to url: URL) throws {
+        let body: [String: Any] = [
+            "note": "Card art keys already uploaded to R2. Content-addressed, so entries are never removed — "
+                  + "an old key must keep resolving for rollback. Delete this file to force a full re-upload.",
+            "keys": keys.sorted()
+        ]
+        try canonicalData(body).write(to: url, options: .atomic)
+    }
+}
+
 // MARK: - Load-bearing IDs
 
 /// Category ids as the app assembles them: hand-authored files plus the ones
@@ -473,14 +545,14 @@ func clean(_ outDir: URL) throws {
 
 /// Uploads a file to R2 via wrangler. Kept behind --upload so the script has
 /// no Node dependency by default.
-func upload(_ file: URL, key: String, bucket: String) throws {
+func upload(_ file: URL, key: String, bucket: String, contentType: String = "application/json") throws {
     let process = Process()
     process.executableURL = URL(fileURLWithPath: "/usr/bin/env")
     process.arguments = [
         "npx", "--yes", "wrangler", "r2", "object", "put",
         "\(bucket)/\(key)",
         "--file", file.path,
-        "--content-type", "application/json",
+        "--content-type", contentType,
         "--remote"
     ]
     try process.run()
@@ -512,6 +584,18 @@ do {
     let benefits = try loadBenefits(repoRoot: args.repoRoot)
     let merchants = try loadMerchants(repoRoot: args.repoRoot)
     let merchantMappings = try loadMerchantMappings(repoRoot: args.repoRoot)
+    let cardArt = try loadCardArt(repoRoot: args.repoRoot)
+
+    // A card whose imageName has no imageset renders the placeholder forever —
+    // invisible unless someone opens that specific card.
+    let artNames = Set(cardArt.map { $0.imageName })
+    let cardsMissingArt = cards
+        .compactMap { $0["imageName"] as? String }
+        .filter { !artNames.contains($0) }
+        .sorted()
+    if !cardsMissingArt.isEmpty {
+        print("⚠️  Cards whose imageName has no art (\(cardsMissingArt.count)): \(Set(cardsMissingArt).sorted().joined(separator: ", "))")
+    }
 
     // Reward keys with no card are harmless at runtime (nothing looks them up)
     // but usually mean a renamed or removed card left its rates behind.
@@ -578,7 +662,14 @@ do {
         try write(rewards, domain: "rewards", version: version, to: args.outDir),
         try write(benefits, domain: "benefits", version: version, to: args.outDir),
         try write(merchants, domain: "merchants", version: version, to: args.outDir),
-        try write(merchantMappings, domain: "merchantMappings", version: version, to: args.outDir)
+        try write(merchantMappings, domain: "merchantMappings", version: version, to: args.outDir),
+        try write(cardArt.reduce(into: [String: Any]()) { index, art in
+            index[art.imageName] = [
+                "url": "\(args.baseURL)/\(art.key)",
+                "sha256": art.sha256,
+                "bytes": art.bytes
+            ]
+        }, domain: "cardArt", version: version, to: args.outDir)
     ]
 
     let formatter = ISO8601DateFormatter()
@@ -597,12 +688,35 @@ do {
     print("   benefits: \(benefits.count) benefits, \(entries[2].bytes) bytes")
     print("   merchants: \(merchants.count) merchants, \(entries[3].bytes) bytes")
     print("   mappings: \(merchantMappings.count) rule groups, \(entries[4].bytes) bytes")
+    print("   cardArt: \(cardArt.count) images, \(entries[5].bytes) bytes index (\(cardArt.reduce(0) { $0 + $1.bytes } / 1_048_576) MB of PNGs)")
     print("   manifest: \(manifestData.count) bytes, base URL \(args.baseURL)")
 
     if args.upload {
-        // Bundles first, manifest last: the manifest is what makes a version
-        // live, so it must never point at bundles that aren't uploaded yet.
+        // Art first, then bundles, manifest last. Same reasoning at each step:
+        // nothing may point at something that isn't uploaded yet.
         print("\nUploading to R2 bucket '\(args.bucket)'…")
+
+        let artIndexURL = args.repoRoot
+            .appendingPathComponent("Scripts/ChurContentPublish")
+            .appendingPathComponent(ArtIndex.filename)
+        var artIndex = ArtIndex.load(from: artIndexURL)
+
+        let pendingArt = cardArt.filter { !artIndex.keys.contains($0.key) }
+        if pendingArt.isEmpty {
+            print("   ✓ card art unchanged (\(cardArt.count) images already uploaded)")
+        } else {
+            print("   uploading \(pendingArt.count) new or changed image(s) — this is the slow part…")
+            for art in pendingArt {
+                try upload(art.source, key: art.key, bucket: args.bucket, contentType: "image/png")
+                artIndex.keys.insert(art.key)
+                // Written after every image so an interrupted run doesn't
+                // re-upload everything it already managed to push.
+                try artIndex.write(to: artIndexURL)
+                print("   ✓ \(art.key)")
+            }
+            print("   \(ArtIndex.filename) updated — commit it.")
+        }
+
         for entry in entries {
             try upload(args.outDir.appendingPathComponent(entry.filename),
                        key: entry.filename,

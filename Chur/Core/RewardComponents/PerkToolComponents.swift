@@ -21,9 +21,7 @@ struct PerkCardChip: View {
 
     var body: some View {
         HStack(spacing: 8) {
-            Image(card.imageName)
-                .resizable()
-                .scaledToFit()
+            CardArtView(imageName: card.imageName, contentMode: .fit, placeholderCornerRadius: 4)
                 .frame(width: 36, height: 24)
                 .clipShape(RoundedRectangle(cornerRadius: 4))
             Text(card.name)

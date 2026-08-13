@@ -20,6 +20,11 @@ enum ContentDomain: String, CaseIterable {
     case merchants
     case merchantMappings
 
+    /// Index only — `imageName` → URL + sha256. The PNGs themselves are fetched
+    /// individually by CardArtLoader, not staged with the JSON bundles: 15 MB
+    /// cannot be part of an all-or-nothing content commit.
+    case cardArt
+
     /// Stable on-disk cache name. Remote bundles are version-stamped
     /// (`cards-42.json`) but the cache is not, so reads never need the version.
     var cacheFilename: String { "\(rawValue).json" }

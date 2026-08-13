@@ -138,23 +138,18 @@ struct CardHistorySheet: View {
 
     @ViewBuilder
     private func cardIcon(_ card: CreditCard) -> some View {
-        if let uiImage = UIImage(named: card.imageName) {
-            Image(uiImage: uiImage)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 44, height: 28)
-                .clipShape(RoundedRectangle(cornerRadius: 6))
-                .shadow(color: .black.opacity(0.1), radius: 1, x: 0, y: 1)
-        } else {
+        CardArtView(imageName: card.imageName) {
             RoundedRectangle(cornerRadius: 6)
                 .fill(Color.cardColor(for: card.issuer))
-                .frame(width: 44, height: 28)
                 .overlay {
                     Text(card.issuer.prefix(1))
                         .font(.churNanoBold())
                         .foregroundStyle(.white)
                 }
         }
+        .frame(width: 44, height: 28)
+        .clipShape(RoundedRectangle(cornerRadius: 6))
+        .shadow(color: .black.opacity(0.1), radius: 1, x: 0, y: 1)
     }
 
     private func statusColor(_ status: NodeStatus) -> Color {

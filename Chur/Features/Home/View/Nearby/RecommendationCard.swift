@@ -58,9 +58,7 @@ struct RecommendationCard: View {
             
             HStack(spacing: 12) {
                 if let card = recommendation.card {
-                    Image(card.imageName)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
+                    CardArtView(imageName: card.imageName, contentMode: .fit, placeholderCornerRadius: 6)
                         .frame(width: 60, height: 38)
                         .clipShape(RoundedRectangle(cornerRadius: 6))
                         .shadow(color: .black.opacity(0.1), radius: 2)

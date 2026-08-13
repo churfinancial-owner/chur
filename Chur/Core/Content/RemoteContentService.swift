@@ -168,6 +168,13 @@ final class RemoteContentService {
             guard let dictionary = parsed as? [String: Any], dictionary["exactMatches"] is [String: Any] else {
                 throw ContentError.validationFailed("merchantMappings: expected an object with 'exactMatches'")
             }
+        case .cardArt:
+            guard let dictionary = parsed as? [String: Any], !dictionary.isEmpty else {
+                throw ContentError.validationFailed("cardArt: expected a non-empty object keyed by imageName")
+            }
+            guard dictionary.values.allSatisfy({ ($0 as? [String: Any])?["url"] is String }) else {
+                throw ContentError.validationFailed("cardArt: every entry needs a 'url'")
+            }
         }
     }
 
