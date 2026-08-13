@@ -57,26 +57,13 @@ enum CardArtStore {
         }
     }
 
-    /// Bundled art, unless the DEBUG toggle is asking us to pretend it isn't
-    /// there — the honest way to test what shipping without `Assets.xcassets/Cards`
-    /// will feel like, before committing to deleting 19 MB.
+    /// Card art no longer ships in the binary — `Assets.xcassets/Cards` was
+    /// removed once the CDN pipeline was proven, taking 19 MB with it. This
+    /// stays as the seam: it returns nil for every card today, and would start
+    /// answering again if any art were ever re-bundled.
     static func bundledImage(named imageName: String) -> UIImage? {
-        #if DEBUG
-        if ignoreBundledArt { return nil }
-        #endif
-        return UIImage(named: imageName)
+        UIImage(named: imageName)
     }
-
-    #if DEBUG
-    private static let ignoreBundledArtKey = "chur.debug.ignoreBundledArt"
-
-    /// Survives relaunch on purpose: a cold launch is exactly the case worth
-    /// testing, and a toggle that reset on every run couldn't show it.
-    static var ignoreBundledArt: Bool {
-        get { UserDefaults.standard.bool(forKey: ignoreBundledArtKey) }
-        set { UserDefaults.standard.set(newValue, forKey: ignoreBundledArtKey) }
-    }
-    #endif
 
     /// Removes every cached image. Called by ContentStore.clear(), so the debug
     /// "Clear Content Cache" action resets art along with everything else.
