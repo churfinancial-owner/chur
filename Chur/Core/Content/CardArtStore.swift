@@ -28,13 +28,18 @@ enum CardArtStore {
         return directory
     }
 
-    /// `<imageName>-<sha8>.png` — content-addressed, matching the remote key.
-    static func fileURL(for imageName: String, sha256: String) -> URL? {
-        directoryURL?.appendingPathComponent("\(imageName)-\(sha256.prefix(8)).png")
+    /// `<imageName>-<sha8>.<ext>` — content-addressed, matching the remote key.
+    ///
+    /// The extension is carried through rather than assumed: the asset catalog
+    /// holds both PNG and JPEG, a difference `UIImage(named:)` hides completely
+    /// and HTTP does not.
+    static func fileURL(for imageName: String, sha256: String, pathExtension: String) -> URL? {
+        let ext = pathExtension.isEmpty ? "png" : pathExtension
+        return directoryURL?.appendingPathComponent("\(imageName)-\(sha256.prefix(8)).\(ext)")
     }
 
-    static func write(_ data: Data, for imageName: String, sha256: String) {
-        guard let url = fileURL(for: imageName, sha256: sha256) else { return }
+    static func write(_ data: Data, for imageName: String, sha256: String, pathExtension: String) {
+        guard let url = fileURL(for: imageName, sha256: sha256, pathExtension: pathExtension) else { return }
         try? data.write(to: url, options: .atomic)
         pruneOldVersions(of: imageName, keeping: url)
     }

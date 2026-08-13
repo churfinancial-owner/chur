@@ -255,10 +255,17 @@ struct CardArt {
     let sha256: String
     let bytes: Int
 
+    /// The catalog holds a mix of PNG and JPEG — Xcode resolves either through
+    /// `UIImage(named:)`, so the difference is invisible until art is served
+    /// over HTTP and the extension has to be carried explicitly.
+    var pathExtension: String { source.pathExtension.lowercased() }
+
+    var contentType: String { pathExtension == "png" ? "image/png" : "image/jpeg" }
+
     /// Content-addressed remote key. A changed image gets a new key, so nothing
     /// ever has to be cache-invalidated and a rollback is just an old manifest
     /// pointing at keys that are still there.
-    var key: String { "art/\(imageName)-\(String(sha256.prefix(8))).png" }
+    var key: String { "art/\(imageName)-\(String(sha256.prefix(8))).\(pathExtension)" }
 }
 
 /// Every `*.imageset` under Assets.xcassets/Cards. The imageset folder name is
@@ -276,17 +283,18 @@ func loadCardArt(repoRoot: URL) throws -> [CardArt] {
         let imageName = url.deletingPathExtension().lastPathComponent
         let contents = (try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil)) ?? []
 
-        guard let png = contents.first(where: { $0.pathExtension.lowercased() == "png" }) else {
+        let imageExtensions: Set<String> = ["png", "jpg", "jpeg"]
+        guard let file = contents.first(where: { imageExtensions.contains($0.pathExtension.lowercased()) }) else {
             emptySets.append(imageName)
             continue
         }
 
-        let data = try Data(contentsOf: png)
-        art.append(CardArt(imageName: imageName, source: png, sha256: sha256Hex(data), bytes: data.count))
+        let data = try Data(contentsOf: file)
+        art.append(CardArt(imageName: imageName, source: file, sha256: sha256Hex(data), bytes: data.count))
     }
 
     if !emptySets.isEmpty {
-        print("⚠️  Imagesets with no PNG (\(emptySets.count)): \(emptySets.sorted().joined(separator: ", "))")
+        print("⚠️  Imagesets with no image file (\(emptySets.count)): \(emptySets.sorted().joined(separator: ", "))")
     }
 
     return art.sorted { $0.imageName < $1.imageName }
@@ -707,7 +715,7 @@ do {
         } else {
             print("   uploading \(pendingArt.count) new or changed image(s) — this is the slow part…")
             for art in pendingArt {
-                try upload(art.source, key: art.key, bucket: args.bucket, contentType: "image/png")
+                try upload(art.source, key: art.key, bucket: args.bucket, contentType: art.contentType)
                 artIndex.keys.insert(art.key)
                 // Written after every image so an interrupted run doesn't
                 // re-upload everything it already managed to push.
