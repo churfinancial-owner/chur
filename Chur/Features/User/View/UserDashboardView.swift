@@ -197,13 +197,7 @@ struct UserDashboardView: View {
                         Section("Content: \(ContentStore.debugStatusLabel)") {
                             Button(action: {
                                 Task {
-                                    guard await RemoteContentService.shared.refresh() else { return }
-                                    CardDatabase.reloadFromBundle()
-                                    BenefitDatabase.reloadFromBundle()
-                                    OnlineMerchantDatabase.reloadFromBundle()
-                                    MerchantCategoryMapper.reloadFromBundle()
-                                    CategorySyncService.syncCategories(modelContext: modelContext)
-                                    _ = CardSyncService.syncWalletCards(modelContext: modelContext)
+                                    await ContentRefreshCoordinator.refreshNow(modelContext: modelContext)
                                 }
                             }) {
                                 Label("Refresh Remote Content", systemImage: "arrow.down.circle")
@@ -219,6 +213,12 @@ struct UserDashboardView: View {
                             // the JSON, so its footprint grows invisibly.
                             Label("Art cache: \(ByteCountFormatter.string(fromByteCount: Int64(CardArtStore.cachedByteCount), countStyle: .file))",
                                   systemImage: "photo.stack")
+
+                            // Why a refresh did nothing is otherwise invisible —
+                            // rate-limited, unchanged and failed all look the same.
+                            if let latest = ContentRefreshLog.latest {
+                                Label("Last: \(latest.summary)", systemImage: "clock.arrow.circlepath")
+                            }
 
                         }
 

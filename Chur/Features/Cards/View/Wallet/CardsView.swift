@@ -16,6 +16,10 @@ struct CardsView: View {
     @State private var showPopup = false
     @State private var reminderRouter = ReminderRouter.shared
 
+    /// Nil except for a few seconds after a manual refresh. A pull that reports
+    /// nothing is indistinguishable from a pull that did nothing.
+    @State private var refreshStatus: ContentRefreshCoordinator.Result?
+
     var sortedCards: [CreditCard] {
         vm.getSortedCards(cards: cards, user: users.first)
     }
@@ -40,6 +44,7 @@ struct CardsView: View {
                     ScrollView {
                         VStack(spacing: 8) {
                             Color.clear.frame(height: 140)
+                            refreshStatusBanner
                             if cards.isEmpty {
                                 CardsEmptyWalletView(showingAddCard: $vm.showingAddCard)
                             } else {
@@ -51,6 +56,11 @@ struct CardsView: View {
                         }
                     }
                     .contentShape(Rectangle())
+                    // The user's only way to ask for new content. Everything else
+                    // is automatic and silent, which leaves nothing to do when it
+                    // hasn't worked — "pull down on your wallet" is an
+                    // instruction support can actually give.
+                    .refreshable { await pullToRefresh() }
                     .scrollDismissesKeyboard(.interactively)
                     .background(Color.churOffWhite)
                     .blur(radius: showPopup ? 5 : 0)
@@ -137,6 +147,38 @@ private extension CardsView {
             .padding(.horizontal, 10)
         }
         .frame(height: 160)
+    }
+
+    @ViewBuilder
+    private var refreshStatusBanner: some View {
+        if let refreshStatus {
+            HStack(spacing: 6) {
+                Image(systemName: refreshStatus == .failed ? "exclamationmark.triangle" : "checkmark.circle")
+                Text(refreshStatusText(refreshStatus))
+            }
+            .font(.churFootnote())
+            .foregroundStyle(refreshStatus == .failed ? Color.churMediumGray : Color.churOlive)
+            .transition(.opacity)
+        }
+    }
+
+    private func refreshStatusText(_ result: ContentRefreshCoordinator.Result) -> String {
+        switch result {
+        case .updated: return String(localized: "Card details updated")
+        case .alreadyCurrent: return String(localized: "Everything is up to date")
+        case .failed: return String(localized: "Couldn't check for updates")
+        }
+    }
+
+    /// Skips the 30-minute interval gate — a deliberate pull means "check now" —
+    /// but not the version gate, so it costs one small manifest fetch when
+    /// nothing has changed.
+    private func pullToRefresh() async {
+        let result = await ContentRefreshCoordinator.refreshNow(modelContext: modelContext)
+        withAnimation { refreshStatus = result }
+
+        try? await Task.sleep(for: .seconds(3))
+        withAnimation { refreshStatus = nil }
     }
 
     var headerSection: some View {

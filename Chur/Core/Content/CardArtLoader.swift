@@ -46,6 +46,10 @@ final class CardArtLoader {
 
     private var index: [String: CardArtRef]?
 
+    /// Content version the index was decoded at, so a refresh landing mid-session
+    /// invalidates it without anything having to remember to call clearMemory().
+    private var indexVersion: Int?
+
     // MARK: - Public API
 
     /// Cached image, if one is already available without touching the network.
@@ -117,6 +121,7 @@ final class CardArtLoader {
     func clearMemory() {
         memory.removeAllObjects()
         index = nil
+        indexVersion = nil
     }
 
     // MARK: - Internals
@@ -145,16 +150,27 @@ final class CardArtLoader {
         }
     }
 
-    /// The published index, decoded once per launch. Nil until a content refresh
-    /// has landed, which is why bundled art remains the fallback until the
-    /// pipeline is proven.
+    /// The published index, re-read whenever the content version moves.
+    ///
+    /// Decoding once per launch was wrong: a refresh that lands while the app is
+    /// running writes a new index, and a loader still holding the old one would
+    /// serve stale URLs — and return nothing at all for a card added by that
+    /// publish, since its name wouldn't be in the old index. The user would see
+    /// a permanent placeholder until they happened to relaunch, with no button
+    /// to fix it. Stamping the version makes it self-correcting.
     private func reference(for imageName: String) -> CardArtRef? {
-        if index == nil {
+        let version = ContentStore.currentVersion
+        if index == nil || indexVersion != version {
             guard let data = ContentStore.data(for: .cardArt),
                   let decoded = try? JSONDecoder().decode([String: CardArtRef].self, from: data) else {
                 return nil
             }
+            // Decoded images are keyed by name, not by hash, so an updated image
+            // would otherwise keep resolving to the previous one for the rest of
+            // the session.
+            if indexVersion != nil { memory.removeAllObjects() }
             index = decoded
+            indexVersion = version
         }
         return index?[imageName]
     }
