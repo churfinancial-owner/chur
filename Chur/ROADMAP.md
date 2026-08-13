@@ -86,7 +86,7 @@ Live at `https://content.chur.app`. A reward-rate change was published and reach
 | Wiring | `CardDatabase.loadCachedCards()` prefers remote; refresh on launch/foreground in `ContentView`; version + manual refresh in the DEBUG hammer menu |
 | Switch | `FeatureFlags.remoteContentEnabled` in `App/Config.swift` |
 
-Domains live: **cards, rewards** (benefits added in P1b). Payload is ~200 KB total (~30 KB gzipped) — far smaller than the 1 MB on disk, since per-file overhead and whitespace dominated.
+Domains live: **cards, rewards, benefits** (benefits added in P1b). Payload is ~390 KB total (~50 KB gzipped) — far smaller than the 1 MB on disk, since per-file overhead and whitespace dominated.
 
 **Operating rule: commit *and* publish.** The repo stays the source of truth; the CDN is a copy. Publishing without committing makes them drift, and the next run of the script republishes the old values.
 
@@ -104,7 +104,7 @@ Domains live: **cards, rewards** (benefits added in P1b). Payload is ~200 KB tot
 
 Ordered by value-to-effort, not listed arbitrarily:
 
-1. ~~**Benefits**~~ — ✅ DONE (2026-08-13). One `ContentDomain` case, one aggregation in the script, one branch in `BenefitDatabase.loadCachedBenefits()`, one validation case, exactly as predicted. Both refresh call sites now reload `BenefitDatabase` before `CardSyncService.syncWalletCards`, which reads it. Verified on a simulator: 267 benefits load, and the two Schwab tiers appear on the Amex Schwab Platinum. See the lessons below — the plumbing was the easy half.
+1. ~~**Benefits**~~ — ✅ DONE (2026-08-13). One `ContentDomain` case, one aggregation in the script, one branch in `BenefitDatabase.loadCachedBenefits()`, one validation case, exactly as predicted. Both refresh call sites now reload `BenefitDatabase` before `CardSyncService.syncWalletCards`, which reads it. **Verified 2026-08-13** to the same bar as P1a: 267 benefits load, the two Schwab tiers appear on the Amex Schwab Platinum, and after publishing all three domains the app refreshed from `content.chur.app` and kept showing them — proving the published payload agrees with the bundle rather than overriding it. This was the first publish where two domains had to agree with each other: remote cards now reference benefit ids that only exist in the benefits bundle, so a partial publish would make perks vanish rather than merely misstate a rate. See the lessons below — the plumbing was the easy half.
 2. **Merchants** — similar, but `Resources/json/merchants/SeedDataGenericMappings.json` is a dict of exact matches plus prefix/contains arrays, a different shape from the 77 per-merchant files. The script needs two aggregation shapes.
 3. **Card art to the CDN** — required before a *new* card can ship without a release (see §5b). Two call sites render bare `Image(name)` with no fallback.
 4. **User-facing Settings row** for content version + manual refresh (currently DEBUG-only).
