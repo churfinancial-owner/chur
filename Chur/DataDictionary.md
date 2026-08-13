@@ -8,11 +8,31 @@
 **Persistence:** SwiftData (SQLite on-device)  
 **Cloud sync:** Google Drive App Data (JSON snapshot, Google-authenticated users only); Apple Sign In users and anonymous users currently have no cloud backup — CloudKit planned. For those users the local store is the only copy, which is why the migration plan has to be correct rather than leaning on store recovery  
 **Seed data authoring:** see `Resources/json/REWARD_SETUP_REFERENCE.md` (rewards) and `Resources/json/MERCHANT_SETUP_REFERENCE.md` (categories/merchants)  
-**Last updated:** 2026-08-12
+**Last updated:** 2026-08-13
 
 > SwiftData auto-generates an opaque `PersistentIdentifier` for every `@Model` instance.  
 > This acts as the internal primary key and is not exposed as a Swift property.  
 > Where a model defines its own `id: String`, that field is the **application-level primary key** — used for cross-reference and sync, but distinct from SwiftData's internal PK.
+
+---
+
+## ⚠️ Load-bearing IDs — never rename, never remove
+
+Some seed-data ids are pointed at by **persisted user data**. Renaming or deleting one is destructive, and nothing catches it: the ids live in JSON, so the compiler is never involved, and since P1a/P1b that JSON publishes remotely — reaching devices within 30 minutes, with no build in between.
+
+| Seed id | Pointed at by | What a rename costs the user |
+|---|---|---|
+| Card `id` (`json/cards/**`) | `CreditCard.templateID` | Card silently stops syncing and keeps stale rates forever |
+| Benefit `id` (`json/benefits/**`) | `Benefit.id` suffix | **Redemption history destroyed** — `Benefit.usageHistory` is `.cascade`, and `CardSyncService.syncBenefits` deletes benefits the template no longer lists |
+| `planID` (`json/rewards/*`) | `CreditCard.selectedPlanID` | Chosen reward plan resets to nil |
+| `configurableSlot` (`json/rewards/*`) | `CreditCard.slotSelections` keys | Slot picks orphaned; `reward.categories` re-derive wrong |
+| Category `id` (`json/categories/*`, plus `brandCategory`-derived) | `User.selectedCategories`, `deselectedCategories`, `explicitlySelectedParentCategories` | Picks go inert — the row is deactivated, the preference points at nothing |
+
+**Enforced, not remembered:** `Scripts/ChurContentPublish/id-lock.json` records every id ever published, and `swift run ChurContentPublish` refuses to publish when an active one disappears. A rename trips it automatically, because a rename is an addition plus a removal. There is no override flag.
+
+**To retire an id properly:** keep the entry in the seed data so the id still resolves, hide it (categories: `"visibility": "hidden"`, including `brandCategory.visibility` for merchant-derived ones; benefits: `"isActive": false`), and move the id from `active` to `retired` in the lock file. Deleting the entry outright is what strands user references.
+
+Everything else in the seed JSON — names, rates, descriptions, values, ordering — is free to change.
 
 ---
 

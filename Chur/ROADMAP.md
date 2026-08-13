@@ -11,7 +11,7 @@ Last reviewed: 2026-08-13.
 | | |
 |---|---|
 | **What it does** | Per-dollar, point-of-sale ranker — "which card should I use at this merchant, right now" |
-| **Data** | 175 cards, 267 benefit templates, 193 categories, 77 merchants — ~500 JSON files in `Resources/json/`, bundled into the binary as the offline baseline. **Cards, rewards and benefits also publish remotely** (P1a, P1b); everything else is bundle-only |
+| **Data** | 175 cards, 267 benefit templates, 223 categories, 77 merchants — ~500 JSON files in `Resources/json/`, bundled into the binary as the offline baseline. **Cards, rewards, benefits and merchants also publish remotely** (P1a, P1b); hand-authored categories and card art are bundle-only |
 | **Persistence** | On-device SwiftData (`ChurSchemaV2_0`, migration-ready) + Google Drive appDataFolder backup (`ChurBackup` v3) |
 | **Backend** | No application server. Three outbound calls: Cloudflare R2 content (`Core/Content/`), Google Drive (`Core/Sync/CloudSyncManager.swift`), Sanity CMS (`Features/News/Service/NewsService.swift`) |
 | **Analytics** | None |
@@ -105,14 +105,29 @@ Domains live: **cards, rewards, benefits** (benefits added in P1b). Payload is ~
 Ordered by value-to-effort, not listed arbitrarily:
 
 1. ~~**Benefits**~~ — ✅ DONE (2026-08-13). One `ContentDomain` case, one aggregation in the script, one branch in `BenefitDatabase.loadCachedBenefits()`, one validation case, exactly as predicted. Both refresh call sites now reload `BenefitDatabase` before `CardSyncService.syncWalletCards`, which reads it. **Verified 2026-08-13** to the same bar as P1a: 267 benefits load, the two Schwab tiers appear on the Amex Schwab Platinum, and after publishing all three domains the app refreshed from `content.chur.app` and kept showing them — proving the published payload agrees with the bundle rather than overriding it. This was the first publish where two domains had to agree with each other: remote cards now reference benefit ids that only exist in the benefits bundle, so a partial publish would make perks vanish rather than merely misstate a rate. See the lessons below — the plumbing was the easy half.
-2. **Merchants** — similar, but `Resources/json/merchants/SeedDataGenericMappings.json` is a dict of exact matches plus prefix/contains arrays, a different shape from the 77 per-merchant files. The script needs two aggregation shapes.
+2. ~~**Merchants**~~ — ✅ DONE (2026-08-13). Shipped as **two** domains rather than one: `merchants` (77 entries) and `merchantMappings` (`SeedDataGenericMappings.json`), each falling back to its bundled JSON independently, so a broken mappings payload costs map name-matching instead of the merchant list that online search and brand categories both depend on. Verified on a simulator, including the mixed-version case where the manifest omits a domain the build knows about.
 3. **Card art to the CDN** — required before a *new* card can ship without a release (see §5b). Two call sites render bare `Image(name)` with no fallback.
 4. **User-facing Settings row** for content version + manual refresh (currently DEBUG-only).
 5. **`Debug/Testing/SeedDataValidator.swift`** extended to validate a candidate payload before publishing.
 
-**Item 2 (merchants) has a hidden dependency on the category rule below.** `MerchantEntry.brandCategory` synthesizes `SpendingCategory` templates at load time (`MerchantSeedDatabase.brandCategoryTemplates()`), so publishing merchants makes part of the taxonomy remotely mutable — the exact thing item "categories excluded" is protecting. It degrades safely today because `CategorySyncService` deactivates orphans rather than deleting them, but renaming a merchant's `category` would still strand user selections. Decide the deprecation rule before starting item 2, not during.
+**The rule that unblocked item 2 — load-bearing ids are permanent, and the publisher enforces it.**
 
-#### P1b item 1 — lessons worth keeping
+`MerchantEntry.brandCategory` synthesizes `SpendingCategory` templates, so publishing merchants makes 31 of the 223 categories remotely mutable — the exact thing excluding categories was protecting. Working that through surfaced a worse instance of the same class: **`Benefit.usageHistory` cascades on delete**, so renaming a benefit id destroys the user's redemption history, and benefits went remote earlier the same day.
+
+The resolution is one invariant across five namespaces (card ids, benefit ids, plan ids, configurable slots, category ids), enforced at the only choke point every remote change passes through:
+
+| Piece | Where |
+|---|---|
+| The rule + what each namespace costs | `DataDictionary.md` § Load-bearing IDs |
+| The registry | `Scripts/ChurContentPublish/id-lock.json` — 694 ids, append-only, committed |
+| Enforcement | `ChurContentPublish` refuses to publish when an active id disappears. A rename trips it automatically, being an add plus a removal. **No override flag** |
+| Retirement path | Keep the entry, hide it (`visibility: "hidden"` / `isActive: false`), move the id to `retired` |
+
+`BrandCategorySpec.visibility` exists so that retirement path is actually available for merchant-derived categories — without it the rule would be unenforceable for exactly the 31 categories that prompted it.
+
+Note the lock was seeded from data as it stood on 2026-08-13, so it forgives everything published before that, including the `schwab_appreciation_bonus` rename made hours earlier. It protects from that point forward, not retroactively.
+
+#### P1b items 1–2 — lessons worth keeping
 
 The remote plumbing took one commit. Everything below came from actually running it, and none of it was about the CDN.
 
@@ -122,7 +137,9 @@ The remote plumbing took one commit. Everything below came from actually running
 - **The diagnostic was worth more than the fix.** Three guesses at why a benefit wasn't showing (`benefitType`? `displayGroup`? sync?) all missed. Twenty lines in `SeedDataValidator` comparing card benefit references against what actually loaded named the real cause immediately — and surfaced the other seven broken files as a side effect. Reach for the check that turns a guess into a fact earlier than feels necessary.
 - **`value: Int` can't hold $12.95.** Widening it to `Double` touches `BenefitTemplate` *and* the `Benefit` `@Model`, so it's a schema migration — deferred to P3, where the spend-profile migration already has to happen. Rounded to 13 meanwhile, overstating by $0.60/year. Worth doing properly when P3 opens the schema anyway.
 
-**Categories are deliberately excluded from P1b.** They're persisted as `SpendingCategory` models, and `User.selectedCategories` / `deselectedCategories` / `explicitlySelectedParentCategories` all store category IDs. A remote publish that renamed or removed a category would silently orphan every user's saved preferences, with no build error to catch it. Making the taxonomy remotely mutable requires first committing to a rule — most likely "never remove, only deprecate" — which is a data-modelling decision, not plumbing.
+**Hand-authored categories are still excluded from P1b — but the reason has changed.** The blocking question was the rule, and the rule now exists and is enforced (above), so what remains is only plumbing: an aggregation for `categories/*.json`, a `ContentDomain` case, and a branch in `SeedDataLoader.loadCategoryTemplates()`. The 31 merchant-derived categories already publish this way.
+
+What still deserves care before doing it: hand-authored categories carry `cardFilter`, `excludeFromParent` and `categoryLinks`, which feed `CardRateCalculator`'s match resolution. A bad publish there changes *prices* rather than labels — a different blast radius from anything published so far, and the reason it should follow the P1c test vectors rather than precede them.
 
 #### P1c
 

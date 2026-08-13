@@ -31,11 +31,14 @@ git push origin main                                    # 4. push
 | Cards | `Chur/Resources/json/cards/**` | ✅ Yes |
 | Reward rates | `Chur/Resources/json/rewards/*.json` | ✅ Yes |
 | Benefits | `Chur/Resources/json/benefits/**` | ✅ Yes |
+| Merchants | `Chur/Resources/json/merchants/SeedDataMerchants_*.json` | ✅ Yes |
+| Map mappings | `Chur/Resources/json/merchants/SeedDataGenericMappings.json` | ✅ Yes |
 | Categories | `Chur/Resources/json/categories/*.json` | ❌ App release |
-| Merchants | `Chur/Resources/json/merchants/*.json` | ❌ App release |
 | Card images | `Chur/Resources/Assets.xcassets/Cards/` | ❌ App release |
 
-So: **rates, fees, card details and perks publish instantly. Categories, merchants and artwork don't** — see `ROADMAP.md` §P1b.
+So: **rates, fees, card details, perks and merchants publish instantly. Hand-authored categories and artwork don't** — see `ROADMAP.md` §P1b.
+
+> **Merchants are the one domain that writes to the user's database.** A `brandCategory` block synthesizes a `SpendingCategory`, which is a persisted model — so publishing a new brand inserts a row on every device, and removing one deactivates a row users may have selected. Read the retirement rules in `MERCHANT_SETUP_REFERENCE.md` before deleting a merchant entry.
 
 A brand-new card can be published, but it will render **without artwork** until an app release adds the image.
 
@@ -73,13 +76,17 @@ Expected output:
 ✅ contentVersion 7 → /Users/pakho/Documents/Product/chur/dist
    cards:    175 cards, 82972 bytes
    rewards:  169 entries, 118325 bytes
-   benefits: 267 benefits, 186000 bytes
-   manifest: 700 bytes, base URL https://content.chur.app
+   benefits: 267 benefits, 192066 bytes
+   merchants: 77 merchants, … bytes
+   mappings: 4 rule groups, … bytes
+   manifest: … bytes, base URL https://content.chur.app
 
 Uploading to R2 bucket 'chur-content'…
    ✓ cards-7.json
    ✓ rewards-7.json
    ✓ benefits-7.json
+   ✓ merchants-7.json
+   ✓ merchantMappings-7.json
    ✓ manifest.json
 
 ✅ Published.
@@ -153,6 +160,14 @@ Remote content **wins over the bundled JSON by design** — that is the entire p
 
 **Fix:** hammer menu → **Clear Content Cache**. It drops the cached bundles, reloads from your build, and re-syncs the wallet. Your data is untouched — this is not "Reset All Data".
 
+**Check you're even running your latest code first.** The console prints a build stamp on every launch:
+
+```
+🧱 Chur build compiled 2026-08-13 14:32:10 · 2 minutes ago
+```
+
+"minutes ago" means the build contains what you just changed. "2 hours ago" means Xcode reused an old build and your edit isn't in it — rebuild before debugging anything else.
+
 How to recognise it: the app shows values you can't find anywhere in the repo. During P1b an Amex card kept referencing a benefit id that had been renamed days earlier — the app was reading a `cards-N.json` published weeks before.
 
 Rule of thumb: **editing JSON locally → Clear Content Cache. Testing a real publish → Refresh Remote Content.**
@@ -175,6 +190,27 @@ Hammer menu → **Refresh Remote Content**. The 30-minute gate means it won't re
 
 **4. Is the feature flag on?**
 `Chur/App/Config.swift` → `remoteContentEnabled` must be `true`.
+
+### The publish refused: "ID lock violation"
+
+```
+❌ ID lock violation — publishing refused.
+
+   benefits: resy_credit_120
+      Benefit.id — CardSyncService deletes the benefit, and usageHistory
+      cascades, so the user's redemption history is destroyed
+```
+
+**This is the guard working, not a bug.** An id that shipped to users has disappeared from the seed data — usually because you renamed something, since a rename is an addition plus a removal.
+
+Two valid responses:
+
+1. **You didn't mean to break it** — restore the id. Renaming is never safe for the five namespaces in `DataDictionary.md`; give the *new* thing a new id instead and leave the old one alone.
+2. **You did mean to retire it** — keep the entry in the seed data but hide it (categories: `"visibility": "hidden"`; benefits: `"isActive": false`), then move the id from `active` to `retired` in `Scripts/ChurContentPublish/id-lock.json`. Commit both.
+
+There is no override flag, deliberately. The check runs before anything is written or uploaded, so a violation costs you a re-run and nothing else.
+
+New ids need no action — the script appends them and tells you to commit the lock file.
 
 ### `manifest.json` is the file that matters
 
