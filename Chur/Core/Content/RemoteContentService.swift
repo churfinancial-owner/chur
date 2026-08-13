@@ -38,9 +38,13 @@ final class RemoteContentService {
     /// content was applied, so the caller knows to reload the databases.
     @discardableResult
     func refreshIfNeeded() async -> Bool {
-        guard FeatureFlags.remoteContentEnabled else { return false }
+        guard FeatureFlags.remoteContentEnabled else {
+            ContentRefreshLog.record(.disabled)
+            return false
+        }
         if let last = ContentStore.lastRefreshedAt,
            Date().timeIntervalSince(last) < Self.minimumRefreshInterval {
+            ContentRefreshLog.record(.rateLimited)
             return false
         }
         return await refresh()
@@ -59,6 +63,7 @@ final class RemoteContentService {
 
             guard isSupported(minAppVersion: manifest.minAppVersion) else {
                 print("⏭️ RemoteContent: build older than minAppVersion \(manifest.minAppVersion), skipping")
+                ContentRefreshLog.record(.tooOld, detail: "needs \(manifest.minAppVersion)")
                 return false
             }
 
@@ -66,7 +71,10 @@ final class RemoteContentService {
             // no-op doesn't re-fetch on every foreground.
             ContentStore.lastRefreshedAt = Date()
 
-            guard manifest.contentVersion > ContentStore.currentVersion else { return false }
+            guard manifest.contentVersion > ContentStore.currentVersion else {
+                ContentRefreshLog.record(.upToDate)
+                return false
+            }
 
             var staged: [(ContentDomain, Data)] = []
             for domain in ContentDomain.allCases {
@@ -86,9 +94,13 @@ final class RemoteContentService {
             ContentStore.currentVersion = manifest.contentVersion
 
             print("✅ RemoteContent: applied contentVersion \(manifest.contentVersion)")
+            ContentRefreshLog.record(.applied, detail: "\(staged.count) domains")
             return true
         } catch {
             print("⚠️ RemoteContent: refresh failed — \(error)")
+            // The reason is the whole point: a checksum mismatch and a dropped
+            // connection look identical from the outside and need opposite fixes.
+            ContentRefreshLog.record(.failed, detail: "\(error)")
             return false
         }
     }

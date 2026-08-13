@@ -171,22 +171,7 @@ struct ContentView: View {
     /// reads BenefitDatabase, so skipping it would apply new cards against stale
     /// benefit templates.
     private func refreshRemoteContent() async {
-        guard await RemoteContentService.shared.refreshIfNeeded() else { return }
-        CardDatabase.reloadFromBundle()
-        BenefitDatabase.reloadFromBundle()
-        OnlineMerchantDatabase.reloadFromBundle()
-        MerchantCategoryMapper.reloadFromBundle()
-
-        // Merchants carry `brandCategory` blocks that synthesize SpendingCategory
-        // templates, and those are persisted models — without this a newly
-        // published brand never gets a category row. CategorySyncService
-        // deactivates rather than deletes, so user picks survive.
-        CategorySyncService.syncCategories(modelContext: modelContext)
-        _ = CardSyncService.syncWalletCards(modelContext: modelContext)
-
-        // A publish can point a card at new art; fetch it while the network is
-        // known to be up rather than the next time the user opens their wallet.
-        prefetchWalletArt()
+        await ContentRefreshCoordinator.refreshIfNeeded(modelContext: modelContext)
     }
 
     /// Keeps the user's own card art on disk. Cheap when everything is cached —

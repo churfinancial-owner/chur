@@ -34,8 +34,20 @@
         }
       }
     },
+    "Card details updated" : {
+      "comment" : "Wallet pull-to-refresh: new content was applied",
+      "extractionState" : "manual"
+    },
     "Chur %@ (%@)" : {
       "comment" : "Settings footer: app name, version, build number",
+      "extractionState" : "manual"
+    },
+    "Couldn't check for updates" : {
+      "comment" : "Wallet pull-to-refresh: the refresh failed",
+      "extractionState" : "manual"
+    },
+    "Everything is up to date" : {
+      "comment" : "Wallet pull-to-refresh: nothing new to download",
       "extractionState" : "manual"
     },
     "content v%lld" : {
