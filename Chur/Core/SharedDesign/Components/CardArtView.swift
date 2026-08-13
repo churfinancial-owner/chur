@@ -57,7 +57,7 @@ struct CardArtView<Placeholder: View>: View {
     /// and always correct. Once it stops shipping, this returns nil and the
     /// caches take over.
     private var resolved: UIImage? {
-        if let bundled = UIImage(named: imageName) { return bundled }
+        if let bundled = CardArtStore.bundledImage(named: imageName) { return bundled }
         if let remoteImage { return remoteImage }
         return CardArtLoader.shared.cached(imageName)
     }
