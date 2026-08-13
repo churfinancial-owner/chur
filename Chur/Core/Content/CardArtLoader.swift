@@ -2,8 +2,8 @@
 //  CardArtLoader.swift
 //  Chur
 //
-//  Resolves card art by `imageName`, in three tiers: decoded in memory, PNG on
-//  disk, then the CDN.
+//  Resolves card art by `imageName`, in three tiers: decoded in memory, a file
+//  on disk, then the CDN.
 //
 //  Card art is published as individual images rather than a JSON bundle, so it
 //  is deliberately outside RemoteContentService's all-or-nothing staging: 15 MB
@@ -24,6 +24,10 @@ struct CardArtRef: Codable {
     let url: String
     let sha256: String
     let bytes: Int
+
+    /// png or jpeg — the catalog contains both, and the cache filename has to
+    /// match what was actually downloaded.
+    var pathExtension: String { URL(string: url)?.pathExtension.lowercased() ?? "png" }
 }
 
 @MainActor
@@ -51,7 +55,9 @@ final class CardArtLoader {
         if let image = memory.object(forKey: imageName as NSString) { return image }
 
         guard let ref = reference(for: imageName),
-              let url = CardArtStore.fileURL(for: imageName, sha256: ref.sha256),
+              let url = CardArtStore.fileURL(for: imageName,
+                                             sha256: ref.sha256,
+                                             pathExtension: ref.pathExtension),
               let data = try? Data(contentsOf: url),
               let image = UIImage(data: data) else { return nil }
 
@@ -100,7 +106,7 @@ final class CardArtLoader {
             }
             guard let image = UIImage(data: data) else { return nil }
 
-            CardArtStore.write(data, for: imageName, sha256: ref.sha256)
+            CardArtStore.write(data, for: imageName, sha256: ref.sha256, pathExtension: ref.pathExtension)
             memory.setObject(image, forKey: imageName as NSString)
             return image
         } catch {
