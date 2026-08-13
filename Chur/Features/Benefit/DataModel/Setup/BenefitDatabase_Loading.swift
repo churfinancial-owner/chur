@@ -11,17 +11,6 @@ import Foundation
 
 extension BenefitDatabase {
 
-    /// Decodes the remotely published benefits bundle, or nil when the feature
-    /// is off, nothing is cached, or the payload isn't a usable array.
-    ///
-    /// Entries are decoded one at a time so a single malformed benefit is
-    /// skipped rather than discarding the whole domain. That matches the bundle
-    /// path, where `enumerateFolder` drops a file it can't decode — three seed
-    /// files fail `_BenefitJSON` today (`schwab_appreciation_bonus` and
-    /// `schwab_redeem_cash` have no `value`, `amex_walmartplus` has a fractional
-    /// one against `value: Int`). An all-or-nothing decode here would let those
-    /// three permanently force every client back to bundled JSON, silently
-    /// disabling remote benefits.
     static func loadRemoteBenefits(formatter: ISO8601DateFormatter) -> [BenefitTemplate]? {
         guard FeatureFlags.remoteContentEnabled,
               let data = ContentStore.data(for: .benefits) else { return nil }

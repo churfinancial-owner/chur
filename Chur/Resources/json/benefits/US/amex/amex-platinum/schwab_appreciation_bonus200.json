@@ -1,10 +1,10 @@
 {
     "id": "schwab_appreciation_bonus200",
     "benefitType": "credit",
-    "displayGroup": "perks",
+    "displayGroup": "lifestyle_convenience",
     "localized": {
         "en": {
-            "name": "Schwab Appreciation Bonus",
+            "name": "Schwab Appreciation $200",
             "description": "Receive a $200 statement credit annually if your qualifying Schwab holdings are  $1M+."
         }
     },
