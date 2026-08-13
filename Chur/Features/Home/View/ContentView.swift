@@ -174,6 +174,14 @@ struct ContentView: View {
         guard await RemoteContentService.shared.refreshIfNeeded() else { return }
         CardDatabase.reloadFromBundle()
         BenefitDatabase.reloadFromBundle()
+        OnlineMerchantDatabase.reloadFromBundle()
+        MerchantCategoryMapper.reloadFromBundle()
+
+        // Merchants carry `brandCategory` blocks that synthesize SpendingCategory
+        // templates, and those are persisted models — without this a newly
+        // published brand never gets a category row. CategorySyncService
+        // deactivates rather than deletes, so user picks survive.
+        CategorySyncService.syncCategories(modelContext: modelContext)
         _ = CardSyncService.syncWalletCards(modelContext: modelContext)
     }
 

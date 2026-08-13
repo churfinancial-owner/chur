@@ -112,6 +112,9 @@ class UserDashboardViewModel {
 
         BenefitDatabase.reloadFromBundle()
         CardDatabase.reloadFromBundle()
+        OnlineMerchantDatabase.reloadFromBundle()
+        MerchantCategoryMapper.reloadFromBundle()
+        CategorySyncService.syncCategories(modelContext: modelContext)
         CardSyncService.syncWalletCards(modelContext: modelContext)
 
         #if DEBUG

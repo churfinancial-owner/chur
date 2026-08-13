@@ -152,6 +152,22 @@ final class RemoteContentService {
             guard array.allSatisfy({ ($0["id"] as? String)?.isEmpty == false }) else {
                 throw ContentError.validationFailed("benefits: every entry needs a non-empty 'id'")
             }
+        case .merchants:
+            guard let array = parsed as? [[String: Any]], !array.isEmpty else {
+                throw ContentError.validationFailed("merchants: expected a non-empty array of objects")
+            }
+            // `category` is what a brand category is synthesized from, so an
+            // entry missing it would produce a category with an empty id.
+            guard array.allSatisfy({ ($0["id"] as? String)?.isEmpty == false }) else {
+                throw ContentError.validationFailed("merchants: every entry needs a non-empty 'id'")
+            }
+            guard array.allSatisfy({ ($0["category"] as? String)?.isEmpty == false }) else {
+                throw ContentError.validationFailed("merchants: every entry needs a non-empty 'category'")
+            }
+        case .merchantMappings:
+            guard let dictionary = parsed as? [String: Any], dictionary["exactMatches"] is [String: Any] else {
+                throw ContentError.validationFailed("merchantMappings: expected an object with 'exactMatches'")
+            }
         }
     }
 

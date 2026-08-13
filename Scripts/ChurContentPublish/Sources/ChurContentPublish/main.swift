@@ -201,6 +201,51 @@ func loadRewards(repoRoot: URL) throws -> [String: Any] {
     return merged
 }
 
+/// merchants/SeedDataMerchants_*.json — plain arrays concatenated, mirroring
+/// MerchantSeedDatabase.loadSeed(). Grouping by file is organizational only.
+///
+/// Duplicate ids are fatal for the same reason they are for cards: the app keeps
+/// both, and which one wins depends on enumeration order.
+func loadMerchants(repoRoot: URL) throws -> [[String: Any]] {
+    let dir = repoRoot.appendingPathComponent("Chur/Resources/json/merchants")
+    var merchants: [[String: Any]] = []
+    var seenIDs: [String: String] = [:]
+
+    for url in try jsonFiles(in: dir) where url.lastPathComponent.hasPrefix("SeedDataMerchants_") {
+        let parsed = try JSONSerialization.jsonObject(with: try Data(contentsOf: url))
+        guard let array = parsed as? [[String: Any]] else {
+            throw PublishError("\(url.lastPathComponent): expected an array of merchant objects")
+        }
+        for entry in array {
+            guard let id = entry["id"] as? String, !id.isEmpty else {
+                throw PublishError("\(url.lastPathComponent): a merchant is missing its 'id'")
+            }
+            guard (entry["category"] as? String)?.isEmpty == false else {
+                throw PublishError("\(url.lastPathComponent): merchant '\(id)' is missing its 'category'")
+            }
+            if let existing = seenIDs[id] {
+                throw PublishError("Duplicate merchant id '\(id)' in \(url.lastPathComponent) and \(existing)")
+            }
+            seenIDs[id] = url.lastPathComponent
+            merchants.append(entry)
+        }
+    }
+
+    guard !merchants.isEmpty else { throw PublishError("No merchants found under \(dir.path)") }
+    return merchants
+}
+
+/// merchants/SeedDataGenericMappings.json — a single object, published as its
+/// own domain so a bad edit here can't take the merchant list down with it.
+func loadMerchantMappings(repoRoot: URL) throws -> [String: Any] {
+    let url = repoRoot.appendingPathComponent("Chur/Resources/json/merchants/SeedDataGenericMappings.json")
+    let object = try parseObject(at: url)
+    guard object["exactMatches"] is [String: Any] else {
+        throw PublishError("SeedDataGenericMappings.json: missing 'exactMatches'")
+    }
+    return object
+}
+
 // MARK: - Load-bearing IDs
 
 /// Category ids as the app assembles them: hand-authored files plus the ones
@@ -208,7 +253,7 @@ func loadRewards(repoRoot: URL) throws -> [String: Any] {
 /// SeedDataLoader.loadCategoryTemplates() + MerchantSeedDatabase.brandCategoryTemplates().
 /// Read-only here — categories and merchants aren't published yet, but their ids
 /// are already user-referenced, so the lock has to cover them.
-func loadCategoryIDs(repoRoot: URL) throws -> Set<String> {
+func loadCategoryIDs(repoRoot: URL, merchants: [[String: Any]]) throws -> Set<String> {
     var ids: Set<String> = []
 
     let categoryDir = repoRoot.appendingPathComponent("Chur/Resources/json/categories")
@@ -222,14 +267,8 @@ func loadCategoryIDs(repoRoot: URL) throws -> Set<String> {
         }
     }
 
-    let merchantDir = repoRoot.appendingPathComponent("Chur/Resources/json/merchants")
-    for url in try jsonFiles(in: merchantDir)
-    where url.lastPathComponent.hasPrefix("SeedDataMerchants_") {
-        let parsed = try JSONSerialization.jsonObject(with: try Data(contentsOf: url))
-        guard let array = parsed as? [[String: Any]] else { continue }
-        for entry in array where entry["brandCategory"] != nil {
-            if let category = entry["category"] as? String, !category.isEmpty { ids.insert(category) }
-        }
+    for entry in merchants where entry["brandCategory"] != nil {
+        if let category = entry["category"] as? String, !category.isEmpty { ids.insert(category) }
     }
 
     return ids
@@ -471,6 +510,8 @@ do {
     let cards = try loadCards(repoRoot: args.repoRoot)
     let rewards = try loadRewards(repoRoot: args.repoRoot)
     let benefits = try loadBenefits(repoRoot: args.repoRoot)
+    let merchants = try loadMerchants(repoRoot: args.repoRoot)
+    let merchantMappings = try loadMerchantMappings(repoRoot: args.repoRoot)
 
     // Reward keys with no card are harmless at runtime (nothing looks them up)
     // but usually mean a renamed or removed card left its rates behind.
@@ -498,7 +539,27 @@ do {
 
     // Load-bearing ids are checked before anything is written or uploaded, so a
     // violation costs a re-run rather than a bad publish.
-    let categoryIDs = try loadCategoryIDs(repoRoot: args.repoRoot)
+    let categoryIDs = try loadCategoryIDs(repoRoot: args.repoRoot, merchants: merchants)
+    // A merchant pointing at a category that doesn't exist falls back to the
+    // "everything" rate instead of its intended one — a wrong price, not an error.
+    let merchantCategoryRefs = merchants.compactMap { entry -> (String, String)? in
+        guard let id = entry["id"] as? String, let category = entry["category"] as? String else { return nil }
+        return (id, category)
+    }
+    let danglingMerchants = merchantCategoryRefs
+        .filter { !categoryIDs.contains($0.1) }
+        .map { "\($0.0) → \($0.1)" }
+        .sorted()
+    if !danglingMerchants.isEmpty {
+        print("⚠️  Merchants pointing at a missing category (\(danglingMerchants.count)): \(danglingMerchants.joined(separator: ", "))")
+    }
+
+    let mappedCategoryIDs = Set((merchantMappings["exactMatches"] as? [String: String])?.values ?? [:].values)
+    let danglingMappings = mappedCategoryIDs.subtracting(categoryIDs).sorted()
+    if !danglingMappings.isEmpty {
+        print("⚠️  Map exactMatches pointing at a missing category (\(danglingMappings.count)): \(danglingMappings.joined(separator: ", "))")
+    }
+
     let currentIDs = loadBearingIDs(cards: cards, rewards: rewards, benefits: benefits, categoryIDs: categoryIDs)
     let lockURL = args.repoRoot
         .appendingPathComponent("Scripts/ChurContentPublish")
@@ -515,7 +576,9 @@ do {
     let entries = [
         try write(cards, domain: "cards", version: version, to: args.outDir),
         try write(rewards, domain: "rewards", version: version, to: args.outDir),
-        try write(benefits, domain: "benefits", version: version, to: args.outDir)
+        try write(benefits, domain: "benefits", version: version, to: args.outDir),
+        try write(merchants, domain: "merchants", version: version, to: args.outDir),
+        try write(merchantMappings, domain: "merchantMappings", version: version, to: args.outDir)
     ]
 
     let formatter = ISO8601DateFormatter()
@@ -532,6 +595,8 @@ do {
     print("   cards:    \(cards.count) cards, \(entries[0].bytes) bytes")
     print("   rewards:  \(rewards.count) entries, \(entries[1].bytes) bytes")
     print("   benefits: \(benefits.count) benefits, \(entries[2].bytes) bytes")
+    print("   merchants: \(merchants.count) merchants, \(entries[3].bytes) bytes")
+    print("   mappings: \(merchantMappings.count) rule groups, \(entries[4].bytes) bytes")
     print("   manifest: \(manifestData.count) bytes, base URL \(args.baseURL)")
 
     if args.upload {
