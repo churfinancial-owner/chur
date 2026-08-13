@@ -214,6 +214,11 @@ struct UserDashboardView: View {
                             }) {
                                 Label("Clear Content Cache", systemImage: "arrow.uturn.backward.circle")
                             }
+
+                            // Art is fetched per image rather than staged with
+                            // the JSON, so its footprint grows invisibly.
+                            Label("Art cache: \(ByteCountFormatter.string(fromByteCount: Int64(CardArtStore.cachedByteCount), countStyle: .file))",
+                                  systemImage: "photo.stack")
                         }
 
                         Divider()

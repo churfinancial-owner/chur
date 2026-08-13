@@ -109,6 +109,7 @@ class UserDashboardViewModel {
     /// resetAllData(), which also wipes the user's wallet.
     func clearContentCache(modelContext: ModelContext) {
         ContentStore.clear()
+        CardArtLoader.shared.clearMemory()
 
         BenefitDatabase.reloadFromBundle()
         CardDatabase.reloadFromBundle()

@@ -90,6 +90,11 @@ enum ContentStore {
                 try? FileManager.default.removeItem(at: url)
             }
         }
+        // Downloaded PNGs live outside the domain caches, so they need clearing
+        // explicitly — otherwise art from a published version survives a reset
+        // that was meant to return the app to its bundle.
+        CardArtStore.clear()
+
         defaults.removeObject(forKey: versionKey)
         defaults.removeObject(forKey: refreshedAtKey)
     }
