@@ -271,7 +271,11 @@ struct PostcardView: View {
     @ViewBuilder
     private func fanCard(_ card: (imageName: String, color: Color, issuer: String)) -> some View {
         Group {
-            if let uiImage = UIImage(named: card.imageName) {
+            // Rendered through ImageRenderer, which snapshots synchronously —
+            // so this deliberately reads the bundle and caches directly rather
+            // than going through CardArtView, whose async fetch would be
+            // captured mid-flight as a placeholder.
+            if let uiImage = UIImage(named: card.imageName) ?? CardArtLoader.shared.cached(card.imageName) {
                 Image(uiImage: uiImage)
                     .resizable()
                     .antialiased(true)

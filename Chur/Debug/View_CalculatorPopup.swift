@@ -529,24 +529,19 @@ struct CalculatorPopup: View {
                             
                             HStack(spacing: 12) {
                                 // Card image
-                                if let card = cards.first(where: { $0.name == bestCard.name }),
-                                   let uiImage = UIImage(named: card.imageName) {
-                                    Image(uiImage: uiImage)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 80, height: 50)
-                                        .clipShape(RoundedRectangle(cornerRadius: 8))
-                                        .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
-                                } else if let card = cards.first(where: { $0.name == bestCard.name }) {
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .fill(cardColor(for: card.issuer))
-                                        .frame(width: 80, height: 50)
-                                        .overlay {
-                                            Text(card.issuer.prefix(2))
-                                                .font(.churHeadline())
-                                                .foregroundStyle(.white)
-                                        }
-                                        .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
+                                if let card = cards.first(where: { $0.name == bestCard.name }) {
+                                    CardArtView(imageName: card.imageName, contentMode: .fit) {
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .fill(cardColor(for: card.issuer))
+                                            .overlay {
+                                                Text(card.issuer.prefix(2))
+                                                    .font(.churHeadline())
+                                                    .foregroundStyle(.white)
+                                            }
+                                    }
+                                    .frame(width: 80, height: 50)
+                                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                                    .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
                                 }
                                 
                                 VStack(alignment: .leading, spacing: 4) {

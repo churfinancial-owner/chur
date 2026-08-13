@@ -101,9 +101,7 @@ private struct ExpiringBenefitCardGroupRow: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 12) {
-                Image(card.imageName)
-                    .resizable()
-                    .scaledToFit()
+                CardArtView(imageName: card.imageName, contentMode: .fit, placeholderCornerRadius: 4)
                     .frame(width: 42, height: 28)
                     .clipShape(RoundedRectangle(cornerRadius: 4))
                     .overlay(RoundedRectangle(cornerRadius: 4).stroke(Color.black.opacity(0.06), lineWidth: 0.5))

@@ -28,21 +28,15 @@ struct CardCarouselItem: View {
     }
     
     var body: some View {
-        let cardAsset = UIImage(named: card.imageName)
-        
         GeometryReader { geometry in
             ZStack {
                 // MARK: - Background Layer
-                if let uiImage = cardAsset {
-                    Image(uiImage: uiImage)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: geometry.size.width, height: geometry.size.height)
-                        .clipped()
-                } else {
+                CardArtView(imageName: card.imageName) {
                     RoundedRectangle(cornerRadius: 16)
                         .fill(cardColor.gradient)
                 }
+                .frame(width: geometry.size.width, height: geometry.size.height)
+                .clipped()
                 
                 // MARK: - Content Layer
                 VStack(alignment: .leading, spacing: 0) {

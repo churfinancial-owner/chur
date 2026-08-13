@@ -109,9 +109,7 @@ struct CellPhoneProtectionView: View {
     private func protectionCard(card: CreditCard, entry: CellPhoneProtectionEntry) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(spacing: 10) {
-                Image(card.imageName)
-                    .resizable()
-                    .scaledToFit()
+                CardArtView(imageName: card.imageName, contentMode: .fit, placeholderCornerRadius: 4)
                     .frame(width: 36, height: 24)
                     .clipShape(RoundedRectangle(cornerRadius: 4))
 

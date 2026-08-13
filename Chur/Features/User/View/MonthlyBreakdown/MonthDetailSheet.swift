@@ -195,9 +195,7 @@ struct MonthDetailSheet: View {
     
     private func enhancedRow(card: CreditCard, title: String, amount: String, color: Color) -> some View {
         HStack(spacing: 14) {
-            Image(card.imageName)
-                .resizable()
-                .scaledToFit()
+            CardArtView(imageName: card.imageName, contentMode: .fit, placeholderCornerRadius: 6)
                 .frame(width: 44, height: 28)
                 .clipShape(RoundedRectangle(cornerRadius: 6))
                 .shadow(color: .black.opacity(0.05), radius: 2)

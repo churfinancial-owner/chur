@@ -12,9 +12,7 @@ extension NewsDetailView {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
 
             if let card {
-                Image(card.template.imageName)
-                    .resizable()
-                    .scaledToFit()
+                CardArtView(imageName: card.template.imageName, contentMode: .fit, placeholderCornerRadius: 14)
                     .frame(maxWidth: 280)
                     .clipShape(RoundedRectangle(cornerRadius: 14))
                     .shadow(color: .black.opacity(0.18), radius: 24, x: 0, y: 12)
@@ -31,8 +29,7 @@ extension NewsDetailView {
                     let target = allPosts.first(where: { $0.slug?.current == item.cardId })
                     Button { if let target = target { linkedNewsPost = target } } label: {
                         VStack(spacing: 6) {
-                            Image(item.template.imageName)
-                                .resizable().scaledToFit()
+                            CardArtView(imageName: item.template.imageName, contentMode: .fit)
                                 .frame(height: 50)
                                 .clipShape(RoundedRectangle(cornerRadius: 8))
                                 .shadow(color: .black.opacity(0.06), radius: 6, x: 0, y: 3)

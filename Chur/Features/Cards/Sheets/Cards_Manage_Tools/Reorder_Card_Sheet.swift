@@ -128,14 +128,10 @@ struct CardOrderSheet: View {
     @ViewBuilder
     private func cardRow(_ card: CreditCard, isPrimary: Bool) -> some View {
         HStack(spacing: 12) {
-            if let uiImage = UIImage(named: card.imageName) {
-                Image(uiImage: uiImage)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 44, height: 28)
-                    .clipShape(RoundedRectangle(cornerRadius: 6))
-                    .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
-            }
+            CardArtView(imageName: card.imageName, placeholderCornerRadius: 6)
+                .frame(width: 44, height: 28)
+                .clipShape(RoundedRectangle(cornerRadius: 6))
+                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
             VStack(alignment: .leading, spacing: 0) {
                 HStack(spacing: 6) {
                     Text(card.name).font(.churRowText()).foregroundStyle(Color.churDarkGray)

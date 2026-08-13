@@ -93,10 +93,11 @@ struct ParallaxHeaderView: View {
             HStack(spacing: 6) {
                 // MARK: - Name Pill (6 parts)
                 HStack(spacing: 8) {
-                    if let imageName = cardTemplate?.imageName, !imageName.isEmpty, UIImage(named: imageName) != nil {
-                        Image(imageName)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
+                    // The UIImage(named:) guard was dropped deliberately: it
+                    // reported "missing" for art that exists remotely, so the
+                    // emoji fallback now covers only a card with no imageName.
+                    if let imageName = cardTemplate?.imageName, !imageName.isEmpty {
+                        CardArtView(imageName: imageName, contentMode: .fit, placeholderCornerRadius: 3)
                             .frame(width: 24)
                             .clipShape(RoundedRectangle(cornerRadius: 3))
                             .shadow(color: .black.opacity(0.1), radius: 1)
