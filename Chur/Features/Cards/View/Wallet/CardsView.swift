@@ -20,6 +20,11 @@ struct CardsView: View {
     /// nothing is indistinguishable from a pull that did nothing.
     @State private var refreshStatus: ContentRefreshCoordinator.Result?
 
+    /// The system's pull-to-refresh spinner is inside the ScrollView, so the
+    /// 160pt header hides it. Without this, a refresh that takes a second looks
+    /// like nothing happened at all.
+    @State private var isRefreshing = false
+
     var sortedCards: [CreditCard] {
         vm.getSortedCards(cards: cards, user: users.first)
     }
@@ -44,7 +49,6 @@ struct CardsView: View {
                     ScrollView {
                         VStack(spacing: 8) {
                             Color.clear.frame(height: 140)
-                            refreshStatusBanner
                             if cards.isEmpty {
                                 CardsEmptyWalletView(showingAddCard: $vm.showingAddCard)
                             } else {
@@ -67,6 +71,13 @@ struct CardsView: View {
                     
                     CurvedHeaderBackgroundView(waveStyle: .cards)
                     titleOverlay(safeArea: geometry.safeAreaInsets.top)
+
+                    // Sits above the curved header rather than inside the scroll
+                    // content: the header is drawn last in this ZStack and is
+                    // 160pt tall, so anything scrolled under it is invisible —
+                    // including the pull-to-refresh spinner.
+                    refreshStatusBanner
+                        .padding(.top, HomeHeaderStyle.height - 12)
 
                     // 2. Floating Action Button (Now Conditional)
                     if hasRecommendations {
@@ -151,14 +162,22 @@ private extension CardsView {
 
     @ViewBuilder
     private var refreshStatusBanner: some View {
-        if let refreshStatus {
+        if isRefreshing || refreshStatus != nil {
             HStack(spacing: 6) {
-                Image(systemName: refreshStatus == .failed ? "exclamationmark.triangle" : "checkmark.circle")
-                Text(refreshStatusText(refreshStatus))
+                if isRefreshing {
+                    ProgressView().scaleEffect(0.7)
+                    Text("Checking for updates…")
+                } else if let refreshStatus {
+                    Image(systemName: refreshStatus == .failed ? "exclamationmark.triangle" : "checkmark.circle")
+                    Text(refreshStatusText(refreshStatus))
+                }
             }
             .font(.churFootnote())
             .foregroundStyle(refreshStatus == .failed ? Color.churMediumGray : Color.churOlive)
-            .transition(.opacity)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 8)
+            .background(Capsule().fill(Color.white).shadow(color: .black.opacity(0.08), radius: 6, y: 2))
+            .transition(.move(edge: .top).combined(with: .opacity))
         }
     }
 
@@ -174,8 +193,13 @@ private extension CardsView {
     /// but not the version gate, so it costs one small manifest fetch when
     /// nothing has changed.
     private func pullToRefresh() async {
+        withAnimation { isRefreshing = true }
         let result = await ContentRefreshCoordinator.refreshNow(modelContext: modelContext)
-        withAnimation { refreshStatus = result }
+
+        withAnimation {
+            isRefreshing = false
+            refreshStatus = result
+        }
 
         try? await Task.sleep(for: .seconds(3))
         withAnimation { refreshStatus = nil }
