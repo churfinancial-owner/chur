@@ -28,6 +28,9 @@ struct ChurApp: App {
         ReminderBackgroundRefresh.register(container: modelContainer)
         ReminderBackgroundRefresh.schedule()
         #if DEBUG
+        // First line in the console on purpose — everything below it is only
+        // trustworthy if this build is the one you just changed.
+        BuildStamp.log()
         SeedDataValidator.run()
         #endif
     }
