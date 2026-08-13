@@ -275,7 +275,7 @@ struct PostcardView: View {
             // so this deliberately reads the bundle and caches directly rather
             // than going through CardArtView, whose async fetch would be
             // captured mid-flight as a placeholder.
-            if let uiImage = UIImage(named: card.imageName) ?? CardArtLoader.shared.cached(card.imageName) {
+            if let uiImage = CardArtStore.bundledImage(named: card.imageName) ?? CardArtLoader.shared.cached(card.imageName) {
                 Image(uiImage: uiImage)
                     .resizable()
                     .antialiased(true)

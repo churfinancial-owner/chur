@@ -219,6 +219,17 @@ struct UserDashboardView: View {
                             // the JSON, so its footprint grows invisibly.
                             Label("Art cache: \(ByteCountFormatter.string(fromByteCount: Int64(CardArtStore.cachedByteCount), countStyle: .file))",
                                   systemImage: "photo.stack")
+
+                            // Simulates shipping without Assets.xcassets/Cards,
+                            // so the offline and cold-launch cost of removing
+                            // 19 MB can be felt before it's irreversible.
+                            Button(action: {
+                                CardArtStore.ignoreBundledArt.toggle()
+                                CardArtLoader.shared.clearMemory()
+                            }) {
+                                Label(CardArtStore.ignoreBundledArt ? "Bundled Art: OFF (CDN only)" : "Bundled Art: ON",
+                                      systemImage: CardArtStore.ignoreBundledArt ? "icloud.and.arrow.down" : "shippingbox")
+                            }
                         }
 
                         Divider()
