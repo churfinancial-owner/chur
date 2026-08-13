@@ -91,8 +91,22 @@ enum SeedDataValidator {
             }
         }
 
+        // MARK: Card → benefit references
+        // A card listing a benefit id BenefitDatabase can't resolve shows no perk
+        // and reports nothing anywhere else: enumerateFolder drops a file it can't
+        // decode, and CardSyncService.syncBenefits skips an unresolvable id. Both
+        // are silent, so a benefit can be missing from the app for months.
+        let loadedBenefitIDs = Set(BenefitDatabase.getAllBenefits().map(\.id))
+        for card in CardDatabase.getAllCards() {
+            for benefitID in card.benefitIDs where !loadedBenefitIDs.contains(benefitID) {
+                issues.append("Card '\(card.id)': benefit '\(benefitID)' did not load — no file with that id, or its JSON failed to decode as _BenefitJSON")
+            }
+        }
+
         // MARK: Pricing invariants
         issues.append(contentsOf: checkPricingInvariants(templates: templates))
+
+        print("ℹ️ SeedDataValidator: \(loadedBenefitIDs.count) benefits loaded")
 
         if issues.isEmpty {
             print("✅ SeedDataValidator: all seed data checks passed (\(templates.count) categories, \(seedFile.merchants.count) merchants)")
