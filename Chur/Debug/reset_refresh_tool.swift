@@ -98,6 +98,29 @@ class UserDashboardViewModel {
         triggerSuccessBanner()
     }
     
+    // MARK: - Content Cache
+
+    /// Drops the cached remote content bundles so the app falls back to the
+    /// bundled JSON, then rebuilds the caches and re-syncs the wallet.
+    ///
+    /// Needed because remote content wins over the bundle by design, which means
+    /// a published version silently overrides local JSON edits — `reloadAllJSONs`
+    /// re-reads the same cache and can't help. Until now the only way out was
+    /// resetAllData(), which also wipes the user's wallet.
+    func clearContentCache(modelContext: ModelContext) {
+        ContentStore.clear()
+
+        BenefitDatabase.reloadFromBundle()
+        CardDatabase.reloadFromBundle()
+        CardSyncService.syncWalletCards(modelContext: modelContext)
+
+        #if DEBUG
+        print("✅ Content cache cleared — cards and benefits now read from the app bundle")
+        #endif
+
+        triggerSuccessBanner()
+    }
+
     // MARK: - Data Reset Logic
     
     /// Wipes ALL persisted data (SwiftData + UserDefaults), refreshes JSON caches,

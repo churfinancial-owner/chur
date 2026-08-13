@@ -205,6 +205,12 @@ struct UserDashboardView: View {
                             }) {
                                 Label("Refresh Remote Content", systemImage: "arrow.down.circle")
                             }
+
+                            Button(action: {
+                                viewModel.clearContentCache(modelContext: modelContext)
+                            }) {
+                                Label("Clear Content Cache", systemImage: "arrow.uturn.backward.circle")
+                            }
                         }
 
                         Divider()

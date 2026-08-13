@@ -14,7 +14,7 @@ extension BenefitDatabase {
     
     static func convertBenefit(_ b: _BenefitJSON, formatter: ISO8601DateFormatter) -> BenefitTemplate {
         let nameEN = b.localized?["en"]?.name ?? b.id
-        let descriptionEN = b.localized?["en"]?.description ?? ""
+        let descriptionEN = b.localized?["en"]?.description ?? b.descriptionEN ?? ""
         
         return BenefitTemplate(
             id: b.id,
@@ -106,5 +106,10 @@ struct _BenefitJSON: Codable {
 
 struct BenefitLocalizedStrings: Codable {
     let name: String
-    let description: String
+
+    /// Optional on purpose. A `null` or absent description used to throw, and
+    /// `enumerateFolder` decodes with `try?`, so one missing sentence silently
+    /// dropped the whole benefit — seven were invisible in every build until
+    /// SeedDataValidator started reporting them. Callers substitute "".
+    let description: String?
 }
