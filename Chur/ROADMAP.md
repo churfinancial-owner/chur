@@ -11,7 +11,7 @@ Last reviewed: 2026-08-13.
 | | |
 |---|---|
 | **What it does** | Per-dollar, point-of-sale ranker — "which card should I use at this merchant, right now" |
-| **Data** | 175 cards, 267 benefit templates, 223 categories, 77 merchants — ~500 JSON files in `Resources/json/`, bundled into the binary as the offline baseline. **Cards, rewards, benefits and merchants also publish remotely** (P1a, P1b); hand-authored categories and card art are bundle-only |
+| **Data** | 175 cards, 267 benefit templates, 223 categories, 77 merchants, 171 card images — ~500 JSON files in `Resources/json/`, bundled as the offline baseline. **Cards, rewards, benefits, merchants and card art all publish remotely** (P1a, P1b). Card art no longer ships in the binary at all; hand-authored categories are the only bundle-only domain left |
 | **Persistence** | On-device SwiftData (`ChurSchemaV2_0`, migration-ready) + Google Drive appDataFolder backup (`ChurBackup` v3) |
 | **Backend** | No application server. Three outbound calls: Cloudflare R2 content (`Core/Content/`), Google Drive (`Core/Sync/CloudSyncManager.swift`), Sanity CMS (`Features/News/Service/NewsService.swift`) |
 | **Analytics** | None |
@@ -86,7 +86,7 @@ Live at `https://content.chur.app`. A reward-rate change was published and reach
 | Wiring | `CardDatabase.loadCachedCards()` prefers remote; refresh on launch/foreground in `ContentView`; version + manual refresh in the DEBUG hammer menu |
 | Switch | `FeatureFlags.remoteContentEnabled` in `App/Config.swift` |
 
-Domains live: **cards, rewards, benefits** (benefits added in P1b). Payload is ~390 KB total (~50 KB gzipped) — far smaller than the 1 MB on disk, since per-file overhead and whitespace dominated.
+Domains live: **cards, rewards, benefits, merchants, merchantMappings, cardArt** (all but the first two added in P1b). JSON payload is ~440 KB total (~60 KB gzipped), plus ~15 MB of card images fetched individually and cached — far smaller than the 1 MB on disk, since per-file overhead and whitespace dominated.
 
 **Operating rule: commit *and* publish.** The repo stays the source of truth; the CDN is a copy. Publishing without committing makes them drift, and the next run of the script republishes the old values.
 
@@ -106,9 +106,15 @@ Ordered by value-to-effort, not listed arbitrarily:
 
 1. ~~**Benefits**~~ — ✅ DONE (2026-08-13). One `ContentDomain` case, one aggregation in the script, one branch in `BenefitDatabase.loadCachedBenefits()`, one validation case, exactly as predicted. Both refresh call sites now reload `BenefitDatabase` before `CardSyncService.syncWalletCards`, which reads it. **Verified 2026-08-13** to the same bar as P1a: 267 benefits load, the two Schwab tiers appear on the Amex Schwab Platinum, and after publishing all three domains the app refreshed from `content.chur.app` and kept showing them — proving the published payload agrees with the bundle rather than overriding it. This was the first publish where two domains had to agree with each other: remote cards now reference benefit ids that only exist in the benefits bundle, so a partial publish would make perks vanish rather than merely misstate a rate. See the lessons below — the plumbing was the easy half.
 2. ~~**Merchants**~~ — ✅ DONE (2026-08-13). Shipped as **two** domains rather than one: `merchants` (77 entries) and `merchantMappings` (`SeedDataGenericMappings.json`), each falling back to its bundled JSON independently, so a broken mappings payload costs map name-matching instead of the merchant list that online search and brand categories both depend on. Verified on a simulator, including the mixed-version case where the manifest omits a domain the build knows about.
-3. **Card art to the CDN** — required before a *new* card can ship without a release (see §5b). Two call sites render bare `Image(name)` with no fallback.
-4. **User-facing Settings row** for content version + manual refresh (currently DEBUG-only).
-5. **`Debug/Testing/SeedDataValidator.swift`** extended to validate a candidate payload before publishing.
+3. ~~**Card art to the CDN**~~ — ✅ DONE (2026-08-13). `Assets.xcassets/Cards` deleted: 364 files, 19 MB, about two thirds of the asset catalog. Art publishes as content-addressed images (`art/<imageName>-<sha8>.<ext>`) with a `cardArt` index domain; `CardArtLoader` resolves memory → disk → CDN, sha256-verified, and all 18 render sites go through one `CardArtView`. The user's own cards are prefetched so a wallet never depends on a live connection; the accepted cost is that a fresh install with no network shows placeholders for cards the user doesn't own. A **new card now ships without a release, artwork included** — the last of the three Android preconditions in §5b.
+4. ~~**User-facing version line**~~ — ✅ DONE (2026-08-13), scoped down from what this list originally said. `Chur 1.0 (42) · content v9` in the Settings footer, for support rather than for users. The manual refresh button was deliberately *not* shipped: refresh is automatic, and a button in Settings saying "try again" advertises that the automatic path isn't trusted. Pull-to-refresh on the wallet covers the real need — see below.
+5. **`Debug/Testing/SeedDataValidator.swift`** extended to validate a candidate payload before publishing. Partly done: it now checks every card's benefit references against what `BenefitDatabase` actually loaded, which is what surfaced the ten silently-dropped benefits. Validating a *candidate* payload before upload is still outstanding.
+
+**Release-only gaps, found by asking "what does a user without the debug menu get?"** Both were invisible in development and neither had a workaround in a release build:
+
+- **No way to ask for content.** Refresh ran on launch and foreground behind a 30-minute gate, so the only remedy was backgrounding the app — which nobody knows to do. The wallet now pulls to refresh, skipping the interval gate but not the version gate, and reports back in three states. A silent pull reads as broken.
+- **No way to know why a refresh did nothing.** Rate-limited, unchanged, below `minAppVersion` and outright failed were equally silent, so "the rate is wrong" was unactionable. `ContentRefreshLog` keeps the last five outcomes with the failure reason. Local only — it answers *what happened on this device*, which is a different question from *how often this fails across devices* (P2a).
+- `ContentRefreshCoordinator` now owns the apply sequence (reload caches → sync categories → sync wallet → prefetch art). It was duplicated across three call sites and had already drifted once.
 
 **The rule that unblocked item 2 — load-bearing ids are permanent, and the publisher enforces it.**
 
@@ -127,7 +133,7 @@ The resolution is one invariant across five namespaces (card ids, benefit ids, p
 
 Note the lock was seeded from data as it stood on 2026-08-13, so it forgives everything published before that, including the `schwab_appreciation_bonus` rename made hours earlier. It protects from that point forward, not retroactively.
 
-#### P1b items 1–2 — lessons worth keeping
+#### P1b — lessons worth keeping
 
 The remote plumbing took one commit. Everything below came from actually running it, and none of it was about the CDN.
 
@@ -135,6 +141,10 @@ The remote plumbing took one commit. Everything below came from actually running
 - **`try?` on a per-file decode is a silent data-loss bug.** `enumerateFolder` skips any file that doesn't match `_BenefitJSON`, so **ten** benefits — 3.7% of the catalog — had never loaded in any build. No crash, no log, just perks that quietly didn't exist. Two causes: a required `value` missing or fractional (`12.95` against `value: Int`), and `"description": null` against a non-optional `String`. A tolerant decode is right for a *field* (losing a sentence beats losing the benefit) and wrong for a *file* (which just hides the problem).
 - **Publishing forces latent data problems into the open, which is a feature.** Two files claimed `marriott_gold_status`; on-device the winner depended on enumeration order, so the bug was invisible. Publishing would have frozen an arbitrary choice into every client, so the script now refuses to publish a duplicate id. Aggregating data is a free audit of it.
 - **The diagnostic was worth more than the fix.** Three guesses at why a benefit wasn't showing (`benefitType`? `displayGroup`? sync?) all missed. Twenty lines in `SeedDataValidator` comparing card benefit references against what actually loaded named the real cause immediately — and surfaced the other seven broken files as a side effect. Reach for the check that turns a guess into a fact earlier than feels necessary.
+- **Build the switch that simulates the irreversible change, before making it.** A DEBUG toggle that made the app ignore bundled art paid for itself within minutes: it exposed that nine imagesets hold `.jpeg`/`.jpg` while the publish script only globbed `.png`. Those nine had always rendered from the bundle, so nothing looked wrong — they would have turned blank the moment the assets were deleted, which is the step you can't undo. The toggle was deleted along with the assets; it had done its job.
+- **A tool's blind spot becomes a "fact" about your data if you let it.** The same PNG-only scan made me report nine imagesets as *empty* and their cards as blank in every build. Neither was true. Checking what was actually in those folders would have taken one command; instead the tool's limitation got repeated as a finding.
+- **Ask what a user without the debug menu gets.** Two release-only gaps surfaced only from that question: no way to request a refresh, and no way to know why one did nothing. A third — `CardArtLoader` caching its index for the whole session — was a genuine bug that DEBUG builds hid, because Clear Content Cache papered over it. Development tools mask exactly the failures that have no user-facing remedy.
+- **Cache invalidation isn't the only cost of content-addressed names; accumulation is.** Hash-suffixed filenames remove invalidation entirely — but the old file stays on disk forever unless something deletes it, which would have quietly undone the 19 MB the deletion was meant to save. Noticed only because Pak Ho asked what happens when art is updated.
 - **`value: Int` can't hold $12.95.** Widening it to `Double` touches `BenefitTemplate` *and* the `Benefit` `@Model`, so it's a schema migration — deferred to P3, where the spend-profile migration already has to happen. Rounded to 13 meanwhile, overstating by $0.60/year. Worth doing properly when P3 opens the schema anyway.
 
 **Hand-authored categories are still excluded from P1b — but the reason has changed.** The blocking question was the rule, and the rule now exists and is enforced (above), so what remains is only plumbing: an aggregation for `categories/*.json`, a `ContentDomain` case, and a branch in `SeedDataLoader.loadCategoryTemplates()`. The 31 merchant-derived categories already publish this way.
@@ -147,9 +157,33 @@ Written JSON contract spec + shared pricing-engine test vectors (see §5 Android
 
 ### P2 — Analytics baseline
 
-Adopt **TelemetryDeck** (Swift-first, privacy-focused; free to 100k signals/mo, €9 for funnels and retention). Track content refresh success/failure, version applied, and screen views.
+Adopt **TelemetryDeck** (Swift-first, privacy-focused; re-check pricing at signup — the roadmap's original note was free to 100k signals/mo, €9 for funnels and retention). No IDFA and no cross-app tracking, so no App Tracking Transparency prompt — which matters more for a finance app than the analytics themselves.
 
 Deliberately *not* a homegrown events table — that gives rows, not funnels, retention or cohorts, all of which would then have to be built by hand.
+
+**Split in two, because the halves have opposite timing constraints.** Same SDK, one afternoon of setup, but conflating them is how the useful half gets missed.
+
+#### P2a — Release health · trigger: the first build that goes to anyone who isn't Pak Ho
+
+A tool for the developer, not for growth. Its value depends entirely on being present *before* users arrive: instrumentation added after launch says nothing about launch, which is the riskiest week there will ever be.
+
+| Signal | Why it earns its place |
+|---|---|
+| `content.refresh.applied` + version | Confirms the pipeline works on real devices, not just a simulator |
+| `content.refresh.failed` + reason bucket | Unobtainable any other way. Network, checksum and validation failures need opposite responses |
+| `content.art.fetch_failed` | Art is 171 separate requests since P1b item 3; a bad key otherwise reads as "some cards look blank" |
+| `store.recovery.triggered` | The P0 tripwire. If it climbs, a migration broke — the earliest possible warning of a bad release |
+| `app.launch` + content version | The denominator. Without it, "12 failures" means nothing |
+
+**Privacy stance — decided, not incidental: send nothing about the wallet.** No card ids, no issuer, no count. It is tempting because it would reveal which cards people own, but wallet composition is financial profile data, and a card app that quietly reports it is one screenshot from a bad thread. Failure diagnostics don't need it, and the "not linked to identity" privacy label is only truthful if this line holds.
+
+Build notes: a thin `Analytics` wrapper so signal names live in one file and the SDK stays swappable, off in DEBUG, behind a `FeatureFlags` kill switch, with a Settings opt-out. Test on a real device — an SDK is one more thing that can fail at launch.
+
+`ContentRefreshLog` (P1b) is the local counterpart and already covers the one-device case, which is why P2a is not urgent while the only tester is Pak Ho.
+
+#### P2b — Product analytics · trigger: enough users for numbers to mean something
+
+Screen views, funnels, retention, cohorts. This is what tells you whether P3 or P4 actually worked.
 
 - **Why:** the app is currently blind to all usage.
 - **Cost of not doing it:** every decision below this line is guesswork, and there's no way to tell whether P3 or P4 worked.
@@ -197,7 +231,7 @@ A second client is planned. Three things must be true of P1 or Android becomes a
 
 **a. The JSON contract is the spec, not the Swift types.** `_CardJSON`, `_RewardStructure` and `BenefitTemplate` currently *define* the format by virtue of being what decodes it. Write the contract down (a versioned schema doc, or JSON Schema) so Android implements against a spec rather than reverse-engineering Swift. Silent drift here breaks one platform without failing a build.
 
-**b. Card art has to move to the CDN.** iOS resolves art via `UIImage(named:)` from `Assets.xcassets/Cards/`. If art stays bundled per-platform, adding a card requires shipping *both* apps — which defeats the point of remote content. Publishing images alongside the data gives one source of truth and lets either platform pick up new cards without a release. Note two call sites use bare `Image(name)` with no fallback (`Core/RewardComponents/PerkToolComponents.swift:24`, `Features/News/View/NewsDetail_CardComponents.swift:15`) and will render blank for unknown art.
+**b. ~~Card art has to move to the CDN.~~** ✅ DONE (P1b item 3). Art publishes as content-addressed images with a `cardArt` index domain, and `Assets.xcassets/Cards` no longer exists. Android consumes the same index — `imageName → { url, sha256, bytes }` — and needs its own equivalent of `CardArtLoader` (memory → disk → network, sha256-verified) plus a placeholder. The bare `Image(name)` call sites that would have rendered blank are gone; every render path goes through `CardArtView`.
 
 **c. The pricing engine needs shared test vectors.** `Core/PricingEngine/CardRateCalculator.swift` is the highest-risk port: 5-tier `matchWeight` resolution, `excludeFromParent` stops, channel filters, cross-border FX subtraction, boost overlays. Reimplementing it in Kotlin from reading Swift will drift. Ship a fixture file of `(cards, category, expected ranking)` cases that **both** platforms run as tests — cheap to write now, and it's the only thing that keeps the two engines honest.
 

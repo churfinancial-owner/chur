@@ -33,14 +33,16 @@ git push origin main                                    # 4. push
 | Benefits | `Chur/Resources/json/benefits/**` | ✅ Yes |
 | Merchants | `Chur/Resources/json/merchants/SeedDataMerchants_*.json` | ✅ Yes |
 | Map mappings | `Chur/Resources/json/merchants/SeedDataGenericMappings.json` | ✅ Yes |
+| Card images | `Chur/Resources/Assets.xcassets/Cards/**/*.imageset` | ✅ Yes |
 | Categories | `Chur/Resources/json/categories/*.json` | ❌ App release |
-| Card images | `Chur/Resources/Assets.xcassets/Cards/` | ❌ App release |
 
-So: **rates, fees, card details, perks and merchants publish instantly. Hand-authored categories and artwork don't** — see `ROADMAP.md` §P1b.
+So: **rates, fees, card details, perks, merchants and artwork all publish instantly.** Only hand-authored categories still need a release — see `ROADMAP.md` §P1b.
+
+A brand-new card now ships end to end without an App Store build: add its JSON, drop a PNG or JPEG into a new `.imageset`, publish.
 
 > **Merchants are the one domain that writes to the user's database.** A `brandCategory` block synthesizes a `SpendingCategory`, which is a persisted model — so publishing a new brand inserts a row on every device, and removing one deactivates a row users may have selected. Read the retirement rules in `MERCHANT_SETUP_REFERENCE.md` before deleting a merchant entry.
 
-A brand-new card can be published, but it will render **without artwork** until an app release adds the image.
+Card art no longer ships inside the app — `Assets.xcassets/Cards` was deleted, taking 19 MB with it. Images are downloaded on first display and cached permanently, and the user's own cards are prefetched so a wallet never depends on a live connection. The trade: on a fresh install with no network, cards the user doesn't own show grey placeholders until they're online once.
 
 ---
 
@@ -79,14 +81,17 @@ Expected output:
    benefits: 267 benefits, 192066 bytes
    merchants: 77 merchants, … bytes
    mappings: 4 rule groups, … bytes
+   cardArt: 171 images, … bytes index (15 MB of PNGs)
    manifest: … bytes, base URL https://content.chur.app
 
 Uploading to R2 bucket 'chur-content'…
+   ✓ card art unchanged (171 images already uploaded)
    ✓ cards-7.json
    ✓ rewards-7.json
    ✓ benefits-7.json
    ✓ merchants-7.json
    ✓ merchantMappings-7.json
+   ✓ cardArt-7.json
    ✓ manifest.json
 
 ✅ Published.
@@ -123,7 +128,7 @@ Run the app → **Profile tab** → **hammer icon** → the menu header shows `C
 
 If it shows an older version, tap **Refresh Remote Content**. The app otherwise only checks every 30 minutes.
 
-Real users get it automatically on next launch or foreground — no action needed.
+Real users get it automatically on next launch or foreground — no action needed. They can also **pull down on the wallet** to check immediately, which is the only content control they have and the one thing to tell anyone reporting stale data.
 
 ---
 
@@ -190,6 +195,17 @@ Hammer menu → **Refresh Remote Content**. The 30-minute gate means it won't re
 
 **4. Is the feature flag on?**
 `Chur/App/Config.swift` → `remoteContentEnabled` must be `true`.
+
+### Adding a new card, artwork included
+
+1. Add the card JSON under `Chur/Resources/json/cards/<region>/<issuer>/`.
+2. Create `Chur/Resources/Assets.xcassets/Cards/<issuer>/<imageName>.imageset/` in Xcode and drop in a PNG or JPEG. **The imageset folder name must equal the card's `imageName`** — that is the only link between them.
+3. `swift run ChurContentPublish --upload`. The new image uploads; the other 170 are skipped.
+4. Commit the JSON, the image, and `art-uploaded.json`.
+
+**Updating existing art** is the same, minus step 1. Keys are content-addressed (`art/<imageName>-<sha8>.png`), so new bytes become a new key and devices fetch it on the next content version. Nothing has to be cache-busted, and the old key stays in R2 so a rollback still resolves.
+
+**`art-uploaded.json` must be committed.** It is the only record of what's already in R2. Without it the script re-uploads all 171 images — harmless, but several minutes.
 
 ### The publish refused: "ID lock violation"
 
