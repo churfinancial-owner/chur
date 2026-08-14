@@ -19,7 +19,13 @@ Two rules make the fixture worth more than an ordinary test file:
 
 ## Where things live, and why
 
-`TestVectors/` sits at the **repo root, beside `CardArt/`** — deliberately outside `Chur/`. `Chur/` is a synchronized root group in the Xcode project, so a fixture placed there is compiled into the app and ships to users as dead weight. The runner walks up from `#filePath` to find it, which also means no bundle-resource wiring and no target membership to forget.
+`TestVectors/` sits at the **repo root, beside `CardArt/`** — deliberately outside `Chur/`. `Chur/` is a synchronized root group in the Xcode project, so a fixture placed there is compiled into the app and ships to users as dead weight.
+
+**The fixture reaches the tests through ChurTests' Copy Bundle Resources**, added as a *reference* (not a copy), so there is still exactly one file on disk. This is project configuration, so a fresh clone or a rebuilt test target needs it re-added:
+
+> ChurTests target → **Build Phases** → **Copy Bundle Resources** → **+** → **Add Other…** → select `TestVectors/pricing-engine.json` → **Reference files in place**.
+
+The runner also keeps a `#filePath` fallback that walks up to the repo root, but **that path does not work from a simulator** — tests run inside the simulator's filesystem and cannot read the host Mac. The fallback exists for a future host-side runner (a SwiftPM target, or a macOS destination); on iOS the bundle copy is the only path that works. `fixtureLoads` prints both locations it tried when neither resolves.
 
 ```
 chur/

@@ -98,25 +98,55 @@ private struct ExpectedRow: Codable, Sendable {
 
 // MARK: - Fixture loading
 
-private enum Fixture {
-    /// `TestVectors/` sits at the repo root, deliberately outside `Chur/` — that folder is a
-    /// synchronized group, so anything placed there is compiled into the app. Walking up from
-    /// `#filePath` keeps the fixture out of both bundles and off the app's resource list.
-    static let url: URL = URL(fileURLWithPath: #filePath)
-        .deletingLastPathComponent()   // ChurTests/
-        .deletingLastPathComponent()   // repo root
-        .appendingPathComponent("TestVectors/pricing-engine.json")
+/// Marker for locating the test bundle — Swift Testing has no `XCTestCase` to hand to `Bundle(for:)`.
+private final class BundleMarker {}
 
-    static let file: VectorFile = {
-        do {
-            let data = try Data(contentsOf: url)
-            return try JSONDecoder().decode(VectorFile.self, from: data)
-        } catch {
-            fatalError("Could not load \(url.path): \(error)")
+private enum Fixture {
+    /// The fixture lives at repo-root `TestVectors/`, deliberately outside `Chur/` (a synchronized
+    /// group, so anything placed there compiles into the app). It reaches the tests by being listed
+    /// in ChurTests' **Copy Bundle Resources** as a reference — one file on disk, copied into the
+    /// test bundle at build time.
+    ///
+    /// The bundle is tried first because tests run inside the simulator, which cannot read paths on
+    /// the host Mac. `#filePath` is kept as a fallback for any future host-side runner (a SwiftPM
+    /// target, or a macOS destination), where the source tree *is* reachable.
+    static let candidateURLs: [URL] = {
+        var urls: [URL] = []
+        if let bundled = Bundle(for: BundleMarker.self).url(forResource: "pricing-engine", withExtension: "json") {
+            urls.append(bundled)
         }
+        urls.append(
+            URL(fileURLWithPath: #filePath)
+                .deletingLastPathComponent()   // ChurTests/
+                .deletingLastPathComponent()   // repo root
+                .appendingPathComponent("TestVectors/pricing-engine.json")
+        )
+        return urls
     }()
 
-    static var vectors: [Vector] { file.vectors }
+    /// `nil` rather than a crash: a missing fixture should be one readable red test, not a
+    /// process abort that takes the whole suite's output with it.
+    static let file: VectorFile? = {
+        for url in candidateURLs {
+            guard let data = try? Data(contentsOf: url) else { continue }
+            return try? JSONDecoder().decode(VectorFile.self, from: data)
+        }
+        return nil
+    }()
+
+    static var vectors: [Vector] { file?.vectors ?? [] }
+
+    static var loadDiagnostic: String {
+        """
+        pricing-engine.json was not readable at any known location.
+
+        Tried:
+        \(candidateURLs.map { "  • \($0.path)" }.joined(separator: "\n"))
+
+        Fix: ChurTests target → Build Phases → Copy Bundle Resources → + → Add Other… →
+        select TestVectors/pricing-engine.json → "Reference files in place" (do not copy).
+        """
+    }
 
     /// Built per call rather than cached — `ISO8601DateFormatter` is not `Sendable`, and
     /// a handful of fixture dates per run is not worth a shared-mutable-state exception.
@@ -144,8 +174,9 @@ extension Vector: CustomTestStringConvertible {
 struct PricingEngineVectorTests {
 
     @Test("fixture is loadable and non-trivial")
-    func fixtureLoads() {
-        #expect(Fixture.file.formatVersion == 1)
+    func fixtureLoads() throws {
+        let file = try #require(Fixture.file, "\(Fixture.loadDiagnostic)")
+        #expect(file.formatVersion == 1)
         #expect(Fixture.vectors.count >= 20)
 
         let ids = Fixture.vectors.map(\.id)
