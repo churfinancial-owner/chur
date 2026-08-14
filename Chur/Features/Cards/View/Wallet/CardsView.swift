@@ -72,12 +72,17 @@ struct CardsView: View {
                     CurvedHeaderBackgroundView(waveStyle: .cards)
                     titleOverlay(safeArea: geometry.safeAreaInsets.top)
 
-                    // Sits above the curved header rather than inside the scroll
-                    // content: the header is drawn last in this ZStack and is
-                    // 160pt tall, so anything scrolled under it is invisible —
-                    // including the pull-to-refresh spinner.
-                    refreshStatusBanner
-                        .padding(.top, HomeHeaderStyle.height - 12)
+                    // Anchored to the bottom, not the top. The header, its curve
+                    // and the title overlay all occupy the top 160pt, and the
+                    // system's own refresh spinner is already lost behind them —
+                    // putting the status there means competing for the one strip
+                    // of screen that is guaranteed to be busy.
+                    VStack {
+                        Spacer()
+                        refreshStatusBanner
+                            .padding(.bottom, 100)
+                    }
+                    .allowsHitTesting(false)
 
                     // 2. Floating Action Button (Now Conditional)
                     if hasRecommendations {
@@ -177,7 +182,7 @@ private extension CardsView {
             .padding(.horizontal, 14)
             .padding(.vertical, 8)
             .background(Capsule().fill(Color.white).shadow(color: .black.opacity(0.08), radius: 6, y: 2))
-            .transition(.move(edge: .top).combined(with: .opacity))
+            .transition(.move(edge: .bottom).combined(with: .opacity))
         }
     }
 
@@ -193,6 +198,9 @@ private extension CardsView {
     /// but not the version gate, so it costs one small manifest fetch when
     /// nothing has changed.
     private func pullToRefresh() async {
+        #if DEBUG
+        print("🔄 CardsView: pull-to-refresh fired")
+        #endif
         withAnimation { isRefreshing = true }
         let result = await ContentRefreshCoordinator.refreshNow(modelContext: modelContext)
 
