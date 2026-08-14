@@ -210,8 +210,11 @@ struct UserDashboardView: View {
                             }
 
                             // Art is fetched per image rather than staged with
-                            // the JSON, so its footprint grows invisibly.
-                            Label("Art cache: \(ByteCountFormatter.string(fromByteCount: Int64(CardArtStore.cachedByteCount), countStyle: .file))",
+                            // the JSON, so its footprint grows invisibly. The file
+                            // count separates "nothing is being written" from
+                            // "the size is being measured wrong" — a byte count
+                            // alone reads as "Zero KB" for both.
+                            Label("Art cache: \(ByteCountFormatter.string(fromByteCount: Int64(CardArtStore.cachedByteCount), countStyle: .file)) (\(CardArtStore.cachedFileCount) files)",
                                   systemImage: "photo.stack")
 
                             // Why a refresh did nothing is otherwise invisible —
