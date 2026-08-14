@@ -33,16 +33,18 @@ git push origin main                                    # 4. push
 | Benefits | `Chur/Resources/json/benefits/**` | ✅ Yes |
 | Merchants | `Chur/Resources/json/merchants/SeedDataMerchants_*.json` | ✅ Yes |
 | Map mappings | `Chur/Resources/json/merchants/SeedDataGenericMappings.json` | ✅ Yes |
-| Card images | `Chur/Resources/Assets.xcassets/Cards/**/*.imageset` | ✅ Yes |
+| Card images | `CardArt/<issuer>/<imageName>.png` (repo root) | ✅ Yes |
 | Categories | `Chur/Resources/json/categories/*.json` | ❌ App release |
 
 So: **rates, fees, card details, perks, merchants and artwork all publish instantly.** Only hand-authored categories still need a release — see `ROADMAP.md` §P1b.
 
-A brand-new card now ships end to end without an App Store build: add its JSON, drop a PNG or JPEG into a new `.imageset`, publish.
+A brand-new card now ships end to end without an App Store build: add its JSON, drop a PNG or JPEG into `CardArt/`, publish.
 
 > **Merchants are the one domain that writes to the user's database.** A `brandCategory` block synthesizes a `SpendingCategory`, which is a persisted model — so publishing a new brand inserts a row on every device, and removing one deactivates a row users may have selected. Read the retirement rules in `MERCHANT_SETUP_REFERENCE.md` before deleting a merchant entry.
 
 Card art no longer ships inside the app — `Assets.xcassets/Cards` was deleted, taking 19 MB with it. Images are downloaded on first display and cached permanently, and the user's own cards are prefetched so a wallet never depends on a live connection. The trade: on a fresh install with no network, cards the user doesn't own show grey placeholders until they're online once.
+
+The images themselves still live in the repo, at **`CardArt/` in the repo root** — that is what the publisher reads to build the index and to upload new art. It sits outside `Chur/` on purpose: that folder is a synchronized root group in the Xcode project, so anything dropped inside it is compiled back into the app and the 19 MB comes straight back. One flat file per card, named for its `imageName`; the issuer subfolders are for humans and nothing reads them.
 
 ---
 
@@ -99,7 +101,12 @@ Uploading to R2 bucket 'chur-content'…
 
 **Sanity check:** the byte counts should have moved if you changed something. If `rewards:` shows the same number as last time, your edit probably didn't save.
 
-The version auto-increments. You never set it manually.
+The version auto-increments. You never set it manually — with one exception: it counts up from `dist/manifest.json`, and `dist/` is gitignored. On a machine that has never published (or after deleting `dist/`) the count restarts at 1, and devices already on a higher version will ignore everything you publish. Check first, and pass the next number explicitly if it restarted:
+
+```bash
+curl -s https://content.chur.app/manifest.json | grep contentVersion   # says 7?
+swift run ChurContentPublish --upload --version 8
+```
 
 ### 4. Commit and push
 
@@ -196,11 +203,29 @@ Hammer menu → **Refresh Remote Content**. The 30-minute gate means it won't re
 **4. Is the feature flag on?**
 `Chur/App/Config.swift` → `remoteContentEnabled` must be `true`.
 
+### The status line says "validation failed"
+
+```
+Last: 08-13 22:05  failed  v0  validation failed: cardArt: expected a non-empty object…
+```
+
+**One bad domain kills the entire refresh, not just itself.** `RemoteContentService` validates every bundle before writing any of them, so a broken `cardArt` index means cards, rewards, benefits, merchants and mappings are all discarded too. The `v0` is the giveaway: the version never moved, so nothing was applied.
+
+The fix is always on the publishing side — the app is correctly refusing bad content. Re-publish, and read what the script prints before uploading:
+
+```
+   cardArt: 171 images, 34210 bytes index (17 MB of PNGs)
+```
+
+`0 images` means the publisher couldn't find `CardArt/`. Since 2026-08-14 that fails the publish outright rather than uploading an empty index, but an older `dist/` may still be on the CDN — re-publish to replace it.
+
+The same "one domain, whole refresh" rule applies to every other validation message: an empty `merchants` array, a `rewards` object with no keys, a card with a blank `id`.
+
 ### Adding a new card, artwork included
 
 1. Add the card JSON under `Chur/Resources/json/cards/<region>/<issuer>/`.
-2. Create `Chur/Resources/Assets.xcassets/Cards/<issuer>/<imageName>.imageset/` in Xcode and drop in a PNG or JPEG. **The imageset folder name must equal the card's `imageName`** — that is the only link between them.
-3. `swift run ChurContentPublish --upload`. The new image uploads; the other 170 are skipped.
+2. Save the PNG or JPEG as `CardArt/<issuer>/<imageName>.png` — in Finder, not Xcode; it is not part of the app target. **The filename must equal the card's `imageName`** — that is the only link between them. The issuer folder is organizational; put it wherever it belongs, or nowhere.
+3. `swift run ChurContentPublish --upload`. The new image uploads; the other 171 are skipped.
 4. Commit the JSON, the image, and `art-uploaded.json`.
 
 **Updating existing art** is the same, minus step 1. Keys are content-addressed (`art/<imageName>-<sha8>.png`), so new bytes become a new key and devices fetch it on the next content version. Nothing has to be cache-busted, and the old key stays in R2 so a rollback still resolves.
