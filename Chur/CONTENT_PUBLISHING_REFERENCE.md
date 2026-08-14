@@ -6,11 +6,60 @@ Written for someone who doesn't use git daily. Every command is copy-paste.
 
 ---
 
-## TL;DR
+## The one rule that explains everything else
+
+**The publisher reads the files in your folder, right now. Not GitHub, not the CDN.**
+
+`swift run ChurContentPublish --upload` looks at whatever is on your Mac at that moment, packages it, and makes it live for every user. It has no idea what's on GitHub. So:
+
+- Edits you haven't saved → not published.
+- Work that's on GitHub but not pulled → not published. Worse, publishing *overwrites* it live, because your older copy is what gets packaged.
+- **Always `git pull` before you publish.** This is the step that bites, and it looks like a CDN bug when it does.
+
+Everything below is that rule with the details filled in.
+
+---
+
+## Which job are you doing?
+
+| I want to… | Go to |
+|---|---|
+| Change a rate, fee, perk or merchant | [Job A: edit existing data](#job-a-edit-existing-data) |
+| Add a brand-new card, artwork included | [Job B: add a card](#job-b-add-a-card) |
+| Add or replace just a card image | [Job C: card art only](#job-c-card-art-only) |
+
+All three end the same way — **publish, then commit** — and all three start the same way: `git pull`.
+
+### Where things live
+
+Two places, and the split matters:
+
+| What | Where | Edit it in |
+|---|---|---|
+| Cards, rewards, benefits, merchants | `Chur/Resources/json/…` | **Xcode** |
+| Card images | `CardArt/<issuer>/<imageName>.png` | **Finder** |
+
+`CardArt/` sits at the repo root, next to `Chur/` — not inside it. It will **not** appear in Xcode's project navigator, on purpose: `Chur/` is a synchronized folder, so anything dropped in there gets compiled into the app and puts back the 19 MB that moving art to the CDN saved. Drop images in Finder.
+
+```
+chur/
+├── CardArt/          ← images (Finder)
+│   ├── amex/  chase/  citi/  …
+│   └── hk/amex-hk/  hk/citi-hk/  …
+├── Chur/             ← code + JSON (Xcode)
+└── Scripts/ChurContentPublish/
+```
+
+The issuer folders inside `CardArt/` are for you. Nothing reads them — only the **filename** matters, and it must exactly equal the card's `imageName`.
+
+---
+
+## Job A: edit existing data
 
 ```bash
-cd ~/Documents/Product/chur                             # 1. go to the project
-# ...edit JSON in Xcode...
+cd ~/Documents/Product/chur
+git pull origin main                                    # 1. get the latest
+# ...edit JSON in Xcode, and save (⌘S)...
 cd Scripts/ChurContentPublish
 swift run ChurContentPublish --upload                   # 2. publish
 cd ../..
@@ -20,7 +69,37 @@ git push origin main                                    # 4. push
 
 **Steps 2 and 3 are one action.** Publishing without committing makes the live data and the repo disagree, and the next publish silently reverts your change.
 
-> Working on a branch rather than `main`? Replace `main` in step 4 with the branch name — see [Branches](#branches--when-the-commands-say-something-other-than-main). Check with `git branch --show-current`.
+## Job B: add a card
+
+```bash
+cd ~/Documents/Product/chur
+git pull origin main
+```
+
+1. **JSON** — add the card under `Chur/Resources/json/cards/<region>/<issuer>/` in Xcode. Note the `imageName` you gave it.
+2. **Art** — in Finder, save the PNG or JPEG as `CardArt/<issuer>/<imageName>.png`. The filename must match `imageName` exactly, or the card shows a grey placeholder forever.
+3. **Publish** — `cd Scripts/ChurContentPublish && swift run ChurContentPublish --upload`. Only the new image uploads; the rest are skipped.
+4. **Commit** — `cd ../..` then `git add -A && git commit -m "Add <card>" && git push origin main`. **Include `art-uploaded.json`** — `git add -A` catches it.
+
+Check the publish output before it uploads:
+
+```
+⚠️  Cards whose imageName has no art (1): amex-hilton-silver
+```
+
+That warning means step 2's filename doesn't match step 1's `imageName`. It does not stop the publish — fix it and re-run.
+
+## Job C: card art only
+
+Replacing a card's picture, or filling in art for a card that's showing a placeholder.
+
+1. Drop the file at `CardArt/<issuer>/<imageName>.png` in Finder, replacing the old one if there is one.
+2. `cd Scripts/ChurContentPublish && swift run ChurContentPublish --upload`
+3. `cd ../.. && git add -A && git commit -m "New art for <card>" && git push origin main`
+
+No JSON changes, no app release. Image keys are content-addressed (`art/<imageName>-<sha8>.png`), so new bytes become a new key and devices fetch it on the next content version — nothing to cache-bust. The old key stays in R2, so a rollback still resolves.
+
+> Working on a branch rather than `main`? Replace `main` in every command above — see [Branches](#branches--when-the-commands-say-something-other-than-main). Check with `git branch --show-current`.
 
 ---
 
@@ -38,43 +117,15 @@ git push origin main                                    # 4. push
 
 So: **rates, fees, card details, perks, merchants and artwork all publish instantly.** Only hand-authored categories still need a release — see `ROADMAP.md` §P1b.
 
-A brand-new card now ships end to end without an App Store build: add its JSON, drop a PNG or JPEG into `CardArt/`, publish.
-
 > **Merchants are the one domain that writes to the user's database.** A `brandCategory` block synthesizes a `SpendingCategory`, which is a persisted model — so publishing a new brand inserts a row on every device, and removing one deactivates a row users may have selected. Read the retirement rules in `MERCHANT_SETUP_REFERENCE.md` before deleting a merchant entry.
 
-Card art no longer ships inside the app — `Assets.xcassets/Cards` was deleted, taking 19 MB with it. Images are downloaded on first display and cached permanently, and the user's own cards are prefetched so a wallet never depends on a live connection. The trade: on a fresh install with no network, cards the user doesn't own show grey placeholders until they're online once.
-
-The images themselves still live in the repo, at **`CardArt/` in the repo root** — that is what the publisher reads to build the index and to upload new art. It sits outside `Chur/` on purpose: that folder is a synchronized root group in the Xcode project, so anything dropped inside it is compiled back into the app and the 19 MB comes straight back. One flat file per card, named for its `imageName`; the issuer subfolders are for humans and nothing reads them.
+**Why card art works the way it does.** It no longer ships inside the app — `Assets.xcassets/Cards` was deleted, taking 19 MB with it. Images are downloaded on first display and cached permanently, and the user's own cards are prefetched so a wallet never depends on a live connection. The trade: on a fresh install with no network, cards the user doesn't own show grey placeholders until they're online once. The files themselves stay in the repo at `CardArt/` — see [Where things live](#where-things-live).
 
 ---
 
-## The everyday workflow
+## Reading the publish output
 
-### 1. Open Terminal in the project
-
-```bash
-cd ~/Documents/Product/chur
-```
-
-Check you're in the right place and up to date:
-
-```bash
-git status
-git pull origin main
-```
-
-### 2. Edit the JSON
-
-Edit normally in Xcode — they're plain text files. Nothing special.
-
-### 3. Publish
-
-```bash
-cd Scripts/ChurContentPublish
-swift run ChurContentPublish --upload
-```
-
-Expected output:
+This is the screen to actually look at — it tells you whether the publish did what you meant, *before* users get it.
 
 ```
 ✅ contentVersion 7 → /Users/pakho/Documents/Product/chur/dist
@@ -99,23 +150,20 @@ Uploading to R2 bucket 'chur-content'…
 ✅ Published.
 ```
 
-**Sanity check:** the byte counts should have moved if you changed something. If `rewards:` shows the same number as last time, your edit probably didn't save.
+Three things to check every time:
 
-The version auto-increments. You never set it manually — with one exception: it counts up from `dist/manifest.json`, and `dist/` is gitignored. On a machine that has never published (or after deleting `dist/`) the count restarts at 1, and devices already on a higher version will ignore everything you publish. Check first, and pass the next number explicitly if it restarted:
+**1. Did the byte counts move?** If you edited rewards and `rewards:` shows the same number as last time, your edit didn't save. (A single character like `5.0` → `10.0` moves it by exactly one byte.)
+
+**2. Does `cardArt:` say 171 images?** A count of `0` means the publisher couldn't find `CardArt/` — since 2026-08-14 that stops the publish outright, but an older empty index may still be live. Re-publish to replace it.
+
+**3. Is the version one higher than last time?** It auto-increments and you never set it manually — with one exception. It counts up from `dist/manifest.json`, and `dist/` is gitignored, so on a machine that has never published (or after deleting `dist/`) it restarts at 1. Devices already on a higher version then ignore everything you publish. Check and override if it restarted:
 
 ```bash
 curl -s https://content.chur.app/manifest.json | grep contentVersion   # says 7?
 swift run ChurContentPublish --upload --version 8
 ```
 
-### 4. Commit and push
-
-```bash
-cd ../..
-git add -A
-git commit -m "Update Amex Gold dining rate to 4x"
-git push origin main
-```
+Then commit — publishing and committing are one action, never one without the other.
 
 ---
 
@@ -203,6 +251,20 @@ Hammer menu → **Refresh Remote Content**. The 30-minute gate means it won't re
 **4. Is the feature flag on?**
 `Chur/App/Config.swift` → `remoteContentEnabled` must be `true`.
 
+### I published, but it behaves like the old code / old data
+
+You published from a folder that doesn't have the change. The publisher packages **your local files**, so a fix that exists on GitHub but hasn't been pulled — or lives on a branch you haven't checked out — simply isn't in the publish.
+
+```bash
+cd ~/Documents/Product/chur     # the repo root, not Scripts/ChurContentPublish
+git branch --show-current       # on the branch you think you're on?
+git pull origin main
+```
+
+The `cd` matters: `git pull` from inside `Scripts/ChurContentPublish` still works, but it's easy to run it in a different checkout entirely and believe you're up to date.
+
+This happened on 2026-08-14: a publish ran from `main` before the card-art fix was merged, printed `cardArt: 0 images`, and re-published the same broken index that was being fixed.
+
 ### The status line says "validation failed"
 
 ```
@@ -221,14 +283,17 @@ The fix is always on the publishing side — the app is correctly refusing bad c
 
 The same "one domain, whole refresh" rule applies to every other validation message: an empty `merchants` array, a `rewards` object with no keys, a card with a blank `id`.
 
-### Adding a new card, artwork included
+### A card shows a grey placeholder instead of its picture
 
-1. Add the card JSON under `Chur/Resources/json/cards/<region>/<issuer>/`.
-2. Save the PNG or JPEG as `CardArt/<issuer>/<imageName>.png` — in Finder, not Xcode; it is not part of the app target. **The filename must equal the card's `imageName`** — that is the only link between them. The issuer folder is organizational; put it wherever it belongs, or nowhere.
-3. `swift run ChurContentPublish --upload`. The new image uploads; the other 171 are skipped.
-4. Commit the JSON, the image, and `art-uploaded.json`.
+The card's `imageName` has no matching file in `CardArt/`. The publish says so:
 
-**Updating existing art** is the same, minus step 1. Keys are content-addressed (`art/<imageName>-<sha8>.png`), so new bytes become a new key and devices fetch it on the next content version. Nothing has to be cache-busted, and the old key stays in R2 so a rollback still resolves.
+```
+⚠️  Cards whose imageName has no art (1): amex-hilton-silver
+```
+
+Fix the filename so it matches `imageName` exactly — see [Job C](#job-c-card-art-only). Case and hyphens count; the folder it sits in doesn't.
+
+If *every* card shows a placeholder, this isn't the cause — that's a failed refresh, above.
 
 **`art-uploaded.json` must be committed.** It is the only record of what's already in R2. Without it the script re-uploads all 171 images — harmless, but several minutes.
 
