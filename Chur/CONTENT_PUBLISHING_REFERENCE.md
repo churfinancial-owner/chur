@@ -172,10 +172,35 @@ Then commit — publishing and committing are one action, never one without the 
 **Is the CDN serving it?**
 
 ```bash
-curl -s https://content.chur.app/manifest.json | grep contentVersion
+swift run ChurContentPublish --verify
 ```
 
-Should show the version the script just printed.
+This is the real check, not the `curl`. It fetches the live manifest, downloads every bundle, verifies each checksum, and applies **the same rules the app applies** — so it tells you what a device would do with what you just published, without needing a device:
+
+```
+Verifying https://content.chur.app…
+
+   contentVersion 17, minAppVersion 1.0.0
+   generated 2026-08-14T06:12:04Z
+   6 bundle(s)
+
+   ✓ cards — 83005 bytes
+   ✓ rewards — 118325 bytes
+   ✓ benefits — 195565 bytes
+   ✓ merchants — 37063 bytes
+   ✓ merchantMappings — 27389 bytes
+   ✓ cardArt — 36389 bytes
+
+✅ Live content is valid — contentVersion 17.
+```
+
+A failure names the exact domain and reason, and reminds you that one bad domain costs all six. It reads nothing but the CDN, so it works from any directory and cannot affect a publish.
+
+The older one-liner still works if you only want the version number:
+
+```bash
+curl -s https://content.chur.app/manifest.json | grep contentVersion
+```
 
 **Did the app get it?**
 
@@ -421,6 +446,7 @@ If git reports a **conflict** during the merge, it means the same file was edite
 ```bash
 swift run ChurContentPublish                    # write dist/ only, no upload
 swift run ChurContentPublish --upload           # write and upload (normal)
+swift run ChurContentPublish --verify           # check live content, change nothing
 swift run ChurContentPublish --version 12       # force a version number
 swift run ChurContentPublish --min-app-version 1.2.0   # hide from older builds
 ```

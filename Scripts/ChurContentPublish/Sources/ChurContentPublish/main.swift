@@ -7,8 +7,10 @@
 //  Usage:
 //    swift run ChurContentPublish                    # write dist/ only
 //    swift run ChurContentPublish --upload           # write dist/ and push to R2
+//    swift run ChurContentPublish --verify           # check what the CDN serves now
 //
 //  Options:
+//    --verify                  validate live content and exit; touches nothing
 //    --repo <path>             repo root (default: found by walking up)
 //    --out <path>              output dir (default: <repo>/dist)
 //    --version <int>           override version (default: previous + 1)
@@ -43,6 +45,7 @@ struct Arguments {
     var minAppVersion: String
     var upload: Bool
     var bucket: String
+    var verify: Bool
 
     static func parse() throws -> Arguments {
         var repo: String?
@@ -52,12 +55,17 @@ struct Arguments {
         var minAppVersion = "1.0.0"
         var upload = false
         var bucket = "chur-content"
+        var verify = false
 
         var iterator = CommandLine.arguments.dropFirst().makeIterator()
         while let flag = iterator.next() {
             // Boolean flags take no value, so handle them before reading ahead.
             if flag == "--upload" {
                 upload = true
+                continue
+            }
+            if flag == "--verify" {
+                verify = true
                 continue
             }
 
@@ -79,7 +87,12 @@ struct Arguments {
             }
         }
 
-        let repoRoot = try repo.map { URL(fileURLWithPath: $0) } ?? Arguments.findRepoRoot()
+        // --verify reads only the CDN, so it must not require being run from
+        // inside a checkout — it is the tool you reach for when production looks
+        // wrong, which is not always at your desk.
+        let repoRoot = try repo.map { URL(fileURLWithPath: $0) }
+            ?? (verify ? URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
+                       : Arguments.findRepoRoot())
         let outDir = out.map { URL(fileURLWithPath: $0) } ?? repoRoot.appendingPathComponent("dist")
 
         return Arguments(repoRoot: repoRoot,
@@ -88,7 +101,8 @@ struct Arguments {
                          baseURL: baseURL,
                          minAppVersion: minAppVersion,
                          upload: upload,
-                         bucket: bucket)
+                         bucket: bucket,
+                         verify: verify)
     }
 
     /// Walks up from the working directory looking for Chur/Resources/json.
@@ -551,9 +565,82 @@ struct BundleEntry {
 
 func write(_ value: Any, domain: String, version: Int, to outDir: URL) throws -> BundleEntry {
     let data = try canonicalData(value)
+    // Before the file exists, not after: a payload the app would reject should
+    // never reach dist/, where the next run's --upload would find it.
+    try validatePayload(data, domain: domain)
+
     let filename = "\(domain)-\(version).json"
     try data.write(to: outDir.appendingPathComponent(filename), options: .atomic)
     return BundleEntry(domain: domain, filename: filename, sha256: sha256Hex(data), bytes: data.count)
+}
+
+// MARK: - Payload validation
+
+/// The app's structural rules, applied to the bytes about to be uploaded.
+///
+/// **Keep in sync with `RemoteContentService.validate(_:for:)`** — the app is the
+/// real contract, and it rejects a whole refresh when one domain fails, taking
+/// every other domain down with it.
+///
+/// This script already validates its *inputs* thoroughly. What it never did was
+/// look at its *output*: `loadCardArt()` returning an empty array was a legitimate
+/// `[CardArt]`, it reduced into `{}`, and that uploaded happily as contentVersion
+/// 16 — which the app then refused, so no remote content applied at all until it
+/// was republished. Checking assembled bytes closes that whole class rather than
+/// adding one more input guard per incident.
+///
+/// P1c note: when the JSON contract spec exists, these rules and the app's should
+/// both be checked against it. Android needs them too and cannot import Swift.
+func validatePayload(_ data: Data, domain: String) throws {
+    let parsed = try JSONSerialization.jsonObject(with: data)
+
+    func objects() throws -> [[String: Any]] {
+        guard let array = parsed as? [[String: Any]], !array.isEmpty else {
+            throw PublishError("\(domain): expected a non-empty array of objects — the app would reject this payload")
+        }
+        return array
+    }
+
+    func requireNonEmptyString(_ key: String, in array: [[String: Any]]) throws {
+        guard array.allSatisfy({ ($0[key] as? String)?.isEmpty == false }) else {
+            throw PublishError("\(domain): every entry needs a non-empty '\(key)' — the app would reject this payload")
+        }
+    }
+
+    switch domain {
+    case "cards", "benefits":
+        try requireNonEmptyString("id", in: try objects())
+
+    case "merchants":
+        let array = try objects()
+        try requireNonEmptyString("id", in: array)
+        // A merchant with no category synthesizes a SpendingCategory with an
+        // empty id, on every device.
+        try requireNonEmptyString("category", in: array)
+
+    case "rewards":
+        guard let dictionary = parsed as? [String: Any], !dictionary.isEmpty else {
+            throw PublishError("rewards: expected a non-empty object keyed by card id — the app would reject this payload")
+        }
+
+    case "merchantMappings":
+        guard let dictionary = parsed as? [String: Any], dictionary["exactMatches"] is [String: Any] else {
+            throw PublishError("merchantMappings: expected an object with 'exactMatches' — the app would reject this payload")
+        }
+
+    case "cardArt":
+        guard let dictionary = parsed as? [String: Any], !dictionary.isEmpty else {
+            throw PublishError("cardArt: expected a non-empty object keyed by imageName — the app would reject this payload")
+        }
+        guard dictionary.values.allSatisfy({ ($0 as? [String: Any])?["url"] is String }) else {
+            throw PublishError("cardArt: every entry needs a 'url' — the app would reject this payload")
+        }
+
+    default:
+        // A domain the app knows about but this script forgot to cover is worse
+        // than an unvalidated one, because it looks checked.
+        throw PublishError("\(domain): no validation rule — add one here and in RemoteContentService")
+    }
 }
 
 /// Empties the output directory so it only ever holds the current version's
@@ -599,10 +686,117 @@ func resolveVersion(explicit: Int?, outDir: URL) -> Int {
     return previous + 1
 }
 
+// MARK: - Verifying what is actually live
+
+/// Synchronous fetch. A CLI has no run loop to await on, and this runs a handful
+/// of requests in sequence — the ceremony of an async main earns nothing here.
+func fetchSync(_ url: URL) throws -> Data {
+    var request = URLRequest(url: url)
+    request.cachePolicy = .reloadIgnoringLocalCacheData
+
+    var result: Result<Data, Error>?
+    let semaphore = DispatchSemaphore(value: 0)
+
+    URLSession.shared.dataTask(with: request) { data, response, error in
+        defer { semaphore.signal() }
+        if let error {
+            result = .failure(PublishError("\(url.lastPathComponent): \(error.localizedDescription)"))
+            return
+        }
+        guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+            let code = (response as? HTTPURLResponse)?.statusCode ?? -1
+            result = .failure(PublishError("\(url.lastPathComponent): HTTP \(code)"))
+            return
+        }
+        result = .success(data ?? Data())
+    }.resume()
+
+    semaphore.wait()
+    guard let result else { throw PublishError("\(url.lastPathComponent): no response") }
+    return try result.get()
+}
+
+/// Checks what the CDN is serving right now, rather than what this run would
+/// produce. Answers a different question from the pre-upload validation: not
+/// "is my candidate sound" but "is production currently broken".
+///
+/// Exists because the empty cardArt index of 2026-08-14 was live for hours, and
+/// the only symptom was a truncated line in a debug menu on a phone.
+func verifyLive(baseURL: String) throws {
+    print("Verifying \(baseURL)…\n")
+
+    guard let manifestURL = URL(string: "\(baseURL)/manifest.json") else {
+        throw PublishError("Malformed base URL '\(baseURL)'")
+    }
+    let manifestData = try fetchSync(manifestURL)
+    guard let manifest = try JSONSerialization.jsonObject(with: manifestData) as? [String: Any],
+          let version = manifest["contentVersion"] as? Int,
+          let bundles = manifest["bundles"] as? [[String: Any]] else {
+        throw PublishError("manifest.json is malformed")
+    }
+
+    print("   contentVersion \(version), minAppVersion \(manifest["minAppVersion"] as? String ?? "?")")
+    print("   generated \(manifest["generatedAt"] as? String ?? "?")")
+    print("   \(bundles.count) bundle(s)\n")
+
+    var failures: [String] = []
+
+    for bundle in bundles {
+        guard let domain = bundle["domain"] as? String,
+              let urlString = bundle["url"] as? String,
+              let url = URL(string: urlString),
+              let expectedHash = bundle["sha256"] as? String else {
+            failures.append("a manifest entry is missing domain/url/sha256")
+            continue
+        }
+
+        do {
+            let data = try fetchSync(url)
+
+            // Same three checks the app makes, in the same order, so a failure
+            // here names exactly what a device would have hit.
+            guard sha256Hex(data) == expectedHash.lowercased() else {
+                failures.append("\(domain): checksum mismatch — the app discards this")
+                continue
+            }
+            try validatePayload(data, domain: domain)
+            print("   ✓ \(domain) — \(data.count) bytes")
+        } catch let error as PublishError {
+            failures.append(error.description)
+        }
+    }
+
+    // The app iterates its own ContentDomain list, so a domain it knows about and
+    // the manifest omits falls back to the bundle rather than failing. Worth
+    // saying out loud: it means a build can be newer than what is published.
+    let published = Set(bundles.compactMap { $0["domain"] as? String })
+    let missing = ["cards", "rewards", "benefits", "merchants", "merchantMappings", "cardArt"]
+        .filter { !published.contains($0) }
+    if !missing.isEmpty {
+        print("\n   ℹ️  Not published (the app falls back to its bundle): \(missing.joined(separator: ", "))")
+    }
+
+    guard failures.isEmpty else {
+        print("\n❌ Live content is broken — the app rejects the whole refresh, every domain:\n")
+        for failure in failures { print("   • \(failure)") }
+        print("\n   Republish to replace it. Devices stay on their last good version meanwhile.")
+        throw PublishError("verification failed")
+    }
+
+    print("\n✅ Live content is valid — contentVersion \(version).")
+}
+
 // MARK: - Main
 
 do {
     let args = try Arguments.parse()
+
+    // Read-only, and answers a question about production rather than about this
+    // checkout, so it deliberately runs before anything is loaded or assembled.
+    if args.verify {
+        try verifyLive(baseURL: args.baseURL)
+        exit(0)
+    }
 
     let cards = try loadCards(repoRoot: args.repoRoot)
     let rewards = try loadRewards(repoRoot: args.repoRoot)
