@@ -1,0 +1,22 @@
+{
+    "id": "amex_biz_plat_dell_credit_1150",
+    "benefitType": "credit",
+    "displayGroup": "business",
+    "localized": {
+        "en": {
+            "name": "Dell $1000 Credit",
+            "description": "Get up to an additional $1,000 credit after you spend $5,000 or more with Dell Technologies."
+        }
+    },
+    "value": 1000,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": true,
+    "activationMode": "lockbyfrequency",
+    "activationInstructions": "Unlock after you spend $5,000 or more with Dell Technologies this year",
+    "partnerName": "Dell",
+    "displayOrder": 4,
+    "isActive": true
+}

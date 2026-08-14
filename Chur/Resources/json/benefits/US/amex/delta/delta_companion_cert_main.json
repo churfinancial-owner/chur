@@ -1,14 +1,13 @@
 {
-    "id": "delta_companion_cert_luxury",
+    "id": "delta_companion_cert_mainline",
     "benefitType": "feature",
     "displayGroup": "travel",
     "localized": {
         "en": {
             "name": "Companion Certificate",
-            "description": "Annual companion certificate valid for First Class, Delta Comfort+, or Main Cabin round-trip travel ..."
-        }
+            "description": "Enjoy a Companion Certificate on a Delta Main domestic, Caribbean, or Central American round-trip flight each year after renewal of your card."}
     },
-    "value": 600,
+    "value": 300,
     "valueCurrency": "USD",
     "frequency": "annual",
     "isRecurring": true,
