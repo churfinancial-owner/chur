@@ -146,6 +146,11 @@ struct OnboardingContainerView: View {
             .animation(.spring(response: 0.4, dampingFraction: 0.85), value: currentStep)
         }
         .background(Color.churOffWhite)
+        // Started at Welcome, not at Add Cards: the five steps in between are the
+        // budget this download gets. RootView shows ContentView *instead of*
+        // onboarding, so without this a fresh install reaches the card list having
+        // never fetched anything — bundled cards, and no art at all.
+        .task { await ContentRefreshCoordinator.refreshForOnboarding() }
         .onAppear {
             if let incompleteUser = users.first, !incompleteUser.onboardingCompleted {
                 modelContext.delete(incompleteUser)

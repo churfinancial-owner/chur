@@ -17,7 +17,31 @@
 //
 
 import Foundation
+import Observation
 import UIKit
+
+/// Counter that views observe so a row showing a placeholder retries when the
+/// art index arrives.
+///
+/// A card that resolved to nothing is not re-asked otherwise: `CardArtView`'s
+/// task is keyed by `imageName`, which does not change. That is invisible in
+/// normal use — the index is already cached — and permanent during onboarding on
+/// a fresh install, where the first refresh lands while the card list is on
+/// screen.
+///
+/// Deliberately separate from `CardArtLoader`: bumping has to happen when content
+/// is applied, never from the lazy decode inside `reference(for:)`, which runs
+/// during view body evaluation.
+@Observable
+@MainActor
+final class CardArtIndexState {
+    static let shared = CardArtIndexState()
+    private init() {}
+
+    private(set) var generation = 0
+
+    fileprivate func bump() { generation += 1 }
+}
 
 /// One entry in the published cardArt index.
 struct CardArtRef: Codable {
@@ -122,6 +146,15 @@ final class CardArtLoader {
         memory.removeAllObjects()
         index = nil
         indexVersion = nil
+    }
+
+    /// Called by ContentRefreshCoordinator once a new content version has been
+    /// written. Drops what was decoded against the old index and tells views to
+    /// ask again — `reference(for:)` self-corrects on the next lookup, but
+    /// nothing would trigger that lookup on a row already showing a placeholder.
+    func contentDidChange() {
+        clearMemory()
+        CardArtIndexState.shared.bump()
     }
 
     // MARK: - Internals

@@ -45,7 +45,10 @@ struct CardArtView<Placeholder: View>: View {
                 placeholder()
             }
         }
-        .task(id: imageName) {
+        // Keyed on the index generation as well as the name: a lookup that found
+        // nothing because the index had not been fetched yet must run again once
+        // it has. That is the whole of onboarding on a fresh install.
+        .task(id: "\(imageName)#\(CardArtIndexState.shared.generation)") {
             // Only reached when neither the bundle nor the caches have it —
             // the common path renders synchronously below.
             guard resolved == nil else { return }

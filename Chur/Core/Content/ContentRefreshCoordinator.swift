@@ -39,6 +39,32 @@ enum ContentRefreshCoordinator {
         return apply(didUpdate: didUpdate, modelContext: modelContext)
     }
 
+    /// Onboarding path: there is no `ModelContext` worth writing to yet.
+    ///
+    /// The refresh used to live only in ContentView, which RootView shows *instead
+    /// of* onboarding — so a fresh install ran no refresh at all until onboarding
+    /// finished. "Add your cards" then listed bundled cards with no art, because
+    /// the cardArt index had never been fetched.
+    ///
+    /// Reloads the in-memory databases but deliberately skips the two sync
+    /// services: they write persisted models, the user does not exist yet, and
+    /// ContentView.initializeAppDataIfNeeded() runs both on every launch anyway.
+    @discardableResult
+    static func refreshForOnboarding() async -> Result {
+        let didUpdate = await detached { await RemoteContentService.shared.refreshIfNeeded() }
+
+        guard didUpdate else {
+            if ContentRefreshLog.latest?.outcome == ContentRefreshLog.Outcome.failed.rawValue {
+                return .failed
+            }
+            return .alreadyCurrent
+        }
+
+        reloadDatabases()
+        CardArtLoader.shared.contentDidChange()
+        return .updated
+    }
+
     /// Runs the network work in an unstructured task, which does *not* inherit
     /// cancellation from its caller.
     ///
@@ -64,10 +90,11 @@ enum ContentRefreshCoordinator {
             return .alreadyCurrent
         }
 
-        CardDatabase.reloadFromBundle()
-        BenefitDatabase.reloadFromBundle()
-        OnlineMerchantDatabase.reloadFromBundle()
-        MerchantCategoryMapper.reloadFromBundle()
+        reloadDatabases()
+
+        // A new version can change which art an imageName points at, and rows
+        // already showing a placeholder have no other reason to look again.
+        CardArtLoader.shared.contentDidChange()
 
         // Merchants carry brandCategory blocks that synthesize SpendingCategory
         // templates, and those are persisted models.
@@ -76,6 +103,15 @@ enum ContentRefreshCoordinator {
 
         prefetchWalletArt(modelContext: modelContext)
         return .updated
+    }
+
+    /// In-memory template caches only — nothing here touches persisted models,
+    /// which is what lets onboarding call it before a user exists.
+    private static func reloadDatabases() {
+        CardDatabase.reloadFromBundle()
+        BenefitDatabase.reloadFromBundle()
+        OnlineMerchantDatabase.reloadFromBundle()
+        MerchantCategoryMapper.reloadFromBundle()
     }
 
     private static func prefetchWalletArt(modelContext: ModelContext) {
