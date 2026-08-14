@@ -160,8 +160,10 @@ struct PricingEngineVectorTests {
         }
     }
 
+    // `fileprivate`, not internal: the fixture types are file-private, and a method may not
+    // be more accessible than the types in its signature.
     @Test("vector", arguments: Fixture.vectors)
-    func runVector(_ vector: Vector) throws {
+    fileprivate func runVector(_ vector: Vector) throws {
         let container = try ModelContainer(
             for: Schema(ChurSchemaCurrent.models),
             configurations: ModelConfiguration(isStoredInMemoryOnly: true)
