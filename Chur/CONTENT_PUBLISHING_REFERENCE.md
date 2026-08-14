@@ -131,10 +131,10 @@ This is the screen to actually look at — it tells you whether the publish did 
 ✅ contentVersion 7 → /Users/pakho/Documents/Product/chur/dist
    cards:    175 cards, 82972 bytes
    rewards:  169 entries, 118325 bytes
-   benefits: 267 benefits, 192066 bytes
+   benefits: 272 benefits, 195565 bytes
    merchants: 77 merchants, … bytes
    mappings: 4 rule groups, … bytes
-   cardArt: 171 images, … bytes index (15 MB of PNGs)
+   cardArt: 171 images, … bytes index (17 MB of PNGs)
    manifest: … bytes, base URL https://content.chur.app
 
 Uploading to R2 bucket 'chur-content'…
@@ -322,6 +322,23 @@ If *every* card shows a placeholder, this isn't the cause — that's a failed re
 
 **`art-uploaded.json` must be committed.** It is the only record of what's already in R2. Without it the script re-uploads all 171 images — harmless, but several minutes.
 
+### The publish refused: "the app would reject this payload"
+
+```
+❌ cardArt: expected a non-empty object keyed by imageName — the app would reject this payload
+```
+
+**This is the guard working.** Since 2026-08-14 the publisher checks every bundle against the same rules the app applies, *before* the file is written to `dist/`. It means the payload you were about to upload would have been thrown away by every device — and because one bad domain aborts the whole refresh, it would have taken cards, rewards, benefits, merchants and mappings with it.
+
+The message names the domain and what's wrong with it. Usual causes:
+
+- **`cardArt: expected a non-empty object`** — `CardArt/` is missing or empty. Check you're in the right checkout and that the folder is there.
+- **`cards: every entry needs a non-empty 'id'`** — a card JSON file has a blank or missing `id`.
+- **`merchants: every entry needs a non-empty 'category'`** — a merchant entry is missing its category, which would synthesize a category with an empty id on every device.
+- **`<domain>: no validation rule`** — a new `ContentDomain` was added without a matching rule. Add it in both `validatePayload` (publisher) and `RemoteContentService.validate` (app).
+
+Nothing was written and nothing was uploaded, so fix the data and re-run.
+
 ### The publish refused: "ID lock violation"
 
 ```
@@ -370,7 +387,7 @@ A **duplicate benefit id does** stop the publish, on purpose. Two files claiming
 The launch validator now catches it. Look for these lines in the Xcode console:
 
 ```
-ℹ️ SeedDataValidator: 267 benefits loaded
+ℹ️ SeedDataValidator: 272 benefits loaded
 ⚠️ SeedDataValidator: Card 'x': benefit 'y' did not load — no file with that id, or its JSON failed to decode
 ```
 

@@ -2,7 +2,11 @@
 
 Growth priorities and the reasoning behind them. **Update whenever priorities shift or a phase completes.**
 
-Last reviewed: 2026-08-13.
+Last reviewed: 2026-08-14.
+
+**State at the end of the 2026-08-14 session.** P0 and P1 (a, b, c-deferred) are done; the remote content pipeline is live and proven end to end, including the failure modes. **Next: fill in P1d** — Pak Ho has items to add before P2 — and answer the one question that reorders everything, whether a build is going to anyone else soon. P1c is deferred, not cancelled: Android is not near, and its two halves have different value (see P1c).
+
+The day's fixes are worth a skim before touching content code: publishing, card art and the onboarding first-run path each broke in ways that were invisible from the symptom. See "P1b — lessons worth keeping".
 
 ---
 
@@ -11,7 +15,7 @@ Last reviewed: 2026-08-13.
 | | |
 |---|---|
 | **What it does** | Per-dollar, point-of-sale ranker — "which card should I use at this merchant, right now" |
-| **Data** | 175 cards, 267 benefit templates, 223 categories, 77 merchants, 171 card images — ~500 JSON files in `Resources/json/`, bundled as the offline baseline. **Cards, rewards, benefits, merchants and card art all publish remotely** (P1a, P1b). Card art no longer ships in the binary at all; hand-authored categories are the only bundle-only domain left |
+| **Data** | 175 cards, 272 benefit templates, 223 categories, 77 merchants, 171 card images — ~500 JSON files in `Resources/json/`, bundled as the offline baseline. Card images live at repo-root `CardArt/`, outside the app target. **Cards, rewards, benefits, merchants and card art all publish remotely** (P1a, P1b). Card art no longer ships in the binary at all; hand-authored categories are the only bundle-only domain left |
 | **Persistence** | On-device SwiftData (`ChurSchemaV2_0`, migration-ready) + Google Drive appDataFolder backup (`ChurBackup` v3) |
 | **Backend** | No application server. Three outbound calls: Cloudflare R2 content (`Core/Content/`), Google Drive (`Core/Sync/CloudSyncManager.swift`), Sanity CMS (`Features/News/Service/NewsService.swift`) |
 | **Analytics** | None |
@@ -162,11 +166,27 @@ The remote plumbing took one commit. Everything below came from actually running
 
 What still deserves care before doing it: hand-authored categories carry `cardFilter`, `excludeFromParent` and `categoryLinks`, which feed `CardRateCalculator`'s match resolution. A bad publish there changes *prices* rather than labels — a different blast radius from anything published so far, and the reason it should follow the P1c test vectors rather than precede them.
 
-#### P1c
+#### P1c — deferred (2026-08-14), not cancelled
 
 Written JSON contract spec + shared pricing-engine test vectors (see §5 Android).
 
-It inherits one concrete job from P1b item 5: **the structural rules now exist twice** — `RemoteContentService.validate(_:for:)` and `ChurContentPublish.validatePayload` — and a third copy is coming when Android needs them. The spec is where they should be stated once, with each implementation checked against it rather than against each other. Small, and the reason a Swift-only shared module was deliberately not built.
+**Deferred because Android is not happening soon** (Pak Ho, 2026-08-14). The roadmap's standing advice is to write this on the iOS timeline regardless, and that advice is still right *for the test vectors* — they capture what the engine does today, while there is only one engine and the expected values can be generated from it. After a Kotlin port exists the same work becomes adjudicating which of two disagreeing engines is correct, case by case.
+
+Split accordingly when it comes back up:
+
+- **Pricing-engine test vectors — earns its place on iOS alone.** A fixture of `(cards, category, expected ranking)` cases is the first real regression test `CardRateCalculator` has ever had. Today a `matchWeight` edit or a rate change that silently reordered recommendations for some category would go unnoticed.
+- **The written JSON contract — genuinely only pays off with a second client.** Worth writing when Android becomes real, and not before.
+
+It also inherits one concrete job from P1b item 5: **the structural rules now exist twice** — `RemoteContentService.validate(_:for:)` and `ChurContentPublish.validatePayload` — and a third copy is coming when Android needs them. The spec is where they should be stated once, with each implementation checked against it rather than against each other. Small, and the reason a Swift-only shared module was deliberately not built.
+
+### P1d — Pre-P2 additions · **to be filled in**
+
+Pak Ho has items to add here before P2 starts (noted 2026-08-14, end of session). **This section is deliberately empty — capture them at the top of the next session, before any code.**
+
+Two things worth deciding while writing them down, because they change the order of everything below:
+
+1. **Is a build going to anyone other than Pak Ho soon?** If yes, P2a jumps ahead of everything in this section. Its whole value is being in place *before* users arrive; instrumentation added after launch says nothing about launch.
+2. **Does any item here need a schema change?** If so it should be sequenced with P3, which already has to open the schema for the spend profile. Two staged migrations cost more than one that carries both — and P0's post-mortem is the reason to take that seriously.
 
 ### P2 — Analytics baseline
 
