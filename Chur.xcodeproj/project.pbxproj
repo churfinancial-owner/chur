@@ -11,8 +11,19 @@
 		4462494A2F5EAD9E00FA2349 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 446249492F5EAD9E00FA2349 /* GoogleSignInSwift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		4462004C302FD4E100FC4D54 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 44E5A5922F1C84720091B0A3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 44E5A5992F1C84720091B0A3;
+			remoteInfo = Chur;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		4442006C2F3001B5004A55AF /* Chur.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Chur.xcodeproj; sourceTree = "<group>"; };
+		44620048302FD4E100FC4D54 /* ChurTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChurTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		44938DED2F3003E100FEAEC9 /* Chur.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Chur.xcodeproj; sourceTree = "<group>"; };
 		44938E742F30054700FEAEC9 /* Chur.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Chur.xcodeproj; sourceTree = "<group>"; };
 		44938EF92F30068900FEAEC9 /* Chur.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Chur.xcodeproj; sourceTree = "<group>"; };
@@ -30,6 +41,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		44620049302FD4E100FC4D54 /* ChurTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ChurTests;
+			sourceTree = "<group>";
+		};
 		44E5A59C2F1C84720091B0A3 /* Chur */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -41,6 +57,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		44620045302FD4E100FC4D54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		44E5A5972F1C84720091B0A3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -85,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				44E5A59C2F1C84720091B0A3 /* Chur */,
+				44620049302FD4E100FC4D54 /* ChurTests */,
 				44E5A59B2F1C84720091B0A3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -93,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				44E5A59A2F1C84720091B0A3 /* Chur.app */,
+				44620048302FD4E100FC4D54 /* ChurTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -100,6 +125,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		44620047302FD4E100FC4D54 /* ChurTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4462004E302FD4E100FC4D54 /* Build configuration list for PBXNativeTarget "ChurTests" */;
+			buildPhases = (
+				44620044302FD4E100FC4D54 /* Sources */,
+				44620045302FD4E100FC4D54 /* Frameworks */,
+				44620046302FD4E100FC4D54 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4462004D302FD4E100FC4D54 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				44620049302FD4E100FC4D54 /* ChurTests */,
+			);
+			name = ChurTests;
+			packageProductDependencies = (
+			);
+			productName = ChurTests;
+			productReference = 44620048302FD4E100FC4D54 /* ChurTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		44E5A5992F1C84720091B0A3 /* Chur */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 44E5A5A72F1C84750091B0A3 /* Build configuration list for PBXNativeTarget "Chur" */;
@@ -131,9 +179,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 2620;
+				LastSwiftUpdateCheck = 2660;
 				LastUpgradeCheck = 2620;
 				TargetAttributes = {
+					44620047302FD4E100FC4D54 = {
+						CreatedOnToolsVersion = 26.6;
+						TestTargetID = 44E5A5992F1C84720091B0A3;
+					};
 					44E5A5992F1C84720091B0A3 = {
 						CreatedOnToolsVersion = 26.2;
 					};
@@ -176,11 +228,19 @@
 			projectRoot = "";
 			targets = (
 				44E5A5992F1C84720091B0A3 /* Chur */,
+				44620047302FD4E100FC4D54 /* ChurTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		44620046302FD4E100FC4D54 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		44E5A5982F1C84720091B0A3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -191,6 +251,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		44620044302FD4E100FC4D54 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		44E5A5962F1C84720091B0A3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -200,7 +267,59 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		4462004D302FD4E100FC4D54 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 44E5A5992F1C84720091B0A3 /* Chur */;
+			targetProxy = 4462004C302FD4E100FC4D54 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		4462004F302FD4E100FC4D54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3Q42383V5W;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = churfinancial.ChurTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Chur.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Chur";
+			};
+			name = Debug;
+		};
+		44620050302FD4E100FC4D54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3Q42383V5W;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = churfinancial.ChurTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Chur.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Chur";
+			};
+			name = Release;
+		};
 		44E5A5A52F1C84750091B0A3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -397,6 +516,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4462004E302FD4E100FC4D54 /* Build configuration list for PBXNativeTarget "ChurTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4462004F302FD4E100FC4D54 /* Debug */,
+				44620050302FD4E100FC4D54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		44E5A5952F1C84720091B0A3 /* Build configuration list for PBXProject "Chur" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
