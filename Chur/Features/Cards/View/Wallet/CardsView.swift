@@ -170,19 +170,23 @@ private extension CardsView {
         if isRefreshing || refreshStatus != nil {
             HStack(spacing: 6) {
                 if isRefreshing {
-                    ProgressView().scaleEffect(0.7)
+                    ProgressView().scaleEffect(0.7).tint(.white)
                     Text("Checking for updates…")
                 } else if let refreshStatus {
                     Image(systemName: refreshStatus == .failed ? "exclamationmark.triangle" : "checkmark.circle")
                     Text(refreshStatusText(refreshStatus))
                 }
             }
-            .font(.churFootnote())
-            .foregroundStyle(refreshStatus == .failed ? Color.churMediumGray : Color.churOlive)
-            .padding(.horizontal, 14)
-            .padding(.vertical, 8)
-            .background(Capsule().fill(Color.white).shadow(color: .black.opacity(0.08), radius: 6, y: 2))
-            .transition(.move(edge: .bottom).combined(with: .opacity))
+            .font(.churCaption())
+            .foregroundStyle(.white)
+            .padding(.horizontal, 18)
+            .padding(.vertical, 12)
+            .background(
+                Capsule()
+                    .fill(refreshStatus == .failed ? Color.churMediumGray : Color.churOlive)
+                    .shadow(color: .black.opacity(0.18), radius: 10, y: 4)
+            )
+            .transition(.opacity)
         }
     }
 
@@ -209,8 +213,14 @@ private extension CardsView {
             refreshStatus = result
         }
 
-        try? await Task.sleep(for: .seconds(3))
-        withAnimation { refreshStatus = nil }
+        // Unstructured on purpose. `.refreshable` cancels its task as soon as
+        // the gesture finishes, and a sleep in a cancelled task returns
+        // instantly — which cleared the status in the same frame it appeared,
+        // so the pill was drawn for one frame and never seen.
+        Task { @MainActor in
+            try? await Task.sleep(for: .seconds(3))
+            withAnimation { refreshStatus = nil }
+        }
     }
 
     var headerSection: some View {
