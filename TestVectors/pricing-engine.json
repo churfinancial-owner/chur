@@ -1,0 +1,435 @@
+{
+  "formatVersion": 1,
+  "description": "Shared pricing-engine test vectors. Every case is (cards, category, inputs) -> expected ranking. Consumed by ChurTests/PricingEngineVectorTests.swift and, when Android exists, by the Kotlin port of CardRateCalculator. See Chur/PRICING_VECTORS_REFERENCE.md.",
+  "categories": [
+    { "id": "everything", "name": "Everything", "level": "parent" },
+    { "id": "travel", "name": "Travel", "level": "parent" },
+    { "id": "travel_portal", "name": "Travel Portal", "level": "child", "parentCategoryID": "travel" },
+    { "id": "flights", "name": "Flights", "level": "child", "parentCategoryID": "travel", "categoryLinks": ["travel_portal"] },
+    { "id": "airline_delta", "name": "Delta", "level": "target", "parentCategoryID": "flights" },
+    { "id": "dining", "name": "Dining", "level": "parent" },
+    { "id": "grocery", "name": "Grocery", "level": "parent" },
+    { "id": "wholefood", "name": "Whole Foods", "level": "target", "parentCategoryID": "grocery", "categoryLinks": ["amazon"] },
+    { "id": "online_retail", "name": "Online Retail", "level": "parent" },
+    { "id": "amazon", "name": "Amazon", "level": "target", "parentCategoryID": "online_retail", "excludeFromParent": true },
+    { "id": "wholesale", "name": "Wholesale Club", "level": "parent" },
+    {
+      "id": "costco",
+      "name": "Costco",
+      "level": "target",
+      "parentCategoryID": "wholesale",
+      "cardFilter": { "networks": ["Visa"], "mode": "include" }
+    },
+    {
+      "id": "walmart",
+      "name": "Walmart",
+      "level": "target",
+      "parentCategoryID": "grocery",
+      "excludeFromParent": true,
+      "excludedPaymentMethods": ["apple_pay", "mobile_pay"]
+    },
+    { "id": "apple_pay", "name": "Apple Pay", "level": "target" },
+    { "id": "mobile_pay", "name": "Mobile Pay", "level": "target" },
+    { "id": "paypal_pay", "name": "PayPal", "level": "target", "channels": ["online"] }
+  ],
+  "vectors": [
+    {
+      "id": "exact-match-outranks-everything",
+      "rule": "matchWeight step 1 (exact) and step 6 (everything fallback)",
+      "input": { "categoryID": "dining", "region": "US" },
+      "cards": [
+        { "name": "Dining Five", "rewards": [{ "rate": 5.0, "categories": ["dining"] }] },
+        { "name": "Flat Two", "rewards": [{ "rate": 2.0, "categories": ["everything"] }] }
+      ],
+      "expected": [
+        { "name": "Dining Five", "effectiveCashBackRate": 0.05 },
+        { "name": "Flat Two", "effectiveCashBackRate": 0.02 }
+      ]
+    },
+    {
+      "id": "parent-chain-single-hop",
+      "rule": "matchWeight step 5 — flights inherits travel",
+      "input": { "categoryID": "flights", "region": "US" },
+      "cards": [
+        { "name": "Travel Three", "rewards": [{ "rate": 3.0, "categories": ["travel"] }] }
+      ],
+      "expected": [{ "name": "Travel Three", "effectiveCashBackRate": 0.03 }]
+    },
+    {
+      "id": "parent-chain-multi-hop",
+      "rule": "matchWeight step 5 — airline_delta -> flights -> travel, two hops",
+      "input": { "categoryID": "airline_delta", "region": "US" },
+      "cards": [
+        { "name": "Travel Three", "rewards": [{ "rate": 3.0, "categories": ["travel"] }] }
+      ],
+      "expected": [{ "name": "Travel Three", "effectiveCashBackRate": 0.03 }]
+    },
+    {
+      "id": "ancestor-category-links-are-reachable",
+      "rule": "buildAncestorSets folds each ancestor's categoryLinks into the reachable set — flights links travel_portal, so airline_delta reaches it",
+      "input": { "categoryID": "airline_delta", "region": "US" },
+      "cards": [
+        { "name": "Portal Five", "rewards": [{ "rate": 5.0, "categories": ["travel_portal"] }] }
+      ],
+      "expected": [{ "name": "Portal Five", "effectiveCashBackRate": 0.05 }]
+    },
+    {
+      "id": "category-links-match-directly",
+      "rule": "matchWeight step 2 — wholefood links amazon",
+      "input": { "categoryID": "wholefood", "region": "US" },
+      "cards": [
+        { "name": "Amazon Five", "rewards": [{ "rate": 5.0, "categories": ["amazon"] }] },
+        { "name": "Flat One", "rewards": [{ "rate": 1.0, "categories": ["everything"] }] }
+      ],
+      "expected": [
+        { "name": "Amazon Five", "effectiveCashBackRate": 0.05 },
+        { "name": "Flat One", "effectiveCashBackRate": 0.01 }
+      ]
+    },
+    {
+      "id": "exclude-from-parent-blocks-ancestor-but-not-everything",
+      "rule": "matchWeight step 4 — amazon blocks online_retail, everything still matches",
+      "input": { "categoryID": "amazon", "region": "US" },
+      "cards": [
+        { "name": "Retail Five", "rewards": [{ "rate": 5.0, "categories": ["online_retail"] }] },
+        { "name": "Flat Two", "rewards": [{ "rate": 2.0, "categories": ["everything"] }] }
+      ],
+      "expected": [{ "name": "Flat Two", "effectiveCashBackRate": 0.02 }]
+    },
+    {
+      "id": "payment-method-survives-exclude-from-parent",
+      "rule": "matchWeight step 3 is evaluated before step 4, so brand categories still earn payment-method rewards",
+      "input": { "categoryID": "amazon", "region": "US" },
+      "cards": [
+        { "name": "ApplePay Three", "rewards": [{ "rate": 3.0, "categories": ["apple_pay"] }] }
+      ],
+      "expected": [{ "name": "ApplePay Three", "effectiveCashBackRate": 0.03 }]
+    },
+    {
+      "id": "payment-method-blocked-by-excluded-payment-methods",
+      "rule": "matchWeight step 3 — walmart declares apple_pay unusable",
+      "input": { "categoryID": "walmart", "region": "US" },
+      "cards": [
+        { "name": "ApplePay Three", "rewards": [{ "rate": 3.0, "categories": ["apple_pay"] }] },
+        { "name": "Flat Two", "rewards": [{ "rate": 2.0, "categories": ["everything"] }] }
+      ],
+      "expected": [{ "name": "Flat Two", "effectiveCashBackRate": 0.02 }]
+    },
+    {
+      "id": "payment-method-gated-by-accepted-methods",
+      "rule": "matchWeight step 3 — merchant declares acceptedPaymentMethods, so only those apply",
+      "input": { "categoryID": "dining", "region": "US", "acceptedPaymentMethods": ["mobile_pay"] },
+      "cards": [
+        { "name": "ApplePay Three", "rewards": [{ "rate": 3.0, "categories": ["apple_pay"] }] },
+        { "name": "MobilePay Two", "rewards": [{ "rate": 2.0, "categories": ["mobile_pay"] }] }
+      ],
+      "expected": [{ "name": "MobilePay Two", "effectiveCashBackRate": 0.02 }]
+    },
+    {
+      "id": "payment-method-fallback-can-be-disabled",
+      "rule": "allowPaymentMethodFallback: false skips step 3 entirely",
+      "input": { "categoryID": "dining", "region": "US", "allowPaymentMethodFallback": false },
+      "cards": [
+        { "name": "ApplePay Three", "rewards": [{ "rate": 3.0, "categories": ["apple_pay"] }] },
+        { "name": "Flat One", "rewards": [{ "rate": 1.0, "categories": ["everything"] }] }
+      ],
+      "expected": [{ "name": "Flat One", "effectiveCashBackRate": 0.01 }]
+    },
+    {
+      "id": "channel-restricted-category-blocked-in-store",
+      "rule": "isCategoryAllowedInChannel — paypal_pay is an online-only category",
+      "input": { "categoryID": "dining", "region": "US", "channel": "in_store" },
+      "cards": [
+        { "name": "PayPal Three", "rewards": [{ "rate": 3.0, "categories": ["paypal_pay"] }] },
+        { "name": "Flat One", "rewards": [{ "rate": 1.0, "categories": ["everything"] }] }
+      ],
+      "expected": [{ "name": "Flat One", "effectiveCashBackRate": 0.01 }]
+    },
+    {
+      "id": "channel-restricted-category-allowed-online",
+      "rule": "isCategoryAllowedInChannel — same card, same category, opposite channel",
+      "input": { "categoryID": "dining", "region": "US", "channel": "online" },
+      "cards": [
+        { "name": "PayPal Three", "rewards": [{ "rate": 3.0, "categories": ["paypal_pay"] }] },
+        { "name": "Flat One", "rewards": [{ "rate": 1.0, "categories": ["everything"] }] }
+      ],
+      "expected": [
+        { "name": "PayPal Three", "effectiveCashBackRate": 0.03 },
+        { "name": "Flat One", "effectiveCashBackRate": 0.01 }
+      ]
+    },
+    {
+      "id": "reward-channels-filter-excludes-off-channel-reward",
+      "rule": "reward.channels is checked separately from the category's own channels",
+      "input": { "categoryID": "dining", "region": "US", "channel": "in_store" },
+      "cards": [
+        { "name": "Online Only Five", "rewards": [{ "rate": 5.0, "categories": ["dining"], "channels": ["online"] }] },
+        { "name": "Flat One", "rewards": [{ "rate": 1.0, "categories": ["everything"] }] }
+      ],
+      "expected": [{ "name": "Flat One", "effectiveCashBackRate": 0.01 }]
+    },
+    {
+      "id": "reward-countries-filter-excludes-wrong-region",
+      "rule": "reward.countries checked against the merchant region",
+      "input": { "categoryID": "dining", "region": "TW" },
+      "cards": [
+        { "name": "US Only Five", "country": "US", "rewards": [{ "rate": 5.0, "categories": ["dining"], "countries": ["US"] }] },
+        { "name": "TW Flat One", "country": "TW", "rewards": [{ "rate": 1.0, "categories": ["everything"] }] }
+      ],
+      "expected": [{ "name": "TW Flat One", "effectiveCashBackRate": 0.01 }]
+    },
+    {
+      "id": "reward-countries-falls-back-to-card-country",
+      "rule": "nil region (global merchant) falls back to card.country so US-only rewards still apply to US cards",
+      "input": { "categoryID": "dining", "region": null },
+      "cards": [
+        { "name": "US Only Five", "country": "US", "rewards": [{ "rate": 5.0, "categories": ["dining"], "countries": ["US"] }] }
+      ],
+      "expected": [{ "name": "US Only Five", "effectiveCashBackRate": 0.05 }]
+    },
+    {
+      "id": "fx-fee-reorders-the-ranking",
+      "rule": "computeEffectiveRate subtracts the FX fee on cross-border spend — the lower headline rate wins",
+      "input": { "categoryID": "dining", "region": "TW" },
+      "cards": [
+        {
+          "name": "FX Three",
+          "country": "US",
+          "hasForeignTransactionFee": true,
+          "foreignTransactionFeeRate": 0.03,
+          "rewards": [{ "rate": 3.0, "categories": ["dining"] }]
+        },
+        { "name": "No FX Two", "country": "US", "rewards": [{ "rate": 2.0, "categories": ["dining"] }] }
+      ],
+      "expected": [
+        { "name": "No FX Two", "effectiveCashBackRate": 0.02 },
+        { "name": "FX Three", "effectiveCashBackRate": 0.0 }
+      ]
+    },
+    {
+      "id": "force-cross-border-applies-fx-in-home-region",
+      "rule": "forceCrossBorder overrides region comparison",
+      "input": { "categoryID": "dining", "region": "US", "forceCrossBorder": true },
+      "cards": [
+        {
+          "name": "FX Three",
+          "country": "US",
+          "hasForeignTransactionFee": true,
+          "foreignTransactionFeeRate": 0.03,
+          "rewards": [{ "rate": 3.0, "categories": ["dining"] }]
+        }
+      ],
+      "expected": [{ "name": "FX Three", "effectiveCashBackRate": 0.0 }]
+    },
+    {
+      "id": "accepted-regions-suppresses-fx",
+      "rule": "acceptedRegions overrides the single region — a US card at a merchant operating in US+TW is not cross-border",
+      "input": { "categoryID": "dining", "region": "TW", "acceptedRegions": ["US", "TW"] },
+      "cards": [
+        {
+          "name": "FX Three",
+          "country": "US",
+          "hasForeignTransactionFee": true,
+          "foreignTransactionFeeRate": 0.03,
+          "rewards": [{ "rate": 3.0, "categories": ["dining"] }]
+        }
+      ],
+      "expected": [{ "name": "FX Three", "effectiveCashBackRate": 0.03 }]
+    },
+    {
+      "id": "online-overlay-outranks-base-reward",
+      "rule": "bestOverlayReward — online_transactions applies on top of the category match",
+      "input": { "categoryID": "dining", "region": "US", "channel": "online" },
+      "cards": [
+        {
+          "name": "Overlay Card",
+          "rewards": [
+            { "rate": 2.0, "categories": ["dining"] },
+            { "rate": 5.0, "categories": ["online_transactions"] }
+          ]
+        }
+      ],
+      "expected": [{ "name": "Overlay Card", "effectiveCashBackRate": 0.05, "rate": 5.0 }]
+    },
+    {
+      "id": "overlay-only-reward-ignored-off-channel",
+      "rule": "a reward whose only category is an overlay id never matches through the main loop",
+      "input": { "categoryID": "dining", "region": "US", "channel": null },
+      "cards": [
+        {
+          "name": "Overlay Card",
+          "rewards": [
+            { "rate": 2.0, "categories": ["dining"] },
+            { "rate": 5.0, "categories": ["online_transactions"] }
+          ]
+        }
+      ],
+      "expected": [{ "name": "Overlay Card", "effectiveCashBackRate": 0.02, "rate": 2.0 }]
+    },
+    {
+      "id": "foreign-overlay-still-pays-the-fx-fee",
+      "rule": "the foreign_transactions overlay is netted against the FX fee like any other reward, and a losing reward can go negative",
+      "input": { "categoryID": "dining", "region": "TW" },
+      "cards": [
+        {
+          "name": "Overlay FX",
+          "country": "US",
+          "hasForeignTransactionFee": true,
+          "foreignTransactionFeeRate": 0.03,
+          "rewards": [
+            { "rate": 2.0, "categories": ["dining"] },
+            { "rate": 5.0, "categories": ["foreign_transactions"] }
+          ]
+        }
+      ],
+      "expected": [{ "name": "Overlay FX", "effectiveCashBackRate": 0.02, "rate": 5.0 }]
+    },
+    {
+      "id": "zero-rate-reward-suppresses-the-whole-card",
+      "rule": "a 0.0-rate reward naming the category removes the card entirely, even though it also holds an everything reward",
+      "input": { "categoryID": "dining", "region": "US" },
+      "cards": [
+        {
+          "name": "Suppressed",
+          "rewards": [
+            { "rate": 0.0, "categories": ["dining"] },
+            { "rate": 2.0, "categories": ["everything"] }
+          ]
+        },
+        { "name": "Flat One", "rewards": [{ "rate": 1.0, "categories": ["everything"] }] }
+      ],
+      "expected": [{ "name": "Flat One", "effectiveCashBackRate": 0.01 }]
+    },
+    {
+      "id": "cancelled-cards-are-excluded",
+      "rule": "init filters status == cancelled before anything else runs",
+      "input": { "categoryID": "dining", "region": "US" },
+      "cards": [
+        { "name": "Cancelled Five", "status": "cancelled", "rewards": [{ "rate": 5.0, "categories": ["dining"] }] },
+        { "name": "Flat One", "rewards": [{ "rate": 1.0, "categories": ["everything"] }] }
+      ],
+      "expected": [{ "name": "Flat One", "effectiveCashBackRate": 0.01 }]
+    },
+    {
+      "id": "card-filter-include-mode-drops-wrong-network",
+      "rule": "shouldExcludeCard — costco is Visa-only",
+      "input": { "categoryID": "costco", "region": "US" },
+      "cards": [
+        { "name": "Visa Two", "network": "Visa", "rewards": [{ "rate": 2.0, "categories": ["wholesale"] }] },
+        { "name": "Amex Five", "network": "American Express", "rewards": [{ "rate": 5.0, "categories": ["wholesale"] }] }
+      ],
+      "expected": [{ "name": "Visa Two", "effectiveCashBackRate": 0.02 }]
+    },
+    {
+      "id": "boost-multiplier-scales-rate-and-multiplier",
+      "rule": "boostMultiplier via BoostProgramDatabase — depends on boost_programs.json in the host app bundle",
+      "input": {
+        "categoryID": "dining",
+        "region": "US",
+        "boostEnrollments": { "usbank-smartly": "50% Smartly Earning Bonus" }
+      },
+      "cards": [
+        {
+          "name": "Smartly",
+          "templateID": "us-bank-smartly",
+          "rewards": [{ "rate": 2.0, "categories": ["dining"] }]
+        }
+      ],
+      "expected": [{ "name": "Smartly", "effectiveCashBackRate": 0.03, "rate": 3.0 }]
+    },
+    {
+      "id": "rotating-reward-inactive-outside-window",
+      "rule": "RewardRate.isActive(on:) via Date.current() — the reason every vector pins asOf",
+      "input": { "categoryID": "dining", "region": "US", "asOf": "2026-06-15T12:00:00Z" },
+      "cards": [
+        {
+          "name": "Rotating Five",
+          "rewards": [
+            {
+              "rate": 5.0,
+              "categories": ["dining"],
+              "rewardStartDate": "2026-01-01T00:00:00Z",
+              "rewardEndDate": "2026-03-31T23:59:59Z"
+            }
+          ]
+        },
+        { "name": "Flat One", "rewards": [{ "rate": 1.0, "categories": ["everything"] }] }
+      ],
+      "expected": [{ "name": "Flat One", "effectiveCashBackRate": 0.01 }]
+    },
+    {
+      "id": "rotating-reward-active-inside-window",
+      "rule": "same card, same fixture, asOf moved inside the window",
+      "input": { "categoryID": "dining", "region": "US", "asOf": "2026-02-15T12:00:00Z" },
+      "cards": [
+        {
+          "name": "Rotating Five",
+          "rewards": [
+            {
+              "rate": 5.0,
+              "categories": ["dining"],
+              "rewardStartDate": "2026-01-01T00:00:00Z",
+              "rewardEndDate": "2026-03-31T23:59:59Z"
+            }
+          ]
+        },
+        { "name": "Flat One", "rewards": [{ "rate": 1.0, "categories": ["everything"] }] }
+      ],
+      "expected": [
+        { "name": "Rotating Five", "effectiveCashBackRate": 0.05 },
+        { "name": "Flat One", "effectiveCashBackRate": 0.01 }
+      ]
+    },
+    {
+      "id": "duplicate-card-names-collapse-to-the-better-copy",
+      "rule": "rankedUniqueRewards dedupes by card NAME, not id — two copies of one product show once",
+      "input": { "categoryID": "dining", "region": "US" },
+      "cards": [
+        { "id": "dupe-a", "name": "Freedom Flex", "rewards": [{ "rate": 5.0, "categories": ["dining"] }] },
+        { "id": "dupe-b", "name": "Freedom Flex", "rewards": [{ "rate": 3.0, "categories": ["dining"] }] }
+      ],
+      "expected": [{ "name": "Freedom Flex", "effectiveCashBackRate": 0.05 }]
+    },
+    {
+      "id": "plan-based-card-uses-its-default-plan",
+      "rule": "activeRewards prefers activePlan over the legacy rewards array",
+      "input": { "categoryID": "dining", "region": "US" },
+      "cards": [
+        {
+          "name": "Planned Card",
+          "plans": [
+            { "id": "plan-current", "name": "Current", "isDefault": true, "rewards": [{ "rate": 5.0, "categories": ["dining"] }] },
+            { "id": "plan-legacy", "name": "Legacy", "isDefault": false, "rewards": [{ "rate": 1.0, "categories": ["dining"] }] }
+          ]
+        }
+      ],
+      "expected": [{ "name": "Planned Card", "effectiveCashBackRate": 0.05 }]
+    },
+    {
+      "id": "ties-break-alphabetically",
+      "rule": "rankedCardSummaries sorts by effective rate desc, then name asc",
+      "input": { "categoryID": "dining", "region": "US" },
+      "cards": [
+        { "name": "Bravo Card", "rewards": [{ "rate": 3.0, "categories": ["dining"] }] },
+        { "name": "Alpha Card", "rewards": [{ "rate": 3.0, "categories": ["dining"] }] }
+      ],
+      "expected": [
+        { "name": "Alpha Card", "effectiveCashBackRate": 0.03 },
+        { "name": "Bravo Card", "effectiveCashBackRate": 0.03 }
+      ]
+    },
+    {
+      "id": "point-valuation-beats-raw-multiplier",
+      "rule": "effectiveCashBackRate is rate * pointCashValue — a 2x card can outrank a 3x card",
+      "input": { "categoryID": "dining", "region": "US" },
+      "cards": [
+        { "name": "Points Two", "rewards": [{ "rate": 2.0, "pointCashValue": 0.02, "categories": ["dining"] }] },
+        { "name": "Cash Three", "rewards": [{ "rate": 3.0, "pointCashValue": 0.01, "categories": ["dining"] }] }
+      ],
+      "expected": [
+        { "name": "Points Two", "effectiveCashBackRate": 0.04 },
+        { "name": "Cash Three", "effectiveCashBackRate": 0.03 }
+      ]
+    }
+  ]
+}

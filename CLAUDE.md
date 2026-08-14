@@ -37,6 +37,7 @@ You are a token-conscious engineering assistant. Balance thorough, holistic code
 - `Chur/MAP_SEARCH_REFERENCE.md` — how nearby/map merchant search works (bucketed parallel MapKit search, caps, category matching). **Read before touching `Core/Map/Mapkit_*`, `Nearby_Engine*`, or `Features/Search/*`; update it whenever a bucket, cap, or POI category mapping changes.**
 - `Chur/CONTENT_PUBLISHING_REFERENCE.md` — how to change card/reward JSON and publish it to `content.chur.app` without an App Store release: the commands, what's remote vs still bundle-only, verification, rollback, troubleshooting, and a git cheat sheet. **Read before editing seed JSON; update it whenever a domain becomes remote or the publish flow changes.**
 - `Chur/ROADMAP.md` — growth priorities (P0 schema migration ✅ → P1 remote content pipeline ✅, P1c deferred → **P1d pre-P2 additions, to be filled in** → P2 analytics → P3 annual card value → P4 widget), the Visa API assessment, and market sequencing. **Read before starting new feature work so it lands in priority order; update it whenever priorities shift or a phase completes.** Its "P1b — lessons worth keeping" section is the post-mortem for the whole content pipeline — read it before changing publishing, card art, or content refresh.
+- `Chur/PRICING_VECTORS_REFERENCE.md` — the shared pricing-engine test vectors (`TestVectors/pricing-engine.json` + `ChurTests/PricingEngineVectorTests.swift`): fixture format, what each vector pins, the determinism rules, and how to add one. **Read before changing `Core/PricingEngine/` or `matchWeight` resolution; a failing vector is a question — engine wrong or expectation wrong — not a file to edit until green.**
 - `Chur/LOCALIZATION_REFERENCE.md` — multi-language support: the `AppLocale` seam, `User.languagePreference`, String Catalog conventions, the verbatim-`Text(String)` gotcha, and per-feature migration progress/next steps. **Read before touching localization/`AppLocale.swift`/`Localizable.xcstrings`, or before continuing the UI string migration; update its progress table whenever a feature's strings are migrated.**
 
 ## Project layout
@@ -48,6 +49,8 @@ You are a token-conscious engineering assistant. Balance thorough, holistic code
 - `Chur/Resources/json/` — seed data (cards, categories, merchants, benefits).
 - `CardArt/` — **repo root, outside `Chur/` on purpose.** Source of truth for card images: one flat file per card, named for its `imageName`, in issuer subfolders that nothing reads. `Chur/` is a synchronized root group in the Xcode project, so art placed under it gets compiled back into the app and undoes the 19 MB that moving art to the CDN saved. Add new art here in Finder, not in Xcode.
 - `Scripts/ChurContentPublish/` — the publisher (standalone SPM tool). Reads `Chur/Resources/json/` and `CardArt/`, writes `dist/`, uploads to R2.
+- `TestVectors/` — **repo root, outside `Chur/` for the same reason as `CardArt/`.** Shared JSON fixtures that Android will run too; anything under `Chur/` compiles into the app.
+- `ChurTests/` — unit test target (Swift Testing). Currently the pricing-engine vectors only.
 
 Large types are split across files with an underscore suffix: `CardRateCalculator_Summary.swift`, `Benefit_logics.swift`, `BenefitUsageAnalyzer_Periods.swift`. Follow this pattern instead of letting one file grow.
 
@@ -75,7 +78,7 @@ Large types are split across files with an underscore suffix: `CardRateCalculato
 - 4-space indent, PascalCase types, camelCase members, `@State private var` for view state, no force unwrapping.
 - SwiftUI views conform to `View` with UI in `body`; keep separation between View / ViewModel / Service / DataModel folders.
 - Use `Date.current()` (mockable, see `Debug/Testing/Date+Testing.swift`) instead of `Date()` in logic that tests or the time-travel debug tool need to control.
-- Tests: Swift Testing framework for unit tests, XCUIAutomation for UI tests.
+- Tests: Swift Testing framework for unit tests, XCUIAutomation for UI tests. Unit tests live in the `ChurTests` target; data-driven fixtures go in repo-root `TestVectors/`, loaded via `#filePath`, never as a bundle resource.
 
 ## Git workflow
 

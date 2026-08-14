@@ -6,7 +6,7 @@ Last reviewed: 2026-08-14.
 
 **Where the numbers stand right now:** app `1.0 (1)`, live content **v17**, 175 cards / 272 benefits / 171 card images / 14 hand-authored category files. Verify with `swift run ChurContentPublish --verify` rather than trusting this line — it is a snapshot, and the version moves every publish.
 
-**State at the end of the 2026-08-14 session.** P0 and P1 (a, b, c-deferred) are done; the remote content pipeline is live and proven end to end, including the failure modes. **Next: fill in P1d** — Pak Ho has items to add before P2 — and answer the one question that reorders everything, whether a build is going to anyone else soon. P1c is deferred, not cancelled: Android is not near, and its two halves have different value (see P1c).
+**State at the end of the 2026-08-14 session.** P0 and P1a/P1b are done; the remote content pipeline is live and proven end to end, including the failure modes. P1c's **test vectors are done** (31 cases, first test target in the project); its written JSON contract stays deferred until Android is real. **Next: fill in P1d** — Pak Ho has items to add before P2 — and answer the one question that reorders everything, whether a build is going to anyone else soon.
 
 The day's fixes are worth a skim before touching content code: publishing, card art and the onboarding first-run path each broke in ways that were invisible from the symptom. See "P1b — lessons worth keeping".
 
@@ -168,16 +168,23 @@ The remote plumbing took one commit. Everything below came from actually running
 
 What still deserves care before doing it: hand-authored categories carry `cardFilter`, `excludeFromParent` and `categoryLinks`, which feed `CardRateCalculator`'s match resolution. A bad publish there changes *prices* rather than labels — a different blast radius from anything published so far, and the reason it should follow the P1c test vectors rather than precede them.
 
-#### P1c — deferred (2026-08-14), not cancelled
+#### P1c — half done (2026-08-14)
 
 Written JSON contract spec + shared pricing-engine test vectors (see §5 Android).
 
-**Deferred because Android is not happening soon** (Pak Ho, 2026-08-14). The roadmap's standing advice is to write this on the iOS timeline regardless, and that advice is still right *for the test vectors* — they capture what the engine does today, while there is only one engine and the expected values can be generated from it. After a Kotlin port exists the same work becomes adjudicating which of two disagreeing engines is correct, case by case.
+**Test vectors: done. Contract spec: still deferred**, because Android is not happening soon (Pak Ho, 2026-08-14). The roadmap's standing advice was to write both on the iOS timeline regardless; that advice was right *for the test vectors* — they capture what the engine does today, while there is only one engine and the expected values can be read off it. After a Kotlin port exists the same work becomes adjudicating which of two disagreeing engines is correct, case by case.
 
-Split accordingly when it comes back up:
+Split accordingly:
 
-- **Pricing-engine test vectors — earns its place on iOS alone.** A fixture of `(cards, category, expected ranking)` cases is the first real regression test `CardRateCalculator` has ever had. Today a `matchWeight` edit or a rate change that silently reordered recommendations for some category would go unnoticed.
+- ~~**Pricing-engine test vectors**~~ — ✅ DONE (2026-08-14). 31 cases in `TestVectors/pricing-engine.json`, run by `ChurTests/PricingEngineVectorTests.swift` — the first regression test `CardRateCalculator` has ever had, and the first test target the project has ever had. Covers every branch reachable from `computeAllMatchingRewards`: the seven-tier `matchWeight` ladder, payment-method gating, both channel checks, `reward.countries` and its `card.country` fallback, FX/`forceCrossBorder`/`acceptedRegions`, both overlays, zero-rate suppression, `cardFilter`, boosts, and the output-shape rules (name dedupe, plan selection, alphabetical tie-break). The fixture is JSON rather than Swift precisely so the Kotlin port runs the identical file. See `PRICING_VECTORS_REFERENCE.md`.
 - **The written JSON contract — genuinely only pays off with a second client.** Worth writing when Android becomes real, and not before.
+
+**Lessons worth keeping**
+
+- **The fixture had to be JSON, not Swift literals.** Swift fixtures would have been faster to write and worth nothing to Android — which is the entire reason this work was scheduled before the port rather than after.
+- **`Date.current()` reaches into the engine through `RewardRate.isActive()`,** which the calculator calls with no argument. Any test touching a date-bounded reward is time-dependent unless it pins the mock, which also forces the suite to be serialized. Worth knowing before writing the second test suite.
+- **`CardRateCalculator.rate` is stored and never read.** Found by tracing inputs for the runner. Harmless, but it means every call site passes a number that does nothing.
+- **The vectors were written by reading the engine, not by running it** (no Xcode in the authoring environment). Treat the first green run as the moment they become trustworthy, and treat any first-run failure as a genuine question — engine wrong or expectation wrong — rather than something to paper over.
 
 It also inherits one concrete job from P1b item 5: **the structural rules now exist twice** — `RemoteContentService.validate(_:for:)` and `ChurContentPublish.validatePayload` — and a third copy is coming when Android needs them. The spec is where they should be stated once, with each implementation checked against it rather than against each other. Small, and the reason a Swift-only shared module was deliberately not built.
 
@@ -268,7 +275,7 @@ A second client is planned. Three things must be true of P1 or Android becomes a
 
 **b. ~~Card art has to move to the CDN.~~** ✅ DONE (P1b item 3). Art publishes as content-addressed images with a `cardArt` index domain, and `Assets.xcassets/Cards` no longer exists. Android consumes the same index — `imageName → { url, sha256, bytes }` — and needs its own equivalent of `CardArtLoader` (memory → disk → network, sha256-verified) plus a placeholder. The bare `Image(name)` call sites that would have rendered blank are gone; every render path goes through `CardArtView`.
 
-**c. The pricing engine needs shared test vectors.** `Core/PricingEngine/CardRateCalculator.swift` is the highest-risk port: 5-tier `matchWeight` resolution, `excludeFromParent` stops, channel filters, cross-border FX subtraction, boost overlays. Reimplementing it in Kotlin from reading Swift will drift. Ship a fixture file of `(cards, category, expected ranking)` cases that **both** platforms run as tests — cheap to write now, and it's the only thing that keeps the two engines honest.
+**c. ~~The pricing engine needs shared test vectors.~~** ✅ DONE (P1c, 2026-08-14). `TestVectors/pricing-engine.json` holds 31 `(cards, category, expected ranking)` cases covering `matchWeight` resolution, `excludeFromParent` stops, channel filters, cross-border FX subtraction and boost overlays. The Kotlin port runs the identical file — that is what keeps the two engines honest. Format documented in `PRICING_VECTORS_REFERENCE.md`.
 
 Already cross-platform and fine as-is: model-content localization lives in the JSON, and the Google Drive `appDataFolder` backup (`Core/Sync/CloudSyncManager.swift`) uses a versioned `ChurBackup` DTO against an API Android has too.
 
@@ -292,4 +299,4 @@ Localization already covers `en`, `zh-Hans`, `zh-Hant-HK`, `zh-Hant-TW` for mode
 
 - **Monetization posture.** Affiliate (`CardRecommendation.affiliateURL` already exists), subscription, or neither. Undecided.
 - **When Android starts.** P1c (contract spec + test vectors) is cheap to write during P1 and expensive to retrofit once two engines have already drifted — so it should be done on the iOS timeline regardless of when Android actually begins.
-- **No test target exists.** At minimum, P1's validation/rejection paths and P3's value calculator need coverage — those are where a silent bug either bricks content or misstates money.
+- **Test coverage is one suite deep.** `ChurTests` now exists and covers the pricing engine (P1c). Still uncovered: P1's validation/rejection paths and P3's value calculator — the two places a silent bug either bricks content or misstates money.
