@@ -251,9 +251,7 @@ struct CouponingView: View {
     private func couponTile(entry: CouponingEntry, accentColor: Color) -> some View {
         VStack(alignment: .leading, spacing: 10) {
             // Card image
-            Image(entry.card.imageName)
-                .resizable()
-                .scaledToFit()
+            CardArtView(imageName: entry.card.imageName, contentMode: .fit, placeholderCornerRadius: 4)
                 .frame(width: 36, height: 24)
                 .clipShape(RoundedRectangle(cornerRadius: 4))
 

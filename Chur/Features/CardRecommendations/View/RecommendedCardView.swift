@@ -46,12 +46,16 @@ struct RecommendedCardView: View {
 
             // --- HERO SECTION (Card & Title) ---
             VStack(spacing: 16) {
-                Image(recommendation.imageName)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(height: 140)
-                    .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-                    .shadow(color: .black.opacity(0.15), radius: 12, x: 0, y: 8)
+                // Height-only frame, unlike the row-sized call sites: the default
+                // placeholder would stretch to the full container width while it
+                // loads. 1.586 is the card ratio already used by CardCarouselItem.
+                CardArtView(imageName: recommendation.imageName, contentMode: .fit) {
+                    CardArtPlaceholder(cornerRadius: 14)
+                        .aspectRatio(1.586, contentMode: .fit)
+                }
+                .frame(height: 140)
+                .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                .shadow(color: .black.opacity(0.15), radius: 12, x: 0, y: 8)
                 
                 VStack(spacing: 4) {
                     Text(recommendation.cardName)

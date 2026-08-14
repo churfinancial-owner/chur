@@ -218,8 +218,7 @@ struct EnhancedCardRow: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 16) {
-                Image(snapshot.card.imageName)
-                    .resizable().scaledToFit()
+                CardArtView(imageName: snapshot.card.imageName, contentMode: .fit, placeholderCornerRadius: 6)
                     .frame(width: 44, height: 28)
                     .clipShape(RoundedRectangle(cornerRadius: 6))
                     .shadow(color: .black.opacity(0.1), radius: 2)

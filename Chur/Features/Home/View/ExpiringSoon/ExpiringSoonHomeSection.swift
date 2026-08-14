@@ -65,9 +65,7 @@ struct ExpiringSoonHomeSection: View {
 
     private func row(_ entry: ExpiringBenefitEntry) -> some View {
         HStack(spacing: 12) {
-            Image(entry.card.imageName)
-                .resizable()
-                .scaledToFit()
+            CardArtView(imageName: entry.card.imageName, contentMode: .fit, placeholderCornerRadius: 4)
                 .frame(width: 42, height: 28)
                 .clipShape(RoundedRectangle(cornerRadius: 4))
                 .overlay(RoundedRectangle(cornerRadius: 4).stroke(Color.black.opacity(0.06), lineWidth: 0.5))
