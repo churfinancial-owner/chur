@@ -176,7 +176,7 @@ Written JSON contract spec + shared pricing-engine test vectors (see §5 Android
 
 Split accordingly:
 
-- ~~**Pricing-engine test vectors**~~ — ✅ DONE (2026-08-14). 31 cases in `TestVectors/pricing-engine.json`, run by `ChurTests/PricingEngineVectorTests.swift` — the first regression test `CardRateCalculator` has ever had, and the first test target the project has ever had. Covers every branch reachable from `computeAllMatchingRewards`: the seven-tier `matchWeight` ladder, payment-method gating, both channel checks, `reward.countries` and its `card.country` fallback, FX/`forceCrossBorder`/`acceptedRegions`, both overlays, zero-rate suppression, `cardFilter`, boosts, and the output-shape rules (name dedupe, plan selection, alphabetical tie-break). The fixture is JSON rather than Swift precisely so the Kotlin port runs the identical file. See `PRICING_VECTORS_REFERENCE.md`.
+- ~~**Pricing-engine test vectors**~~ — ✅ DONE (2026-08-14). 31 cases in `ChurTests/pricing-engine.json`, run by `ChurTests/PricingEngineVectorTests.swift` — the first regression test `CardRateCalculator` has ever had, and the first test target the project has ever had. Covers every branch reachable from `computeAllMatchingRewards`: the seven-tier `matchWeight` ladder, payment-method gating, both channel checks, `reward.countries` and its `card.country` fallback, FX/`forceCrossBorder`/`acceptedRegions`, both overlays, zero-rate suppression, `cardFilter`, boosts, and the output-shape rules (name dedupe, plan selection, alphabetical tie-break). The fixture is JSON rather than Swift precisely so the Kotlin port runs the identical file. See `PRICING_VECTORS_REFERENCE.md`.
 - **The written JSON contract — genuinely only pays off with a second client.** Worth writing when Android becomes real, and not before.
 
 **Lessons worth keeping**
@@ -275,7 +275,7 @@ A second client is planned. Three things must be true of P1 or Android becomes a
 
 **b. ~~Card art has to move to the CDN.~~** ✅ DONE (P1b item 3). Art publishes as content-addressed images with a `cardArt` index domain, and `Assets.xcassets/Cards` no longer exists. Android consumes the same index — `imageName → { url, sha256, bytes }` — and needs its own equivalent of `CardArtLoader` (memory → disk → network, sha256-verified) plus a placeholder. The bare `Image(name)` call sites that would have rendered blank are gone; every render path goes through `CardArtView`.
 
-**c. ~~The pricing engine needs shared test vectors.~~** ✅ DONE (P1c, 2026-08-14). `TestVectors/pricing-engine.json` holds 31 `(cards, category, expected ranking)` cases covering `matchWeight` resolution, `excludeFromParent` stops, channel filters, cross-border FX subtraction and boost overlays. The Kotlin port runs the identical file — that is what keeps the two engines honest. Format documented in `PRICING_VECTORS_REFERENCE.md`.
+**c. ~~The pricing engine needs shared test vectors.~~** ✅ DONE (P1c, 2026-08-14). `ChurTests/pricing-engine.json` holds 31 `(cards, category, expected ranking)` cases covering `matchWeight` resolution, `excludeFromParent` stops, channel filters, cross-border FX subtraction and boost overlays. The Kotlin port runs the identical file — that is what keeps the two engines honest. Format documented in `PRICING_VECTORS_REFERENCE.md`.
 
 Already cross-platform and fine as-is: model-content localization lives in the JSON, and the Google Drive `appDataFolder` backup (`Core/Sync/CloudSyncManager.swift`) uses a versioned `ChurBackup` DTO against an API Android has too.
 

@@ -2,7 +2,7 @@
 
 The shared test vectors for `Core/PricingEngine/CardRateCalculator.swift`. **Read before changing the engine, the fixture, or `matchWeight` resolution; update it whenever a rule or fixture field changes.**
 
-- **Fixture:** `TestVectors/pricing-engine.json` (repo root)
+- **Fixture:** `ChurTests/pricing-engine.json`
 - **Runner:** `ChurTests/PricingEngineVectorTests.swift`
 - **Roadmap:** P1c — the half that earns its place on iOS alone
 
@@ -19,23 +19,23 @@ Two rules make the fixture worth more than an ordinary test file:
 
 ## Where things live, and why
 
-`TestVectors/` sits at the **repo root, beside `CardArt/`** — deliberately outside `Chur/`. `Chur/` is a synchronized root group in the Xcode project, so a fixture placed there is compiled into the app and ships to users as dead weight.
+The fixture sits **beside the runner in `ChurTests/`**, and that placement is doing two jobs at once:
 
-**The fixture reaches the tests through ChurTests' Copy Bundle Resources**, added as a *reference* (not a copy), so there is still exactly one file on disk. This is project configuration, so a fresh clone or a rebuilt test target needs it re-added:
-
-> ChurTests target → **Build Phases** → **Copy Bundle Resources** → **+** → **Add Other…** → select `TestVectors/pricing-engine.json` → **Reference files in place**.
-
-The runner also keeps a `#filePath` fallback that walks up to the repo root, but **that path does not work from a simulator** — tests run inside the simulator's filesystem and cannot read the host Mac. The fallback exists for a future host-side runner (a SwiftPM target, or a macOS destination); on iOS the bundle copy is the only path that works. `fixtureLoads` prints both locations it tried when neither resolves.
+- **`ChurTests/` is outside `Chur/`.** `Chur/` is a synchronized root group, so a fixture placed there would be compiled into the shipping app as dead weight — the same trap that keeps `CardArt/` at the repo root.
+- **`ChurTests/` is itself a synchronized folder**, so the JSON joins the test target automatically and lands in the test bundle. No Build Phases wiring to set up, and nothing for a fresh clone to forget.
 
 ```
 chur/
 ├── CardArt/                        ← card images (not in the app target)
-├── TestVectors/
-│   └── pricing-engine.json         ← the spec
 ├── ChurTests/
+│   ├── pricing-engine.json         ← the spec
 │   └── PricingEngineVectorTests.swift
 └── Chur/
 ```
+
+**The fixture must be read out of the test bundle, not off disk.** Tests run inside the simulator, which cannot reach paths on the host Mac — an early version used `#filePath` and failed with `ENOENT` even though the file was sitting at exactly that path. The runner keeps `#filePath` as a second candidate for a possible future host-side runner (a SwiftPM target, or a macOS destination), and `fixtureLoads` prints every location it tried when neither resolves.
+
+A consequence worth stating for the Android port: the fixture is not in a platform-neutral folder. Reading `ChurTests/pricing-engine.json` from Kotlin is fine — it is a path, not a dependency — but if that ever feels wrong, move it and update both runners rather than keeping two copies.
 
 ## Fixture format
 

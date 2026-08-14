@@ -2,7 +2,7 @@
 //  PricingEngineVectorTests.swift
 //  ChurTests
 //
-//  Runs the shared pricing-engine vectors in `TestVectors/pricing-engine.json`.
+//  Runs the shared pricing-engine vectors in `ChurTests/pricing-engine.json`.
 //  The fixture — not this file — is the spec. See `Chur/PRICING_VECTORS_REFERENCE.md`.
 //
 
@@ -13,7 +13,7 @@ import Testing
 
 // MARK: - Fixture model
 //
-// Mirrors TestVectors/pricing-engine.json. Every optional carries the same default
+// Mirrors ChurTests/pricing-engine.json. Every optional carries the same default
 // the app's own model does, so a vector only states what it is actually testing.
 
 private struct VectorFile: Codable, Sendable {
@@ -102,10 +102,10 @@ private struct ExpectedRow: Codable, Sendable {
 private final class BundleMarker {}
 
 private enum Fixture {
-    /// The fixture lives at repo-root `TestVectors/`, deliberately outside `Chur/` (a synchronized
-    /// group, so anything placed there compiles into the app). It reaches the tests by being listed
-    /// in ChurTests' **Copy Bundle Resources** as a reference — one file on disk, copied into the
-    /// test bundle at build time.
+    /// The fixture sits next to this file in `ChurTests/`, which is a **synchronized folder** in the
+    /// Xcode project — every file inside it joins the target automatically, JSON included, so the
+    /// fixture lands in the test bundle with no Build Phases wiring to set up or forget. It is
+    /// outside `Chur/`, so it never compiles into the shipping app.
     ///
     /// The bundle is tried first because tests run inside the simulator, which cannot read paths on
     /// the host Mac. `#filePath` is kept as a fallback for any future host-side runner (a SwiftPM
@@ -118,8 +118,7 @@ private enum Fixture {
         urls.append(
             URL(fileURLWithPath: #filePath)
                 .deletingLastPathComponent()   // ChurTests/
-                .deletingLastPathComponent()   // repo root
-                .appendingPathComponent("TestVectors/pricing-engine.json")
+                .appendingPathComponent("pricing-engine.json")
         )
         return urls
     }()
@@ -143,8 +142,9 @@ private enum Fixture {
         Tried:
         \(candidateURLs.map { "  • \($0.path)" }.joined(separator: "\n"))
 
-        Fix: ChurTests target → Build Phases → Copy Bundle Resources → + → Add Other… →
-        select TestVectors/pricing-engine.json → "Reference files in place" (do not copy).
+        It should sit beside this file in ChurTests/ and be picked up automatically —
+        ChurTests is a synchronized folder. If it is missing from the test bundle, check
+        that ChurTests/pricing-engine.json exists on disk and rebuild.
         """
     }
 
