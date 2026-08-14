@@ -26,7 +26,7 @@ enum ContentRefreshCoordinator {
     /// Launch and foreground path: respects the 30-minute interval.
     @discardableResult
     static func refreshIfNeeded(modelContext: ModelContext) async -> Result {
-        let didUpdate = await RemoteContentService.shared.refreshIfNeeded()
+        let didUpdate = await detached { await RemoteContentService.shared.refreshIfNeeded() }
         return apply(didUpdate: didUpdate, modelContext: modelContext)
     }
 
@@ -35,8 +35,20 @@ enum ContentRefreshCoordinator {
     /// so this is cheap when nothing has changed.
     @discardableResult
     static func refreshNow(modelContext: ModelContext) async -> Result {
-        let didUpdate = await RemoteContentService.shared.refresh()
+        let didUpdate = await detached { await RemoteContentService.shared.refresh() }
         return apply(didUpdate: didUpdate, modelContext: modelContext)
+    }
+
+    /// Runs the network work in an unstructured task, which does *not* inherit
+    /// cancellation from its caller.
+    ///
+    /// The launch refresh is started from ContentView's `.task`, and SwiftUI
+    /// cancels a `.task` when the view disappears or changes identity — which
+    /// cancelled the manifest download mid-flight and surfaced as
+    /// NSURLErrorCancelled (-999). A download worth starting is worth finishing:
+    /// the result is written to the shared cache, not to the view.
+    private static func detached(_ work: @escaping @MainActor () async -> Bool) async -> Bool {
+        await Task { await work() }.value
     }
 
     private static func apply(didUpdate: Bool, modelContext: ModelContext) -> Result {
