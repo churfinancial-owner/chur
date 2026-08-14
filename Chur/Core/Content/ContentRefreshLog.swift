@@ -89,6 +89,7 @@ enum ContentRefreshLog {
         case tooOld             // build below the manifest's minAppVersion
         case rateLimited        // inside the 30-minute window
         case failed             // network, checksum, or validation
+        case cancelled          // caller went away mid-download; not a fault
         case disabled           // feature flag off
     }
 }

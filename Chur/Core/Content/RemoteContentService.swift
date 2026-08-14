@@ -97,6 +97,15 @@ final class RemoteContentService {
             ContentRefreshLog.record(.applied, detail: "\(staged.count) domains")
             return true
         } catch {
+            // A cancellation is not a failure: the caller went away (view
+            // teardown, app backgrounded) and the download was abandoned
+            // mid-flight. Logging it as a failure buries the ones that matter.
+            if (error as NSError).code == NSURLErrorCancelled {
+                print("⏹️ RemoteContent: refresh cancelled before it finished")
+                ContentRefreshLog.record(.cancelled)
+                return false
+            }
+
             print("⚠️ RemoteContent: refresh failed — \(error)")
             // The reason is the whole point: a checksum mismatch and a dropped
             // connection look identical from the outside and need opposite fixes.
