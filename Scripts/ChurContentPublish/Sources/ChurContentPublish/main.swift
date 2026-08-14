@@ -248,6 +248,9 @@ func loadMerchantMappings(repoRoot: URL) throws -> [String: Any] {
 
 // MARK: - Card art
 
+/// Source of truth for card images, relative to the repo root.
+let cardArtDirectory = "CardArt"
+
 /// One card image, keyed by the `imageName` a card's JSON refers to.
 struct CardArt {
     let imageName: String
@@ -255,9 +258,9 @@ struct CardArt {
     let sha256: String
     let bytes: Int
 
-    /// The catalog holds a mix of PNG and JPEG — Xcode resolves either through
-    /// `UIImage(named:)`, so the difference is invisible until art is served
-    /// over HTTP and the extension has to be carried explicitly.
+    /// `CardArt/` holds a mix of PNG and JPEG. The asset catalog used to resolve
+    /// either one through `UIImage(named:)`, so the difference was invisible;
+    /// served over HTTP, the extension has to be carried explicitly.
     var pathExtension: String { source.pathExtension.lowercased() }
 
     var contentType: String { pathExtension == "png" ? "image/png" : "image/jpeg" }
@@ -268,33 +271,47 @@ struct CardArt {
     var key: String { "art/\(imageName)-\(String(sha256.prefix(8))).\(pathExtension)" }
 }
 
-/// Every `*.imageset` under Assets.xcassets/Cards. The imageset folder name is
-/// the `imageName` cards refer to, which is what `UIImage(named:)` resolves.
+/// Every image under `CardArt/`. The filename is the `imageName` cards refer to;
+/// the issuer subfolders are for humans only and nothing here reads them.
+///
+/// Deliberately outside `Chur/`: that folder is a synchronized root group in the
+/// Xcode project, so art living under it would be compiled back into the app —
+/// the 19 MB that removing it saved.
 func loadCardArt(repoRoot: URL) throws -> [CardArt] {
-    let dir = repoRoot.appendingPathComponent("Chur/Resources/Assets.xcassets/Cards")
+    let dir = repoRoot.appendingPathComponent(cardArtDirectory)
+
+    var isDirectory: ObjCBool = false
+    guard FileManager.default.fileExists(atPath: dir.path, isDirectory: &isDirectory), isDirectory.boolValue else {
+        throw PublishError("Card art directory missing: \(dir.path)")
+    }
     guard let enumerator = FileManager.default.enumerator(at: dir, includingPropertiesForKeys: nil) else {
         throw PublishError("Could not read \(dir.path)")
     }
 
+    let imageExtensions: Set<String> = ["png", "jpg", "jpeg"]
     var art: [CardArt] = []
-    var emptySets: [String] = []
 
-    for case let url as URL in enumerator where url.pathExtension == "imageset" {
-        let imageName = url.deletingPathExtension().lastPathComponent
-        let contents = (try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil)) ?? []
-
-        let imageExtensions: Set<String> = ["png", "jpg", "jpeg"]
-        guard let file = contents.first(where: { imageExtensions.contains($0.pathExtension.lowercased()) }) else {
-            emptySets.append(imageName)
-            continue
-        }
-
-        let data = try Data(contentsOf: file)
-        art.append(CardArt(imageName: imageName, source: file, sha256: sha256Hex(data), bytes: data.count))
+    for case let url as URL in enumerator where imageExtensions.contains(url.pathExtension.lowercased()) {
+        let data = try Data(contentsOf: url)
+        art.append(CardArt(imageName: url.deletingPathExtension().lastPathComponent,
+                           source: url,
+                           sha256: sha256Hex(data),
+                           bytes: data.count))
     }
 
-    if !emptySets.isEmpty {
-        print("⚠️  Imagesets with no image file (\(emptySets.count)): \(emptySets.sorted().joined(separator: ", "))")
+    // An empty index is what the app rejects outright, and a rejected domain
+    // aborts the whole refresh — cards, rewards and all. Cheaper to fail here
+    // than to discover it in a device log after uploading.
+    guard !art.isEmpty else {
+        throw PublishError("No card art found under \(dir.path) — publishing an empty index would break every domain on device")
+    }
+
+    // Two files with the same name in different issuer folders would silently
+    // resolve to whichever the enumerator reached last.
+    let duplicates = Dictionary(grouping: art, by: \.imageName).filter { $0.value.count > 1 }
+    guard duplicates.isEmpty else {
+        let detail = duplicates.keys.sorted().joined(separator: ", ")
+        throw PublishError("Duplicate imageName in \(cardArtDirectory): \(detail)")
     }
 
     return art.sorted { $0.imageName < $1.imageName }
@@ -594,7 +611,7 @@ do {
     let merchantMappings = try loadMerchantMappings(repoRoot: args.repoRoot)
     let cardArt = try loadCardArt(repoRoot: args.repoRoot)
 
-    // A card whose imageName has no imageset renders the placeholder forever —
+    // A card whose imageName has no image file renders the placeholder forever —
     // invisible unless someone opens that specific card.
     let artNames = Set(cardArt.map { $0.imageName })
     let cardsMissingArt = cards
