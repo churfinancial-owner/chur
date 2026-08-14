@@ -19,14 +19,16 @@ enum CardArtStore {
 
     private static let directoryName = "CardArt"
 
-    static var directoryURL: URL? {
+    /// Resolved once — this is hit on every art lookup, so a computed property
+    /// meant a directory-exists check per image per scroll frame.
+    static let directoryURL: URL? = {
         guard let base = ContentStore.containerURL else { return nil }
         let directory = base.appendingPathComponent(directoryName, isDirectory: true)
         if !FileManager.default.fileExists(atPath: directory.path) {
             try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         }
         return directory
-    }
+    }()
 
     /// `<imageName>-<sha8>.<ext>` — content-addressed, matching the remote key.
     ///

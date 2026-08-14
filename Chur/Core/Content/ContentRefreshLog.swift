@@ -40,9 +40,9 @@ enum ContentRefreshLog {
     private static let limit = 5
     private static let key = "chur.content.refreshLog"
 
-    private static var defaults: UserDefaults {
-        UserDefaults(suiteName: ContentStore.appGroupID) ?? .standard
-    }
+    /// Resolved once, for the same reason as ContentStore.defaults: an
+    /// unentitled suite lookup fails and logs on every call.
+    private static let defaults: UserDefaults = UserDefaults(suiteName: ContentStore.appGroupID) ?? .standard
 
     static func record(_ outcome: Outcome, detail: String = "") {
         var entries = all

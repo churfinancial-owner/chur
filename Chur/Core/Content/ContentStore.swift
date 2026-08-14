@@ -24,14 +24,20 @@ enum ContentStore {
     private static let versionKey = "chur.content.version"
     private static let refreshedAtKey = "chur.content.refreshedAt"
 
-    private static var defaults: UserDefaults {
-        UserDefaults(suiteName: appGroupID) ?? .standard
-    }
+    /// Resolved once. Without the App Group entitlement — which needs a paid
+    /// Apple Developer account — every lookup fails *and* logs
+    /// "client is not entitled", so a per-call resolve floods the console.
+    private static let defaults: UserDefaults = UserDefaults(suiteName: appGroupID) ?? .standard
 
     /// Cache directory inside the App Group container. Falls back to
     /// Application Support when the App Group isn't provisioned, so a missing
     /// entitlement degrades to app-only content rather than breaking launch.
-    static var containerURL: URL? {
+    /// Resolved once per launch. This used to be a computed property, which
+    /// meant every card art lookup re-asked the OS for the App Group container
+    /// — once per image, per row, per scroll frame. With no entitlement each of
+    /// those fails and logs, which is where the "client is not entitled" flood
+    /// came from.
+    static let containerURL: URL? = {
         let base = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroupID)
             ?? FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
         guard let base else { return nil }
@@ -41,7 +47,7 @@ enum ContentStore {
             try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         }
         return directory
-    }
+    }()
 
     static func cacheURL(for domain: ContentDomain) -> URL? {
         containerURL?.appendingPathComponent(domain.cacheFilename)
