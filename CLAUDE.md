@@ -53,7 +53,7 @@ Large types are split across files with an underscore suffix: `CardRateCalculato
 
 ## Data layer rules (SwiftData)
 
-- Schema is versioned: `ChurSchemaV1_10` + `ChurMigrationPlan` in `Core/Sync/ChurSchema.swift`. **Any model change requires a new `VersionedSchema` + `MigrationStage`** — never mutate the current schema in place.
+- Schema is versioned: `ChurSchemaV2_0` + `ChurMigrationPlan` in `Core/Sync/ChurSchema.swift`. **Any model change requires a new `VersionedSchema` + `MigrationStage`** — never mutate the current schema in place.
 - New models must be registered in the schema's `models` list or they are silently not persisted (see `MerchantReward` — intentionally unregistered placeholder).
 - Cloud backup DTOs (`CloudSyncManager`): new fields must be optional; breaking changes require bumping `ChurBackup.currentVersion` and adding a case in `migrate(_:)`.
 - Models use application-level `id: String` keys for cross-references and sync (SwiftData's `PersistentIdentifier` is internal only).

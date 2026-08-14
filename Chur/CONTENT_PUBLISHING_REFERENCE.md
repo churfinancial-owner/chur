@@ -128,23 +128,23 @@ So: **rates, fees, card details, perks, merchants and artwork all publish instan
 This is the screen to actually look at — it tells you whether the publish did what you meant, *before* users get it.
 
 ```
-✅ contentVersion 7 → /Users/pakho/Documents/Product/chur/dist
-   cards:    175 cards, 82972 bytes
+✅ contentVersion 18 → /Users/pakho/Documents/Product/chur/dist
+   cards:    175 cards, 83005 bytes
    rewards:  169 entries, 118325 bytes
    benefits: 272 benefits, 195565 bytes
-   merchants: 77 merchants, … bytes
-   mappings: 4 rule groups, … bytes
-   cardArt: 171 images, … bytes index (17 MB of PNGs)
+   merchants: 77 merchants, 37063 bytes
+   mappings: 4 rule groups, 27389 bytes
+   cardArt: 171 images, 36389 bytes index (17 MB of PNGs)
    manifest: … bytes, base URL https://content.chur.app
 
 Uploading to R2 bucket 'chur-content'…
    ✓ card art unchanged (171 images already uploaded)
-   ✓ cards-7.json
-   ✓ rewards-7.json
-   ✓ benefits-7.json
-   ✓ merchants-7.json
-   ✓ merchantMappings-7.json
-   ✓ cardArt-7.json
+   ✓ cards-18.json
+   ✓ rewards-18.json
+   ✓ benefits-18.json
+   ✓ merchants-18.json
+   ✓ merchantMappings-18.json
+   ✓ cardArt-18.json
    ✓ manifest.json
 
 ✅ Published.
@@ -159,8 +159,8 @@ Three things to check every time:
 **3. Is the version one higher than last time?** It auto-increments and you never set it manually — with one exception. It counts up from `dist/manifest.json`, and `dist/` is gitignored, so on a machine that has never published (or after deleting `dist/`) it restarts at 1. Devices already on a higher version then ignore everything you publish. Check and override if it restarted:
 
 ```bash
-curl -s https://content.chur.app/manifest.json | grep contentVersion   # says 7?
-swift run ChurContentPublish --upload --version 8
+curl -s https://content.chur.app/manifest.json | grep contentVersion   # says 17?
+swift run ChurContentPublish --upload --version 18
 ```
 
 Then commit — publishing and committing are one action, never one without the other.
@@ -204,7 +204,7 @@ curl -s https://content.chur.app/manifest.json | grep contentVersion
 
 **Did the app get it?**
 
-Run the app → **Profile tab** → **hammer icon** → the menu header shows `Content: v7 · now`.
+Run the app → **Profile tab** → **hammer icon** → the menu header shows `Content: v18 · now`.
 
 If it shows an older version, tap **Refresh Remote Content**. The app otherwise only checks every 30 minutes.
 
