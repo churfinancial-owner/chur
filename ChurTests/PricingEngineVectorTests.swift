@@ -182,7 +182,7 @@ struct PricingEngineVectorTests {
         let ids = Fixture.vectors.map(\.id)
         #expect(Set(ids).count == ids.count, "vector ids must be unique")
 
-        let categoryIDs = Set(Fixture.file.categories.map(\.id))
+        let categoryIDs = Set(file.categories.map(\.id))
         for vector in Fixture.vectors {
             #expect(
                 categoryIDs.contains(vector.input.categoryID),
@@ -201,7 +201,9 @@ struct PricingEngineVectorTests {
         )
         let context = ModelContext(container)
 
-        let categories = Fixture.file.categories.map { fixture -> SpendingCategory in
+        let fixtureFile = try #require(Fixture.file, "\(Fixture.loadDiagnostic)")
+
+        let categories = fixtureFile.categories.map { fixture -> SpendingCategory in
             let category = SpendingCategory(
                 id: fixture.id,
                 nameEN: fixture.name,
@@ -244,8 +246,8 @@ struct PricingEngineVectorTests {
             channel: vector.input.channel,
             allowPaymentMethodFallback: vector.input.allowPaymentMethodFallback ?? true,
             forceCrossBorder: vector.input.forceCrossBorder ?? false,
-            acceptedPaymentMethods: vector.input.acceptedPaymentMethods.map(Set.init),
-            acceptedRegions: vector.input.acceptedRegions.map(Set.init)
+            acceptedPaymentMethods: vector.input.acceptedPaymentMethods.map { Set($0) },
+            acceptedRegions: vector.input.acceptedRegions.map { Set($0) }
         )
 
         let actual = calculator.rankedCardSummaries
