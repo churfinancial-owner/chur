@@ -237,6 +237,10 @@ areas done, in order first migrated:
 | Core/SignIn (`GoogleSignInButton.swift`) | 1 | ✅ |
 | Core/CardSearchBar (`CardPickerCoreView.swift`) | 1 | ✅ |
 
+**Added 2026-08-13 (P1b), not yet translated to `zh-Hant-HK`:** four keys registered with `extractionState: "manual"` and empty localizations — `Chur %@ (%@)` and `content v%lld` (Settings version footer), plus `Checking for updates…`, `Card details updated`, `Everything is up to date` and `Couldn't check for updates` (wallet pull-to-refresh status). They are new UI, not a migration gap, so the table above is unaffected.
+
+> ⚠️ Do not rewrite `Localizable.xcstrings` with a JSON formatter. Xcode's style (`"key" : {`, specific spacing) differs from Python's `json.dumps`, and a round-trip reformats all 6,000 lines into an unreviewable diff. Insert entries as text, then validate the file still parses.
+
 Two adjacent files outside the Features tree were also touched because a Feature view called into them: `Chur/Features/Home/ViewModel/CategoryPickerViewModel.swift` (`cycleButtonLabel`) and `Chur/Features/CardRecommendations/DataModel/CardRecommendation.swift`'s `BonusRating` (checked, needed no change — `displayText` is star-emoji glyphs, no words).
 
 **Explicitly out of scope (user decision, not a migration gap):**
