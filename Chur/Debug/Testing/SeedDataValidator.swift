@@ -79,11 +79,43 @@ enum SeedDataValidator {
             // returns false for every card. Nothing else reports the omission — the rate is
             // simply quoted too high, which reads as correct. All 77 merchants were missing
             // it until 2026-08-15, so this check exists to stop it recurring one merchant
-            // at a time. `featured`/`popular` naming a non-US market is the tell that a
-            // merchant is region-scoped and should declare where it operates.
+            // at a time.
+            //
+            // A merchant opts out with `globalBilling: true`, which is how an intentional
+            // omission is told apart from a forgotten one. Airlines and subscriptions bill the
+            // customer in their own currency and are genuinely global; without the marker this
+            // fired 22 times a launch, which would have trained everyone to ignore the one case
+            // that matters. Scoping it to "has a map block" was tried first and failed —
+            // airlines and Netflix have map blocks too.
             let listedRegions = Set((merchant.featured ?? []) + (merchant.popular ?? []))
-            if merchant.businessRegion?.isEmpty ?? true, !listedRegions.isEmpty, listedRegions != ["US"] {
-                issues.append("Merchant '\(merchant.id)': listed in \(listedRegions.sorted().joined(separator: "/")) but has no businessRegion — cross-border FX will not be applied for any card")
+            if merchant.businessRegion == nil, merchant.globalBilling != true,
+               !listedRegions.isEmpty, listedRegions != ["US"] {
+                issues.append("Merchant '\(merchant.id)': listed in \(listedRegions.sorted().joined(separator: "/")) but declares neither businessRegion nor globalBilling — cross-border FX will not be applied for any card")
+            }
+            if merchant.businessRegion != nil, merchant.globalBilling == true {
+                issues.append("Merchant '\(merchant.id)': has both businessRegion and globalBilling — pricing follows businessRegion, so the globalBilling claim is wrong")
+            }
+            // An empty array is worse than a missing one: `Set([])` is not nil, so
+            // `isCrossBorderSpend` finds no card's region in it and charges FX to everyone.
+            // Nothing has this today; the check makes sure nothing acquires it.
+            if merchant.businessRegion?.isEmpty == true {
+                issues.append("Merchant '\(merchant.id)': businessRegion is an empty array — this charges the FX fee to every card. Use null for a global merchant")
+            }
+        }
+
+        // Two merchants claiming the same map pattern is decided by file enumeration order,
+        // so the loser never matches and the winner mis-prices the other's stores. Found on
+        // 2026-08-15 with `costco` and `target` both claiming "target" — which would have
+        // priced Target as Costco, whose category is Visa-only, hiding most of the wallet.
+        var patternOwner: [String: String] = [:]
+        for merchant in seedFile.merchants {
+            for pattern in merchant.map?.patterns ?? [] {
+                let key = pattern.lowercased()
+                if let owner = patternOwner[key], owner != merchant.id {
+                    issues.append("Merchant '\(merchant.id)': map pattern '\(pattern)' is already claimed by '\(owner)' — whichever file loads first wins, so one of them never matches")
+                } else {
+                    patternOwner[key] = merchant.id
+                }
             }
         }
 

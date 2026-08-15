@@ -4,6 +4,7 @@
     "name": "Netflix",
     "domain": "netflix.com",
     "category": "stream_netflix",
+    "globalBilling": true,
     "merchantIconName": "icon_netflix",
     "isBrandCategory": true,
     "tags": [
@@ -66,6 +67,7 @@
     "name": "Spotify",
     "domain": "spotify.com",
     "category": "stream_spotify",
+    "globalBilling": true,
     "merchantIconName": "icon_spotify",
     "isBrandCategory": true,
     "tags": ["music", "streaming"],

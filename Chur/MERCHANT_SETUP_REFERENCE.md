@@ -97,15 +97,26 @@ Format is a plain array of category IDs (the legacy `{"id": ..., "weight": ...}`
 | `isBrandCategory: true` | Enables `OnlineMerchantDatabase.merchant(forCategory:)` icon lookups; marks category as brand-exclusive |
 | `paymentMethods` | Omitted/`null` → **no payment-method rewards apply** online. Provide `["apple_pay"]` etc. to enable them |
 | `businessRegion` | **Where the merchant operates — this is what charges the cross-border FX fee.** Becomes `acceptedRegions`; a card whose country is outside the list gets its foreign-transaction fee subtracted from every rate. Omitted/`null` = global = **no FX for anyone**. It does *not* hide the merchant — see below |
+| `globalBilling: true` | Declares "no FX anywhere, deliberately" — the customer is always billed in their own currency. Airlines and subscriptions. Read only by the validator; pricing follows `businessRegion` and nothing else. Never set both |
 | `featured` / `popular` | Featured grid / default list for those country codes. Visibility only |
 
 **Set `businessRegion` on every region-scoped merchant, or its rates are quoted too high.** It is the only source of the FX fee online, and omitting it fails silently: the merchant still works, still matches, still shows a rate — just a rate the user will not actually get. PARKnSHOP quoted a US card the full unreduced rate this way, and it was found by hand, not by any check. `SeedDataValidator` now flags a merchant whose `featured`/`popular` name a non-US market while `businessRegion` is missing.
 
-Rule of thumb: list every market the merchant actually trades in. A local cardholder in any listed market pays no FX; everyone else does. Genuinely global merchants — where a customer always transacts in their own currency — correctly stay `null`.
+Rule of thumb: **physical storefronts declare `businessRegion`; things billed in the customer's own currency declare `globalBilling: true`.** PARKnSHOP charges HK dollars at the till, so a US card pays FX there. A Cathay ticket or a Spotify subscription is billed in the customer's currency, so it never does — those are `globalBilling`, not a missing field, and the validator can tell the difference. Every merchant should declare one or the other; neither is the state that hid this bug across all 77.
+
+**Never `"businessRegion": []`.** An empty array is not the same as absent: it becomes an empty `acceptedRegions`, which contains no card's region, so *every* card is treated as cross-border and charged FX. Use `null` (or `globalBilling`) for a global merchant. The validator rejects the empty array.
 
 **`businessRegion` does not control visibility, deliberately.** A US cardholder searching PARKnSHOP is precisely the traveller who needs to be told their card charges 3% there, so hiding out-of-region merchants would defeat the fee it exists to compute. Curation is `featured`/`popular`. (`OnlineMerchantDatabase.isAvailable` read `businessRegion` until 2026-08-15 — harmlessly, since no merchant had the field — so authoring it would have deleted 35 merchants from search.)
 
 **Channel passed to calculator:** `"online"` for online search, `"in_store"` for map results.
+
+### ⚠️ A map pattern belongs to exactly one merchant
+
+Merchant `map.patterns` are checked before the generic mappings, and two merchants claiming the same pattern is resolved by **file enumeration order** — so one of them silently never matches and the other mis-prices its stores.
+
+Caught on 2026-08-15: a newly added `costco` entry carried `"patterns": ["target"]`, copied from the Target entry above it. Costco would never have matched by name, and Target stores could have been priced as Costco — whose category is Visa-only, so the app would have hidden every Amex and Mastercard in the wallet at Target. Neither symptom points at a duplicated pattern.
+
+`SeedDataValidator` now names both merchants when two claim one pattern. Same reasoning as the duplicate-benefit-id rule: when the winner depends on enumeration order, publishing freezes an arbitrary choice into every client.
 
 ### ⚠️ `id` and `category` are permanent — retiring a merchant
 

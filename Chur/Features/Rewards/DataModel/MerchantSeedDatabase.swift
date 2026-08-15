@@ -64,6 +64,12 @@ struct MerchantEntry: Codable {
     let affiliateID: String?
     let isBrandCategory: Bool?
     let businessRegion: [String]?
+
+    /// `true` = deliberately global: the customer is billed in their own currency, so no
+    /// cross-border fee applies anywhere (airline tickets, streaming subscriptions).
+    /// Read only by `SeedDataValidator`, to tell an intentional omission of `businessRegion`
+    /// from a forgotten one. Pricing reads `businessRegion` and nothing else.
+    let globalBilling: Bool?
     let tags: [String]?
     let sortOrder: Int?
     let merchantDescription: String?
