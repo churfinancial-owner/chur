@@ -336,7 +336,13 @@ func loadCategories(repoRoot: URL) throws -> [[String: Any]] {
             // order on device, and a category is a persisted SpendingCategory —
             // so publishing would freeze an arbitrary choice into every wallet.
             if let existing = seenIDs[id] {
-                throw PublishError("Duplicate category id '\(id)' in \(url.lastPathComponent) and \(existing)")
+                // Named separately when it is one file: "in X and X" reads like a
+                // bug in the checker rather than a copy-paste in the data, and
+                // the first real hit was exactly that case.
+                let where_ = existing == url.lastPathComponent
+                    ? "twice in \(url.lastPathComponent)"
+                    : "in \(url.lastPathComponent) and \(existing)"
+                throw PublishError("Duplicate category id '\(id)' \(where_)")
             }
             seenIDs[id] = url.lastPathComponent
             categories.append(object)

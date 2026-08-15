@@ -25,18 +25,6 @@
     "level": "parent"
   },
   {
-    "id": "material_hardware",
-    "nameEN": "Material & Hardware",
-    "nameZH_Hans": "家居建材",
-    "nameZH_HK": "家居裝修",
-    "nameZH_TW": "居家修繕",
-    "emoji": "🛠️",
-    "sortOrder": 78,
-    "isDefault": false,
-    "isParent": true,
-    "level": "parent"
-  },
-  {
     "id": "home_depot",
     "nameEN": "Home Depot",
     "nameZH_Hans": "家得宝",
