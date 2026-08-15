@@ -4,6 +4,7 @@
     "name": "State Farm",
     "domain": "statefarm.com",
     "category": "state_farm_insurance",
+    "businessRegion": ["US"],
     "merchantIconName": "icon_state_farm_insurance",
     "isBrandCategory": false,
     "tags": [
@@ -31,6 +32,7 @@
     "name": "Allstate",
     "domain": "allstate.com",
     "category": "allstate_insurance",
+    "businessRegion": ["US"],
     "merchantIconName": "icon_allstate_insurance",
     "isBrandCategory": false,
     "tags": [
@@ -58,6 +60,7 @@
     "name": "Geico",
     "domain": "geico.com",
     "category": "geico_insurance",
+    "businessRegion": ["US"],
     "merchantIconName": "icon_geico_insurance",
     "isBrandCategory": false,
     "tags": [

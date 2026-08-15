@@ -102,6 +102,8 @@ Format is a plain array of category IDs (the legacy `{"id": ..., "weight": ...}`
 
 **Set `businessRegion` on every region-scoped merchant, or its rates are quoted too high.** It is the only source of the FX fee online, and omitting it fails silently: the merchant still works, still matches, still shows a rate — just a rate the user will not actually get. PARKnSHOP quoted a US card the full unreduced rate this way, and it was found by hand, not by any check. `SeedDataValidator` now flags a merchant whose `featured`/`popular` name a non-US market while `businessRegion` is missing.
 
+**Every merchant declares one or the other — all 78 do as of 2026-08-15.** A new entry with neither is a mistake, and the validator says so; there are no standing exceptions to read past.
+
 Rule of thumb: **physical storefronts declare `businessRegion`; things billed in the customer's own currency declare `globalBilling: true`.** PARKnSHOP charges HK dollars at the till, so a US card pays FX there. A Cathay ticket or a Spotify subscription is billed in the customer's currency, so it never does — those are `globalBilling`, not a missing field, and the validator can tell the difference. Every merchant should declare one or the other; neither is the state that hid this bug across all 77.
 
 **Never `"businessRegion": []`.** An empty array is not the same as absent: it becomes an empty `acceptedRegions`, which contains no card's region, so *every* card is treated as cross-border and charged FX. Use `null` (or `globalBilling`) for a global merchant. The validator rejects the empty array.

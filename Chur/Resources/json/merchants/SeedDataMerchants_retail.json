@@ -74,6 +74,7 @@
     "name": "Target",
     "domain": "target.com",
     "category": "target_superstore",
+    "businessRegion": ["US"],
     "merchantIconName": "icon_target",
     "isBrandCategory": true,
     "tags": [
@@ -97,6 +98,7 @@
     "name": "Costco",
     "domain": "costco.com",
     "category": "costco",
+    "businessRegion": ["US"],
     "merchantIconName": "icon_costco",
     "isBrandCategory": true,
     "tags": [

@@ -4,6 +4,7 @@
     "name": "Airbnb",
     "domain": "airbnb.com",
     "category": "vacation_homes",
+    "businessRegion": ["US"],
     "merchantIconName": "icon_airbnb",
     "isBrandCategory": false,
     "tags": ["travel", "airbnb", "vacation"],

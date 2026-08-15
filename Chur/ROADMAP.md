@@ -13,7 +13,7 @@ Last reviewed: 2026-08-15.
 **Carried into the next session, both small:**
 
 1. **Publish the merchant fix.** `swift run ChurContentPublish --upload` — the FX correction is committed but live content is still v17, so no user has it. Rates go *down* for out-of-region merchants, which users notice, so eyeball a few in the app first.
-2. **Decide the 42 US-only merchants.** They have the same missing `businessRegion`, so a HK or TW cardholder buying from a US merchant still gets no FX. One command once decided.
+2. ~~Decide the US-only merchants.~~ Done 2026-08-15 — all 78 now declare `businessRegion` or `globalBilling`. Included in the publish above.
 
 The day's fixes are worth a skim before touching content code: publishing, card art and the onboarding first-run path each broke in ways that were invisible from the symptom. See "P1b — lessons worth keeping".
 
@@ -335,4 +335,4 @@ Localization already covers `en`, `zh-Hans`, `zh-Hant-HK`, `zh-Hant-TW` for mode
 - **Monetization posture.** Affiliate (`CardRecommendation.affiliateURL` already exists), subscription, or neither. Undecided.
 - **When Android starts.** P1c (contract spec + test vectors) is cheap to write during P1 and expensive to retrofit once two engines have already drifted — so it should be done on the iOS timeline regardless of when Android actually begins.
 - **Test coverage is one suite deep.** `ChurTests` now exists and covers the pricing engine (P1c). Still uncovered: P1's validation/rejection paths and P3's value calculator — the two places a silent bug either bricks content or misstates money.
-- **Should the 42 US-only merchants declare `businessRegion: ["US"]`?** They currently don't, so a HK or TW cardholder buying from a US merchant gets no FX fee — the 2026-08-15 bug, other direction. The visibility objection is gone now that `isAvailable` ignores the field, so this is only a question of whether the US list is genuinely US-only. One command once decided.
+- ~~**Should the US-only merchants declare `businessRegion: ["US"]`?**~~ Closed 2026-08-15 — done, split by the same rule as the rest: 27 US-only businesses declare `businessRegion: ["US"]`, and the 8 that bill in the customer's own currency (the six US airlines, Hulu, Disney+) declare `globalBilling`. **All 78 merchants now declare one or the other**, so the validator's warning has no standing exceptions left and any future omission is unambiguous.

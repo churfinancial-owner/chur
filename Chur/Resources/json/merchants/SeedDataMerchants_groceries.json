@@ -124,6 +124,7 @@
     "name": "Albertsons",
     "domain": "albertsons.com",
     "category": "albertsons",
+    "businessRegion": ["US"],
     "merchantIconName": "icon_albertsons",
     "isBrandCategory": true,
     "tags": [
@@ -152,6 +153,7 @@
     "name": "Kroger",
     "domain": "kroger.com",
     "category": "kroger",
+    "businessRegion": ["US"],
     "merchantIconName": "icon_kroger",
     "isBrandCategory": true,
     "tags": [

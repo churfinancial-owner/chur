@@ -36,6 +36,7 @@
     "name": "Burger King",
     "domain": "bk.com",
     "category": "burgerking",
+    "businessRegion": ["US"],
     "merchantIconName": "icon_burgerking",
     "isBrandCategory": false,
     "tags": [
@@ -62,6 +63,7 @@
     "name": "In-N-Out Burger",
     "domain": "in-n-out.com",
     "category": "innout",
+    "businessRegion": ["US"],
     "merchantIconName": "icon_innout",
     "isBrandCategory": false,
     "tags": [
@@ -119,6 +121,7 @@
     "name": "Taco Bell",
     "domain": "tacobell.com",
     "category": "tacobells",
+    "businessRegion": ["US"],
     "merchantIconName": "icon_tacobells",
     "isBrandCategory": false,
     "tags": [
@@ -145,6 +148,7 @@
     "name": "Chipotle",
     "domain": "chipotle.com",
     "category": "chipotle",
+    "businessRegion": ["US"],
     "merchantIconName": "icon_chipotle",
     "isBrandCategory": false,
     "tags": [
@@ -205,6 +209,7 @@
     "name": "Peet's Coffee",
     "domain": "peets.com",
     "category": "peetscoffee",
+    "businessRegion": ["US"],
     "merchantIconName": "icon_peetscoffee",
     "isBrandCategory": true,
     "tags": [
@@ -232,6 +237,7 @@
     "name": "Dunkin'",
     "domain": "dunkindonuts.com",
     "category": "dunkin",
+    "businessRegion": ["US"],
     "merchantIconName": "icon_dunkin",
     "isBrandCategory": true,
     "tags": [
@@ -260,6 +266,7 @@
     "name": "DoorDash",
     "domain": "doordash.com",
     "category": "doordash",
+    "businessRegion": ["US"],
     "merchantIconName": "icon_doordash",
     "isBrandCategory": true,
     "tags": [
@@ -283,6 +290,7 @@
     "name": "Uber Eats",
     "domain": "uber.com",
     "category": "uber_eats",
+    "businessRegion": ["US"],
     "merchantIconName": "icon_ubereats",
     "isBrandCategory": true,
     "tags": [
@@ -306,6 +314,7 @@
     "name": "Grubhub",
     "domain": "grubhub.com",
     "category": "grubhub",
+    "businessRegion": ["US"],
     "merchantIconName": "icon_grubhub",
     "isBrandCategory": true,
     "tags": [

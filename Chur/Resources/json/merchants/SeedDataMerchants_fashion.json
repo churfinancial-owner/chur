@@ -229,6 +229,7 @@
     "name": "Puma",
     "domain": "puma.com",
     "category": "puma",
+    "businessRegion": ["US"],
     "merchantIconName": "icon_puma",
     "isBrandCategory": true,
     "tags": [
@@ -256,6 +257,7 @@
     "name": "Under Armour",
     "domain": "underarmour.com",
     "category": "under_armour",
+    "businessRegion": ["US"],
     "merchantIconName": "icon_underarmour",
     "isBrandCategory": true,
     "tags": [
@@ -282,6 +284,7 @@
     "name": "New Balance",
     "domain": "newbalance.com",
     "category": "new_balance",
+    "businessRegion": ["US"],
     "merchantIconName": "icon_newbalance",
     "isBrandCategory": true,
     "tags": [
