@@ -8,12 +8,15 @@ Last reviewed: 2026-08-15.
 
 **State at the end of the 2026-08-15 session.** P0 and P1a/P1b are done; the remote content pipeline is live and proven end to end, including the failure modes. P1c's **test vectors are done and green** (33 cases, and the project's first test target); its written JSON contract stays deferred until Android is real. Hand-testing then found that **online merchants never charged a cross-border FX fee** — fixed in the seed data, and **not yet published** (see below).
 
-**Next session starts with P1d** — Pak Ho has items to add before P2 — plus the one question that reorders everything: whether a build is going to anyone other than Pak Ho soon.
+**P1d is written and built, but nothing in it has run.** The remaining seed domains and all icon art now publish; the manifest goes from 6 bundles to 18. Authored on a machine with no Swift toolchain, so **not one line has been compiled** — P1c's post-mortem says to budget for that gap, and this change is far larger than the vectors were.
 
-**Carried into the next session, both small:**
+**Carried into the next session, in this order:**
 
-1. **Publish the merchant fix.** `swift run ChurContentPublish --upload` — the FX correction is committed but live content is still v17, so no user has it. Rates go *down* for out-of-region merchants, which users notice, so eyeball a few in the app first.
-2. ~~Decide the US-only merchants.~~ Done 2026-08-15 — all 78 now declare `businessRegion` or `globalBilling`. Included in the publish above.
+1. **Build it.** Nothing in P1d has been through a compiler. Expect harness failures, not design failures — that was the shape of it last time.
+2. **Publish the merchant fix.** `swift run ChurContentPublish --upload` — the FX correction is committed but live content is still v17, so no user has it. Rates go *down* for out-of-region merchants, which users notice, so eyeball a few in the app first. Do this **before** adding domains, so a failure has one cause.
+3. **`icon_disneyplus` is still 2787×2807, 5.9 MB** in this checkout and on `origin/main` — 68% of all icon art, rendered at ~40pt. Pak Ho reported fixing it locally on 2026-08-15; if so the fix was never committed, which is the P1b lesson ("always `git pull` before you publish") from the other direction. Check before publishing, or the CDN gets the 5.9 MB copy.
+4. **Eleven icon names still have no artwork** — mostly issuer logos (`icon_dbs`, `icon_fidelity`, `icon_synchrony`, …). They render as an emoji or an empty chip, which is why nobody noticed. Both the publisher and `SeedDataValidator` now list them.
+5. ~~Decide the US-only merchants.~~ Done 2026-08-15 — all 78 now declare `businessRegion` or `globalBilling`. Included in the publish above.
 
 The day's fixes are worth a skim before touching content code: publishing, card art and the onboarding first-run path each broke in ways that were invisible from the symptom. See "P1b — lessons worth keeping".
 
@@ -24,7 +27,7 @@ The day's fixes are worth a skim before touching content code: publishing, card 
 | | |
 |---|---|
 | **What it does** | Per-dollar, point-of-sale ranker — "which card should I use at this merchant, right now" |
-| **Data** | 175 cards, 272 benefit templates, 223 categories, 77 merchants, 171 card images — ~500 JSON files in `Resources/json/`, bundled as the offline baseline. Card images live at repo-root `CardArt/`, outside the app target. **Cards, rewards, benefits, merchants and card art all publish remotely** (P1a, P1b). Card art no longer ships in the binary at all; hand-authored categories are the only bundle-only domain left |
+| **Data** | 175 cards, 272 benefit templates, 223 categories, 77 merchants, 171 card images, 151 icons — ~500 JSON files in `Resources/json/`, bundled as the offline baseline. All artwork lives at repo-root `CardArt/` and `IconArt/`, outside the app target. **Everything publishes remotely except `SeedDataRegions.json`** (P1a, P1b, P1d) — 18 domains. No artwork ships in the binary at all |
 | **Persistence** | On-device SwiftData (`ChurSchemaV2_0`, migration-ready) + Google Drive appDataFolder backup (`ChurBackup` v3) |
 | **Backend** | No application server. Three outbound calls: Cloudflare R2 content (`Core/Content/`), Google Drive (`Core/Sync/CloudSyncManager.swift`), Sanity CMS (`Features/News/Service/NewsService.swift`) |
 | **Analytics** | None |
@@ -99,7 +102,7 @@ Live at `https://content.chur.app`. A reward-rate change was published and reach
 | Wiring | `CardDatabase.loadCachedCards()` prefers remote; refresh on launch/foreground in `ContentView`; version + manual refresh in the DEBUG hammer menu |
 | Switch | `FeatureFlags.remoteContentEnabled` in `App/Config.swift` |
 
-Domains live: **cards, rewards, benefits, merchants, merchantMappings, cardArt** (all but the first two added in P1b). JSON payload is ~440 KB total (~60 KB gzipped), plus ~17 MB of card images fetched individually and cached — far smaller than the 1 MB on disk, since per-file overhead and whitespace dominated.
+Domains live: **cards, rewards, benefits, merchants, merchantMappings, cardArt** (all but the first two added in P1b), plus the twelve added in P1d. JSON payload is ~440 KB total (~60 KB gzipped), plus ~17 MB of card images fetched individually and cached — far smaller than the 1 MB on disk, since per-file overhead and whitespace dominated.
 
 **Operating rule: commit *and* publish.** The repo stays the source of truth; the CDN is a copy. Publishing without committing makes them drift, and the next run of the script republishes the old values.
 
@@ -170,6 +173,8 @@ The remote plumbing took one commit. Everything below came from actually running
 - **"All N call sites now go through X" is a claim, not a fact, unless something checks it.** Item 3 below said all 18 render sites used `CardArtView`. Five did not, and they rendered blank for weeks — including the month summary, whose *header* was converted while its rows were not, so it looked half-working rather than broken. A grep at the time would have taken one command. Written down, an unverified count becomes the thing the next session trusts instead of re-checking.
 - **The first-run path is a different app, and nothing exercises it.** The content refresh lived in `ContentView.task`, and `RootView` shows `ContentView` *instead of* onboarding — so a brand-new install ran no refresh at all until onboarding finished. Every new user picked their cards from a list with 175 grey rectangles. Invisible in development forever, because a developer's simulator has already onboarded. Delete the app and walk the first run before calling a content feature done.
 - **`value: Int` can't hold $12.95.** Widening it to `Double` touches `BenefitTemplate` *and* the `Benefit` `@Model`, so it's a schema migration — deferred to P3, where the spend-profile migration already has to happen. Rounded to 13 meanwhile, overstating by $0.60/year. Worth doing properly when P3 opens the schema anyway.
+
+**Hand-authored categories were excluded from P1b — closed in P1d, which published them.** The note below is why it waited, and it is still the reason to be careful when editing them.
 
 **Hand-authored categories are still excluded from P1b — but the reason has changed.** The blocking question was the rule, and the rule now exists and is enforced (above), so what remains is only plumbing: an aggregation for `categories/*.json`, a `ContentDomain` case, and a branch in `SeedDataLoader.loadCategoryTemplates()`. The 31 merchant-derived categories already publish this way.
 
