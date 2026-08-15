@@ -50,6 +50,7 @@
     "domain": "walmart.com",
     "category": "walmart",
     "merchantIconName": "icon_walmart",
+    "businessRegion": ["US","CA"],
     "isBrandCategory": true,
     "tags": [
       "Walmart+",
@@ -77,6 +78,29 @@
     "isBrandCategory": true,
     "tags": [
       "Target"
+    ],
+    "sortOrder": 3,
+    "featured": [
+      "US"
+    ],
+    "popular": [
+      "US"
+    ],
+    "map": {
+      "patterns": [
+        "target"
+      ]
+    }
+  },
+  {
+    "id": "costco",
+    "name": "Costco",
+    "domain": "costco.com",
+    "category": "costco",
+    "merchantIconName": "icon_costco",
+    "isBrandCategory": true,
+    "tags": [
+      "Costco"
     ],
     "sortOrder": 3,
     "featured": [

@@ -819,6 +819,18 @@
             "requiredPOI": "MKPOICategoryFoodMarket"
         },
         {
+            "prefix": "星巴克",
+            "categoryID": "starbucks"
+        },
+        {
+            "prefix": "park'n shop",
+            "categoryID": "parknshop_hk"
+        },
+        {
+            "prefix": "百佳超級",
+            "categoryID": "parknshop_hk"
+        },
+        {
             "keyword": "Liquor",
             "categoryID": "liquorstore",
             "requiredPOI": "MKPOICategoryFoodMarket"

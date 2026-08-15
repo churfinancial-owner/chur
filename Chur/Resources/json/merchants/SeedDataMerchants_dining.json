@@ -4,7 +4,7 @@
     "name": "McDonald's",
     "domain": "mcdonalds.com",
     "category": "mcdonalds",
-    "businessRegion": ["HK", "TW", "US"],
+    "businessRegion": ["CA", "HK", "TW", "US"],
     "merchantIconName": "icon_mcdonalds",
     "isBrandCategory": false,
     "tags": [
@@ -90,7 +90,7 @@
     "name": "KFC",
     "domain": "kfc.com",
     "category": "kfc",
-    "businessRegion": ["HK", "TW", "US"],
+    "businessRegion": ["CA", "HK", "TW", "US"],
     "merchantIconName": "icon_kfc",
     "isBrandCategory": false,
     "tags": [

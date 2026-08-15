@@ -4,8 +4,8 @@
     "name": "lululemon",
     "domain": "lululemon.com",
     "category": "lululemon",
-    "businessRegion": ["CA", "HK", "TW", "US"],
     "merchantIconName": "icon_lululemon",
+    "businessRegion": ["CA", "HK", "TW", "US"],
     "isBrandCategory": true,
     "tags": [
       "clothing",
@@ -40,6 +40,7 @@
     "domain": "aloyoga.com",
     "category": "alo",
     "merchantIconName": "icon_alo",
+    "businessRegion": ["CA", "HK", "TW", "US"],
     "isBrandCategory": true,
     "tags": [
       "clothing",
@@ -66,8 +67,8 @@
     "name": "Nike",
     "domain": "nike.com",
     "category": "nike",
-    "businessRegion": ["CA", "HK", "TW", "US"],
     "merchantIconName": "icon_nike",
+    "businessRegion": ["CA", "HK", "TW", "US"],
     "isBrandCategory": true,
     "tags": [
       "clothing",
@@ -101,8 +102,8 @@
     "name": "Adidas",
     "domain": "adidas.com",
     "category": "adidas",
-    "businessRegion": ["CA", "HK", "TW", "US"],
     "merchantIconName": "icon_adidas",
+    "businessRegion": ["CA", "HK", "TW", "US"],
     "isBrandCategory": true,
     "tags": [
       "clothing",
@@ -137,6 +138,7 @@
     "domain": "patagonia.com",
     "category": "patagonia",
     "merchantIconName": "icon_patagonia",
+    "businessRegion": ["CA", "HK", "TW", "US"],
     "isBrandCategory": true,
     "tags": [
       "clothing",
@@ -164,8 +166,8 @@
     "name": "Uniqlo",
     "domain": "uniqlo.com",
     "category": "uniqlo",
-    "businessRegion": ["HK", "TW", "US"],
     "merchantIconName": "icon_uniqlo",
+    "businessRegion": ["CA", "HK", "TW", "US"],
     "isBrandCategory": true,
     "tags": [
       "clothing",
@@ -197,7 +199,7 @@
     "name": "Asics",
     "domain": "asics.com",
     "category": "asics",
-    "businessRegion": ["HK", "TW", "US"],
+    "businessRegion": ["CA", "HK", "TW", "US"],
     "merchantIconName": "icon_asics",
     "isBrandCategory": true,
     "tags": [

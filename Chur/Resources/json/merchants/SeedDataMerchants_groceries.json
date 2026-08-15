@@ -5,6 +5,7 @@
     "domain": "vons.com",
     "category": "supermarket_vons",
     "merchantIconName": "icon_vons",
+    "businessRegion": ["US"],
     "isBrandCategory": true,
     "tags": [
       "supermarket",
@@ -33,6 +34,7 @@
     "domain": "luckysupermarkets.com",
     "category": "lucky_supermarkets",
     "merchantIconName": "icon_lucky_supermarkets",
+    "businessRegion": ["US"],
     "isBrandCategory": true,
     "tags": [
       "supermarket",
@@ -95,6 +97,7 @@
     "category": "safeway",
     "merchantIconName": "icon_safeway",
     "isBrandCategory": true,
+    "businessRegion": ["US"],
     "tags": [
       "supermarket",
       "grocery"
@@ -178,6 +181,7 @@
     "domain": "traderjoes.com",
     "category": "trader_joes",
     "merchantIconName": "icon_traderjoes",
+    "businessRegion": ["US"],
     "isBrandCategory": true,
     "tags": [
       "supermarket",
@@ -209,13 +213,13 @@
       "isBrandCategory": true,
       "tags": ["grocery", "delivery"],
       "sortOrder": 10,
+      "businessRegion": ["US"],
       "featured": ["US"],
       "popular": ["US"],
       "map": {
         "patterns": ["instacart"]
       }
     },
-
   {
     "id": "parknshop_hk",
     "name": "PARKnSHOP",
