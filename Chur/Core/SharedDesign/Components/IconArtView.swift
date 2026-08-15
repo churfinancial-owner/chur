@@ -67,13 +67,29 @@ struct IconArtView<Fallback: View>: View {
     }
 }
 
-// MARK: - No fallback
+// MARK: - No visible fallback
 
-extension IconArtView where Fallback == EmptyView {
+extension IconArtView where Fallback == Color {
 
     /// For call sites that showed the icon or nothing — an issuer chip whose
     /// logo is optional, an alliance badge beside a partner name.
+    ///
+    /// **`Color.clear`, never `EmptyView`, and this is load-bearing.** A view
+    /// that resolves to `EmptyView` produces no render nodes, so the `.task`
+    /// attached to it never runs — the same trap as `.onAppear` on an
+    /// `EmptyView`. With that initialiser these call sites could not *start* a
+    /// download; they only ever showed an icon some other screen had already
+    /// pulled into the shared cache.
+    ///
+    /// It presented as a random subset: every badge blank (no other screen
+    /// references `badge_*`), alliance logos blank, and issuer logos blank
+    /// except the handful that double as category `iconName`s and so got
+    /// fetched by `CategoryIconView`. `CardArtView` was never affected because
+    /// its placeholder is always a real view.
+    ///
+    /// `Color.clear` is invisible, occupies exactly the frame the caller gives
+    /// it, and — crucially — is a real view.
     init(imageName: String?, contentMode: ContentMode = .fit) {
-        self.init(imageName: imageName, contentMode: contentMode) { EmptyView() }
+        self.init(imageName: imageName, contentMode: contentMode) { Color.clear }
     }
 }
