@@ -149,29 +149,17 @@ struct MerchantSeedDatabase {
         seed = loadSeed()
     }
 
-    /// Decodes a remotely published bundle, or nil when the feature is off,
-    /// nothing is cached, or the payload doesn't match the expected shape.
-    /// Each half falls back independently, so bad mappings can't cost the
-    /// merchant list (and vice versa).
-    private static func decodeRemote<T: Decodable>(_ domain: ContentDomain) -> T? {
-        guard FeatureFlags.remoteContentEnabled,
-              let data = ContentStore.data(for: domain) else { return nil }
-        do {
-            return try JSONDecoder().decode(T.self, from: data)
-        } catch {
-            #if DEBUG
-            print("❌ MerchantSeedDatabase: remote '\(domain.rawValue)' failed to decode, using bundled JSON: \(error)")
-            #endif
-            return nil
-        }
-    }
-
     private static func loadSeed() -> MerchantSeedFile {
         // Remotely published content wins when present and decodable; a decode
         // failure is the last safety net for a bad publish, so it falls through
-        // to the bundled JSON rather than leaving the user with nothing.
-        let remoteMerchants: [MerchantEntry]? = decodeRemote(.merchants)
-        let remoteMappings: MerchantMappings? = decodeRemote(.merchantMappings)
+        // to the bundled JSON rather than leaving the user with nothing. Each
+        // half falls back independently, so bad mappings can't cost the merchant
+        // list (and vice versa).
+        //
+        // This used to be a private `decodeRemote` here. P1d made it the twelfth
+        // copy of the same seven lines, so it moved to RemoteSeed.
+        let remoteMerchants: [MerchantEntry]? = RemoteSeed.decode(.merchants, label: "MerchantSeedDatabase")
+        let remoteMappings: MerchantMappings? = RemoteSeed.decode(.merchantMappings, label: "MerchantSeedDatabase")
 
         if let remoteMerchants, !remoteMerchants.isEmpty {
             return MerchantSeedFile(merchants: remoteMerchants,

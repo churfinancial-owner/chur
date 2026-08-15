@@ -267,7 +267,7 @@ struct CardDatabase {
         // through to the bundled JSON rather than leaving the user with nothing.
         var cards: [_CardJSON] = []
 
-        if let remoteCards: [_CardJSON] = decodeRemote(.cards) {
+        if let remoteCards: [_CardJSON] = RemoteSeed.decode(.cards, label: "CardDatabase") {
             cards = remoteCards
         } else if let folderCards = loadCardsFromFolders() {
             cards = folderCards
@@ -282,7 +282,7 @@ struct CardDatabase {
         // published as a single bundle or merged from the *-rewards.json files.
         var rewardsMap: [String: _RewardStructure] = [:]
 
-        if let remoteRewards: [String: _RewardStructure] = decodeRemote(.rewards) {
+        if let remoteRewards: [String: _RewardStructure] = RemoteSeed.decode(.rewards, label: "CardDatabase") {
             rewardsMap = remoteRewards
         } else {
             let discoveredRewardFiles = CardDatabase.discoverRewardFiles()
@@ -538,19 +538,6 @@ struct CardDatabase {
                 return nil
             }
             return String(url.deletingPathExtension().lastPathComponent)
-        }
-    }
-
-    /// Decodes a remotely published bundle, or nil when the feature is off,
-    /// nothing is cached, or the payload doesn't match the expected shape.
-    private static func decodeRemote<T: Codable>(_ domain: ContentDomain) -> T? {
-        guard FeatureFlags.remoteContentEnabled,
-              let data = ContentStore.data(for: domain) else { return nil }
-        do {
-            return try JSONDecoder().decode(T.self, from: data)
-        } catch {
-            print("❌ CardDatabase: remote '\(domain.rawValue)' failed to decode, using bundled JSON: \(error)")
-            return nil
         }
     }
 

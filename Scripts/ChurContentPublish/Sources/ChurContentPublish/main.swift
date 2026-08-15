@@ -514,7 +514,8 @@ func loadCategoryIDs(repoRoot: URL, merchants: [[String: Any]]) throws -> Set<St
 func loadBearingIDs(cards: [[String: Any]],
                     rewards: [String: Any],
                     benefits: [[String: Any]],
-                    categoryIDs: Set<String>) -> [String: Set<String>] {
+                    categoryIDs: Set<String>,
+                    boostPrograms: [[String: Any]]) -> [String: Set<String>] {
     var planIDs: Set<String> = []
     var slots: Set<String> = []
 
@@ -537,12 +538,28 @@ func loadBearingIDs(cards: [[String: Any]],
         }
     }
 
+    // `user.boostEnrollments[program.id] = tier` — the id is the key and the
+    // tier name is the value, so both are load-bearing. Joined the lock in P1d,
+    // when boost programs became remotely publishable; before that a rename
+    // needed a release, which is at least visible.
+    var boosts: Set<String> = []
+    for program in boostPrograms {
+        guard let id = program["id"] as? String, !id.isEmpty else { continue }
+        boosts.insert(id)
+        for tier in (program["tiers"] as? [[String: Any]]) ?? [] {
+            if let name = tier["name"] as? String, !name.isEmpty {
+                boosts.insert("\(id):\(name)")
+            }
+        }
+    }
+
     return [
         "cards": Set(cards.compactMap { $0["id"] as? String }),
         "benefits": Set(benefits.compactMap { $0["id"] as? String }),
         "plans": planIDs,
         "slots": slots,
-        "categories": categoryIDs
+        "categories": categoryIDs,
+        "boostPrograms": boosts
     ]
 }
 
@@ -553,7 +570,8 @@ let namespaceStakes: [String: String] = [
     "benefits": "Benefit.id — CardSyncService deletes the benefit, and usageHistory cascades, so the user's redemption history is destroyed",
     "plans": "card.selectedPlanID — the user's chosen reward plan resets to nil",
     "slots": "card.slotSelections — the user's category picks are orphaned and reward categories re-derive wrong",
-    "categories": "User.selectedCategories / deselectedCategories — the user's picks go inert"
+    "categories": "User.selectedCategories / deselectedCategories — the user's picks go inert",
+    "boostPrograms": "User.boostEnrollments — the user's relationship tier is dropped, so every boosted rate silently reverts to 1.0x"
 ]
 
 /// Append-only registry of every id ever published, per namespace.
@@ -1052,7 +1070,11 @@ do {
         print("⚠️  Map exactMatches pointing at a missing category (\(danglingMappings.count)): \(danglingMappings.joined(separator: ", "))")
     }
 
-    let currentIDs = loadBearingIDs(cards: cards, rewards: rewards, benefits: benefits, categoryIDs: categoryIDs)
+    let currentIDs = loadBearingIDs(cards: cards,
+                                    rewards: rewards,
+                                    benefits: benefits,
+                                    categoryIDs: categoryIDs,
+                                    boostPrograms: boostPrograms)
     let lockURL = args.repoRoot
         .appendingPathComponent("Scripts/ChurContentPublish")
         .appendingPathComponent(IDLock.filename)

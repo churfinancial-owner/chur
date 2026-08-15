@@ -20,6 +20,8 @@
 
 Some seed-data ids are pointed at by **persisted user data**. Renaming or deleting one is destructive, and nothing catches it: the ids live in JSON, so the compiler is never involved, and since P1a/P1b that JSON publishes remotely — reaching devices within 30 minutes, with no build in between.
 
+Six namespaces, not five, since P1d: boost programs joined the list when they became remotely publishable. A namespace belongs here the moment its ids can change without a release, not the moment the ids exist.
+
 | Seed id | Pointed at by | What a rename costs the user |
 |---|---|---|
 | Card `id` (`json/cards/**`) | `CreditCard.templateID` | Card silently stops syncing and keeps stale rates forever |
@@ -27,6 +29,7 @@ Some seed-data ids are pointed at by **persisted user data**. Renaming or deleti
 | `planID` (`json/rewards/*`) | `CreditCard.selectedPlanID` | Chosen reward plan resets to nil |
 | `configurableSlot` (`json/rewards/*`) | `CreditCard.slotSelections` keys | Slot picks orphaned; `reward.categories` re-derive wrong |
 | Category `id` (`json/categories/*`, plus `brandCategory`-derived) | `User.selectedCategories`, `deselectedCategories`, `explicitlySelectedParentCategories` | Picks go inert — the row is deactivated, the preference points at nothing |
+| Boost program `id` **and tier `name`** (`json/bankrelationshipprograms/boost_programs.json`) | `User.boostEnrollments` — the id is the dictionary key, the tier name is its value | Enrollment dropped, so every boosted rate silently reverts to 1.0× — a *lower* number, which reads as correct |
 
 **Enforced, not remembered:** `Scripts/ChurContentPublish/id-lock.json` records every id ever published, and `swift run ChurContentPublish` refuses to publish when an active one disappears. A rename trips it automatically, because a rename is an addition plus a removal. There is no override flag.
 
