@@ -2,11 +2,18 @@
 
 Growth priorities and the reasoning behind them. **Update whenever priorities shift or a phase completes.**
 
-Last reviewed: 2026-08-14.
+Last reviewed: 2026-08-15.
 
 **Where the numbers stand right now:** app `1.0 (1)`, live content **v17**, 175 cards / 272 benefits / 171 card images / 14 hand-authored category files. Verify with `swift run ChurContentPublish --verify` rather than trusting this line — it is a snapshot, and the version moves every publish.
 
-**State at the end of the 2026-08-14 session.** P0 and P1a/P1b are done; the remote content pipeline is live and proven end to end, including the failure modes. P1c's **test vectors are done** (31 cases, first test target in the project); its written JSON contract stays deferred until Android is real. **Next: fill in P1d** — Pak Ho has items to add before P2 — and answer the one question that reorders everything, whether a build is going to anyone else soon.
+**State at the end of the 2026-08-15 session.** P0 and P1a/P1b are done; the remote content pipeline is live and proven end to end, including the failure modes. P1c's **test vectors are done and green** (33 cases, and the project's first test target); its written JSON contract stays deferred until Android is real. Hand-testing then found that **online merchants never charged a cross-border FX fee** — fixed in the seed data, and **not yet published** (see below).
+
+**Next session starts with P1d** — Pak Ho has items to add before P2 — plus the one question that reorders everything: whether a build is going to anyone other than Pak Ho soon.
+
+**Carried into the next session, both small:**
+
+1. **Publish the merchant fix.** `swift run ChurContentPublish --upload` — the FX correction is committed but live content is still v17, so no user has it. Rates go *down* for out-of-region merchants, which users notice, so eyeball a few in the app first.
+2. **Decide the 42 US-only merchants.** They have the same missing `businessRegion`, so a HK or TW cardholder buying from a US merchant still gets no FX. One command once decided.
 
 The day's fixes are worth a skim before touching content code: publishing, card art and the onboarding first-run path each broke in ways that were invisible from the symptom. See "P1b — lessons worth keeping".
 
@@ -176,9 +183,9 @@ Written JSON contract spec + shared pricing-engine test vectors (see §5 Android
 
 Split accordingly:
 
-- ~~**Pricing-engine test vectors**~~ — ✅ DONE (2026-08-14). 31 cases in `ChurTests/pricing-engine.json`, run by `ChurTests/PricingEngineVectorTests.swift` — the first regression test `CardRateCalculator` has ever had, and the first test target the project has ever had. Covers every branch reachable from `computeAllMatchingRewards`: the seven-tier `matchWeight` ladder, payment-method gating, both channel checks, `reward.countries` and its `card.country` fallback, FX/`forceCrossBorder`/`acceptedRegions`, both overlays, zero-rate suppression, `cardFilter`, boosts, and the output-shape rules (name dedupe, plan selection, alphabetical tie-break). The fixture is JSON rather than Swift precisely so the Kotlin port runs the identical file. See `PRICING_VECTORS_REFERENCE.md`.
+- ~~**Pricing-engine test vectors**~~ — ✅ DONE (2026-08-14, extended 2026-08-15). 33 cases in `ChurTests/pricing-engine.json`, run by `ChurTests/PricingEngineVectorTests.swift` — the first regression test `CardRateCalculator` has ever had, and the first test target the project has ever had. Covers every branch reachable from `computeAllMatchingRewards`: the seven-tier `matchWeight` ladder, payment-method gating, both channel checks, `reward.countries` and its `card.country` fallback, FX/`forceCrossBorder`/`acceptedRegions`, both overlays, zero-rate suppression, `cardFilter`, boosts, and the output-shape rules (name dedupe, plan selection, alphabetical tie-break). The fixture is JSON rather than Swift precisely so the Kotlin port runs the identical file. See `PRICING_VECTORS_REFERENCE.md`.
 
-  **Verified 2026-08-14** on a simulator: 32/32 green (31 vectors + the fixture-integrity test). The engine agreed with every expectation on the first run that got far enough to execute — no engine bug surfaced, which is itself the result: `CardRateCalculator` behaves as `MERCHANT_SETUP_REFERENCE.md` and its own comments describe. From here the vectors are the tripwire, not the audit.
+  **Verified 2026-08-14** on a simulator: 32/32 green (31 vectors + the fixture-integrity test). The engine agreed with every expectation on the first run that got far enough to execute — no engine bug surfaced, which is itself the result: `CardRateCalculator` behaves as `MERCHANT_SETUP_REFERENCE.md` and its own comments describe. From here the vectors are the tripwire, not the audit. Two more were added on 2026-08-15 alongside the FX fix below.
 - **The written JSON contract — genuinely only pays off with a second client.** Worth writing when Android becomes real, and not before.
 
 **Lessons worth keeping**
@@ -192,9 +199,30 @@ Split accordingly:
 
 It also inherits one concrete job from P1b item 5: **the structural rules now exist twice** — `RemoteContentService.validate(_:for:)` and `ChurContentPublish.validatePayload` — and a third copy is coming when Android needs them. The spec is where they should be stated once, with each implementation checked against it rather than against each other. Small, and the reason a Swift-only shared module was deliberately not built.
 
+### Fixed along the way — online cross-border FX (2026-08-15)
+
+**Online merchants never applied a foreign-transaction fee, for any card, in any region.** Found by hand, browsing PARKnSHOP — an HK-only merchant — while holding US cards, and noticing the rate looked too good next to the map version of the same merchant.
+
+`businessRegion` is the only source of the fee online: `toNearbyMerchant` turns it into `acceptedRegions`, and with that nil `isCrossBorderSpend` returns false for every card. **No merchant had the field — 0 of 77.** The plumbing was complete end to end and nothing was ever authored into it. The map path was unaffected because MapKit supplies a real placemark country.
+
+| Piece | Where |
+|---|---|
+| The data | `businessRegion` on the 35 merchants whose `featured`/`popular` name a non-US market, sourced from those lists |
+| The decoupling | `OnlineMerchantDatabase.isAvailable` no longer reads `businessRegion` |
+| The guard | `SeedDataValidator` warns when a region-scoped merchant has no `businessRegion` |
+| The pins | Two vectors: FX applied outside `acceptedRegions`, no FX when a merchant is global |
+| The recipe | `MERCHANT_SETUP_REFERENCE.md` § Key fields |
+
+**Lessons worth keeping**
+
+- **A field that is plumbed but never authored looks exactly like a working feature.** Every layer existed — model, decode, conversion, engine branch, even a doc row — and the behaviour was simply absent. Grep found the field in five files and all five were correct. The only thing that would have caught it is asking what value the data actually holds, which is a different question from whether the code reads it.
+- **The wrong answer was the higher number.** An FX fee makes a rate worse, so the bug always erred toward flattering the card. Failures that look like good news get reported late, if at all — this one survived until someone went looking at a merchant they couldn't shop at.
+- **One field meaning two things is a trap that springs on the fix, not on the bug.** `businessRegion` drove both the FX fee and search visibility, so authoring it to fix the fee would have deleted 35 merchants from search — turning "wrong rate" into "merchant is gone". It was invisible beforehand precisely because the field was empty, which made the visibility check a no-op. Before filling in an unused field, grep for every reader, not just the one you came for.
+- **The vectors did not catch this and could not have.** `accepted-regions-suppresses-fx` was green throughout; the engine was right all along. Engine tests pin behaviour given data — they say nothing about whether the data exists. The check that would have caught it is a seed-data assertion, which is what was added.
+
 ### P1d — Pre-P2 additions · **to be filled in**
 
-Pak Ho has items to add here before P2 starts (noted 2026-08-14, end of session). **This section is deliberately empty — capture them at the top of the next session, before any code.**
+Pak Ho has items to add here before P2 starts (noted 2026-08-14, still open at the end of 2026-08-15). **This section is deliberately empty — capture them at the top of the next session, before any code.** Two sessions have now ended with it empty, which is itself worth noticing: the items exist, they just haven't been written down, and everything below is sequenced behind them.
 
 Two things worth deciding while writing them down, because they change the order of everything below:
 
@@ -304,3 +332,4 @@ Localization already covers `en`, `zh-Hans`, `zh-Hant-HK`, `zh-Hant-TW` for mode
 - **Monetization posture.** Affiliate (`CardRecommendation.affiliateURL` already exists), subscription, or neither. Undecided.
 - **When Android starts.** P1c (contract spec + test vectors) is cheap to write during P1 and expensive to retrofit once two engines have already drifted — so it should be done on the iOS timeline regardless of when Android actually begins.
 - **Test coverage is one suite deep.** `ChurTests` now exists and covers the pricing engine (P1c). Still uncovered: P1's validation/rejection paths and P3's value calculator — the two places a silent bug either bricks content or misstates money.
+- **Should the 42 US-only merchants declare `businessRegion: ["US"]`?** They currently don't, so a HK or TW cardholder buying from a US merchant gets no FX fee — the 2026-08-15 bug, other direction. The visibility objection is gone now that `isAvailable` ignores the field, so this is only a question of whether the US list is genuinely US-only. One command once decided.
