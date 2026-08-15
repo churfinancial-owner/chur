@@ -98,7 +98,12 @@ struct MerchantDetailSheet: View {
         .padding(.bottom, 16)
         .overlay(alignment: .topTrailing) {
             PopupHeaderWatermark(categoryID: viewModel.category.id) {
-                MerchantIconView(iconName: viewModel.merchantIconName, category: viewModel.category)
+                // 80pt matches the emoji size ParentCategoryParallaxSheet uses directly
+                // in the same PopupHeaderWatermark circle — keeps both popups' fallback
+                // icon consistent. The only site that wants the watermark size.
+                MerchantIconView(iconName: viewModel.merchantIconName,
+                                 category: viewModel.category,
+                                 emojiFont: .system(size: 80))
                     .frame(width: 80, height: 80)
                     .opacity(1)
             }
