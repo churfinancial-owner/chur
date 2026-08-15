@@ -54,6 +54,10 @@ struct PartnerDatabase {
     // MARK: - Private Loaders
 
     private static func loadAllPartners() -> [Partner] {
+        if let remote: [Partner] = RemoteSeed.decodeArray(.partners, label: "PartnerDatabase") {
+            return remote
+        }
+
         guard let url = Bundle.main.url(forResource: "SeedDataPartners", withExtension: "json") else {
             #if DEBUG
             print("❌ PartnerDatabase: SeedDataPartners.json not found in bundle")

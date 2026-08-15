@@ -53,6 +53,10 @@ struct IssuerDatabase {
     // MARK: - Private Loaders
 
     private static func loadAllIssuers() -> [Issuer] {
+        if let remote: [Issuer] = RemoteSeed.decodeArray(.issuers, label: "IssuerDatabase") {
+            return remote.sorted { $0.sortOrder < $1.sortOrder }
+        }
+
         guard let url = Bundle.main.url(forResource: "SeedDataIssuers", withExtension: "json") else {
             #if DEBUG
             print("❌ IssuerDatabase: SeedDataIssuers.json not found in bundle")

@@ -48,10 +48,14 @@ struct BadgeDatabase {
     private static var cachedBadges: [Badge] = loadCachedBadges()
 
     private static func loadCachedBadges() -> [Badge] {
+        if let remote: [Badge] = RemoteSeed.decodeArray(.badges, label: "BadgeDatabase") {
+            return remote.sorted { $0.sortOrder < $1.sortOrder }
+        }
+
         guard let url = Bundle.main.url(forResource: "SeedDatabadges", withExtension: "json") else {
             return []
         }
-        
+
         do {
             let data = try Data(contentsOf: url)
             let badges = try JSONDecoder().decode([Badge].self, from: data)

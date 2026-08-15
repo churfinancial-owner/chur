@@ -156,21 +156,7 @@ struct SeedDataLoader {
     /// Decodes all SeedDataCategories_*.json from the bundle.
     /// Returns the raw decoded templates for use by CategorySyncService.
     static func loadCategoryTemplates() -> [CategoryJSON] {
-        var allCategories: [CategoryJSON] = []
-        let matchingURLs = Bundle.main.urls(forResourcesWithExtension: "json", subdirectory: nil)?
-            .filter { $0.lastPathComponent.hasPrefix("SeedDataCategories_") } ?? []
-
-        for url in matchingURLs {
-            do {
-                let data = try Data(contentsOf: url)
-                let batch = try JSONDecoder().decode([CategoryJSON].self, from: data)
-                allCategories.append(contentsOf: batch)
-            } catch {
-                #if DEBUG
-                print("❌ SeedDataLoader: Failed to decode '\(url.lastPathComponent)': \(error)")
-                #endif
-            }
-        }
+        var allCategories: [CategoryJSON] = loadHandAuthoredCategories()
 
         // Brand target categories auto-generated from SeedDataMerchants.json.
         // Hand-authored categories win on ID conflict (they can carry cardFilter etc.).
@@ -185,6 +171,43 @@ struct SeedDataLoader {
             }
         }
         return allCategories
+    }
+
+    /// The hand-authored half only — `categories/SeedDataCategories_*.json`,
+    /// remote when published.
+    ///
+    /// Split out of `loadCategoryTemplates()` so the precedence rule above stays
+    /// legible: hand-authored wins over merchant-derived on an id clash, because
+    /// only hand-authored carries `cardFilter`, `excludeFromParent` and
+    /// `categoryLinks`. That rule is why the two halves publish as separate
+    /// domains and why they must not be merged before it is applied.
+    ///
+    /// The most dangerous domain in the pipeline: these feed `CardRateCalculator`
+    /// match resolution, so a bad payload changes *prices* rather than labels.
+    /// The remote branch is all-or-nothing on purpose — a partial set would
+    /// silently drop the `excludeFromParent` stops that keep isolated brands from
+    /// cascading into their parent category.
+    private static func loadHandAuthoredCategories() -> [CategoryJSON] {
+        if let remote: [CategoryJSON] = RemoteSeed.decodeArray(.categories, label: "SeedDataLoader") {
+            return remote
+        }
+
+        var categories: [CategoryJSON] = []
+        let matchingURLs = Bundle.main.urls(forResourcesWithExtension: "json", subdirectory: nil)?
+            .filter { $0.lastPathComponent.hasPrefix("SeedDataCategories_") } ?? []
+
+        for url in matchingURLs {
+            do {
+                let data = try Data(contentsOf: url)
+                let batch = try JSONDecoder().decode([CategoryJSON].self, from: data)
+                categories.append(contentsOf: batch)
+            } catch {
+                #if DEBUG
+                print("❌ SeedDataLoader: Failed to decode '\(url.lastPathComponent)': \(error)")
+                #endif
+            }
+        }
+        return categories
     }
 
     static func loadCategories(into modelContext: ModelContext) {
@@ -237,7 +260,12 @@ struct SeedDataLoader {
         guard let rewardsMap: [String: RewardStructure] = parseJSON(from: "SeedDatarewards") else {
             return
         }
-        let programsMap: [String: RewardProgramJSON] = parseJSON(from: "SeedDataPrograms") ?? [:]
+        // Remote first, for the same reason as CardDatabase: point values are
+        // dollars, and this is the other place that resolves them.
+        let programsMap: [String: RewardProgramJSON] =
+            RemoteSeed.decode(.programs, label: "SeedDataLoader")
+            ?? parseJSON(from: "SeedDataPrograms")
+            ?? [:]
 
         #if DEBUG
         print("📚 Loaded \(cards.count) cards from JSON")

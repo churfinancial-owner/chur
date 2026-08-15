@@ -189,13 +189,53 @@ final class RemoteContentService {
             guard let dictionary = parsed as? [String: Any], dictionary["exactMatches"] is [String: Any] else {
                 throw ContentError.validationFailed("merchantMappings: expected an object with 'exactMatches'")
             }
-        case .cardArt:
+        case .cardArt, .iconArt:
             guard let dictionary = parsed as? [String: Any], !dictionary.isEmpty else {
-                throw ContentError.validationFailed("cardArt: expected a non-empty object keyed by imageName")
+                throw ContentError.validationFailed("\(domain.rawValue): expected a non-empty object keyed by imageName")
             }
             guard dictionary.values.allSatisfy({ ($0 as? [String: Any])?["url"] is String }) else {
-                throw ContentError.validationFailed("cardArt: every entry needs a 'url'")
+                throw ContentError.validationFailed("\(domain.rawValue): every entry needs a 'url'")
             }
+
+        // MARK: P1d domains
+        //
+        // The switch is exhaustive over ContentDomain on purpose: adding a case
+        // there without a rule here is a compile error, not a domain that ships
+        // unvalidated. Keep in sync with `validatePayload` in ChurContentPublish,
+        // which applies the same rules before a byte is uploaded.
+
+        case .badges, .partners, .issuers, .boostPrograms, .programUpgrades, .categories:
+            try requireIDs("id", parsed, domain: domain)
+
+        case .recommendations:
+            try requireIDs("cardTemplateID", parsed, domain: domain)
+
+        case .autoRentalCoverage, .cellPhoneProtection:
+            try requireIDs("cardId", parsed, domain: domain)
+
+        case .transferPartners:
+            guard let dictionary = parsed as? [String: Any],
+                  let programs = dictionary["programs"] as? [[String: Any]], !programs.isEmpty else {
+                throw ContentError.validationFailed("transferPartners: expected an object with a non-empty 'programs' array")
+            }
+
+        case .programs:
+            // Keyed by program name, not by an id field. An empty object would
+            // silently zero every card's point value.
+            guard let dictionary = parsed as? [String: Any], !dictionary.isEmpty else {
+                throw ContentError.validationFailed("programs: expected a non-empty object keyed by program name")
+            }
+        }
+    }
+
+    /// Non-empty array of objects, each carrying a non-empty string at `key`.
+    /// The shape most P1d domains share.
+    private func requireIDs(_ key: String, _ parsed: Any, domain: ContentDomain) throws {
+        guard let array = parsed as? [[String: Any]], !array.isEmpty else {
+            throw ContentError.validationFailed("\(domain.rawValue): expected a non-empty array of objects")
+        }
+        guard array.allSatisfy({ ($0[key] as? String)?.isEmpty == false }) else {
+            throw ContentError.validationFailed("\(domain.rawValue): every entry needs a non-empty '\(key)'")
         }
     }
 

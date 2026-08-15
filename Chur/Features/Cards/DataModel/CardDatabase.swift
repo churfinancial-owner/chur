@@ -300,7 +300,14 @@ struct CardDatabase {
             }
         }
         
-        let programsMap: [String: _RewardProgramJSON] = CardDatabase.parseJSON(from: "SeedDataPrograms") ?? [:]
+        // Remote first. Cards have been remote since P1a while their point
+        // values were read from the bundle, so a card published naming a reward
+        // program this build has never heard of resolved to the 0.01 default
+        // below — a wrong dollar figure with nothing to report it.
+        let programsMap: [String: _RewardProgramJSON] =
+            RemoteSeed.decode(.programs, label: "CardDatabase")
+            ?? CardDatabase.parseJSON(from: "SeedDataPrograms")
+            ?? [:]
 
         return cards.map { cardData in
             var planTemplates: [PlanTemplate] = []

@@ -83,6 +83,12 @@ enum TransferPartnerDatabase {
 
     /// Load transfer partners for a specific region. Programs with a matching region (or no region) are included.
     static func loadFromBundle(region: String = "US") {
+        if let remote: TransferPartnerFile = RemoteSeed.decode(.transferPartners, label: "TransferPartnerDatabase"),
+           !remote.programs.isEmpty {
+            apply(remote, region: region)
+            return
+        }
+
         guard let url = Bundle.main.url(forResource: "SeedDataTransferPartners", withExtension: "json"),
               let data = try? Data(contentsOf: url) else {
             #if DEBUG
@@ -92,29 +98,36 @@ enum TransferPartnerDatabase {
         }
 
         do {
-            let file = try JSONDecoder().decode(TransferPartnerFile.self, from: data)
-            programs = file.programs
-                .filter { $0.region == nil || $0.region == region }
-                .map { json in
-                    let resolved = json.partners.map { ref in
-                        TransferPartner(ref: ref, partner: PartnerDatabase.byID[ref.partnerId])
-                    }
-                    return TransferProgram(
-                        programName: json.programName,
-                        displayName: json.displayName,
-                        region: json.region,
-                        partners: resolved
-                    )
-                }
-            buildDerivedData()
-            #if DEBUG
-            print("✅ TransferPartnerDatabase: Loaded \(programs.count) programs for region \(region), \(airlines.count) airlines, \(hotels.count) hotels")
-            #endif
+            apply(try JSONDecoder().decode(TransferPartnerFile.self, from: data), region: region)
         } catch {
             #if DEBUG
             print("❌ TransferPartnerDatabase: Failed to decode: \(error)")
             #endif
         }
+    }
+
+    /// Resolves a decoded file into the published tables, whichever source it
+    /// came from. Region filtering happens here rather than at the publish step:
+    /// the bundle carries every region and the remote payload has to as well, so
+    /// switching region in Settings stays a local reload rather than a download.
+    private static func apply(_ file: TransferPartnerFile, region: String) {
+        programs = file.programs
+            .filter { $0.region == nil || $0.region == region }
+            .map { json in
+                let resolved = json.partners.map { ref in
+                    TransferPartner(ref: ref, partner: PartnerDatabase.byID[ref.partnerId])
+                }
+                return TransferProgram(
+                    programName: json.programName,
+                    displayName: json.displayName,
+                    region: json.region,
+                    partners: resolved
+                )
+            }
+        buildDerivedData()
+        #if DEBUG
+        print("✅ TransferPartnerDatabase: Loaded \(programs.count) programs for region \(region), \(airlines.count) airlines, \(hotels.count) hotels")
+        #endif
     }
 
     // MARK: - Lookups
