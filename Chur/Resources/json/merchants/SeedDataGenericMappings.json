@@ -819,15 +819,15 @@
             "requiredPOI": "MKPOICategoryFoodMarket"
         },
         {
-            "prefix": "星巴克",
+            "keyword": "星巴克",
             "categoryID": "starbucks"
         },
         {
-            "prefix": "park'n shop",
+            "keyword": "park'n shop",
             "categoryID": "parknshop_hk"
         },
         {
-            "prefix": "百佳超級",
+            "keyword": "百佳超級",
             "categoryID": "parknshop_hk"
         },
         {

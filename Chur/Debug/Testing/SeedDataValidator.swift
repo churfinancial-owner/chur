@@ -120,6 +120,16 @@ enum SeedDataValidator {
         }
 
         // MARK: Generic map mappings
+        //
+        // A single malformed entry fails the decode of the whole file, and the whole file is
+        // every generic map rule there is — so one typo silently costs all map name-matching,
+        // not just its own rule. It happened on 2026-08-15: three new rules were added to
+        // `containsMatches` using `prefix` (the key `prefixMatches` takes) instead of
+        // `keyword`, and the console error was easy to read past because the app carried on
+        // working, just worse at recognising places.
+        if seedFile.genericMappings == nil {
+            issues.append("SeedDataGenericMappings.json did not decode — every generic map rule is missing, so most places will fall back to a generic category. Check the ❌ MerchantSeedDatabase line above for the failing key and index")
+        }
         if let generic = seedFile.genericMappings {
             var refs: [(source: String, categoryID: String)] =
                 generic.exactMatches.map { ("exactMatch '\($0.key)'", $0.value) }
