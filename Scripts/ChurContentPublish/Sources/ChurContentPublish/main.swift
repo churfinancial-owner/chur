@@ -28,6 +28,21 @@
 import Foundation
 import CryptoKit
 
+// MARK: - Domains
+
+/// Every domain this script publishes, in the order it writes them.
+///
+/// Mirrors `ContentDomain` in the app, minus nothing — if the app knows a domain
+/// this list omits, `--verify` will not notice the gap, which is the failure it
+/// exists to report. `SeedDataRegions` is in neither, on purpose (ROADMAP §P1d).
+let allDomains = [
+    "cards", "rewards", "benefits", "merchants", "merchantMappings",
+    "cardArt", "iconArt",
+    "categories", "recommendations",
+    "badges", "partners", "transferPartners", "autoRentalCoverage", "cellPhoneProtection",
+    "issuers", "programs", "programUpgrades", "boostPrograms"
+]
+
 // MARK: - Errors
 
 struct PublishError: Error, CustomStringConvertible {
@@ -260,12 +275,112 @@ func loadMerchantMappings(repoRoot: URL) throws -> [String: Any] {
     return object
 }
 
-// MARK: - Card art
+// MARK: - P1d domains
+
+/// A single seed file that is already a JSON array — badges, partners, issuers,
+/// coverage tables, boost programs.
+///
+/// The app decodes each of these with one `JSONDecoder().decode([T].self)`, so
+/// the published bundle is the file's own bytes re-serialized, not a
+/// restructuring. Keeping the shape identical is what lets the remote branch in
+/// each `*Database` be a one-line swap of where the `Data` came from.
+func loadSeedArray(repoRoot: URL, path: String) throws -> [[String: Any]] {
+    let url = repoRoot.appendingPathComponent("Chur/Resources/json/\(path)")
+    let parsed = try JSONSerialization.jsonObject(with: try Data(contentsOf: url))
+    guard let array = parsed as? [[String: Any]] else {
+        throw PublishError("\(path): expected an array of objects at the top level")
+    }
+    guard !array.isEmpty else {
+        throw PublishError("\(path): is empty — publishing it would blank the domain on every device")
+    }
+    return array
+}
+
+/// A single seed file that is a JSON object — reward programs, transfer partners.
+func loadSeedObject(repoRoot: URL, path: String) throws -> [String: Any] {
+    let url = repoRoot.appendingPathComponent("Chur/Resources/json/\(path)")
+    let object = try parseObject(at: url)
+    guard !object.isEmpty else {
+        throw PublishError("\(path): is empty — publishing it would blank the domain on every device")
+    }
+    return object
+}
+
+/// `categories/SeedDataCategories_*.json` — each an array, concatenated in
+/// filename order.
+///
+/// Mirrors `SeedDataLoader.loadCategoryTemplates()`, with one deliberate
+/// difference: that function *also* appends the categories synthesized from
+/// merchant `brandCategory` blocks, and this must not. Those already travel in
+/// the `merchants` domain, and publishing them twice would put the same id in
+/// two bundles with no rule about which wins.
+///
+/// The precedence the app applies — hand-authored beats merchant-derived on an
+/// id clash, because only hand-authored carries `cardFilter` — stays where it
+/// is, in the loader. This domain is the hand-authored half alone.
+func loadCategories(repoRoot: URL) throws -> [[String: Any]] {
+    let dir = repoRoot.appendingPathComponent("Chur/Resources/json/categories")
+    var categories: [[String: Any]] = []
+    var seenIDs: [String: String] = [:]   // id -> filename that claimed it
+
+    for url in try jsonFiles(in: dir) {
+        let parsed = try JSONSerialization.jsonObject(with: try Data(contentsOf: url))
+        guard let array = parsed as? [[String: Any]] else {
+            throw PublishError("\(url.lastPathComponent): expected an array of category objects")
+        }
+        for object in array {
+            guard let id = object["id"] as? String, !id.isEmpty else {
+                throw PublishError("\(url.lastPathComponent): a category is missing its 'id'")
+            }
+            // Two files claiming one category id is decided by enumeration
+            // order on device, and a category is a persisted SpendingCategory —
+            // so publishing would freeze an arbitrary choice into every wallet.
+            if let existing = seenIDs[id] {
+                throw PublishError("Duplicate category id '\(id)' in \(url.lastPathComponent) and \(existing)")
+            }
+            seenIDs[id] = url.lastPathComponent
+            categories.append(object)
+        }
+    }
+
+    guard !categories.isEmpty else { throw PublishError("No categories found under \(dir.path)") }
+    return categories
+}
+
+/// `recommendations/<region>/<issuer>/rec_*.json` — one object per file,
+/// aggregated into an array. The region and issuer folders are organizational;
+/// `RecommendationDatabase` walks the whole tree.
+func loadRecommendations(repoRoot: URL) throws -> [[String: Any]] {
+    let dir = repoRoot.appendingPathComponent("Chur/Resources/json/recommendations")
+    var recommendations: [[String: Any]] = []
+    var seenIDs: [String: String] = [:]   // cardTemplateID -> filename that claimed it
+
+    for url in try jsonFiles(in: dir) {
+        let object = try parseObject(at: url)
+        guard let id = object["cardTemplateID"] as? String, !id.isEmpty else {
+            throw PublishError("\(url.lastPathComponent): missing or empty string field 'cardTemplateID'")
+        }
+        if let existing = seenIDs[id] {
+            throw PublishError("Duplicate recommendation for card '\(id)' in \(url.lastPathComponent) and \(existing)")
+        }
+        seenIDs[id] = url.lastPathComponent
+        recommendations.append(object)
+    }
+
+    guard !recommendations.isEmpty else { throw PublishError("No recommendations found under \(dir.path)") }
+    return recommendations
+}
+
+// MARK: - Art
 
 /// Source of truth for card images, relative to the repo root.
 let cardArtDirectory = "CardArt"
 
-/// One card image, keyed by the `imageName` a card's JSON refers to.
+/// Badge, bank and partner icons (P1d). Same shape, same rules, separate folder
+/// and separate index domain so a broken icon publish cannot cost card art.
+let iconArtDirectory = "IconArt"
+
+/// One image, keyed by the `imageName` the JSON refers to.
 struct CardArt {
     let imageName: String
     let source: URL
@@ -285,18 +400,24 @@ struct CardArt {
     var key: String { "art/\(imageName)-\(String(sha256.prefix(8))).\(pathExtension)" }
 }
 
-/// Every image under `CardArt/`. The filename is the `imageName` cards refer to;
-/// the issuer subfolders are for humans only and nothing here reads them.
+/// Every image under an art directory. The filename is the `imageName` the JSON
+/// refers to; the subfolders are for humans only and nothing here reads them.
 ///
 /// Deliberately outside `Chur/`: that folder is a synchronized root group in the
 /// Xcode project, so art living under it would be compiled back into the app —
-/// the 19 MB that removing it saved.
-func loadCardArt(repoRoot: URL) throws -> [CardArt] {
-    let dir = repoRoot.appendingPathComponent(cardArtDirectory)
+/// the 19 MB that removing card art saved, and the 7.6 MB icons added in P1d.
+///
+/// One function for both directories on purpose. When `Assets.xcassets/Cards`
+/// was deleted in P1b the publisher kept building its index from the old path,
+/// found nothing, and published `{}` — so the *second* art source is exactly
+/// where a copy-pasted variant would drift out of sync with the guard that
+/// caught it.
+func loadArt(repoRoot: URL, directory: String) throws -> [CardArt] {
+    let dir = repoRoot.appendingPathComponent(directory)
 
     var isDirectory: ObjCBool = false
     guard FileManager.default.fileExists(atPath: dir.path, isDirectory: &isDirectory), isDirectory.boolValue else {
-        throw PublishError("Card art directory missing: \(dir.path)")
+        throw PublishError("Art directory missing: \(dir.path)")
     }
     guard let enumerator = FileManager.default.enumerator(at: dir, includingPropertiesForKeys: nil) else {
         throw PublishError("Could not read \(dir.path)")
@@ -317,15 +438,15 @@ func loadCardArt(repoRoot: URL) throws -> [CardArt] {
     // aborts the whole refresh — cards, rewards and all. Cheaper to fail here
     // than to discover it in a device log after uploading.
     guard !art.isEmpty else {
-        throw PublishError("No card art found under \(dir.path) — publishing an empty index would break every domain on device")
+        throw PublishError("No art found under \(dir.path) — publishing an empty index would break every domain on device")
     }
 
-    // Two files with the same name in different issuer folders would silently
+    // Two files with the same name in different subfolders would silently
     // resolve to whichever the enumerator reached last.
     let duplicates = Dictionary(grouping: art, by: \.imageName).filter { $0.value.count > 1 }
     guard duplicates.isEmpty else {
         let detail = duplicates.keys.sorted().joined(separator: ", ")
-        throw PublishError("Duplicate imageName in \(cardArtDirectory): \(detail)")
+        throw PublishError("Duplicate imageName in \(directory): \(detail)")
     }
 
     return art.sorted { $0.imageName < $1.imageName }
@@ -349,7 +470,7 @@ struct ArtIndex {
 
     func write(to url: URL) throws {
         let body: [String: Any] = [
-            "note": "Card art keys already uploaded to R2. Content-addressed, so entries are never removed — "
+            "note": "Card and icon art keys already uploaded to R2. Content-addressed, so entries are never removed — "
                   + "an old key must keep resolving for rollback. Delete this file to force a full re-upload.",
             "keys": keys.sorted()
         ]
@@ -628,12 +749,41 @@ func validatePayload(_ data: Data, domain: String) throws {
             throw PublishError("merchantMappings: expected an object with 'exactMatches' — the app would reject this payload")
         }
 
-    case "cardArt":
+    case "cardArt", "iconArt":
         guard let dictionary = parsed as? [String: Any], !dictionary.isEmpty else {
-            throw PublishError("cardArt: expected a non-empty object keyed by imageName — the app would reject this payload")
+            throw PublishError("\(domain): expected a non-empty object keyed by imageName — the app would reject this payload")
         }
         guard dictionary.values.allSatisfy({ ($0 as? [String: Any])?["url"] is String }) else {
-            throw PublishError("cardArt: every entry needs a 'url' — the app would reject this payload")
+            throw PublishError("\(domain): every entry needs a 'url' — the app would reject this payload")
+        }
+
+    // MARK: P1d domains
+
+    // Id-keyed catalogs. `categories` is in this list and is the one that moves
+    // prices rather than labels — a category with a blank id would synthesize a
+    // persisted SpendingCategory nothing can address.
+    case "badges", "partners", "issuers", "boostPrograms", "programUpgrades", "categories":
+        try requireNonEmptyString("id", in: try objects())
+
+    case "recommendations":
+        try requireNonEmptyString("cardTemplateID", in: try objects())
+
+    // Coverage tables key off the card they describe, not off an id of their own.
+    case "autoRentalCoverage", "cellPhoneProtection":
+        try requireNonEmptyString("cardId", in: try objects())
+
+    case "transferPartners":
+        guard let dictionary = parsed as? [String: Any],
+              let programs = dictionary["programs"] as? [[String: Any]], !programs.isEmpty else {
+            throw PublishError("transferPartners: expected an object with a non-empty 'programs' array — the app would reject this payload")
+        }
+
+    case "programs":
+        // Keyed by program *name* ("Ultimate Rewards"), not by an id field —
+        // these names are what card JSON references, so an empty object silently
+        // zeroes every card's point value.
+        guard let dictionary = parsed as? [String: Any], !dictionary.isEmpty else {
+            throw PublishError("programs: expected a non-empty object keyed by program name — the app would reject this payload")
         }
 
     default:
@@ -770,8 +920,7 @@ func verifyLive(baseURL: String) throws {
     // the manifest omits falls back to the bundle rather than failing. Worth
     // saying out loud: it means a build can be newer than what is published.
     let published = Set(bundles.compactMap { $0["domain"] as? String })
-    let missing = ["cards", "rewards", "benefits", "merchants", "merchantMappings", "cardArt"]
-        .filter { !published.contains($0) }
+    let missing = allDomains.filter { !published.contains($0) }
     if !missing.isEmpty {
         print("\n   ℹ️  Not published (the app falls back to its bundle): \(missing.joined(separator: ", "))")
     }
@@ -803,7 +952,26 @@ do {
     let benefits = try loadBenefits(repoRoot: args.repoRoot)
     let merchants = try loadMerchants(repoRoot: args.repoRoot)
     let merchantMappings = try loadMerchantMappings(repoRoot: args.repoRoot)
-    let cardArt = try loadCardArt(repoRoot: args.repoRoot)
+    let cardArt = try loadArt(repoRoot: args.repoRoot, directory: cardArtDirectory)
+    let iconArt = try loadArt(repoRoot: args.repoRoot, directory: iconArtDirectory)
+
+    // P1d domains. Loaded before anything is written, so a malformed file costs
+    // a re-run rather than a partial publish.
+    let categories = try loadCategories(repoRoot: args.repoRoot)
+    let recommendations = try loadRecommendations(repoRoot: args.repoRoot)
+    let badges = try loadSeedArray(repoRoot: args.repoRoot, path: "badges/SeedDatabadges.json")
+    let partners = try loadSeedArray(repoRoot: args.repoRoot, path: "badges/SeedDataPartners.json")
+    let transferPartners = try loadSeedObject(repoRoot: args.repoRoot, path: "badges/SeedDataTransferPartners.json")
+    let autoRentalCoverage = try loadSeedArray(repoRoot: args.repoRoot, path: "badges/SeedDataAutoRentalCoverage.json")
+    let cellPhoneProtection = try loadSeedArray(repoRoot: args.repoRoot, path: "badges/SeedDataCellPhoneProtection.json")
+    let issuers = try loadSeedArray(repoRoot: args.repoRoot, path: "control/SeedDataIssuers.json")
+    let programs = try loadSeedObject(repoRoot: args.repoRoot, path: "control/SeedDataPrograms.json")
+    let programUpgrades = try loadSeedArray(repoRoot: args.repoRoot, path: "control/SeedDataProgramUpgrades.json")
+    let boostPrograms = try loadSeedArray(repoRoot: args.repoRoot, path: "bankrelationshipprograms/boost_programs.json")
+
+    // SeedDataRegions.json is deliberately absent. It gates onboarding and locale
+    // resolution, changes approximately never, and a bad payload would leave a
+    // user with no region to pick — see ROADMAP §P1d.
 
     // A card whose imageName has no image file renders the placeholder forever —
     // invisible unless someone opens that specific card.
@@ -814,6 +982,27 @@ do {
         .sorted()
     if !cardsMissingArt.isEmpty {
         print("⚠️  Cards whose imageName has no art (\(cardsMissingArt.count)): \(Set(cardsMissingArt).sorted().joined(separator: ", "))")
+    }
+
+    // The icon equivalent, and the reason it earns a place next to it: an icon
+    // that resolves to nothing falls back to an emoji or an empty slot, which
+    // reads as a design choice rather than as breakage. 25 names were in that
+    // state when P1d started, some for months. Warn rather than block — a
+    // missing logo must not stop a publish that fixes a rate.
+    let iconNames = Set(iconArt.map { $0.imageName })
+    var referencedIcons: Set<String> = []
+    for entry in merchants { if let icon = entry["merchantIconName"] as? String { referencedIcons.insert(icon) } }
+    for entry in categories { if let icon = entry["iconName"] as? String { referencedIcons.insert(icon) } }
+    for entry in issuers { if let icon = entry["logoImageName"] as? String { referencedIcons.insert(icon) } }
+    for entry in partners { if let icon = entry["logoImageName"] as? String { referencedIcons.insert(icon) } }
+    // A badge icon may legitimately name an SF Symbol, which has no file here;
+    // badge art is the `badge_` prefixed half.
+    for entry in badges {
+        if let icon = entry["icon"] as? String, icon.hasPrefix("badge_") { referencedIcons.insert(icon) }
+    }
+    let missingIcons = referencedIcons.subtracting(iconNames).sorted()
+    if !missingIcons.isEmpty {
+        print("⚠️  Icon names with no file in \(iconArtDirectory)/ (\(missingIcons.count)): \(missingIcons.joined(separator: ", "))")
     }
 
     // Reward keys with no card are harmless at runtime (nothing looks them up)
@@ -876,20 +1065,46 @@ do {
     let version = resolveVersion(explicit: args.version, outDir: args.outDir)
     try clean(args.outDir)
 
+    func artIndexPayload(_ art: [CardArt]) -> [String: Any] {
+        art.reduce(into: [String: Any]()) { index, art in
+            index[art.imageName] = [
+                "url": "\(args.baseURL)/\(art.key)",
+                "sha256": art.sha256,
+                "bytes": art.bytes
+            ]
+        }
+    }
+
     let entries = [
         try write(cards, domain: "cards", version: version, to: args.outDir),
         try write(rewards, domain: "rewards", version: version, to: args.outDir),
         try write(benefits, domain: "benefits", version: version, to: args.outDir),
         try write(merchants, domain: "merchants", version: version, to: args.outDir),
         try write(merchantMappings, domain: "merchantMappings", version: version, to: args.outDir),
-        try write(cardArt.reduce(into: [String: Any]()) { index, art in
-            index[art.imageName] = [
-                "url": "\(args.baseURL)/\(art.key)",
-                "sha256": art.sha256,
-                "bytes": art.bytes
-            ]
-        }, domain: "cardArt", version: version, to: args.outDir)
+        try write(artIndexPayload(cardArt), domain: "cardArt", version: version, to: args.outDir),
+        try write(artIndexPayload(iconArt), domain: "iconArt", version: version, to: args.outDir),
+        try write(categories, domain: "categories", version: version, to: args.outDir),
+        try write(recommendations, domain: "recommendations", version: version, to: args.outDir),
+        try write(badges, domain: "badges", version: version, to: args.outDir),
+        try write(partners, domain: "partners", version: version, to: args.outDir),
+        try write(transferPartners, domain: "transferPartners", version: version, to: args.outDir),
+        try write(autoRentalCoverage, domain: "autoRentalCoverage", version: version, to: args.outDir),
+        try write(cellPhoneProtection, domain: "cellPhoneProtection", version: version, to: args.outDir),
+        try write(issuers, domain: "issuers", version: version, to: args.outDir),
+        try write(programs, domain: "programs", version: version, to: args.outDir),
+        try write(programUpgrades, domain: "programUpgrades", version: version, to: args.outDir),
+        try write(boostPrograms, domain: "boostPrograms", version: version, to: args.outDir)
     ]
+
+    // The one thing `allDomains` is for is `--verify` reporting an unpublished
+    // domain, and it can only do that if it agrees with what was actually
+    // written. Cheap to assert, and the alternative is a list that quietly rots.
+    let writtenDomains = Set(entries.map { $0.domain })
+    guard writtenDomains == Set(allDomains) else {
+        let unlisted = writtenDomains.subtracting(allDomains).sorted()
+        let unwritten = Set(allDomains).subtracting(writtenDomains).sorted()
+        throw PublishError("allDomains is out of date — written but unlisted: \(unlisted.joined(separator: ", ")); listed but unwritten: \(unwritten.joined(separator: ", "))")
+    }
 
     let formatter = ISO8601DateFormatter()
     let manifest: [String: Any] = [
@@ -901,13 +1116,37 @@ do {
     let manifestData = try canonicalData(manifest)
     try manifestData.write(to: args.outDir.appendingPathComponent("manifest.json"), options: .atomic)
 
+    // Looked up by domain rather than indexed positionally: the byte counts are
+    // the free diff that tells you whether an edit landed, and reading them off
+    // `entries[5]` was one reordered line away from reporting the wrong domain's
+    // size — which is exactly the check nobody would re-verify.
+    let bytesByDomain = Dictionary(uniqueKeysWithValues: entries.map { ($0.domain, $0.bytes) })
+    func summarize(_ domain: String, _ detail: String) {
+        print("   \(domain): \(detail), \(bytesByDomain[domain] ?? 0) bytes")
+    }
+    func megabytes(_ art: [CardArt]) -> String {
+        String(format: "%.1f MB", Double(art.reduce(0) { $0 + $1.bytes }) / 1_048_576)
+    }
+
     print("✅ contentVersion \(version) → \(args.outDir.path)")
-    print("   cards:    \(cards.count) cards, \(entries[0].bytes) bytes")
-    print("   rewards:  \(rewards.count) entries, \(entries[1].bytes) bytes")
-    print("   benefits: \(benefits.count) benefits, \(entries[2].bytes) bytes")
-    print("   merchants: \(merchants.count) merchants, \(entries[3].bytes) bytes")
-    print("   mappings: \(merchantMappings.count) rule groups, \(entries[4].bytes) bytes")
-    print("   cardArt: \(cardArt.count) images, \(entries[5].bytes) bytes index (\(cardArt.reduce(0) { $0 + $1.bytes } / 1_048_576) MB of PNGs)")
+    summarize("cards", "\(cards.count) cards")
+    summarize("rewards", "\(rewards.count) entries")
+    summarize("benefits", "\(benefits.count) benefits")
+    summarize("merchants", "\(merchants.count) merchants")
+    summarize("merchantMappings", "\(merchantMappings.count) rule groups")
+    summarize("cardArt", "\(cardArt.count) images (\(megabytes(cardArt)) of files)")
+    summarize("iconArt", "\(iconArt.count) icons (\(megabytes(iconArt)) of files)")
+    summarize("categories", "\(categories.count) hand-authored categories")
+    summarize("recommendations", "\(recommendations.count) cards")
+    summarize("badges", "\(badges.count) badges")
+    summarize("partners", "\(partners.count) partners")
+    summarize("transferPartners", "\((transferPartners["programs"] as? [Any])?.count ?? 0) programs")
+    summarize("autoRentalCoverage", "\(autoRentalCoverage.count) cards")
+    summarize("cellPhoneProtection", "\(cellPhoneProtection.count) cards")
+    summarize("issuers", "\(issuers.count) issuers")
+    summarize("programs", "\(programs.count) programs")
+    summarize("programUpgrades", "\(programUpgrades.count) paths")
+    summarize("boostPrograms", "\(boostPrograms.count) programs")
     print("   manifest: \(manifestData.count) bytes, base URL \(args.baseURL)")
 
     if args.upload {
@@ -920,9 +1159,13 @@ do {
             .appendingPathComponent(ArtIndex.filename)
         var artIndex = ArtIndex.load(from: artIndexURL)
 
-        let pendingArt = cardArt.filter { !artIndex.keys.contains($0.key) }
+        // One upload record for both art sets. Keys are content-addressed and
+        // the two name spaces are disjoint, so a shared index is correct and
+        // means an icon added today is skipped by every later card-art publish.
+        let allArt = cardArt + iconArt
+        let pendingArt = allArt.filter { !artIndex.keys.contains($0.key) }
         if pendingArt.isEmpty {
-            print("   ✓ card art unchanged (\(cardArt.count) images already uploaded)")
+            print("   ✓ art unchanged (\(allArt.count) images already uploaded)")
         } else {
             print("   uploading \(pendingArt.count) new or changed image(s) — this is the slow part…")
             for art in pendingArt {

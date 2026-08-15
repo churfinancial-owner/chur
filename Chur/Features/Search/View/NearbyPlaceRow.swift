@@ -31,11 +31,12 @@ struct NearbyPlaceRow: View {
             showDetailPopup = true
         } label: {
             HStack(spacing: 12) {
-                // Brand icon if available, otherwise category icon/emoji
-                if let iconName = brandIconName, let uiImage = UIImage(named: iconName) {
-                    Image(uiImage: uiImage)
-                        .resizable()
-                        .scaledToFit()
+                // Brand icon if available, otherwise category icon/emoji.
+                // `isKnown` rather than a bundle lookup: the branches render
+                // differently (bare icon vs. icon on a tile), so the choice has
+                // to be made from the index, not from whether bytes have landed.
+                if let iconName = brandIconName, CardArtLoader.shared.isKnown(iconName) {
+                    IconArtView(imageName: iconName)
                         .frame(width: 40, height: 40)
                 } else if let category = merchantCategory {
                     CategoryIconView(category: category, font: .churHeadline())

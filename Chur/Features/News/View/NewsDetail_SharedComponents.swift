@@ -193,9 +193,7 @@ extension NewsDetailView {
     private func entityChip(name: String, imageName: String?) -> some View {
         HStack(spacing: 6) {
             if let imageName {
-                Image(imageName)
-                    .resizable()
-                    .scaledToFit()
+                IconArtView(imageName: imageName)
                     .frame(width: 16, height: 16)
                     .clipShape(RoundedRectangle(cornerRadius: 3))
             }

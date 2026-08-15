@@ -269,10 +269,13 @@ struct BankPill: View {
     var body: some View {
         Button(action: action) {
             HStack(spacing: 5) {
-                if let logoImageName, let _ = UIImage(named: logoImageName) {
-                    Image(logoImageName)
-                        .resizable()
-                        .scaledToFit()
+                // Gated on `isKnown` rather than rendering an empty slot: an
+                // issuer with no art should leave no gap in the pill, which a
+                // fallback view sized by the frame below would not achieve.
+                // Eleven issuers are in exactly that state — see the icon
+                // coverage report in SeedDataValidator.
+                if let logoImageName, CardArtLoader.shared.isKnown(logoImageName) {
+                    IconArtView(imageName: logoImageName)
                         .frame(width: 18, height: 18)
                         .clipShape(Circle())
                 }

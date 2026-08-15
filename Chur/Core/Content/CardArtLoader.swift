@@ -2,8 +2,13 @@
 //  CardArtLoader.swift
 //  Chur
 //
-//  Resolves card art by `imageName`, in three tiers: decoded in memory, a file
-//  on disk, then the CDN.
+//  Resolves art by `imageName`, in three tiers: decoded in memory, a file on
+//  disk, then the CDN.
+//
+//  Named for card art because that is what it was built for, but since P1d it
+//  serves badge, bank and partner icons too — same index shape, same cache, same
+//  checksum model, disjoint names. Renaming it would churn 23 call sites to say
+//  something the type comments already say.
 //
 //  Card art is published as individual images rather than a JSON bundle, so it
 //  is deliberately outside RemoteContentService's all-or-nothing staging: 15 MB
@@ -110,6 +115,23 @@ final class CardArtLoader {
         return image
     }
 
+    /// True when this name is art at all — bundled, or listed in a published
+    /// index — regardless of whether the bytes have been fetched.
+    ///
+    /// Distinct from `isAvailable`, and the distinction matters: a caller
+    /// choosing between "render the artwork" and "render something else
+    /// entirely" needs to know what the name *is*, not whether it has arrived.
+    /// `BadgeIcon` dispatches between an image asset and an SF Symbol of the
+    /// same name, and used `UIImage(named:)` to tell them apart — which stops
+    /// working the moment the asset lives on a CDN.
+    ///
+    /// Answers false before the first index is cached, so callers should fall
+    /// back to something always-correct (an emoji), never to the other branch.
+    func isKnown(_ imageName: String) -> Bool {
+        if CardArtStore.bundledImage(named: imageName) != nil { return true }
+        return reference(for: imageName) != nil
+    }
+
     /// True when art is already available without a download — bundled, in
     /// memory, or on disk. Deliberately does not decode: prefetch only needs to
     /// know whether the bytes exist.
@@ -191,18 +213,32 @@ final class CardArtLoader {
     /// publish, since its name wouldn't be in the old index. The user would see
     /// a permanent placeholder until they happened to relaunch, with no button
     /// to fix it. Stamping the version makes it self-correcting.
+    /// Both art indexes, merged. `cardArt` and `iconArt` are published
+    /// separately so one can break without taking the other down, but they carry
+    /// the identical `[imageName: CardArtRef]` shape and share this cache, so a
+    /// lookup does not need to know which kind of art it is asking for.
+    ///
+    /// A missing domain is not a failure: an older manifest has no `iconArt`,
+    /// and a build newer than the manifest has to keep resolving card art. Each
+    /// is decoded independently and merged into whatever is present.
     private func reference(for imageName: String) -> CardArtRef? {
         let version = ContentStore.currentVersion
         if index == nil || indexVersion != version {
-            guard let data = ContentStore.data(for: .cardArt),
-                  let decoded = try? JSONDecoder().decode([String: CardArtRef].self, from: data) else {
-                return nil
+            var merged: [String: CardArtRef] = [:]
+            for domain in [ContentDomain.cardArt, .iconArt] {
+                guard let data = ContentStore.data(for: domain),
+                      let decoded = try? JSONDecoder().decode([String: CardArtRef].self, from: data) else {
+                    continue
+                }
+                merged.merge(decoded) { current, _ in current }
             }
+            guard !merged.isEmpty else { return nil }
+
             // Decoded images are keyed by name, not by hash, so an updated image
             // would otherwise keep resolving to the previous one for the rest of
             // the session.
             if indexVersion != nil { memory.removeAllObjects() }
-            index = decoded
+            index = merged
             indexVersion = version
         }
         return index?[imageName]

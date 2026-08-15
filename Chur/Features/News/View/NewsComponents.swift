@@ -64,7 +64,7 @@ struct NewsRowView: View {
                     } else { Color.churLightGray.frame(width: 56, height: 56).clipShape(RoundedRectangle(cornerRadius: 10)) }
                 }
             } else if let issuer = linkedIssuer {
-                Image(issuer.logoImageName).resizable().scaledToFit().frame(width: 36, height: 36).padding(10)
+                IconArtView(imageName: issuer.logoImageName).frame(width: 36, height: 36).padding(10)
                     .background(Color.churLightGray.opacity(0.4)).clipShape(RoundedRectangle(cornerRadius: 10))
             }
         }

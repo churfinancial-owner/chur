@@ -397,11 +397,16 @@ struct MerchantIconView: View {
     let category: SpendingCategory?
     
     var body: some View {
-        if let iconName, let uiImage = UIImage(named: iconName) {
-            Image(uiImage: uiImage)
-                .resizable()
-                .scaledToFit()
-        } else if let category {
+        IconArtView(imageName: iconName) {
+            unavailable
+        }
+    }
+
+    /// What fills the space when the merchant has no icon, or it hasn't
+    /// downloaded yet. Unchanged from before icons moved to the CDN.
+    @ViewBuilder
+    private var unavailable: some View {
+        if let category {
             // 80pt matches the emoji size ParentCategoryParallaxSheet uses directly in the
             // same PopupHeaderWatermark circle — keeps both popups' fallback icon consistent.
             CategoryIconView(category: category, font: .system(size: 80))

@@ -216,17 +216,16 @@ struct PartnerTile: View {
                         .fill(isSelected ? .white.opacity(0.25) : color.opacity(0.08))
                         .frame(width: 32, height: 32)
                     
-                    if let logoName {
-                        Image(logoName)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 24, height: 24)
-                            .clipShape(Circle())
-                    } else {
+                    // The symbol is the fallback rather than a sibling branch so
+                    // it also covers the gap before a partner's logo downloads —
+                    // an SF Symbol reads better there than an empty circle.
+                    IconArtView(imageName: logoName) {
                         Image(systemName: fallbackIcon)
                             .font(.system(size: 14, weight: .bold))
                             .foregroundStyle(isSelected ? .white : color)
                     }
+                    .frame(width: 24, height: 24)
+                    .clipShape(Circle())
                 }
                 
                 Text(name)
@@ -239,7 +238,7 @@ struct PartnerTile: View {
                 
                 VStack(alignment: .trailing, spacing: 4) {
                     if let allianceLogo {
-                        Image(allianceLogo).resizable().scaledToFit().frame(width: 14, height: 14)
+                        IconArtView(imageName: allianceLogo).frame(width: 14, height: 14)
                     }
                     if let hasCard = walletStatus {
                         Image(systemName: hasCard ? "creditcard.fill" : "lock.fill")
