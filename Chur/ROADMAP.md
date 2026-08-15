@@ -223,14 +223,47 @@ It also inherits one concrete job from P1b item 5: **the structural rules now ex
 - **One malformed entry costs the whole file.** Three map rules used `prefix` where `containsMatches` takes `keyword`, and the decode failure took *every* generic map rule with it — the app kept working, just worse at recognising places. Per-file decoding is the right granularity for benefits (losing one perk beats losing all) and the wrong granularity here, where one file is the entire ruleset.
 - **The vectors did not catch this and could not have.** `accepted-regions-suppresses-fx` was green throughout; the engine was right all along. Engine tests pin behaviour given data — they say nothing about whether the data exists. The check that would have caught it is a seed-data assertion, which is what was added.
 
-### P1d — Pre-P2 additions · **to be filled in**
+### P1d — Finish the content pipeline (2026-08-15)
 
-Pak Ho has items to add here before P2 starts (noted 2026-08-14, still open at the end of 2026-08-15). **This section is deliberately empty — capture them at the top of the next session, before any code.** Two sessions have now ended with it empty, which is itself worth noticing: the items exist, they just haven't been written down, and everything below is sequenced behind them.
+Filled in at last, after two sessions of sitting empty. The items are **the rest of the seed data, plus the rest of the art** — everything `Resources/json/` and `Assets.xcassets` still hold that a release is currently required to change.
 
-Two things worth deciding while writing them down, because they change the order of everything below:
+**The two halves are bought with different currencies, and conflating them is how the reasoning goes wrong.**
 
-1. **Is a build going to anyone other than Pak Ho soon?** If yes, P2a jumps ahead of everything in this section. Its whole value is being in place *before* users arrive; instrumentation added after launch says nothing about launch.
-2. **Does any item here need a schema change?** If so it should be sequenced with P3, which already has to open the schema for the spend profile. Two staged migrations cost more than one that carries both — and P0's post-mortem is the reason to take that seriously.
+| | JSON → CDN | Art → CDN |
+|---|---|---|
+| **Buys** | Fixing data without an App Store release | Adding a partner/issuer without a release |
+| **Saves in app size** | **Nothing.** The architectural invariant keeps bundled JSON permanently as the offline fallback | 1.9 MB, after the one oversized file below |
+| **Costs** | One `ContentDomain`, one loader branch, two validation rules | A render-path conversion at every call site, and a fallback that hides its own failure |
+
+The size argument that justified card art (19 MB, two thirds of the asset catalog) **does not transfer.** All 151 icons together are 1.9 MB once `icon_disneyplus` is fixed — under 5% of a 40 MB app. Icon art moves for publishing cadence and for nothing else; recorded here so a future session doesn't re-derive it as a footprint win and get the tradeoff wrong.
+
+#### What goes remote
+
+| Domain | Files | Blast radius | Verdict |
+|---|---|---|---|
+| `recommendations` | 6 | None — read-only structs, nothing persisted, `isActive: false` throughout | **Yes, first.** The safest domain there is, and SUB offers are the fastest-staling content in the app |
+| `badges`, `partners`, `transferPartners`, `autoRentalCoverage`, `cellPhoneProtection` | 5 | Read-only. `detectionRules` reference benefit ids → cards↔benefits-style cross-domain agreement | Yes |
+| `issuers`, `programUpgrades` | 2 | Display only | Yes |
+| `programs` | 1 | **Money math** — `pointCashValue` | Yes, and it is already half-broken (below) |
+| `boostPrograms` | 1 | **Rates** — `CreditCard.boostMultiplier` → `CardRateCalculator:245` | Yes, with a vector run |
+| `categories` | 14 | **Prices** — `cardFilter`, `excludeFromParent`, `categoryLinks` | Yes, last |
+| `iconArt` | 151 images | A blank chip or a silent emoji fallback | Yes — for cadence, not bytes |
+| ~~`SeedDataRegions`~~ | 1 | Gates onboarding and locale resolution | **No — stays bundle-only.** It changes approximately never, and a bad payload strands a user with no region to pick. Nothing is gained by making it mutable |
+
+`SeedDataRegions` being an explicit *no* is the part worth keeping. "Publish everything" is not the goal; publishing is for data that changes faster than releases do.
+
+#### Three things found while scoping it
+
+1. **`SeedDataPrograms` is already half-remote, and wrong because of it.** `CardDatabase.swift:303` reads it from the bundle while resolving *remote* cards, so a card published with a reward program the build has never seen gets no `pointCashValue`. The coupling was created the day cards went remote in P1a and has been latent since.
+
+2. **25 icon names referenced in JSON have no imageset**, and every render site falls back to an emoji or an empty chip — so nothing looks broken. Six are near-miss typos with the art sitting right there unused (`icon_allegiant`/`icon_allegient`, `icon_carousell`/`icon_carousel`, `icon_taobao`/`icon.taobao`); the other 11 are genuine gaps, almost all issuer logos in `control/`. Exactly the class of the five missed `CardArtView` call sites, but harder to see: a grey rectangle reads as broken, an emoji reads as intentional.
+
+3. **One file was 68% of all icon art.** `icon_disneyplus.png` shipped at **2787×2807, 5.9 MB**, rendered at ~40pt, against neighbours of 7–35 KB. Resizing it recovers more than moving every other icon to the CDN would. Found by sorting the asset catalog by file size, which had never been done — worth doing after any bulk art import.
+
+#### The two questions this section was supposed to answer
+
+1. **Is a build going to anyone other than Pak Ho soon?** Still no. P2a stays behind this section — but the moment that changes, it jumps the queue, because instrumentation added after launch says nothing about launch.
+2. **Does any item need a schema change?** **No.** Every domain here is read-only or already-persisted shape; nothing new lands on a `@Model`. P1d and P3 stay independent, and the first real staged migration is still the spend profile.
 
 ### P2 — Analytics baseline
 
