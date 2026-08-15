@@ -4,6 +4,7 @@
     "name": "Apple",
     "domain": "apple.com",
     "category": "apple",
+    "businessRegion": ["CA", "HK", "TW", "US"],
     "merchantIconName": "icon_apple",
     "isBrandCategory": true,
     "tags": ["electronics", "tech", "store"],
@@ -19,6 +20,7 @@
     "name": "eBay",
     "domain": "ebay.com",
     "category": "ebay",
+    "businessRegion": ["CA", "HK", "TW", "US"],
     "merchantIconName": "icon_ebay",
     "isBrandCategory": true,
     "tags": [
@@ -94,6 +96,7 @@
     "name": "Amazon",
     "domain": "amazon.com",
     "category": "amazon",
+    "businessRegion": ["CA", "HK", "TW", "US"],
     "merchantIconName": "icon_amazon",
     "isBrandCategory": true,
     "tags": [

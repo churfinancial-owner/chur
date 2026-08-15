@@ -74,6 +74,17 @@ enum SeedDataValidator {
             for link in merchant.brandCategory?.links ?? [] where !categoryIDs.contains(link) {
                 issues.append("Merchant '\(merchant.id)': brandCategory link '\(link)' does not exist")
             }
+            // `businessRegion` is the only source of the cross-border FX fee for online
+            // merchants: it becomes `acceptedRegions`, and with it nil `isCrossBorderSpend`
+            // returns false for every card. Nothing else reports the omission — the rate is
+            // simply quoted too high, which reads as correct. All 77 merchants were missing
+            // it until 2026-08-15, so this check exists to stop it recurring one merchant
+            // at a time. `featured`/`popular` naming a non-US market is the tell that a
+            // merchant is region-scoped and should declare where it operates.
+            let listedRegions = Set((merchant.featured ?? []) + (merchant.popular ?? []))
+            if merchant.businessRegion?.isEmpty ?? true, !listedRegions.isEmpty, listedRegions != ["US"] {
+                issues.append("Merchant '\(merchant.id)': listed in \(listedRegions.sorted().joined(separator: "/")) but has no businessRegion — cross-border FX will not be applied for any card")
+            }
         }
 
         // MARK: Generic map mappings

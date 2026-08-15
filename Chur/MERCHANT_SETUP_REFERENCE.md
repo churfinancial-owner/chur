@@ -96,8 +96,14 @@ Format is a plain array of category IDs (the legacy `{"id": ..., "weight": ...}`
 | `searchable: false` | Map-only merchant — hidden from the Online search mode |
 | `isBrandCategory: true` | Enables `OnlineMerchantDatabase.merchant(forCategory:)` icon lookups; marks category as brand-exclusive |
 | `paymentMethods` | Omitted/`null` → **no payment-method rewards apply** online. Provide `["apple_pay"]` etc. to enable them |
-| `businessRegion` | Omitted/`null` = global. Array = only shown in those regions |
-| `featured` / `popular` | Featured grid / default list for those country codes |
+| `businessRegion` | **Where the merchant operates — this is what charges the cross-border FX fee.** Becomes `acceptedRegions`; a card whose country is outside the list gets its foreign-transaction fee subtracted from every rate. Omitted/`null` = global = **no FX for anyone**. It does *not* hide the merchant — see below |
+| `featured` / `popular` | Featured grid / default list for those country codes. Visibility only |
+
+**Set `businessRegion` on every region-scoped merchant, or its rates are quoted too high.** It is the only source of the FX fee online, and omitting it fails silently: the merchant still works, still matches, still shows a rate — just a rate the user will not actually get. PARKnSHOP quoted a US card the full unreduced rate this way, and it was found by hand, not by any check. `SeedDataValidator` now flags a merchant whose `featured`/`popular` name a non-US market while `businessRegion` is missing.
+
+Rule of thumb: list every market the merchant actually trades in. A local cardholder in any listed market pays no FX; everyone else does. Genuinely global merchants — where a customer always transacts in their own currency — correctly stay `null`.
+
+**`businessRegion` does not control visibility, deliberately.** A US cardholder searching PARKnSHOP is precisely the traveller who needs to be told their card charges 3% there, so hiding out-of-region merchants would defeat the fee it exists to compute. Curation is `featured`/`popular`. (`OnlineMerchantDatabase.isAvailable` read `businessRegion` until 2026-08-15 — harmlessly, since no merchant had the field — so authoring it would have deleted 35 merchants from search.)
 
 **Channel passed to calculator:** `"online"` for online search, `"in_store"` for map results.
 

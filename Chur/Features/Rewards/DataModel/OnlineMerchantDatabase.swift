@@ -54,11 +54,22 @@ struct OnlineMerchantDatabase {
         }
     }
     
-    /// Whether a merchant is available in the given country.
-    /// A merchant matches if businessRegion contains the country, or is nil/empty (global).
+    /// Whether a merchant is listed for users in the given country.
+    ///
+    /// **This deliberately does not consult `businessRegion`.** That field means "regions where
+    /// this merchant operates" and exists to drive the cross-border FX fee (`acceptedRegions` →
+    /// `CardRateCalculator.isCrossBorderSpend`). Hiding out-of-region merchants would defeat the
+    /// point of computing that fee: a US cardholder searching PARKnSHOP is exactly the traveller
+    /// who needs to be told their card charges 3% there.
+    ///
+    /// Curation of *which* merchants a country sees is `featured` / `popular`, which are separate
+    /// arrays for that purpose. Kept as a seam so a real availability rule has somewhere to live.
+    ///
+    /// Until 2026-08-15 this read `businessRegion` — harmlessly, because no merchant had the field
+    /// set, so it always returned true. Authoring `businessRegion` for the FX fix would have
+    /// silently deleted 35 merchants from search.
     static func isAvailable(_ merchant: OnlineMerchant, inCountry country: String) -> Bool {
-        guard let regions = merchant.businessRegion, !regions.isEmpty else { return true }
-        return regions.contains(country)
+        true
     }
     
     /// Featured merchants for a region: country must be in the `featured` array, has an icon, in-region.

@@ -237,6 +237,36 @@
       "expected": [{ "name": "FX Three", "effectiveCashBackRate": 0.03 }]
     },
     {
+      "id": "accepted-regions-applies-fx-to-out-of-region-card",
+      "rule": "the inverse of the case above — a US card at an HK-only merchant IS cross-border. This is the PARKnSHOP case: it depends entirely on the merchant declaring businessRegion, and reads as a correct rate when the data is missing",
+      "input": { "categoryID": "dining", "region": "HK", "acceptedRegions": ["HK"] },
+      "cards": [
+        {
+          "name": "FX Three",
+          "country": "US",
+          "hasForeignTransactionFee": true,
+          "foreignTransactionFeeRate": 0.03,
+          "rewards": [{ "rate": 3.0, "categories": ["dining"] }]
+        }
+      ],
+      "expected": [{ "name": "FX Three", "effectiveCashBackRate": 0.0 }]
+    },
+    {
+      "id": "no-region-means-global-and-charges-no-fx",
+      "rule": "region and acceptedRegions both nil = global merchant = no FX for anyone. Correct engine behaviour, and the reason an online merchant with no businessRegion silently skips the fee — pinned so the fix is made in the seed data, not here",
+      "input": { "categoryID": "dining", "region": null },
+      "cards": [
+        {
+          "name": "FX Three",
+          "country": "US",
+          "hasForeignTransactionFee": true,
+          "foreignTransactionFeeRate": 0.03,
+          "rewards": [{ "rate": 3.0, "categories": ["dining"] }]
+        }
+      ],
+      "expected": [{ "name": "FX Three", "effectiveCashBackRate": 0.03 }]
+    },
+    {
       "id": "online-overlay-outranks-base-reward",
       "rule": "bestOverlayReward — online_transactions applies on top of the category match",
       "input": { "categoryID": "dining", "region": "US", "channel": "online" },

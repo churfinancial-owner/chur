@@ -60,6 +60,7 @@
     "name": "Aldi",
     "domain": "aldi.us",
     "category": "aldi",
+    "businessRegion": ["AU", "UK", "US"],
     "merchantIconName": "icon_aldi",
     "isBrandCategory": true,
     "tags": [
@@ -220,6 +221,7 @@
     "name": "PARKnSHOP",
     "domain": "parknshop.com",
     "category": "parknshop_hk",
+    "businessRegion": ["HK"],
     "merchantIconName": "icon_parknshop",
     "isBrandCategory": true,
     "tags": [

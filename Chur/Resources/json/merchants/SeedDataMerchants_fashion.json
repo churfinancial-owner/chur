@@ -4,6 +4,7 @@
     "name": "lululemon",
     "domain": "lululemon.com",
     "category": "lululemon",
+    "businessRegion": ["CA", "HK", "TW", "US"],
     "merchantIconName": "icon_lululemon",
     "isBrandCategory": true,
     "tags": [
@@ -65,6 +66,7 @@
     "name": "Nike",
     "domain": "nike.com",
     "category": "nike",
+    "businessRegion": ["CA", "HK", "TW", "US"],
     "merchantIconName": "icon_nike",
     "isBrandCategory": true,
     "tags": [
@@ -99,6 +101,7 @@
     "name": "Adidas",
     "domain": "adidas.com",
     "category": "adidas",
+    "businessRegion": ["CA", "HK", "TW", "US"],
     "merchantIconName": "icon_adidas",
     "isBrandCategory": true,
     "tags": [
@@ -161,6 +164,7 @@
     "name": "Uniqlo",
     "domain": "uniqlo.com",
     "category": "uniqlo",
+    "businessRegion": ["HK", "TW", "US"],
     "merchantIconName": "icon_uniqlo",
     "isBrandCategory": true,
     "tags": [
@@ -193,6 +197,7 @@
     "name": "Asics",
     "domain": "asics.com",
     "category": "asics",
+    "businessRegion": ["HK", "TW", "US"],
     "merchantIconName": "icon_asics",
     "isBrandCategory": true,
     "tags": [
