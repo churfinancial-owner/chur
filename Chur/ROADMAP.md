@@ -4,19 +4,19 @@ Growth priorities and the reasoning behind them. **Update whenever priorities sh
 
 Last reviewed: 2026-08-15.
 
-**Where the numbers stand right now:** app `1.0 (1)`, live content **v17**, 175 cards / 272 benefits / 171 card images / 14 hand-authored category files. Verify with `swift run ChurContentPublish --verify` rather than trusting this line — it is a snapshot, and the version moves every publish.
+**Where the numbers stand right now:** app `1.0 (1)`, live content **v25**, 18 domains, 175 cards / 272 benefits / 192 hand-authored categories / 171 card images / 151 icons. Verify with `swift run ChurContentPublish --verify` rather than trusting this line — it is a snapshot, and the version moves every publish.
 
-**State at the end of the 2026-08-15 session.** P0 and P1a/P1b are done; the remote content pipeline is live and proven end to end, including the failure modes. P1c's **test vectors are done and green** (33 cases, and the project's first test target); its written JSON contract stays deferred until Android is real. Hand-testing then found that **online merchants never charged a cross-border FX fee** — fixed in the seed data, and **not yet published** (see below).
+**State at the end of the 2026-08-15 session.** P0, P1a, P1b and P1d are done; the remote content pipeline is complete — every domain but `SeedDataRegions` publishes, and no artwork ships in the binary. P1c's **test vectors are done and green** (33 cases, and the project's first test target); its written JSON contract stays deferred until Android is real. The **online cross-border FX fix** shipped in the P1d publish.
 
-**P1d is written and built, but nothing in it has run.** The remaining seed domains and all icon art now publish; the manifest goes from 6 bundles to 18. Authored on a machine with no Swift toolchain, so **not one line has been compiled** — P1c's post-mortem says to budget for that gap, and this change is far larger than the vectors were.
+**P1d is done, published and running.** 18 domains live, all icon art on the CDN, the merchant FX correction shipped alongside it. Authored on a machine with no Swift toolchain and compiled on the Mac afterwards; the gap cost one duplicate-id error and one emoji sizing bug, both real defects the change surfaced rather than caused.
 
-**Carried into the next session, in this order:**
+**Carried into the next session:**
 
-1. **Build it.** Nothing in P1d has been through a compiler. Expect harness failures, not design failures — that was the shape of it last time.
-2. **Publish the merchant fix.** `swift run ChurContentPublish --upload` — the FX correction is committed but live content is still v17, so no user has it. Rates go *down* for out-of-region merchants, which users notice, so eyeball a few in the app first. Do this **before** adding domains, so a failure has one cause.
-3. **`icon_disneyplus` is still 2787×2807, 5.9 MB** in this checkout and on `origin/main` — 68% of all icon art, rendered at ~40pt. Pak Ho reported fixing it locally on 2026-08-15; if so the fix was never committed, which is the P1b lesson ("always `git pull` before you publish") from the other direction. Check before publishing, or the CDN gets the 5.9 MB copy.
-4. **Eleven icon names still have no artwork** — mostly issuer logos (`icon_dbs`, `icon_fidelity`, `icon_synchrony`, …). They render as an emoji or an empty chip, which is why nobody noticed. Both the publisher and `SeedDataValidator` now list them.
-5. ~~Decide the US-only merchants.~~ Done 2026-08-15 — all 78 now declare `businessRegion` or `globalBilling`. Included in the publish above.
+1. **Commit `art-uploaded.json`.** The 151 icon keys uploaded to R2 are not yet in the file — it still records only the 171 card images. Harmless (the next publish re-uploads them, several minutes) but it is the only record of what is in the bucket.
+2. **22 icon names still have no artwork.** Two kinds, and they want opposite treatment: real brands worth sourcing a logo for (`icon_home_depot`, `icon_lowes`, `icon_sams_club`, `icon_tmall`, and the HK/regional issuers), and abstract concepts that probably never had art and should lose the `iconName` instead (`icon_mobile_pay`, `icon_wallet_topup`, `icon_foreign_transactions`, `5k_pv_purchases`). Both the publisher and `SeedDataValidator` list them every run.
+3. **The icon coverage report is ~140 lines before the first refresh** on a fresh install, one per unresolved name. Correct but overwhelming, and the merchant-FX note is the standing warning about output nobody reads. Collapse it to a summary when the count is that high.
+4. **Delete `ChurTests.swift`'s boilerplate `example()` test.** Xcode's template, empty, and it makes the suite report 35 instead of 34.
+5. ~~Decide the US-only merchants.~~ Done 2026-08-15 — all 78 now declare `businessRegion` or `globalBilling`. Shipped in the P1d publish.
 
 The day's fixes are worth a skim before touching content code: publishing, card art and the onboarding first-run path each broke in ways that were invisible from the symptom. See "P1b — lessons worth keeping".
 
@@ -27,7 +27,7 @@ The day's fixes are worth a skim before touching content code: publishing, card 
 | | |
 |---|---|
 | **What it does** | Per-dollar, point-of-sale ranker — "which card should I use at this merchant, right now" |
-| **Data** | 175 cards, 272 benefit templates, 223 categories, 77 merchants, 171 card images, 151 icons — ~500 JSON files in `Resources/json/`, bundled as the offline baseline. All artwork lives at repo-root `CardArt/` and `IconArt/`, outside the app target. **Everything publishes remotely except `SeedDataRegions.json`** (P1a, P1b, P1d) — 18 domains. No artwork ships in the binary at all |
+| **Data** | 175 cards, 272 benefit templates, 223 categories (192 hand-authored + 31 merchant-derived), 78 merchants, 171 card images, 151 icons — ~500 JSON files in `Resources/json/`, bundled as the offline baseline. All artwork lives at repo-root `CardArt/` and `IconArt/`, outside the app target. **Everything publishes remotely except `SeedDataRegions.json`** (P1a, P1b, P1d) — 18 domains. No artwork ships in the binary at all |
 | **Persistence** | On-device SwiftData (`ChurSchemaV2_0`, migration-ready) + Google Drive appDataFolder backup (`ChurBackup` v3) |
 | **Backend** | No application server. Three outbound calls: Cloudflare R2 content (`Core/Content/`), Google Drive (`Core/Sync/CloudSyncManager.swift`), Sanity CMS (`Features/News/Service/NewsService.swift`) |
 | **Analytics** | None |
@@ -228,9 +228,11 @@ It also inherits one concrete job from P1b item 5: **the structural rules now ex
 - **One malformed entry costs the whole file.** Three map rules used `prefix` where `containsMatches` takes `keyword`, and the decode failure took *every* generic map rule with it — the app kept working, just worse at recognising places. Per-file decoding is the right granularity for benefits (losing one perk beats losing all) and the wrong granularity here, where one file is the entire ruleset.
 - **The vectors did not catch this and could not have.** `accepted-regions-suppresses-fx` was green throughout; the engine was right all along. Engine tests pin behaviour given data — they say nothing about whether the data exists. The check that would have caught it is a seed-data assertion, which is what was added.
 
-### P1d — Finish the content pipeline (2026-08-15)
+### P1d — ✅ Content pipeline finished (2026-08-15)
 
-Filled in at last, after two sessions of sitting empty. The items are **the rest of the seed data, plus the rest of the art** — everything `Resources/json/` and `Assets.xcassets` still hold that a release is currently required to change.
+Filled in at last, after two sessions of sitting empty. The items were **the rest of the seed data, plus the rest of the art** — everything `Resources/json/` and `Assets.xcassets` still held that a release was required to change.
+
+**Published and verified 2026-08-15.** 18 domains live (up from 6), 151 icons on the CDN, asset catalog down from 10.4 MB to 1.1 MB. The 33 pricing vectors stayed green throughout, which is what says the three rate-bearing domains — categories, boost programs, reward programs — went remote without moving a number.
 
 **The two halves are bought with different currencies, and conflating them is how the reasoning goes wrong.**
 
@@ -269,6 +271,17 @@ The size argument that justified card art (19 MB, two thirds of the asset catalo
 
 1. **Is a build going to anyone other than Pak Ho soon?** Still no. P2a stays behind this section — but the moment that changes, it jumps the queue, because instrumentation added after launch says nothing about launch.
 2. **Does any item need a schema change?** **No.** Every domain here is read-only or already-persisted shape; nothing new lands on a `@Model`. P1d and P3 stay independent, and the first real staged migration is still the spend profile.
+
+#### P1d — lessons worth keeping
+
+- **Moving art to the CDN exercises every fallback path for the first time.** `MerchantIconView`'s emoji fallback was fixed at 80pt — right for the popup watermark it was written for, wrong for the 56×36 search row that also uses it. It had been wrong since the day it was written and nobody could see it, because bundled art meant the fallback almost never rendered. Publishing art doesn't only risk the *loading* path; it promotes every *fallback* to a path users actually see. If a shared view has a fallback sized, coloured or laid out for one call site, this is the release it surfaces in.
+- **An image adapts to its frame; a `Text` ignores it.** The specific mechanism behind the above, and worth knowing before writing the next one: `.scaledToFit()` makes art fit whatever frame the caller gives it, so an icon path needs no size parameter. A `Text` renders at its font size regardless of frame, so the fallback cannot inherit what the image got for free. Any placeholder built from text needs its size to travel with the call site.
+- **Aggregating the data is a free audit of it — three for three.** A duplicate `material_hardware` category, byte-identical, in one file. Invisible on device forever: `CategorySyncService` builds `templateByID` with `uniquingKeysWith: { first, _ in first }`, so the second entry collapsed into the first and no duplicate row was ever inserted. That is now the third latent data bug publishing has forced into the open (`marriott_gold_status`, the `target` map pattern, this). It is no longer a coincidence — expect one every time a domain joins the pipeline, and treat a clean first run as the surprise.
+- **`static let` is the wrong shape for anything publishable.** `BoostProgramDatabase.all`, `ProgramUpgradeDatabase.all` and `RewardProgramDefaults.all` were all `static let` — resolved once on first access, so a refresh landing mid-session could never reach them. Two of the three are money. Nothing would have reported it; the version moves, the log says `applied`, and the numbers stay put until relaunch. **Every domain also needs a line in `ContentRefreshCoordinator.reloadDatabases()`**, which is the same failure from the other end.
+- **Two lists that must agree need a guard, not a convention.** The publisher's `allDomains` exists so `--verify` can report an unpublished domain, and it is only useful if it matches what was actually written. That is an assertion, not a comment — added, because a list maintained by discipline rots the first time someone adds a domain in a hurry.
+- **Sort the asset catalog by file size after any bulk import.** `icon_disneyplus` shipped at 2787×2807 / 5.9 MB, rendered at ~40pt: 68% of all icon art, against neighbours of 7–35 KB. It had never been looked at because nothing surfaces it — the app renders it fine, the build succeeds, and the catalog compresses nothing. One `find -printf '%s'` sorted by size found it in seconds.
+- **"I fixed it locally" is not a state the repo can see, and the publisher reads the repo.** The oversized PNG was reported fixed and was unchanged in the working copy, on `origin/main`, and on the branch — the edit had never been saved. Caught only because the publish printed `iconArt: 7.6 MB` where 1.9 was expected. This is the third instance of the family the publishing reference opens with: **the byte counts in the publish output are the check, not your memory of what you changed.**
+- **`git pull origin <branch>` does not put you on that branch.** It merges the branch into whatever you have checked out — so a session of work landed on local `main`, and the subsequent push failed with `src refspec does not match any`. Nothing was lost, but local `main` silently carried unmerged PR work, one `git push origin main` away from bypassing review. `git branch --show-current` before publishing or pushing, every time.
 
 ### P2 — Analytics baseline
 
