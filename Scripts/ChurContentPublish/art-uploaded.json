@@ -32,10 +32,14 @@
     "art\/amex-platinum-d8ac7db3.png",
     "art\/amex-plum-business-3656bb35.png",
     "art\/amex-schwab-platinum-9fed4450.png",
+    "art\/archived_badge_lifestyle_coupon-bb02caf0.jpeg",
+    "art\/archived_badge_points_expert-a1f927a1.jpeg",
     "art\/badge_hotel_status-4335686c.jpeg",
     "art\/badge_lifestyle_coupon-bb02caf0.jpeg",
+    "art\/badge_lifestyle_coupon-faaca29f.png",
     "art\/badge_lounge_access-0a2f1e40.jpeg",
     "art\/badge_points_expert-a1f927a1.jpeg",
+    "art\/badge_points_expert-e88743c9.png",
     "art\/badge_protection_cellphone-2d17914a.jpeg",
     "art\/badge_protection_rentalcar-14cb4b28.jpeg",
     "art\/badge_rentalcar_status-eca30a43.jpeg",
@@ -323,5 +327,5 @@
     "art\/wf-premier-autograph-7c124fae.jpg",
     "art\/wf-signify-business-a80c8924.png"
   ],
-  "note" : "Card art keys already uploaded to R2. Content-addressed, so entries are never removed — an old key must keep resolving for rollback. Delete this file to force a full re-upload."
+  "note" : "Card and icon art keys already uploaded to R2. Content-addressed, so entries are never removed — an old key must keep resolving for rollback. Delete this file to force a full re-upload."
 }
