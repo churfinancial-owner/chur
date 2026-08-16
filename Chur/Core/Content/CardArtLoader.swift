@@ -181,26 +181,51 @@ final class CardArtLoader {
 
     // MARK: - Internals
 
+    /// Every failure here returns nil, and until P1d only one of the five said
+    /// so. A nil is indistinguishable at the call site from "this name has no
+    /// art", so a 404, a cancelled task and a corrupt payload all rendered as a
+    /// placeholder with an empty console — which is exactly how a blank badge
+    /// survived four rounds of diagnosis that each proved a different layer
+    /// innocent. Same lesson as `CardArtStore`'s two silent `try?`s in P1b:
+    /// never let a cache failure be silent.
     private func download(_ imageName: String) async -> UIImage? {
-        guard FeatureFlags.remoteContentEnabled,
-              let ref = reference(for: imageName),
-              let remoteURL = URL(string: ref.url) else { return nil }
+        guard FeatureFlags.remoteContentEnabled else { return nil }
+        guard let ref = reference(for: imageName) else {
+            print("⚠️ CardArt: '\(imageName)' is not in any published index")
+            return nil
+        }
+        guard let remoteURL = URL(string: ref.url) else {
+            print("⚠️ CardArt: '\(imageName)' has a malformed URL — \(ref.url)")
+            return nil
+        }
 
         do {
             let (data, response) = try await URLSession.shared.data(from: remoteURL)
             guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+                let code = (response as? HTTPURLResponse)?.statusCode ?? -1
+                print("⚠️ CardArt: '\(imageName)' returned HTTP \(code) — \(ref.url)")
                 return nil
             }
             guard CardArtStore.sha256Hex(data) == ref.sha256.lowercased() else {
                 print("⚠️ CardArt: checksum mismatch for '\(imageName)', discarding")
                 return nil
             }
-            guard let image = UIImage(data: data) else { return nil }
+            guard let image = UIImage(data: data) else {
+                print("⚠️ CardArt: '\(imageName)' downloaded \(data.count) bytes that UIImage could not decode")
+                return nil
+            }
 
             CardArtStore.write(data, for: imageName, sha256: ref.sha256, pathExtension: ref.pathExtension)
             memory.setObject(image, forKey: imageName as NSString)
             return image
         } catch {
+            // A cancellation is ordinary — a row scrolled away mid-fetch — and
+            // must not be logged as a failure, or it buries the ones that matter.
+            if (error as NSError).code == NSURLErrorCancelled {
+                print("⏹️ CardArt: '\(imageName)' download cancelled before it finished")
+            } else {
+                print("⚠️ CardArt: '\(imageName)' download failed — \(error)")
+            }
             return nil
         }
     }
@@ -234,6 +259,11 @@ final class CardArtLoader {
             }
             guard !merged.isEmpty else { return nil }
 
+            // Says which domains actually contributed. "cardArt 171 + iconArt 0"
+            // is a completely different problem from "the image won't download",
+            // and the two are indistinguishable from a blank rectangle.
+            print("🖼️ CardArt: index v\(version) — \(counts(merged))")
+
             // Decoded images are keyed by name, not by hash, so an updated image
             // would otherwise keep resolving to the previous one for the rest of
             // the session.
@@ -242,5 +272,13 @@ final class CardArtLoader {
             indexVersion = version
         }
         return index?[imageName]
+    }
+
+    /// Breaks the merged index down by the kind of name it holds, so the log line
+    /// distinguishes "iconArt never decoded" from "iconArt decoded and is empty".
+    private func counts(_ merged: [String: CardArtRef]) -> String {
+        let badges = merged.keys.filter { $0.hasPrefix("badge_") }.count
+        let icons = merged.keys.filter { $0.hasPrefix("icon_") }.count
+        return "\(merged.count) entries: \(badges) badge_, \(icons) icon_, \(merged.count - badges - icons) card"
     }
 }
