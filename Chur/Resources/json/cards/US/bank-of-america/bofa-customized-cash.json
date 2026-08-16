@@ -11,5 +11,5 @@
     "hasForeignTransactionFee": true,
     "foreignTransactionFeeRate": 0.03,
     "isPopular": false,
-    "benefits": []
+    "benefits": ["paze_10"]
 }

@@ -1,0 +1,23 @@
+{
+    "id": "paze_10",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Paze",
+            "description": ""
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "usageLimit": 10,
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "Paze",
+    "limitDescription": "Paze",
+    "referenceLink": "https://www.paze.com",
+    "displayOrder": 0,
+    "isActive": true
+}

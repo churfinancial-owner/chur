@@ -12,6 +12,7 @@
     "foreignTransactionFeeRate": 0.03,
     "benefits": [
         "doordash_quarterly",
+        "paze_10",
         "doorpass_6"
     ]
 }
