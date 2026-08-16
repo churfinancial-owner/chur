@@ -455,6 +455,28 @@ func loadArt(repoRoot: URL, directory: String) throws -> [CardArt] {
         throw PublishError("Duplicate imageName in \(directory): \(detail)")
     }
 
+    // Finder appends " 2" when a file is copied into a folder that already holds
+    // it, and the result is a perfectly valid *different* imageName — which is
+    // why the check above waves it through. 55 sailed into contentVersion 28
+    // that way: inert, because nothing references "icon_delta 2", but 55
+    // pointless objects in R2 and 11 KB of index nobody could explain.
+    //
+    // Blocks rather than warns. No art name has ever contained a space, so this
+    // is never intentional, the fix is `git clean -f`, and a warning is what
+    // gets skimmed — which is exactly how all 55 shipped.
+    let finderCopies = art
+        .map(\.imageName)
+        .filter { $0.range(of: #" \d+$"#, options: .regularExpression) != nil }
+        .sorted()
+    guard finderCopies.isEmpty else {
+        throw PublishError("""
+            \(directory) holds \(finderCopies.count) Finder duplicate(s) — files macOS named "… 2" when copied.
+               Nothing references these names, so publishing them adds dead weight to the index.
+               Remove them and re-run:  git clean -f \(directory)/
+               \(finderCopies.prefix(8).joined(separator: ", "))\(finderCopies.count > 8 ? ", …" : "")
+            """)
+    }
+
     return art.sorted { $0.imageName < $1.imageName }
 }
 
@@ -1280,7 +1302,40 @@ do {
                    key: "manifest.json",
                    bucket: args.bucket)
         print("   ✓ manifest.json")
-        print("\n✅ Published. Verify: curl -s \(args.baseURL)/manifest.json | grep contentVersion")
+
+        // A publish used to end here, on the strength of wrangler's exit codes.
+        // Three times in one session that was wrong: an empty cardArt index in
+        // P1b, a cardArt-26.json that never landed, and 55 phantom icons — each
+        // time this printed a tick and the CDN disagreed. `--verify` already
+        // knew how to catch all three; it was just something you had to
+        // remember to run, about a failure you had no reason to suspect.
+        //
+        // Publishing and confirming are one action now, the same way publishing
+        // and committing are.
+        print("\n✅ Uploaded contentVersion \(version). Confirming what is live…\n")
+
+        do {
+            try verifyLive(baseURL: args.baseURL)
+        } catch {
+            // R2 is read-after-write consistent, but a custom domain sits in
+            // front of it, so a check running the instant the manifest lands can
+            // lose a race it has no business losing. One retry — a false alarm
+            // here would train you to ignore the real one.
+            print("\n   Disagreed on the first look — waiting 5s in case the CDN had not caught up…\n")
+            Thread.sleep(forTimeInterval: 5)
+            do {
+                try verifyLive(baseURL: args.baseURL)
+            } catch {
+                // Distinct from a pre-upload failure, and the difference matters:
+                // the bytes are already in the bucket, so this is "fix and
+                // republish", not "nothing happened".
+                throw PublishError("""
+                    uploaded contentVersion \(version), but the CDN does not serve it correctly — see above.
+                       Devices stay on their last good version, so nothing is broken for users.
+                       Re-run --upload to replace it.
+                    """)
+            }
+        }
     } else {
         print("\nUpload every file in \(args.outDir.lastPathComponent)/ to the R2 bucket root.")
         print("manifest.json is the one that matters — nothing goes live without it.")
