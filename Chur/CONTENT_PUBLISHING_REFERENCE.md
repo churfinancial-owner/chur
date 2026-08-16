@@ -24,15 +24,19 @@ Everything below is that rule with the details filled in.
 
 | I want to… | Go to |
 |---|---|
-| Change a rate, fee, perk or merchant | [Job A: edit existing data](#job-a-edit-existing-data) |
+| Change a rate, fee, perk, merchant or badge | [Job A: edit existing data](#job-a-edit-existing-data) |
 | Add a brand-new card, artwork included | [Job B: add a card](#job-b-add-a-card) |
 | Add or replace just a card image | [Job C: card art only](#job-c-card-art-only) |
+| Add or replace a badge / bank / partner icon | [Job D: icon art only](#job-d-icon-art-only) |
+| Add a brand-new badge, partner or issuer | [Job E: add a badge, partner or issuer](#job-e-add-a-badge-partner-or-issuer) |
 
-All three end the same way — **publish, then commit** — and all three start the same way: `git pull`.
+Every one of them ends the same way — **publish, then commit** — and starts the same way: `git pull`.
+
+Nothing here needs an App Store release. Since P1d the only file that does is `SeedDataRegions.json`.
 
 ### Where things live
 
-Two places, and the split matters:
+Three places, and the split matters — **JSON in Xcode, artwork in Finder:**
 
 | What | Where | Edit it in |
 |---|---|---|
@@ -40,7 +44,7 @@ Two places, and the split matters:
 | Card images | `CardArt/<issuer>/<imageName>.png` | **Finder** |
 | Badge, bank and partner icons | `IconArt/<group>/<iconName>.png` | **Finder** |
 
-`CardArt/` sits at the repo root, next to `Chur/` — not inside it. It will **not** appear in Xcode's project navigator, on purpose: `Chur/` is a synchronized folder, so anything dropped in there gets compiled into the app and puts back the 19 MB that moving art to the CDN saved. Drop images in Finder.
+`CardArt/` and `IconArt/` sit at the repo root, next to `Chur/` — not inside it. They will **not** appear in Xcode's project navigator, on purpose: `Chur/` is a synchronized folder, so anything dropped in there gets compiled into the app and puts back the 27 MB that moving artwork to the CDN saved. Drop images in Finder.
 
 ```
 chur/
@@ -75,6 +79,8 @@ git push origin main                                    # 4. push
 
 **Steps 2 and 3 are one action.** Publishing without committing makes the live data and the repo disagree, and the next publish silently reverts your change.
 
+**Editing a category? Run the tests first.** `Chur/Resources/json/categories/*.json` is the one place where a content edit changes *prices* rather than labels — `cardFilter`, `excludeFromParent` and `categoryLinks` all feed the engine that decides which card wins. Open the project and press **⌘U** before you publish; the 33 pricing vectors are the only thing between a category edit and a wrong rate on every device. Everything else in the seed data is safe to edit freely.
+
 ## Job B: add a card
 
 ```bash
@@ -104,6 +110,53 @@ Replacing a card's picture, or filling in art for a card that's showing a placeh
 3. `cd ../.. && git add -A && git commit -m "New art for <card>" && git push origin main`
 
 No JSON changes, no app release. Image keys are content-addressed (`art/<imageName>-<sha8>.png`), so new bytes become a new key and devices fetch it on the next content version — nothing to cache-bust. The old key stays in R2, so a rollback still resolves.
+
+## Job D: icon art only
+
+Badge, bank and partner icons. Same shape as Job C, different folder.
+
+1. Drop the file at `IconArt/<group>/<iconName>.png` in Finder, replacing the old one if there is one. Groups are `badges/`, `banks/`, `partners/<category>/` — **for you, not for the app.** Only the filename matters.
+2. `cd Scripts/ChurContentPublish && swift run ChurContentPublish --upload`
+3. `cd ../.. && git add -A && git commit -m "New art for <thing>" && git push origin main`
+
+**The filename must equal the name in the JSON exactly**, and which field that is depends on what you're illustrating:
+
+| Illustrating | Field that names it | Lives in |
+|---|---|---|
+| A bank / issuer | `logoImageName` | `control/SeedDataIssuers.json` |
+| A badge | `icon` | `badges/SeedDatabadges.json` |
+| An airline or hotel partner | `logoImageName` | `badges/SeedDataPartners.json` |
+| A shop or brand | `merchantIconName` | `merchants/SeedDataMerchants_*.json` |
+| A category | `iconName` | `categories/SeedDataCategories_*.json` |
+
+The publish lists every name it couldn't find a file for, so you never have to guess:
+
+```
+⚠️  Icon names with no file in IconArt/ (22): icon_dbs, icon_fidelity, …
+```
+
+Drop a matching file in and the name disappears from that list. **A wrong filename is silent in the app** — a missing icon falls back to an emoji, which reads as a design choice rather than as breakage. Three icons were wrong for months for exactly that reason (`icon_allegient` against `icon_allegiant`). The list above is the only place it shows.
+
+> **Don't drag a file into a folder that already has one of that name.** Finder makes a copy called `icon_delta 2.png` instead of replacing it, which is a *different* icon as far as everything here is concerned. The publish refuses those now; clear them with `git clean -f IconArt/`. Replace the file properly, or delete the old one first.
+
+## Job E: add a badge, partner or issuer
+
+Same two halves as adding a card — a JSON entry and a picture.
+
+```bash
+cd ~/Documents/Product/chur
+git pull origin main
+```
+
+1. **JSON** — add the entry in Xcode, in the file from the table in Job D. Note the icon name you gave it.
+2. **Art** — in Finder, save the image as `IconArt/<group>/<that exact name>.png`.
+3. **Publish** — `cd Scripts/ChurContentPublish && swift run ChurContentPublish --upload`
+4. **Commit** — `cd ../..` then `git add -A && git commit -m "Add <thing>" && git push origin main`
+
+Two things to know before you start:
+
+- **A badge also needs `detectionRules`** that reference real benefit ids, or it never unlocks for anyone. Check the ids against `Chur/Resources/json/benefits/`.
+- **A transfer partner is referenced by id** from `SeedDataTransferPartners.json`. Adding the partner alone puts it in the directory; it appears in a program's list only once that program names it.
 
 > Working on a branch rather than `main`? Replace `main` in every command above — see [Branches](#branches--when-the-commands-say-something-other-than-main). Check with `git branch --show-current`.
 
@@ -343,6 +396,40 @@ Fix the filename so it matches `imageName` exactly — see [Job C](#job-c-card-a
 If *every* card shows a placeholder, this isn't the cause — that's a failed refresh, above.
 
 **`art-uploaded.json` must be committed.** It is the only record of what's already in R2. Without it the script re-uploads all 171 images — harmless, but several minutes.
+
+### An icon shows an emoji instead of a picture
+
+The name in the JSON has no matching file in `IconArt/`. This is the icon twin of the grey card placeholder above, and it is **much harder to spot** — a card with no art looks broken, an icon with no art looks like a deliberate emoji.
+
+Two places report it. The publish:
+
+```
+⚠️  Icon names with no file in IconArt/ (22): icon_dbs, icon_fidelity, …
+```
+
+and the Xcode console at launch:
+
+```
+Icon 'icon_dbs' resolves to nothing — referenced by issuer 'dbs'
+```
+
+Fix by adding the file — [Job D](#job-d-icon-art-only). Case, underscores and hyphens all count; the folder it sits in does not.
+
+If *every* icon is missing rather than a few, that is not this. Either the app has not refreshed yet (the console says `art index not fetched yet`, and it fixes itself on the next refresh) or the refresh is failing — see [validation failed](#the-status-line-says-validation-failed).
+
+### The publish refused: "Finder duplicate(s)"
+
+```
+❌ IconArt holds 3 Finder duplicate(s) — files macOS named "… 2" when copied.
+```
+
+You dragged an image into a folder that already had one by that name, and Finder made a copy called `icon_delta 2.png` rather than replacing it. That trailing ` 2` makes it a *different* icon everywhere in this pipeline, so it would publish as an entry nothing ever asks for.
+
+```bash
+git clean -f IconArt/      # or CardArt/, whichever the message named
+```
+
+Then replace the file properly — delete the old one first, or confirm the replace in Finder. 55 of these reached the CDN once before this check existed; they were harmless, and nobody could explain where they came from.
 
 ### The publish refused: "the app would reject this payload"
 
