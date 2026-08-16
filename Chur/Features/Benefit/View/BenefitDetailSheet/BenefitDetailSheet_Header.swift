@@ -43,11 +43,10 @@ extension BenefitDetailSheet {
                     }
                 }
             }
+            .popupHeaderInset()
 
             Text(name)
-                .font(.churBigTitle3())
-                .foregroundStyle(Color.churDarkGray)
-                .fixedSize(horizontal: false, vertical: true)
+                .popupHeaderTitle()
         }
     }
 

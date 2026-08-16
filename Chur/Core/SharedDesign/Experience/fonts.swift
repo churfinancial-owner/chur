@@ -20,8 +20,17 @@ extension Font {
         .system(size: 48, weight: .bold, design: .rounded)
     }
     
+    /// The sheet/popup title size. Reduced 32 → 28 so titles fit more text
+    /// before wrapping or scaling down — they share their line with a corner
+    /// watermark that costs 110pt of width.
+    ///
+    /// **This is now identical to `churTitle()`.** Two names for one size is
+    /// exactly the growth `CLAUDE.md` warns about in this file; the fix is to
+    /// collapse them into one, which is a rename across ~30 call sites and so
+    /// deliberately not bundled with a UI touch-up. Reuse either before adding
+    /// a third.
     static func churBigTitle3() -> Font {
-        .system(size: 32, weight: .bold, design: .rounded)
+        .system(size: 28, weight: .bold, design: .rounded)
     }
     
     static func churBigTitle4() -> Font {

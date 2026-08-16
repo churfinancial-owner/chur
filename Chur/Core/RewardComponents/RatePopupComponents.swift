@@ -69,11 +69,59 @@ struct PopupHeaderWatermark<Content: View>: View {
         ZStack {
             Circle()
                 .fill(tint)
-                .frame(width: 140, height: 140)
+                .frame(width: PopupHeaderMetrics.diameter, height: PopupHeaderMetrics.diameter)
             content()
         }
-        .offset(x: 30, y: -16)
+        .offset(x: PopupHeaderMetrics.overhang, y: PopupHeaderMetrics.verticalOffset)
         .allowsHitTesting(false)
+    }
+}
+
+/// Geometry shared by the watermark and the headers that have to work around it.
+///
+/// A separate non-generic type on purpose: `PopupHeaderWatermark` is generic
+/// over its content, and Swift does not allow static stored properties there.
+enum PopupHeaderMetrics {
+    static let diameter: CGFloat = 140
+    /// How far the circle is pushed past the header's trailing edge.
+    static let overhang: CGFloat = 30
+    static let verticalOffset: CGFloat = -16
+
+    /// Width the watermark actually covers inside the header, and therefore how
+    /// far header text must be inset to clear it.
+    ///
+    /// Derived rather than written down: this was the literal `110` in two
+    /// popups and was simply missing from the benefit sheet, where the title
+    /// ran under the logo. A number repeated at every call site drifts the
+    /// first time the circle is resized.
+    static let contentInset: CGFloat = diameter - overhang
+}
+
+// MARK: - Popup Header Title
+
+extension View {
+
+    /// The title treatment shared by every header carrying a
+    /// `PopupHeaderWatermark`: sized, capped at two lines, allowed to shrink a
+    /// little, and inset clear of the watermark.
+    ///
+    /// The three headers had drifted — `minimumScaleFactor` was 0.75 in
+    /// MapMerchantPopup, 0.8 in ParentCategoryPopup and absent in the benefit
+    /// sheet, which also had no inset at all. Settled at 0.8 here so there is
+    /// one answer rather than three.
+    func popupHeaderTitle() -> some View {
+        self
+            .font(.churBigTitle3())
+            .foregroundStyle(Color.churDarkGray)
+            .lineLimit(2)
+            .minimumScaleFactor(0.8)
+            .padding(.trailing, PopupHeaderMetrics.contentInset)
+    }
+
+    /// For the non-title rows that share the watermark's band — a pill row or
+    /// capsule bubble above the title.
+    func popupHeaderInset() -> some View {
+        padding(.trailing, PopupHeaderMetrics.contentInset)
     }
 }
 

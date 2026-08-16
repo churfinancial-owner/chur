@@ -313,6 +313,15 @@ A benefit that reads "Uber Cash" now shows the Uber mark in its detail sheet. **
 
 **The logo is a corner watermark, not an inline icon.** First built as a 32pt icon leading the title; changed to reuse `PopupHeaderWatermark` — the 140pt tinted circle with an 80pt mark bleeding off the top-right that both merchant popups already use. The benefit header turned out to have the same bones as the popup header (padded `VStack`, off-white + `RepeatingPatternBackground`, clipped), so it was an overlay and nothing else. `PopupHeaderWatermark` gained a `tint:` initialiser because a benefit has no category to tint by — `displayGroup` looked like the answer and is a trap: only the exact string `travel` matches a `categoryBadgeTint` case, so 67 benefits would have gone travel-coloured while the *larger* `lifestyle_travel` group (83) fell through to the default.
 
+**The watermark exposed three things wrong with the headers, two of them pre-existing.** Placing a mark in the corner is only half the job; the header has to make room for it, and only the merchant popup ever had.
+
+| Fix | Was |
+|---|---|
+| `.frame(maxWidth: .infinity)` on the benefit header | **Missing** — so `RepeatingPatternBackground` drew only as wide as the widest line and the pattern stopped partway across the sheet. The other three headers all had it |
+| `.popupHeaderTitle()` / `.popupHeaderInset()` | Three headers, three answers: `minimumScaleFactor` 0.75 / 0.8 / absent, and the benefit sheet had no trailing inset at all, so its title ran under the logo |
+| `PopupHeaderMetrics.contentInset` | The literal `110` written out four times, with nothing tying it to the 140pt circle and 30pt overhang it is derived from |
+| `churBigTitle3()` 32 → 28pt | Titles share their line with a mark costing 110pt of width. Reduced across all 23 call sites at once. **It now duplicates `churTitle()`** — recorded in `fonts.swift`, to be collapsed rather than left as two names for one size |
+
 **Not done, on purpose: no icon in `BenefitCheckboxRow`.** At 152/276 an icon slot is empty on four rows in ten. That is a judgement call better made looking at the sheet on a device than predicted from a percentage.
 
 **Aggregating the data audited it — four for four.** Publishing has forced a latent data bug into the open every single time (`marriott_gold_status`, the `target` map pattern, the duplicate `material_hardware`, and now this). Resolving partner names surfaced five typos that were *also user-visible misspellings* — `Alaksa Airline` on all six Alaska benefits, `Instacard`, `Allegiant Air`, `Disney Store`, `Virgind` — plus four values that are not partners at all (`"null"` and `"streaming"` as literal strings, `"Rideshare Services"`, and `"FedEx, Grubhub, Office Supply Stores"` — a *list* in a singular field). All fixed or dropped. **Treat a clean first run as the surprise.**

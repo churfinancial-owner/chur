@@ -68,15 +68,11 @@ struct MerchantDetailSheet: View {
                     }
                 }
             }
-            .padding(.trailing, 110)
+            .popupHeaderInset()
 
             Text(viewModel.merchant.name)
-                .font(.churBigTitle3())
-                .foregroundStyle(Color.churDarkGray)
-                .lineLimit(2)
-                .minimumScaleFactor(0.75)
+                .popupHeaderTitle()
                 .padding(.top, 10)
-                .padding(.trailing, 110)
 
             HStack(spacing: 6) {
                 Text("Here's your best card here.")

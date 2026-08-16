@@ -160,15 +160,11 @@ struct ParentCategoryParallaxSheet: View {
                 text: headerKind.displayLabel,
                 icon: headerKind.icon
             )
-            .padding(.trailing, 110)
+            .popupHeaderInset()
 
             Text(category.displayName)
-                .font(.churBigTitle3())
-                .foregroundStyle(Color.churDarkGray)
-                .lineLimit(2)
-                .minimumScaleFactor(0.8)
+                .popupHeaderTitle()
                 .padding(.top, 10)
-                .padding(.trailing, 110)
 
             HStack(spacing: 6) {
                 Text("Here's what earns you the most.")

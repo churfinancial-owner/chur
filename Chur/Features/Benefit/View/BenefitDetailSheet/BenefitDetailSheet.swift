@@ -112,6 +112,11 @@ struct BenefitDetailSheet: View {
                 .lineSpacing(3)
                 .fixedSize(horizontal: false, vertical: true)
         }
+        // Without this the VStack is only as wide as its widest line, so the
+        // pattern background behind it stopped partway across the sheet. The
+        // other three headers using RepeatingPatternBackground all had it;
+        // this one never did.
+        .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal, 24)
         .padding(.top, 20)
         .padding(.bottom, 26)
