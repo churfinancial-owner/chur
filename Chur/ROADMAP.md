@@ -4,7 +4,7 @@ Growth priorities and the reasoning behind them. **Update whenever priorities sh
 
 Last reviewed: 2026-08-15.
 
-**Where the numbers stand right now:** app `1.0 (1)`, live content **v25**, 18 domains, 175 cards / 272 benefits / 192 hand-authored categories / 171 card images / 151 icons. Verify with `swift run ChurContentPublish --verify` rather than trusting this line — it is a snapshot, and the version moves every publish.
+**Where the numbers stand right now:** app `1.0 (1)`, live content **v29**, 18 domains, 175 cards / 272 benefits / 192 hand-authored categories / 171 card images / 151 icons. Verify with `swift run ChurContentPublish --verify` rather than trusting this line — it is a snapshot, and the version moves every publish.
 
 **State at the end of the 2026-08-15 session.** P0, P1a, P1b and P1d are done; the remote content pipeline is complete — every domain but `SeedDataRegions` publishes, and no artwork ships in the binary. P1c's **test vectors are done and green** (33 cases, and the project's first test target); its written JSON contract stays deferred until Android is real. The **online cross-border FX fix** shipped in the P1d publish.
 
@@ -12,7 +12,7 @@ Last reviewed: 2026-08-15.
 
 **Carried into the next session:**
 
-1. **Commit `art-uploaded.json`.** The 151 icon keys uploaded to R2 are not yet in the file — it still records only the 171 card images. Harmless (the next publish re-uploads them, several minutes) but it is the only record of what is in the bucket.
+1. ~~Commit `art-uploaded.json`.~~ Done — all 322 keys recorded, regenerated from the art files rather than copied, since content-addressed keys make the file a pure function of the bytes on disk.
 2. **22 icon names still have no artwork.** Two kinds, and they want opposite treatment: real brands worth sourcing a logo for (`icon_home_depot`, `icon_lowes`, `icon_sams_club`, `icon_tmall`, and the HK/regional issuers), and abstract concepts that probably never had art and should lose the `iconName` instead (`icon_mobile_pay`, `icon_wallet_topup`, `icon_foreign_transactions`, `5k_pv_purchases`). Both the publisher and `SeedDataValidator` list them every run.
 3. ~~Collapse the icon coverage report~~, ~~spot-check art in `--verify`~~, ~~teach the coverage checker about Swift-literal icon names~~, ~~delete the boilerplate test~~ — all done 2026-08-15.
 4. ~~Decide the US-only merchants.~~ Done 2026-08-15 — all 78 now declare `businessRegion` or `globalBilling`. Shipped in the P1d publish.
@@ -281,6 +281,7 @@ The size argument that justified card art (19 MB, two thirds of the asset catalo
 - **Two lists that must agree need a guard, not a convention.** The publisher's `allDomains` exists so `--verify` can report an unpublished domain, and it is only useful if it matches what was actually written. That is an assertion, not a comment — added, because a list maintained by discipline rots the first time someone adds a domain in a hurry.
 - **Sort the asset catalog by file size after any bulk import.** `icon_disneyplus` shipped at 2787×2807 / 5.9 MB, rendered at ~40pt: 68% of all icon art, against neighbours of 7–35 KB. It had never been looked at because nothing surfaces it — the app renders it fine, the build succeeds, and the catalog compresses nothing. One `find -printf '%s'` sorted by size found it in seconds.
 - **"I fixed it locally" is not a state the repo can see, and the publisher reads the repo.** The oversized PNG was reported fixed and was unchanged in the working copy, on `origin/main`, and on the branch — the edit had never been saved. Caught only because the publish printed `iconArt: 7.6 MB` where 1.9 was expected. This is the third instance of the family the publishing reference opens with: **the byte counts in the publish output are the check, not your memory of what you changed.**
+- **The publisher believed its own success three times in one session.** An empty `cardArt` index in P1b, a `cardArt-26.json` that reported uploaded and 404d, and 55 Finder duplicates (`icon_delta 2.png`) that passed the duplicate check because they are genuinely different imageNames. Each printed a tick. `--verify` could have caught all three and was something you had to remember to run, about failures you had no reason to suspect — so `--upload` now runs it on itself, and publishing and confirming are one action the way publishing and committing are. **A tool that only validates its inputs will keep reporting success while being wrong;** what it also has to check is that the world matches what it thinks it did.
 - **`git pull origin <branch>` does not put you on that branch.** It merges the branch into whatever you have checked out — so a session of work landed on local `main`, and the subsequent push failed with `src refspec does not match any`. Nothing was lost, but local `main` silently carried unmerged PR work, one `git push origin main` away from bypassing review. `git branch --show-current` before publishing or pushing, every time.
 
 ### P2 — Analytics baseline

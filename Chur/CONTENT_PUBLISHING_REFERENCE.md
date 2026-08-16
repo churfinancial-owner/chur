@@ -179,6 +179,8 @@ swift run ChurContentPublish --upload --version 18
 
 Then commit — publishing and committing are one action, never one without the other.
 
+**`--upload` verifies itself.** Since P1d it re-downloads everything it just published, checksums it, and applies the app's rules — so the run either ends with `✅ Live content is valid` or tells you the CDN disagrees. You no longer need to remember `--verify` after a publish; it is still there for answering "is production broken right now" at any other time.
+
 ---
 
 ## Verifying it worked
