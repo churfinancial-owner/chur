@@ -29,23 +29,22 @@ struct MerchantDetailSheet: View {
             VStack(spacing: 0) {
                 headerSection
 
-                PopupOverlapCard {
-                    VStack(spacing: 0) {
-                        RecommendationStackView(
-                            bestCardSummary: viewModel.bestCardSummary,
-                            otherCardRates: viewModel.otherCardRates,
-                            cards: viewModel.cards,
-                            showFormula: showFormula
-                        )
-                        #if DEBUG
-                        .onTapGesture { showingCategoryDetail = true }
-                        .sheet(isPresented: $showingCategoryDetail) { debugCalculator }
-                        #endif
-                        .padding(.top, 28)
+                // The cards themselves bite into the sage — the first one's
+                // rounded corners and shadow land on colour, which is where the
+                // contrast comes from.
+                RecommendationStackView(
+                    bestCardSummary: viewModel.bestCardSummary,
+                    otherCardRates: viewModel.otherCardRates,
+                    cards: viewModel.cards,
+                    showFormula: showFormula
+                )
+                #if DEBUG
+                .onTapGesture { showingCategoryDetail = true }
+                .sheet(isPresented: $showingCategoryDetail) { debugCalculator }
+                #endif
+                .popupHeroOverlap()
 
-                        Spacer(minLength: 40)
-                    }
-                }
+                Spacer(minLength: 40)
             }
         }
         .background(Color.churOffWhite)

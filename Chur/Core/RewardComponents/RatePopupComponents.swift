@@ -119,12 +119,22 @@ enum PopupHeroMetrics {
     static let bottomPadding: CGFloat = 76
     static let horizontalPadding: CGFloat = 24
 
-    /// How far the content card is pulled up over the hero.
-    static let overlap: CGFloat = 52
-    static let cardRadius: CGFloat = 26
+    /// How far the elevated layer is pulled up into the hero.
+    static let overlap: CGFloat = 48
 
     /// Trailing inset for hero text so it clears the avatar.
     static let contentInset: CGFloat = avatar + avatarTrailing + 8
+}
+
+/// The elevated layer: how every white card on a sage screen is built.
+enum PopupCardMetrics {
+    /// Internal gutter. One value, applied by the card container, which is why
+    /// the content inside it carries no horizontal padding of its own — two
+    /// gutters stacked is how a card ends up looking cramped and misaligned.
+    static let gutter: CGFloat = 20
+    /// Vertical rhythm between separate cards.
+    static let stackSpacing: CGFloat = 16
+    static let radius: CGFloat = 24
 }
 
 /// The sage hero: flat colour, text at the leading edge, a floating white
@@ -158,23 +168,28 @@ struct PopupHeroHeader<Content: View, Avatar: View>: View {
     }
 }
 
-/// The white slab that bites into the hero above it.
-///
-/// The negative padding is on this view rather than a spacer above it so the
-/// shadow falls on the sage instead of on a gap.
-struct PopupOverlapCard<Content: View>: View {
-    @ViewBuilder var content: () -> Content
+extension View {
 
-    var body: some View {
-        content()
-            .frame(maxWidth: .infinity)
-            .background(Color.churOffWhite)
-            .clipShape(
-                .rect(topLeadingRadius: PopupHeroMetrics.cardRadius,
-                      topTrailingRadius: PopupHeroMetrics.cardRadius)
-            )
-            .shadow(color: .black.opacity(0.07), radius: 16, y: -4)
-            .padding(.top, -PopupHeroMetrics.overlap)
+    /// Diffused ambient shadow — the card floats a few millimetres above the
+    /// surface rather than casting a hard edge.
+    ///
+    /// `shadow-[0_8px_30px_rgba(0,0,0,0.04)]` in CSS terms. **SwiftUI's
+    /// `radius` is roughly half a CSS blur**, so a 30px blur is `radius: 15`,
+    /// not 30 — getting that wrong is how a soft shadow turns into a smudge.
+    func ambientCardShadow() -> some View {
+        shadow(color: .black.opacity(0.04), radius: 15, y: 8)
+    }
+
+    /// Pulls the elevated layer up so it bites into the hero above it.
+    ///
+    /// Applied to the card itself rather than to a slab wrapping the whole
+    /// page: the first *card* is what overlaps the sage in the reference, so
+    /// its rounded corners and its shadow both land on colour. Wrapping
+    /// everything in one off-white sheet — which is what this was first built
+    /// as — puts a flat panel between the sage and the cards and loses the
+    /// contrast the effect is made of.
+    func popupHeroOverlap() -> some View {
+        padding(.top, -PopupHeroMetrics.overlap)
     }
 }
 
@@ -247,8 +262,6 @@ struct PopupBestCardContent: View {
                 }
                 Spacer()
             }
-            .padding(.horizontal, 16)
-            .padding(.top, 14)
             .padding(.bottom, 14)
 
             BestCardStatStrip(
@@ -264,8 +277,7 @@ struct PopupBestCardContent: View {
                     effectiveRateText: summary.effectiveRateDisplayString,
                     isNegative: summary.effectiveCashBackRate < 0
                 )
-                .padding(.horizontal, 20)
-                .padding(.bottom, 20)
+                .padding(.top, 12)
             }
         }
     }
@@ -326,26 +338,29 @@ struct RateTileContainer<Content: View>: View {
     @ViewBuilder let content: () -> Content
 
     var body: some View {
-        VStack(spacing: 0) {
-            HStack {
-                Text(title)
-                    .font(.churBadgeBold())
-                    .kerning(1.2)
-                    .foregroundStyle(.white)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 6)
-                    .background(bannerColor)
-                    .clipShape(UnevenRoundedRectangle(bottomTrailingRadius: 8))
-                Spacer()
-            }
+        VStack(alignment: .leading, spacing: 14) {
+            // A pill sitting inside the gutter, not a tab welded to the corner.
+            // The badge stays top-left as before; what changed is that it now
+            // respects the card's internal padding like everything else in it.
+            Text(title)
+                .font(.churBadgeBold())
+                .kerning(1.2)
+                .foregroundStyle(.white)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 6)
+                .background(bannerColor, in: Capsule())
+
             content()
         }
-        // Solid rather than 60% opaque, and a wider softer shadow: on the sage
-        // hero style each section has to read as its own card lifted off the
-        // page, which a translucent fill and a tight shadow never did.
+        .frame(maxWidth: .infinity, alignment: .leading)
+        // The card owns the gutter. Content inside carries none of its own —
+        // see PopupCardMetrics.gutter.
+        .padding(PopupCardMetrics.gutter)
+        // Solid rather than 60% opaque: on sage, a translucent fill never read
+        // as an elevated layer.
         .background(Color.churTileWhiteBg)
-        .clipShape(RoundedRectangle(cornerRadius: 20))
-        .shadow(color: .black.opacity(0.06), radius: 14, y: 6)
+        .clipShape(RoundedRectangle(cornerRadius: PopupCardMetrics.radius, style: .continuous))
+        .ambientCardShadow()
     }
 }
 
@@ -365,10 +380,8 @@ struct BestCardStatStrip: View {
                 .padding(.vertical, 8)
             statCell(value: effectivePctText, label: AppLocale.string("EFFECTIVE RATE"), mode: isEffectiveNegative ? .effectiveNegative : .effectivePositive)
         }
-        .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-        .padding(.horizontal, 12)
-        .padding(.bottom, 12)
+        .background(Color.churOffWhite)
+        .clipShape(RoundedRectangle(cornerRadius: 14))
     }
 
     private func statCell(value: String, label: String, mode: RatePill.DisplayMode) -> some View {
@@ -434,7 +447,7 @@ struct RecommendationStackView: View {
     @State private var isExpanded = true
 
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: PopupCardMetrics.stackSpacing) {
             if let best = bestCardSummary {
                 RateTileContainer(title: AppLocale.string("BEST CARD TO USE"), bannerColor: .churGold) {
                     PopupBestCardContent(
@@ -461,7 +474,7 @@ struct RecommendationStackView: View {
                 VStack(spacing: 0) {
                     VStack(spacing: 10) {
                         ForEach(otherCardRates.prefix(5), id: \.name) { comparisonRow(for: $0) }
-                    }.padding(16)
+                    }
                     RateToggleButton(text: AppLocale.string("Show Less"), icon: "chevron.up") {
                         withAnimation(.spring(response: 0.3)) { isExpanded = false }
                     }
@@ -480,7 +493,7 @@ struct RecommendationStackView: View {
                             .font(.system(size: 12, weight: .bold))
                             .foregroundStyle(Color.churMediumGray)
                     }
-                    .padding(.horizontal, 16).padding(.vertical, 20)
+                    .padding(.vertical, 12)
                 }
             }
         }.transition(.opacity)
