@@ -274,6 +274,10 @@ Key forms, in order — **the full string always wins over any trimmed form**, s
 
 **The cost of keying on display text:** renaming a merchant's `name` or an issuer's `shortName` silently drops the icon, with every icon name still resolving perfectly — so this failure is invisible to the icon-coverage check. `SeedDataValidator.checkPartnerIconCoverage()` prints the coverage count and every unresolved name on each run for exactly that reason. Reported as info, not as a warning: a benefit naming a partner the app has no row for is normal (Priority Pass, Resy, Equinox), so it is the number *moving* that is the signal.
 
+**Collisions are the one failure that is wrong rather than absent, and they are warnings.** A name in two namespaces with two *different* icons draws a plausible logo for the wrong entity. `marriott` is both an issuer (`icon_bonvoy`) and a transfer partner (`icon_marriott`), and issuer-first ordering meant every Marriott benefit drew the Bonvoy card mark. Exactly one such collision exists in the data today, and no benefit routes through it — all four Marriott benefits name `marriott_hotels`. The validator reports collisions **only on keys a benefit actually resolves through**, so an unused collision stays quiet.
+
+**Prefer an explicit id over a display name when authoring `partnerID`.** `"marriott_hotels"` is a real merchant/category id; `"Marriott"` is a display string that happens to match something. The first cannot drift and cannot collide.
+
 ---
 
 ## 6. BenefitUsageRecord

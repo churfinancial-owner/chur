@@ -332,6 +332,7 @@ enum SeedDataValidator {
         var resolved = 0
         var byNamespace: [String: Int] = [:]
         var unresolved: [String: Int] = [:]   // raw partner text → benefit count
+        var usedKeys: Set<String> = []        // normalized keys a benefit actually resolved through
 
         for benefit in benefits {
             let raw = benefit.partnerID ?? benefit.partnerName
@@ -342,6 +343,7 @@ enum SeedDataValidator {
                                                        partnerName: benefit.partnerName) {
                 resolved += 1
                 byNamespace[match.namespace.rawValue, default: 0] += 1
+                usedKeys.insert(match.key)
             } else {
                 unresolved[raw, default: 0] += 1
             }
@@ -350,6 +352,33 @@ enum SeedDataValidator {
         guard namesPartner > 0 else {
             print("ℹ️ SeedDataValidator: no benefits loaded, skipping partner icon coverage")
             return []
+        }
+
+        // A name living in two namespaces with two *different* icons is the one
+        // failure here that is silently wrong rather than merely absent: the
+        // earlier namespace wins and draws a plausible logo for the wrong
+        // entity. "Marriott" is both an issuer (`icon_bonvoy`) and a transfer
+        // partner (`icon_marriott`), so every Marriott benefit drew the Bonvoy
+        // card mark until the seed data pointed at `marriott_hotels` instead.
+        // One collision exists today; this reports the next one rather than
+        // waiting for someone to notice a wrong logo.
+        //
+        // Scoped to keys a benefit actually resolves through, not to every
+        // collision in the index. `marriott` collides whether or not anything
+        // uses it — reporting that permanently is how a check becomes wallpaper.
+        var iconsByKey: [String: [(PartnerIconResolver.Namespace, String)]] = [:]
+        for (namespace, table) in PartnerIconResolver.index {
+            for (key, icon) in table where usedKeys.contains(key) {
+                iconsByKey[key, default: []].append((namespace, icon))
+            }
+        }
+        let order = [PartnerIconResolver.Namespace.issuer, .partner, .merchant, .category]
+        var collisions: [String] = []
+        for (key, hits) in iconsByKey where Set(hits.map(\.1)).count > 1 {
+            let ranked = hits.sorted { order.firstIndex(of: $0.0)! < order.firstIndex(of: $1.0)! }
+            let winner = ranked[0]
+            let losers = ranked.dropFirst().map { "\($0.0.rawValue):\($0.1)" }.joined(separator: ", ")
+            collisions.append("Partner name '\(key)' resolves in \(ranked.count) namespaces with different icons — \(winner.0.rawValue):\(winner.1) wins over \(losers). Set an explicit partnerID on any benefit that means the loser")
         }
 
         let percent = Int((Double(resolved) / Double(namesPartner) * 100).rounded())
@@ -366,7 +395,9 @@ enum SeedDataValidator {
             print("ℹ️ SeedDataValidator: \(unresolved.count) partner name(s) resolve to no icon — \(listed)")
         }
 
-        return []
+        // Unresolved names are info; collisions are warnings. An absent icon is
+        // a gap you can see, a colliding one is a wrong logo that looks right.
+        return collisions.sorted()
     }
 }
 #endif

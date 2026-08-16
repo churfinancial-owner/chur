@@ -15,6 +15,7 @@
     "trackingMode": "manual",
     "requiresActivation": false,
     "partnerName": "Marriott",
+    "partnerID": "marriott_hotels",
     "referenceLink": "https://www.marriott.com",
     "displayOrder": 0,
     "isActive": true

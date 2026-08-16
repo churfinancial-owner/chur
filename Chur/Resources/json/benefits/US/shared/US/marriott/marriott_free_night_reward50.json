@@ -18,7 +18,7 @@
     "activationMode": "lockbyfrequency",
     "activationInstructions": "Unlock after making at least $15,000 in spend",
     "partnerName": "Marriott",
-    "partnerID": "marriott",
+    "partnerID": "marriott_hotels",
     "displayOrder": 0,
     "isActive": true
 }

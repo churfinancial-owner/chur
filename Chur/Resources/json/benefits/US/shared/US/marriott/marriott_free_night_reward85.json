@@ -19,7 +19,7 @@
     "activationInstructions": "",
     "activationDelayPeriods": 1,
     "partnerName": "Marriott",
-    "partnerID": "marriott",
+    "partnerID": "marriott_hotels",
     "displayOrder": 0,
     "isActive": true
 }

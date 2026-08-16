@@ -18,7 +18,7 @@
     "activationDelayPeriods": 1,
     "requiresActivation": false,
     "partnerName": "IHG",
-    "partnerID": "ihg",
+    "partnerID": "ihg_hotels",
     "displayOrder": 0,
     "isActive": true
 }

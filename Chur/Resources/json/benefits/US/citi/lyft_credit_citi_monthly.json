@@ -4,11 +4,11 @@
     "displayGroup": "lifestyle_convenience",
     "localized": {
         "en": {
-            "name": "Lyfy Credit",
-            "description": "After taking 3 eligible rides in a calendar month, earn a $10 Lyft credit."
+            "name": "Lyft Credit",
+            "description": "After taking 3 eligible rides in a calendar month, earn a $15 Lyft credit."
         }
     },
-    "value": 10,
+    "value": 15,
     "valueCurrency": "USD",
     "frequency": "monthly",
     "isRecurring": true,
