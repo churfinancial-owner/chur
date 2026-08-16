@@ -204,9 +204,15 @@ Verifying https://content.chur.app…
    ✓ merchants — 37063 bytes
    ✓ merchantMappings — 27389 bytes
    ✓ cardArt — 36389 bytes
+   ✓ iconArt — 31255 bytes
+   … 12 more domains …
+   ✓ cardArt images — 4 of 171 sampled, all resolve and match
+   ✓ iconArt images — 4 of 151 sampled, all resolve and match
 
-✅ Live content is valid — contentVersion 17.
+✅ Live content is valid — contentVersion 25.
 ```
+
+The last two lines are the art spot-check. The bundles are JSON; the 322 images they index are separate objects, and until P1d nothing ever checked that one of them actually resolves — so an index could list a key that 404s and the verify would still print all ticks. It samples rather than downloading 17 MB, which catches a whole index pointing at keys that were never uploaded but not one individually missing image.
 
 A failure names the exact domain and reason, and reminds you that one bad domain costs all six. It reads nothing but the CDN, so it works from any directory and cannot affect a publish.
 

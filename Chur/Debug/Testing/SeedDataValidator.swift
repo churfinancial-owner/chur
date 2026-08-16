@@ -265,9 +265,32 @@ enum SeedDataValidator {
             note(icon, "badge '\(badge.id)'")
         }
 
+        // Not every icon name comes from the seed data. `buildDerivedData` maps
+        // an alliance to a hardcoded asset name in Swift, so a checker that only
+        // reads JSON reports those three as fine no matter what — the exact
+        // shape of P1b's "a tool's blind spot becomes a fact about your data".
+        //
+        // Read from the built table rather than repeating the literals here, or
+        // this check acquires the same blind spot one rename later.
+        for imageName in Set(TransferPartnerDatabase.allianceImages.values) {
+            note(imageName, "alliance logo (TransferPartnerDatabase)")
+        }
+
         let missing = referenced.filter { !CardArtLoader.shared.isKnown($0.key) }
         guard !missing.isEmpty else {
             print("ℹ️ SeedDataValidator: all \(referenced.count) referenced icons resolve")
+            return []
+        }
+
+        // Nothing resolving at all is a different fact from some names being
+        // broken, and printing it the same way is how a console becomes noise.
+        // It means the art index has not been fetched yet — a fresh install
+        // before its first refresh, or the launch after Clear Content Cache —
+        // and nothing is wrong. One line, not 141, because a wall of warnings
+        // on every fresh launch teaches you to skim past the console, which is
+        // where the failures that *do* matter are reported.
+        guard missing.count < referenced.count else {
+            print("ℹ️ SeedDataValidator: art index not fetched yet — \(referenced.count) icons unresolved, rechecks after the next content refresh")
             return []
         }
 

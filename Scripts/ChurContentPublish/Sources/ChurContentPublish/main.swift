@@ -940,6 +940,16 @@ func verifyLive(baseURL: String) throws {
         }
     }
 
+    // Art is the half this never looked at. The manifest's bundles are JSON, and
+    // the 322 images they index are separate objects that no check has ever
+    // touched — so an art index could list a key that 404s and every line above
+    // would still print a tick. Twice now the art path has failed while the
+    // pipeline reported success, which is two more times than a spot-check costs.
+    //
+    // A sample, not all 322: this runs on demand and downloading 17 MB to answer
+    // "is production broken" would stop anyone running it.
+    failures += verifyArtSample(bundles: bundles)
+
     // The app iterates its own ContentDomain list, so a domain it knows about and
     // the manifest omits falls back to the bundle rather than failing. Worth
     // saying out loud: it means a build can be newer than what is published.
@@ -957,6 +967,59 @@ func verifyLive(baseURL: String) throws {
     }
 
     print("\n✅ Live content is valid — contentVersion \(version).")
+}
+
+/// Fetches a handful of images out of each published art index and checks they
+/// resolve and match their recorded hash — the check `--verify` never had.
+///
+/// Sampled deterministically (evenly spaced through the sorted names) rather
+/// than at random, so two runs against the same version report the same thing.
+/// The failure this is built for is systemic — a whole index pointing at keys
+/// that were never uploaded — and a systemic failure shows up in any sample.
+/// It will not catch one individually missing image, and is not meant to.
+func verifyArtSample(bundles: [[String: Any]], perDomain: Int = 4) -> [String] {
+    var failures: [String] = []
+
+    for domain in ["cardArt", "iconArt"] {
+        guard let bundle = bundles.first(where: { $0["domain"] as? String == domain }),
+              let urlString = bundle["url"] as? String,
+              let url = URL(string: urlString),
+              let data = try? fetchSync(url),
+              let index = try? JSONSerialization.jsonObject(with: data) as? [String: [String: Any]],
+              !index.isEmpty else {
+            continue   // A missing or unreadable index is already reported above.
+        }
+
+        let names = index.keys.sorted()
+        let stride = max(1, names.count / perDomain)
+        let sample = Swift.stride(from: 0, to: names.count, by: stride).prefix(perDomain).map { names[$0] }
+
+        var checked = 0
+        for name in sample {
+            guard let entry = index[name],
+                  let imageURLString = entry["url"] as? String,
+                  let imageURL = URL(string: imageURLString),
+                  let expected = entry["sha256"] as? String else {
+                failures.append("\(domain): '\(name)' has no usable url/sha256")
+                continue
+            }
+            do {
+                let bytes = try fetchSync(imageURL)
+                guard sha256Hex(bytes) == expected.lowercased() else {
+                    failures.append("\(domain): '\(name)' is served but its bytes do not match the index hash")
+                    continue
+                }
+                checked += 1
+            } catch {
+                failures.append("\(domain): '\(name)' does not resolve — \(imageURLString)")
+            }
+        }
+        if checked == sample.count {
+            print("   ✓ \(domain) images — \(checked) of \(names.count) sampled, all resolve and match")
+        }
+    }
+
+    return failures
 }
 
 // MARK: - Main

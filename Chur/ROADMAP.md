@@ -14,9 +14,8 @@ Last reviewed: 2026-08-15.
 
 1. **Commit `art-uploaded.json`.** The 151 icon keys uploaded to R2 are not yet in the file — it still records only the 171 card images. Harmless (the next publish re-uploads them, several minutes) but it is the only record of what is in the bucket.
 2. **22 icon names still have no artwork.** Two kinds, and they want opposite treatment: real brands worth sourcing a logo for (`icon_home_depot`, `icon_lowes`, `icon_sams_club`, `icon_tmall`, and the HK/regional issuers), and abstract concepts that probably never had art and should lose the `iconName` instead (`icon_mobile_pay`, `icon_wallet_topup`, `icon_foreign_transactions`, `5k_pv_purchases`). Both the publisher and `SeedDataValidator` list them every run.
-3. **The icon coverage report is ~140 lines before the first refresh** on a fresh install, one per unresolved name. Correct but overwhelming, and the merchant-FX note is the standing warning about output nobody reads. Collapse it to a summary when the count is that high.
-4. **Delete `ChurTests.swift`'s boilerplate `example()` test.** Xcode's template, empty, and it makes the suite report 35 instead of 34.
-5. ~~Decide the US-only merchants.~~ Done 2026-08-15 — all 78 now declare `businessRegion` or `globalBilling`. Shipped in the P1d publish.
+3. ~~Collapse the icon coverage report~~, ~~spot-check art in `--verify`~~, ~~teach the coverage checker about Swift-literal icon names~~, ~~delete the boilerplate test~~ — all done 2026-08-15.
+4. ~~Decide the US-only merchants.~~ Done 2026-08-15 — all 78 now declare `businessRegion` or `globalBilling`. Shipped in the P1d publish.
 
 The day's fixes are worth a skim before touching content code: publishing, card art and the onboarding first-run path each broke in ways that were invisible from the symptom. See "P1b — lessons worth keeping".
 
