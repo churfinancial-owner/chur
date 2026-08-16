@@ -18,7 +18,7 @@
     "resetType": "card_anniversary",
     "requiresActivation": false,
     "partnerName": "Hyatt",
-    "partnerID": "Hyatt",
+    "partnerID": "hyatt_hotels",
     "displayOrder": 0,
     "isActive": true
 }

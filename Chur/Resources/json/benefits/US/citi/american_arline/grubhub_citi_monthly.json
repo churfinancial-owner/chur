@@ -19,6 +19,8 @@
     "requiresActivation": false,
     "partnerName": "Grubhub",
     "partnerID": "Grubhub",
+    "expirationDate": "2026-08-31T23:59:59Z",
+    "activeFromDate": "2024-01-01T00:00:00Z",
     "displayOrder": 0,
     "isActive": true
 }
