@@ -1,0 +1,21 @@
+{
+    "id": "aa_vacation_credit_500",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "AA Vacations credits",
+            "description": "Up to $500 back on eligible American Airlines Vacations℠ purchases: Every calendar year, earn up to $500 in statement credits on eligible American Airlines Vacations travel packages or experiences."}
+    },
+
+    "value": 250,
+    "valueCurrency": "USD",
+    "frequency": "semi-annual",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "partnerName": "American Airline",
+    "redemptionMethod": "automatic",
+    "displayOrder": 0,
+    "isActive": true
+}

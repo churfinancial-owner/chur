@@ -1,0 +1,23 @@
+{
+    "id": "omni_freenightreward",
+    "benefitType": "credit",
+    "displayGroup": "lifestyle_travel",
+    "localized": {
+        "en": {
+            "name": "Omni Free Night Reward",
+            "description": "Once per calendar year, primary cardmembers can earn a Free Night after completing a qualifying stay of two or more consecutive nights booked directly through Omni Hotels & Resorts on omnihotels.com. Enrollment in the Champion status benefit is required."}
+    },
+    "value": 200,
+    "valueCurrency": "USD",
+    "frequency": "annual",
+    "isRecurring": true,
+    "usageLimit": 1,
+    "trackingMode": "manual",
+    "requiresActivation": true,
+    "activationInstructions": "Unlock after completing a qualifying stay of two or more consecutive nights booked directly through Omni Hotels & Resorts on omnihotels.com.",
+    "activationDelayPeriods": 1,
+    "partnerName": "Omni",
+    "partnerID": "Omni_hotels",
+    "displayOrder": 0,
+    "isActive": true
+}

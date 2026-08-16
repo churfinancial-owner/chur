@@ -1,0 +1,24 @@
+{
+    "id": "omni_champion",
+    "benefitType": "travel_status",
+    "displayGroup": "travel_hotelstatus",
+    "localized": {
+        "en": {
+            "name": "Omni Hotels Champion status",
+            "description": "Primary cardmembers are eligible to enroll in Omni Hotels & Resorts' Select Guest loyalty program and receive automatic Champion status, the program's second-highest status tier. Champion status includes exclusive benefits such as early check-in, late check-out and room upgrades (subject to availability"
+        }
+    },
+    "value": 0,
+    "valueCurrency": "USD",
+    "frequency": "ongoing",
+    "isRecurring": true,
+    "trackingMode": "manual",
+    "requiresActivation": false,
+    "redemptionMethod": "automatic",
+    "limitDescription": "",
+    "referenceLink": "",
+    "partnerName": "Omni",
+    "partnerID": "Omni_hotels",
+    "displayOrder": 0,
+    "isActive": true
+}
