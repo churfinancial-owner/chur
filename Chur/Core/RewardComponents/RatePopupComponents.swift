@@ -41,13 +41,34 @@ extension CardRateSummary {
 // MARK: - Popup Header Watermark
 
 struct PopupHeaderWatermark<Content: View>: View {
-    let categoryID: String
-    @ViewBuilder let content: () -> Content
+    let tint: Color
+    // Plain stored closure: both initialisers below carry the @ViewBuilder,
+    // and the memberwise init this attribute would have shaped is gone.
+    let content: () -> Content
+
+    /// The original entry point: a merchant or category popup tints its circle
+    /// by category.
+    init(categoryID: String, @ViewBuilder content: @escaping () -> Content) {
+        self.init(tint: Color.categoryBadgeTint(for: categoryID), content: content)
+    }
+
+    /// For headers that have no category to tint by.
+    ///
+    /// The benefit detail sheet is the case this exists for. Its nearest field
+    /// is `displayGroup`, and passing that through `categoryBadgeTint` lands
+    /// badly: only the exact string `travel` matches a case, so 67 benefits
+    /// would go travel-coloured while the larger `lifestyle_travel` group fell
+    /// through to the default. One tint reads as deliberate; two thirds of a
+    /// tint reads as a bug.
+    init(tint: Color, @ViewBuilder content: @escaping () -> Content) {
+        self.tint = tint
+        self.content = content
+    }
 
     var body: some View {
         ZStack {
             Circle()
-                .fill(Color.categoryBadgeTint(for: categoryID))
+                .fill(tint)
                 .frame(width: 140, height: 140)
             content()
         }

@@ -115,6 +115,10 @@ struct BenefitDetailSheet: View {
         .padding(.horizontal, 24)
         .padding(.top, 20)
         .padding(.bottom, 26)
+        // Before .background and .clipShape, matching MapMerchantPopup: the
+        // pattern stays behind the watermark, and the clip trims the part of
+        // the circle its offset pushes past the corner.
+        .overlay(alignment: .topTrailing) { partnerWatermark }
         .background {
             ZStack {
                 Color.churOffWhite

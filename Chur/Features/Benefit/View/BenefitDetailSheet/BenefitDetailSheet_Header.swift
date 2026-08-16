@@ -44,22 +44,25 @@ extension BenefitDetailSheet {
                 }
             }
 
-            HStack(alignment: .top, spacing: 10) {
-                // Only reserve the slot when the partner actually resolves to an
-                // icon — 81 of 276 benefits name no partner at all, and an empty
-                // 32pt gutter on those reads as a missing image rather than as
-                // "this perk has no brand". `IconArtView` fills it once the art
-                // arrives; until then its Color.clear fallback holds the frame.
-                if let partnerIconName {
-                    IconArtView(imageName: partnerIconName)
-                        .frame(width: 32, height: 32)
-                        .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
-                }
+            Text(name)
+                .font(.churBigTitle3())
+                .foregroundStyle(Color.churDarkGray)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
 
-                Text(name)
-                    .font(.churBigTitle3())
-                    .foregroundStyle(Color.churDarkGray)
-                    .fixedSize(horizontal: false, vertical: true)
+    /// The partner logo as a corner watermark, matching the merchant popups.
+    ///
+    /// Nothing at all when the partner resolves to no icon — not an empty
+    /// circle. 81 of 276 benefits name no partner and 43 more name one with no
+    /// artwork, so a bare tinted blob would be the common case and would read
+    /// as a failed image rather than as "this perk has no brand".
+    @ViewBuilder
+    var partnerWatermark: some View {
+        if let partnerIconName {
+            PopupHeaderWatermark(tint: .churOliveLight) {
+                IconArtView(imageName: partnerIconName)
+                    .frame(width: 80, height: 80)
             }
         }
     }
