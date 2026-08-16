@@ -19,7 +19,7 @@
     "requiresActivation": false,
     "activationInstructions": "Enroll in Uber One and pay with your Platinum Card",
     "partnerName": "Uber",
-    "partnerID": "Uber",
+    "partnerID": "uber",
     "redemptionMethod": "automatic",
     "referenceLink": "https://global.americanexpress.com/card-benefits/detail/uber-one-credit/platinum",
     "displayOrder": 0,

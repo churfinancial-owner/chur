@@ -2,13 +2,15 @@
 
 Growth priorities and the reasoning behind them. **Update whenever priorities shift or a phase completes.**
 
-Last reviewed: 2026-08-15.
+Last reviewed: 2026-08-16.
 
 **Where the numbers stand right now:** app `1.0 (1)`, live content **v29**, 18 domains, 175 cards / 272 benefits / 192 hand-authored categories / 171 card images / 151 icons. Verify with `swift run ChurContentPublish --verify` rather than trusting this line — it is a snapshot, and the version moves every publish.
 
 **State at the end of the 2026-08-15 session.** P0, P1a, P1b and P1d are done; the remote content pipeline is complete — every domain but `SeedDataRegions` publishes, and no artwork ships in the binary. P1c's **test vectors are done and green** (33 cases, and the project's first test target); its written JSON contract stays deferred until Android is real. The **online cross-border FX fix** shipped in the P1d publish.
 
 **P1d is done, published and running.** 18 domains live, all icon art on the CDN, the merchant FX correction shipped alongside it. Authored on a machine with no Swift toolchain and compiled on the Mac afterwards; the gap cost one duplicate-id error and one emoji sizing bug, both real defects the change surfaced rather than caused.
+
+**P1e is open and has its first item done** (2026-08-16, partner icons on benefits) — authored on the same no-toolchain machine, so it needs a compile and a device pass before it is trusted. See the section for what it found in the benefit data along the way.
 
 **Carried into the next session:**
 
@@ -285,13 +287,46 @@ The size argument that justified card art (19 MB, two thirds of the asset catalo
 - **The publisher believed its own success three times in one session.** An empty `cardArt` index in P1b, a `cardArt-26.json` that reported uploaded and 404d, and 55 Finder duplicates (`icon_delta 2.png`) that passed the duplicate check because they are genuinely different imageNames. Each printed a tick. `--verify` could have caught all three and was something you had to remember to run, about failures you had no reason to suspect — so `--upload` now runs it on itself, and publishing and confirming are one action the way publishing and committing are. **A tool that only validates its inputs will keep reporting success while being wrong;** what it also has to check is that the world matches what it thinks it did.
 - **`git pull origin <branch>` does not put you on that branch.** It merges the branch into whatever you have checked out — so a session of work landed on local `main`, and the subsequent push failed with `src refspec does not match any`. Nothing was lost, but local `main` silently carried unmerged PR work, one `git push origin main` away from bypassing review. `git branch --show-current` before publishing or pushing, every time.
 
-### P1e — Minor UI enhancements · **to be filled in**
+### P1e — Minor UI enhancements
 
 Opened 2026-08-16, ahead of P2. Small visual and interaction polish, captured here so it is a phase rather than a pile of one-off tweaks.
 
-**Fill this in at the top of the next session, before any code.** P1d spent two sessions empty for want of five minutes of writing down, and the note that says so is three sections up.
+#### 1. ~~Partner icons on benefits~~ — ✅ DONE (2026-08-16)
 
-Three things worth deciding as the list is written, because each changes what the work touches:
+A benefit that reads "Uber Cash" now shows the Uber mark in its detail sheet. **The work was 90% resolver and 10% view** — `IconArtView` already existed and did the right thing; nothing could call it because no function turned a partner into an icon name.
+
+**What was actually there.** `Benefit.partnerID` had been on the model since it was written, was decoded, persisted and reconciled by `CardSyncService` — and read by nothing. `DataDictionary.md` called it "a stable partner/merchant identifier for future cross-reference". Three findings changed the shape of the work:
+
+- **`partnerID` was the wrong field.** 24 of 276 benefits carry one; **195 name a partner in `partnerName`**. So `partnerName` became the key and `partnerID` the override, which drops the data work from "author 195 ids" to "author the exceptions" and means a stale `partnerID` can never hide a working `partnerName`.
+- **It was never a namespace.** The 24 values were ad-hoc display strings (`Uber`, `IHG`, `Omni_hotels`) that resolved — case-insensitively, when they resolved at all — across *three different* namespaces. Normalized to snake_case here, which was free precisely because `partnerID` is **not** load-bearing: absent from `id-lock.json`, nothing cascades, no user data points at it. That window closes now that it drives rendering.
+- **Four namespaces, not one.** A partner can be an issuer ("Chase Travel"), a transfer partner ("Hilton"), a merchant ("Grubhub") or a category ("Uber"). Adding **issuers** as a fourth source was worth 29 benefits on its own — the six bank travel portals plus the bare issuer names.
+
+| Piece | Where |
+|---|---|
+| The resolver | `Features/Benefit/Service/PartnerIconResolver.swift` — `partnerID ?? partnerName` → issuer → partner → merchant → category |
+| The contract | `DataDictionary.md` § Partner icon resolution — namespace order, key forms, why each |
+| The render site | `BenefitDetailSheet_Header.heroHeader`, via `IconArtView` |
+| The rebuild hook | `ContentRefreshCoordinator.reloadDatabases()`, **last** — it indexes four other databases |
+| The guard | `SeedDataValidator.checkPartnerIconCoverage()` |
+
+**Coverage: 152 of 195 partner-bearing benefits (78%), every one with art already on disk.** 81 benefits name no partner at all and correctly get none. The remaining 43 are 25 real brands with no row anywhere — Best Western ×5, Priority Pass ×4, Resy ×4, Disney Parks ×3 — which need sourced artwork, deliberately not done here.
+
+**Not done, on purpose: no icon in `BenefitCheckboxRow`.** At 152/276 an icon slot is empty on four rows in ten. That is a judgement call better made looking at the sheet on a device than predicted from a percentage.
+
+**Aggregating the data audited it — four for four.** Publishing has forced a latent data bug into the open every single time (`marriott_gold_status`, the `target` map pattern, the duplicate `material_hardware`, and now this). Resolving partner names surfaced five typos that were *also user-visible misspellings* — `Alaksa Airline` on all six Alaska benefits, `Instacard`, `Allegiant Air`, `Disney Store`, `Virgind` — plus four values that are not partners at all (`"null"` and `"streaming"` as literal strings, `"Rideshare Services"`, and `"FedEx, Grubhub, Office Supply Stores"` — a *list* in a singular field). All fixed or dropped. **Treat a clean first run as the surprise.**
+
+**Lessons worth keeping**
+
+- **"Plumbed but never authored" has a twin: authored but never read.** The FX bug three sections up was a field every layer read and nobody filled in. This was a field filled in on 24 files that nothing ever read. Both look exactly like a working feature from the code, and neither grep nor the compiler has an opinion. The question that finds both is *what does this field's value actually do*, asked separately from *does anything reference it*.
+- **A doc comment saying "for future cross-reference" is a TODO with no owner.** It sat in `DataDictionary.md` long enough to read as a description of intended design rather than as unfinished work. If a field is a placeholder, the note should say when it stops being one.
+- **Match rate is a measurement, not an estimate.** The plan predicted 80% and the honest number is 78% — close, but only because it was modelled against the real data before any Swift was written, twice, once to size the work and once to pin the exact resolution order. Writing the resolver first would have made every subsequent number an argument about the code instead of a fact about the data.
+- **Normalization has to be symmetric.** The space-stripped key form was generated on the *query* side only, so `"U.S. Bank"` produced `usbank` and the index held `us bank` — the variant worked in exactly one direction and silently did nothing in the other. Caught by re-running the model, not by reading the code, which looked correct.
+- **The last item in `reloadDatabases()` is a real position, not a list order.** The resolver indexes issuers, partners, merchants and categories, so rebuilding it anywhere but last indexes the payload that was just replaced. Same hazard as the PartnerDatabase/TransferPartnerDatabase note already recorded there — that is now twice, so ordering in that function is a rule rather than a coincidence.
+- **A check whose warnings are permanent is noise, so it reports info.** 25 partner names will never resolve — Priority Pass and Equinox are real perks with no merchant row and never will have one. A ⚠️ per name every launch is how a console becomes something you skim. The count moving is the signal; the list is there to be diffed.
+
+#### Remaining items
+
+Three things worth deciding as each is written, because each changes what the work touches:
 
 1. **Does it need a new colour or font?** Both sets are meant to be reused, and `fonts.swift` is explicitly called out in `CLAUDE.md` as having grown too large. A UI phase is where that pressure lands, so decide per item whether an existing `chur*` value fits before adding one.
 2. **Does it touch a string?** UI chrome strings belong in `Localizable.xcstrings`, migrated incrementally as views are touched rather than in a bulk rewrite. A UI pass is the natural moment — see `LOCALIZATION_REFERENCE.md` for the recipe and the progress table.
@@ -301,6 +336,11 @@ Two P1d findings sit squarely in this phase's territory and are worth folding in
 
 - **22 icon names still resolve to nothing**, listed on every publish. The abstract ones (`icon_mobile_pay`, `icon_wallet_topup`, `icon_foreign_transactions`, `5k_pv_purchases`) may be better served by deleting the `iconName` so the emoji is the intended rendering, rather than by sourcing art.
 - **`CategoryIconView` is called at seven different sizes** with `.system(size:)` passed in at six of them, against the design-system rule. `MerchantIconView` was fixed this way in P1d; the same treatment fits here.
+
+Item 1 leaves two of its own:
+
+- **25 partner names have no icon anywhere**, covering 43 benefits — Best Western ×5, Priority Pass ×4, Resy ×4, Disney Parks ×3, Charles Schwab ×3. Unlike the 22 above these are all real brands, so the answer is sourcing logos into `IconArt/partners/`, not deleting a field. `SeedDataValidator` prints the list sorted by benefit count, which is the order to work in.
+- **The benefit row is still undecided.** Revisit `BenefitCheckboxRow` once the detail sheet has been seen on a device — and against a **cold** cache, per question 3 above.
 
 ### P2 — Analytics baseline
 

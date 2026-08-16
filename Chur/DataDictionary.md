@@ -228,8 +228,8 @@ Every `@Model` in the app, whether the schema persists it, and how much of it su
 | `autoApplyEnabled` | `Bool` | Not Null, default `false` | — | `true` if user opted into automatic benefit tracking for this benefit. |
 | `autoApplyAmount` | `Int?` | Nullable | — | Custom amount to auto-apply each period. `nil` = full remaining value. |
 | `expirationDate` | `Date?` | Nullable | — | Hard expiry date for the benefit itself (distinct from periodic reset). |
-| `partnerName` | `String?` | Nullable | — | Partner or merchant name (e.g. `"Priority Pass"`, `"Uber"`, `"Plaza Premium"`). |
-| `partnerID` | `String?` | Nullable | — | Stable partner/merchant identifier for future cross-reference. |
+| `partnerName` | `String?` | Nullable | — | Partner or merchant name (e.g. `"Priority Pass"`, `"Uber"`, `"Plaza Premium"`). **The primary key for partner icon resolution** — see below. |
+| `partnerID` | `String?` | Nullable | — | Override for partner icon resolution when `partnerName` resolves wrongly or not at all. Not load-bearing: absent from `id-lock.json`, nothing cascades, no user data points at it. |
 | `redemptionMethod` | `String?` | Nullable | — | How to redeem (e.g. `"automatic"`, `"statement_credit"`, `"portal_booking"`, `"call_concierge"`, `"mobile_app"`). |
 | `limitDescription` | `String?` | Nullable | — | Human-readable limit callout (e.g. `"Up to 6 visits/year"`, `"Max $600 per claim"`). |
 | `referenceLink` | `String?` | Nullable | — | URL to the benefit detail page on the issuer's website. |
@@ -246,6 +246,33 @@ Every `@Model` in the app, whether the schema persists it, and how much of it su
 | `activatedAt` | `Date?` | Nullable | — | Timestamp of the user's last activation. Used by `"lockbyfrequency"` to validate current period. |
 | `isMuted` | `Bool` | Not Null (`@Attribute`), default `false` | — | Suppresses reminder notifications for this specific benefit. |
 | `usageHistory` | `[BenefitUsageRecord]` | Not Null, cascade delete | 1:N → `BenefitUsageRecord` | Full redemption history for this benefit. |
+
+### Partner icon resolution
+
+`Features/Benefit/Service/PartnerIconResolver.swift` turns a benefit's partner into an icon name for `IconArtView`. Reachable as `benefit.partnerIconName`.
+
+**`partnerName` is the key, `partnerID` is the override.** Only 24 benefits carry a `partnerID`; 195 name a partner in `partnerName`. The resolver reads `partnerID` first and falls back to `partnerName`, so the common case needs no authoring and a stale `partnerID` can never hide a working `partnerName`.
+
+Resolution tries each key form in turn, and for each form walks four namespaces in a fixed order. **The order is the tie-break and is part of the contract:**
+
+| # | Namespace | Source | Icon field |
+|---|---|---|---|
+| 1 | Issuer | `control/SeedDataIssuers.json` | `logoImageName` |
+| 2 | Partner | `badges/SeedDataPartners.json` | `logoImageName` |
+| 3 | Merchant | `merchants/SeedDataMerchants_*.json` | `merchantIconName` |
+| 4 | Category | `categories/*.json` (incl. brand categories) | `iconName` |
+
+Issuers first so a bank-operated portal ("Chase Travel") shows the bank's mark; partners next because their logos are the most brand-accurate; categories last because they are the broadest. `id`, `name` and `shortName` are all indexed per entry, first key winning on collision.
+
+Key forms, in order — **the full string always wins over any trimmed form**, so `"Disney Stores"` matches the `disney_stores` category rather than collapsing to `disney`:
+
+1. normalized (lowercased, apostrophes dropped, every other non-alphanumeric run → one space)
+2. one trailing qualifier removed — `travel`, `airlines`, `airline`, `air lines`, `hotels`, `hotel`, `group`, `inc`. This is what resolves the six issuer travel portals
+3. all spaces removed, indexed on both sides — `"U.S. Bank"` → `usbank` ← `"US Bank"`
+
+**Coverage today: 152 of 195 partner-bearing benefits (78%), all with art on disk.** 81 of 276 benefits name no partner at all (Global Entry, TSA PreCheck, generic credits) and correctly get no icon.
+
+**The cost of keying on display text:** renaming a merchant's `name` or an issuer's `shortName` silently drops the icon, with every icon name still resolving perfectly — so this failure is invisible to the icon-coverage check. `SeedDataValidator.checkPartnerIconCoverage()` prints the coverage count and every unresolved name on each run for exactly that reason. Reported as info, not as a warning: a benefit naming a partner the app has no row for is normal (Priority Pass, Resy, Equinox), so it is the number *moving* that is the signal.
 
 ---
 

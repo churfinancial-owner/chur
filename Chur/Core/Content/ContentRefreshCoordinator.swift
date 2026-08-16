@@ -135,6 +135,12 @@ enum ContentRefreshCoordinator {
         ProgramUpgradeDatabase.reloadFromBundle()
         RewardProgramDefaults.reloadFromBundle()
 
+        // Last, and that is load-bearing: it indexes issuers, partners,
+        // merchants and category templates, so rebuilding it any earlier would
+        // index the payload that was just replaced. Same hazard as the
+        // PartnerDatabase ordering note above.
+        PartnerIconResolver.reloadFromBundle()
+
         // Categories have no database of their own — they are read fresh by
         // SeedDataLoader.loadCategoryTemplates() and reconciled into persisted
         // SpendingCategory rows by CategorySyncService, which apply() already

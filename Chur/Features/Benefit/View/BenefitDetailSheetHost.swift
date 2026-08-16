@@ -23,6 +23,7 @@ struct BenefitDetailSheetHost: View {
             value: benefit.value > 0 ? "\(benefit.valueCurrency) \(benefit.value)" : nil,
             frequency: benefit.frequency,
             partnerName: benefit.partnerName,
+            partnerIconName: benefit.partnerIconName,
             limitDescription: benefit.limitDescription,
             benefitNotes: benefit.benefitNotes,
             remainingBalance: vm.analyzer.remainingBalance(),

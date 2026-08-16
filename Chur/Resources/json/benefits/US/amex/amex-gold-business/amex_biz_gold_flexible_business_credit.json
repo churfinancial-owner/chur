@@ -13,7 +13,6 @@
     "frequency": "monthly",
     "isRecurring": true,
     "trackingMode": "manual",
-    "partnerName": "FedEx, Grubhub, Office Supply Stores",
     "displayOrder": 1,
     "isActive": true
 }

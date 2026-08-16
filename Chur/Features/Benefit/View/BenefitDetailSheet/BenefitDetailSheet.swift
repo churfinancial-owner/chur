@@ -13,6 +13,10 @@ struct BenefitDetailSheet: View {
     let value: String?
     let frequency: String?
     let partnerName: String?
+    /// Resolved by the host through `PartnerIconResolver`, not looked up here —
+    /// this view takes plain values rather than the model, and the resolution
+    /// order is a data concern.
+    let partnerIconName: String?
     let limitDescription: String?
     let benefitNotes: String?
     let remainingBalance: Int?

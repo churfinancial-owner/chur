@@ -17,7 +17,7 @@
     "activationInstructions": "Unlock after completing a qualifying stay of two or more consecutive nights booked directly through Omni Hotels & Resorts on omnihotels.com.",
     "activationDelayPeriods": 1,
     "partnerName": "Omni",
-    "partnerID": "Omni_hotels",
+    "partnerID": "omni_hotels",
     "displayOrder": 0,
     "isActive": true
 }

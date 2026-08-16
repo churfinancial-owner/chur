@@ -44,10 +44,23 @@ extension BenefitDetailSheet {
                 }
             }
 
-            Text(name)
-                .font(.churBigTitle3())
-                .foregroundStyle(Color.churDarkGray)
-                .fixedSize(horizontal: false, vertical: true)
+            HStack(alignment: .top, spacing: 10) {
+                // Only reserve the slot when the partner actually resolves to an
+                // icon — 81 of 276 benefits name no partner at all, and an empty
+                // 32pt gutter on those reads as a missing image rather than as
+                // "this perk has no brand". `IconArtView` fills it once the art
+                // arrives; until then its Color.clear fallback holds the frame.
+                if let partnerIconName {
+                    IconArtView(imageName: partnerIconName)
+                        .frame(width: 32, height: 32)
+                        .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
+                }
+
+                Text(name)
+                    .font(.churBigTitle3())
+                    .foregroundStyle(Color.churDarkGray)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
         }
     }
 

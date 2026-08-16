@@ -157,6 +157,9 @@ enum SeedDataValidator {
         // MARK: Icon coverage
         issues.append(contentsOf: checkIconCoverage(templates: templates))
 
+        // MARK: Benefit partner icons
+        issues.append(contentsOf: checkPartnerIconCoverage())
+
         // MARK: Pricing invariants
         issues.append(contentsOf: checkPricingInvariants(templates: templates))
 
@@ -302,6 +305,68 @@ enum SeedDataValidator {
             let more = owners.count > 3 ? " +\(owners.count - 3) more" : ""
             return "Icon '\(name)' resolves to nothing — referenced by \(who)\(more)"
         }
+    }
+
+    // MARK: - Benefit partner icons
+
+    /// How many benefits get a partner logo in the detail sheet, and which
+    /// partner names resolve to nothing.
+    ///
+    /// This is the check `PartnerIconResolver` needs and the icon-coverage
+    /// check above cannot provide. That one asks "does this icon name have
+    /// art"; this one asks "does this partner have an icon name at all" —
+    /// resolution runs over display text (`partnerName`), so renaming a
+    /// merchant's `name` or an issuer's `shortName` silently drops the link
+    /// with every icon still resolving perfectly.
+    ///
+    /// Reported as info rather than as issues. A benefit naming a partner the
+    /// app has no entry for is normal — Priority Pass, Resy and Equinox are
+    /// real perks with no merchant, partner or category row — so a ⚠️ per name
+    /// would be permanent console noise of exactly the kind the icon report
+    /// was collapsed to avoid. It becomes a signal when the number *moves*.
+    @MainActor
+    private static func checkPartnerIconCoverage() -> [String] {
+        let benefits = BenefitDatabase.getAllBenefits()
+
+        var namesPartner = 0
+        var resolved = 0
+        var byNamespace: [String: Int] = [:]
+        var unresolved: [String: Int] = [:]   // raw partner text → benefit count
+
+        for benefit in benefits {
+            let raw = benefit.partnerID ?? benefit.partnerName
+            guard let raw, !PartnerIconResolver.normalize(raw).isEmpty else { continue }
+            namesPartner += 1
+
+            if let match = PartnerIconResolver.resolve(partnerID: benefit.partnerID,
+                                                       partnerName: benefit.partnerName) {
+                resolved += 1
+                byNamespace[match.namespace.rawValue, default: 0] += 1
+            } else {
+                unresolved[raw, default: 0] += 1
+            }
+        }
+
+        guard namesPartner > 0 else {
+            print("ℹ️ SeedDataValidator: no benefits loaded, skipping partner icon coverage")
+            return []
+        }
+
+        let percent = Int((Double(resolved) / Double(namesPartner) * 100).rounded())
+        let breakdown = byNamespace.sorted { $0.key < $1.key }
+            .map { "\($0.key) \($0.value)" }
+            .joined(separator: ", ")
+        print("ℹ️ SeedDataValidator: partner icons \(resolved)/\(namesPartner) (\(percent)%) of partner-bearing benefits — \(breakdown); \(benefits.count - namesPartner) name no partner")
+
+        if !unresolved.isEmpty {
+            // Sorted by count so the names worth sourcing art for come first.
+            let listed = unresolved.sorted { $0.value != $1.value ? $0.value > $1.value : $0.key < $1.key }
+                .map { "\($0.key)×\($0.value)" }
+                .joined(separator: ", ")
+            print("ℹ️ SeedDataValidator: \(unresolved.count) partner name(s) resolve to no icon — \(listed)")
+        }
+
+        return []
     }
 }
 #endif
