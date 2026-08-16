@@ -28,23 +28,24 @@ struct MerchantDetailSheet: View {
         ScrollView {
             VStack(spacing: 0) {
                 headerSection
-                if viewModel.channel == "online", !viewModel.merchant.address.isEmpty {
-                    shopNowButton
-                        .padding(.top, 24)
-                        .padding(.bottom, 8)
+
+                PopupOverlapCard {
+                    VStack(spacing: 0) {
+                        RecommendationStackView(
+                            bestCardSummary: viewModel.bestCardSummary,
+                            otherCardRates: viewModel.otherCardRates,
+                            cards: viewModel.cards,
+                            showFormula: showFormula
+                        )
+                        #if DEBUG
+                        .onTapGesture { showingCategoryDetail = true }
+                        .sheet(isPresented: $showingCategoryDetail) { debugCalculator }
+                        #endif
+                        .padding(.top, 28)
+
+                        Spacer(minLength: 40)
+                    }
                 }
-                RecommendationStackView(
-                    bestCardSummary: viewModel.bestCardSummary,
-                    otherCardRates: viewModel.otherCardRates,
-                    cards: viewModel.cards,
-                    showFormula: showFormula
-                )
-                #if DEBUG
-                .onTapGesture { showingCategoryDetail = true }
-                .sheet(isPresented: $showingCategoryDetail) { debugCalculator }
-                #endif
-                .padding(.top, 24)
-                Spacer(minLength: 40)
             }
         }
         .background(Color.churOffWhite)
@@ -53,67 +54,58 @@ struct MerchantDetailSheet: View {
     // MARK: - Header
 
     private var headerSection: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 8) {
-                    HeaderCapsuleBubble(
-                        text: viewModel.channel == "online" ? AppLocale.string("Online") : AppLocale.string("In-Store"),
-                        icon: viewModel.channel == "online" ? "globe" : "storefront.fill"
-                    )
-                    if let region = viewModel.merchant.region {
-                        HeaderCapsuleBubble(text: region, icon: "location.fill")
-                    }
-                    if let label = viewModel.categoryBubbleLabel {
-                        HeaderCapsuleBubble(text: label, icon: "mappin.and.ellipse")
+        PopupHeroHeader {
+            VStack(alignment: .leading, spacing: 0) {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+                        HeaderCapsuleBubble(
+                            text: viewModel.channel == "online" ? AppLocale.string("Online") : AppLocale.string("In-Store"),
+                            icon: viewModel.channel == "online" ? "globe" : "storefront.fill"
+                        )
+                        if let region = viewModel.merchant.region {
+                            HeaderCapsuleBubble(text: region, icon: "location.fill")
+                        }
+                        if let label = viewModel.categoryBubbleLabel {
+                            HeaderCapsuleBubble(text: label, icon: "mappin.and.ellipse")
+                        }
                     }
                 }
-            }
-            .popupHeaderInset()
+                .popupHeroInset()
 
-            Text(viewModel.merchant.name)
-                .popupHeaderTitle()
-                .padding(.top, 10)
+                Text(viewModel.merchant.name)
+                    .popupHeroTitle()
+                    .padding(.top, 10)
 
-            HStack(spacing: 6) {
-                Text("Here's your best card here.")
-                    .font(.churCaptionMedium())
-                    .foregroundStyle(Color.churDarkGray.opacity(0.7))
-                Button {
-                    withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) { showFormula.toggle() }
-                } label: {
-                    Image(systemName: showFormula ? "info.circle.fill" : "info.circle")
-                        .font(.system(size: 13))
-                        .foregroundStyle(showFormula ? Color.churOlive : Color.churMediumGray)
+                HStack(spacing: 6) {
+                    Text("Here's your best card here.")
+                        .font(.churCaptionMedium())
+                        .foregroundStyle(Color.churDarkGray.opacity(0.7))
+                    Button {
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) { showFormula.toggle() }
+                    } label: {
+                        Image(systemName: showFormula ? "info.circle.fill" : "info.circle")
+                            .font(.system(size: 13))
+                            .foregroundStyle(showFormula ? Color.churSageDeep : Color.churMediumGray)
+                    }
+                }
+                .padding(.top, 6)
+                .popupHeroInset()
+
+                // Inside the hero, not below it: the CTA is the hero's focal
+                // point, and floating it over the sage is what the dark olive
+                // pill is for.
+                if viewModel.channel == "online", !viewModel.merchant.address.isEmpty {
+                    shopNowButton
+                        .padding(.top, 20)
                 }
             }
-            .padding(.top, 6)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.horizontal, 20)
-        .padding(.top, 36)
-        .padding(.bottom, 16)
-        .overlay(alignment: .topTrailing) {
-            PopupHeaderWatermark(categoryID: viewModel.category.id) {
-                // 80pt matches the emoji size ParentCategoryParallaxSheet uses directly
-                // in the same PopupHeaderWatermark circle — keeps both popups' fallback
-                // icon consistent. The only site that wants the watermark size.
-                MerchantIconView(iconName: viewModel.merchantIconName,
-                                 category: viewModel.category,
-                                 emojiFont: .system(size: 80))
-                    .frame(width: 80, height: 80)
-                    .opacity(1)
-            }
-        }
-        .clipped()
-        .background {
-            ZStack {
-                Color.churOffWhite
-                RepeatingPatternBackground(
-                    glyph: .symbol("$", font: .system(size: 13, weight: .bold, design: .rounded)),
-                    color: Color.churOlive.opacity(0.09),
-                    spacing: 28
-                )
-            }
+        } avatar: {
+            // 30pt, not the watermark's 80: the emoji fallback is a Text and
+            // does not inherit the frame the way the image does, so its size
+            // has to travel with the call site.
+            MerchantIconView(iconName: viewModel.merchantIconName,
+                             category: viewModel.category,
+                             emojiFont: .system(size: 30))
         }
     }
 
@@ -134,9 +126,9 @@ struct MerchantDetailSheet: View {
                     .font(.system(size: 12, weight: .bold))
             }
             .foregroundStyle(.white)
-            .padding(.horizontal, 32)
-            .padding(.vertical, 18)
-            .background(Color.churOlive, in: RoundedRectangle(cornerRadius: 20))
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 17)
+            .background(Color.churSageDeep, in: Capsule())
         }
         .buttonStyle(ScaleButtonStyle())
     }

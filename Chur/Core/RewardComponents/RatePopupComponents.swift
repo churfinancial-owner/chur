@@ -97,6 +97,105 @@ enum PopupHeaderMetrics {
     static let contentInset: CGFloat = diameter - overhang
 }
 
+// MARK: - Sage Hero Header
+
+/// Geometry for the sage hero treatment. Separate from `PopupHeaderMetrics`,
+/// which describes the older tinted-circle watermark that the category and
+/// benefit sheets still use.
+enum PopupHeroMetrics {
+    /// White avatar circle. Much smaller than the 140pt watermark it replaces —
+    /// the mark is now an object sitting on the hero rather than a tint washing
+    /// through it, so it reads at a fraction of the size.
+    static let avatar: CGFloat = 72
+    /// Logo inside the circle, leaving a white ring around it.
+    static let logo: CGFloat = 42
+    static let avatarTrailing: CGFloat = 20
+    static let avatarTop: CGFloat = 18
+
+    /// Hero padding. Tight on top, deep at the bottom so the overlap card has
+    /// sage to bite into — this is what keeps the header at ~2/3 height while
+    /// still reading as a hero.
+    static let topPadding: CGFloat = 28
+    static let bottomPadding: CGFloat = 76
+    static let horizontalPadding: CGFloat = 24
+
+    /// How far the content card is pulled up over the hero.
+    static let overlap: CGFloat = 52
+    static let cardRadius: CGFloat = 26
+
+    /// Trailing inset for hero text so it clears the avatar.
+    static let contentInset: CGFloat = avatar + avatarTrailing + 8
+}
+
+/// The sage hero: flat colour, text at the leading edge, a floating white
+/// avatar top-trailing.
+///
+/// No `RepeatingPatternBackground` here, unlike the headers this replaces. The
+/// sage carries the weight now, and the dot/glyph texture read as noise behind
+/// it. `ToolSheetHeaderBanner`'s ten screens keep their pattern — they are a
+/// different family and are not changing.
+struct PopupHeroHeader<Content: View, Avatar: View>: View {
+    @ViewBuilder var content: () -> Content
+    @ViewBuilder var avatar: () -> Avatar
+
+    var body: some View {
+        content()
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, PopupHeroMetrics.horizontalPadding)
+            .padding(.top, PopupHeroMetrics.topPadding)
+            .padding(.bottom, PopupHeroMetrics.bottomPadding)
+            .background(Color.churSage)
+            .overlay(alignment: .topTrailing) {
+                avatar()
+                    .frame(width: PopupHeroMetrics.logo, height: PopupHeroMetrics.logo)
+                    .frame(width: PopupHeroMetrics.avatar, height: PopupHeroMetrics.avatar)
+                    .background(Color.white, in: Circle())
+                    .shadow(color: .black.opacity(0.10), radius: 10, y: 4)
+                    .padding(.trailing, PopupHeroMetrics.avatarTrailing)
+                    .padding(.top, PopupHeroMetrics.avatarTop)
+                    .allowsHitTesting(false)
+            }
+    }
+}
+
+/// The white slab that bites into the hero above it.
+///
+/// The negative padding is on this view rather than a spacer above it so the
+/// shadow falls on the sage instead of on a gap.
+struct PopupOverlapCard<Content: View>: View {
+    @ViewBuilder var content: () -> Content
+
+    var body: some View {
+        content()
+            .frame(maxWidth: .infinity)
+            .background(Color.churOffWhite)
+            .clipShape(
+                .rect(topLeadingRadius: PopupHeroMetrics.cardRadius,
+                      topTrailingRadius: PopupHeroMetrics.cardRadius)
+            )
+            .shadow(color: .black.opacity(0.07), radius: 16, y: -4)
+            .padding(.top, -PopupHeroMetrics.overlap)
+    }
+}
+
+extension View {
+
+    /// Hero title: the anchor the eye lands on when the popup opens.
+    func popupHeroTitle() -> some View {
+        self
+            .font(.churBigTitle3())
+            .foregroundStyle(Color.churDarkGray)
+            .lineLimit(2)
+            .minimumScaleFactor(0.8)
+            .padding(.trailing, PopupHeroMetrics.contentInset)
+    }
+
+    /// Hero subtitle and pill rows — same inset, no type opinion.
+    func popupHeroInset() -> some View {
+        padding(.trailing, PopupHeroMetrics.contentInset)
+    }
+}
+
 // MARK: - Popup Header Title
 
 extension View {
@@ -241,9 +340,12 @@ struct RateTileContainer<Content: View>: View {
             }
             content()
         }
-        .background(Color.churTileWhiteBg.opacity(0.6))
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-        .shadow(color: .black.opacity(0.04), radius: 8, y: 4)
+        // Solid rather than 60% opaque, and a wider softer shadow: on the sage
+        // hero style each section has to read as its own card lifted off the
+        // page, which a translucent fill and a tight shadow never did.
+        .background(Color.churTileWhiteBg)
+        .clipShape(RoundedRectangle(cornerRadius: 20))
+        .shadow(color: .black.opacity(0.06), radius: 14, y: 6)
     }
 }
 
