@@ -36,21 +36,27 @@ Two places, and the split matters:
 
 | What | Where | Edit it in |
 |---|---|---|
-| Cards, rewards, benefits, merchants | `Chur/Resources/json/…` | **Xcode** |
+| All seed JSON | `Chur/Resources/json/…` | **Xcode** |
 | Card images | `CardArt/<issuer>/<imageName>.png` | **Finder** |
+| Badge, bank and partner icons | `IconArt/<group>/<iconName>.png` | **Finder** |
 
 `CardArt/` sits at the repo root, next to `Chur/` — not inside it. It will **not** appear in Xcode's project navigator, on purpose: `Chur/` is a synchronized folder, so anything dropped in there gets compiled into the app and puts back the 19 MB that moving art to the CDN saved. Drop images in Finder.
 
 ```
 chur/
-├── CardArt/          ← images (Finder)
+├── CardArt/          ← card images (Finder)
 │   ├── amex/  chase/  citi/  …
 │   └── hk/amex-hk/  hk/citi-hk/  …
+├── IconArt/          ← badge / bank / partner icons (Finder)
+│   ├── badges/  banks/
+│   └── partners/dining/  partners/hotels/  …
 ├── Chur/             ← code + JSON (Xcode)
 └── Scripts/ChurContentPublish/
 ```
 
-The issuer folders inside `CardArt/` are for you. Nothing reads them — only the **filename** matters, and it must exactly equal the card's `imageName`.
+The subfolders inside both art directories are for you. Nothing reads them — only the **filename** matters, and it must exactly equal the name the JSON refers to (`imageName` for a card; `merchantIconName`, `iconName`, `logoImageName` or `icon` for everything else).
+
+Three icons were broken for months because the art and the JSON disagreed by one character — `icon_allegient` against `icon_allegiant`. Nothing looked wrong, because a missing icon falls back to an emoji. The publish now lists any name it can't find; see [the icon warning](#warnings-on-every-publish).
 
 ---
 
@@ -113,9 +119,17 @@ No JSON changes, no app release. Image keys are content-addressed (`art/<imageNa
 | Merchants | `Chur/Resources/json/merchants/SeedDataMerchants_*.json` | ✅ Yes |
 | Map mappings | `Chur/Resources/json/merchants/SeedDataGenericMappings.json` | ✅ Yes |
 | Card images | `CardArt/<issuer>/<imageName>.png` (repo root) | ✅ Yes |
-| Categories | `Chur/Resources/json/categories/*.json` | ❌ App release |
+| Categories | `Chur/Resources/json/categories/*.json` | ✅ Yes |
+| Recommendations | `Chur/Resources/json/recommendations/**` | ✅ Yes |
+| Badges, partners, transfer partners, coverage tables | `Chur/Resources/json/badges/*.json` | ✅ Yes |
+| Issuers, reward programs, program upgrades | `Chur/Resources/json/control/SeedData{Issuers,Programs,ProgramUpgrades}.json` | ✅ Yes |
+| Boost programs | `Chur/Resources/json/bankrelationshipprograms/boost_programs.json` | ✅ Yes |
+| Badge / bank / partner icons | `IconArt/<group>/<iconName>.png` (repo root) | ✅ Yes |
+| **Regions** | `Chur/Resources/json/control/SeedDataRegions.json` | ❌ App release — **on purpose** |
 
-So: **rates, fees, card details, perks, merchants and artwork all publish instantly.** Only hand-authored categories still need a release — see `ROADMAP.md` §P1b.
+So since P1d: **everything publishes instantly except regions.**
+
+Regions are the deliberate exception. The file gates onboarding and locale resolution, it changes approximately never, and a bad payload would leave a user with no region to pick — there is nothing to gain by making it remotely mutable. See `ROADMAP.md` §P1d.
 
 > **Merchants are the one domain that writes to the user's database.** A `brandCategory` block synthesizes a `SpendingCategory`, which is a persisted model — so publishing a new brand inserts a row on every device, and removing one deactivates a row users may have selected. Read the retirement rules in `MERCHANT_SETUP_REFERENCE.md` before deleting a merchant entry.
 
@@ -129,22 +143,22 @@ This is the screen to actually look at — it tells you whether the publish did 
 
 ```
 ✅ contentVersion 18 → /Users/pakho/Documents/Product/chur/dist
-   cards:    175 cards, 83005 bytes
-   rewards:  169 entries, 118325 bytes
+   cards: 175 cards, 83005 bytes
+   rewards: 169 entries, 118325 bytes
    benefits: 272 benefits, 195565 bytes
    merchants: 77 merchants, 37063 bytes
-   mappings: 4 rule groups, 27389 bytes
-   cardArt: 171 images, 36389 bytes index (17 MB of PNGs)
+   merchantMappings: 4 rule groups, 27389 bytes
+   cardArt: 171 images (17.0 MB of files), 36389 bytes
+   iconArt: 151 icons (1.9 MB of files), 32000 bytes
+   categories: 223 hand-authored categories, … bytes
+   recommendations: 6 cards, … bytes
+   … (18 domains in all)
    manifest: … bytes, base URL https://content.chur.app
 
 Uploading to R2 bucket 'chur-content'…
-   ✓ card art unchanged (171 images already uploaded)
+   ✓ art unchanged (322 images already uploaded)
    ✓ cards-18.json
-   ✓ rewards-18.json
-   ✓ benefits-18.json
-   ✓ merchants-18.json
-   ✓ merchantMappings-18.json
-   ✓ cardArt-18.json
+   … one line per domain …
    ✓ manifest.json
 
 ✅ Published.
@@ -154,7 +168,7 @@ Three things to check every time:
 
 **1. Did the byte counts move?** If you edited rewards and `rewards:` shows the same number as last time, your edit didn't save. (A single character like `5.0` → `10.0` moves it by exactly one byte.)
 
-**2. Does `cardArt:` say 171 images?** A count of `0` means the publisher couldn't find `CardArt/` — since 2026-08-14 that stops the publish outright, but an older empty index may still be live. Re-publish to replace it.
+**2. Do `cardArt:` and `iconArt:` say 171 and 151?** A count of `0` means the publisher couldn't find `CardArt/` or `IconArt/` — since 2026-08-14 that stops the publish outright, but an older empty index may still be live. Re-publish to replace it.
 
 **3. Is the version one higher than last time?** It auto-increments and you never set it manually — with one exception. It counts up from `dist/manifest.json`, and `dist/` is gitignored, so on a machine that has never published (or after deleting `dist/`) it restarts at 1. Devices already on a higher version then ignore everything you publish. Check and override if it restarted:
 
@@ -190,9 +204,15 @@ Verifying https://content.chur.app…
    ✓ merchants — 37063 bytes
    ✓ merchantMappings — 27389 bytes
    ✓ cardArt — 36389 bytes
+   ✓ iconArt — 31255 bytes
+   … 12 more domains …
+   ✓ cardArt images — 4 of 171 sampled, all resolve and match
+   ✓ iconArt images — 4 of 151 sampled, all resolve and match
 
-✅ Live content is valid — contentVersion 17.
+✅ Live content is valid — contentVersion 25.
 ```
+
+The last two lines are the art spot-check. The bundles are JSON; the 322 images they index are separate objects, and until P1d nothing ever checked that one of them actually resolves — so an index could list a key that 404s and the verify would still print all ticks. It samples rather than downloading 17 MB, which catches a whole index pointing at keys that were never uploaded but not one individually missing image.
 
 A failure names the exact domain and reason, and reminds you that one bad domain costs all six. It reads nothing but the CDN, so it works from any directory and cannot affect a publish.
 
@@ -377,6 +397,12 @@ You're already inside that folder. Either run `swift run ChurContentPublish --up
 ```
 
 All three are known and harmless — see `ROADMAP.md`. They don't block publishing. `wf-autograph` is the only US card in the second list and is worth filling in eventually. The third means a card promises a perk that has no JSON file: the row simply never appears, so those are content gaps to fill, not errors.
+
+```
+⚠️  Icon names with no file in IconArt/ (11): icon_dbs, icon_fidelity, …
+```
+
+That one is worth acting on eventually even though it never blocks a publish. Those names appear in the seed JSON and have no artwork, so they render as an emoji or an empty slot — which reads as intentional rather than broken, and is why they went unnoticed for months. Drop a matching file into `IconArt/` to clear each one.
 
 A **duplicate benefit id does** stop the publish, on purpose. Two files claiming one id means the winner depends on folder-enumeration order, and publishing would freeze that arbitrary choice into every client. Delete or rename one.
 

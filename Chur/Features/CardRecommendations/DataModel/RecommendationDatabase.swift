@@ -48,9 +48,16 @@ struct RecommendationDatabase {
     // MARK: - Loader
     
     private static func loadAllTemplates() -> [RecommendationTemplate] {
+        // Sign-up bonuses and offer copy stale faster than anything else in the
+        // seed data — the reason this was the first P1d domain to go remote.
+        if let remote: [RecommendationTemplate] = RemoteSeed.decodeArray(.recommendations,
+                                                                        label: "RecommendationDatabase") {
+            return remote
+        }
+
         let fileManager = FileManager.default
         var templates: [RecommendationTemplate] = []
-        
+
         // Try to find recommendations folder in bundle
         let possiblePaths: [String?] = [nil, "SeedData", "recommendations"]
         

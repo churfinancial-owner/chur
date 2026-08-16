@@ -33,7 +33,13 @@ struct ProgramUpgradeProposal: Identifiable {
 struct ProgramUpgradeDatabase {
 
     /// All loaded upgrade rules.
-    static let all: [ProgramUpgradeRule] = loadRules()
+    /// See BoostProgramDatabase for why this is a `var` — same reason, same
+    /// P1d change: a `let` cache cannot see a mid-session publish.
+    private(set) static var all: [ProgramUpgradeRule] = loadRules()
+
+    static func reloadFromBundle() {
+        all = loadRules()
+    }
 
     /// Returns upgrade rules where the given templateID is an eligible card.
     static func rules(forEligibleCard templateID: String) -> [ProgramUpgradeRule] {
@@ -203,10 +209,16 @@ struct ProgramUpgradeDatabase {
     // MARK: - Loading
 
     private static func loadRules() -> [ProgramUpgradeRule] {
-        guard let url = Bundle.main.url(forResource: "SeedDataProgramUpgrades", withExtension: "json"),
-              let data = try? Data(contentsOf: url),
-              let jsonRules = try? JSONDecoder().decode([_UpgradeRuleJSON].self, from: data)
-        else { return [] }
+        let jsonRules: [_UpgradeRuleJSON]
+        if let remote: [_UpgradeRuleJSON] = RemoteSeed.decodeArray(.programUpgrades, label: "ProgramUpgradeDatabase") {
+            jsonRules = remote
+        } else if let url = Bundle.main.url(forResource: "SeedDataProgramUpgrades", withExtension: "json"),
+                  let data = try? Data(contentsOf: url),
+                  let decoded = try? JSONDecoder().decode([_UpgradeRuleJSON].self, from: data) {
+            jsonRules = decoded
+        } else {
+            return []
+        }
 
         return jsonRules.map { json in
             ProgramUpgradeRule(

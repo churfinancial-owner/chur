@@ -14,6 +14,7 @@ import UIKit
 
 enum SeedDataValidator {
 
+    @MainActor
     static func run() {
         var issues: [String] = []
 
@@ -58,9 +59,6 @@ enum SeedDataValidator {
         for merchant in seedFile.merchants {
             if !categoryIDs.contains(merchant.category) {
                 issues.append("Merchant '\(merchant.id)': category '\(merchant.category)' does not exist")
-            }
-            if let icon = merchant.merchantIconName, UIImage(named: icon) == nil {
-                issues.append("Merchant '\(merchant.id)': icon asset '\(icon)' not found")
             }
             if let mapCategory = merchant.map?.categoryID, !categoryIDs.contains(mapCategory) {
                 issues.append("Merchant '\(merchant.id)': map categoryID '\(mapCategory)' does not exist")
@@ -156,6 +154,9 @@ enum SeedDataValidator {
             }
         }
 
+        // MARK: Icon coverage
+        issues.append(contentsOf: checkIconCoverage(templates: templates))
+
         // MARK: Pricing invariants
         issues.append(contentsOf: checkPricingInvariants(templates: templates))
 
@@ -214,6 +215,93 @@ enum SeedDataValidator {
             }
         }
         return issues
+    }
+
+    // MARK: - Icon coverage
+
+    /// Every icon name the seed data references, checked against what can
+    /// actually be resolved.
+    ///
+    /// This replaces a check that looked at `merchantIconName` alone and asked
+    /// `UIImage(named:)`. Both halves were wrong by P1d:
+    ///
+    /// - **Scope.** Six fields name icons — merchants, categories, issuers,
+    ///   partners and badges — and only one was checked. 25 names across the
+    ///   other five resolved to nothing, indefinitely, because every render site
+    ///   falls back to an emoji or an empty slot. A missing card image reads as
+    ///   broken; a missing icon reads as a design choice, which is why this
+    ///   needed a report rather than a user-facing marker.
+    /// - **Source.** Icons moved to the CDN in P1d, so a bundle lookup now
+    ///   answers nil for art that exists. `CardArtLoader.isKnown` consults the
+    ///   published index as well as the bundle.
+    ///
+    /// Runs against whatever content is live, like every other check here — so
+    /// after a publish it reports on the CDN, not on the working copy. Clear
+    /// Content Cache first if a local fix appears to do nothing.
+    @MainActor
+    private static func checkIconCoverage(templates: [CategoryJSON]) -> [String] {
+        var referenced: [String: Set<String>] = [:]   // icon name → who asks for it
+
+        func note(_ iconName: String?, _ owner: String) {
+            guard let iconName, !iconName.isEmpty else { return }
+            referenced[iconName, default: []].insert(owner)
+        }
+
+        for merchant in MerchantSeedDatabase.seed.merchants {
+            note(merchant.merchantIconName, "merchant '\(merchant.id)'")
+        }
+        for template in templates {
+            note(template.iconName, "category '\(template.id)'")
+        }
+        for issuer in IssuerDatabase.allIssuers {
+            note(issuer.logoImageName, "issuer '\(issuer.id)'")
+        }
+        for partner in PartnerDatabase.allPartners {
+            note(partner.logoImageName, "partner '\(partner.id)'")
+        }
+        for badge in BadgeDatabase.getAllBadges() {
+            // A badge icon may legitimately name an SF Symbol instead of art.
+            guard let icon = badge.icon, UIImage(systemName: icon) == nil else { continue }
+            note(icon, "badge '\(badge.id)'")
+        }
+
+        // Not every icon name comes from the seed data. `buildDerivedData` maps
+        // an alliance to a hardcoded asset name in Swift, so a checker that only
+        // reads JSON reports those three as fine no matter what — the exact
+        // shape of P1b's "a tool's blind spot becomes a fact about your data".
+        //
+        // Read from the built table rather than repeating the literals here, or
+        // this check acquires the same blind spot one rename later.
+        for imageName in Set(TransferPartnerDatabase.allianceImages.values) {
+            note(imageName, "alliance logo (TransferPartnerDatabase)")
+        }
+
+        let missing = referenced.filter { !CardArtLoader.shared.isKnown($0.key) }
+        guard !missing.isEmpty else {
+            print("ℹ️ SeedDataValidator: all \(referenced.count) referenced icons resolve")
+            return []
+        }
+
+        // Nothing resolving at all is a different fact from some names being
+        // broken, and printing it the same way is how a console becomes noise.
+        // It means the art index has not been fetched yet — a fresh install
+        // before its first refresh, or the launch after Clear Content Cache —
+        // and nothing is wrong. One line, not 141, because a wall of warnings
+        // on every fresh launch teaches you to skim past the console, which is
+        // where the failures that *do* matter are reported.
+        guard missing.count < referenced.count else {
+            print("ℹ️ SeedDataValidator: art index not fetched yet — \(referenced.count) icons unresolved, rechecks after the next content refresh")
+            return []
+        }
+
+        // One line per icon, not per reference: `icon_chase` is named by nine
+        // categories, and nine identical warnings would bury the other eight
+        // names. The owners are listed so the fix is findable.
+        return missing.sorted { $0.key < $1.key }.map { name, owners in
+            let who = owners.sorted().prefix(3).joined(separator: ", ")
+            let more = owners.count > 3 ? " +\(owners.count - 3) more" : ""
+            return "Icon '\(name)' resolves to nothing — referenced by \(who)\(more)"
+        }
     }
 }
 #endif

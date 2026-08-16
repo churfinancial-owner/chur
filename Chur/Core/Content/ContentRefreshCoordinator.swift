@@ -107,11 +107,39 @@ enum ContentRefreshCoordinator {
 
     /// In-memory template caches only — nothing here touches persisted models,
     /// which is what lets onboarding call it before a user exists.
+    ///
+    /// **Every remote domain needs a line here.** A domain that publishes but is
+    /// never reloaded is the pipeline's quietest failure: the download succeeds,
+    /// the version moves, the log says `applied`, and the screen shows the old
+    /// data until the app is relaunched. Nothing reports it.
     private static func reloadDatabases() {
         CardDatabase.reloadFromBundle()
         BenefitDatabase.reloadFromBundle()
         OnlineMerchantDatabase.reloadFromBundle()
         MerchantCategoryMapper.reloadFromBundle()
+
+        // P1d domains.
+        //
+        // Order matters in one place: PartnerDatabase before
+        // TransferPartnerDatabase, which resolves partner refs through
+        // `PartnerDatabase.byID` as it builds its programs. Reloading it second
+        // would resolve the new payload against the old partner table.
+        IssuerDatabase.reloadFromBundle()
+        BadgeDatabase.reloadFromBundle()
+        PartnerDatabase.reloadFromBundle()
+        TransferPartnerDatabase.loadFromBundle(region: RegionDatabase.detectUserRegion())
+        AutoRentalCoverageView.reloadFromBundle()
+        CellPhoneProtectionView.reloadFromBundle()
+        RecommendationDatabase.reloadFromBundle()
+        BoostProgramDatabase.reloadFromBundle()
+        ProgramUpgradeDatabase.reloadFromBundle()
+        RewardProgramDefaults.reloadFromBundle()
+
+        // Categories have no database of their own — they are read fresh by
+        // SeedDataLoader.loadCategoryTemplates() and reconciled into persisted
+        // SpendingCategory rows by CategorySyncService, which apply() already
+        // calls. Nothing to reload here, which is worth stating so the next
+        // person doesn't go looking for the missing line.
     }
 
     private static func prefetchWalletArt(modelContext: ModelContext) {

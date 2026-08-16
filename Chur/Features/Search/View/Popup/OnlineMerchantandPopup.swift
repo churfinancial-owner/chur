@@ -142,7 +142,11 @@ private struct FeaturedMerchantTile: View {
 
     var body: some View {
         Button(action: onTap) {
-            MerchantIconView(iconName: merchant.merchantIconName, category: merchantCategory)
+            // The tile is 82pt tall less 10pt padding either side, so the emoji has
+            // ~62pt to live in — the inherited 80pt overflowed it.
+            MerchantIconView(iconName: merchant.merchantIconName,
+                             category: merchantCategory,
+                             emojiFont: .churBigTitle1())
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .padding(10)
                 .frame(height: 82)

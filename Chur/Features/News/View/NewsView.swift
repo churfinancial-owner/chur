@@ -355,9 +355,7 @@ private extension NewsView {
         Button(action: action) {
             HStack(spacing: 5) {
                 if let imageName {
-                    Image(imageName)
-                        .resizable()
-                        .scaledToFit()
+                    IconArtView(imageName: imageName)
                         .frame(width: 14, height: 14)
                         .clipShape(RoundedRectangle(cornerRadius: 3))
                 }

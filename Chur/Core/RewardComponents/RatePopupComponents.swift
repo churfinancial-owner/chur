@@ -395,16 +395,32 @@ struct CardThumbnailView: View {
 struct MerchantIconView: View {
     let iconName: String?
     let category: SpendingCategory?
-    
+
+    /// Size of the emoji shown when there is no icon.
+    ///
+    /// A parameter rather than a constant because this view is used at three
+    /// very different sizes — a 56×36 search row, an 82pt tile, and an 80×80
+    /// popup watermark — while the fallback was fixed at the watermark's 80pt.
+    /// An image `.scaledToFit()`s into whatever frame the caller gives it; a
+    /// `Text` does not, so the size has to travel with the call site.
+    ///
+    /// This was latent until P1d. Merchant icons shipped in the bundle, so the
+    /// fallback almost never rendered; now it also covers the gap before an icon
+    /// downloads, and any merchant whose art is missing entirely.
+    var emojiFont: Font = .churHeadline()
+
     var body: some View {
-        if let iconName, let uiImage = UIImage(named: iconName) {
-            Image(uiImage: uiImage)
-                .resizable()
-                .scaledToFit()
-        } else if let category {
-            // 80pt matches the emoji size ParentCategoryParallaxSheet uses directly in the
-            // same PopupHeaderWatermark circle — keeps both popups' fallback icon consistent.
-            CategoryIconView(category: category, font: .system(size: 80))
+        IconArtView(imageName: iconName) {
+            unavailable
+        }
+    }
+
+    /// What fills the space when the merchant has no icon, or it hasn't
+    /// downloaded yet.
+    @ViewBuilder
+    private var unavailable: some View {
+        if let category {
+            CategoryIconView(category: category, font: emojiFont)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
             Image(systemName: "storefront")

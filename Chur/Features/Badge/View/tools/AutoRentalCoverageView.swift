@@ -236,7 +236,19 @@ struct AutoRentalCoverageView: View {
 
     private static var cachedEntries: [AutoRentalEntry] = loadEntries()
 
+    /// Called by ContentRefreshCoordinator. Without it the table stays at
+    /// whatever was cached when the sheet was first opened, and a publish
+    /// correcting a coverage limit would not land until relaunch.
+    static func reloadFromBundle() {
+        cachedEntries = loadEntries()
+    }
+
     private static func loadEntries() -> [AutoRentalEntry] {
+        if let remote: [AutoRentalEntry] = RemoteSeed.decodeArray(.autoRentalCoverage,
+                                                                  label: "AutoRentalCoverage") {
+            return remote
+        }
+
         guard let url = Bundle.main.url(forResource: "SeedDataAutoRentalCoverage", withExtension: "json") else {
             return []
         }

@@ -46,9 +46,20 @@ struct BoostProgramDatabase {
 
     // MARK: - All Programs
 
-    static let all: [BoostProgram] = loadAll()
+    /// A `var` rather than a `let` since P1d: this publishes remotely, and a
+    /// `let` is resolved once on first access — which for a rates input means a
+    /// refresh landing mid-session would be ignored until the app relaunched.
+    private(set) static var all: [BoostProgram] = loadAll()
+
+    static func reloadFromBundle() {
+        all = loadAll()
+    }
 
     private static func loadAll() -> [BoostProgram] {
+        if let remote: [BoostProgram] = RemoteSeed.decodeArray(.boostPrograms, label: "BoostProgramDatabase") {
+            return remote
+        }
+
         guard let url = Bundle.main.url(forResource: "boost_programs", withExtension: "json"),
               let data = try? Data(contentsOf: url),
               let programs = try? JSONDecoder().decode([BoostProgram].self, from: data) else {

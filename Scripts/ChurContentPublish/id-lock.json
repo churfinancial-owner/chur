@@ -275,9 +275,28 @@
         "wyndham-gold",
         "wyndham-platinum"
       ],
-      "retired" : [
-
-      ]
+      "retired" : []
+    },
+    "boostPrograms" : {
+      "active" : [
+        "bofa-rewards",
+        "bofa-rewards:Preferred Honors",
+        "bofa-rewards:Preferred Plus",
+        "bofa-rewards:Premier",
+        "coinbaseone",
+        "coinbaseone:Tier 2 (2.5%)",
+        "coinbaseone:Tier 3 (3%)",
+        "coinbaseone:Tier 4 (4%)",
+        "pnc-totalrewards",
+        "pnc-totalrewards:Gold",
+        "pnc-totalrewards:Platinum",
+        "pnc-totalrewards:Silver",
+        "usbank-smartly",
+        "usbank-smartly:100% Smartly Earning Bonus",
+        "usbank-smartly:25% Smartly Earning Bonus",
+        "usbank-smartly:50% Smartly Earning Bonus"
+      ],
+      "retired" : []
     },
     "cards" : {
       "active" : [
@@ -457,9 +476,7 @@
         "wf-premier-autograph",
         "wf-signify-business"
       ],
-      "retired" : [
-
-      ]
+      "retired" : []
     },
     "categories" : {
       "active" : [
@@ -687,9 +704,7 @@
         "woot",
         "wyndham_hotels"
       ],
-      "retired" : [
-
-      ]
+      "retired" : []
     },
     "plans" : {
       "active" : [
@@ -710,9 +725,7 @@
         "mox_cash",
         "mox_cash_boost"
       ],
-      "retired" : [
-
-      ]
+      "retired" : []
     },
     "slots" : {
       "active" : [
@@ -730,9 +743,7 @@
         "us-bank-cash-plus:5pct_slot_1",
         "us-bank-cash-plus:5pct_slot_2"
       ],
-      "retired" : [
-
-      ]
+      "retired" : []
     }
   },
   "note" : "Ids that persisted user data points at. Append-only: never rename or remove one. To retire an id, move it from 'active' to 'retired' — and leave the entry itself in the seed data, hidden (categories: visibility 'hidden'; benefits: isActive false), so existing user references keep resolving. ChurContentPublish refuses to publish if an active id disappears.",

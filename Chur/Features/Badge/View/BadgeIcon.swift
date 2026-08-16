@@ -124,12 +124,18 @@ struct BadgeIcon: View {
             Color.clear
                 .frame(width: windowWidth, height: windowHeight)
             
-            if let icon = badge.icon, UIImage(named: icon) != nil {
-                Image(icon)
-                    .resizable()
-                    // IMPORTANT: Use .scaledToFit so the square asset keeps its 1:1 format
-                    // and fits entirely within the horizontal width of the window frame.
-                    .scaledToFit()
+            // Three-way dispatch on what `badge.icon` names: artwork, an SF
+            // Symbol, or neither.
+            //
+            // It used to ask `UIImage(named:)`, which since P1d answers nil for
+            // art that exists perfectly well — it just lives on the CDN now. The
+            // symbol branch has to be an explicit symbol test rather than an
+            // else, or every badge would render a blank `Image(systemName:)` for
+            // an invalid name in the window between launch and the first index.
+            if let icon = badge.icon, CardArtLoader.shared.isKnown(icon) {
+                // IconArtView fits by default, keeping the square asset's 1:1
+                // format inside the window frame.
+                IconArtView(imageName: icon)
                     .frame(width: windowWidth - 10) // Leave subtle padding so art borders don't hit the bezel
                     // Add a cute, clean backdrop behind the illustration transparency
                     .background(
@@ -137,7 +143,7 @@ struct BadgeIcon: View {
                             .fill(Color.white.opacity(0.15))
                             .blur(radius: 4)
                     )
-            } else if let icon = badge.icon {
+            } else if let icon = badge.icon, UIImage(systemName: icon) != nil {
                 Image(systemName: icon)
                     .resizable()
                     .aspectRatio(contentMode: .fit)

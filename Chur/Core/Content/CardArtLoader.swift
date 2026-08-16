@@ -2,8 +2,13 @@
 //  CardArtLoader.swift
 //  Chur
 //
-//  Resolves card art by `imageName`, in three tiers: decoded in memory, a file
-//  on disk, then the CDN.
+//  Resolves art by `imageName`, in three tiers: decoded in memory, a file on
+//  disk, then the CDN.
+//
+//  Named for card art because that is what it was built for, but since P1d it
+//  serves badge, bank and partner icons too — same index shape, same cache, same
+//  checksum model, disjoint names. Renaming it would churn 23 call sites to say
+//  something the type comments already say.
 //
 //  Card art is published as individual images rather than a JSON bundle, so it
 //  is deliberately outside RemoteContentService's all-or-nothing staging: 15 MB
@@ -110,6 +115,23 @@ final class CardArtLoader {
         return image
     }
 
+    /// True when this name is art at all — bundled, or listed in a published
+    /// index — regardless of whether the bytes have been fetched.
+    ///
+    /// Distinct from `isAvailable`, and the distinction matters: a caller
+    /// choosing between "render the artwork" and "render something else
+    /// entirely" needs to know what the name *is*, not whether it has arrived.
+    /// `BadgeIcon` dispatches between an image asset and an SF Symbol of the
+    /// same name, and used `UIImage(named:)` to tell them apart — which stops
+    /// working the moment the asset lives on a CDN.
+    ///
+    /// Answers false before the first index is cached, so callers should fall
+    /// back to something always-correct (an emoji), never to the other branch.
+    func isKnown(_ imageName: String) -> Bool {
+        if CardArtStore.bundledImage(named: imageName) != nil { return true }
+        return reference(for: imageName) != nil
+    }
+
     /// True when art is already available without a download — bundled, in
     /// memory, or on disk. Deliberately does not decode: prefetch only needs to
     /// know whether the bytes exist.
@@ -159,26 +181,51 @@ final class CardArtLoader {
 
     // MARK: - Internals
 
+    /// Every failure here returns nil, and until P1d only one of the five said
+    /// so. A nil is indistinguishable at the call site from "this name has no
+    /// art", so a 404, a cancelled task and a corrupt payload all rendered as a
+    /// placeholder with an empty console — which is exactly how a blank badge
+    /// survived four rounds of diagnosis that each proved a different layer
+    /// innocent. Same lesson as `CardArtStore`'s two silent `try?`s in P1b:
+    /// never let a cache failure be silent.
     private func download(_ imageName: String) async -> UIImage? {
-        guard FeatureFlags.remoteContentEnabled,
-              let ref = reference(for: imageName),
-              let remoteURL = URL(string: ref.url) else { return nil }
+        guard FeatureFlags.remoteContentEnabled else { return nil }
+        guard let ref = reference(for: imageName) else {
+            print("⚠️ CardArt: '\(imageName)' is not in any published index")
+            return nil
+        }
+        guard let remoteURL = URL(string: ref.url) else {
+            print("⚠️ CardArt: '\(imageName)' has a malformed URL — \(ref.url)")
+            return nil
+        }
 
         do {
             let (data, response) = try await URLSession.shared.data(from: remoteURL)
             guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+                let code = (response as? HTTPURLResponse)?.statusCode ?? -1
+                print("⚠️ CardArt: '\(imageName)' returned HTTP \(code) — \(ref.url)")
                 return nil
             }
             guard CardArtStore.sha256Hex(data) == ref.sha256.lowercased() else {
                 print("⚠️ CardArt: checksum mismatch for '\(imageName)', discarding")
                 return nil
             }
-            guard let image = UIImage(data: data) else { return nil }
+            guard let image = UIImage(data: data) else {
+                print("⚠️ CardArt: '\(imageName)' downloaded \(data.count) bytes that UIImage could not decode")
+                return nil
+            }
 
             CardArtStore.write(data, for: imageName, sha256: ref.sha256, pathExtension: ref.pathExtension)
             memory.setObject(image, forKey: imageName as NSString)
             return image
         } catch {
+            // A cancellation is ordinary — a row scrolled away mid-fetch — and
+            // must not be logged as a failure, or it buries the ones that matter.
+            if (error as NSError).code == NSURLErrorCancelled {
+                print("⏹️ CardArt: '\(imageName)' download cancelled before it finished")
+            } else {
+                print("⚠️ CardArt: '\(imageName)' download failed — \(error)")
+            }
             return nil
         }
     }
@@ -191,20 +238,47 @@ final class CardArtLoader {
     /// publish, since its name wouldn't be in the old index. The user would see
     /// a permanent placeholder until they happened to relaunch, with no button
     /// to fix it. Stamping the version makes it self-correcting.
+    /// Both art indexes, merged. `cardArt` and `iconArt` are published
+    /// separately so one can break without taking the other down, but they carry
+    /// the identical `[imageName: CardArtRef]` shape and share this cache, so a
+    /// lookup does not need to know which kind of art it is asking for.
+    ///
+    /// A missing domain is not a failure: an older manifest has no `iconArt`,
+    /// and a build newer than the manifest has to keep resolving card art. Each
+    /// is decoded independently and merged into whatever is present.
     private func reference(for imageName: String) -> CardArtRef? {
         let version = ContentStore.currentVersion
         if index == nil || indexVersion != version {
-            guard let data = ContentStore.data(for: .cardArt),
-                  let decoded = try? JSONDecoder().decode([String: CardArtRef].self, from: data) else {
-                return nil
+            var merged: [String: CardArtRef] = [:]
+            for domain in [ContentDomain.cardArt, .iconArt] {
+                guard let data = ContentStore.data(for: domain),
+                      let decoded = try? JSONDecoder().decode([String: CardArtRef].self, from: data) else {
+                    continue
+                }
+                merged.merge(decoded) { current, _ in current }
             }
+            guard !merged.isEmpty else { return nil }
+
+            // Says which domains actually contributed. "cardArt 171 + iconArt 0"
+            // is a completely different problem from "the image won't download",
+            // and the two are indistinguishable from a blank rectangle.
+            print("🖼️ CardArt: index v\(version) — \(counts(merged))")
+
             // Decoded images are keyed by name, not by hash, so an updated image
             // would otherwise keep resolving to the previous one for the rest of
             // the session.
             if indexVersion != nil { memory.removeAllObjects() }
-            index = decoded
+            index = merged
             indexVersion = version
         }
         return index?[imageName]
+    }
+
+    /// Breaks the merged index down by the kind of name it holds, so the log line
+    /// distinguishes "iconArt never decoded" from "iconArt decoded and is empty".
+    private func counts(_ merged: [String: CardArtRef]) -> String {
+        let badges = merged.keys.filter { $0.hasPrefix("badge_") }.count
+        let icons = merged.keys.filter { $0.hasPrefix("icon_") }.count
+        return "\(merged.count) entries: \(badges) badge_, \(icons) icon_, \(merged.count - badges - icons) card"
     }
 }

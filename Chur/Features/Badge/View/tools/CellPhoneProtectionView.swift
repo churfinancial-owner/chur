@@ -162,7 +162,17 @@ struct CellPhoneProtectionView: View {
 
     private static var cachedEntries: [CellPhoneProtectionEntry] = loadEntries()
 
+    /// See AutoRentalCoverageView.reloadFromBundle — same reason.
+    static func reloadFromBundle() {
+        cachedEntries = loadEntries()
+    }
+
     private static func loadEntries() -> [CellPhoneProtectionEntry] {
+        if let remote: [CellPhoneProtectionEntry] = RemoteSeed.decodeArray(.cellPhoneProtection,
+                                                                           label: "CellPhoneProtection") {
+            return remote
+        }
+
         guard let url = Bundle.main.url(forResource: "SeedDataCellPhoneProtection", withExtension: "json") else {
             return []
         }
