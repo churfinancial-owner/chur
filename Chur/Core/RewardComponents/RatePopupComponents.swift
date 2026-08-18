@@ -122,6 +122,15 @@ enum PopupHeroMetrics {
     /// How far the elevated layer is pulled up into the hero.
     static let overlap: CGFloat = 48
 
+    /// Bottom corner radius of the sage itself.
+    ///
+    /// The bite needs *both* shapes curved. Rounding only the white card left
+    /// the sage a flat horizontal band with a card sitting on it — the two
+    /// surfaces read as a background and a foreground rather than as two
+    /// organic shapes overlapping. Slightly larger than the card's radius so
+    /// the sage reads as the outer form wrapping around it.
+    static let bottomRadius: CGFloat = 28
+
     /// Trailing inset for hero text so it clears the avatar.
     static let contentInset: CGFloat = avatar + avatarTrailing + 8
 }
@@ -154,7 +163,16 @@ struct PopupHeroHeader<Content: View, Avatar: View>: View {
             .padding(.horizontal, PopupHeroMetrics.horizontalPadding)
             .padding(.top, PopupHeroMetrics.topPadding)
             .padding(.bottom, PopupHeroMetrics.bottomPadding)
-            .background(Color.churSage)
+            // Shaped background rather than a clipShape on the whole view, so
+            // the avatar's shadow is not trimmed at the hero's edges.
+            .background(
+                UnevenRoundedRectangle(
+                    bottomLeadingRadius: PopupHeroMetrics.bottomRadius,
+                    bottomTrailingRadius: PopupHeroMetrics.bottomRadius,
+                    style: .continuous
+                )
+                .fill(Color.churSage)
+            )
             .overlay(alignment: .topTrailing) {
                 avatar()
                     .frame(width: PopupHeroMetrics.logo, height: PopupHeroMetrics.logo)
