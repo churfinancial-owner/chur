@@ -78,7 +78,7 @@ struct MerchantDetailSheet: View {
                 HStack(spacing: 6) {
                     Text("Here's your best card here.")
                         .font(.churCaptionMedium())
-                        .foregroundStyle(Color.churDarkGray.opacity(0.7))
+                        .foregroundStyle(Color.churDarkGray)
                     Button {
                         withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) { showFormula.toggle() }
                     } label: {
@@ -99,12 +99,12 @@ struct MerchantDetailSheet: View {
                 }
             }
         } avatar: {
-            // 30pt, not the watermark's 80: the emoji fallback is a Text and
-            // does not inherit the frame the way the image does, so its size
-            // has to travel with the call site.
+            // Sized to the 55pt logo frame, not the watermark's old 80: the
+            // emoji fallback is a Text and does not inherit the frame the way
+            // the image does, so its size has to travel with the call site.
             MerchantIconView(iconName: viewModel.merchantIconName,
                              category: viewModel.category,
-                             emojiFont: .system(size: 30))
+                             emojiFont: .system(size: 39))
         }
     }
 

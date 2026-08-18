@@ -106,9 +106,9 @@ enum PopupHeroMetrics {
     /// White avatar circle. Much smaller than the 140pt watermark it replaces —
     /// the mark is now an object sitting on the hero rather than a tint washing
     /// through it, so it reads at a fraction of the size.
-    static let avatar: CGFloat = 72
+    static let avatar: CGFloat = 94
     /// Logo inside the circle, leaving a white ring around it.
-    static let logo: CGFloat = 42
+    static let logo: CGFloat = 55
     static let avatarTrailing: CGFloat = 20
     static let avatarTop: CGFloat = 18
 
@@ -214,10 +214,14 @@ extension View {
 extension View {
 
     /// Hero title: the anchor the eye lands on when the popup opens.
+    ///
+    /// Near-black rather than `churDarkGray`, which is the body colour and does
+    /// not carry enough weight against sage to anchor the screen. That colour
+    /// now belongs to the subtitle underneath, one clear step down.
     func popupHeroTitle() -> some View {
         self
             .font(.churBigTitle3())
-            .foregroundStyle(Color.churDarkGray)
+            .foregroundStyle(Color.churBlack)
             .lineLimit(2)
             .minimumScaleFactor(0.8)
             .padding(.trailing, PopupHeroMetrics.contentInset)
