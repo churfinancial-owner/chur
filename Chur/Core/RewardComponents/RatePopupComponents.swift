@@ -356,24 +356,30 @@ struct RateTileContainer<Content: View>: View {
     @ViewBuilder let content: () -> Content
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 14) {
-            // A pill sitting inside the gutter, not a tab welded to the corner.
-            // The badge stays top-left as before; what changed is that it now
-            // respects the card's internal padding like everything else in it.
-            Text(title)
-                .font(.churBadgeBold())
-                .kerning(1.2)
-                .foregroundStyle(.white)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 6)
-                .background(bannerColor, in: Capsule())
+        VStack(alignment: .leading, spacing: 0) {
+            // A tab anchored in the corner, square on the outside and rounded
+            // only where it meets the card's interior. The card's own clip
+            // trims its top-leading corner to match the card radius, which is
+            // why it sits flush rather than inside the gutter.
+            HStack {
+                Text(title)
+                    .font(.churBadgeBold())
+                    .kerning(1.2)
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(bannerColor)
+                    .clipShape(UnevenRoundedRectangle(bottomTrailingRadius: 8))
+                Spacer()
+            }
 
+            // The gutter is on the content, not the whole card — the tab has to
+            // reach the corner. Content inside carries none of its own; see
+            // PopupCardMetrics.gutter.
             content()
+                .padding(PopupCardMetrics.gutter)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        // The card owns the gutter. Content inside carries none of its own —
-        // see PopupCardMetrics.gutter.
-        .padding(PopupCardMetrics.gutter)
         // Solid rather than 60% opaque: on sage, a translucent fill never read
         // as an elevated layer.
         .background(Color.churTileWhiteBg)
