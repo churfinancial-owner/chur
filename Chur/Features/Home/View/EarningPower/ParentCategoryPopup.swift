@@ -130,9 +130,10 @@ struct ParentCategoryParallaxSheet: View {
                     otherCardRates: otherCardRates,
                     cards: cards,
                     showFormula: showFormula
-                ).padding(.top, 24)
+                )
+                .popupHeroOverlap()
                 if showRelatedCategories && !childCategories.isEmpty {
-                    relatedCategoriesSection.padding(.top, 22)
+                    relatedCategoriesSection.padding(.top, PopupCardMetrics.stackSpacing)
                 }
                 Spacer(minLength: 40)
             }
@@ -155,52 +156,40 @@ struct ParentCategoryParallaxSheet: View {
     // MARK: - Header
 
     private var headerSection: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HeaderCapsuleBubble(
-                text: headerKind.displayLabel,
-                icon: headerKind.icon
-            )
-            .popupHeaderInset()
-
-            Text(category.displayName)
-                .popupHeaderTitle()
-                .padding(.top, 10)
-
-            HStack(spacing: 6) {
-                Text("Here's what earns you the most.")
-                    .font(.churCaptionMedium())
-                    .foregroundStyle(Color.churDarkGray.opacity(0.7))
-                Button {
-                    withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) { showFormula.toggle() }
-                } label: {
-                    Image(systemName: showFormula ? "info.circle.fill" : "info.circle")
-                        .font(.system(size: 13))
-                        .foregroundStyle(showFormula ? Color.churOlive : Color.churMediumGray)
-                }
-            }
-            .padding(.top, 6)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.horizontal, 20)
-        .padding(.top, 36)
-        .padding(.bottom, 16)
-        .overlay(alignment: .topTrailing) {
-            PopupHeaderWatermark(categoryID: category.id) {
-                Text(category.emoji)
-                    .font(.system(size: 80))
-                    .opacity(1)
-            }
-        }
-        .clipped()
-        .background {
-            ZStack {
-                Color.churOffWhite
-                RepeatingPatternBackground(
-                    glyph: .symbol("$", font: .system(size: 13, weight: .bold, design: .rounded)),
-                    color: Color.churOlive.opacity(0.09),
-                    spacing: 28
+        PopupHeroHeader {
+            VStack(alignment: .leading, spacing: 0) {
+                HeaderCapsuleBubble(
+                    text: headerKind.displayLabel,
+                    icon: headerKind.icon
                 )
+                .popupHeroInset()
+
+                Text(category.displayName)
+                    .popupHeroTitle()
+                    .padding(.top, 10)
+
+                HStack(spacing: 6) {
+                    Text("Here's what earns you the most.")
+                        .font(.churCaptionMedium())
+                        .foregroundStyle(Color.churDarkGray)
+                    Button {
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) { showFormula.toggle() }
+                    } label: {
+                        Image(systemName: showFormula ? "info.circle.fill" : "info.circle")
+                            .font(.system(size: 13))
+                            .foregroundStyle(showFormula ? Color.churSageDeep : Color.churMediumGray)
+                    }
+                }
+                .padding(.top, 6)
+                .popupHeroInset()
             }
+        } avatar: {
+            // The category's own icon when it has one, its emoji otherwise —
+            // sized to the 55pt logo frame, since a Text does not inherit the
+            // frame an image gets from .scaledToFit().
+            MerchantIconView(iconName: category.iconName,
+                             category: category,
+                             emojiFont: .system(size: 39))
         }
     }
 

@@ -305,13 +305,15 @@ A benefit that reads "Uber Cash" now shows the Uber mark in its detail sheet. **
 |---|---|
 | The resolver | `Features/Benefit/Service/PartnerIconResolver.swift` — `partnerID ?? partnerName` → issuer → partner → merchant → category |
 | The contract | `DataDictionary.md` § Partner icon resolution — namespace order, key forms, why each |
-| The render site | `BenefitDetailSheet_Header.partnerWatermark` → `PopupHeaderWatermark`, overlaid top-trailing on `headerSection` |
+| The render site | The floating avatar in `PopupHeroHeader`, top-trailing on the benefit sheet's sage hero |
 | The rebuild hook | `ContentRefreshCoordinator.reloadDatabases()`, **last** — it indexes four other databases |
 | The guard | `SeedDataValidator.checkPartnerIconCoverage()` |
 
 **Coverage: 152 of 195 partner-bearing benefits (78%), every one with art already on disk.** 81 benefits name no partner at all and correctly get none. The remaining 43 are 25 real brands with no row anywhere — Best Western ×5, Priority Pass ×4, Resy ×4, Disney Parks ×3 — which need sourced artwork, deliberately not done here.
 
 **The logo is a corner watermark, not an inline icon.** First built as a 32pt icon leading the title; changed to reuse `PopupHeaderWatermark` — the 140pt tinted circle with an 80pt mark bleeding off the top-right that both merchant popups already use. The benefit header turned out to have the same bones as the popup header (padded `VStack`, off-white + `RepeatingPatternBackground`, clipped), so it was an overlay and nothing else. `PopupHeaderWatermark` gained a `tint:` initialiser because a benefit has no category to tint by — `displayGroup` looked like the answer and is a trap: only the exact string `travel` matches a `categoryBadgeTint` case, so 67 benefits would have gone travel-coloured while the *larger* `lifestyle_travel` group (83) fell through to the default.
+
+**Superseded by the sage hero (below).** The corner watermark this item shipped was replaced within the same phase; the findings it exposed are kept because they outlived it.
 
 **The watermark exposed three things wrong with the headers, two of them pre-existing.** Placing a mark in the corner is only half the job; the header has to make room for it, and only the merchant popup ever had.
 

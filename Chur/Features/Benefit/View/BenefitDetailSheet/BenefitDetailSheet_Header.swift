@@ -43,26 +43,10 @@ extension BenefitDetailSheet {
                     }
                 }
             }
-            .popupHeaderInset()
+            .popupHeroInset()
 
             Text(name)
-                .popupHeaderTitle()
-        }
-    }
-
-    /// The partner logo as a corner watermark, matching the merchant popups.
-    ///
-    /// Nothing at all when the partner resolves to no icon — not an empty
-    /// circle. 81 of 276 benefits name no partner and 43 more name one with no
-    /// artwork, so a bare tinted blob would be the common case and would read
-    /// as a failed image rather than as "this perk has no brand".
-    @ViewBuilder
-    var partnerWatermark: some View {
-        if let partnerIconName {
-            PopupHeaderWatermark(tint: .churOliveLight) {
-                IconArtView(imageName: partnerIconName)
-                    .frame(width: 80, height: 80)
-            }
+                .popupHeroTitle()
         }
     }
 

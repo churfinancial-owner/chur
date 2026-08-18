@@ -38,74 +38,14 @@ extension CardRateSummary {
     }
 }
 
-// MARK: - Popup Header Watermark
-
-struct PopupHeaderWatermark<Content: View>: View {
-    let tint: Color
-    // Plain stored closure: both initialisers below carry the @ViewBuilder,
-    // and the memberwise init this attribute would have shaped is gone.
-    let content: () -> Content
-
-    /// The original entry point: a merchant or category popup tints its circle
-    /// by category.
-    init(categoryID: String, @ViewBuilder content: @escaping () -> Content) {
-        self.init(tint: Color.categoryBadgeTint(for: categoryID), content: content)
-    }
-
-    /// For headers that have no category to tint by.
-    ///
-    /// The benefit detail sheet is the case this exists for. Its nearest field
-    /// is `displayGroup`, and passing that through `categoryBadgeTint` lands
-    /// badly: only the exact string `travel` matches a case, so 67 benefits
-    /// would go travel-coloured while the larger `lifestyle_travel` group fell
-    /// through to the default. One tint reads as deliberate; two thirds of a
-    /// tint reads as a bug.
-    init(tint: Color, @ViewBuilder content: @escaping () -> Content) {
-        self.tint = tint
-        self.content = content
-    }
-
-    var body: some View {
-        ZStack {
-            Circle()
-                .fill(tint)
-                .frame(width: PopupHeaderMetrics.diameter, height: PopupHeaderMetrics.diameter)
-            content()
-        }
-        .offset(x: PopupHeaderMetrics.overhang, y: PopupHeaderMetrics.verticalOffset)
-        .allowsHitTesting(false)
-    }
-}
-
-/// Geometry shared by the watermark and the headers that have to work around it.
-///
-/// A separate non-generic type on purpose: `PopupHeaderWatermark` is generic
-/// over its content, and Swift does not allow static stored properties there.
-enum PopupHeaderMetrics {
-    static let diameter: CGFloat = 140
-    /// How far the circle is pushed past the header's trailing edge.
-    static let overhang: CGFloat = 30
-    static let verticalOffset: CGFloat = -16
-
-    /// Width the watermark actually covers inside the header, and therefore how
-    /// far header text must be inset to clear it.
-    ///
-    /// Derived rather than written down: this was the literal `110` in two
-    /// popups and was simply missing from the benefit sheet, where the title
-    /// ran under the logo. A number repeated at every call site drifts the
-    /// first time the circle is resized.
-    static let contentInset: CGFloat = diameter - overhang
-}
-
 // MARK: - Sage Hero Header
 
-/// Geometry for the sage hero treatment. Separate from `PopupHeaderMetrics`,
-/// which describes the older tinted-circle watermark that the category and
-/// benefit sheets still use.
+/// Geometry for the sage hero treatment, shared by the merchant, category and
+/// benefit sheets.
 enum PopupHeroMetrics {
-    /// White avatar circle. Much smaller than the 140pt watermark it replaces —
-    /// the mark is now an object sitting on the hero rather than a tint washing
-    /// through it, so it reads at a fraction of the size.
+    /// White avatar circle. Much smaller than the 140pt tinted watermark it
+    /// replaced — the mark is an object sitting on the hero rather than a tint
+    /// washing through it, so it reads at a fraction of the size.
     static let avatar: CGFloat = 94
     /// Logo inside the circle, leaving a white ring around it.
     static let logo: CGFloat = 55
@@ -164,6 +104,13 @@ enum PopupCardMetrics {
 /// it. `ToolSheetHeaderBanner`'s ten screens keep their pattern — they are a
 /// different family and are not changing.
 struct PopupHeroHeader<Content: View, Avatar: View>: View {
+    /// Whether the avatar circle is drawn at all.
+    ///
+    /// Not every screen has a mark to show — 81 of 276 benefits name no
+    /// partner — and an empty white circle reads as a failed image rather than
+    /// as "there is nothing here". A Bool rather than an optional closure
+    /// because a generic view cannot ask whether its content is empty.
+    var showsAvatar: Bool = true
     @ViewBuilder var content: () -> Content
     @ViewBuilder var avatar: () -> Avatar
 
@@ -191,14 +138,16 @@ struct PopupHeroHeader<Content: View, Avatar: View>: View {
                 .padding(.top, -PopupHeroMetrics.topBleed)
             )
             .overlay(alignment: .topTrailing) {
-                avatar()
-                    .frame(width: PopupHeroMetrics.logo, height: PopupHeroMetrics.logo)
-                    .frame(width: PopupHeroMetrics.avatar, height: PopupHeroMetrics.avatar)
-                    .background(Color.white, in: Circle())
-                    .shadow(color: .black.opacity(0.10), radius: 10, y: 4)
-                    .padding(.trailing, PopupHeroMetrics.avatarTrailing)
-                    .padding(.top, PopupHeroMetrics.avatarTop)
-                    .allowsHitTesting(false)
+                if showsAvatar {
+                    avatar()
+                        .frame(width: PopupHeroMetrics.logo, height: PopupHeroMetrics.logo)
+                        .frame(width: PopupHeroMetrics.avatar, height: PopupHeroMetrics.avatar)
+                        .background(Color.white, in: Circle())
+                        .shadow(color: .black.opacity(0.10), radius: 10, y: 4)
+                        .padding(.trailing, PopupHeroMetrics.avatarTrailing)
+                        .padding(.top, PopupHeroMetrics.avatarTop)
+                        .allowsHitTesting(false)
+                }
             }
     }
 }
@@ -247,34 +196,6 @@ extension View {
     /// Hero subtitle and pill rows — same inset, no type opinion.
     func popupHeroInset() -> some View {
         padding(.trailing, PopupHeroMetrics.contentInset)
-    }
-}
-
-// MARK: - Popup Header Title
-
-extension View {
-
-    /// The title treatment shared by every header carrying a
-    /// `PopupHeaderWatermark`: sized, capped at two lines, allowed to shrink a
-    /// little, and inset clear of the watermark.
-    ///
-    /// The three headers had drifted — `minimumScaleFactor` was 0.75 in
-    /// MapMerchantPopup, 0.8 in ParentCategoryPopup and absent in the benefit
-    /// sheet, which also had no inset at all. Settled at 0.8 here so there is
-    /// one answer rather than three.
-    func popupHeaderTitle() -> some View {
-        self
-            .font(.churBigTitle3())
-            .foregroundStyle(Color.churDarkGray)
-            .lineLimit(2)
-            .minimumScaleFactor(0.8)
-            .padding(.trailing, PopupHeaderMetrics.contentInset)
-    }
-
-    /// For the non-title rows that share the watermark's band — a pill row or
-    /// capsule bubble above the title.
-    func popupHeaderInset() -> some View {
-        padding(.trailing, PopupHeaderMetrics.contentInset)
     }
 }
 
@@ -369,29 +290,37 @@ struct PopupComparisonRow: View {
     }
 }
 
-// MARK: - Tile Container
+// MARK: - Section Card
 
-struct RateTileContainer<Content: View>: View {
-    let title: String
-    let bannerColor: Color
+/// The elevated layer: one white card on a sage screen.
+///
+/// Every section on these sheets is one of these, with or without the corner
+/// tab. Replaces `RateTileContainer`, which was the same thing but always
+/// tabbed and only ever used by the rate stack.
+struct PopupSectionCard<Content: View>: View {
+    /// Corner tab label. Nil draws a plain card.
+    var tabTitle: String? = nil
+    var tabColor: Color = .churGold
     @ViewBuilder let content: () -> Content
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            // A tab anchored in the corner, square on the outside and rounded
-            // only where it meets the card's interior. The card's own clip
-            // trims its top-leading corner to match the card radius, which is
-            // why it sits flush rather than inside the gutter.
-            HStack {
-                Text(title)
-                    .font(.churBadgeBold())
-                    .kerning(1.2)
-                    .foregroundStyle(.white)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 6)
-                    .background(bannerColor)
-                    .clipShape(UnevenRoundedRectangle(bottomTrailingRadius: 8))
-                Spacer()
+            if let tabTitle {
+                // A tab anchored in the corner, square on the outside and
+                // rounded only where it meets the card's interior. The card's
+                // own clip trims its top-leading corner to match the card
+                // radius, which is why it sits flush rather than in the gutter.
+                HStack {
+                    Text(tabTitle)
+                        .font(.churBadgeBold())
+                        .kerning(1.2)
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(tabColor)
+                        .clipShape(UnevenRoundedRectangle(bottomTrailingRadius: 8))
+                    Spacer()
+                }
             }
 
             // The gutter is on the content, not the whole card — the tab has to
@@ -401,8 +330,6 @@ struct RateTileContainer<Content: View>: View {
                 .padding(PopupCardMetrics.gutter)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        // Solid rather than 60% opaque: on sage, a translucent fill never read
-        // as an elevated layer.
         .background(Color.churTileWhiteBg)
         .clipShape(RoundedRectangle(cornerRadius: PopupCardMetrics.radius, style: .continuous))
         .ambientCardShadow()
@@ -494,7 +421,7 @@ struct RecommendationStackView: View {
     var body: some View {
         VStack(spacing: PopupCardMetrics.stackSpacing) {
             if let best = bestCardSummary {
-                RateTileContainer(title: AppLocale.string("BEST CARD TO USE"), bannerColor: .churGold) {
+                PopupSectionCard(tabTitle: AppLocale.string("BEST CARD TO USE"), tabColor: .churGold) {
                     PopupBestCardContent(
                         summary: best,
                         card: cards.first(where: { $0.name == best.name }),
@@ -502,7 +429,7 @@ struct RecommendationStackView: View {
                     )
                 }
                 if !otherCardRates.isEmpty {
-                    RateTileContainer(title: AppLocale.string("OTHER GREAT OPTIONS"), bannerColor: .churMediumGray) {
+                    PopupSectionCard(tabTitle: AppLocale.string("OTHER GREAT OPTIONS"), tabColor: .churMediumGray) {
                         comparisonContent
                     }
                 }

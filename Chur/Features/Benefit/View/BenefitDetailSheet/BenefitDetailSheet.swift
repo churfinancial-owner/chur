@@ -54,7 +54,8 @@ struct BenefitDetailSheet: View {
                 // --- 1. Header & Description ---
                 headerSection
 
-                VStack(alignment: .leading, spacing: 32) {
+                PopupSectionCard {
+                    VStack(alignment: .leading, spacing: 32) {
                     // --- 2. Interactive Progress Visualization ---
                     // This component now acts as the trigger for the management sub-view
                     BenefitProgressBar(
@@ -83,9 +84,12 @@ struct BenefitDetailSheet: View {
 
                     // --- 3. Preferences ---
                     preferencesSection
+                    }
                 }
-                .padding(24)
-                .padding(.bottom, 30)
+                .padding(.horizontal, 16)
+                .popupHeroOverlap()
+
+                Spacer(minLength: 40)
             }
         }
         .background(Color.churOffWhite.ignoresSafeArea())
@@ -103,38 +107,19 @@ struct BenefitDetailSheet: View {
     // MARK: - Header
 
     private var headerSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            heroHeader // Defined in BenefitDetailSheet_Header.swift
+        PopupHeroHeader(showsAvatar: partnerIconName != nil) {
+            VStack(alignment: .leading, spacing: 12) {
+                heroHeader // Defined in BenefitDetailSheet_Header.swift
 
-            Text(description)
-                .font(.churCaptionMedium())
-                .foregroundStyle(Color.churDarkGray.opacity(0.7))
-                .lineSpacing(3)
-                .fixedSize(horizontal: false, vertical: true)
-        }
-        // Without this the VStack is only as wide as its widest line, so the
-        // pattern background behind it stopped partway across the sheet. The
-        // other three headers using RepeatingPatternBackground all had it;
-        // this one never did.
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.horizontal, 24)
-        .padding(.top, 20)
-        .padding(.bottom, 26)
-        // Before .background and .clipShape, matching MapMerchantPopup: the
-        // pattern stays behind the watermark, and the clip trims the part of
-        // the circle its offset pushes past the corner.
-        .overlay(alignment: .topTrailing) { partnerWatermark }
-        .background {
-            ZStack {
-                Color.churOffWhite
-                RepeatingPatternBackground(
-                    glyph: .sfSymbol("gift.fill", font: .system(size: 13, weight: .bold)),
-                    color: Color.churOlive.opacity(0.08),
-                    spacing: 30
-                )
+                Text(description)
+                    .font(.churCaptionMedium())
+                    .foregroundStyle(Color.churDarkGray)
+                    .lineSpacing(3)
+                    .fixedSize(horizontal: false, vertical: true)
             }
+        } avatar: {
+            IconArtView(imageName: partnerIconName)
         }
-        .clipShape(.rect(topLeadingRadius: 24, topTrailingRadius: 24))
     }
 
     private func setupInitialState() {
