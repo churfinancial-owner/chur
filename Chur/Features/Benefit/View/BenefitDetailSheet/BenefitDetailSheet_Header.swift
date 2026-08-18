@@ -15,31 +15,36 @@ extension BenefitDetailSheet {
 
     var heroHeader: some View {
         VStack(alignment: .leading, spacing: 8) {
-            HStack(spacing: 8) {
-                if let frequency {
-                    ChurStatusPill(label: frequency.uppercased(), color: frequencyColor)
-                }
+            // Horizontal ScrollView, same as the merchant hero's bubble row:
+            // three pills plus a 122pt avatar inset overflows a phone width,
+            // and scrolling is the only thing that keeps every label whole.
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    if let frequency {
+                        ChurStatusPill(label: frequency.uppercased(), color: frequencyColor)
+                    }
 
-                // Anniversary reset-type pill — only for periodic, card-anniversary benefits
-                if let freq = frequency?.lowercased(),
-                   ["monthly", "quarterly", "semi-annual", "annual", "quadrennial"].contains(freq),
-                   resetType == "card_anniversary" {
-                    ChurStatusPill(label: "ANNIVERSARY", color: .purple, icon: "calendar.badge.clock", style: .tinted)
-                }
+                    // Anniversary reset-type pill — only for periodic, card-anniversary benefits
+                    if let freq = frequency?.lowercased(),
+                       ["monthly", "quarterly", "semi-annual", "annual", "quadrennial"].contains(freq),
+                       resetType == "card_anniversary" {
+                        ChurStatusPill(label: "ANNIVERSARY", color: .purple, icon: "calendar.badge.clock", style: .tinted)
+                    }
 
-                // Expiry countdown pill — only when expiry is upcoming
-                if let expiryDate {
-                    let today = Calendar.current.startOfDay(for: Date())
-                    let expiry = Calendar.current.startOfDay(for: expiryDate)
-                    let days = Calendar.current.dateComponents([.day], from: today, to: expiry).day ?? -1
-                    if days >= 0 {
-                        let expiryColor: Color = days <= 7 ? .red : .pink
-                        ChurStatusPill(
-                            label: days == 0 ? AppLocale.string("Last day") : AppLocale.string("\(days)d"),
-                            color: expiryColor,
-                            icon: "alarm",
-                            style: .tinted
-                        )
+                    // Expiry countdown pill — only when expiry is upcoming
+                    if let expiryDate {
+                        let today = Calendar.current.startOfDay(for: Date())
+                        let expiry = Calendar.current.startOfDay(for: expiryDate)
+                        let days = Calendar.current.dateComponents([.day], from: today, to: expiry).day ?? -1
+                        if days >= 0 {
+                            let expiryColor: Color = days <= 7 ? .red : .pink
+                            ChurStatusPill(
+                                label: days == 0 ? AppLocale.string("Last day") : AppLocale.string("\(days)d"),
+                                color: expiryColor,
+                                icon: "alarm",
+                                style: .tinted
+                            )
+                        }
                     }
                 }
             }

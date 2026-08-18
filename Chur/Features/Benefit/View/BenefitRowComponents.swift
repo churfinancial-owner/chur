@@ -116,6 +116,13 @@ struct ChurStatusPill: View {
             Text(isCollapsed ? String(label.prefix(1)) : label)
                 .font(.system(size: fontSize, weight: .bold, design: .rounded))
                 .foregroundStyle(labelColor)
+                // A pill is a label, not a paragraph: QUADRENNIAL and
+                // ANNIVERSARY wrapped to two lines when the row ran out of
+                // width, which turned a capsule into a lozenge. It keeps its
+                // natural width and lets whatever contains it deal with the
+                // overflow.
+                .lineLimit(1)
+                .fixedSize(horizontal: true, vertical: false)
                 .frame(minWidth: isCollapsed ? nil : expandedMinWidth)
         }
         .padding(.horizontal, isCollapsed ? vPad : hPad) // Make it circular when collapsed
