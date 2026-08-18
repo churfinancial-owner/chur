@@ -133,6 +133,16 @@ enum PopupHeroMetrics {
 
     /// Trailing inset for hero text so it clears the avatar.
     static let contentInset: CGFloat = avatar + avatarTrailing + 8
+
+    /// How far the sage is extended upward past the top of the hero.
+    ///
+    /// The hero scrolls; the ScrollView's own background does not. So a
+    /// rubber-band pull at the top slid the sage down and revealed the
+    /// off-white page behind it — the two surfaces visibly came apart, which
+    /// reads as the header detaching from the sheet. Large enough to outrun any
+    /// realistic overscroll; it costs nothing, being a solid fill with no
+    /// layout effect.
+    static let topBleed: CGFloat = 1000
 }
 
 /// The elevated layer: how every white card on a sage screen is built.
@@ -165,6 +175,12 @@ struct PopupHeroHeader<Content: View, Avatar: View>: View {
             .padding(.bottom, PopupHeroMetrics.bottomPadding)
             // Shaped background rather than a clipShape on the whole view, so
             // the avatar's shadow is not trimmed at the hero's edges.
+            //
+            // The negative top padding stretches the fill up past the hero and
+            // out through the safe area. Background content is not clipped to
+            // its host, so this is free: the shape keeps its rounded bottom and
+            // simply has more of itself above, which is what an overscroll
+            // reveals instead of the page colour.
             .background(
                 UnevenRoundedRectangle(
                     bottomLeadingRadius: PopupHeroMetrics.bottomRadius,
@@ -172,6 +188,7 @@ struct PopupHeroHeader<Content: View, Avatar: View>: View {
                     style: .continuous
                 )
                 .fill(Color.churSage)
+                .padding(.top, -PopupHeroMetrics.topBleed)
             )
             .overlay(alignment: .topTrailing) {
                 avatar()
