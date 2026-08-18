@@ -166,6 +166,7 @@ struct ParentCategoryParallaxSheet: View {
 
                 Text(category.displayName)
                     .popupHeroTitle()
+                    .popupHeroInset()
                     .padding(.top, 10)
 
                 HStack(spacing: 6) {

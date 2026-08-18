@@ -47,6 +47,7 @@ extension BenefitDetailSheet {
 
             Text(name)
                 .popupHeroTitle()
+                .popupHeroInset()
         }
     }
 

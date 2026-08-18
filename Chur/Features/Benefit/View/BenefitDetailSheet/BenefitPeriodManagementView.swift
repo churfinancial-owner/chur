@@ -107,16 +107,14 @@ struct BenefitPeriodManagementView: View {
     /// same two-layer problem the hero's top bleed exists to avoid.
     private var header: some View {
         PopupHeroHeader {
-            VStack(alignment: .leading, spacing: 0) {
-                HeaderCapsuleBubble(text: AppLocale.string("MANAGE USAGE"),
-                                    icon: "slider.horizontal.3")
-                    .popupHeroActionInset()
-
-                Text(name)
-                    .popupHeroTitle()
-                    .popupHeroActionInset()
-                    .padding(.top, 10)
-            }
+            // No eyebrow bubble and no trailing inset: with no avatar to clear,
+            // the title gets the full width, which is the whole point of this
+            // hero having no mark. The top padding is the space the bubble used
+            // to occupy — it drops the title clear of the Done button rather
+            // than narrowing it for the button's whole height.
+            Text(name)
+                .popupHeroTitle(lineLimit: 3)
+                .padding(.top, 30)
         }
         // Done takes the slot the avatar uses on the other sheets — this screen
         // has no mark, and the save action is what belongs in the corner.

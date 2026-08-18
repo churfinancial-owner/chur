@@ -46,8 +46,8 @@ struct BenefitUsageHistoryView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Divider().padding(.bottom, 8)
-
+            // No leading Divider: this is its own card now, and the card edge
+            // already separates it from what is above.
             HStack {
                 Text("LOG HISTORY")
                     .font(.churMicroBold())

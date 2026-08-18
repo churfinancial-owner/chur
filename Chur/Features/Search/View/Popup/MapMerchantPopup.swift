@@ -73,6 +73,7 @@ struct MerchantDetailSheet: View {
 
                 Text(viewModel.merchant.name)
                     .popupHeroTitle()
+                    .popupHeroInset()
                     .padding(.top, 10)
 
                 HStack(spacing: 6) {

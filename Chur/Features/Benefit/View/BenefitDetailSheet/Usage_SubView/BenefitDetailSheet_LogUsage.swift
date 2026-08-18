@@ -111,138 +111,64 @@ private extension BenefitDetailSheet_LogUsage_Content {
     
     var headerSection: some View {
         HStack {
-            VStack(alignment: .leading, spacing: 4) {
-                Text("RECORD USAGE")
-                    .font(.churMicroBold())
-                    .kerning(1.2)
-                    .foregroundStyle(Color.churMediumGray)
-                
-            }
-            Spacer()
-            Text("\(String(selectedYear))")
+            Text("RECORD USAGE")
                 .font(.churMicroBold())
-                .padding(.horizontal, 10)
-                .padding(.vertical, 5)
-                .background(Color.churOlive.opacity(0.1))
-                .clipShape(Capsule())
-                .foregroundStyle(Color.churOlive)
+                .kerning(1.2)
+                .foregroundStyle(Color.churMediumGray)
+            Spacer()
         }
         .padding(.horizontal, 4)
     }
 
+    private var earliestSelectableYear: Int { currentCalendarYear - 2 }
+
+    /// Year stepper: `‹ 2026 ›`.
+    ///
+    /// Replaced three capsules ("CURRENT", "2025", "2024") with one control.
+    /// The capsules spent a full row to show three fixed choices and named the
+    /// present one "CURRENT" rather than by its year, which is the one label
+    /// that goes stale.
     var yearPicker: some View {
-            HStack(spacing: 8) {
-                let years = Array(((currentCalendarYear - 2)...currentCalendarYear).reversed())
-                ForEach(years, id: \.self) { year in
-                    let isSelected = year == selectedYear
-                    
-                    Button {
-                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                            selectedYear = year
-                            selectedPeriodIndex = year == currentCalendarYear ? currentPeriodIndex : 1
-                            sliderAmount = 0
-                            countToLog = 1
-                        }
-                    } label: {
-                        Text(year == currentCalendarYear ? AppLocale.string("CURRENT") : String(year))
-                            .font(.churBadgeBold())
-                            // Unified: Text stays a neutral dark/medium gray
-                            .foregroundStyle(isSelected ? Color.churDarkGray : Color.churMediumGray)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 34)
-                            .background(isSelected ? Color.churLightGray.opacity(0.15) : Color.clear)
-                            .clipShape(Capsule())
-                            .overlay {
-                                // --- UNIFIED SELECTION INDICATOR ---
-                                if isSelected {
-                                    Capsule()
-                                        .stroke(Color.churOliveDark, lineWidth: 2.5)
-                                }
-                            }
-                    }
-                    .buttonStyle(.plain)
-                }
-            }
-            .padding(4)
-            .background(Color.white.opacity(0.5))
-            .clipShape(Capsule())
-        }
-    
-    var periodPicker: some View {
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 8) {
-                    ForEach(1...periodsInYear, id: \.self) { index in
-                        let data = BenefitUsageAnalyzer.periodStatusInfo(
-                            for: index,
-                            year: selectedYear,
-                            frequency: frequency ?? "",
-                            history: usageHistory,
-                            budget: periodBudget,
-                            isValueBased: isValueBased
-                        )
-                        let isSelected = selectedPeriodIndex == index
-                        
-                        // --- COLOR LOGIC: Always show status, even if selected ---
-                        let statusColor: Color = data.isFull ? Color.churstatusgreen :
-                                               data.isPartial ? Color.churstatusgreen :
-                                               data.isEmptyPast ? Color.churstatuspink :
-                                               Color.churMediumGray
-                        
-                        let bgColor: Color = data.isFull || data.isPartial ? statusColor.opacity(0.15) :
-                                           data.isEmptyPast ? statusColor.opacity(0.12) :
-                                           Color.white
+        HStack(spacing: 0) {
+            yearStep(icon: "chevron.left",
+                     enabled: selectedYear > earliestSelectableYear,
+                     delta: -1)
 
-                        Button {
-                            if !data.isFuture {
-                                withAnimation(.snappy) {
-                                    selectedPeriodIndex = index
-                                    sliderAmount = 0
-                                    countToLog = 1
-                                }
-                            }
-                        } label: {
-                            VStack(spacing: 0) {
-                                HStack(spacing: 5) {
-                                    Text(data.label.uppercased())
+            Text(String(selectedYear))
+                .font(.churHeadline())
+                .monospacedDigit()
+                .foregroundStyle(Color.churDarkGray)
+                .frame(maxWidth: .infinity)
 
-                                    // Status Icons
-                                    if data.isFull {
-                                        Image(systemName: "checkmark.circle.fill")
-                                            .font(.churBadgeBold())
-                                    } else if data.isPartial {
-                                        Image(systemName: "circle.bottomrighthalf.pattern.checkered")
-                                            .font(.churBadgeBold())
-                                    }
-                                }
-                                .font(.churBadgeBold())
-                                .foregroundStyle(statusColor)
-                                .padding(.horizontal, 14)
-                                .frame(height: 32)
-                            }
-                            .background(bgColor)
-                            .clipShape(Capsule())
-                            .overlay {
-                                // --- THE SELECTION INDICATOR ---
-                                // Instead of changing the background, we add a bold stroke or underline
-                                if isSelected {
-                                    Capsule()
-                                        .stroke(Color.churOliveDark, lineWidth: 2.5)
-                                } else {
-                                    Capsule()
-                                        .stroke(statusColor.opacity(0.2), lineWidth: (data.isPartial || data.isFull) ? 1 : 0)
-                                }
-                            }
-                        }
-                        .buttonStyle(.plain)
-                        .disabled(data.isFuture)
-                        .opacity(data.isFuture ? 0.3 : 1.0)
-                    }
-                }
-                .padding(.horizontal, 2)
-                .padding(.vertical, 4) // Space for the selection stroke
-            }
+            yearStep(icon: "chevron.right",
+                     enabled: selectedYear < currentCalendarYear,
+                     delta: 1)
         }
-    
+        .frame(height: 40)
+        .background(Color.churOffWhite)
+        .clipShape(Capsule())
+    }
+
+    private func yearStep(icon: String, enabled: Bool, delta: Int) -> some View {
+        Button {
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                let target = selectedYear + delta
+                selectedYear = target
+                selectedPeriodIndex = target == currentCalendarYear ? currentPeriodIndex : 1
+                sliderAmount = 0
+                countToLog = 1
+            }
+        } label: {
+            Image(systemName: icon)
+                .font(.churBadgeBold())
+                .foregroundStyle(enabled ? Color.churOliveDark : Color.churLightGray)
+                .frame(width: 44, height: 40)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .disabled(!enabled)
+    }
+
     @ViewBuilder
     var inputConsole: some View {
         if isUnlimited {

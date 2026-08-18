@@ -74,11 +74,6 @@ enum PopupHeroMetrics {
     /// Trailing inset for hero text so it clears the avatar.
     static let contentInset: CGFloat = avatar + avatarTrailing + 8
 
-    /// Trailing inset when the hero carries a small action button (a "Done"
-    /// pill) instead of the avatar. Smaller than `contentInset`, which is sized
-    /// for the 94pt circle.
-    static let actionInset: CGFloat = 96
-
     /// How far the sage is extended upward past the top of the hero.
     ///
     /// The hero scrolls; the ScrollView's own background does not. So a
@@ -170,11 +165,6 @@ extension PopupHeroHeader where Avatar == EmptyView {
 
 extension View {
 
-    /// Trailing inset for hero text sharing its line with an action button.
-    func popupHeroActionInset() -> some View {
-        padding(.trailing, PopupHeroMetrics.actionInset)
-    }
-
     /// Diffused ambient shadow — the card floats a few millimetres above the
     /// surface rather than casting a hard edge.
     ///
@@ -205,13 +195,17 @@ extension View {
     /// Near-black rather than `churDarkGray`, which is the body colour and does
     /// not carry enough weight against sage to anchor the screen. That colour
     /// now belongs to the subtitle underneath, one clear step down.
-    func popupHeroTitle() -> some View {
+    ///
+    /// **The trailing inset is not baked in.** A hero with no avatar has the
+    /// full width to spend on the title, and hard-coding the inset here cost
+    /// the period management sheet ~120pt of title for a circle it never draws.
+    /// Add `.popupHeroInset()` at the sites that do have a mark.
+    func popupHeroTitle(lineLimit: Int = 2) -> some View {
         self
             .font(.churBigTitle3())
             .foregroundStyle(Color.churBlack)
-            .lineLimit(2)
+            .lineLimit(lineLimit)
             .minimumScaleFactor(0.8)
-            .padding(.trailing, PopupHeroMetrics.contentInset)
     }
 
     /// Hero subtitle and pill rows — same inset, no type opinion.
