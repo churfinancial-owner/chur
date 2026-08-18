@@ -44,6 +44,9 @@ struct BenefitDetailSheet_LogUsage_Content: View {
                 inputConsole
             }
             .padding(.horizontal, 20)
+            // Top padding was missing entirely, so "AMOUNT TO RECORD" sat on
+            // the card's edge while the bottom had 20pt.
+            .padding(.top, 20)
             .padding(.bottom, 20)
             .background(
                 RoundedRectangle(cornerRadius: 28, style: .continuous)
@@ -52,6 +55,15 @@ struct BenefitDetailSheet_LogUsage_Content: View {
             )
         }
         .padding(.vertical, 10)
+        // Start at the full remaining balance rather than at zero: logging the
+        // whole thing is the common case, and dragging down from the top is
+        // less work than dragging up from nothing. Re-seeds whenever the
+        // ceiling moves — a year change, a period change, or a log that just
+        // reduced the balance — which is why the three manual resets to 0 are
+        // gone. `initial: true` covers first appearance.
+        .onChange(of: maxLoggableAmount, initial: true) { _, newMax in
+            sliderAmount = newMax
+        }
     }
 }
 
@@ -94,6 +106,13 @@ extension BenefitDetailSheet_LogUsage_Content {
         return cal.date(byAdding: .day, value: -1, to: nextStart)!
     }
     
+    /// The most that can be logged into the selected period.
+    var maxLoggableAmount: Double {
+        isCurrentPeriod
+            ? Double(localRemainingBalance ?? remainingBalance ?? 0)
+            : Double(max(0, (periodBudget ?? 0) - selectedPeriodUsedAmount))
+    }
+
     var selectedPeriodUsedAmount: Int {
         BenefitUsageAnalyzer.periodStatusInfo(
             for: selectedPeriodIndex,
@@ -155,7 +174,6 @@ private extension BenefitDetailSheet_LogUsage_Content {
                 let target = selectedYear + delta
                 selectedYear = target
                 selectedPeriodIndex = target == currentCalendarYear ? currentPeriodIndex : 1
-                sliderAmount = 0
                 countToLog = 1
             }
         } label: {
@@ -169,6 +187,80 @@ private extension BenefitDetailSheet_LogUsage_Content {
         .disabled(!enabled)
     }
 
+    var periodPicker: some View {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    ForEach(1...periodsInYear, id: \.self) { index in
+                        let data = BenefitUsageAnalyzer.periodStatusInfo(
+                            for: index,
+                            year: selectedYear,
+                            frequency: frequency ?? "",
+                            history: usageHistory,
+                            budget: periodBudget,
+                            isValueBased: isValueBased
+                        )
+                        let isSelected = selectedPeriodIndex == index
+                        
+                        // --- COLOR LOGIC: Always show status, even if selected ---
+                        let statusColor: Color = data.isFull ? Color.churstatusgreen :
+                                               data.isPartial ? Color.churstatusgreen :
+                                               data.isEmptyPast ? Color.churstatuspink :
+                                               Color.churMediumGray
+                        
+                        let bgColor: Color = data.isFull || data.isPartial ? statusColor.opacity(0.15) :
+                                           data.isEmptyPast ? statusColor.opacity(0.12) :
+                                           Color.white
+
+                        Button {
+                            if !data.isFuture {
+                                withAnimation(.snappy) {
+                                    selectedPeriodIndex = index
+                                    countToLog = 1
+                                }
+                            }
+                        } label: {
+                            VStack(spacing: 0) {
+                                HStack(spacing: 5) {
+                                    Text(data.label.uppercased())
+
+                                    // Status Icons
+                                    if data.isFull {
+                                        Image(systemName: "checkmark.circle.fill")
+                                            .font(.churBadgeBold())
+                                    } else if data.isPartial {
+                                        Image(systemName: "circle.bottomrighthalf.pattern.checkered")
+                                            .font(.churBadgeBold())
+                                    }
+                                }
+                                .font(.churBadgeBold())
+                                .foregroundStyle(statusColor)
+                                .padding(.horizontal, 14)
+                                .frame(height: 32)
+                            }
+                            .background(bgColor)
+                            .clipShape(Capsule())
+                            .overlay {
+                                // --- THE SELECTION INDICATOR ---
+                                // Instead of changing the background, we add a bold stroke or underline
+                                if isSelected {
+                                    Capsule()
+                                        .stroke(Color.churOliveDark, lineWidth: 2.5)
+                                } else {
+                                    Capsule()
+                                        .stroke(statusColor.opacity(0.2), lineWidth: (data.isPartial || data.isFull) ? 1 : 0)
+                                }
+                            }
+                        }
+                        .buttonStyle(.plain)
+                        .disabled(data.isFuture)
+                        .opacity(data.isFuture ? 0.3 : 1.0)
+                    }
+                }
+                .padding(.horizontal, 2)
+                .padding(.vertical, 4) // Space for the selection stroke
+            }
+        }
+    
     @ViewBuilder
     var inputConsole: some View {
         if isUnlimited {
@@ -194,14 +286,13 @@ private extension BenefitDetailSheet_LogUsage_Content {
     }
 
     func valueBasedEntry(currency: String) -> some View {
-        let maxAmount = isCurrentPeriod ? Double(localRemainingBalance ?? remainingBalance ?? 0) : Double(max(0, (periodBudget ?? 0) - selectedPeriodUsedAmount))
+        let maxAmount = maxLoggableAmount
         return VStack(spacing: 20) {
             headerValueView(value: "\(Int(sliderAmount))", prefix: currency)
             Slider(value: $sliderAmount, in: 0...max(1, maxAmount), step: 1).tint(Color.churOlive)
             actionButton(label: AppLocale.string("Log \(currency)\(Int(sliderAmount))"), isActive: sliderAmount > 0) {
                 if isCurrentPeriod { onLogUsage?(Int(sliderAmount)) }
                 else { onLogUsageAt?(Int(sliderAmount), selectedPeriodDate) }
-                sliderAmount = 0
             }
         }
     }
