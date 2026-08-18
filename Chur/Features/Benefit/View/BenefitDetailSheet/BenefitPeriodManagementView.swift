@@ -34,13 +34,15 @@ struct BenefitPeriodManagementView: View {
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
-        NavigationView {
-            ScrollView {
-                VStack(spacing: 24) {
-                    // We reuse the components logic from the parent sheet
-                    // but they are now isolated here.
-                    VStack(alignment: .leading, spacing: 32) {
-                        // 1. Record Usage UI
+        ScrollView {
+            VStack(spacing: 0) {
+                header
+
+                VStack(spacing: PopupCardMetrics.stackSpacing) {
+                    // Each section is its own card now, rather than three blocks
+                    // sharing one 24pt pad — the rhythm between them is what
+                    // separates "record", "automate" and "history".
+                    PopupSectionCard {
                         BenefitDetailSheet_LogUsage_Content(
                             selectedYear: $selectedYear,
                             selectedPeriodIndex: $selectedPeriodIndex,
@@ -57,8 +59,9 @@ struct BenefitPeriodManagementView: View {
                             onLogUsage: onLogUsage,
                             onLogUsageAt: onLogUsageAt
                         )
+                    }
 
-                        // 2. Automation UI
+                    PopupSectionCard {
                         BenefitDetailSheet_Automation_Content(
                             trackingMode: trackingMode,
                             autoApplyEnabled: autoApplyEnabled,
@@ -72,8 +75,9 @@ struct BenefitPeriodManagementView: View {
                             onAutoApplyToggled: onAutoApplyToggled,
                             onCatchUp: onCatchUp
                         )
+                    }
 
-                        // 3. History UI
+                    PopupSectionCard {
                         BenefitUsageHistoryView(
                             usageHistory: usageHistory,
                             frequency: frequency,
@@ -86,20 +90,51 @@ struct BenefitPeriodManagementView: View {
                             onDeleteRecord: onDeleteRecord
                         )
                     }
-                    .padding(24)
                 }
+                .padding(.horizontal, 16)
+                .popupHeroOverlap()
+
+                Spacer(minLength: 40)
             }
-            .navigationTitle(name)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("Done") { dismiss() }
-                        .font(.churRowText())
-                        .fontWeight(.bold)
-                        .foregroundStyle(Color.churOlive)
-                }
-            }
-            .background(Color.churOffWhite.ignoresSafeArea())
         }
+        .background(Color.churOffWhite.ignoresSafeArea())
+    }
+
+    // MARK: - Header
+
+    /// No NavigationView: the sage hero carries the title, so a nav bar above it
+    /// would put a second surface between the sheet edge and the colour — the
+    /// same two-layer problem the hero's top bleed exists to avoid.
+    private var header: some View {
+        PopupHeroHeader {
+            VStack(alignment: .leading, spacing: 0) {
+                HeaderCapsuleBubble(text: AppLocale.string("MANAGE USAGE"),
+                                    icon: "slider.horizontal.3")
+                    .popupHeroActionInset()
+
+                Text(name)
+                    .popupHeroTitle()
+                    .popupHeroActionInset()
+                    .padding(.top, 10)
+            }
+        }
+        // Done takes the slot the avatar uses on the other sheets — this screen
+        // has no mark, and the save action is what belongs in the corner.
+        .overlay(alignment: .topTrailing) { doneButton }
+    }
+
+    private var doneButton: some View {
+        Button { dismiss() } label: {
+            Text("Done")
+                .font(.churRowText())
+                .fontWeight(.bold)
+                .foregroundStyle(.white)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 10)
+                .background(Color.churSageDeep, in: Capsule())
+        }
+        .buttonStyle(ScaleButtonStyle())
+        .padding(.trailing, PopupHeroMetrics.avatarTrailing)
+        .padding(.top, PopupHeroMetrics.avatarTop)
     }
 }

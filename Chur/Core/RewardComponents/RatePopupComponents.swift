@@ -74,6 +74,11 @@ enum PopupHeroMetrics {
     /// Trailing inset for hero text so it clears the avatar.
     static let contentInset: CGFloat = avatar + avatarTrailing + 8
 
+    /// Trailing inset when the hero carries a small action button (a "Done"
+    /// pill) instead of the avatar. Smaller than `contentInset`, which is sized
+    /// for the 94pt circle.
+    static let actionInset: CGFloat = 96
+
     /// How far the sage is extended upward past the top of the hero.
     ///
     /// The hero scrolls; the ScrollView's own background does not. So a
@@ -152,7 +157,23 @@ struct PopupHeroHeader<Content: View, Avatar: View>: View {
     }
 }
 
+extension PopupHeroHeader where Avatar == EmptyView {
+
+    /// For a hero with no mark to show — the period management sheet, or a
+    /// benefit whose partner has no artwork. The avatar closure is never
+    /// evaluated, so `EmptyView` is safe here in a way it is not inside
+    /// `IconArtView`.
+    init(@ViewBuilder content: @escaping () -> Content) {
+        self.init(showsAvatar: false, content: content, avatar: { EmptyView() })
+    }
+}
+
 extension View {
+
+    /// Trailing inset for hero text sharing its line with an action button.
+    func popupHeroActionInset() -> some View {
+        padding(.trailing, PopupHeroMetrics.actionInset)
+    }
 
     /// Diffused ambient shadow — the card floats a few millimetres above the
     /// surface rather than casting a hard edge.
