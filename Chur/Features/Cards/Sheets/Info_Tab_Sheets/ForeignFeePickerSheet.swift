@@ -48,16 +48,13 @@ struct ForeignFeePickerSheet: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Done") {
+                    ChurDoneButton {
                         let newRate = parsedRate
                         card.hasForeignTransactionFee = parsedValue > 0
                         card.foreignTransactionFeeRate = newRate
                         card.hasCustomForeignFee = newRate != defaultRate
                         dismiss()
                     }
-                    .font(.churRowText())
-                    .fontWeight(.bold)
-                    .foregroundStyle(Color.churOlive)
                 }
             }
         }

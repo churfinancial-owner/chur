@@ -52,13 +52,11 @@ struct CategoryPickerView: View {
                         .font(.churRowText())
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Done") { // Uppercase to match Add Card UI
+                    ChurDoneButton {
+                        // Uppercase to match Add Card UI
                         viewModel.save()
                         dismiss()
                     }
-                    .font(.churRowText())
-                    .fontWeight(.bold)
-                    .foregroundStyle(Color.churOlive)
                 }
             }
         }

@@ -88,10 +88,7 @@ struct RewardProgramEditorSheet: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Done") { dismiss() }
-                        .font(.churRowText())
-                        .fontWeight(.bold)
-                        .foregroundStyle(Color.churOlive)
+                    ChurDoneButton { dismiss() }
                 }
             }
         }

@@ -122,17 +122,8 @@ struct BenefitPeriodManagementView: View {
     }
 
     private var doneButton: some View {
-        Button { dismiss() } label: {
-            Text("Done")
-                .font(.churRowText())
-                .fontWeight(.bold)
-                .foregroundStyle(.white)
-                .padding(.horizontal, 20)
-                .padding(.vertical, 10)
-                .background(Color.churSageDeep, in: Capsule())
-        }
-        .buttonStyle(ScaleButtonStyle())
-        .padding(.trailing, PopupHeroMetrics.avatarTrailing)
-        .padding(.top, PopupHeroMetrics.avatarTop)
+        ChurDoneButton { dismiss() }
+            .padding(.trailing, PopupHeroMetrics.avatarTrailing)
+            .padding(.top, PopupHeroMetrics.avatarTop)
     }
 }

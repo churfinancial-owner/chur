@@ -37,16 +37,13 @@ struct ApprovedDatePickerSheet: View {
                         .font(.churRowText())
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Done") {
+                    ChurDoneButton {
                         let components = Calendar.current.dateComponents([.year, .month, .day], from: selectedDate)
                         card.approvedMonth = components.month ?? card.approvedMonth
                         card.approvedDay = components.day ?? card.approvedDay
                         card.approvedYear = components.year ?? card.approvedYear
                         dismiss()
                     }
-                    .font(.churRowText())
-                    .fontWeight(.bold)
-                    .foregroundStyle(Color.churOlive)
                 }
             }
         }

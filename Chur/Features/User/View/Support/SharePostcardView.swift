@@ -80,10 +80,7 @@ struct PostcardShareSheet: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Done") { dismiss() }
-                        .font(.churRowText())
-                        .fontWeight(.bold)
-                        .foregroundStyle(Color.churOlive)
+                    ChurDoneButton { dismiss() }
                 }
             }
         }

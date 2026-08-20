@@ -107,13 +107,10 @@ struct CardOrderSheet: View {
                 }
                 
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Done") {
+                    ChurDoneButton {
                         saveOrder()
                         dismiss()
                     }
-                    .font(.churRowText())
-                    .fontWeight(.bold)
-                    .foregroundStyle(Color.churOlive)
                 }
             }
             .alert("Delete Card?", isPresented: $showDeleteConfirmation, presenting: cardToDelete) { card in

@@ -192,14 +192,11 @@ struct CardsUserNoteSheet: View {
                         .font(.churRowText())
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Done") {
+                    ChurDoneButton {
                         saveChanges()
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                         dismiss()
                     }
-                    .font(.churRowText())
-                    .fontWeight(.bold)
-                    .foregroundStyle(Color.churOlive)
                 }
             }
         }

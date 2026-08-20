@@ -62,11 +62,7 @@ struct UserConfigurableRewardsSheet: View {
                         .font(.churRowText())
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Done") { commitSelections() }
-                        .font(.churRowText())
-                        .fontWeight(.bold)
-                        .foregroundStyle(isComplete ? Color.churOlive : Color.churMediumGray)
-                        .disabled(!isComplete)
+                    ChurDoneButton(isEnabled: isComplete) { commitSelections() }
                 }
             }
         }

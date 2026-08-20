@@ -33,15 +33,12 @@ struct AnnualFeePickerSheet: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Done") {
+                    ChurDoneButton {
                         let newFee = parsedFee
                         card.annualFee = newFee
                         card.hasCustomAnnualFee = newFee != defaultFee
                         dismiss()
                     }
-                    .font(.churRowText())
-                    .fontWeight(.bold)
-                    .foregroundStyle(Color.churOlive)
                 }
             }
         }

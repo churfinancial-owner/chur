@@ -33,7 +33,7 @@ struct BadgeCollectionSection: View {
                 sheetView(for: sheet)
                     .toolbar {
                         ToolbarItem(placement: .topBarTrailing) {
-                            Button("Done") { activeSheet = nil }
+                            ChurDoneButton { activeSheet = nil }
                         }
                     }
             }
