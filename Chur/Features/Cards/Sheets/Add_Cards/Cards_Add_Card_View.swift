@@ -78,12 +78,7 @@ struct CardsView_AddCardView: View {
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
         ToolbarItem(placement: .cancellationAction) {
-            Button("Cancel") {
-                dismiss()
-            }
-            .foregroundStyle(.red)
-            .fontWeight(.bold)
-            .font(.churRowText())
+            ChurCancelButton { dismiss() }
         }
         
         ToolbarItem(placement: .primaryAction) {

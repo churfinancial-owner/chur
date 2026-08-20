@@ -67,10 +67,7 @@ struct EditCardSheet: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") {
-                        dismiss()
-                    }
-                    .foregroundStyle(Color.churOlive)
+                    ChurCancelButton { dismiss() }
                 }
             }
             .alert("Delete Card?", isPresented: $showDeleteConfirmation) {

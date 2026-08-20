@@ -255,10 +255,7 @@ struct GoToCardSheet: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
-                        .foregroundStyle(.red)
-                        .fontWeight(.bold)
-                        .font(.churRowText())
+                    ChurCancelButton { dismiss() }
                 }
             }
         }

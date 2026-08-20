@@ -46,10 +46,7 @@ struct CategoryPickerView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
-                        .foregroundStyle(.red)
-                        .fontWeight(.bold)
-                        .font(.churRowText())
+                    ChurCancelButton { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     ChurDoneButton {
