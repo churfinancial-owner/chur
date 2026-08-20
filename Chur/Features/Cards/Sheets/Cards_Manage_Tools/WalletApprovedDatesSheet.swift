@@ -44,6 +44,7 @@ struct WalletApprovedDatesSheet: View {
                 ToolbarItem(placement: .cancellationAction) {
                     ChurCancelButton { dismiss() }
                 }
+                .churBareToolbarBackground()
                 
                 ToolbarItem(placement: .confirmationAction) {
                     Button("DONE") { // Uppercase matching your Add Card "DONE" button

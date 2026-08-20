@@ -54,6 +54,7 @@ struct ReminderPreviewSheet: View {
                 ToolbarItem(placement: .confirmationAction) {
                     ChurDoneButton { dismiss() }
                 }
+                .churBareToolbarBackground()
             }
             .task { await reload() }
         }

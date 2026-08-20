@@ -33,6 +33,7 @@ struct ApprovedDatePickerSheet: View {
                 ToolbarItem(placement: .cancellationAction) {
                     ChurCancelButton { dismiss() }
                 }
+                .churBareToolbarBackground()
                 ToolbarItem(placement: .confirmationAction) {
                     ChurDoneButton {
                         let components = Calendar.current.dateComponents([.year, .month, .day], from: selectedDate)
@@ -42,6 +43,7 @@ struct ApprovedDatePickerSheet: View {
                         dismiss()
                     }
                 }
+                .churBareToolbarBackground()
             }
         }
         .presentationDetents([.medium, .large])

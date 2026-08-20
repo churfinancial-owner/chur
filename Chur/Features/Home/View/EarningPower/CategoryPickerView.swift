@@ -48,6 +48,7 @@ struct CategoryPickerView: View {
                 ToolbarItem(placement: .cancellationAction) {
                     ChurCancelButton { dismiss() }
                 }
+                .churBareToolbarBackground()
                 ToolbarItem(placement: .confirmationAction) {
                     ChurDoneButton {
                         // Uppercase to match Add Card UI
@@ -55,6 +56,7 @@ struct CategoryPickerView: View {
                         dismiss()
                     }
                 }
+                .churBareToolbarBackground()
             }
         }
     }

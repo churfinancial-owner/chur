@@ -34,6 +34,7 @@ struct NetworkPickerSheet: View {
                 ToolbarItem(placement: .confirmationAction) {
                     ChurDoneButton { dismiss() }
                 }
+                .churBareToolbarBackground()
             }
         }
         .presentationDetents([.medium, .large])

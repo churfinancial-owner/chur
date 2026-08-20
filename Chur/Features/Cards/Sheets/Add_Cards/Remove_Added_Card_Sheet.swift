@@ -69,6 +69,7 @@ struct EditCardSheet: View {
                 ToolbarItem(placement: .cancellationAction) {
                     ChurCancelButton { dismiss() }
                 }
+                .churBareToolbarBackground()
             }
             .alert("Delete Card?", isPresented: $showDeleteConfirmation) {
                 Button("Cancel", role: .cancel) { }

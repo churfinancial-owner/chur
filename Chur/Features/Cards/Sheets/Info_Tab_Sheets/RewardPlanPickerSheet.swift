@@ -47,6 +47,7 @@ struct RewardPlanPickerSheet: View {
                 ToolbarItem(placement: .confirmationAction) {
                     ChurDoneButton { dismiss() }
                 }
+                .churBareToolbarBackground()
             }
         }
         .presentationDetents([.medium, .large])

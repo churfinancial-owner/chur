@@ -82,6 +82,7 @@ struct PostcardShareSheet: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     ChurDoneButton { dismiss() }
                 }
+                .churBareToolbarBackground()
             }
         }
         .task {

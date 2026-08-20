@@ -8,22 +8,44 @@
 //  `.font(.churRowText()).fontWeight(.bold).foregroundStyle(Color.churOlive)`,
 //  and they had already drifted — some olive, one conditionally grey.
 //
-//  **Two emphases, and picking the wrong one is visible.** iOS 26 wraps every
-//  toolbar item in its own Liquid Glass container, so a filled capsule inside a
-//  toolbar is a second container inside the first: it draws a seam around
-//  itself, and a low-opacity fill washes out against the glass to the point of
-//  disappearing. In a toolbar the system owns the shape and this contributes
-//  only the colour; free-floating — the period sheet's hero — it draws the
-//  capsule itself because nothing else will.
+//  **The capsule is the style everywhere — including toolbars.** iOS 26 wraps
+//  each toolbar item in its own Liquid Glass container, which drew a seam
+//  around the capsule and washed out a tinted fill. The container is what gets
+//  suppressed, with `.churBareToolbarBackground()` on the `ToolbarItem`; the
+//  button is unchanged. `.toolbar` emphasis (colour only, no capsule) stays
+//  available for anywhere the system chrome should win, but nothing uses it
+//  today.
 //
 
 import SwiftUI
 
 enum ChurActionEmphasis {
-    /// Colour only. The toolbar's own container provides the shape.
+    /// Colour only — for a host whose own chrome should provide the shape.
     case toolbar
-    /// Draws its own filled capsule, for buttons not inside a toolbar.
+    /// The capsule. The default, and what every call site uses.
     case prominent
+}
+
+// MARK: - Toolbar hosting
+
+extension ToolbarContent {
+
+    /// Drops iOS 26's Liquid Glass container from a toolbar item.
+    ///
+    /// Without it the item's own glass capsule sits behind ours and shows as a
+    /// seam around the button, and `ChurCancelButton`'s tinted fill washes out
+    /// against it far enough to look unrendered.
+    ///
+    /// Deliberately the only reference to this API in the app: if the name or
+    /// signature moves, one line changes rather than thirty.
+    @ToolbarContentBuilder
+    func churBareToolbarBackground() -> some ToolbarContent {
+        if #available(iOS 26.0, *) {
+            self.sharedBackgroundVisibility(.hidden)
+        } else {
+            self
+        }
+    }
 }
 
 struct ChurDoneButton: View {
@@ -31,7 +53,7 @@ struct ChurDoneButton: View {
     /// Disabled renders grey and blocks the action — for sheets that gate
     /// confirmation on a complete selection.
     var isEnabled: Bool = true
-    var emphasis: ChurActionEmphasis = .toolbar
+    var emphasis: ChurActionEmphasis = .prominent
     var action: () -> Void
 
     var body: some View {

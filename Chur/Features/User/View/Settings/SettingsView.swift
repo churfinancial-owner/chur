@@ -76,6 +76,7 @@ struct SettingsView: View {
                 ToolbarItem(placement: .confirmationAction) {
                     ChurDoneButton { dismiss() }
                 }
+                .churBareToolbarBackground()
             }
         }
     }

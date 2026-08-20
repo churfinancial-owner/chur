@@ -17,7 +17,7 @@ import SwiftUI
 
 struct ChurCancelButton: View {
     var title: String = "Cancel"
-    var emphasis: ChurActionEmphasis = .toolbar
+    var emphasis: ChurActionEmphasis = .prominent
     var action: () -> Void
 
     var body: some View {

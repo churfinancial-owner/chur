@@ -118,6 +118,7 @@ struct TimeTravelSheet: View {
                 ToolbarItem(placement: .confirmationAction) {
                     ChurDoneButton { dismiss() }
                 }
+                .churBareToolbarBackground()
             }
         }
     }

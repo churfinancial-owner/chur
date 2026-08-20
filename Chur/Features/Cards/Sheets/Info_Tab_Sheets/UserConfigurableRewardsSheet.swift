@@ -58,9 +58,11 @@ struct UserConfigurableRewardsSheet: View {
                 ToolbarItem(placement: .cancellationAction) {
                     ChurCancelButton { dismiss() }
                 }
+                .churBareToolbarBackground()
                 ToolbarItem(placement: .confirmationAction) {
                     ChurDoneButton(isEnabled: isComplete) { commitSelections() }
                 }
+                .churBareToolbarBackground()
             }
         }
         .presentationDetents([.medium, .large])

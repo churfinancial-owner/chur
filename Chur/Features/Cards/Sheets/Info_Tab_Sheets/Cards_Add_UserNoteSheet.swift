@@ -188,6 +188,7 @@ struct CardsUserNoteSheet: View {
                 ToolbarItem(placement: .cancellationAction) {
                     ChurCancelButton { dismiss() }
                 }
+                .churBareToolbarBackground()
                 ToolbarItem(placement: .confirmationAction) {
                     ChurDoneButton {
                         saveChanges()
@@ -195,6 +196,7 @@ struct CardsUserNoteSheet: View {
                         dismiss()
                     }
                 }
+                .churBareToolbarBackground()
             }
         }
         .presentationDetents([.fraction(0.75), .large])

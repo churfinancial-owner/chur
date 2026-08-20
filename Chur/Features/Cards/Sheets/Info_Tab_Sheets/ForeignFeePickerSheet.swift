@@ -56,6 +56,7 @@ struct ForeignFeePickerSheet: View {
                         dismiss()
                     }
                 }
+                .churBareToolbarBackground()
             }
         }
         .presentationDetents([.medium,.large])

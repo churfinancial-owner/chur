@@ -80,6 +80,7 @@ struct CardsView_AddCardView: View {
         ToolbarItem(placement: .cancellationAction) {
             ChurCancelButton { dismiss() }
         }
+        .churBareToolbarBackground()
         
         ToolbarItem(placement: .primaryAction) {
             confirmButton

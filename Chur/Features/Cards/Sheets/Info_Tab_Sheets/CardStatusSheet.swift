@@ -37,6 +37,7 @@ struct CardStatusSheet: View {
                 ToolbarItem(placement: .confirmationAction) {
                     ChurDoneButton { dismiss() }
                 }
+                .churBareToolbarBackground()
             }
             .alert("Cancel \(card.name)?", isPresented: $showingCancelConfirm) {
                 Button("Cancel Card", role: .destructive) {

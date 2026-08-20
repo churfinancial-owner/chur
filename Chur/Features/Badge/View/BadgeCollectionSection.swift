@@ -35,6 +35,7 @@ struct BadgeCollectionSection: View {
                         ToolbarItem(placement: .topBarTrailing) {
                             ChurDoneButton { activeSheet = nil }
                         }
+                        .churBareToolbarBackground()
                     }
             }
         }

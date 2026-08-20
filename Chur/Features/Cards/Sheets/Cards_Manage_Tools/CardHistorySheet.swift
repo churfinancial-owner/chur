@@ -86,6 +86,7 @@ struct CardHistorySheet: View {
                 ToolbarItem(placement: .cancellationAction) {
                     ChurDoneButton { dismiss() }
                 }
+                .churBareToolbarBackground()
             }
         }
     }

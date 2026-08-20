@@ -89,6 +89,7 @@ struct CardOrderSheet: View {
                 ToolbarItem(placement: .cancellationAction) {
                     ChurCancelButton { dismiss() }
                 }
+                .churBareToolbarBackground()
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
@@ -109,6 +110,7 @@ struct CardOrderSheet: View {
                         dismiss()
                     }
                 }
+                .churBareToolbarBackground()
             }
             .alert("Delete Card?", isPresented: $showDeleteConfirmation, presenting: cardToDelete) { card in
                 Button("Cancel", role: .cancel) { }

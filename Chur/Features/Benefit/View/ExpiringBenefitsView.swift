@@ -67,6 +67,7 @@ struct ExpiringBenefitsView: View {
                 ToolbarItem(placement: .confirmationAction) {
                     ChurDoneButton { dismiss() }
                 }
+                .churBareToolbarBackground()
             }
         }
         .sheet(item: $detailTarget) { target in

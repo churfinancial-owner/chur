@@ -257,6 +257,7 @@ struct GoToCardSheet: View {
                 ToolbarItem(placement: .cancellationAction) {
                     ChurCancelButton { dismiss() }
                 }
+                .churBareToolbarBackground()
             }
         }
     }

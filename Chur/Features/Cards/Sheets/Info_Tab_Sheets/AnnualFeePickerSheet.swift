@@ -40,6 +40,7 @@ struct AnnualFeePickerSheet: View {
                         dismiss()
                     }
                 }
+                .churBareToolbarBackground()
             }
         }
         .presentationDetents([.medium, .large])
