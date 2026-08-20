@@ -122,7 +122,7 @@ struct BenefitPeriodManagementView: View {
     }
 
     private var doneButton: some View {
-        ChurDoneButton { dismiss() }
+        ChurDoneButton(emphasis: .prominent) { dismiss() }
             .padding(.trailing, PopupHeroMetrics.avatarTrailing)
             .padding(.top, PopupHeroMetrics.avatarTop)
     }
