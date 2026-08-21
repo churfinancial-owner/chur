@@ -14,6 +14,7 @@ struct CardOrderSheet: View {
     // Sorting State
     @State private var currentSort: SortCriteria? = nil
     @State private var isAscending: Bool = true
+    @State private var showingSortMenu = false
     
     enum SortCriteria {
         case name, issuer, annualFee, approved
@@ -92,17 +93,11 @@ struct CardOrderSheet: View {
                 .churBareToolbarBackground()
                 
                 ToolbarItem(placement: .topBarTrailing) {
-                    Menu {
-                        Section("Sort Options") {
-                            sortButton(title: AppLocale.string("Card Name"), criteria: .name)
-                            sortButton(title: AppLocale.string("Issuer"), criteria: .issuer)
-                            sortButton(title: AppLocale.string("Annual Fee"), criteria: .annualFee)
-                            sortButton(title: AppLocale.string("Date Approved"), criteria: .approved)
-                        }
-                    } label: {
+                    Button { showingSortMenu = true } label: {
                         Image(systemName: "arrow.up.arrow.down").foregroundStyle(Color.churOlive)
                     }
                 }
+                .churBareToolbarBackground()
                 
                 ToolbarItem(placement: .confirmationAction) {
                     ChurDoneButton {
@@ -112,6 +107,7 @@ struct CardOrderSheet: View {
                 }
                 .churBareToolbarBackground()
             }
+            .sheet(isPresented: $showingSortMenu) { sortMenuSheet }
             .alert("Delete Card?", isPresented: $showDeleteConfirmation, presenting: cardToDelete) { card in
                 Button("Cancel", role: .cancel) { }
                 Button("Delete", role: .destructive) { deleteCard(card) }
@@ -142,14 +138,26 @@ struct CardOrderSheet: View {
     }
     
     @ViewBuilder
-    private func sortButton(title: String, criteria: SortCriteria) -> some View {
-        Button { applySort(criteria) } label: {
-            HStack {
-                Text(title)
-                if currentSort == criteria {
-                    Image(systemName: isAscending ? "chevron.up" : "chevron.down")
-                }
+    private var sortMenuSheet: some View {
+        ChurMenuSheet(title: AppLocale.string("Sort Options")) {
+            sortRow(title: AppLocale.string("Card Name"), criteria: .name)
+            sortRow(title: AppLocale.string("Issuer"), criteria: .issuer)
+            sortRow(title: AppLocale.string("Annual Fee"), criteria: .annualFee)
+            sortRow(title: AppLocale.string("Date Approved"), criteria: .approved)
+        }
+    }
+
+    /// The active criterion keeps its direction arrow — tapping it again flips
+    /// ascending/descending, same as the menu did.
+    private func sortRow(title: String, criteria: SortCriteria) -> some View {
+        ChurMenuRow(title: title, isSelected: currentSort == criteria) {
+            if currentSort == criteria {
+                Image(systemName: isAscending ? "chevron.up" : "chevron.down")
+                    .font(.churBadgeBold())
+                    .foregroundStyle(Color.churSageDeep)
             }
+        } action: {
+            applySort(criteria)
         }
     }
     

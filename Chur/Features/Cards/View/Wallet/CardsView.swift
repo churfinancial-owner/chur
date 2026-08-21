@@ -24,6 +24,8 @@ struct CardsView: View {
     /// 160pt header hides it. Without this, a refresh that takes a second looks
     /// like nothing happened at all.
     @State private var isRefreshing = false
+    @State private var showingWalletMenu = false
+    @State private var walletMenuAction: WalletMenuAction?
 
     var sortedCards: [CreditCard] {
         vm.getSortedCards(cards: cards, user: users.first)
@@ -129,6 +131,9 @@ struct CardsView: View {
                 }
                 .sheet(isPresented: $vm.showingCardHistory) {
                     CardHistorySheet()
+                }
+                .sheet(isPresented: $showingWalletMenu, onDismiss: performWalletMenuAction) {
+                    walletMenuSheet
                 }
                 .onAppear { consumePendingReminderScroll() }
                 .onChange(of: reminderRouter.pendingScrollToCardID) { _, _ in
@@ -249,22 +254,41 @@ private extension CardsView {
         OliveRingIconButton(icon: "magnifyingglass") { vm.showingGoToCard = true }
     }
 
+    /// What the wallet menu picked, acted on *after* the menu sheet closes.
+    ///
+    /// Dismissing one sheet and presenting another in the same frame silently
+    /// drops the second — so the row records a choice, and `.sheet(onDismiss:)`
+    /// below performs it once the menu is actually gone.
+    enum WalletMenuAction { case reorder, approvedDates, history }
+
     var walletMenu: some View {
-        Menu {
-            Button { vm.showingCardOrder = true } label: {
-                Label("Reorder/Delete", systemImage: "arrow.up.arrow.down")
-            }
-            Button { vm.showingApprovedDates = true } label: {
-                Label("Edit Approved Dates", systemImage: "calendar")
-            }
-            Button { vm.showingCardHistory = true } label: {
-                Label("Card History", systemImage: "clock.arrow.circlepath")
-            }
-        } label: {
+        Button { showingWalletMenu = true } label: {
             OliveRingIcon(icon: "creditcard")
         }
     }
-    
+
+    var walletMenuSheet: some View {
+        ChurMenuSheet(title: "Manage Wallet") {
+            ChurMenuRow(title: AppLocale.string("Reorder/Delete"),
+                        systemImage: "arrow.up.arrow.down") { walletMenuAction = .reorder }
+            ChurMenuRow(title: AppLocale.string("Edit Approved Dates"),
+                        systemImage: "calendar") { walletMenuAction = .approvedDates }
+            ChurMenuRow(title: AppLocale.string("Card History"),
+                        systemImage: "clock.arrow.circlepath") { walletMenuAction = .history }
+        }
+    }
+
+    /// Runs once the menu sheet has actually closed. See `WalletMenuAction`.
+    private func performWalletMenuAction() {
+        switch walletMenuAction {
+        case .reorder:        vm.showingCardOrder = true
+        case .approvedDates:  vm.showingApprovedDates = true
+        case .history:        vm.showingCardHistory = true
+        case nil:             break
+        }
+        walletMenuAction = nil
+    }
+
     var contentSection: some View {
         VStack(spacing: 0) {
             let selectedCard = sortedCards.first(where: { $0.id == vm.currentPage }) ?? sortedCards.first

@@ -17,6 +17,8 @@ struct BenefitsListContentView: View {
     /// This binding is owned by the parent so the same filter can be shared across views.
     @Binding var selectedFrequency: String?
     
+    @State private var showingFrequencyMenu = false
+
     init(card: CreditCard, selectedFrequency: Binding<String?>) {
         self.card = card
         self._selectedFrequency = selectedFrequency
@@ -204,25 +206,10 @@ struct BenefitsListContentView: View {
                     // Reuses ChurStatusPill directly (same component the row's frequency
                     // badge uses) so both collapsed ("...", no filter active) and expanded
                     // (selected filter name) states look and behave exactly like a row's
-                    // pill. The Picker is nested inside a Menu (rather than styled directly)
-                    // so the visible trigger is a plain custom label sized to its own
-                    // content, not a native Picker's reserved layout.
-                    Menu {
-                        Picker("", selection: $selectedFrequency) {
-                            Text("ALL").tag(String?.none)
-
-                            Section("Quick Filters") {
-                                Text("✅ AVAILABLE").tag(String?.some("Available"))
-                                Text("⏰ EXPIRING").tag(String?.some("Expiring"))
-                            }
-
-                            Section("By Frequency") {
-                                ForEach(allDisplayOptions, id: \.self) { freq in
-                                    Text(freq.uppercased()).tag(String?.some(freq))
-                                }
-                            }
-                        }
-                    } label: {
+                    // pill. The options moved from a Menu-wrapped Picker to a
+                    // ChurMenuSheet — same pill trigger, but the choices now
+                    // arrive as a small bottom sheet that closes on selection.
+                    Button { showingFrequencyMenu = true } label: {
                         ChurStatusPill(
                             label: selectedFrequency?.uppercased() ?? "⋯",
                             color: activeFilterColor == .clear ? .churOlive : activeFilterColor,
@@ -232,8 +219,10 @@ struct BenefitsListContentView: View {
                             expandedMinWidth: filterPillMinWidth
                         )
                     }
+                    .buttonStyle(.plain)
                     .animation(.easeInOut(duration: 0.15), value: selectedFrequency)
                     .id("global_frequency_picker")
+                    .sheet(isPresented: $showingFrequencyMenu) { frequencyMenuSheet }
                 }
                 .padding([.horizontal, .top], 20)
                 .padding(.bottom, 12)
@@ -383,6 +372,25 @@ struct FeatureRow: View {
             guard !feature.displayDescription.isEmpty else { return }
             withAnimation(.snappy(duration: 0.3)) {
                 isExpanded.toggle()
+            }
+        }
+    }
+
+    private var frequencyMenuSheet: some View {
+        ChurMenuSheet(title: AppLocale.string("Filter Benefits")) {
+            ChurMenuRow(title: AppLocale.string("ALL"),
+                        isSelected: selectedFrequency == nil) { selectedFrequency = nil }
+
+            ChurMenuSectionHeader(title: AppLocale.string("Quick Filters"))
+            ChurMenuRow(title: "✅ " + AppLocale.string("AVAILABLE"),
+                        isSelected: selectedFrequency == "Available") { selectedFrequency = "Available" }
+            ChurMenuRow(title: "⏰ " + AppLocale.string("EXPIRING"),
+                        isSelected: selectedFrequency == "Expiring") { selectedFrequency = "Expiring" }
+
+            ChurMenuSectionHeader(title: AppLocale.string("By Frequency"))
+            ForEach(allDisplayOptions, id: \.self) { freq in
+                ChurMenuRow(title: freq.uppercased(),
+                            isSelected: selectedFrequency == freq) { selectedFrequency = freq }
             }
         }
     }
