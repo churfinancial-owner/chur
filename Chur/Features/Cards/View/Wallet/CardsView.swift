@@ -271,8 +271,10 @@ private extension CardsView {
         ChurMenuSheet(title: "Manage Wallet") {
             ChurMenuRow(title: AppLocale.string("Reorder/Delete"),
                         systemImage: "arrow.up.arrow.down") { walletMenuAction = .reorder }
+            CardRowDivider()
             ChurMenuRow(title: AppLocale.string("Edit Approved Dates"),
                         systemImage: "calendar") { walletMenuAction = .approvedDates }
+            CardRowDivider()
             ChurMenuRow(title: AppLocale.string("Card History"),
                         systemImage: "clock.arrow.circlepath") { walletMenuAction = .history }
         }

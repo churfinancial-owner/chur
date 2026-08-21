@@ -75,24 +75,3 @@ struct DetailRow: View {
 
 // MARK: - Shared Section Components
 
-struct CardSectionHeader: View {
-    let title: String
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            Text(title)
-                .font(.churSmallBold())
-                .foregroundStyle(Color.churOlive)
-                .tracking(1.0)
-                .padding([.horizontal, .top], 20)
-                .padding(.bottom, 12)
-            Divider().padding(.horizontal, 20)
-        }
-    }
-}
-
-struct CardRowDivider: View {
-    var body: some View {
-        Divider().padding(.horizontal, 4).opacity(0.4)
-    }
-}

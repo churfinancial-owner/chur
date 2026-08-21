@@ -141,8 +141,11 @@ struct CardOrderSheet: View {
     private var sortMenuSheet: some View {
         ChurMenuSheet(title: AppLocale.string("Sort Options")) {
             sortRow(title: AppLocale.string("Card Name"), criteria: .name)
+            CardRowDivider()
             sortRow(title: AppLocale.string("Issuer"), criteria: .issuer)
+            CardRowDivider()
             sortRow(title: AppLocale.string("Annual Fee"), criteria: .annualFee)
+            CardRowDivider()
             sortRow(title: AppLocale.string("Date Approved"), criteria: .approved)
         }
     }

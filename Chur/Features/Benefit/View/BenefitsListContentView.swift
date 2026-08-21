@@ -336,11 +336,13 @@ private extension BenefitsListContentView {
             ChurMenuSectionHeader(title: AppLocale.string("Quick Filters"))
             ChurMenuRow(title: "✅ " + AppLocale.string("AVAILABLE"),
                         isSelected: selectedFrequency == "Available") { selectedFrequency = "Available" }
+            CardRowDivider()
             ChurMenuRow(title: "⏰ " + AppLocale.string("EXPIRING"),
                         isSelected: selectedFrequency == "Expiring") { selectedFrequency = "Expiring" }
 
             ChurMenuSectionHeader(title: AppLocale.string("By Frequency"))
-            ForEach(allDisplayOptions, id: \.self) { freq in
+            ForEach(Array(allDisplayOptions.enumerated()), id: \.element) { index, freq in
+                if index > 0 { CardRowDivider() }
                 ChurMenuRow(title: freq.uppercased(),
                             isSelected: selectedFrequency == freq) { selectedFrequency = freq }
             }

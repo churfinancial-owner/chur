@@ -29,18 +29,15 @@ struct ChurMenuSheet<Content: View>: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
+                // The same header Card Info uses — title, then a divider, then
+                // the rows — so a menu reads like the lists it sits beside.
                 if let title {
-                    Text(title.uppercased())
-                        .font(.churMicroBold())
-                        .kerning(1.2)
-                        .foregroundStyle(Color.churMediumGray)
-                        .padding(.horizontal, 20)
-                        .padding(.top, 4)
-                        .padding(.bottom, 10)
+                    CardSectionHeader(title: title.uppercased())
                 }
                 content()
+                    .padding(.horizontal, 20)
             }
-            .padding(.top, 18)
+            .padding(.top, 6)
             .padding(.bottom, 24)
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(
@@ -79,24 +76,25 @@ struct ChurMenuRow<Trailing: View>: View {
             action()
             dismiss()
         } label: {
+            // Matches DetailRow: churRowTextMedium on churDarkGray, 16pt
+            // vertical. The selected state is the only departure, and it borrows
+            // the confirm colour rather than inventing one.
             HStack(spacing: 14) {
                 if let systemImage {
                     Image(systemName: systemImage)
-                        .font(.churImageMedium())
+                        .font(.churSmallBold())
                         .foregroundStyle(isSelected ? Color.churSageDeep : Color.churMediumGray)
-                        .frame(width: 24)
+                        .frame(width: 22)
                 }
 
                 Text(title)
-                    .font(.churRowText())
-                    .fontWeight(isSelected ? .bold : .medium)
+                    .font(.churRowTextMedium())
                     .foregroundStyle(isSelected ? Color.churSageDeep : Color.churDarkGray)
 
                 Spacer(minLength: 8)
                 trailing()
             }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 13)
+            .padding(.vertical, 16)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
@@ -110,17 +108,22 @@ extension ChurMenuRow where Trailing == EmptyView {
     }
 }
 
-/// Section heading inside a `ChurMenuSheet`.
+/// Section heading inside a `ChurMenuSheet`, for a menu with grouped options.
+///
+/// Same type treatment as `CardSectionHeader` but without its top inset, since
+/// it breaks a list rather than opening one.
 struct ChurMenuSectionHeader: View {
     let title: String
 
     var body: some View {
-        Text(title.uppercased())
-            .font(.churNanoBold())
-            .kerning(1.0)
-            .foregroundStyle(Color.churMediumGray)
-            .padding(.horizontal, 20)
-            .padding(.top, 14)
-            .padding(.bottom, 4)
+        VStack(alignment: .leading, spacing: 0) {
+            Text(title.uppercased())
+                .font(.churSmallBold())
+                .foregroundStyle(Color.churOlive)
+                .tracking(1.0)
+                .padding(.top, 18)
+                .padding(.bottom, 10)
+            Divider()
+        }
     }
 }
