@@ -327,6 +327,25 @@ private extension BenefitsListContentView {
             }
         }
     }
+
+    private var frequencyMenuSheet: some View {
+        ChurMenuSheet(title: AppLocale.string("Filter Benefits")) {
+            ChurMenuRow(title: AppLocale.string("ALL"),
+                        isSelected: selectedFrequency == nil) { selectedFrequency = nil }
+
+            ChurMenuSectionHeader(title: AppLocale.string("Quick Filters"))
+            ChurMenuRow(title: "✅ " + AppLocale.string("AVAILABLE"),
+                        isSelected: selectedFrequency == "Available") { selectedFrequency = "Available" }
+            ChurMenuRow(title: "⏰ " + AppLocale.string("EXPIRING"),
+                        isSelected: selectedFrequency == "Expiring") { selectedFrequency = "Expiring" }
+
+            ChurMenuSectionHeader(title: AppLocale.string("By Frequency"))
+            ForEach(allDisplayOptions, id: \.self) { freq in
+                ChurMenuRow(title: freq.uppercased(),
+                            isSelected: selectedFrequency == freq) { selectedFrequency = freq }
+            }
+        }
+    }
 }
 
 // MARK: - Feature Row
@@ -372,25 +391,6 @@ struct FeatureRow: View {
             guard !feature.displayDescription.isEmpty else { return }
             withAnimation(.snappy(duration: 0.3)) {
                 isExpanded.toggle()
-            }
-        }
-    }
-
-    private var frequencyMenuSheet: some View {
-        ChurMenuSheet(title: AppLocale.string("Filter Benefits")) {
-            ChurMenuRow(title: AppLocale.string("ALL"),
-                        isSelected: selectedFrequency == nil) { selectedFrequency = nil }
-
-            ChurMenuSectionHeader(title: AppLocale.string("Quick Filters"))
-            ChurMenuRow(title: "✅ " + AppLocale.string("AVAILABLE"),
-                        isSelected: selectedFrequency == "Available") { selectedFrequency = "Available" }
-            ChurMenuRow(title: "⏰ " + AppLocale.string("EXPIRING"),
-                        isSelected: selectedFrequency == "Expiring") { selectedFrequency = "Expiring" }
-
-            ChurMenuSectionHeader(title: AppLocale.string("By Frequency"))
-            ForEach(allDisplayOptions, id: \.self) { freq in
-                ChurMenuRow(title: freq.uppercased(),
-                            isSelected: selectedFrequency == freq) { selectedFrequency = freq }
             }
         }
     }
