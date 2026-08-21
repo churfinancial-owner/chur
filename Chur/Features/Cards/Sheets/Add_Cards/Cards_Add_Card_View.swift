@@ -85,32 +85,16 @@ struct CardsView_AddCardView: View {
         ToolbarItem(placement: .primaryAction) {
             confirmButton
         }
+        .churBareToolbarBackground()
     }
     
     private var confirmButton: some View {
-        Button {
+        ChurDoneButton(isEnabled: !pendingTemplates.isEmpty,
+                       badge: pendingTemplates.isEmpty ? nil : pendingTemplates.count) {
             confirmAndSave()
-        } label: {
-            HStack(spacing: 8) {
-                Text("Done")
-                
-                if !pendingTemplates.isEmpty {
-                    Text("\(pendingTemplates.count)")
-                        .font(.churSmallBold())
-                        .foregroundStyle(.white)
-                        .frame(width: 20, height: 20)
-                        .background(Color.churOlive)
-                        .clipShape(Circle())
-                }
-            }
         }
-        .font(.churRowText())
-        .fontWeight(.bold)
-        .foregroundStyle(Color.churOlive)
-        .foregroundStyle(Color.churOlive)
-        .disabled(pendingTemplates.isEmpty)
     }
-    
+
     // MARK: - Logic
     
     private func loadInitialData() async {

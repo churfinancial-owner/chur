@@ -71,12 +71,15 @@ struct ProgramValueRow: View {
                             }
                             isEditing = false
                         } label: {
+                            // Compact on purpose — this is an inline row
+                            // editor, not a sheet action, so it keeps its own
+                            // size and borrows only the confirm colour.
                             Text("Save")
                                 .font(.churFootnoteBold())
                                 .foregroundStyle(.white)
                                 .padding(.horizontal, 10)
                                 .padding(.vertical, 5)
-                                .background(Color.churOlive, in: Capsule())
+                                .background(Color.churSageDeep, in: Capsule())
                         }
                     }
                 } else {

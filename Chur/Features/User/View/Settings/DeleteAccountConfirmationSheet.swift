@@ -52,7 +52,7 @@ struct DeleteAccountConfirmationSheet: View {
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
-                            .stroke(isConfirmed ? Color.churError.opacity(0.6) : Color.clear, lineWidth: 1.5)
+                            .stroke(isConfirmed ? Color.churRoseDeep.opacity(0.6) : Color.clear, lineWidth: 1.5)
                     )
             }
             .padding(.horizontal)
@@ -66,7 +66,7 @@ struct DeleteAccountConfirmationSheet: View {
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.borderedProminent)
-                .tint(Color.churError)
+                .tint(Color.churRoseDeep)
                 .controlSize(.large)
                 .disabled(!isConfirmed)
 

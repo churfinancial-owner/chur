@@ -54,17 +54,31 @@ struct ChurDoneButton: View {
     /// confirmation on a complete selection.
     var isEnabled: Bool = true
     var emphasis: ChurActionEmphasis = .prominent
+    /// Optional count carried inside the capsule — Add Card shows how many
+    /// cards are pending. Nil draws nothing, which is every other site.
+    var badge: Int? = nil
     var action: () -> Void
+
+    private var tint: Color { isEnabled ? Color.churSageDeep : Color.churLightGray }
 
     var body: some View {
         Button(action: action) {
-            Text(title)
-                .font(.churRowText())
-                .fontWeight(.bold)
-                .lineLimit(1)
-                .fixedSize()
-                .churActionChrome(emphasis: emphasis,
-                                  tint: isEnabled ? Color.churSageDeep : Color.churLightGray)
+            HStack(spacing: 7) {
+                Text(title)
+                    .font(.churRowText())
+                    .fontWeight(.bold)
+                    .lineLimit(1)
+
+                if let badge {
+                    Text("\(badge)")
+                        .font(.churSmallBold())
+                        .foregroundStyle(tint)
+                        .frame(width: 19, height: 19)
+                        .background(Color.white, in: Circle())
+                }
+            }
+            .fixedSize()
+            .churActionChrome(emphasis: emphasis, tint: tint)
         }
         .buttonStyle(ScaleButtonStyle())
         .disabled(!isEnabled)
