@@ -64,8 +64,7 @@ struct ChurDoneButton: View {
                 .lineLimit(1)
                 .fixedSize()
                 .churActionChrome(emphasis: emphasis,
-                                  tint: isEnabled ? Color.churSageDeep : Color.churLightGray,
-                                  filled: true)
+                                  tint: isEnabled ? Color.churSageDeep : Color.churLightGray)
         }
         .buttonStyle(ScaleButtonStyle())
         .disabled(!isEnabled)
@@ -77,16 +76,21 @@ struct ChurDoneButton: View {
 extension View {
 
     /// The one place the two emphases differ, so Done and Cancel cannot drift.
+    ///
+    /// Both are filled, and both run this identical padding — which is what
+    /// guarantees they are the same height. A tinted Cancel was tried and
+    /// dropped: against the toolbar it read as weaker than Done rather than as
+    /// a peer, and the two fills sit at the same depth so neither shouts.
     @ViewBuilder
-    func churActionChrome(emphasis: ChurActionEmphasis, tint: Color, filled: Bool) -> some View {
+    func churActionChrome(emphasis: ChurActionEmphasis, tint: Color) -> some View {
         switch emphasis {
         case .toolbar:
             foregroundStyle(tint)
         case .prominent:
-            foregroundStyle(filled ? Color.white : tint)
+            foregroundStyle(Color.white)
                 .padding(.horizontal, 18)
                 .padding(.vertical, 9)
-                .background(filled ? tint : tint.opacity(0.12), in: Capsule())
+                .background(tint, in: Capsule())
         }
     }
 }

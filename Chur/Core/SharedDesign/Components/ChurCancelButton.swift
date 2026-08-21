@@ -4,13 +4,13 @@
 //
 //  The dismiss-without-saving action, paired with `ChurDoneButton`.
 //
-//  Replaces `.foregroundStyle(.red)` at every call site — the system red is a
-//  saturated primary with nothing to do with this palette, and it read as an
-//  error rather than as a choice. `churRoseDeep` is the counterpart to
-//  `churSageDeep` at the same depth.
+//  Replaces `.foregroundStyle(.red)` at every call site: one deliberate red
+//  (`churRoseDeep`, #BA1A1A) rather than the system's, which shifts with the
+//  platform and never matched anything else here.
 //
-//  Never filled, even when prominent: Done is the filled capsule, and matching
-//  it here would give backing out the same weight as confirming.
+//  Filled, the same shape and height as Done — they share `churActionChrome`,
+//  so the padding cannot drift between them. The colour is what separates
+//  them, not the weight.
 //
 
 import SwiftUI
@@ -27,7 +27,7 @@ struct ChurCancelButton: View {
                 .fontWeight(.bold)
                 .lineLimit(1)
                 .fixedSize()
-                .churActionChrome(emphasis: emphasis, tint: Color.churRoseDeep, filled: false)
+                .churActionChrome(emphasis: emphasis, tint: Color.churRoseDeep)
         }
         .buttonStyle(ScaleButtonStyle())
     }
