@@ -2,7 +2,7 @@
 
 Growth priorities and the reasoning behind them. **Update whenever priorities shift or a phase completes.**
 
-Last reviewed: 2026-08-16.
+Last reviewed: 2026-09-08.
 
 **Where the numbers stand right now:** app `1.0 (1)`, live content **v29**, 18 domains, 175 cards / 272 benefits / 192 hand-authored categories / 171 card images / 151 icons. Verify with `swift run ChurContentPublish --verify` rather than trusting this line — it is a snapshot, and the version moves every publish.
 
@@ -10,7 +10,7 @@ Last reviewed: 2026-08-16.
 
 **P1d is done, published and running.** 18 domains live, all icon art on the CDN, the merchant FX correction shipped alongside it. Authored on a machine with no Swift toolchain and compiled on the Mac afterwards; the gap cost one duplicate-id error and one emoji sizing bug, both real defects the change surfaced rather than caused.
 
-**P1e is open and has its first item done** (2026-08-16, partner icons on benefits) — authored on the same no-toolchain machine, so it needs a compile and a device pass before it is trusted. See the section for what it found in the benefit data along the way.
+**P1e is done and verified** (2026-08-16 → 08-21, device-tested 2026-09-07). It started as "partner icons on benefits" and became a design-system pass: the sage hero family across four sheets, one Done and one Cancel button replacing 30 hand-rolled copies, and `Menu` replaced by a bottom sheet on three screens. All of it was authored on the no-toolchain machine and compiled on the Mac afterwards; the gap cost four build breaks, three of them the same mistake — see the lessons.
 
 **Carried into the next session:**
 
@@ -291,6 +291,8 @@ The size argument that justified card art (19 MB, two thirds of the asset catalo
 
 Opened 2026-08-16, ahead of P2. Small visual and interaction polish, captured here so it is a phase rather than a pile of one-off tweaks.
 
+**Verified on device 2026-09-07**, two and a half weeks after the last commit — the whole phase up to that point had never been run. Nothing was wrong, which is worth recording only because it was not the expected outcome given how it was authored.
+
 #### 1. ~~Partner icons on benefits~~ — ✅ DONE (2026-08-16)
 
 A benefit that reads "Uber Cash" now shows the Uber mark in its detail sheet. **The work was 90% resolver and 10% view** — `IconArtView` already existed and did the right thing; nothing could call it because no function turned a partner into an icon name.
@@ -338,6 +340,35 @@ A benefit that reads "Uber Cash" now shows the Uber mark in its detail sheet. **
 - **A check whose warnings are permanent is noise, so it reports info.** 25 partner names will never resolve — Priority Pass and Equinox are real perks with no merchant row and never will have one. A ⚠️ per name every launch is how a console becomes something you skim. The count moving is the signal; the list is there to be diffed. The collision check learned the same lesson one step later: it was first written to report every collision in the index, which would have warned about `marriott` forever whether or not anything used it. Scoped to keys a benefit actually resolves through.
 - **Merging with Pak Ho's parallel edit produced a better answer than either side.** He had normalized the same 24 `partnerID`s independently — but to *real ids* (`marriott_hotels`, `stream_disneyplus`) where this branch had lowercased the display string (`marriott`, `disney`). His side won on all 10 overlapping files, and it exposed the collision below. **Authoring guidance: point `partnerID` at an id, never at a name.** An id cannot drift and cannot collide.
 - **Issuer-first ordering drew the wrong logo for a brand that is both.** `marriott` is an issuer (`icon_bonvoy`) *and* a transfer partner (`icon_marriott`), so three Marriott free-night benefits showed the Bonvoy card mark — a plausible logo for the wrong entity, which is worse than a blank. Found only by diffing per-benefit resolution before and after the merge, because the totals matched (152 either way) and hid it. **A summary count is not a regression test;** the same total can be reached by two different sets of answers.
+
+#### 2. ~~The sage hero family~~ — ✅ DONE (2026-08-18 → 08-21)
+
+The merchant, category and benefit sheets plus the benefit period management sheet all moved onto one set: `PopupHeroHeader`, `PopupSectionCard`, `.popupHeroTitle()` / `.popupHeroInset()` / `.popupHeroOverlap()` / `.ambientCardShadow()`, with geometry in `PopupHeroMetrics` and `PopupCardMetrics`. Four new colours — `churSage`, `churSageDeep`, `churBlack`, `churRoseDeep` — all in the asset catalog with dark variants. The previous set (`PopupHeaderWatermark`, `PopupHeaderMetrics`, `.popupHeaderTitle()`, `RateTileContainer`) is deleted rather than left beside it.
+
+**Lessons worth keeping**
+
+- **A visual effect made of two shapes needs both of them.** The "bite" — a white card overlapping a coloured hero — was built with a radius on the card and a flat band behind it, and read as background-and-foreground rather than as two overlapping forms. Rounding *both* was the fix, and no amount of tuning the overlap distance would have found it.
+- **The elevated layer is the card, not a sheet wrapping the page.** First built as an off-white slab pulled up over the hero, which put a flat panel between the sage and the cards and destroyed the contrast the effect is made of.
+- **Deriving a number beats writing it down, and it pays immediately.** `PopupHeroMetrics.contentInset` is computed from the avatar size; when the avatar grew 30% the text inset followed on its own. The literal `110` it replaced had been written out at four call sites and was simply missing at a fifth, where the title ran under the logo.
+- **A summary count is not a regression test.** Merging a parallel edit left partner-icon coverage at 152/195 before and after — while 11 benefits silently changed which namespace they resolved through, three of them from a wrong logo to the right one. Only a per-benefit diff showed it.
+- **Check the platform before styling around it.** iOS 26 wraps every toolbar item in its own Liquid Glass container, so a filled capsule inside a toolbar is a second container inside the first — a visible seam, and a tinted fill washing out to nothing. The deployment target was one command away and would have said so. Worse, the first fix removed the capsule rather than the container, which deleted the thing that was wanted instead of the thing that was wrong.
+
+#### 3. ~~One Done and one Cancel~~ — ✅ DONE (2026-08-20 → 08-21)
+
+`ChurDoneButton` and `ChurCancelButton` replaced 30 hand-rolled copies that each repeated the same three modifiers and had already drifted — most `churOlive`, one conditionally grey, and every Cancel on the system `.red`. They share one `churActionChrome`, so their height cannot diverge. Every `ToolbarItem` holding one carries `.churBareToolbarBackground()`, the single guarded reference to `sharedBackgroundVisibility` in the app.
+
+Two deliberate exceptions: alert buttons with `role: .cancel` are system-styled, and `DeleteAccountConfirmationSheet`'s Cancel stays neutral because there the red belongs to Delete and Cancel is the safe way out.
+
+#### 4. ~~`Menu` → bottom sheet~~ — ✅ DONE (2026-08-21)
+
+`ChurMenuSheet` / `ChurMenuRow` / `ChurMenuSectionHeader`, styled as Card Info's `CardSectionHeader` + `CardRowDivider` list. Applied to the wallet menu, the card-reorder sort options and the benefit frequency filter. The sheet measures its own content and feeds that to `.presentationDetents`, so it hugs three rows or nine without callers counting.
+
+`CardSectionHeader` and `CardRowDivider` moved from `Features/Cards/View/Info/` to `SharedDesign/Components/` — `Core` must not reach into a feature, and a second consumer is what makes something design-system rather than feature-local.
+
+**Lessons worth keeping**
+
+- **Dismissing one sheet while presenting another silently drops the second.** The wallet menu's rows each open a further sheet, so the row records a choice and `.sheet(onDismiss:)` performs it once the menu is gone.
+- **Anchor a structural edit on the declaration, not on a brace.** Three build breaks in this phase were the same mistake: a text range that started at `var yearPicker` and ended at `inputConsole` swallowed `periodPicker` whole; an insert anchored on the file's last `}` put a property inside the wrong struct. **Both left the braces balanced**, which is why the brace-count check passed every time. Balanced is not the property worth checking — landing in the intended type is.
 
 #### Remaining items
 
