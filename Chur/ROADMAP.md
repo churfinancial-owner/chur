@@ -2,9 +2,9 @@
 
 Growth priorities and the reasoning behind them. **Update whenever priorities shift or a phase completes.**
 
-Last reviewed: 2026-09-08.
+Last reviewed: 2026-09-08. Content published 2026-09-08.
 
-**Where the numbers stand right now:** app `1.0 (1)`, live content **v29**, 18 domains, 175 cards / 272 benefits / 192 hand-authored categories / 171 card images / 151 icons. Verify with `swift run ChurContentPublish --verify` rather than trusting this line — it is a snapshot, and the version moves every publish.
+**Where the numbers stand right now:** app `1.0 (1)`, 18 domains, 175 cards / **276 benefits** / 192 hand-authored categories / 171 card images / 151 icons. Run `swift run ChurContentPublish --verify` for the live version rather than trusting a number written here — the version moves every publish, and the count below was wrong within a day of being written for exactly that reason.
 
 **State at the end of the 2026-08-15 session.** P0, P1a, P1b and P1d are done; the remote content pipeline is complete — every domain but `SeedDataRegions` publishes, and no artwork ships in the binary. P1c's **test vectors are done and green** (33 cases, and the project's first test target); its written JSON contract stays deferred until Android is real. The **online cross-border FX fix** shipped in the P1d publish.
 
@@ -15,7 +15,11 @@ Last reviewed: 2026-09-08.
 **Carried into the next session:**
 
 1. ~~Commit `art-uploaded.json`.~~ Done — all 322 keys recorded, regenerated from the art files rather than copied, since content-addressed keys make the file a pure function of the bytes on disk.
-2. **Publish `paze_10`.** The benefit is committed but live content has 272 benefits, not 273 — so the perk does not exist on any device, including the simulator, because remote content outranks the bundle. One `--upload`.
+2. ~~**Publish `paze_10`.**~~ Done 2026-09-08 — and it was four benefits, not one. This note said "272 live, should be 273" on 2026-08-15; the AA Executive card and its three benefits (`aa_vacation_credit_500`, `omni_champion`, `omni_freenightreward`) landed the next morning in `137fddf`, so the arithmetic was stale before anyone read it. 272 + 4 = 276, which is what the publisher reported.
+
+   **A count of what is missing goes stale the moment anyone adds something.** The durable version of this note would have been "the repo has more benefits than the CDN, run `--verify`" — which stays true regardless of who commits what overnight.
+
+   The same publish carried the whole P1e content pass, since the publisher packages the folder rather than a changeset: the five typo fixes that were also user-visible misspellings (`Alaksa Airline` on all six Alaska benefits, `Instacard`, `Allegiant Air`, `Disney Store`, `Virgind`), the `Lyfy Credit` → `Lyft Credit` fix and its 10 → 15 value correction, and all 25 normalised `partnerID` values — so partner icons now resolve against live content rather than only the bundle.
 3. **22 icon names still have no artwork.** Two kinds, and they want opposite treatment: real brands worth sourcing a logo for (`icon_home_depot`, `icon_lowes`, `icon_sams_club`, `icon_tmall`, and the HK/regional issuers), and abstract concepts that probably never had art and should lose the `iconName` instead (`icon_mobile_pay`, `icon_wallet_topup`, `icon_foreign_transactions`, `5k_pv_purchases`). Both the publisher and `SeedDataValidator` list them every run.
 4. ~~Collapse the icon coverage report~~, ~~spot-check art in `--verify`~~, ~~teach the coverage checker about Swift-literal icon names~~, ~~delete the boilerplate test~~ — all done 2026-08-15.
 5. ~~Decide the US-only merchants.~~ Done 2026-08-15 — all 78 now declare `businessRegion` or `globalBilling`. Shipped in the P1d publish.
