@@ -35,7 +35,10 @@ enum SchemaFingerprint {
     /// to paste here. Update it in the same commit as any schema version bump.
     ///
     /// v2.0 — recorded 2026-08-12 from a DEBUG launch against `ChurSchemaV2_0`.
-    static let recorded = "d4c5a1e2a92dbf8e"
+    /// Re-recorded 2026-09-10 (P1f part 2): `User.boostEnrollments` became
+    /// `[String: ProgramSelection]`. Pre-launch, so edited in place per the note
+    /// in `ChurSchema.swift` rather than versioned.
+    static let recorded = "038d576b04034402"
 
     #if DEBUG
 
