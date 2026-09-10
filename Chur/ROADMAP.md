@@ -438,7 +438,7 @@ Each part is one commit, built green before the next starts. Parts 2 and 3 chang
 | Part | What | Status |
 |---|---|---|
 | 0 | This section | ✅ 2026-09-10 |
-| 1 | Engine seam, no behaviour change: `PricingContext` replaces the twelve-parameter init; applicability becomes one ordered chain (category → channel → countries → date). The 33 vectors must stay green | |
+| 1 | Engine seam, no behaviour change: `PricingContext` replaces the twelve-parameter init; applicability becomes one ordered chain (category → channel → countries → date). The 33 vectors must stay green | ✅ 2026-09-10, 33 vectors green on the Mac |
 | 2 | Earning layers: extend `BoostProgram` in place; lookup returns every layer for a card; engine stacks them; `boostEnrollments` becomes structured; `BoostProgramPickerSheet` gains allocate and pick-one modes; the four display sites that multiply by a boost double take an applied-layers value instead | |
 | 3 | Transaction dimensions: `channels`, `currencies`, `excludedCountries`, `paymentMethods` on `RewardRate` and on layers; currency derived in the engine; `contactless` and the HK wallet ids added to the payment vocabulary; decoders (`SeedDataLoader`, `CardDatabase`, `CardSyncService.updateRewardFields`) and the vector fixture updated | |
 | 4 | Conditions as information: `gate` and `cap` on `RewardRate` using the layer struct; localized small print in `EarningRatesSection` and the card info rows; `rateStyle` per program | |
