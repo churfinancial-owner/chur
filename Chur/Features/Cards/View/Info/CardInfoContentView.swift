@@ -19,6 +19,8 @@ struct CardInfoContentView: View {
     @Query private var users: [User]
 
     @State private var activeSheet: ActiveSheet?
+    /// Which boost program the `.boost` sheet edits — a card can sit under several (P1f).
+    @State private var boostProgramID: String?
     @State private var selectedNewsPost: SanityPost?
     @State private var dateRefreshTick = 0
     @StateObject private var locationManager = LocationManager()
@@ -32,9 +34,6 @@ struct CardInfoContentView: View {
     }
 
     private var user: User? { users.first }
-    private var boostMultiplier: Double {
-        card.boostMultiplier(enrollments: user?.boostEnrollments ?? [:])
-    }
 
     var body: some View {
         ScrollView {
@@ -44,7 +43,7 @@ struct CardInfoContentView: View {
                 EarningRatesSection(
                     card: card,
                     categories: categories,
-                    boostMultiplier: boostMultiplier,
+                    enrollments: user?.boostEnrollments ?? [:],
                     dateRefreshTick: dateRefreshTick,
                     user: user,
                     currentRegionCodeOverride: locationManager.isoCountryCode,
@@ -56,7 +55,8 @@ struct CardInfoContentView: View {
                     card: card,
                     categories: categories,
                     user: user,
-                    activeSheet: $activeSheet
+                    activeSheet: $activeSheet,
+                    boostProgramID: $boostProgramID
                 )
 
             }
@@ -64,7 +64,7 @@ struct CardInfoContentView: View {
         }
         .background(Color.churOffWhite)
         .sheet(item: $activeSheet) { sheet in
-            CardInfoSheetPresenter(sheet: sheet, card: card)
+            CardInfoSheetPresenter(sheet: sheet, card: card, boostProgramID: boostProgramID)
         }
         .sheet(item: $selectedNewsPost) { post in
             NewsDetailPopup(post: post, allPosts: newsService.posts)

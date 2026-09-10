@@ -62,7 +62,7 @@ struct NearbyRecommendation: Identifiable {
 struct NearbyRecommendationEngine {
     let cards: [CreditCard]
     let allCategories: [SpendingCategory]
-    let boostEnrollments: [String: String]
+    let boostEnrollments: BoostEnrollments
     
     /// Generate a recommendation for a specific merchant
     /// Always returns a recommendation, even if no card matches

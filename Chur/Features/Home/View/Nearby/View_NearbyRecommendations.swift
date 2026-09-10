@@ -14,7 +14,7 @@ import MapKit
 struct NearbyRecommendationsSection: View {
     let cards: [CreditCard]
     let categories: [SpendingCategory]
-    let boostEnrollments: [String: String]
+    let boostEnrollments: BoostEnrollments
     var initialMerchants: [NearbyMerchant] = []
     var onOpenSearch: (() -> Void)? = nil
     var onLocationResolved: ((String?, String?) -> Void)? = nil

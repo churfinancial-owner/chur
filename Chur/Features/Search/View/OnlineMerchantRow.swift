@@ -13,7 +13,7 @@ struct OnlineMerchantRow: View {
     let merchant: OnlineMerchant
     let categories: [SpendingCategory]
     let cards: [CreditCard]
-    let boostEnrollments: [String: String]
+    let boostEnrollments: BoostEnrollments
     
     @State private var showDetailPopup = false
     

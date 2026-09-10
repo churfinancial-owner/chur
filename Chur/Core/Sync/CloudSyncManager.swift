@@ -48,7 +48,9 @@ struct UserBackup: Codable {
     let explicitlySelectedParentCategories: [String]
     let cardDisplayOrder: [String]
     let showEffectiveRate: Bool
-    let boostEnrollments: [String: String]
+    /// `ProgramSelection` decodes from a bare tier string too, so v3 backups with
+    /// `[programID: tierName]` still restore (P1f).
+    let boostEnrollments: BoostEnrollments
     let strategyPreferences: [String]
     let earningPowerTravelModeEnabled: Bool
     /// Added in v3. The profile photo is user content — `profileEmoji` was being

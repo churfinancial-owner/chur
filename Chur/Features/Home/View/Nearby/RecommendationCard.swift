@@ -17,7 +17,7 @@ struct RecommendationCard: View {
     @Query private var categories: [SpendingCategory]
     
     @Environment(\.rewardDisplay) private var rewardDisplay
-    private var boostEnrollments: [String: String] { users.first?.boostEnrollments ?? [:] }
+    private var boostEnrollments: BoostEnrollments { users.first?.boostEnrollments ?? [:] }
 
     private var categoryEmoji: String {
         categories.first(where: { $0.id == recommendation.merchant.categoryID })?.emoji ?? "📍"

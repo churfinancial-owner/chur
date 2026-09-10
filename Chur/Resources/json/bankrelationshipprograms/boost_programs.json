@@ -16,9 +16,21 @@
       "bofa_atmos_rewards_summit"
     ],
     "tiers": [
-      { "name": "Preferred Plus",             "multiplier": 1.25, "description": "$30k–$99,999 in combined balances" },
-      { "name": "Preferred Honors",         "multiplier": 1.50, "description": "$100k–$999,999 in combined balances" },
-      { "name": "Premier",  "multiplier": 1.75, "description": "$1M+ in combined balances" }
+      {
+        "name": "Preferred Plus",
+        "multiplier": 1.25,
+        "description": "$30k–$99,999 in combined balances"
+      },
+      {
+        "name": "Preferred Honors",
+        "multiplier": 1.5,
+        "description": "$100k–$999,999 in combined balances"
+      },
+      {
+        "name": "Premier",
+        "multiplier": 1.75,
+        "description": "$1M+ in combined balances"
+      }
     ],
     "footnote": "Combined balances across Bank of America banking and Merrill investment accounts."
   },
@@ -31,9 +43,21 @@
       "pnc-cash-unlimited"
     ],
     "tiers": [
-      { "name": "Silver",   "multiplier": 1.05, "description": "$25k–$99,999 in combined balances" },
-      { "name": "Gold",     "multiplier": 1.25, "description": "$100k–$499,999 in combined balances" },
-      { "name": "Platinum", "multiplier": 1.35, "description": "$500k+ in combined balances" }
+      {
+        "name": "Silver",
+        "multiplier": 1.05,
+        "description": "$25k–$99,999 in combined balances"
+      },
+      {
+        "name": "Gold",
+        "multiplier": 1.25,
+        "description": "$100k–$499,999 in combined balances"
+      },
+      {
+        "name": "Platinum",
+        "multiplier": 1.35,
+        "description": "$500k+ in combined balances"
+      }
     ],
     "footnote": "Combined balances across PNC banking and investment accounts."
   },
@@ -45,9 +69,21 @@
       "us-bank-smartly"
     ],
     "tiers": [
-      { "name": "25% Smartly Earning Bonus",  "multiplier": 1.25, "description": "Qualifying balance: $10,000–$49,999" },
-      { "name": "50% Smartly Earning Bonus",  "multiplier": 1.50, "description": "Qualifying balance: $50,000–$99,999" },
-      { "name": "100% Smartly Earning Bonus", "multiplier": 2.00, "description": "Qualifying balance: $100,000+" }
+      {
+        "name": "25% Smartly Earning Bonus",
+        "multiplier": 1.25,
+        "description": "Qualifying balance: $10,000–$49,999"
+      },
+      {
+        "name": "50% Smartly Earning Bonus",
+        "multiplier": 1.5,
+        "description": "Qualifying balance: $50,000–$99,999"
+      },
+      {
+        "name": "100% Smartly Earning Bonus",
+        "multiplier": 2.0,
+        "description": "Qualifying balance: $100,000+"
+      }
     ],
     "footnote": "U.S. Bank Smartly Savings account and qualifying balances in U.S. Bank Smartly Checking and/or Safe Debit account(s)..."
   },
@@ -59,10 +95,106 @@
       "coinbase-one"
     ],
     "tiers": [
-      { "name": "Tier 2 (2.5%)", "multiplier": 1.25, "description": "Qualifying balance: $10,000–$49,999" },
-      { "name": "Tier 3 (3%)",   "multiplier": 1.50, "description": "Qualifying balance: $50,000–$199,999" },
-      { "name": "Tier 4 (4%)",   "multiplier": 2.00, "description": "Qualifying balance: $200,000+" }
+      {
+        "name": "Tier 2 (2.5%)",
+        "multiplier": 1.25,
+        "description": "Qualifying balance: $10,000–$49,999"
+      },
+      {
+        "name": "Tier 3 (3%)",
+        "multiplier": 1.5,
+        "description": "Qualifying balance: $50,000–$199,999"
+      },
+      {
+        "name": "Tier 4 (4%)",
+        "multiplier": 2.0,
+        "description": "Qualifying balance: $200,000+"
+      }
     ],
     "footnote": "Cardholders can earn up to 4% bitcoin back on their purchases. The more assets you hold on Coinbase the higher your rewards rate. You can hold any asset including USDC or USD to qualify."
+  },
+  {
+    "id": "hsbc-hk-travel-guru",
+    "name": "Travel Guru",
+    "issuer": "HSBC",
+    "eligibleIssuer": "HSBC",
+    "eligibleCountry": "HK",
+    "mode": "add",
+    "unit": "cash",
+    "appliesTo": {
+      "crossBorder": true,
+      "channels": [
+        "in_store"
+      ]
+    },
+    "selection": "tier",
+    "tiers": [
+      {
+        "name": "GO",
+        "value": 0.03,
+        "description": "Registered in HSBC Reward+",
+        "cap": {
+          "amount": 16000,
+          "currency": "HKD",
+          "period": "year",
+          "kind": "spend",
+          "note": "Approximate; see HSBC's level table"
+        }
+      },
+      {
+        "name": "GING",
+        "value": 0.04,
+        "description": "HK$30,000 foreign spend and 3 flight, cruise or hotel bookings",
+        "cap": {
+          "amount": 30000,
+          "currency": "HKD",
+          "period": "year",
+          "kind": "spend",
+          "note": "Approximate; see HSBC's level table"
+        }
+      },
+      {
+        "name": "GURU",
+        "value": 0.06,
+        "description": "HK$70,000 foreign spend and 6 flight, cruise or hotel bookings",
+        "cap": {
+          "amount": 36000,
+          "currency": "HKD",
+          "period": "year",
+          "kind": "spend",
+          "note": "Approximate; see HSBC's level table"
+        }
+      }
+    ],
+    "footnote": "Extra RewardCash on foreign-currency spend in store, on every HSBC HK card. Online foreign spend is excluded. Register in the HSBC Reward+ app; levels renew yearly."
+  },
+  {
+    "id": "hsbc-hk-red-hot-rewards",
+    "name": "Red Hot Rewards of Your Choice",
+    "issuer": "HSBC",
+    "eligibleIssuer": "HSBC",
+    "eligibleCountry": "HK",
+    "mode": "add",
+    "unit": "cash",
+    "selection": "allocate",
+    "allocation": {
+      "categories": [
+        "dining",
+        "entertainment",
+        "retail",
+        "travel"
+      ],
+      "total": 5,
+      "maxPerCategory": 5
+    },
+    "value": 0.004,
+    "cap": {
+      "amount": 100000,
+      "currency": "HKD",
+      "period": "year",
+      "kind": "spend",
+      "note": "Per customer across all HSBC cards; up to HK$2,000 RewardCash a year"
+    },
+    "footnote": "Allocate the extra 5X RewardCash (0.4% each) across the categories the way you registered them; HSBC locks the split for the calendar year. The Home category joins when the HK category tree is authored (P1f part 5)."
   }
 ]

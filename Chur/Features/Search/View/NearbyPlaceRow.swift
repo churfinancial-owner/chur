@@ -13,7 +13,7 @@ struct NearbyPlaceRow: View {
     let merchant: NearbyMerchant
     let categories: [SpendingCategory]
     let cards: [CreditCard]
-    let boostEnrollments: [String: String]
+    let boostEnrollments: BoostEnrollments
     var isSelected: Bool = false
     
     @State private var showDetailPopup = false

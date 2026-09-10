@@ -156,8 +156,8 @@ struct CardAnalysisRow: View {
                                         Text("Point value: \(String(format: "%.6f", bd.pointValue)) \(bd.pointValueCurrency)/pt")
                                             .font(.churBadge())
                                         
-                                        if bd.boostMultiplier > 1.0 {
-                                            Text("Boost: \(String(format: "%.2fx", bd.boostMultiplier))")
+                                        ForEach(Array(bd.boost.layers.enumerated()), id: \.offset) { _, layer in
+                                            Text("Layer: \(layer.programName) · \(layer.label) · \(layerValueText(layer))")
                                                 .font(.churBadge())
                                         }
                                         
@@ -269,6 +269,17 @@ struct CardAnalysisRow: View {
             return "\(String(format: "%.1f", pct))%"
         } else {
             return "\(String(format: "%.2f", pct))%"
+        }
+    }
+
+    private func layerValueText(_ layer: AppliedLayer) -> String {
+        switch layer.mode {
+        case .multiply: return String(format: "×%.2f", layer.value)
+        case .add:
+            switch layer.unit {
+            case .rate: return String(format: "+%.2f rate", layer.value)
+            case .cash: return String(format: "+%.2f%%", layer.value * 100)
+            }
         }
     }
 

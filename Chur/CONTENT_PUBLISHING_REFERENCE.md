@@ -176,7 +176,7 @@ Two things to know before you start:
 | Recommendations | `Chur/Resources/json/recommendations/**` | ✅ Yes |
 | Badges, partners, transfer partners, coverage tables | `Chur/Resources/json/badges/*.json` | ✅ Yes |
 | Issuers, reward programs, program upgrades | `Chur/Resources/json/control/SeedData{Issuers,Programs,ProgramUpgrades}.json` | ✅ Yes |
-| Boost programs | `Chur/Resources/json/bankrelationshipprograms/boost_programs.json` | ✅ Yes |
+| Boost programs (earning layers since P1f — `mode`, `appliesTo`, `selection`, `gate`/`cap`; every new field optional so older apps decode the same file) | `Chur/Resources/json/bankrelationshipprograms/boost_programs.json` | ✅ Yes |
 | Badge / bank / partner icons | `IconArt/<group>/<iconName>.png` (repo root) | ✅ Yes |
 | **Regions** | `Chur/Resources/json/control/SeedDataRegions.json` | ❌ App release — **on purpose** |
 

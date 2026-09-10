@@ -175,20 +175,24 @@ extension CreditCard {
     }
 }
 
-// MARK: - Boost
+// MARK: - Boost (earning layers, P1f)
 
 extension CreditCard {
-    /// The boost multiplier from a relationship program (e.g. BofA Preferred Rewards, US Bank Smartly).
-    /// Requires the User's boostEnrollments to be passed in — defaults to 1.0 (no boost).
-    func boostMultiplier(enrollments: [String: String]) -> Double {
-        guard let program = BoostProgramDatabase.program(for: templateID),
-              let tierName = enrollments[program.id] else { return 1.0 }
-        return BoostProgramDatabase.multiplier(programID: program.id, tierName: tierName)
+    /// Every boost program that can apply to this card, enrolled or not.
+    var boostPrograms: [BoostProgram] {
+        BoostProgramDatabase.programs(for: self)
     }
 
-    /// Convenience: the active boost program for this card's template, if any.
-    var boostProgram: BoostProgram? {
-        BoostProgramDatabase.program(for: templateID)
+    /// Programs the user has to enrol in (the ones Reward Setup lists).
+    var enrollableBoostPrograms: [BoostProgram] {
+        boostPrograms.filter { $0.requiresEnrollment }
+    }
+
+    /// The layers that fire for this card with no transaction in view — the
+    /// card-info number. Cross-border and channel-scoped layers stay out; see
+    /// `CardRateCalculator.appliedBoost(for:enrollments:category:categoryMaps:)`.
+    func appliedBoost(enrollments: BoostEnrollments, category: SpendingCategory?, categoryMaps: CardRateCalculator.CategoryMaps) -> AppliedBoost {
+        CardRateCalculator.appliedBoost(for: self, enrollments: enrollments, category: category, categoryMaps: categoryMaps)
     }
 }
 

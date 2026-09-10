@@ -12,7 +12,8 @@ import SwiftUI
 struct EarningRatesSection: View {
     let card: CreditCard
     let categories: [SpendingCategory]
-    let boostMultiplier: Double
+    /// The user's boost-program selections; resolved per row into the layers that fire (P1f).
+    let enrollments: BoostEnrollments
     let dateRefreshTick: Int
     var user: User? = nil
     var currentRegionCodeOverride: String? = nil
@@ -174,19 +175,32 @@ struct EarningRatesSection: View {
         }
     }
 
+    private var categoryMaps: CardRateCalculator.CategoryMaps {
+        CardRateCalculator.CategoryMaps(allCategories: categories)
+    }
+
     private func rateList(items: [(category: SpendingCategory, reward: RewardRate)]) -> some View {
-        VStack(spacing: 8) {
+        let maps = categoryMaps
+        return VStack(spacing: 8) {
             ForEach(Array(items.enumerated()), id: \.offset) { _, item in
                 let isUpcoming = item.reward.rewardStartDate.map { $0 > Date.current() } ?? false
+                let boost = card.appliedBoost(enrollments: enrollments, category: item.category, categoryMaps: maps)
                 VStack(alignment: .leading, spacing: 4) {
                     ChildCategoryRateRow(
                         category: item.category,
-                        rate: item.reward.rate * boostMultiplier,
+                        rate: boost.displayRate(rate: item.reward.rate, pointCashValue: item.reward.pointCashValue),
                         cardName: nil,
-                        effectiveRate: item.reward.effectiveCashBackRate * boostMultiplier,
+                        effectiveRate: boost.effectiveRate(rate: item.reward.rate, pointCashValue: item.reward.pointCashValue),
                         titleOverride: item.reward.isUserConfigurable ? nil : item.reward.groupLabel
                     )
                     .opacity(isUpcoming ? 0.5 : 1.0)
+
+                    if !boost.isEmpty {
+                        Text(boost.layers.map { "+ \($0.programName) · \($0.label)" }.joined(separator: "  "))
+                            .font(.churMicro())
+                            .foregroundStyle(Color.churOlive)
+                            .padding(.leading, 4)
+                    }
 
                     if let notes = item.reward.rewardNotes, !notes.isEmpty {
                         Text(notes)

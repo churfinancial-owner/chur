@@ -18,7 +18,7 @@ struct CalculatorPopup: View {
     let category: SpendingCategory
     let cards: [CreditCard]
     let allCategories: [SpendingCategory]
-    let boostEnrollments: [String: String]
+    let boostEnrollments: BoostEnrollments
     var channel: String = "in_store" // "in_store" or "online"
 
     // Online merchants require explicit paymentMethods declaration to earn PM rewards.
@@ -357,9 +357,25 @@ struct CalculatorPopup: View {
         return max(0.0, card.foreignTransactionFeeRate ?? 0.0)
     }
 
+    /// Same resolution the engine uses (P1f earning layers), on this popup's inputs.
+    private func appliedBoost(for card: CreditCard) -> AppliedBoost {
+        let context = PricingContext(
+            category: category,
+            region: merchant.region,
+            channel: channel,
+            boostEnrollments: boostEnrollments,
+            acceptedPaymentMethods: effectivePaymentMethods,
+            acceptedRegions: merchant.acceptedRegions
+        )
+        return CardRateCalculator.resolveBoost(
+            for: card, context: context,
+            isCrossBorder: isCrossBorderSpend(for: card),
+            ancestorsByCategoryID: ancestorsByCategoryID
+        )
+    }
+
     private func netEffectiveRate(for card: CreditCard, reward: RewardRate) -> Double {
-        let boost = card.boostMultiplier(enrollments: boostEnrollments)
-        let baseRate = reward.effectiveCashBackRate * boost
+        let baseRate = appliedBoost(for: card).effectiveRate(rate: reward.rate, pointCashValue: reward.pointCashValue)
         if isCrossBorderSpend(for: card) {
             return baseRate - foreignTransactionFeeRate(for: card)
         } else {
@@ -368,18 +384,18 @@ struct CalculatorPopup: View {
     }
 
     struct RateBreakdown {
-        let baseRate: Double          // rate × pointCashValue × boost (percentage)
+        let baseRate: Double          // ((rate + adds) × pointCashValue + cash adds) × multiplier (percentage)
         let fxFeeRate: Double         // Foreign transaction fee (percentage)
         let netRate: Double           // baseRate - fxFeeRate (percentage)
         let rewardProgramName: String
         let pointValue: Double        // Cash value per point
         let pointValueCurrency: String // Currency of pointCashValue
-        let boostMultiplier: Double
+        let boost: AppliedBoost
     }
 
     private func effectiveRateBreakdown(for card: CreditCard, reward: RewardRate) -> RateBreakdown {
-        let boost = card.boostMultiplier(enrollments: boostEnrollments)
-        let baseRate = reward.effectiveCashBackRate * boost
+        let boost = appliedBoost(for: card)
+        let baseRate = boost.effectiveRate(rate: reward.rate, pointCashValue: reward.pointCashValue)
         let fxFee = isCrossBorderSpend(for: card) ? foreignTransactionFeeRate(for: card) : 0.0
         return RateBreakdown(
             baseRate: baseRate,
@@ -388,7 +404,7 @@ struct CalculatorPopup: View {
             rewardProgramName: reward.rewardProgramName,
             pointValue: reward.pointCashValue,
             pointValueCurrency: CurrencyConversion.normalized(reward.pointCashValueCurrency),
-            boostMultiplier: boost
+            boost: boost
         )
     }
     

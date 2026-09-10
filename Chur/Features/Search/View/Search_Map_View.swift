@@ -22,7 +22,7 @@ struct NearbyPlacesListView: View {
     @Query private var categories: [SpendingCategory]
     @Query private var users: [User]
     
-    private var boostEnrollments: [String: String] { users.first?.boostEnrollments ?? [:] }
+    private var boostEnrollments: BoostEnrollments { users.first?.boostEnrollments ?? [:] }
     
     // MARK: - Location
     @StateObject private var locationManager = LocationManager()

@@ -27,7 +27,7 @@ struct CardRateCalculator {
         let card: CreditCard
         let reward: RewardRate
         let effectiveRate: Double
-        let boost: Double
+        let boost: AppliedBoost
     }
 
     /// `categoryByID`/`ancestorsByCategoryID`, precomputed once and shared across many
@@ -35,8 +35,8 @@ struct CardRateCalculator {
     /// category set (e.g. `NearbyRecommendationEngine.recommendAll`), instead of every
     /// instance rebuilding the same ancestor-set map from scratch.
     struct CategoryMaps {
-        fileprivate let categoryByID: [String: SpendingCategory]
-        fileprivate let ancestorsByCategoryID: [String: Set<String>]
+        let categoryByID: [String: SpendingCategory]
+        let ancestorsByCategoryID: [String: Set<String>]
 
         init(allCategories: [SpendingCategory]) {
             let byID = Dictionary(allCategories.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
@@ -79,7 +79,7 @@ struct CardRateCalculator {
         category: SpendingCategory,
         rate: Double,
         allCategories: [SpendingCategory],
-        boostEnrollments: [String: String],
+        boostEnrollments: BoostEnrollments,
         region: String?,
         channel: String?,
         allowPaymentMethodFallback: Bool = true,
@@ -124,7 +124,7 @@ struct CardRateCalculator {
     // 5. Parent chain via parentCategoryID → 1.0
     // 6. "everything" universal fallback (lowest priority, always matches) → 1.0
     // 7. No match → 0.0
-    private static func matchWeight(
+    static func matchWeight(
         rewardCategory: String,
         category: SpendingCategory,
         ancestorsByCategoryID: [String: Set<String>],
@@ -215,23 +215,26 @@ struct CardRateCalculator {
     private static func bestOverlayReward(
         for card: CreditCard,
         overlayID: String,
-        context: PricingContext
+        context: PricingContext,
+        boost: AppliedBoost
     ) -> (reward: RewardRate, effectiveRate: Double)? {
         card.activeRewards
             .filter { $0.isActive() && $0.categories?.contains(overlayID) == true }
             .map { reward in
-                (reward: reward, effectiveRate: computeEffectiveRate(for: card, reward: reward, context: context))
+                (reward: reward, effectiveRate: computeEffectiveRate(for: card, reward: reward, context: context, boost: boost))
             }
             .max(by: { $0.effectiveRate < $1.effectiveRate })
     }
 
+    /// `boost` is resolved once per card per transaction (see `EarningLayers.swift`)
+    /// and applied to every candidate row; layers sit on top of whichever row wins.
     private static func computeEffectiveRate(
         for card: CreditCard,
         reward: RewardRate,
-        context: PricingContext
+        context: PricingContext,
+        boost: AppliedBoost
     ) -> Double {
-        let boost = card.boostMultiplier(enrollments: context.boostEnrollments)
-        let baseRate = reward.effectiveCashBackRate * boost
+        let baseRate = boost.effectiveRate(rate: reward.rate, pointCashValue: reward.pointCashValue)
 
         if isCrossBorderSpend(for: card, context: context) {
             return baseRate - foreignTransactionFeeRate(for: card)
@@ -372,7 +375,11 @@ struct CardRateCalculator {
             }
             if isSuppressed { continue }
 
-            let boost = card.boostMultiplier(enrollments: context.boostEnrollments)
+            let isCrossBorder = isCrossBorderSpend(for: card, context: context)
+            let boost = resolveBoost(
+                for: card, context: context, isCrossBorder: isCrossBorder,
+                ancestorsByCategoryID: ancestorsByCategoryID
+            )
 
             /// Keep this reward for the card if it beats the card's current best.
             func offer(_ reward: RewardRate, effectiveRate: Double) {
@@ -391,17 +398,17 @@ struct CardRateCalculator {
                     categoryByID: categoryByID, ancestorsByCategoryID: ancestorsByCategoryID
                 ) else { continue }
 
-                offer(reward, effectiveRate: computeEffectiveRate(for: card, reward: reward, context: context))
+                offer(reward, effectiveRate: computeEffectiveRate(for: card, reward: reward, context: context, boost: boost))
             }
 
             // Overlay bonus candidates
             if context.isOnline,
-               let overlay = bestOverlayReward(for: card, overlayID: "online_transactions", context: context) {
+               let overlay = bestOverlayReward(for: card, overlayID: "online_transactions", context: context, boost: boost) {
                 offer(overlay.reward, effectiveRate: overlay.effectiveRate)
             }
 
-            if isCrossBorderSpend(for: card, context: context),
-               let overlay = bestOverlayReward(for: card, overlayID: "foreign_transactions", context: context) {
+            if isCrossBorder,
+               let overlay = bestOverlayReward(for: card, overlayID: "foreign_transactions", context: context, boost: boost) {
                 offer(overlay.reward, effectiveRate: overlay.effectiveRate)
             }
         }
@@ -440,11 +447,12 @@ struct CardRateCalculator {
             .map {
                 CardRateSummary(
                     name: $0.card.name,
-                    rate: $0.reward.rate * $0.boost,
+                    rate: $0.boost.displayRate(rate: $0.reward.rate, pointCashValue: $0.reward.pointCashValue),
                     effectiveCashBackRate: $0.effectiveRate,
                     pointCashValue: $0.reward.pointCashValue,
                     pointCashValueCurrency: $0.reward.pointCashValueCurrency,
-                    rewardProgramName: $0.reward.rewardProgramName
+                    rewardProgramName: $0.reward.rewardProgramName,
+                    boostLayers: $0.boost.layers
                 )
             }
     }
@@ -461,11 +469,12 @@ struct CardRateCalculator {
             .map {
                 CardRateSummary(
                     name: $0.card.name,
-                    rate: $0.reward.rate * $0.boost,
+                    rate: $0.boost.displayRate(rate: $0.reward.rate, pointCashValue: $0.reward.pointCashValue),
                     effectiveCashBackRate: $0.effectiveRate,
                     pointCashValue: $0.reward.pointCashValue,
                     pointCashValueCurrency: $0.reward.pointCashValueCurrency,
-                    rewardProgramName: $0.reward.rewardProgramName
+                    rewardProgramName: $0.reward.rewardProgramName,
+                    boostLayers: $0.boost.layers
                 )
             }
             .sorted { $0.name < $1.name }
@@ -492,11 +501,12 @@ struct CardRateCalculator {
             .map {
                 CardRateSummary(
                     name: $0.card.name,
-                    rate: $0.reward.rate * $0.boost,
+                    rate: $0.boost.displayRate(rate: $0.reward.rate, pointCashValue: $0.reward.pointCashValue),
                     effectiveCashBackRate: $0.effectiveRate,
                     pointCashValue: $0.reward.pointCashValue,
                     pointCashValueCurrency: $0.reward.pointCashValueCurrency,
-                    rewardProgramName: $0.reward.rewardProgramName
+                    rewardProgramName: $0.reward.rewardProgramName,
+                    boostLayers: $0.boost.layers
                 )
             }
             .sorted { $0.effectiveCashBackRate > $1.effectiveCashBackRate }
@@ -516,11 +526,12 @@ struct CardRateCalculator {
             .map {
                 CardRateSummary(
                     name: $0.card.name,
-                    rate: $0.reward.rate * $0.boost,
+                    rate: $0.boost.displayRate(rate: $0.reward.rate, pointCashValue: $0.reward.pointCashValue),
                     effectiveCashBackRate: $0.effectiveRate,
                     pointCashValue: $0.reward.pointCashValue,
                     pointCashValueCurrency: $0.reward.pointCashValueCurrency,
-                    rewardProgramName: $0.reward.rewardProgramName
+                    rewardProgramName: $0.reward.rewardProgramName,
+                    boostLayers: $0.boost.layers
                 )
             }
     }

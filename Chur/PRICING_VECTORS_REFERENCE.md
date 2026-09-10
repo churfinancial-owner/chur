@@ -80,7 +80,7 @@ One graph shared by all vectors, so a vector never has to restate the tree. Ever
 | `categoryID` | required | Must exist in `categories[]` — the suite asserts this separately |
 | `region` | `null` | Merchant region. `null` = global, which means **no FX for anyone** |
 | `channel` | `null` | `in_store` / `online`. `online` also switches on the `online_transactions` overlay |
-| `boostEnrollments` | `{}` | `programID → tierName`, e.g. `{"usbank-smartly": "50% Smartly Earning Bonus"}` |
+| `boostEnrollments` | `{}` | `programID → selection`. A bare string is a tier name (`{"usbank-smartly": "50% Smartly Earning Bonus"}`); an object carries `allocation` or `pick` (`{"hsbc-hk-red-hot-rewards": {"allocation": {"dining": 3}}}`) |
 | `allowPaymentMethodFallback` | `true` | |
 | `forceCrossBorder` | `false` | |
 | `acceptedPaymentMethods` | `null` | When set, payment-method rewards apply **only** for the listed ones |
@@ -115,6 +115,7 @@ Every branch reachable from `computeAllMatchingRewards`:
 | Overlays | `online_transactions` winning, an overlay-only reward ignored off-channel, `foreign_transactions` still netting the FX fee |
 | Card-level | zero-rate suppression, cancelled cards, `cardFilter` include-mode |
 | Valuation | boost multiplier scaling both rate and multiplier, point value outranking a higher multiplier |
+| Earning layers (P1f) | `add`/`cash` layer firing on foreign in-store spend and netting FX, the same layer skipped off-channel, `allocate` weights scaling the per-unit value on the allocated category only, no add on an unallocated category |
 | Output shape | duplicate card **names** collapsing, plan-based cards using the default plan, alphabetical tie-break |
 
 ## Adding a vector
@@ -130,7 +131,7 @@ Every branch reachable from `computeAllMatchingRewards`:
 
 Two things reach outside the fixture, and both are load-bearing:
 
-- **`BoostProgramDatabase` reads `boost_programs.json` from `Bundle.main`.** The boost vector needs a real program id, a real tier name and a real eligible `templateID` (`us-bank-smartly` / `50% Smartly Earning Bonus`). If the host app isn't set, the lookup returns `nil`, the multiplier falls back to `1.0` and the vector fails — loudly, which is the right failure.
+- **`BoostProgramDatabase` reads `boost_programs.json` from `Bundle.main`.** The boost vector needs a real program id, a real tier name and a real eligible `templateID` (`us-bank-smartly` / `50% Smartly Earning Bonus`); the layer vectors need `hsbc-hk-travel-guru` and `hsbc-hk-red-hot-rewards`, which are scoped by `eligibleIssuer` + `eligibleCountry`, so their fixture cards carry `issuer: "HSBC"`, `country: "HK"`. If the host app isn't set, the lookup returns `nil`, no layer fires and the vector fails — loudly, which is the right failure.
 - **`RegionDatabase.normalizeRegionCode`** is pure and needs no bundle, but it folds `PR`/`VI`/`GU`/`AS`/`MP` into `US`. A vector using those codes is testing that folding, not cross-border logic.
 
 The runner builds a `PricingContext` from `input` and calls the primary `init(cards:context:allCategories:)` (P1f part 1). The pre-P1f init with a `rate:` parameter still exists for app call sites; `rate` was never read by the engine and the wrapper drops it, so the fixture has no field for it.

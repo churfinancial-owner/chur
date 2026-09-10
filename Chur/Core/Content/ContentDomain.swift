@@ -72,7 +72,7 @@ enum ContentDomain: String, CaseIterable {
     case programs
     case programUpgrades
 
-    /// Bank relationship tiers → `CreditCard.boostMultiplier` → the pricing
+    /// Bank relationship tiers and HK issuer programs → earning layers (`EarningLayers.swift`) → the pricing
     /// engine. A rates domain: changes here move numbers, not labels.
     case boostPrograms
 

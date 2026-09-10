@@ -18,7 +18,7 @@ struct OnlineSearchView: View {
     @Query private var users: [User]
 
     private var userCountry: String { users.first?.country ?? "US" }
-    private var boostEnrollments: [String: String] { users.first?.boostEnrollments ?? [:] }
+    private var boostEnrollments: BoostEnrollments { users.first?.boostEnrollments ?? [:] }
 
     @State private var selectedFeaturedMerchant: OnlineMerchant? = nil
 

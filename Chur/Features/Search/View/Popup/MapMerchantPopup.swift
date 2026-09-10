@@ -17,7 +17,7 @@ struct MerchantDetailSheet: View {
     @State private var showingCategoryDetail = false
     #endif
 
-    init(merchant: NearbyMerchant, category: SpendingCategory, cards: [CreditCard], allCategories: [SpendingCategory], boostEnrollments: [String: String], channel: String = "in_store") {
+    init(merchant: NearbyMerchant, category: SpendingCategory, cards: [CreditCard], allCategories: [SpendingCategory], boostEnrollments: BoostEnrollments, channel: String = "in_store") {
         _viewModel = State(initialValue: MerchantDetailViewModel(
             merchant: merchant, category: category, cards: cards,
             allCategories: allCategories, boostEnrollments: boostEnrollments, channel: channel

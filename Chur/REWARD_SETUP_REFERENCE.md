@@ -116,6 +116,38 @@ One entry per category per quarter. Expired entries hide automatically; future o
 ```
 Use multiple plans for grandfathered vs. current structures; exactly one `isDefault: true`.
 
+## Pattern 7 — Earning layers (`bankrelationshipprograms/boost_programs.json`)
+
+A bonus that sits **on top of** a card's reward rows: a bank relationship tier, an issuer promotion spanning many cards (HSBC Travel Guru), a category allocation (Red Hot Rewards), a pick-one promo (WeWa), or a card's own always-on extra. The engine resolves every eligible program for a card into the layers that fire for *this* transaction and applies them to whichever reward row wins:
+
+```
+((rate + rateAdds) × pointCashValue + cashAdds) × multipliers − FX fee
+```
+
+```json
+{
+  "id": "hsbc-hk-travel-guru", "name": "Travel Guru", "issuer": "HSBC",
+  "eligibleIssuer": "HSBC", "eligibleCountry": "HK",        // or "eligibleTemplateIDs": [...]
+  "mode": "add", "unit": "cash",                            // mode: multiply (default) | add · unit: rate (default) | cash
+  "appliesTo": { "crossBorder": true, "channels": ["in_store"] },
+  "excludes":  { "paymentMethods": ["alipay_hk"] },
+  "selection": "tier",                                       // tier (default) | allocate | pickOne | always
+  "tiers": [ { "name": "GING", "value": 0.04, "description": "…", "cap": { "amount": 30000, "currency": "HKD", "period": "year", "kind": "spend" } } ],
+  "footnote": "…"
+}
+```
+
+| Field | Notes |
+|---|---|
+| `eligibleTemplateIDs` / `eligibleIssuer` + `eligibleCountry` | Scope. Either form; issuer + country lets new cards join without editing the program. |
+| `mode` | `multiply`: the tier's `multiplier` scales the whole earn (US relationship tiers). `add`: the `value` is added on top. |
+| `unit` | For `add`. `rate` = points per dollar, same unit as `rate` on a reward row. `cash` = added after the point value (0.03 = 3%), so one layer fits cards whose programs differ. |
+| `appliesTo` / `excludes` | `categories` (may name `foreign_transactions` / `online_transactions` like a reward row), `channels`, `crossBorder`, `countries`, `currencies`, `paymentMethods`. `appliesTo`: every stated dimension must hold. `excludes`: any match knocks the layer out. `currencies` and `paymentMethods` switch on in P1f part 3. |
+| `selection` | `tier`: `tiers[]` with `multiplier` or `value` each. `allocate`: `allocation: {categories, total, maxPerCategory}` and a per-weight `value`; the user spreads weights, and each allocated category becomes its own layer. `pickOne`: `options[]` and a `value`. `always`: on for every eligible card with nothing to enrol in (a card's own extra), `value` required. |
+| `gate` / `cap` | `{amount, currency, period, kind, group, note}` — **display only**, the app tracks no spend. `period`: calendarMonth · statementCycle · quarter · halfYear · year · promo. `kind`: spend · reward. A tier's `cap` overrides the program's. `group` names a shared pool. |
+
+Gotchas: program `id`s, tier `name`s and allocation category ids are all load-bearing (`User.boostEnrollments`). A layer scoped to `crossBorder` or a channel never shows in the card-info earning rows (no transaction there); Reward Setup lists it with its scope instead. The `add` value for HSBC RewardCash is `0.004` per X (1X = 0.4%).
+
 ---
 
 ## Gotchas

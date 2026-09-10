@@ -23,7 +23,7 @@ class User {
     var explicitlySelectedParentCategories: [String] // Parent categories user intentionally turned on in picker
     var cardDisplayOrder: [String] // Stores custom card order by card IDs
     var showEffectiveRate: Bool     // Display effective rate (rate × pointCashValue) instead of raw multiplier
-    var boostEnrollments: [String: String] // [programID: tierName] e.g. ["bofa-preferred-rewards": "Platinum Honors"]
+    var boostEnrollments: BoostEnrollments // [programID: selection] — a tier, an allocation of weights, or one pick (P1f)
     var country: String // User's preferred country for card database (e.g., "US", "HK")
     var languagePreference: String // AppLanguage.rawValue, e.g. "system", "english", "zh-Hant-HK"
     var earningPowerTravelModeEnabled: Bool // Force Earning Power calculations to apply cross-border FX fee logic

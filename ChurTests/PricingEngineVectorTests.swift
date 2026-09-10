@@ -46,7 +46,9 @@ private struct Input: Codable, Sendable {
     let categoryID: String
     var region: String?
     var channel: String?
-    var boostEnrollments: [String: String]?
+    /// `programID → selection`. A bare string is a tier name; an object carries
+    /// `allocation` or `pick` — `ProgramSelection` decodes both.
+    var boostEnrollments: BoostEnrollments?
     var allowPaymentMethodFallback: Bool?
     var forceCrossBorder: Bool?
     var acceptedPaymentMethods: [String]?

@@ -15,7 +15,7 @@ class MerchantDetailViewModel {
     let category: SpendingCategory
     let cards: [CreditCard]
     let allCategories: [SpendingCategory]
-    let boostEnrollments: [String: String]
+    let boostEnrollments: BoostEnrollments
     let channel: String
     
     // Pre-computed results (all inputs are immutable, so compute once)
@@ -24,7 +24,7 @@ class MerchantDetailViewModel {
     let merchantIconName: String?
     let categoryBubbleLabel: String?
     
-    init(merchant: NearbyMerchant, category: SpendingCategory, cards: [CreditCard], allCategories: [SpendingCategory], boostEnrollments: [String: String], channel: String = "in_store") {
+    init(merchant: NearbyMerchant, category: SpendingCategory, cards: [CreditCard], allCategories: [SpendingCategory], boostEnrollments: BoostEnrollments, channel: String = "in_store") {
         self.merchant = merchant
         self.category = category
         self.cards = cards

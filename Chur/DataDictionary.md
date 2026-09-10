@@ -97,7 +97,7 @@ Every `@Model` in the app, whether the schema persists it, and how much of it su
 | `explicitlySelectedParentCategories` | `[String]` | Not Null, default `[]` | References `SpendingCategory.id` | Parent category IDs the user intentionally toggled on. Separates explicit from inherited selection. |
 | `cardDisplayOrder` | `[String]` | Not Null, default `[]` | References `CreditCard.id` | Ordered list of card instance IDs reflecting the user's custom card sort. |
 | `showEffectiveRate` | `Bool` | Not Null, default `false` | — | If `true`, displays effective cash-back rate (rate × pointCashValue) instead of raw multiplier. |
-| `boostEnrollments` | `[String: String]` | Not Null, default `[:]` | Key references `BoostProgram.id` (static) | Maps boost program ID → enrolled tier name (e.g. `"bofa-preferred-rewards"` → `"Platinum Honors"`). |
+| `boostEnrollments` | `[String: ProgramSelection]` | Not Null, default `[:]` | Key references `BoostProgram.id` (static) | Maps boost program ID → the user's selection for that program (P1f): `tier` (`"Platinum Honors"`, `"GING"`), `allocation` (`{"dining": 3, "travel": 2}`) or `pick`. `ProgramSelection` decodes from a bare tier string and encodes a tier-only value back to one, so pre-P1f stores and v3 Drive backups load unchanged. Tier names and allocation category ids are load-bearing. |
 | `country` | `String` | Not Null, default locale-detected | — | User's preferred country for card database filtering (e.g. `"US"`, `"HK"`). |
 | `languagePreference` | `String` | Not Null, default `"system"` | — | User's explicit app language override. `AppLanguage.rawValue`: `"system"`, `"english"`, or `"zh-Hant-HK"`. `"system"` means follow device `Locale.current`. Resolved via `AppLocale` (`Core/Localization/AppLocale.swift`), mirrored to `UserDefaults["appLanguage"]` for synchronous access before a `User`/`ModelContext` is available. |
 | `earningPowerTravelModeEnabled` | `Bool` | Not Null, default `false` | — | Forces cross-border FX fee logic in Earning Power calculations regardless of current location. |
@@ -403,7 +403,7 @@ In-memory representation of a benefit from the JSON catalog (`BenefitDatabase`).
 User
  ├── cardDisplayOrder [String]  ──references──▶  CreditCard.id  (ordered list)
  ├── selectedCategories [String] ─references──▶  SpendingCategory.id
- └── boostEnrollments [String:String] ─key──▶   BoostProgram.id (static, not persisted)
+ └── boostEnrollments [String:ProgramSelection] ─key──▶ BoostProgram.id (static, not persisted; earning layers — see REWARD_SETUP_REFERENCE.md Pattern 7)
 
 CreditCard
  ├── templateID ──────────────references──▶  CardDatabase (static JSON)

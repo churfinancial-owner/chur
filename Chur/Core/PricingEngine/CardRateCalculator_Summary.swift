@@ -16,6 +16,8 @@ struct CardRateSummary {
     let pointCashValue: Double // e.g. 0.0125 for 1.25¢ per point
     let pointCashValueCurrency: String // e.g. "USD"
     let rewardProgramName: String // e.g. "Ultimate Rewards"
+    /// The earning layers that fired for this result (P1f). Empty when none did.
+    var boostLayers: [AppliedLayer] = []
     
     /// Formatted display string as percentage, e.g. "5%", "9.75%", "-1.25%"
     var effectiveRateDisplayString: String {

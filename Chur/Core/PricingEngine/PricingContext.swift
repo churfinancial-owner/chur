@@ -20,8 +20,8 @@ struct PricingContext {
     /// "in_store", "online", or nil (all channels). `online` also switches on the
     /// `online_transactions` overlay.
     let channel: String?
-    /// programID → tierName. The user's relationship-program enrollments.
-    let boostEnrollments: [String: String]
+    /// programID → the user's selection for that program (tier, allocation or pick).
+    let boostEnrollments: BoostEnrollments
     /// When false, payment-method rewards (mobile_pay, apple_pay, …) never match as a fallback.
     let allowPaymentMethodFallback: Bool
     /// Treat the purchase as cross-border for every card regardless of region.
@@ -35,7 +35,7 @@ struct PricingContext {
         category: SpendingCategory,
         region: String? = nil,
         channel: String? = nil,
-        boostEnrollments: [String: String] = [:],
+        boostEnrollments: BoostEnrollments = [:],
         allowPaymentMethodFallback: Bool = true,
         forceCrossBorder: Bool = false,
         acceptedPaymentMethods: Set<String>? = nil,

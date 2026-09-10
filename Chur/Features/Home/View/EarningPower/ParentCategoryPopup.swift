@@ -44,7 +44,7 @@ struct ParentCategoryParallaxSheet: View {
     @State private var showFormula = false
     @State private var selectedChild: SpendingCategory? = nil
 
-    private var boostEnrollments: [String: String] { users.first?.boostEnrollments ?? [:] }
+    private var boostEnrollments: BoostEnrollments { users.first?.boostEnrollments ?? [:] }
     private var earningPowerTravelModeEnabled: Bool { users.first?.earningPowerTravelModeEnabled ?? false }
     private var isAwayFromHomeRegion: Bool {
         guard let home = RegionDatabase.normalizeRegionCode(users.first?.country),
