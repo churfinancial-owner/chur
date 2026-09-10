@@ -2,7 +2,7 @@
 
 Growth priorities and the reasoning behind them. **Update whenever priorities shift or a phase completes.**
 
-Last reviewed: 2026-09-08. Content published 2026-09-08.
+Last reviewed: 2026-09-10. Content published 2026-09-08.
 
 **Where the numbers stand right now:** app `1.0 (1)`, 18 domains, 175 cards / **276 benefits** / 192 hand-authored categories / 171 card images / 151 icons. Run `swift run ChurContentPublish --verify` for the live version rather than trusting a number written here — the version moves every publish, and the count below was wrong within a day of being written for exactly that reason.
 
@@ -391,6 +391,60 @@ Item 1 leaves two of its own:
 
 - **25 partner names have no icon anywhere**, covering 43 benefits — Best Western ×5, Priority Pass ×4, Resy ×4, Disney Parks ×3, Charles Schwab ×3. Unlike the 22 above these are all real brands, so the answer is sourcing logos into `IconArt/partners/`, not deleting a field. `SeedDataValidator` prints the list sorted by benefit count, which is the order to work in.
 - **The benefit row is still undecided.** Revisit `BenefitCheckboxRow` once the detail sheet has been seen on a device — and against a **cold** cache, per question 3 above.
+
+### P1f — Hong Kong reward mechanics · in progress (started 2026-09-10)
+
+The US model is base rate × point value, one relationship-tier multiplier, and a category tree. It is enough for every US card in the seed. It is not enough for Hong Kong, the second launch market, where a card's earning is a **stack of bonus layers** on a small base, each with its own gate, cap, scope and registration. The four things that first looked wrong (issuer programs spanning many cards, additive rather than multiplied bonuses, spend-triggered bonuses, currency-based rather than category-based overseas rates) turned out to be four views of that one shape.
+
+Researched 2026-09-10 against the official HSBC, Hang Seng, DBS and BOC pages and the HK comparison sites (MoneyHero, MoneySmart, Mr Miles, hkcashrebate, debitbaba). looklookduck.com was unreachable from the authoring machine.
+
+#### The HK mechanic catalogue
+
+What the market does, and where each mechanic lands in the model. Everything in the "model" column is a P1f deliverable unless marked otherwise.
+
+| Mechanic | Examples | Model |
+|---|---|---|
+| Additive bonus, not multiplier | Travel Guru +3/4/6%, Red Hot +5X, MMPower +4.6% | Layer `mode: add`. The HK default; `multiply` is the US relationship-tier case |
+| Customer-level program across many cards | Travel Guru, Red Hot Rewards (all HSBC cards, one cap per person) | Layer scoped to a template list or issuer + country; enrollment lives on `User` |
+| Level ladder, value and cap per level | Travel Guru GO / GING / GURU | Layer `tiers[]`, each with its own value and cap text |
+| Monthly spend gate unlocking a whole layer | MMPower HK$3,000, SC Smart HK$4,000, BEA World HK$4,000, Chill HK$1,000–1,500 physical | `gate` on the layer. **Display only** |
+| Cap by spend or reward, per period | HSBC Red first HK$10,000 online, RHR HK$100,000/yr, Chill HK$150/mo | `cap` on the layer or reward. **Display only** |
+| Shared cap across categories | Chill: overseas 5% and merchant 10% share HK$150 | `cap.group`, so the row can say which bonuses share a pool |
+| Period types | calendar month, statement cycle (AEON, Citi PremierMiles), half year (EarnMORE), year (RHR), promo window | `period` enum on gate and cap |
+| Category allocation by weight | Red Hot: 5X split across 5 categories, e.g. 3X dining + 2X travel | Layer `selection: allocate` with per-category weights and a total |
+| Pick one category per period | DBS Live Fresh (monthly), WeWa (1 of 4) | Layer `selection: pickOne`. Slots already cover the per-card form |
+| Currency list, not country list | Hang Seng Travel+ designates JPY, KRW, THB, CNY, AUD, TWD | `currencies` on rewards and layers; currency derived from merchant region |
+| Excluded countries | Several banks pay nothing on EEA physical spend | `excludedCountries` on rewards and layers |
+| Physical overseas vs online overseas | Travel Guru and Chill exclude online foreign spend | Falls out of channel + derived currency |
+| Payment-method bonus | Citi Rewards 5X mobile pay, 3X contactless / UnionPay QuickPass | Payment method becomes a **transaction dimension**, not a category (below) |
+| Payment-method exclusion on a bonus | e-wallets (AlipayHK, WeChat Pay HK) and Octopus reload excluded from bonus layers, base still earns | `excludes.paymentMethods` on the layer |
+| Rate expressed as HK$ per mile | DBS "HK$2 = 1 mile", Amex "HK$1.68 = 1 mile" | `rateStyle` per program in `SeedDataPrograms.json`, display only |
+| Network-dependent FX fee | UnionPay 0–1%, Visa/MC 1.95%, Amex 2% | Already per card |
+| HKD-billed cross-border fee (CBF 1%) | Visa/MC | **Deferred** |
+| Registration quotas, student variants, DBS's per-transaction button, single-transaction minimums | first 10,000 registrants, HK$300 minimum | **Stay in `rewardNotes`** |
+
+#### Decisions
+
+1. **No spend tracking.** The app has no bank integration and will not ask users to log spend, so gates and caps are structured *information* rendered as small print, never engine inputs. The engine assumes an enrolled layer is earning; the row shows the condition and the reader judges. This is exactly what the HK comparison sites do. Structured rather than free text so one authored value renders in all four languages and a later phase could act on it without a JSON migration.
+2. **Layers replace "boost".** `BoostProgram` keeps its content domain and ids (enrollments point at them, so they are load-bearing) but becomes a layer: `mode`, `appliesTo` / `excludes` over the transaction dimensions, `gate`, `cap`, `selection`, and tiers with their own value and cap. A card's own extra (Visa Signature's 3X) is a layer scoped to one template. Engine order: multipliers, then additions, then the FX fee.
+3. **Payment method is a transaction dimension, like channel and currency.** Today it is faked with three pseudo-categories (`mobile_pay`, `apple_pay`, `paypal_pay`) matched at step 3 of `matchWeight`, and a payment-method reward *competes* with the merchant's category reward. That is right for "5X on mobile pay anywhere" and wrong for "extra 2X on top when paid by mobile pay" and for "no bonus via e-wallet". `PricingContext.paymentMethods` defaults to the optimistic set the engine already assumes (what the merchant accepts minus what the category excludes), so every current result is unchanged; `RewardRate.paymentMethods` and layer `appliesTo` / `excludes` read the same dimension. The ids stay as the vocabulary (`mobile_pay`, `apple_pay`, `paypal_pay`, plus `contactless`, `unionpay_quickpass`, `alipay_hk`, `wechat_pay_hk`); a compatibility shim reads legacy `categories: ["mobile_pay"]` as `paymentMethods` until the three US rows are re-authored. Wallet *top-ups* (PayMe, Octopus reload) are destinations, not methods, and stay as categories. `CardRateSummary` gains `viaPaymentMethod` so a popup can say "with Apple Pay" when that is what made the card win. A "Paying with" picker in the merchant popup is the one place a user input could later narrow the set; not needed for correctness.
+4. **Enrollment is the only user input.** `User.boostEnrollments` values become a small Codable selection (tier, allocation weights, or a picked category) instead of a tier string. Pre-launch this is a free schema edit per `ChurSchema.swift`.
+5. **Currency is derived, never stored.** Map merchant → its region's currency; online merchant with `businessRegion` → that region's currency; `globalBilling` → the card's own currency, which keeps the existing no-FX rule.
+
+#### Parts, in order
+
+Each part is one commit, built green before the next starts. Parts 2 and 3 change money math, so both land with vectors.
+
+| Part | What | Status |
+|---|---|---|
+| 0 | This section | ✅ 2026-09-10 |
+| 1 | Engine seam, no behaviour change: `PricingContext` replaces the twelve-parameter init; applicability becomes one ordered chain (category → channel → countries → date). The 33 vectors must stay green | |
+| 2 | Earning layers: extend `BoostProgram` in place; lookup returns every layer for a card; engine stacks them; `boostEnrollments` becomes structured; `BoostProgramPickerSheet` gains allocate and pick-one modes; the four display sites that multiply by a boost double take an applied-layers value instead | |
+| 3 | Transaction dimensions: `channels`, `currencies`, `excludedCountries`, `paymentMethods` on `RewardRate` and on layers; currency derived in the engine; `contactless` and the HK wallet ids added to the payment vocabulary; decoders (`SeedDataLoader`, `CardDatabase`, `CardSyncService.updateRewardFields`) and the vector fixture updated | |
+| 4 | Conditions as information: `gate` and `cap` on `RewardRate` using the layer struct; localized small print in `EarningRatesSection` and the card info rows; `rateStyle` per program | |
+| 5 | Prove it on HK content: re-author the HSBC, Hang Seng, Citi and Standard Chartered reward JSON onto the new shapes; add Travel Guru and Red Hot Rewards as layers; HK vectors for additive stacking, allocation weights, currency lists, EEA exclusion, online-overseas exclusion, contactless and e-wallet exclusion; update `REWARD_SETUP_REFERENCE.md`, `DataDictionary.md`, `PRICING_VECTORS_REFERENCE.md`, `CONTENT_PUBLISHING_REFERENCE.md` | |
+
+Authored on the no-toolchain machine like P1d and P1e; every part is compiled and the vectors run on the Mac before it is called done.
 
 ### P2 — Analytics baseline
 
