@@ -133,4 +133,4 @@ Two things reach outside the fixture, and both are load-bearing:
 - **`BoostProgramDatabase` reads `boost_programs.json` from `Bundle.main`.** The boost vector needs a real program id, a real tier name and a real eligible `templateID` (`us-bank-smartly` / `50% Smartly Earning Bonus`). If the host app isn't set, the lookup returns `nil`, the multiplier falls back to `1.0` and the vector fails — loudly, which is the right failure.
 - **`RegionDatabase.normalizeRegionCode`** is pure and needs no bundle, but it folds `PR`/`VI`/`GU`/`AS`/`MP` into `US`. A vector using those codes is testing that folding, not cross-border logic.
 
-One thing that looks like a coupling and isn't: `CardRateCalculator.rate` is stored on the struct and **never read** by the engine. The runner passes `1.0`. If a future change starts reading it, the fixture needs a field for it.
+The runner builds a `PricingContext` from `input` and calls the primary `init(cards:context:allCategories:)` (P1f part 1). The pre-P1f init with a `rate:` parameter still exists for app call sites; `rate` was never read by the engine and the wrapper drops it, so the fixture has no field for it.

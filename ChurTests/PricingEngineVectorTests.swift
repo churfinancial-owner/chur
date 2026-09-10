@@ -237,17 +237,17 @@ struct PricingEngineVectorTests {
 
         let calculator = CardRateCalculator(
             cards: cards,
-            category: category,
-            // `CardRateCalculator.rate` is stored but never read by the engine.
-            rate: 1.0,
-            allCategories: categories,
-            boostEnrollments: vector.input.boostEnrollments ?? [:],
-            region: vector.input.region,
-            channel: vector.input.channel,
-            allowPaymentMethodFallback: vector.input.allowPaymentMethodFallback ?? true,
-            forceCrossBorder: vector.input.forceCrossBorder ?? false,
-            acceptedPaymentMethods: vector.input.acceptedPaymentMethods.map { Set($0) },
-            acceptedRegions: vector.input.acceptedRegions.map { Set($0) }
+            context: PricingContext(
+                category: category,
+                region: vector.input.region,
+                channel: vector.input.channel,
+                boostEnrollments: vector.input.boostEnrollments ?? [:],
+                allowPaymentMethodFallback: vector.input.allowPaymentMethodFallback ?? true,
+                forceCrossBorder: vector.input.forceCrossBorder ?? false,
+                acceptedPaymentMethods: vector.input.acceptedPaymentMethods.map { Set($0) },
+                acceptedRegions: vector.input.acceptedRegions.map { Set($0) }
+            ),
+            allCategories: categories
         )
 
         let actual = calculator.rankedCardSummaries

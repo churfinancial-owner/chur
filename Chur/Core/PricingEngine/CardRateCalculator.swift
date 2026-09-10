@@ -10,22 +10,13 @@ import Foundation
 // MARK: - Card Rate Calculator
 struct CardRateCalculator {
     let cards: [CreditCard]
-    let category: SpendingCategory
-    let rate: Double
+    /// The transaction being priced — see `PricingContext`.
+    let context: PricingContext
     let allCategories: [SpendingCategory]
     private let categoryByID: [String: SpendingCategory]
     /// Pre-computed ancestor sets: category.id → all ancestor IDs via parentCategoryID chain.
     /// Eliminates fragile multi-hop walks — O(1) lookup in matchWeight step 5.
     private let ancestorsByCategoryID: [String: Set<String>]
-    let boostEnrollments: [String: String]
-    let region: String?  // Region code for location-based filtering (e.g., "US", "TW") - nil if not location-based
-    let channel: String? // "in_store", "online", or nil (all channels) — used to filter rewards by channel
-    let allowPaymentMethodFallback: Bool
-    let forceCrossBorder: Bool
-    let acceptedPaymentMethods: Set<String>? // If set, payment method rewards only apply for listed methods
-    /// Regions where the merchant operates. nil = global (no FX fee for any card).
-    /// Overrides single `region` for cross-border detection when set.
-    let acceptedRegions: Set<String>?
 
     /// Pre-computed matching results with effective rates stored alongside.
     /// Computed once in init, read by all public properties.
@@ -54,6 +45,35 @@ struct CardRateCalculator {
         }
     }
 
+    /// Primary initializer. The transaction lives in `context`; the wallet and the category
+    /// tree are the other two inputs.
+    init(
+        cards: [CreditCard],
+        context: PricingContext,
+        allCategories: [SpendingCategory],
+        categoryMaps: CategoryMaps? = nil
+    ) {
+        // Cancelled cards never earn rewards — exclude them for every caller in one place.
+        let cards = cards.filter { $0.status != "cancelled" }
+        self.cards = cards
+        self.context = context
+        self.allCategories = allCategories
+        let maps = categoryMaps ?? CategoryMaps(allCategories: allCategories)
+        self.categoryByID = maps.categoryByID
+        self.ancestorsByCategoryID = maps.ancestorsByCategoryID
+
+        // Eagerly compute all matching rewards once
+        self.cachedMatchingRewards = Self.computeAllMatchingRewards(
+            cards: cards,
+            context: context,
+            categoryByID: maps.categoryByID,
+            ancestorsByCategoryID: maps.ancestorsByCategoryID
+        )
+    }
+
+    /// Pre-P1f signature, kept so existing call sites compile unchanged. New code should
+    /// build a `PricingContext` and use `init(cards:context:allCategories:categoryMaps:)`.
+    /// `rate` was stored and never read; it is accepted and dropped.
     init(
         cards: [CreditCard],
         category: SpendingCategory,
@@ -68,36 +88,20 @@ struct CardRateCalculator {
         acceptedRegions: Set<String>? = nil,
         categoryMaps: CategoryMaps? = nil
     ) {
-        // Cancelled cards never earn rewards — exclude them for every caller in one place.
-        let cards = cards.filter { $0.status != "cancelled" }
-        self.cards = cards
-        self.category = category
-        self.rate = rate
-        self.allCategories = allCategories
-        let maps = categoryMaps ?? CategoryMaps(allCategories: allCategories)
-        self.categoryByID = maps.categoryByID
-        self.ancestorsByCategoryID = maps.ancestorsByCategoryID
-        self.boostEnrollments = boostEnrollments
-        self.region = region
-        self.channel = channel
-        self.allowPaymentMethodFallback = allowPaymentMethodFallback
-        self.forceCrossBorder = forceCrossBorder
-        self.acceptedPaymentMethods = acceptedPaymentMethods
-        self.acceptedRegions = acceptedRegions
-
-        // Eagerly compute all matching rewards once
-        self.cachedMatchingRewards = Self.computeAllMatchingRewards(
+        self.init(
             cards: cards,
-            category: category,
-            categoryByID: maps.categoryByID,
-            ancestorsByCategoryID: self.ancestorsByCategoryID,
-            boostEnrollments: boostEnrollments,
-            region: region,
-            channel: channel,
-            allowPaymentMethodFallback: allowPaymentMethodFallback,
-            forceCrossBorder: forceCrossBorder,
-            acceptedPaymentMethods: acceptedPaymentMethods,
-            acceptedRegions: acceptedRegions
+            context: PricingContext(
+                category: category,
+                region: region,
+                channel: channel,
+                boostEnrollments: boostEnrollments,
+                allowPaymentMethodFallback: allowPaymentMethodFallback,
+                forceCrossBorder: forceCrossBorder,
+                acceptedPaymentMethods: acceptedPaymentMethods,
+                acceptedRegions: acceptedRegions
+            ),
+            allCategories: allCategories,
+            categoryMaps: categoryMaps
         )
     }
 
@@ -187,20 +191,15 @@ struct CardRateCalculator {
         RegionDatabase.normalizeRegionCode(code)
     }
 
-    private static func isCrossBorderSpend(
-        for card: CreditCard,
-        region: String?,
-        acceptedRegions: Set<String>?,
-        forceCrossBorder: Bool
-    ) -> Bool {
-        if forceCrossBorder { return true }
+    private static func isCrossBorderSpend(for card: CreditCard, context: PricingContext) -> Bool {
+        if context.forceCrossBorder { return true }
         guard let cardRegion = normalizedRegionCode(card.country) else { return false }
         // If merchant declares accepted regions, check card country against the full set
-        if let acceptedRegions {
+        if let acceptedRegions = context.acceptedRegions {
             return !acceptedRegions.contains(cardRegion.uppercased())
         }
         // Single-region fallback (map merchants); nil region = global = no FX
-        guard let merchantRegion = normalizedRegionCode(region) else { return false }
+        guard let merchantRegion = normalizedRegionCode(context.region) else { return false }
         return merchantRegion != cardRegion
     }
 
@@ -216,20 +215,12 @@ struct CardRateCalculator {
     private static func bestOverlayReward(
         for card: CreditCard,
         overlayID: String,
-        boostEnrollments: [String: String],
-        region: String?,
-        acceptedRegions: Set<String>?,
-        forceCrossBorder: Bool
+        context: PricingContext
     ) -> (reward: RewardRate, effectiveRate: Double)? {
         card.activeRewards
             .filter { $0.isActive() && $0.categories?.contains(overlayID) == true }
             .map { reward in
-                let rate = computeEffectiveRate(
-                    for: card, reward: reward,
-                    boostEnrollments: boostEnrollments,
-                    region: region, acceptedRegions: acceptedRegions, forceCrossBorder: forceCrossBorder
-                )
-                return (reward: reward, effectiveRate: rate)
+                (reward: reward, effectiveRate: computeEffectiveRate(for: card, reward: reward, context: context))
             }
             .max(by: { $0.effectiveRate < $1.effectiveRate })
     }
@@ -237,19 +228,73 @@ struct CardRateCalculator {
     private static func computeEffectiveRate(
         for card: CreditCard,
         reward: RewardRate,
-        boostEnrollments: [String: String],
-        region: String?,
-        acceptedRegions: Set<String>?,
-        forceCrossBorder: Bool
+        context: PricingContext
     ) -> Double {
-        let boost = card.boostMultiplier(enrollments: boostEnrollments)
+        let boost = card.boostMultiplier(enrollments: context.boostEnrollments)
         let baseRate = reward.effectiveCashBackRate * boost
 
-        if isCrossBorderSpend(for: card, region: region, acceptedRegions: acceptedRegions, forceCrossBorder: forceCrossBorder) {
+        if isCrossBorderSpend(for: card, context: context) {
             return baseRate - foreignTransactionFeeRate(for: card)
         } else {
             return baseRate
         }
+    }
+
+    // MARK: - Applicability chain
+    //
+    // Whether a (non-overlay) reward applies to the transaction in `context`. One ordered
+    // chain, each step a pure predicate, so a new dimension (currency, payment method) is
+    // one more step here and nowhere else:
+    //   1. date         — the reward is active today
+    //   2. category     — at least one reward category matches (matchWeight) and is allowed
+    //                     in this channel by the category's own `channels`
+    //   3. countries    — the reward's `countries` list, if any, contains the merchant region
+    //                     (or the card's own country for a global merchant)
+    //   4. channels     — the reward's `channels` list, if any, contains the context channel
+    private static func rewardApplies(
+        _ reward: RewardRate,
+        card: CreditCard,
+        context: PricingContext,
+        categoryByID: [String: SpendingCategory],
+        ancestorsByCategoryID: [String: Set<String>]
+    ) -> Bool {
+        // 1. date
+        guard reward.isActive() else { return false }
+
+        // 2. category
+        guard let cats = reward.categories else { return false }
+        let nonOverlayCats = cats.filter { !overlayCategories.contains($0) }
+        guard !nonOverlayCats.isEmpty else { return false }
+
+        let categoryMatches = nonOverlayCats.contains { rewardCategory in
+            matchWeight(
+                rewardCategory: rewardCategory,
+                category: context.category,
+                ancestorsByCategoryID: ancestorsByCategoryID,
+                allowPaymentMethodFallback: context.allowPaymentMethodFallback,
+                acceptedPaymentMethods: context.acceptedPaymentMethods
+            ) > 0 &&
+            isCategoryAllowedInChannel(rewardCategory, channel: context.channel, categoryByID: categoryByID)
+        }
+        guard categoryMatches else { return false }
+
+        // 3. countries
+        if let allowedCountries = reward.countries, !allowedCountries.isEmpty {
+            // For global merchants (nil region), fall back to the card's own country so
+            // region-restricted rewards (e.g. US-only streaming) still apply for US cards.
+            let regionToCheck = normalizedRegionCode(context.region) ?? normalizedRegionCode(card.country)
+            guard let regionToCheck,
+                  allowedCountries.map({ $0.uppercased() }).contains(regionToCheck) else {
+                return false
+            }
+        }
+
+        // 4. channels
+        if let calcChannel = context.channel, let rewardChannels = reward.channels, !rewardChannels.isEmpty {
+            if !rewardChannels.contains(calcChannel) { return false }
+        }
+
+        return true
     }
     
     // MARK: - Card Filtering Helper
@@ -309,22 +354,15 @@ struct CardRateCalculator {
     /// Each card contributes at most one entry (its highest effective rate reward).
     private static func computeAllMatchingRewards(
         cards: [CreditCard],
-        category: SpendingCategory,
+        context: PricingContext,
         categoryByID: [String: SpendingCategory],
-        ancestorsByCategoryID: [String: Set<String>],
-        boostEnrollments: [String: String],
-        region: String?,
-        channel: String?,
-        allowPaymentMethodFallback: Bool,
-        forceCrossBorder: Bool,
-        acceptedPaymentMethods: Set<String>?,
-        acceptedRegions: Set<String>?
+        ancestorsByCategoryID: [String: Set<String>]
     ) -> [MatchedReward] {
-        let isOnline = channel == "online"
+        let category = context.category
         var bestPerCardID: [String: MatchedReward] = [:]
 
         for card in cards {
-            if shouldExcludeCard(card, for: category, region: region) {
+            if shouldExcludeCard(card, for: category, region: context.region) {
                 continue
             }
             
@@ -334,85 +372,37 @@ struct CardRateCalculator {
             }
             if isSuppressed { continue }
 
-            let boost = card.boostMultiplier(enrollments: boostEnrollments)
+            let boost = card.boostMultiplier(enrollments: context.boostEnrollments)
 
-            for reward in card.activeRewards where reward.isActive() {
-                guard let cats = reward.categories else { continue }
-
-                let nonOverlayCats = cats.filter { !overlayCategories.contains($0) }
-                guard !nonOverlayCats.isEmpty else { continue }
-
-                let applies = nonOverlayCats.contains { rewardCategory in
-                    matchWeight(
-                        rewardCategory: rewardCategory,
-                        category: category,
-                        ancestorsByCategoryID: ancestorsByCategoryID,
-                        allowPaymentMethodFallback: allowPaymentMethodFallback,
-                        acceptedPaymentMethods: acceptedPaymentMethods
-                    ) > 0 &&
-                    isCategoryAllowedInChannel(rewardCategory, channel: channel, categoryByID: categoryByID)
-                }
-                
-                guard applies else { continue }
-
-                if let allowedCountries = reward.countries, !allowedCountries.isEmpty {
-                    // For global merchants (nil region), fall back to the card's own country so
-                    // region-restricted rewards (e.g. US-only streaming) still apply for US cards.
-                    let regionToCheck = normalizedRegionCode(region) ?? normalizedRegionCode(card.country)
-                    guard let regionToCheck,
-                          allowedCountries.map({ $0.uppercased() }).contains(regionToCheck) else {
-                        continue
-                    }
-                }
-
-                if let calcChannel = channel, let rewardChannels = reward.channels, !rewardChannels.isEmpty {
-                    if !rewardChannels.contains(calcChannel) { continue }
-                }
-
-                let netRate = computeEffectiveRate(
-                    for: card, reward: reward,
-                    boostEnrollments: boostEnrollments,
-                    region: region, acceptedRegions: acceptedRegions, forceCrossBorder: forceCrossBorder
-                )
+            /// Keep this reward for the card if it beats the card's current best.
+            func offer(_ reward: RewardRate, effectiveRate: Double) {
                 let existingRate = bestPerCardID[card.id]?.effectiveRate ?? -1
-
-                if netRate > existingRate {
+                if effectiveRate > existingRate {
                     bestPerCardID[card.id] = MatchedReward(
                         card: card, reward: reward,
-                        effectiveRate: netRate, boost: boost
+                        effectiveRate: effectiveRate, boost: boost
                     )
                 }
+            }
+
+            for reward in card.activeRewards {
+                guard rewardApplies(
+                    reward, card: card, context: context,
+                    categoryByID: categoryByID, ancestorsByCategoryID: ancestorsByCategoryID
+                ) else { continue }
+
+                offer(reward, effectiveRate: computeEffectiveRate(for: card, reward: reward, context: context))
             }
 
             // Overlay bonus candidates
-            if isOnline,
-               let overlay = bestOverlayReward(
-                   for: card, overlayID: "online_transactions",
-                   boostEnrollments: boostEnrollments,
-                   region: region, acceptedRegions: acceptedRegions, forceCrossBorder: forceCrossBorder
-               ) {
-                let existingRate = bestPerCardID[card.id]?.effectiveRate ?? -1
-                if overlay.effectiveRate > existingRate {
-                    bestPerCardID[card.id] = MatchedReward(
-                        card: card, reward: overlay.reward,
-                        effectiveRate: overlay.effectiveRate, boost: boost
-                    )
-                }
+            if context.isOnline,
+               let overlay = bestOverlayReward(for: card, overlayID: "online_transactions", context: context) {
+                offer(overlay.reward, effectiveRate: overlay.effectiveRate)
             }
 
-            if isCrossBorderSpend(for: card, region: region, acceptedRegions: acceptedRegions, forceCrossBorder: forceCrossBorder),
-               let overlay = bestOverlayReward(
-                   for: card, overlayID: "foreign_transactions",
-                   boostEnrollments: boostEnrollments,
-                   region: region, acceptedRegions: acceptedRegions, forceCrossBorder: forceCrossBorder
-               ) {
-                let existingRate = bestPerCardID[card.id]?.effectiveRate ?? -1
-                if overlay.effectiveRate > existingRate {
-                    bestPerCardID[card.id] = MatchedReward(
-                        card: card, reward: overlay.reward,
-                        effectiveRate: overlay.effectiveRate, boost: boost
-                    )
-                }
+            if isCrossBorderSpend(for: card, context: context),
+               let overlay = bestOverlayReward(for: card, overlayID: "foreign_transactions", context: context) {
+                offer(overlay.reward, effectiveRate: overlay.effectiveRate)
             }
         }
 
