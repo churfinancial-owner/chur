@@ -291,9 +291,9 @@ The size argument that justified card art (19 MB, two thirds of the asset catalo
 - **The publisher believed its own success three times in one session.** An empty `cardArt` index in P1b, a `cardArt-26.json` that reported uploaded and 404d, and 55 Finder duplicates (`icon_delta 2.png`) that passed the duplicate check because they are genuinely different imageNames. Each printed a tick. `--verify` could have caught all three and was something you had to remember to run, about failures you had no reason to suspect — so `--upload` now runs it on itself, and publishing and confirming are one action the way publishing and committing are. **A tool that only validates its inputs will keep reporting success while being wrong;** what it also has to check is that the world matches what it thinks it did.
 - **`git pull origin <branch>` does not put you on that branch.** It merges the branch into whatever you have checked out — so a session of work landed on local `main`, and the subsequent push failed with `src refspec does not match any`. Nothing was lost, but local `main` silently carried unmerged PR work, one `git push origin main` away from bypassing review. `git branch --show-current` before publishing or pushing, every time.
 
-### P1e — Minor UI enhancements
+### P1e — Design system pass
 
-Opened 2026-08-16, ahead of P2. Small visual and interaction polish, captured here so it is a phase rather than a pile of one-off tweaks.
+Opened 2026-08-16 as "minor UI enhancements", ahead of P2. **Renamed, because the original name stopped being true.** It was scoped as small visual polish and became a design-system phase: eight shared components, five new colours, 84 files. The rename is recorded rather than done quietly — a phase outgrowing its title is the signal that the work found something, and here it was that three screens had been drifting apart for want of anything shared to hold them together.
 
 **Verified on device 2026-09-07**, two and a half weeks after the last commit — the whole phase up to that point had never been run. Nothing was wrong, which is worth recording only because it was not the expected outcome given how it was authored.
 
