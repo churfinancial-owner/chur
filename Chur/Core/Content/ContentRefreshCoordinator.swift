@@ -112,7 +112,7 @@ enum ContentRefreshCoordinator {
     /// never reloaded is the pipeline's quietest failure: the download succeeds,
     /// the version moves, the log says `applied`, and the screen shows the old
     /// data until the app is relaunched. Nothing reports it.
-    private static func reloadDatabases() {
+    static func reloadDatabases() {
         CardDatabase.reloadFromBundle()
         BenefitDatabase.reloadFromBundle()
         OnlineMerchantDatabase.reloadFromBundle()

@@ -237,6 +237,12 @@ struct PricingEngineVectorTests {
         defer { setMockDate(previousMockDate) }
         setMockDate(Fixture.date(vector.input.asOf, in: vector.id, field: "asOf"))
 
+        // The host app may hold a cached CDN copy of boost_programs.json, and remote
+        // wins over the bundle by design — so a vector that needs a program added on
+        // this branch would read the published one instead. Pin to the bundle.
+        let previousPin = pinToBundledContent()
+        defer { restoreContentPin(previousPin) }
+
         let calculator = CardRateCalculator(
             cards: cards,
             context: PricingContext(
@@ -349,6 +355,26 @@ struct PricingEngineVectorTests {
 
     private func describe(_ rows: [CardRateSummary]) -> String {
         rows.map { "\($0.name)@\($0.effectiveCashBackRate)" }.joined(separator: ", ")
+    }
+
+    /// Forces `BoostProgramDatabase` (the one remote domain the engine reads) onto the
+    /// bundled JSON for this vector. Returns the previous override so it can be put back.
+    private func pinToBundledContent() -> Bool {
+        #if DEBUG
+        let previous = DebugOverrides.forceBundledContent
+        DebugOverrides.forceBundledContent = true
+        BoostProgramDatabase.reloadFromBundle()
+        return previous
+        #else
+        return false
+        #endif
+    }
+
+    private func restoreContentPin(_ previous: Bool) {
+        #if DEBUG
+        DebugOverrides.forceBundledContent = previous
+        BoostProgramDatabase.reloadFromBundle()
+        #endif
     }
 
     /// `TestDataConfiguration.mockCurrentDate` only exists in DEBUG. Tests run Debug, but

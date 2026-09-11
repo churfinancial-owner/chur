@@ -351,6 +351,12 @@ Hammer menu → **Refresh Remote Content**. The 30-minute gate means it won't re
 **4. Is the feature flag on?**
 `Chur/App/Config.swift` → `remoteContentEnabled` must be `true`.
 
+### I edited JSON on a branch and the app shows the old data
+
+Remote content wins over the bundle by design, so an edit that has not been published is invisible on any device that has ever refreshed — the app keeps serving the cached CDN copy. Found in P1f part 2, when two new boost programs in `boost_programs.json` did not appear on the phone.
+
+Hammer menu → **Use Bundled Content**. It pins the app to the bundled JSON and reloads every domain in place; tap again to release it and the published content comes straight back. The vector suite sets the same pin for itself. `Clear Content Cache` also works but the next refresh re-downloads the CDN copy over your edit.
+
 ### I published, but it behaves like the old code / old data
 
 You published from a folder that doesn't have the change. The publisher packages **your local files**, so a fix that exists on GitHub but hasn't been pulled — or lives on a branch you haven't checked out — simply isn't in the publish.

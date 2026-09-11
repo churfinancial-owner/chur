@@ -209,6 +209,18 @@ struct UserDashboardView: View {
                                 Label("Clear Content Cache", systemImage: "arrow.uturn.backward.circle")
                             }
 
+                            // Unpublished JSON edits are invisible while a CDN copy
+                            // is cached; this pins the app to the bundle until the
+                            // edit is published (CONTENT_PUBLISHING_REFERENCE.md).
+                            Button(action: {
+                                viewModel.setForceBundledContent(!DebugOverrides.forceBundledContent, modelContext: modelContext)
+                            }) {
+                                Label(
+                                    DebugOverrides.forceBundledContent ? "Using Bundled Content ✓" : "Use Bundled Content",
+                                    systemImage: DebugOverrides.forceBundledContent ? "shippingbox.fill" : "shippingbox"
+                                )
+                            }
+
                             // Art is fetched per image rather than staged with
                             // the JSON, so its footprint grows invisibly. The file
                             // count separates "nothing is being written" from

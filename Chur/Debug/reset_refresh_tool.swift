@@ -100,6 +100,19 @@ class UserDashboardViewModel {
     
     // MARK: - Content Cache
 
+    #if DEBUG
+    /// Pins the app to the bundled JSON (or releases it) and reloads every
+    /// database so the change shows without a relaunch. The cache is left in
+    /// place: releasing the pin puts the published content straight back.
+    func setForceBundledContent(_ on: Bool, modelContext: ModelContext) {
+        DebugOverrides.forceBundledContent = on
+        CardArtLoader.shared.contentDidChange()
+        ContentRefreshCoordinator.reloadDatabases()
+        CategorySyncService.syncCategories(modelContext: modelContext)
+        triggerSuccessBanner()
+    }
+    #endif
+
     /// Drops the cached remote content bundles so the app falls back to the
     /// bundled JSON, then rebuilds the caches and re-syncs the wallet.
     ///
@@ -113,10 +126,10 @@ class UserDashboardViewModel {
         // art on screen stays until the screen is rebuilt.
         CardArtLoader.shared.contentDidChange()
 
-        BenefitDatabase.reloadFromBundle()
-        CardDatabase.reloadFromBundle()
-        OnlineMerchantDatabase.reloadFromBundle()
-        MerchantCategoryMapper.reloadFromBundle()
+        // Every remote domain, not a hand-kept subset: P1f part 2 found boost
+        // programs still serving the cached CDN copy after a clear, because this
+        // list had four of the eighteen.
+        ContentRefreshCoordinator.reloadDatabases()
         CategorySyncService.syncCategories(modelContext: modelContext)
         CardSyncService.syncWalletCards(modelContext: modelContext)
 
