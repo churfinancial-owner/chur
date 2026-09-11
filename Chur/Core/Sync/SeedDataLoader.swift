@@ -56,6 +56,8 @@ private struct RewardJSON: Codable {
     let currencies: [String]?
     let excludedCountries: [String]?
     let paymentMethods: [String]?
+    let gate: LayerCondition?
+    let cap: LayerCondition?
     let rewardStartDate: String?
     let rewardEndDate: String?
     let isRotating: Bool?
@@ -442,6 +444,8 @@ struct SeedDataLoader {
             currencies: r.currencies,
             excludedCountries: r.excludedCountries,
             paymentMethods: r.paymentMethods,
+            gate: r.gate,
+            cap: r.cap,
             rewardStartDate: startDate,
             rewardEndDate: endDate,
             isRotating: r.isRotating ?? false,

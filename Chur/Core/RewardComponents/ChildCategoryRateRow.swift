@@ -15,6 +15,8 @@ struct ChildCategoryRateRow: View {
     let cardName: String?
     var effectiveRate: Double = 0
     var titleOverride: String? = nil // e.g. a reward's groupLabel ("Self-Care") shown instead of the category name
+    /// Reward program name, so the rate reads the way the program quotes it (P1f part 4).
+    var rewardProgramName: String? = nil
 
     @Environment(\.rewardDisplay) private var rewardDisplay
 
@@ -30,7 +32,7 @@ struct ChildCategoryRateRow: View {
                 return String(format: "%.2f%%", pct)
             }
         }
-        return rate > 0 ? rate.formatAsRate() : "-"
+        return rate > 0 ? rate.formatAsRate(program: rewardProgramName) : "-"
     }
 
     private var ratePillMode: RatePill.DisplayMode {

@@ -191,6 +191,8 @@ Every `@Model` in the app, whether the schema persists it, and how much of it su
 | `currencies` | `[String]?` | Nullable | — | Transaction currencies the rate applies to (`["JPY", "KRW"]`). Derived per card from the merchant region; a global merchant bills in the card's currency. P1f. |
 | `excludedCountries` | `[String]?` | Nullable | — | Regions where the rate pays nothing (EEA carve-outs). P1f. |
 | `paymentMethods` | `[String]?` | Nullable | References `PaymentMethods.all` | Methods the rate requires (`["contactless"]`). Intersected with what the purchase could be paid with. P1f. |
+| `gateJSON` | `String?` | Nullable, JSON string | Encodes `LayerCondition` | What unlocks the rate (`{"amount":3000,"currency":"HKD","period":"calendarMonth"}`). **Display only** — never enters the pricing formula. Access via the computed `gate`. P1f. |
+| `capJSON` | `String?` | Nullable, JSON string | Encodes `LayerCondition` | Where the rate stops, same shape plus `kind` (`spend`/`reward`) and `group` (shared pool). **Display only.** Access via the computed `cap`. P1f. |
 | `rewardStartDate` | `Date?` | Nullable | — | Date this rate becomes active. `nil` = no start restriction. |
 | `rewardEndDate` | `Date?` | Nullable | — | Date this rate expires. `nil` = ongoing. |
 | `isRotating` | `Bool` | Not Null, default `false` | — | `true` for quarterly rotating category cards (e.g. Discover it). |

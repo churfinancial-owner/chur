@@ -49,7 +49,13 @@
             "paymentMethods": [
                 "mobile_pay"
             ],
-            "rewardNotes": "Apple Pay, Google Pay or Samsung Pay. Monthly cap of 50,000 bonus points shared with contactless."
+            "cap": {
+                "amount": 50000,
+                "period": "calendarMonth",
+                "kind": "reward",
+                "group": "citi-hk-bonus-points",
+                "note": "50,000 bonus points, shared"
+            }
         },
         {
             "rate": 3,
@@ -59,7 +65,13 @@
                 "contactless",
                 "unionpay_quickpass"
             ],
-            "rewardNotes": "Mastercard contactless or UnionPay QuickPass in store. Shares the monthly cap with mobile pay."
+            "cap": {
+                "amount": 50000,
+                "period": "calendarMonth",
+                "kind": "reward",
+                "group": "citi-hk-bonus-points",
+                "note": "50,000 bonus points, shared"
+            }
         },
         {
             "rate": 1,

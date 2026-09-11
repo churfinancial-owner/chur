@@ -4,13 +4,35 @@
             "rate": 5.0,
             "rewardProgramName": "Cash Back Rewards HK",
             "category": "online_transactions",
-            "rewardNotes": "Earn 4% RewardCash (RC) on the first HKD10,000 you spend online"
+            "gate": {
+                "amount": 3000,
+                "currency": "HKD",
+                "period": "calendarMonth"
+            },
+            "cap": {
+                "amount": 500,
+                "currency": "HKD",
+                "period": "calendarMonth",
+                "kind": "reward",
+                "group": "mmpower-monthly"
+            }
         },
         {
             "rate": 6.0,
             "rewardProgramName": "Cash Back Rewards HK",
             "category": "foreign_transactions",
-            "rewardNotes": "Earn 4% RewardCash (RC) on the first HKD10,000 you spend online"
+            "gate": {
+                "amount": 3000,
+                "currency": "HKD",
+                "period": "calendarMonth"
+            },
+            "cap": {
+                "amount": 500,
+                "currency": "HKD",
+                "period": "calendarMonth",
+                "kind": "reward",
+                "group": "mmpower-monthly"
+            }
         },
         {
             "rate": 1.0,
@@ -31,19 +53,31 @@
                 "MOP",
                 "TWD"
             ],
-            "rewardNotes": "Designated currencies, in store only; other foreign currencies earn 5%. Monthly cap applies.",
             "channels": [
                 "in_store"
-            ]
+            ],
+            "cap": {
+                "amount": 500,
+                "currency": "HKD",
+                "period": "calendarMonth",
+                "kind": "reward",
+                "group": "hangseng-travelplus-monthly"
+            }
         },
         {
             "rate": 5.0,
             "rewardProgramName": "Cash Back Rewards HK",
             "category": "foreign_transactions",
-            "rewardNotes": "Other foreign-currency spend, in store only. Monthly cap applies.",
             "channels": [
                 "in_store"
-            ]
+            ],
+            "cap": {
+                "amount": 500,
+                "currency": "HKD",
+                "period": "calendarMonth",
+                "kind": "reward",
+                "group": "hangseng-travelplus-monthly"
+            }
         },
         {
             "rate": 5.0,

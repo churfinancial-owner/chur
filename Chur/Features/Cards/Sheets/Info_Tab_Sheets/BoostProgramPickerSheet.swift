@@ -335,6 +335,12 @@ private struct TierRow: View {
                     Text(tier.description)
                         .font(.churFootnote())
                         .foregroundStyle(Color.churMediumGray)
+                    // The tier's own cap, when it has one (P1f part 4).
+                    if let capLine = ConditionText.cap(tier.cap ?? program.cap) {
+                        Text(capLine)
+                            .font(.churMicro())
+                            .foregroundStyle(Color.churMediumGray)
+                    }
                 }
 
                 Spacer()

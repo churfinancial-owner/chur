@@ -216,7 +216,8 @@ struct EarningRatesSection: View {
                         rate: boost.displayRate(rate: item.reward.rate, pointCashValue: item.reward.pointCashValue),
                         cardName: nil,
                         effectiveRate: boost.effectiveRate(rate: item.reward.rate, pointCashValue: item.reward.pointCashValue),
-                        titleOverride: displayTitle(for: item.reward)
+                        titleOverride: displayTitle(for: item.reward),
+                        rewardProgramName: item.reward.rewardProgramName
                     )
                     .opacity(isUpcoming ? 0.5 : 1.0)
 
@@ -236,6 +237,14 @@ struct EarningRatesSection: View {
 
                     if let scope = scopeLine(for: item.reward) {
                         Text(scope)
+                            .font(.churMicro())
+                            .foregroundStyle(Color.churMediumGray)
+                            .padding(.leading, 4)
+                    }
+
+                    // Gate and cap: structured small print, never part of the maths (P1f part 4).
+                    ForEach(ConditionText.lines(gate: item.reward.gate, cap: item.reward.cap), id: \.self) { line in
+                        Text(line)
                             .font(.churMicro())
                             .foregroundStyle(Color.churMediumGray)
                             .padding(.leading, 4)

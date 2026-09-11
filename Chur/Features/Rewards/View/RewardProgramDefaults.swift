@@ -12,6 +12,17 @@ import Foundation
 struct RewardProgramDefault {
     let pointCashValue: Double
     let currency: String
+    /// How a rate on this program reads (P1f part 4). Display only — the maths is
+    /// always `rate × pointCashValue`.
+    var rateStyle: RateStyle = .multiplier
+}
+
+/// `3x` (default), `3%` for HK cash-back programs, or `HK$3 = 1 mile` for miles
+/// programs quoted that way in the market.
+enum RateStyle: String, Codable {
+    case multiplier
+    case percent
+    case perMile
 }
 
 // MARK: - Reward Program Defaults Loader
@@ -21,6 +32,7 @@ struct RewardProgramDefaults {
     private struct _JSON: Codable {
         let pointCashValue: Double
         let currency: String
+        let rateStyle: RateStyle?
     }
 
     /// Default point values keyed by reward program name.
@@ -48,7 +60,13 @@ struct RewardProgramDefaults {
             return [:]
         }
 
-        return map.mapValues { RewardProgramDefault(pointCashValue: $0.pointCashValue, currency: $0.currency) }
+        return map.mapValues {
+            RewardProgramDefault(
+                pointCashValue: $0.pointCashValue,
+                currency: $0.currency,
+                rateStyle: $0.rateStyle ?? .multiplier
+            )
+        }
     }
 
     static func defaultValue(for programName: String) -> RewardProgramDefault? {

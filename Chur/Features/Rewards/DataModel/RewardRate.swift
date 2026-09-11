@@ -8,9 +8,39 @@
 import Foundation
 import SwiftData
 
+// MARK: - Condition storage
+//
+// SwiftData persists a plain `String`; the struct is encoded on write and decoded
+// on read, the same shape `SpendingCategory.categoryLinksJSON` uses.
+
+enum LayerConditionCoding {
+    static func encode(_ condition: LayerCondition?) -> String? {
+        guard let condition,
+              let data = try? JSONEncoder().encode(condition) else { return nil }
+        return String(data: data, encoding: .utf8)
+    }
+
+    static func decode(_ json: String?) -> LayerCondition? {
+        guard let json, let data = json.data(using: .utf8) else { return nil }
+        return try? JSONDecoder().decode(LayerCondition.self, from: data)
+    }
+}
+
 // MARK: - Reward Rate Extension
 
 extension RewardRate {
+    /// What unlocks this rate. Display only — see `ConditionText`.
+    var gate: LayerCondition? {
+        get { LayerConditionCoding.decode(gateJSON) }
+        set { gateJSON = LayerConditionCoding.encode(newValue) }
+    }
+
+    /// Where this rate stops. Display only — see `ConditionText`.
+    var cap: LayerCondition? {
+        get { LayerConditionCoding.decode(capJSON) }
+        set { capJSON = LayerConditionCoding.encode(newValue) }
+    }
+
     /// Effective cash back rate per dollar spent.
     /// e.g. 4x UR at $0.0125/pt = 0.05 (5¢ per dollar)
     var effectiveCashBackRate: Double {
@@ -42,6 +72,11 @@ class RewardRate {
     var currencies: [String]?        // ["JPY", "KRW"] — transaction currency, derived from the merchant region
     var excludedCountries: [String]? // ["FR", "DE"] — regions where this rate pays nothing (EEA carve-outs)
     var paymentMethods: [String]?    // ["contactless", "mobile_pay"] — see PaymentMethods
+
+    // Conditions (P1f part 4) — **display only**, rendered by `ConditionText`.
+    // The app tracks no spend, so neither ever enters the pricing formula.
+    var gateJSON: String?            // LayerCondition: what unlocks this rate
+    var capJSON: String?             // LayerCondition: where it stops
     
     // Time constraints
     var rewardStartDate: Date? // When rate starts
@@ -69,6 +104,7 @@ class RewardRate {
          merchantIdentifier: String? = nil, merchantName: String? = nil,
          countries: [String]? = nil, channels: [String]? = nil,
          currencies: [String]? = nil, excludedCountries: [String]? = nil, paymentMethods: [String]? = nil,
+         gate: LayerCondition? = nil, cap: LayerCondition? = nil,
          rewardStartDate: Date? = nil, rewardEndDate: Date? = nil, isRotating: Bool = false, daysOfWeek: [Int]? = nil,
          rewardNotes: String? = nil,
          groupLabel: String? = nil,
@@ -89,6 +125,8 @@ class RewardRate {
         self.currencies = currencies
         self.excludedCountries = excludedCountries
         self.paymentMethods = paymentMethods
+        self.gateJSON = LayerConditionCoding.encode(gate)
+        self.capJSON = LayerConditionCoding.encode(cap)
         self.rewardStartDate = rewardStartDate
         self.rewardEndDate = rewardEndDate
         self.isRotating = isRotating

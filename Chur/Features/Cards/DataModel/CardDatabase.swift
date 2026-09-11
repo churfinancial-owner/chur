@@ -72,6 +72,8 @@ struct CardTemplate {
                     currencies: r.currencies,
                     excludedCountries: r.excludedCountries,
                     paymentMethods: r.paymentMethods,
+                    gate: r.gate,
+                    cap: r.cap,
                     rewardStartDate: r.rewardStartDate,
                     rewardEndDate: r.rewardEndDate,
                     isRotating: r.isRotating,
@@ -128,6 +130,8 @@ struct RewardTemplate {
     let currencies: [String]?
     let excludedCountries: [String]?
     let paymentMethods: [String]?
+    let gate: LayerCondition?
+    let cap: LayerCondition?
     let rewardStartDate: Date?
     let rewardEndDate: Date?
     let isRotating: Bool
@@ -175,6 +179,8 @@ private struct _RewardJSON: Codable {
     let currencies: [String]?
     let excludedCountries: [String]?
     let paymentMethods: [String]?
+    let gate: LayerCondition?
+    let cap: LayerCondition?
     let rewardStartDate: String?
     let rewardEndDate: String?
     let isRotating: Bool?
@@ -490,6 +496,8 @@ struct CardDatabase {
             currencies: r.currencies,
             excludedCountries: r.excludedCountries,
             paymentMethods: r.paymentMethods,
+            gate: r.gate,
+            cap: r.cap,
             rewardStartDate: r.rewardStartDate.flatMap { iso8601.date(from: $0) },
             rewardEndDate: r.rewardEndDate.flatMap { iso8601.date(from: $0) },
             isRotating: r.isRotating ?? false,

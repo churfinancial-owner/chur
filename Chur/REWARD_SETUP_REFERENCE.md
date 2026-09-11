@@ -36,7 +36,9 @@ Every file maps **card template ID → reward structure**. Two structures are su
 | `paymentMethods` | — | How the purchase is paid: `mobile_pay`, `apple_pay`, `paypal_pay`, `contactless`, `unionpay_quickpass`, `alipay_hk`, `wechat_pay_hk`. Preferred over putting a payment id in `categories` (still works as a shim). Applies when the purchase *could* be paid that way — the merchant's accepted list, or a "Paying with" pick, narrows it. P1f. |
 | `rewardStartDate` / `rewardEndDate` | — | ISO 8601 (`"2026-07-01T00:00:00Z"`). Expired rewards are hidden. |
 | `isRotating` | — | Marks quarterly rotating categories; shows Rotating/Ends badges. Pair with start/end dates. |
-| `rewardNotes` | — | Small print shown under the row (caps, conditions). |
+| `gate` | — | What unlocks the rate: `{amount, currency, period, note}`. **Display only** — the app tracks no spend. P1f. |
+| `cap` | — | Where the rate stops: `{amount, currency, period, kind, group, note}`. `kind` is `spend` (default) or `reward`; `group` names a shared pool so the row can say which bonuses drain it. **Display only.** P1f. |
+| `rewardNotes` | — | Free prose under the row. Prefer `gate`/`cap` for caps and conditions — they render in all four languages. |
 | `isUserConfigurable` / `configurableSlot` / `configurableOptions` | — | User-selectable slots only (see Pattern 4). |
 
 If a reward has **no** `category`/`categories`, it matches **everything** (base rate).
@@ -147,7 +149,7 @@ A bonus that sits **on top of** a card's reward rows: a bank relationship tier, 
 | `unit` | For `add`. `rate` = points per dollar, same unit as `rate` on a reward row. `cash` = added after the point value (0.03 = 3%), so one layer fits cards whose programs differ. |
 | `appliesTo` / `excludes` | `categories` (may name `foreign_transactions` / `online_transactions` like a reward row), `channels`, `crossBorder`, `countries`, `currencies`, `paymentMethods`. `appliesTo`: every stated dimension must hold. `excludes`: any match knocks the layer out. `currencies` and `paymentMethods` use the same derivation as reward rows (since part 3). A `paymentMethods` *exclusion* bites only when every way the purchase could be paid is excluded — the optimistic set still lets the user pay by card. |
 | `selection` | `tier`: `tiers[]` with `multiplier` or `value` each. `allocate`: `allocation: {categories, total, maxPerCategory}` and a per-weight `value`; the user spreads weights, and each allocated category becomes its own layer. `pickOne`: `options[]` and a `value`. `always`: on for every eligible card with nothing to enrol in (a card's own extra), `value` required. |
-| `gate` / `cap` | `{amount, currency, period, kind, group, note}` — **display only**, the app tracks no spend. `period`: calendarMonth · statementCycle · quarter · halfYear · year · promo. `kind`: spend · reward. A tier's `cap` overrides the program's. `group` names a shared pool. |
+| `gate` / `cap` | `{amount, currency, period, kind, group, note}` — **display only**, the app tracks no spend. Same shape and same formatter (`ConditionText`) as a reward row's. `period`: calendarMonth · statementCycle · quarter · halfYear · year · promo. `kind`: spend · reward. A tier's `cap` overrides the program's. `group` names a shared pool. |
 
 Gotchas: program `id`s, tier `name`s and allocation category ids are all load-bearing (`User.boostEnrollments`). A layer scoped to `crossBorder` or a channel never shows in the card-info earning rows (no transaction there); Reward Setup lists it with its scope instead. The `add` value for HSBC RewardCash is `0.004` per X (1X = 0.4%).
 

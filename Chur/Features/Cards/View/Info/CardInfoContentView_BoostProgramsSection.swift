@@ -27,12 +27,14 @@ struct BoostProgramsSection: View {
                             boostProgramID = program.id
                             activeSheet = .boost
                         }
-                        if let note = scopeNote(for: program) {
-                            Text(note)
+                        ForEach(noteLines(for: program), id: \.self) { line in
+                            Text(line)
                                 .font(.churMicro())
                                 .foregroundStyle(Color.churMediumGray)
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.bottom, 8)
+                        }
+                        if !noteLines(for: program).isEmpty {
+                            Spacer().frame(height: 8)
                         }
                     }
                 }
@@ -67,6 +69,22 @@ struct BoostProgramsSection: View {
 
     private func categoryName(_ id: String) -> String {
         categories.first { $0.id == id }?.displayName ?? id
+    }
+
+    /// The scope line plus the program's gate and cap, in reading order.
+    private func noteLines(for program: BoostProgram) -> [String] {
+        guard user?.boostEnrollments[program.id] != nil else { return [] }
+        let tierCap = program.resolvedTiers.first { $0.name == user?.boostEnrollments[program.id]?.tier }?.cap
+        return [scopeNote(for: program)].compactMap { $0 }
+            + ConditionText.lines(gate: program.gate, cap: tierCap ?? program.cap, sharedWith: sharesCapWith(program))
+    }
+
+    /// Other programs on this card drawing from the same cap pool.
+    private func sharesCapWith(_ program: BoostProgram) -> [String] {
+        guard let group = (program.cap?.group) else { return [] }
+        return programs
+            .filter { $0.id != program.id && $0.cap?.group == group }
+            .map(\.name)
     }
 
     /// Enrolled layers that only fire on a transaction the card info screen cannot
