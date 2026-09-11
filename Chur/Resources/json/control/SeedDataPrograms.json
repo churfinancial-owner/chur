@@ -199,8 +199,7 @@
   },
   "Asia Miles HK": {
     "pointCashValue": 0.01015,
-    "currency": "HKD",
-    "rateStyle": "perMile"
+    "currency": "HKD"
   },
   "Citi HK Reward": {
     "pointCashValue": 0.006767,
@@ -212,8 +211,7 @@
   },
   "HSBC EveryMile": {
     "pointCashValue": 0.0203,
-    "currency": "HKD",
-    "rateStyle": "perMile"
+    "currency": "HKD"
   },
   "HSBC Red Cash": {
     "pointCashValue": 0.01015,

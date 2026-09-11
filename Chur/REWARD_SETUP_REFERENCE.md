@@ -121,6 +121,18 @@ One entry per category per quarter. Expired entries hide automatically; future o
 ```
 Use multiple plans for grandfathered vs. current structures; exactly one `isDefault: true`.
 
+## Rate style (`control/SeedDataPrograms.json`)
+
+A program entry may carry `rateStyle`, which changes only how a rate **reads** — never the maths, which is always `rate × pointCashValue`:
+
+| Style | Reads as | Use when |
+|---|---|---|
+| `multiplier` (default) | `3x` | Points programs quoted as a multiplier |
+| `percent` | `3%` | Cash-back programs whose `rate` is already the percentage (HK cash cards: `7.0` at `pointCashValue: 0.01`) |
+| `perMile` | `HK$0.40 = 1 mile` | Miles programs **whose `rate` is authored as miles per dollar** |
+
+**`perMile` is a trap unless the data matches it.** It prints `1 ÷ rate`, so it is only correct when `rate` means miles earned per dollar. The HK miles programs are currently authored percent-style (EveryMile `2.5` at `0.0203`, i.e. ~5% back), so `perMile` would print `HK$0.40 = 1 mile` against a real rate nearer HK$2. It is deliberately unset on those two until P1f part 5 verifies each card against the issuer's page.
+
 ## Pattern 7 — Earning layers (`bankrelationshipprograms/boost_programs.json`)
 
 A bonus that sits **on top of** a card's reward rows: a bank relationship tier, an issuer promotion spanning many cards (HSBC Travel Guru), a category allocation (Red Hot Rewards), a pick-one promo (WeWa), or a card's own always-on extra. The engine resolves every eligible program for a card into the layers that fire for *this* transaction and applies them to whichever reward row wins:
