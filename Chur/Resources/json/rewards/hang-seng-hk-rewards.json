@@ -22,7 +22,7 @@
         {
             "rate": 7.0,
             "rewardProgramName": "Cash Back Rewards HK",
-            "category": "everything",
+            "category": "foreign_transactions",
             "currencies": [
                 "JPY",
                 "KRW",
