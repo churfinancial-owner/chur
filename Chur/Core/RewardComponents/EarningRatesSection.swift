@@ -209,10 +209,33 @@ struct EarningRatesSection: View {
                             .padding(.leading, 4)
                     }
 
+                    if let scope = scopeLine(for: item.reward) {
+                        Text(scope)
+                            .font(.churMicro())
+                            .foregroundStyle(Color.churMediumGray)
+                            .padding(.leading, 4)
+                    }
+
                     badgeView(for: item, in: items, isUpcoming: isUpcoming)
                 }
             }
         }
+    }
+
+    /// "JPY, KRW, THB · not FR, DE · via Apple Pay" — the transaction dimensions a
+    /// row is limited to (P1f part 3). nil when it has none.
+    private func scopeLine(for reward: RewardRate) -> String? {
+        var parts: [String] = []
+        if let currencies = reward.currencies, !currencies.isEmpty {
+            parts.append(currencies.joined(separator: ", "))
+        }
+        if let excluded = reward.excludedCountries, !excluded.isEmpty {
+            parts.append(AppLocale.string("not") + " " + excluded.joined(separator: ", "))
+        }
+        if let methods = reward.paymentMethods, !methods.isEmpty {
+            parts.append(AppLocale.string("via") + " " + methods.map { PaymentMethods.displayName($0, categories: categories) }.joined(separator: ", "))
+        }
+        return parts.isEmpty ? nil : parts.joined(separator: " · ")
     }
 
     @ViewBuilder

@@ -30,6 +30,11 @@ struct PricingContext {
     let acceptedPaymentMethods: Set<String>?
     /// Regions the merchant operates in. Overrides `region` for cross-border detection when set.
     let acceptedRegions: Set<String>?
+    /// How this purchase is paid, when known (a "Paying with" pick). nil keeps the
+    /// optimistic set: what the merchant accepts minus what the category excludes.
+    /// The transaction currency is not stored here — it is derived per card from
+    /// `region` (P1f part 3, `CardRateCalculator.transactionCurrency`).
+    let paymentMethods: Set<String>?
 
     init(
         category: SpendingCategory,
@@ -39,7 +44,8 @@ struct PricingContext {
         allowPaymentMethodFallback: Bool = true,
         forceCrossBorder: Bool = false,
         acceptedPaymentMethods: Set<String>? = nil,
-        acceptedRegions: Set<String>? = nil
+        acceptedRegions: Set<String>? = nil,
+        paymentMethods: Set<String>? = nil
     ) {
         self.category = category
         self.region = region
@@ -49,6 +55,7 @@ struct PricingContext {
         self.forceCrossBorder = forceCrossBorder
         self.acceptedPaymentMethods = acceptedPaymentMethods
         self.acceptedRegions = acceptedRegions
+        self.paymentMethods = paymentMethods
     }
 
     var isOnline: Bool { channel == "online" }

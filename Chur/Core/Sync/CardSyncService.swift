@@ -378,6 +378,9 @@ struct CardSyncService {
         if reward.merchantName != template.merchantName { reward.merchantName = template.merchantName; changed = true }
         if reward.countries != template.countries { reward.countries = template.countries; changed = true }
         if reward.channels != template.channels { reward.channels = template.channels; changed = true }
+        if reward.currencies != template.currencies { reward.currencies = template.currencies; changed = true }
+        if reward.excludedCountries != template.excludedCountries { reward.excludedCountries = template.excludedCountries; changed = true }
+        if reward.paymentMethods != template.paymentMethods { reward.paymentMethods = template.paymentMethods; changed = true }
         if reward.rewardStartDate != template.rewardStartDate { reward.rewardStartDate = template.rewardStartDate; changed = true }
         if reward.rewardEndDate != template.rewardEndDate { reward.rewardEndDate = template.rewardEndDate; changed = true }
         if reward.isRotating != template.isRotating { reward.isRotating = template.isRotating; changed = true }

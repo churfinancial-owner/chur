@@ -28,6 +28,8 @@ struct CardRateCalculator {
         let reward: RewardRate
         let effectiveRate: Double
         let boost: AppliedBoost
+        /// The payment method that made this row apply, if it depended on one.
+        let viaPaymentMethod: String?
     }
 
     /// `categoryByID`/`ancestorsByCategoryID`, precomputed once and shared across many
@@ -106,7 +108,7 @@ struct CardRateCalculator {
     }
 
     // MARK: - Payment method categories that apply as a near-universal fallback
-    private static let paymentMethodCategories: Set<String> = ["mobile_pay", "apple_pay", "paypal_pay"]
+    private static let paymentMethodCategories: Set<String> = PaymentMethods.all
     private static let channelAliases: [String: Set<String>] = [
         "in_store": ["in_store"],
         "online": ["online"]
@@ -220,6 +222,7 @@ struct CardRateCalculator {
     ) -> (reward: RewardRate, effectiveRate: Double)? {
         card.activeRewards
             .filter { $0.isActive() && $0.categories?.contains(overlayID) == true }
+            .filter { constraintsApply($0, card: card, context: context) }
             .map { reward in
                 (reward: reward, effectiveRate: computeEffectiveRate(for: card, reward: reward, context: context, boost: boost))
             }
@@ -243,6 +246,43 @@ struct CardRateCalculator {
         }
     }
 
+    // MARK: - Transaction dimensions (P1f part 3)
+
+    /// The methods this purchase could be paid with: an explicit narrowing from the
+    /// context, else what the merchant accepts, else every method — minus what the
+    /// merchant category excludes. nil = unrestricted.
+    static func effectivePaymentMethods(context: PricingContext) -> Set<String>? {
+        var methods = context.paymentMethods ?? context.acceptedPaymentMethods
+        if let excluded = context.category.excludedPaymentMethods, !excluded.isEmpty {
+            methods = (methods ?? PaymentMethods.all).subtracting(excluded)
+        }
+        return methods
+    }
+
+    /// The currency the purchase is billed in. A merchant with a region bills in that
+    /// region's currency; a global merchant (nil region) bills in the card's own.
+    static func transactionCurrency(for card: CreditCard, context: PricingContext) -> String {
+        if let region = normalizedRegionCode(context.region) {
+            return CurrencyConversion.currencyCode(forRegion: region)
+        }
+        return CurrencyConversion.normalized(card.currency)
+    }
+
+    /// The region a country list is checked against: the merchant's, or the card's
+    /// own for a global merchant (so US-only rewards still apply for US cards).
+    static func regionForCountryCheck(context: PricingContext, card: CreditCard) -> String? {
+        normalizedRegionCode(context.region) ?? normalizedRegionCode(card.country)
+    }
+
+    /// Which payment method a reward relied on, for the popup's "with Apple Pay".
+    private static func paymentMethodUsed(by reward: RewardRate, context: PricingContext) -> String? {
+        let named = reward.paymentMethods ?? []
+        let legacy = (reward.categories ?? []).filter { paymentMethodCategories.contains($0) }
+        guard !(named.isEmpty && legacy.isEmpty) else { return nil }
+        let effective = effectivePaymentMethods(context: context)
+        return (named + legacy).first { effective?.contains($0) ?? true }
+    }
+
     // MARK: - Applicability chain
     //
     // Whether a (non-overlay) reward applies to the transaction in `context`. One ordered
@@ -254,6 +294,11 @@ struct CardRateCalculator {
     //   3. countries    — the reward's `countries` list, if any, contains the merchant region
     //                     (or the card's own country for a global merchant)
     //   4. channels     — the reward's `channels` list, if any, contains the context channel
+    //   5. excludedCountries — the merchant region is not on the reward's exclusion list
+    //   6. currencies   — the derived transaction currency is on the reward's list, if any
+    //   7. paymentMethods — the reward's methods intersect what the purchase can be paid with
+    // Steps 3–7 are `constraintsApply`, shared with the overlay rows (which have no
+    // category step of their own).
     private static func rewardApplies(
         _ reward: RewardRate,
         card: CreditCard,
@@ -275,18 +320,22 @@ struct CardRateCalculator {
                 category: context.category,
                 ancestorsByCategoryID: ancestorsByCategoryID,
                 allowPaymentMethodFallback: context.allowPaymentMethodFallback,
-                acceptedPaymentMethods: context.acceptedPaymentMethods
+                acceptedPaymentMethods: effectivePaymentMethods(context: context)
             ) > 0 &&
             isCategoryAllowedInChannel(rewardCategory, channel: context.channel, categoryByID: categoryByID)
         }
         guard categoryMatches else { return false }
 
+        return constraintsApply(reward, card: card, context: context)
+    }
+
+    /// Steps 3–7 of the chain: everything about the reward that is not its category.
+    private static func constraintsApply(_ reward: RewardRate, card: CreditCard, context: PricingContext) -> Bool {
         // 3. countries
         if let allowedCountries = reward.countries, !allowedCountries.isEmpty {
             // For global merchants (nil region), fall back to the card's own country so
             // region-restricted rewards (e.g. US-only streaming) still apply for US cards.
-            let regionToCheck = normalizedRegionCode(context.region) ?? normalizedRegionCode(card.country)
-            guard let regionToCheck,
+            guard let regionToCheck = regionForCountryCheck(context: context, card: card),
                   allowedCountries.map({ $0.uppercased() }).contains(regionToCheck) else {
                 return false
             }
@@ -295,6 +344,27 @@ struct CardRateCalculator {
         // 4. channels
         if let calcChannel = context.channel, let rewardChannels = reward.channels, !rewardChannels.isEmpty {
             if !rewardChannels.contains(calcChannel) { return false }
+        }
+
+        // 5. excludedCountries
+        if let excluded = reward.excludedCountries, !excluded.isEmpty,
+           let regionToCheck = regionForCountryCheck(context: context, card: card),
+           excluded.map({ $0.uppercased() }).contains(regionToCheck) {
+            return false
+        }
+
+        // 6. currencies
+        if let currencies = reward.currencies, !currencies.isEmpty {
+            let billed = transactionCurrency(for: card, context: context)
+            guard currencies.map({ CurrencyConversion.normalized($0) }).contains(billed) else { return false }
+        }
+
+        // 7. paymentMethods
+        if let methods = reward.paymentMethods, !methods.isEmpty {
+            guard context.allowPaymentMethodFallback else { return false }
+            if let effective = effectivePaymentMethods(context: context) {
+                guard !effective.isDisjoint(with: methods) else { return false }
+            }
         }
 
         return true
@@ -387,7 +457,8 @@ struct CardRateCalculator {
                 if effectiveRate > existingRate {
                     bestPerCardID[card.id] = MatchedReward(
                         card: card, reward: reward,
-                        effectiveRate: effectiveRate, boost: boost
+                        effectiveRate: effectiveRate, boost: boost,
+                        viaPaymentMethod: paymentMethodUsed(by: reward, context: context)
                     )
                 }
             }
@@ -452,7 +523,8 @@ struct CardRateCalculator {
                     pointCashValue: $0.reward.pointCashValue,
                     pointCashValueCurrency: $0.reward.pointCashValueCurrency,
                     rewardProgramName: $0.reward.rewardProgramName,
-                    boostLayers: $0.boost.layers
+                    boostLayers: $0.boost.layers,
+                    viaPaymentMethod: $0.viaPaymentMethod
                 )
             }
     }
@@ -474,7 +546,8 @@ struct CardRateCalculator {
                     pointCashValue: $0.reward.pointCashValue,
                     pointCashValueCurrency: $0.reward.pointCashValueCurrency,
                     rewardProgramName: $0.reward.rewardProgramName,
-                    boostLayers: $0.boost.layers
+                    boostLayers: $0.boost.layers,
+                    viaPaymentMethod: $0.viaPaymentMethod
                 )
             }
             .sorted { $0.name < $1.name }
@@ -506,7 +579,8 @@ struct CardRateCalculator {
                     pointCashValue: $0.reward.pointCashValue,
                     pointCashValueCurrency: $0.reward.pointCashValueCurrency,
                     rewardProgramName: $0.reward.rewardProgramName,
-                    boostLayers: $0.boost.layers
+                    boostLayers: $0.boost.layers,
+                    viaPaymentMethod: $0.viaPaymentMethod
                 )
             }
             .sorted { $0.effectiveCashBackRate > $1.effectiveCashBackRate }
@@ -531,7 +605,8 @@ struct CardRateCalculator {
                     pointCashValue: $0.reward.pointCashValue,
                     pointCashValueCurrency: $0.reward.pointCashValueCurrency,
                     rewardProgramName: $0.reward.rewardProgramName,
-                    boostLayers: $0.boost.layers
+                    boostLayers: $0.boost.layers,
+                    viaPaymentMethod: $0.viaPaymentMethod
                 )
             }
     }

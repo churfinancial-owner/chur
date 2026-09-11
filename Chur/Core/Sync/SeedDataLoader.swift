@@ -51,7 +51,11 @@ private struct RewardJSON: Codable {
     let categories: [String]?       // new multi-category array
     let merchantIdentifier: String?
     let merchantName: String?
+    let countries: [String]?
     let channels: [String]?
+    let currencies: [String]?
+    let excludedCountries: [String]?
+    let paymentMethods: [String]?
     let rewardStartDate: String?
     let rewardEndDate: String?
     let isRotating: Bool?
@@ -433,7 +437,11 @@ struct SeedDataLoader {
             categories: r.resolvedCategories,
             merchantIdentifier: r.merchantIdentifier,
             merchantName: r.merchantName,
+            countries: r.countries,
             channels: r.channels,
+            currencies: r.currencies,
+            excludedCountries: r.excludedCountries,
+            paymentMethods: r.paymentMethods,
             rewardStartDate: startDate,
             rewardEndDate: endDate,
             isRotating: r.isRotating ?? false,

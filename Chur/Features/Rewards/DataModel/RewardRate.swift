@@ -37,6 +37,11 @@ class RewardRate {
     
     // Channel (how purchase is made)
     var channels: [String]? // ["online", "in_store", "in_app"] - nil = all channels
+
+    // Transaction dimensions (P1f part 3) — all template-owned, nil = no constraint
+    var currencies: [String]?        // ["JPY", "KRW"] — transaction currency, derived from the merchant region
+    var excludedCountries: [String]? // ["FR", "DE"] — regions where this rate pays nothing (EEA carve-outs)
+    var paymentMethods: [String]?    // ["contactless", "mobile_pay"] — see PaymentMethods
     
     // Time constraints
     var rewardStartDate: Date? // When rate starts
@@ -63,6 +68,7 @@ class RewardRate {
          categories: [String]? = nil,
          merchantIdentifier: String? = nil, merchantName: String? = nil,
          countries: [String]? = nil, channels: [String]? = nil,
+         currencies: [String]? = nil, excludedCountries: [String]? = nil, paymentMethods: [String]? = nil,
          rewardStartDate: Date? = nil, rewardEndDate: Date? = nil, isRotating: Bool = false, daysOfWeek: [Int]? = nil,
          rewardNotes: String? = nil,
          groupLabel: String? = nil,
@@ -80,6 +86,9 @@ class RewardRate {
         self.merchantName = merchantName
         self.countries = countries
         self.channels = channels
+        self.currencies = currencies
+        self.excludedCountries = excludedCountries
+        self.paymentMethods = paymentMethods
         self.rewardStartDate = rewardStartDate
         self.rewardEndDate = rewardEndDate
         self.isRotating = isRotating

@@ -53,6 +53,8 @@ private struct Input: Codable, Sendable {
     var forceCrossBorder: Bool?
     var acceptedPaymentMethods: [String]?
     var acceptedRegions: [String]?
+    /// Explicit "paying with" narrowing (P1f part 3). nil = the optimistic set.
+    var paymentMethods: [String]?
     /// ISO-8601. Pins `Date.current()` so date-bounded rewards are deterministic.
     var asOf: String?
 }
@@ -64,6 +66,7 @@ private struct CardFixture: Codable, Sendable {
     var issuer: String?
     var network: String?
     var country: String?
+    var currency: String?
     var cardType: String?
     var status: String?
     var hasForeignTransactionFee: Bool?
@@ -87,6 +90,9 @@ private struct RewardFixture: Codable, Sendable {
     var categories: [String]?
     var countries: [String]?
     var channels: [String]?
+    var currencies: [String]?
+    var excludedCountries: [String]?
+    var paymentMethods: [String]?
     var rewardStartDate: String?
     var rewardEndDate: String?
 }
@@ -253,7 +259,8 @@ struct PricingEngineVectorTests {
                 allowPaymentMethodFallback: vector.input.allowPaymentMethodFallback ?? true,
                 forceCrossBorder: vector.input.forceCrossBorder ?? false,
                 acceptedPaymentMethods: vector.input.acceptedPaymentMethods.map { Set($0) },
-                acceptedRegions: vector.input.acceptedRegions.map { Set($0) }
+                acceptedRegions: vector.input.acceptedRegions.map { Set($0) },
+                paymentMethods: vector.input.paymentMethods.map { Set($0) }
             ),
             allCategories: categories
         )
@@ -306,6 +313,7 @@ struct PricingEngineVectorTests {
             network: fixture.network ?? "Visa",
             imageName: "test-card",
             cardType: fixture.cardType ?? "personal",
+            currency: fixture.currency ?? "USD",
             country: fixture.country ?? "US",
             status: fixture.status ?? "active",
             hasForeignTransactionFee: fixture.hasForeignTransactionFee ?? false,
@@ -340,6 +348,9 @@ struct PricingEngineVectorTests {
             categories: fixture.categories,
             countries: fixture.countries,
             channels: fixture.channels,
+            currencies: fixture.currencies,
+            excludedCountries: fixture.excludedCountries,
+            paymentMethods: fixture.paymentMethods,
             rewardStartDate: Fixture.date(fixture.rewardStartDate, in: vectorID, field: "rewardStartDate"),
             rewardEndDate: Fixture.date(fixture.rewardEndDate, in: vectorID, field: "rewardEndDate")
         )

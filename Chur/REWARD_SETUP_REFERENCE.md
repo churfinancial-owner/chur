@@ -31,6 +31,9 @@ Every file maps **card template ID → reward structure**. Two structures are su
 | `merchantIdentifier` / `merchantName` | — | Merchant-specific rate (e.g. `"amazon"`). |
 | `channels` | — | `["online"]`, `["in_store"]`, `["in_app"]` — restricts how the purchase is made. |
 | `countries` | — | ISO codes where the rate applies (e.g. `["US"]`). |
+| `excludedCountries` | — | ISO codes where the rate pays nothing (EEA carve-outs: `["FR", "DE", …]`). P1f. |
+| `currencies` | — | Transaction currencies the rate applies to (`["JPY", "KRW", "THB"]`). The currency is derived from the merchant region, never authored; a global merchant bills in the card's own currency. P1f. |
+| `paymentMethods` | — | How the purchase is paid: `mobile_pay`, `apple_pay`, `paypal_pay`, `contactless`, `unionpay_quickpass`, `alipay_hk`, `wechat_pay_hk`. Preferred over putting a payment id in `categories` (still works as a shim). Applies when the purchase *could* be paid that way — the merchant's accepted list, or a "Paying with" pick, narrows it. P1f. |
 | `rewardStartDate` / `rewardEndDate` | — | ISO 8601 (`"2026-07-01T00:00:00Z"`). Expired rewards are hidden. |
 | `isRotating` | — | Marks quarterly rotating categories; shows Rotating/Ends badges. Pair with start/end dates. |
 | `rewardNotes` | — | Small print shown under the row (caps, conditions). |
@@ -142,7 +145,7 @@ A bonus that sits **on top of** a card's reward rows: a bank relationship tier, 
 | `eligibleTemplateIDs` / `eligibleIssuer` + `eligibleCountry` | Scope. Either form; issuer + country lets new cards join without editing the program. |
 | `mode` | `multiply`: the tier's `multiplier` scales the whole earn (US relationship tiers). `add`: the `value` is added on top. |
 | `unit` | For `add`. `rate` = points per dollar, same unit as `rate` on a reward row. `cash` = added after the point value (0.03 = 3%), so one layer fits cards whose programs differ. |
-| `appliesTo` / `excludes` | `categories` (may name `foreign_transactions` / `online_transactions` like a reward row), `channels`, `crossBorder`, `countries`, `currencies`, `paymentMethods`. `appliesTo`: every stated dimension must hold. `excludes`: any match knocks the layer out. `currencies` and `paymentMethods` switch on in P1f part 3. |
+| `appliesTo` / `excludes` | `categories` (may name `foreign_transactions` / `online_transactions` like a reward row), `channels`, `crossBorder`, `countries`, `currencies`, `paymentMethods`. `appliesTo`: every stated dimension must hold. `excludes`: any match knocks the layer out. `currencies` and `paymentMethods` use the same derivation as reward rows (since part 3). A `paymentMethods` *exclusion* bites only when every way the purchase could be paid is excluded — the optimistic set still lets the user pay by card. |
 | `selection` | `tier`: `tiers[]` with `multiplier` or `value` each. `allocate`: `allocation: {categories, total, maxPerCategory}` and a per-weight `value`; the user spreads weights, and each allocated category becomes its own layer. `pickOne`: `options[]` and a `value`. `always`: on for every eligible card with nothing to enrol in (a card's own extra), `value` required. |
 | `gate` / `cap` | `{amount, currency, period, kind, group, note}` — **display only**, the app tracks no spend. `period`: calendarMonth · statementCycle · quarter · halfYear · year · promo. `kind`: spend · reward. A tier's `cap` overrides the program's. `group` names a shared pool. |
 
@@ -154,6 +157,6 @@ Gotchas: program `id`s, tier `name`s and allocation category ids are all load-be
 
 - **Matching vs display are separate.** Only `category`/`categories` (plus merchant/channel/country/date constraints) affect the pricing engine. `groupLabel`, `rewardNotes` are display-only.
 - **Trailing commas silently kill the file** (see top).
-- **`countries` quirk:** decoded by `CardDatabase` (templates → user cards) but not by `SeedDataLoader.RewardJSON` — rewards created through SeedDataLoader drop it. Prefer relying on the template path; fix the decoder if this ever matters.
+- ~~**`countries` quirk**~~ — fixed in P1f part 3; both decoders now carry `countries`, `currencies`, `excludedCountries` and `paymentMethods`.
 - **New user-facing labels** (`groupLabel`, option labels) are currently English-only — unlike category names, they have no zh variants yet.
 - Field changes to `RewardRate` need a schema version bump (`ChurSchema.swift`) and a `DataDictionary.md` update; new JSON fields must be decoded in **both** `SeedDataLoader.swift` and `CardDatabase.swift`, and synced in `CardSyncService.updateRewardFields`.

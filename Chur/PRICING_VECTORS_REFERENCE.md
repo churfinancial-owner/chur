@@ -85,11 +85,12 @@ One graph shared by all vectors, so a vector never has to restate the tree. Ever
 | `forceCrossBorder` | `false` | |
 | `acceptedPaymentMethods` | `null` | When set, payment-method rewards apply **only** for the listed ones |
 | `acceptedRegions` | `null` | Overrides `region` for cross-border detection |
+| `paymentMethods` | `null` | Explicit "paying with" narrowing. `null` = optimistic: whatever the merchant accepts minus what the category excludes |
 | `asOf` | `null` | ISO-8601. Pins `Date.current()` — see Determinism |
 
 **`cards[]`** — `name` is the only required field. `id` defaults to a slug of the name, `issuer` `"Test Issuer"`, `network` `"Visa"`, `country` `"US"`, `cardType` `"personal"`, `status` `"active"`, `hasForeignTransactionFee` `false`. Supply either `rewards` (the legacy array) or `plans` (`{id, name, isDefault, rewards}`); `activeRewards` prefers the default plan when both exist.
 
-**`rewards[]`** — `rate` required. `pointCashValue` defaults to `0.01`, so `rate: 5.0` means 5% unless stated otherwise. Also accepts `pointCashValueCurrency`, `rewardProgramName`, `categories`, `countries`, `channels`, `rewardStartDate`, `rewardEndDate`.
+**`rewards[]`** — `rate` required. `pointCashValue` defaults to `0.01`, so `rate: 5.0` means 5% unless stated otherwise. Also accepts `pointCashValueCurrency`, `rewardProgramName`, `categories`, `countries`, `channels`, `currencies`, `excludedCountries`, `paymentMethods`, `rewardStartDate`, `rewardEndDate`. Cards also accept `currency` (default `"USD"`), which is what a global merchant bills in.
 
 **`expected[]`** — order matters. `rate` is `CardRateSummary.rate` (the raw multiplier **after** boost) and is asserted only when present; state it on boost and overlay vectors, where it's the thing that proves the right reward was picked.
 
@@ -115,6 +116,7 @@ Every branch reachable from `computeAllMatchingRewards`:
 | Overlays | `online_transactions` winning, an overlay-only reward ignored off-channel, `foreign_transactions` still netting the FX fee |
 | Card-level | zero-rate suppression, cancelled cards, `cardFilter` include-mode |
 | Valuation | boost multiplier scaling both rate and multiplier, point value outranking a higher multiplier |
+| Transaction dimensions (P1f) | `currencies` matching the currency derived from the region (JP → JPY through the Locale fallback) and skipping another, `excludedCountries` in and out of the list, `paymentMethods` applying under the optimistic set and blocked by an explicit narrowing, a global merchant billing each card in its own currency |
 | Earning layers (P1f) | `add`/`cash` layer firing on foreign in-store spend and netting FX, the same layer skipped off-channel, `allocate` weights scaling the per-unit value on the allocated category only, no add on an unallocated category |
 | Output shape | duplicate card **names** collapsing, plan-based cards using the default plan, alphabetical tie-break |
 

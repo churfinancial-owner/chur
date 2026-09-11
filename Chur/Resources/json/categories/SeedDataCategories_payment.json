@@ -97,5 +97,61 @@
         "weight": 1.0
       }
     ]
+  },
+  {
+    "id": "contactless",
+    "nameEN": "Contactless",
+    "nameZH_Hans": "感应支付",
+    "nameZH_HK": "感應式支付",
+    "nameZH_TW": "感應支付",
+    "emoji": "💳",
+    "excludeFromParent": true,
+    "sortOrder": 9007,
+    "visibility": "hidden",
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent"
+  },
+  {
+    "id": "unionpay_quickpass",
+    "nameEN": "UnionPay QuickPass",
+    "nameZH_Hans": "银联闪付",
+    "nameZH_HK": "銀聯閃付",
+    "nameZH_TW": "銀聯閃付",
+    "emoji": "💳",
+    "excludeFromParent": true,
+    "sortOrder": 9008,
+    "visibility": "hidden",
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent"
+  },
+  {
+    "id": "alipay_hk",
+    "nameEN": "AlipayHK",
+    "nameZH_Hans": "支付宝香港",
+    "nameZH_HK": "AlipayHK",
+    "nameZH_TW": "AlipayHK",
+    "emoji": "📱",
+    "excludeFromParent": true,
+    "sortOrder": 9009,
+    "visibility": "hidden",
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent"
+  },
+  {
+    "id": "wechat_pay_hk",
+    "nameEN": "WeChat Pay HK",
+    "nameZH_Hans": "微信支付香港",
+    "nameZH_HK": "WeChat Pay HK",
+    "nameZH_TW": "WeChat Pay HK",
+    "emoji": "📱",
+    "excludeFromParent": true,
+    "sortOrder": 9010,
+    "visibility": "hidden",
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent"
   }
 ]

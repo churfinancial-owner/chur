@@ -236,7 +236,14 @@ extension CardRateCalculator {
             guard let region = regionForCountryCheck(context: context, card: card),
                   countries.map({ $0.uppercased() }).contains(region) else { return false }
         }
-        // currencies / paymentMethods: P1f part 3.
+        if let currencies = scope.currencies, !currencies.isEmpty {
+            let billed = transactionCurrency(for: card, context: context)
+            guard currencies.map({ CurrencyConversion.normalized($0) }).contains(billed) else { return false }
+        }
+        if let methods = scope.paymentMethods, !methods.isEmpty,
+           let effective = effectivePaymentMethods(context: context) {
+            guard !effective.isDisjoint(with: methods) else { return false }
+        }
         return true
     }
 
@@ -258,7 +265,15 @@ extension CardRateCalculator {
         if let countries = scope.countries, !countries.isEmpty,
            let region = regionForCountryCheck(context: context, card: card),
            countries.map({ $0.uppercased() }).contains(region) { return true }
-        // currencies / paymentMethods: P1f part 3.
+        if let currencies = scope.currencies, !currencies.isEmpty,
+           currencies.map({ CurrencyConversion.normalized($0) }).contains(transactionCurrency(for: card, context: context)) { return true }
+        // A payment-method exclusion ("no bonus via e-wallet") knocks the layer out only
+        // when every way this purchase could be paid is excluded — with the optimistic
+        // set the user can still pay by card, so the layer stays. An explicit "Paying
+        // with AlipayHK" narrows the set to one method and the exclusion bites.
+        if let excluded = scope.paymentMethods, !excluded.isEmpty,
+           let effective = effectivePaymentMethods(context: context),
+           !effective.isEmpty, effective.isSubset(of: Set(excluded)) { return true }
         return false
     }
 
@@ -283,9 +298,5 @@ extension CardRateCalculator {
                 acceptedPaymentMethods: nil
             ) > 0
         }
-    }
-
-    private static func regionForCountryCheck(context: PricingContext, card: CreditCard) -> String? {
-        RegionDatabase.normalizeRegionCode(context.region) ?? RegionDatabase.normalizeRegionCode(card.country)
     }
 }

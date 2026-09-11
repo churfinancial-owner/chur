@@ -54,7 +54,7 @@ Format is a plain array of category IDs (the legacy `{"id": ..., "weight": ...}`
 
 1. Exact match: `rewardCategory == category.id` → 1.0
 2. Explicit `categoryLinks` on the merchant category → 1.0  *(works even with `excludeFromParent`)*
-3. Payment method fallback (`apple_pay`, `mobile_pay`, `paypal_pay`) → 1.0
+3. Payment method fallback (any id in `PaymentMethods.all`: `apple_pay`, `mobile_pay`, `paypal_pay`, `contactless`, `unionpay_quickpass`, `alipay_hk`, `wechat_pay_hk`) → 1.0. Since P1f part 3 this is the compatibility shim; new rewards name methods in `paymentMethods`, which is checked as step 7 of the applicability chain against the merchant's accepted list
 4. Gate: if `excludeFromParent == true` → stop (only `everything` passes below)
 5. Pre-computed ancestor set lookup (`ancestorsByCategoryID[category.id]?.contains(rewardCategory)`) → 1.0  
    *Set includes all ancestors' IDs plus their `categoryLinks` IDs — computed once in `CardRateCalculator.init`, O(1) per match*

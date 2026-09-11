@@ -1504,6 +1504,329 @@
           "rate": 1.0
         }
       ]
+    },
+    {
+      "id": "currencies-list-matches-derived-currency",
+      "rule": "reward.currencies — the transaction currency is derived from the merchant region (JP → JPY, via the Locale fallback since the regions seed has no JP), so a JPY/KRW/THB reward fires in Tokyo and nets the FX fee",
+      "input": {
+        "categoryID": "dining",
+        "region": "JP",
+        "channel": "in_store"
+      },
+      "cards": [
+        {
+          "name": "Travel Plus",
+          "issuer": "HSBC",
+          "country": "HK",
+          "currency": "HKD",
+          "hasForeignTransactionFee": true,
+          "foreignTransactionFeeRate": 0.0195,
+          "rewards": [
+            {
+              "rate": 7.0,
+              "categories": [
+                "everything"
+              ],
+              "currencies": [
+                "JPY",
+                "KRW",
+                "THB"
+              ]
+            },
+            {
+              "rate": 1.0,
+              "categories": [
+                "everything"
+              ]
+            }
+          ]
+        }
+      ],
+      "expected": [
+        {
+          "name": "Travel Plus",
+          "effectiveCashBackRate": 0.0505,
+          "rate": 7.0
+        }
+      ]
+    },
+    {
+      "id": "currencies-list-skips-other-currency",
+      "rule": "The same reward does not fire on a USD purchase; the card falls to its base row",
+      "input": {
+        "categoryID": "dining",
+        "region": "US",
+        "channel": "in_store"
+      },
+      "cards": [
+        {
+          "name": "Travel Plus",
+          "issuer": "HSBC",
+          "country": "HK",
+          "currency": "HKD",
+          "hasForeignTransactionFee": true,
+          "foreignTransactionFeeRate": 0.0195,
+          "rewards": [
+            {
+              "rate": 7.0,
+              "categories": [
+                "everything"
+              ],
+              "currencies": [
+                "JPY",
+                "KRW",
+                "THB"
+              ]
+            },
+            {
+              "rate": 1.0,
+              "categories": [
+                "everything"
+              ]
+            }
+          ]
+        }
+      ],
+      "expected": [
+        {
+          "name": "Travel Plus",
+          "effectiveCashBackRate": -0.0095,
+          "rate": 1.0
+        }
+      ]
+    },
+    {
+      "id": "excluded-countries-drops-reward-in-listed-region",
+      "rule": "reward.excludedCountries — a foreign-spend reward carved out for EEA countries pays nothing in France",
+      "input": {
+        "categoryID": "dining",
+        "region": "FR",
+        "channel": "in_store"
+      },
+      "cards": [
+        {
+          "name": "World MC",
+          "issuer": "HSBC",
+          "country": "HK",
+          "currency": "HKD",
+          "hasForeignTransactionFee": true,
+          "foreignTransactionFeeRate": 0.0195,
+          "rewards": [
+            {
+              "rate": 5.0,
+              "categories": [
+                "everything"
+              ],
+              "excludedCountries": [
+                "FR",
+                "DE"
+              ]
+            },
+            {
+              "rate": 1.0,
+              "categories": [
+                "everything"
+              ]
+            }
+          ]
+        }
+      ],
+      "expected": [
+        {
+          "name": "World MC",
+          "effectiveCashBackRate": -0.0095,
+          "rate": 1.0
+        }
+      ]
+    },
+    {
+      "id": "excluded-countries-applies-elsewhere",
+      "rule": "The same reward fires in Japan, which is not on the list",
+      "input": {
+        "categoryID": "dining",
+        "region": "JP",
+        "channel": "in_store"
+      },
+      "cards": [
+        {
+          "name": "World MC",
+          "issuer": "HSBC",
+          "country": "HK",
+          "currency": "HKD",
+          "hasForeignTransactionFee": true,
+          "foreignTransactionFeeRate": 0.0195,
+          "rewards": [
+            {
+              "rate": 5.0,
+              "categories": [
+                "everything"
+              ],
+              "excludedCountries": [
+                "FR",
+                "DE"
+              ]
+            },
+            {
+              "rate": 1.0,
+              "categories": [
+                "everything"
+              ]
+            }
+          ]
+        }
+      ],
+      "expected": [
+        {
+          "name": "World MC",
+          "effectiveCashBackRate": 0.0305,
+          "rate": 5.0
+        }
+      ]
+    },
+    {
+      "id": "payment-method-field-applies-with-optimistic-set",
+      "rule": "reward.paymentMethods — with no narrowing and no merchant declaration the purchase could be paid any way, so a contactless-only reward applies in store",
+      "input": {
+        "categoryID": "dining",
+        "region": "US",
+        "channel": "in_store"
+      },
+      "cards": [
+        {
+          "name": "Rewards",
+          "rewards": [
+            {
+              "rate": 3.0,
+              "categories": [
+                "everything"
+              ],
+              "paymentMethods": [
+                "contactless"
+              ]
+            },
+            {
+              "rate": 1.0,
+              "categories": [
+                "everything"
+              ]
+            }
+          ]
+        }
+      ],
+      "expected": [
+        {
+          "name": "Rewards",
+          "effectiveCashBackRate": 0.03,
+          "rate": 3.0
+        }
+      ]
+    },
+    {
+      "id": "payment-method-field-blocked-by-context-narrowing",
+      "rule": "An explicit context.paymentMethods (\"Paying with Apple Pay\") that does not include the reward's method knocks it out",
+      "input": {
+        "categoryID": "dining",
+        "region": "US",
+        "channel": "in_store",
+        "paymentMethods": [
+          "apple_pay"
+        ]
+      },
+      "cards": [
+        {
+          "name": "Rewards",
+          "rewards": [
+            {
+              "rate": 3.0,
+              "categories": [
+                "everything"
+              ],
+              "paymentMethods": [
+                "contactless"
+              ]
+            },
+            {
+              "rate": 1.0,
+              "categories": [
+                "everything"
+              ]
+            }
+          ]
+        }
+      ],
+      "expected": [
+        {
+          "name": "Rewards",
+          "effectiveCashBackRate": 0.01,
+          "rate": 1.0
+        }
+      ]
+    },
+    {
+      "id": "global-merchant-bills-in-card-currency",
+      "rule": "A global merchant (null region) bills in each card's own currency: an HKD-only reward fires for the HK card and not for the US card, and nobody pays FX",
+      "input": {
+        "categoryID": "dining"
+      },
+      "cards": [
+        {
+          "name": "HK Card",
+          "issuer": "HSBC",
+          "country": "HK",
+          "currency": "HKD",
+          "hasForeignTransactionFee": true,
+          "foreignTransactionFeeRate": 0.0195,
+          "rewards": [
+            {
+              "rate": 4.0,
+              "categories": [
+                "everything"
+              ],
+              "currencies": [
+                "HKD"
+              ]
+            },
+            {
+              "rate": 1.0,
+              "categories": [
+                "everything"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "US Card",
+          "rewards": [
+            {
+              "rate": 4.0,
+              "categories": [
+                "everything"
+              ],
+              "currencies": [
+                "HKD"
+              ]
+            },
+            {
+              "rate": 1.0,
+              "categories": [
+                "everything"
+              ]
+            }
+          ]
+        }
+      ],
+      "expected": [
+        {
+          "name": "HK Card",
+          "effectiveCashBackRate": 0.04,
+          "rate": 4.0
+        },
+        {
+          "name": "US Card",
+          "effectiveCashBackRate": 0.01,
+          "rate": 1.0
+        }
+      ]
     }
   ]
 }

@@ -255,7 +255,7 @@ struct CalculatorPopup: View {
     }
     
     // Payment method categories (must match CardRateCalculator)
-    private static let paymentMethodCategories: Set<String> = ["mobile_pay", "apple_pay", "paypal_pay"]
+    private static let paymentMethodCategories: Set<String> = PaymentMethods.all
     private static let overlayCategories: Set<String> = ["online_transactions", "foreign_transactions"]
     private static let channelAliases: [String: Set<String>] = [
         "in_store": ["in_store"],

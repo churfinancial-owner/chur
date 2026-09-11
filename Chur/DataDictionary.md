@@ -188,6 +188,9 @@ Every `@Model` in the app, whether the schema persists it, and how much of it su
 | `merchantName` | `String?` | Nullable | — | Display-friendly merchant name (e.g. `"Amazon"`). Paired with `merchantIdentifier`. |
 | `countries` | `[String]?` | Nullable | — | ISO 3166-1 alpha-2 country codes where this rate is valid. `nil` = all countries. |
 | `channels` | `[String]?` | Nullable | — | Purchase channel restrictions. Values: `"online"`, `"in_store"`, `"in_app"`. `nil` = all channels. |
+| `currencies` | `[String]?` | Nullable | — | Transaction currencies the rate applies to (`["JPY", "KRW"]`). Derived per card from the merchant region; a global merchant bills in the card's currency. P1f. |
+| `excludedCountries` | `[String]?` | Nullable | — | Regions where the rate pays nothing (EEA carve-outs). P1f. |
+| `paymentMethods` | `[String]?` | Nullable | References `PaymentMethods.all` | Methods the rate requires (`["contactless"]`). Intersected with what the purchase could be paid with. P1f. |
 | `rewardStartDate` | `Date?` | Nullable | — | Date this rate becomes active. `nil` = no start restriction. |
 | `rewardEndDate` | `Date?` | Nullable | — | Date this rate expires. `nil` = ongoing. |
 | `isRotating` | `Bool` | Not Null, default `false` | — | `true` for quarterly rotating category cards (e.g. Discover it). |

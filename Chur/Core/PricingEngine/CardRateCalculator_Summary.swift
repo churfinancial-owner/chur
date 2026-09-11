@@ -18,6 +18,8 @@ struct CardRateSummary {
     let rewardProgramName: String // e.g. "Ultimate Rewards"
     /// The earning layers that fired for this result (P1f). Empty when none did.
     var boostLayers: [AppliedLayer] = []
+    /// The payment method the winning row relied on, if any ("with Apple Pay"). P1f part 3.
+    var viaPaymentMethod: String? = nil
     
     /// Formatted display string as percentage, e.g. "5%", "9.75%", "-1.25%"
     var effectiveRateDisplayString: String {

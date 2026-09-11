@@ -17,6 +17,18 @@ enum CurrencyConversion {
         RegionDatabase.currencyCode(for: country)
     }
 
+    /// Currency of a merchant region (P1f part 3). The regions seed covers the
+    /// launch markets; anywhere else falls back to the platform's ISO table so a
+    /// Tokyo restaurant resolves to JPY without a seed entry. "UK" is the seed's
+    /// spelling; ISO wants "GB".
+    static func currencyCode(forRegion region: String) -> String {
+        let code = region.uppercased()
+        if RegionDatabase.byID[code] != nil { return normalized(RegionDatabase.currencyCode(for: code)) }
+        let iso = code == "UK" ? "GB" : code
+        if let currency = Locale(identifier: "en_\(iso)").currency?.identifier { return normalized(currency) }
+        return "USD"
+    }
+
     // MARK: - Static exchange rates (base: USD)
     // Approximate mid-market rates. Last updated: March 2026.
 
