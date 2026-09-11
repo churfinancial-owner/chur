@@ -31,13 +31,19 @@
                 "MOP",
                 "TWD"
             ],
-            "rewardNotes": "Designated currencies; other foreign currencies earn 5%. Monthly cap applies."
+            "rewardNotes": "Designated currencies, in store only; other foreign currencies earn 5%. Monthly cap applies.",
+            "channels": [
+                "in_store"
+            ]
         },
         {
             "rate": 5.0,
             "rewardProgramName": "Cash Back Rewards HK",
             "category": "foreign_transactions",
-            "rewardNotes": "Other foreign-currency spend. Monthly cap applies."
+            "rewardNotes": "Other foreign-currency spend, in store only. Monthly cap applies.",
+            "channels": [
+                "in_store"
+            ]
         },
         {
             "rate": 5.0,

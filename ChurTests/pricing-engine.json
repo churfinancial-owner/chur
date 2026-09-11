@@ -1902,6 +1902,62 @@
           "rate": 1.0
         }
       ]
+    },
+    {
+      "id": "foreign-rows-in-store-only-skip-online",
+      "rule": "Travel+ shape: both the designated-currency row and the foreign_transactions overlay carry channels = in_store, so an online JPY purchase gets neither (the overlay honours constraintsApply too) and nets base minus FX",
+      "input": {
+        "categoryID": "dining",
+        "region": "JP",
+        "channel": "online",
+        "acceptedPaymentMethods": []
+      },
+      "cards": [
+        {
+          "name": "Travel Plus",
+          "issuer": "HSBC",
+          "country": "HK",
+          "currency": "HKD",
+          "hasForeignTransactionFee": true,
+          "foreignTransactionFeeRate": 0.0195,
+          "rewards": [
+            {
+              "rate": 7.0,
+              "categories": [
+                "everything"
+              ],
+              "currencies": [
+                "JPY"
+              ],
+              "channels": [
+                "in_store"
+              ]
+            },
+            {
+              "rate": 5.0,
+              "categories": [
+                "foreign_transactions"
+              ],
+              "channels": [
+                "in_store"
+              ]
+            },
+            {
+              "rate": 1.0,
+              "categories": [
+                "everything"
+              ]
+            }
+          ]
+        }
+      ],
+      "expected": [
+        {
+          "name": "Travel Plus",
+          "effectiveCashBackRate": -0.0095,
+          "rate": 1.0
+        }
+      ]
     }
   ]
 }
