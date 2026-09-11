@@ -129,9 +129,11 @@ A program entry may carry `rateStyle`, which changes only how a rate **reads** �
 |---|---|---|
 | `multiplier` (default) | `3x` | Points programs quoted as a multiplier |
 | `percent` | `3%` | Cash-back programs whose `rate` is already the percentage (HK cash cards: `7.0` at `pointCashValue: 0.01`) |
-| `perMile` | `HK$0.40 = 1 mile` | Miles programs **whose `rate` is authored as miles per dollar** |
+| `perMile` | `4% (HK$2.5/里)` | Miles programs **whose `rate` is authored as miles per dollar**. Prints the pair HK cards are quoted in, percentage first |
 
-**`perMile` is a trap unless the data matches it.** It prints `1 ÷ rate`, so it is only correct when `rate` means miles earned per dollar. The HK miles programs are currently authored percent-style (EveryMile `2.5` at `0.0203`, i.e. ~5% back), so `perMile` would print `HK$0.40 = 1 mile` against a real rate nearer HK$2. It is deliberately unset on those two until P1f part 5 verifies each card against the issuer's page.
+**`perMile` needs `rate` to mean miles per dollar.** The per-mile half is `1 ÷ rate` and the percentage half is `rate × pointCashValue`, so a program set to `perMile` whose rows are authored percent-style prints a wrong cost. The HK miles programs are still authored that way (EveryMile `2.5` at `0.0203`), so the style stays unset on them until each card is verified against the issuer's page.
+
+It is also **gated on the program actually transferring**: a program with no entry in `SeedDataTransferPartners.json` falls back to `percent`, so a Chase Freedom on Chase Cash Back Rewards never shows a mile cost, and starts to only once `ProgramUpgradeDatabase` moves it onto Ultimate Rewards.
 
 ## Pattern 7 — Earning layers (`bankrelationshipprograms/boost_programs.json`)
 

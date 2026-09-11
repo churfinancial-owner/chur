@@ -402,6 +402,12 @@ In-memory representation of a benefit from the JSON catalog (`BenefitDatabase`).
 
 ---
 
+### Transfer partners (static JSON, not persisted)
+
+`SeedDataTransferPartners.json` is keyed by `programName`, the same string `RewardRate.rewardProgramName` carries, which is what makes "does this card earn miles" answerable without a field on the card. `ratio` is authored `"points:miles"` (`"1:1"`, `"1:1.6"`) and parsed into `milesPerPoint`; the cost of one mile is the program's `pointCashValue` divided by that. Since P1f part 5 the database keeps two tables: `programs`, filtered to the user's region for the Points Transfer browse tool, and `allPrograms`, unfiltered, which a specific card's info screen reads so a card from another market still resolves.
+
+**Whether a card transfers is derived, never stored.** It is whichever reward program the card's rows currently name, and `ProgramUpgradeDatabase` keeps that name accurate: a Chase Freedom sits on `Chase Cash Back Rewards` (no partners) and moves to `Ultimate Rewards` (partners) when a Sapphire enters the wallet.
+
 ## 11. Relationships Overview
 
 ```

@@ -21,6 +21,7 @@ struct CardInfoContentView: View {
     @State private var activeSheet: ActiveSheet?
     /// Which boost program the `.boost` sheet edits — a card can sit under several (P1f).
     @State private var boostProgramID: String?
+    @State private var showPointsTransfer = false
     @State private var selectedNewsPost: SanityPost?
     @State private var dateRefreshTick = 0
     @StateObject private var locationManager = LocationManager()
@@ -59,7 +60,10 @@ struct CardInfoContentView: View {
                     boostProgramID: $boostProgramID
                 )
 
-                // SECTION 3: REWARD SETUP
+                // SECTION 3: POINTS AND MILES (P1f) — only when the card's points transfer
+                PointsAndMilesSection(card: card, onTransferTap: { showPointsTransfer = true })
+
+                // SECTION 4: REWARD SETUP
                 RewardSetupSection(
                     card: card,
                     categories: categories,
@@ -71,6 +75,9 @@ struct CardInfoContentView: View {
             .padding()
         }
         .background(Color.churOffWhite)
+        .sheet(isPresented: $showPointsTransfer) {
+            PointTransferView()
+        }
         .sheet(item: $activeSheet) { sheet in
             CardInfoSheetPresenter(sheet: sheet, card: card, boostProgramID: boostProgramID)
         }

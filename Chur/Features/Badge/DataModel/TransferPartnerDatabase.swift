@@ -14,8 +14,23 @@ struct TransferPartner {
     let name: String        // Resolved from PartnerDatabase.shortName
     let type: String        // "airline" or "hotel"
     let alliance: String?   // "star", "oneworld", "skyteam", or nil
-    let ratio: String       // "1:1", "3:1", etc.
+    let ratio: String       // "points:miles" — "1:1", "1:1.6"
     let iconName: String?   // Asset image name from PartnerDatabase
+
+    /// Miles received per point transferred, parsed from `ratio` (P1f part 5).
+    /// `"1:1.6"` is 1.6. nil when the string is not a parseable pair.
+    var milesPerPoint: Double? {
+        let parts = ratio.split(separator: ":").map { Double($0.trimmingCharacters(in: .whitespaces)) }
+        guard parts.count == 2, let points = parts[0], let miles = parts[1], points > 0 else { return nil }
+        return miles / points
+    }
+
+    /// What one mile costs on this route, given the program's point value.
+    /// `1:1` at a point worth HK$0.10 is HK$0.10 a mile.
+    func costPerMile(pointCashValue: Double) -> Double? {
+        guard let milesPerPoint, milesPerPoint > 0 else { return nil }
+        return pointCashValue / milesPerPoint
+    }
 
     init(ref: TransferPartnerRef, partner: Partner?) {
         self.partnerId = ref.partnerId
@@ -32,6 +47,15 @@ struct TransferProgram {
     let displayName: String   // Short label for UI (e.g. "Chase")
     let region: String?       // "US", "HK", etc. nil means available in all regions
     let partners: [TransferPartner]
+
+    /// The cheapest mile available on this program, and the partner offering it.
+    func bestRoute(pointCashValue: Double) -> (partner: TransferPartner, costPerMile: Double)? {
+        partners
+            .compactMap { partner in
+                partner.costPerMile(pointCashValue: pointCashValue).map { (partner: partner, costPerMile: $0) }
+            }
+            .min { $0.costPerMile < $1.costPerMile }
+    }
 }
 
 // MARK: - Private JSON Models
@@ -57,6 +81,14 @@ private struct TransferPartnerFile: Codable {
 enum TransferPartnerDatabase {
 
     private(set) static var programs: [TransferProgram] = []
+
+    /// Every program in the payload, ignoring the region filter.
+    ///
+    /// `programs` is filtered to the user's region because the Points Transfer
+    /// tool answers "what could I do from here". A card in the wallet is
+    /// concrete, so its own info screen looks here instead: a US-resident user
+    /// holding an HSBC HK card should still see where that card's points go.
+    private(set) static var allPrograms: [TransferProgram] = []
 
     /// All unique airline partner short names, sorted
     private(set) static var airlines: [String] = []
@@ -111,19 +143,19 @@ enum TransferPartnerDatabase {
     /// the bundle carries every region and the remote payload has to as well, so
     /// switching region in Settings stays a local reload rather than a download.
     private static func apply(_ file: TransferPartnerFile, region: String) {
-        programs = file.programs
-            .filter { $0.region == nil || $0.region == region }
-            .map { json in
-                let resolved = json.partners.map { ref in
-                    TransferPartner(ref: ref, partner: PartnerDatabase.byID[ref.partnerId])
-                }
-                return TransferProgram(
-                    programName: json.programName,
-                    displayName: json.displayName,
-                    region: json.region,
-                    partners: resolved
-                )
+        let resolvedAll = file.programs.map { json -> TransferProgram in
+            let resolved = json.partners.map { ref in
+                TransferPartner(ref: ref, partner: PartnerDatabase.byID[ref.partnerId])
             }
+            return TransferProgram(
+                programName: json.programName,
+                displayName: json.displayName,
+                region: json.region,
+                partners: resolved
+            )
+        }
+        allPrograms = resolvedAll
+        programs = resolvedAll.filter { $0.region == nil || $0.region == region }
         buildDerivedData()
         #if DEBUG
         print("✅ TransferPartnerDatabase: Loaded \(programs.count) programs for region \(region), \(airlines.count) airlines, \(hotels.count) hotels")
@@ -131,6 +163,13 @@ enum TransferPartnerDatabase {
     }
 
     // MARK: - Lookups
+
+    /// The transfer program a reward program name belongs to, region ignored.
+    /// nil means the program has no partners, i.e. the card earns cash or points
+    /// that do not move to an airline.
+    static func program(named programName: String) -> TransferProgram? {
+        allPrograms.first { $0.programName == programName }
+    }
 
     /// Get the programName (for matching RewardRate) from a display name
     static func programName(for displayName: String) -> String? {
