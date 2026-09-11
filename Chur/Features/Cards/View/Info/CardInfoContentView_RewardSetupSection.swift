@@ -5,48 +5,9 @@ struct RewardSetupSection: View {
     let categories: [SpendingCategory]
     let user: User?
     @Binding var activeSheet: CardInfoContentView.ActiveSheet?
-    @Binding var boostProgramID: String?
 
     var rewardPlanDisplay: String {
         card.activePlan?.name ?? (card.rewards.isEmpty ? AppLocale.string("No plan selected") : AppLocale.string("Current Rewards"))
-    }
-
-    /// What the user chose for one program, or "Not enrolled".
-    func boostDisplay(for program: BoostProgram) -> String {
-        guard let selection = user?.boostEnrollments[program.id] else { return AppLocale.string("Not enrolled") }
-        switch program.resolvedSelection {
-        case .tier:
-            guard let name = selection.tier,
-                  let tier = program.resolvedTiers.first(where: { $0.name == name }) else { return AppLocale.string("Not enrolled") }
-            return "\(name) (\(BoostValueFormat.text(program: program, tier: tier)))"
-        case .allocate:
-            let parts = (program.allocation?.categories ?? []).compactMap { id -> String? in
-                guard let weight = selection.allocation?[id], weight > 0 else { return nil }
-                return "\(categoryName(id)) ×\(weight)"
-            }
-            return parts.isEmpty ? AppLocale.string("Not enrolled") : parts.joined(separator: " · ")
-        case .pickOne:
-            return selection.pick.map(categoryName) ?? AppLocale.string("Not enrolled")
-        case .always:
-            return program.name
-        }
-    }
-
-    private func categoryName(_ id: String) -> String {
-        categories.first { $0.id == id }?.displayName ?? id
-    }
-
-    /// Enrolled layers that only fire on a transaction the card info screen cannot
-    /// see (cross-border, a channel), so the earning-rate rows above do not show them.
-    private func scopeNote(for program: BoostProgram) -> String? {
-        guard user?.boostEnrollments[program.id] != nil, let scope = program.appliesTo else { return nil }
-        var parts: [String] = []
-        if scope.crossBorder == true { parts.append(AppLocale.string("foreign spend")) }
-        if let channels = scope.channels, !channels.isEmpty {
-            parts.append(channels.map { $0 == "in_store" ? AppLocale.string("in store") : $0 }.joined(separator: "/"))
-        }
-        guard !parts.isEmpty else { return nil }
-        return AppLocale.string("Applies on") + " " + parts.joined(separator: ", ")
     }
 
     var uniqueProgramSummary: String {
@@ -75,20 +36,6 @@ struct RewardSetupSection: View {
                 CardRowDivider()
                 DetailRow(label: AppLocale.string("Point Values"), value: uniqueProgramSummary, isEditable: true) {
                     activeSheet = .pointValues
-                }
-                ForEach(card.enrollableBoostPrograms, id: \.id) { program in
-                    CardRowDivider()
-                    DetailRow(label: program.name, value: boostDisplay(for: program), isEditable: true) {
-                        boostProgramID = program.id
-                        activeSheet = .boost
-                    }
-                    if let note = scopeNote(for: program) {
-                        Text(note)
-                            .font(.churMicro())
-                            .foregroundStyle(Color.churMediumGray)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.bottom, 8)
-                    }
                 }
             }
             .padding(.horizontal, 20)

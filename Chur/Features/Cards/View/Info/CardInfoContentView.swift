@@ -50,13 +50,21 @@ struct CardInfoContentView: View {
                     onConfigureTap: { activeSheet = .configurableRewards }
                 )
 
-                // SECTION 2: REWARD SETUP
-                RewardSetupSection(
+                // SECTION 2: BONUS PROGRAMS (earning layers, P1f) — only when the card has any
+                BoostProgramsSection(
                     card: card,
                     categories: categories,
                     user: user,
                     activeSheet: $activeSheet,
                     boostProgramID: $boostProgramID
+                )
+
+                // SECTION 3: REWARD SETUP
+                RewardSetupSection(
+                    card: card,
+                    categories: categories,
+                    user: user,
+                    activeSheet: $activeSheet
                 )
 
             }
