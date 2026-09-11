@@ -40,7 +40,8 @@ enum SchemaFingerprint {
     /// in `ChurSchema.swift` rather than versioned.
     /// Re-recorded 2026-09-11 (P1f part 3): `RewardRate` gained `currencies`,
     /// `excludedCountries`, `paymentMethods`.
-    static let recorded = "66018ede746313b9"
+    /// Re-recorded 2026-09-11 (P1f part 4): `RewardRate` gained `gateJSON`, `capJSON`.
+    static let recorded = "a8b161a096ab9a31"
 
     #if DEBUG
 
