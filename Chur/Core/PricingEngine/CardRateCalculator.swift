@@ -259,9 +259,17 @@ struct CardRateCalculator {
         return methods
     }
 
-    /// The currency the purchase is billed in. A merchant with a region bills in that
-    /// region's currency; a global merchant (nil region) bills in the card's own.
+    /// The currency the purchase is billed in, consistent with `isCrossBorderSpend`:
+    /// a merchant that operates in the card's own region bills locally (an online
+    /// merchant with `businessRegion` covering HK bills an HK card in HKD, whatever
+    /// region its listing leads with); a merchant with a foreign region bills in
+    /// that region's currency; a global merchant (nil region) bills in the card's own.
     static func transactionCurrency(for card: CreditCard, context: PricingContext) -> String {
+        if let accepted = context.acceptedRegions,
+           let cardRegion = normalizedRegionCode(card.country),
+           accepted.contains(cardRegion.uppercased()) {
+            return CurrencyConversion.normalized(card.currency)
+        }
         if let region = normalizedRegionCode(context.region) {
             return CurrencyConversion.currencyCode(forRegion: region)
         }

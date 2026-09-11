@@ -1827,6 +1827,81 @@
           "rate": 1.0
         }
       ]
+    },
+    {
+      "id": "multi-region-online-merchant-bills-local-cards-locally",
+      "rule": "An online merchant operating in several regions (acceptedRegions) bills a card from one of them in that card's own currency, even when its listing leads with another region — so the HK card's HKD-only row fires with no FX, while the US card is cross-border and billed in the lead region's currency",
+      "input": {
+        "categoryID": "online_retail",
+        "region": "CA",
+        "channel": "online",
+        "acceptedRegions": [
+          "CA",
+          "HK"
+        ],
+        "acceptedPaymentMethods": []
+      },
+      "cards": [
+        {
+          "name": "HK Card",
+          "issuer": "HSBC",
+          "country": "HK",
+          "currency": "HKD",
+          "hasForeignTransactionFee": true,
+          "foreignTransactionFeeRate": 0.0195,
+          "rewards": [
+            {
+              "rate": 4.0,
+              "categories": [
+                "everything"
+              ],
+              "currencies": [
+                "HKD"
+              ]
+            },
+            {
+              "rate": 1.0,
+              "categories": [
+                "everything"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "US Card",
+          "hasForeignTransactionFee": true,
+          "foreignTransactionFeeRate": 0.03,
+          "rewards": [
+            {
+              "rate": 4.0,
+              "categories": [
+                "everything"
+              ],
+              "currencies": [
+                "HKD"
+              ]
+            },
+            {
+              "rate": 1.0,
+              "categories": [
+                "everything"
+              ]
+            }
+          ]
+        }
+      ],
+      "expected": [
+        {
+          "name": "HK Card",
+          "effectiveCashBackRate": 0.04,
+          "rate": 4.0
+        },
+        {
+          "name": "US Card",
+          "effectiveCashBackRate": -0.02,
+          "rate": 1.0
+        }
+      ]
     }
   ]
 }
