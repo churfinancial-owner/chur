@@ -77,7 +77,32 @@ struct EarningRatesSection: View {
         if !item.reward.isUserConfigurable, let label = item.reward.groupLabel {
             return "group:\(label)|\(item.reward.rate)"
         }
-        return item.category.id
+        // Two rows on the same category survive when their conditions differ — Travel+
+        // has "everything, in JPY, in store" at 7x and a plain "everything" at 1x, and
+        // both belong on the screen (P1f part 3).
+        return item.category.id + "|" + scopeSignature(for: item.reward)
+    }
+
+    private func scopeSignature(for reward: RewardRate) -> String {
+        [reward.currencies, reward.channels, reward.paymentMethods, reward.countries, reward.excludedCountries]
+            .map { ($0 ?? []).sorted().joined(separator: ",") }
+            .joined(separator: "/")
+    }
+
+    /// The row title when the category name alone would mislead: a currency-scoped
+    /// `everything` row is "Foreign spend", a payment-method row is the method.
+    /// `groupLabel` still wins when authored.
+    private func displayTitle(for reward: RewardRate) -> String? {
+        if reward.isUserConfigurable { return nil }
+        if let label = reward.groupLabel { return label }
+        let isEverything = reward.categories?.contains("everything") ?? true
+        if let methods = reward.paymentMethods, !methods.isEmpty, isEverything {
+            return methods.map { PaymentMethods.displayName($0, categories: categories) }.joined(separator: " / ")
+        }
+        if let currencies = reward.currencies, !currencies.isEmpty, isEverything {
+            return AppLocale.string("Foreign spend")
+        }
+        return nil
     }
 
     private var targetRates: [(category: SpendingCategory, reward: RewardRate)] {
@@ -191,7 +216,7 @@ struct EarningRatesSection: View {
                         rate: boost.displayRate(rate: item.reward.rate, pointCashValue: item.reward.pointCashValue),
                         cardName: nil,
                         effectiveRate: boost.effectiveRate(rate: item.reward.rate, pointCashValue: item.reward.pointCashValue),
-                        titleOverride: item.reward.isUserConfigurable ? nil : item.reward.groupLabel
+                        titleOverride: displayTitle(for: item.reward)
                     )
                     .opacity(isUpcoming ? 0.5 : 1.0)
 
@@ -232,8 +257,19 @@ struct EarningRatesSection: View {
         if let excluded = reward.excludedCountries, !excluded.isEmpty {
             parts.append(AppLocale.string("not") + " " + excluded.joined(separator: ", "))
         }
-        if let methods = reward.paymentMethods, !methods.isEmpty {
+        let isEverything = reward.categories?.contains("everything") ?? true
+        if let methods = reward.paymentMethods, !methods.isEmpty, !isEverything {
+            // On an `everything` row the method is already the title.
             parts.append(AppLocale.string("via") + " " + methods.map { PaymentMethods.displayName($0, categories: categories) }.joined(separator: ", "))
+        }
+        if let channels = reward.channels, !channels.isEmpty {
+            parts.append(channels.map { channel -> String in
+                switch channel {
+                case "in_store": return AppLocale.string("in store")
+                case "online":   return AppLocale.string("online")
+                default:         return channel
+                }
+            }.joined(separator: "/"))
         }
         return parts.isEmpty ? nil : parts.joined(separator: " · ")
     }
