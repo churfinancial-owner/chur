@@ -38,7 +38,9 @@ enum SchemaFingerprint {
     /// Re-recorded 2026-09-10 (P1f part 2): `User.boostEnrollments` became
     /// `[String: ProgramSelection]`. Pre-launch, so edited in place per the note
     /// in `ChurSchema.swift` rather than versioned.
-    static let recorded = "038d576b04034402"
+    /// Re-recorded 2026-09-11 (P1f part 3): `RewardRate` gained `currencies`,
+    /// `excludedCountries`, `paymentMethods`.
+    static let recorded = "66018ede746313b9"
 
     #if DEBUG
 
