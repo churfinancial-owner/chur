@@ -21,7 +21,6 @@
             "category": "everything"
         }
     ],
-    
     "citi-hk-rewardscard": [
         {
             "rate": 3,
@@ -44,9 +43,28 @@
             "category": "streaming"
         },
         {
+            "rate": 5,
+            "rewardProgramName": "Citi HK Reward",
+            "category": "everything",
+            "paymentMethods": [
+                "mobile_pay"
+            ],
+            "rewardNotes": "Apple Pay, Google Pay or Samsung Pay. Monthly cap of 50,000 bonus points shared with contactless."
+        },
+        {
+            "rate": 3,
+            "rewardProgramName": "Citi HK Reward",
+            "category": "everything",
+            "paymentMethods": [
+                "contactless",
+                "unionpay_quickpass"
+            ],
+            "rewardNotes": "Mastercard contactless or UnionPay QuickPass in store. Shares the monthly cap with mobile pay."
+        },
+        {
             "rate": 1,
             "rewardProgramName": "Citi HK Reward",
-            "category": "mobile_pay"
+            "category": "everything"
         }
     ]
 }
