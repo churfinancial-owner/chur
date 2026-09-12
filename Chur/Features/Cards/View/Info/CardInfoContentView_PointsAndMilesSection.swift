@@ -60,11 +60,14 @@ struct PointsAndMilesSection: View {
         .buttonStyle(.plain)
     }
 
-    /// "16 partners · best Cathay Pacific at 1:1"
+    /// "16 partners · best Cathay Pacific at 1:1 · HK$200 per redemption"
     private func subtitle(for route: CardTransferRoute) -> String {
         var parts = ["\(route.partnerCount) " + AppLocale.string("partners")]
         if let best = route.best {
             parts.append(AppLocale.string("best") + " " + best.partner.name + " " + best.partner.ratio)
+        }
+        if let fee = ConditionText.transferFee(route.program.fee) {
+            parts.append(fee)
         }
         return parts.joined(separator: " · ")
     }

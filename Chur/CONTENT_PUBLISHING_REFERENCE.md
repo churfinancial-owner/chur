@@ -174,7 +174,7 @@ Two things to know before you start:
 | Card images | `CardArt/<issuer>/<imageName>.png` (repo root) | ✅ Yes |
 | Categories | `Chur/Resources/json/categories/*.json` | ✅ Yes |
 | Recommendations | `Chur/Resources/json/recommendations/**` | ✅ Yes |
-| Badges, partners, transfer partners, coverage tables | `Chur/Resources/json/badges/*.json` | ✅ Yes |
+| Badges, partners, transfer partners (a program may carry a `fee` for the bank's handling charge — display only, since P1f), coverage tables | `Chur/Resources/json/badges/*.json` | ✅ Yes |
 | Issuers, reward programs (optional `rateStyle`: `multiplier` default, `percent`, `perMile` — display only, since P1f), program upgrades | `Chur/Resources/json/control/SeedData{Issuers,Programs,ProgramUpgrades}.json` | ✅ Yes |
 | Boost programs (earning layers since P1f — `mode`, `appliesTo`, `selection`, `gate`/`cap`; every new field optional so older apps decode the same file) | `Chur/Resources/json/bankrelationshipprograms/boost_programs.json` | ✅ Yes |
 | Badge / bank / partner icons | `IconArt/<group>/<iconName>.png` (repo root) | ✅ Yes |

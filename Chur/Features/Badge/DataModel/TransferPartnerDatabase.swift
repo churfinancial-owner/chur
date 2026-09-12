@@ -42,11 +42,29 @@ struct TransferPartner {
     }
 }
 
+/// What a bank charges to move points out, e.g. Citi HK's HK$200 per redemption.
+///
+/// **Display only**, like a gate or a cap: its real cost per mile depends on how
+/// many points the user moves, which the app does not know. Shown so the reader
+/// can judge whether a small transfer is worth making at all.
+struct TransferFee: Codable, Equatable {
+    let amount: Double
+    let currency: String
+    /// `redemption` (default) — one flat charge per transfer request.
+    /// `transaction` — charged per partner transaction within a redemption.
+    var basis: String?
+    var note: String?
+
+    var resolvedBasis: String { basis ?? "redemption" }
+}
+
 struct TransferProgram {
     let programName: String   // Matches RewardRate.rewardProgramName (e.g. "Ultimate Rewards")
     let displayName: String   // Short label for UI (e.g. "Chase")
     let region: String?       // "US", "HK", etc. nil means available in all regions
     let partners: [TransferPartner]
+    /// Handling fee charged to move points out, when the bank charges one.
+    let fee: TransferFee?
 
     /// The cheapest mile available on this program, and the partner offering it.
     func bestRoute(pointCashValue: Double) -> (partner: TransferPartner, costPerMile: Double)? {
@@ -69,6 +87,7 @@ private struct TransferProgramJSON: Codable {
     let programName: String
     let displayName: String
     let region: String?
+    let fee: TransferFee?
     let partners: [TransferPartnerRef]
 }
 
@@ -151,7 +170,8 @@ enum TransferPartnerDatabase {
                 programName: json.programName,
                 displayName: json.displayName,
                 region: json.region,
-                partners: resolved
+                partners: resolved,
+                fee: json.fee
             )
         }
         allPrograms = resolvedAll

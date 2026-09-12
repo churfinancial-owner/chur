@@ -1,237 +1,752 @@
 {
-    "programs": [
+  "programs": [
+    {
+      "programName": "Membership Rewards",
+      "displayName": "American Express",
+      "region": "US",
+      "partners": [
         {
-            "programName": "Membership Rewards",
-            "displayName": "American Express",
-            "region": "US",
-            "partners": [
-                { "partnerId": "delta", "ratio": "1:1" },
-                { "partnerId": "air_canada", "ratio": "1:1" },
-                { "partnerId": "singapore_airlines", "ratio": "1:1" },
-                { "partnerId": "ana", "ratio": "1:1" },
-                { "partnerId": "british_airways", "ratio": "1:1" },
-                { "partnerId": "virgin_atlantic", "ratio": "1:1" },
-                { "partnerId": "iberia", "ratio": "1:1" },
-                { "partnerId": "air_france_klm", "ratio": "1:1" },
-                { "partnerId": "aeromexico", "ratio": "1:1.6" },
-                { "partnerId": "avianca", "ratio": "1:1" },
-                { "partnerId": "cathay_pacific", "ratio": "1:0.8" },
-                { "partnerId": "emirates", "ratio": "1:1" },
-                { "partnerId": "etihad", "ratio": "1:1" },
-                { "partnerId": "hawaiian_airlines", "ratio": "1:1" },
-                { "partnerId": "alaska_airlines", "ratio": "1:1" },
-                { "partnerId": "qantas", "ratio": "1:1" },
-                { "partnerId": "qatar_airways", "ratio": "1:1" },
-                { "partnerId": "jetblue", "ratio": "1:0.8" },
-                { "partnerId": "hilton", "ratio": "1:2" },
-                { "partnerId": "marriott", "ratio": "1:1" },
-                { "partnerId": "choice_hotels", "ratio": "1:1" }
-            ]
+          "partnerId": "delta",
+          "ratio": "1:1"
         },
         {
-            "programName": "Ultimate Rewards",
-            "displayName": "Chase",
-            "region": "US",
-            "partners": [
-                { "partnerId": "united_airlines", "ratio": "1:1" },
-                { "partnerId": "air_canada", "ratio": "1:1" },
-                { "partnerId": "singapore_airlines", "ratio": "1:1" },
-                { "partnerId": "british_airways", "ratio": "1:1" },
-                { "partnerId": "virgin_atlantic", "ratio": "1:1" },
-                { "partnerId": "iberia", "ratio": "1:1" },
-                { "partnerId": "air_france_klm", "ratio": "1:1" },
-                { "partnerId": "aer_lingus", "ratio": "1:1" },
-                { "partnerId": "emirates", "ratio": "1:1" },
-                { "partnerId": "jetblue", "ratio": "1:1" },
-                { "partnerId": "southwest_airlines", "ratio": "1:1" },
-                { "partnerId": "hyatt", "ratio": "1:1" },
-                { "partnerId": "marriott", "ratio": "1:1" },
-                { "partnerId": "ihg", "ratio": "1:1" }
-            ]
+          "partnerId": "air_canada",
+          "ratio": "1:1"
         },
         {
-            "programName": "Citi ThankYou Points",
-            "displayName": "Citi",
-            "region": "US",
-            "partners": [
-                { "partnerId": "american_airlines", "ratio": "1:1" },
-                { "partnerId": "singapore_airlines", "ratio": "1:1" },
-                { "partnerId": "avianca", "ratio": "1:1" },
-                { "partnerId": "turkish_airlines", "ratio": "1:1" },
-                { "partnerId": "virgin_atlantic", "ratio": "1:1" },
-                { "partnerId": "air_france_klm", "ratio": "1:1" },
-                { "partnerId": "cathay_pacific", "ratio": "1:1" },
-                { "partnerId": "emirates", "ratio": "1:0.8" },
-                { "partnerId": "etihad", "ratio": "1:1" },
-                { "partnerId": "eva_air", "ratio": "1:1" },
-                { "partnerId": "jetblue", "ratio": "1:1" },
-                { "partnerId": "qantas", "ratio": "1:1" },
-                { "partnerId": "qatar_airways", "ratio": "1:1" },
-                { "partnerId": "thai_airways", "ratio": "1:1" },
-                { "partnerId": "aeromexico", "ratio": "1:1" },
-                { "partnerId": "choice_hotels", "ratio": "1:2" },
-                { "partnerId": "wyndham", "ratio": "1:1" },
-                { "partnerId": "accor", "ratio": "2:1" },
-                { "partnerId": "leading_hotels", "ratio": "5:1" },
-                { "partnerId": "preferred_hotels", "ratio": "1:4" }
-            ]
+          "partnerId": "singapore_airlines",
+          "ratio": "1:1"
         },
         {
-            "programName": "Capital One Miles",
-            "displayName": "Capital One",
-            "region": "US",
-            "partners": [
-                { "partnerId": "air_canada", "ratio": "1:1" },
-                { "partnerId": "avianca", "ratio": "1:1" },
-                { "partnerId": "turkish_airlines", "ratio": "1:1" },
-                { "partnerId": "british_airways", "ratio": "1:1" },
-                { "partnerId": "virgin_atlantic", "ratio": "1:1" },
-                { "partnerId": "air_france_klm", "ratio": "1:1" },
-                { "partnerId": "cathay_pacific", "ratio": "1:1" },
-                { "partnerId": "emirates", "ratio": "1:1" },
-                { "partnerId": "etihad", "ratio": "1:1" },
-                { "partnerId": "eva_air", "ratio": "1:1" },
-                { "partnerId": "finnair", "ratio": "1:1" },
-                { "partnerId": "qantas", "ratio": "1:1" },
-                { "partnerId": "tap_portugal", "ratio": "1:1" },
-                { "partnerId": "aeromexico", "ratio": "1:1" },
-                { "partnerId": "singapore_airlines", "ratio": "1:1" },
-                { "partnerId": "jal", "ratio": "1:1" },
-                { "partnerId": "wyndham", "ratio": "1:1" },
-                { "partnerId": "choice_hotels", "ratio": "1:1" },
-                { "partnerId": "accor", "ratio": "2:1" }
-            ]
+          "partnerId": "ana",
+          "ratio": "1:1"
         },
         {
-            "programName": "Bilt Rewards",
-            "displayName": "Bilt",
-            "region": "US",
-            "partners": [
-                { "partnerId": "united_airlines", "ratio": "1:1" },
-                { "partnerId": "air_canada", "ratio": "1:1" },
-                { "partnerId": "avianca", "ratio": "1:1" },
-                { "partnerId": "british_airways", "ratio": "1:1" },
-                { "partnerId": "hawaiian_airlines", "ratio": "1:1" },
-                { "partnerId": "alaska_airlines", "ratio": "1:1" },
-                { "partnerId": "cathay_pacific", "ratio": "1:1" },
-                { "partnerId": "virgin_atlantic", "ratio": "1:1" },
-                { "partnerId": "iberia", "ratio": "1:1" },
-                { "partnerId": "air_france_klm", "ratio": "1:1" },
-                { "partnerId": "turkish_airlines", "ratio": "1:1" },
-                { "partnerId": "qatar_airways", "ratio": "1:1" },
-                { "partnerId": "jal", "ratio": "1:1" },
-                { "partnerId": "aer_lingus", "ratio": "1:1" },
-                { "partnerId": "emirates", "ratio": "1:1" },
-                { "partnerId": "etihad", "ratio": "1:1" },
-                { "partnerId": "spirit_airlines", "ratio": "1:1" },
-                { "partnerId": "southwest_airlines", "ratio": "1:1" },
-                { "partnerId": "tap_portugal", "ratio": "1:1" },
-                { "partnerId": "hyatt", "ratio": "1:1" },
-                { "partnerId": "marriott", "ratio": "1:1" },
-                { "partnerId": "hilton", "ratio": "1:1" },
-                { "partnerId": "ihg", "ratio": "1:1" },
-                { "partnerId": "wyndham", "ratio": "1:1" },
-                { "partnerId": "accor", "ratio": "3:2" }
-            ]
+          "partnerId": "british_airways",
+          "ratio": "1:1"
         },
         {
-            "programName": "Wells Fargo Rewards",
-            "displayName": "Wells Fargo",
-            "region": "US",
-            "partners": [
-                { "partnerId": "aer_lingus", "ratio": "1:1" },
-                { "partnerId": "air_france_klm", "ratio": "1:1" },
-                { "partnerId": "avianca", "ratio": "1:1" },
-                { "partnerId": "british_airways", "ratio": "1:1" },
-                { "partnerId": "cathay_pacific", "ratio": "1:1" },
-                { "partnerId": "choice_hotels", "ratio": "1:2" },
-                { "partnerId": "iberia", "ratio": "1:1" },
-                { "partnerId": "jetblue", "ratio": "1:1" },
-                { "partnerId": "virgin_atlantic", "ratio": "1:1" },
-                { "partnerId": "wyndham", "ratio": "1:2" }
-            ]
+          "partnerId": "virgin_atlantic",
+          "ratio": "1:1"
         },
         {
-            "programName": "HSBC Rewards",
-            "displayName": "HSBC",
-            "region": "US",
-            "partners": [
-                { "partnerId": "cathay_pacific", "ratio": "1:1" },
-                { "partnerId": "singapore_airlines", "ratio": "1:1" },
-                { "partnerId": "eva_air", "ratio": "1:1" },
-                { "partnerId": "air_france_klm", "ratio": "1:1" },
-                { "partnerId": "british_airways", "ratio": "1:1" },
-                { "partnerId": "qantas", "ratio": "1:1" },
-                { "partnerId": "qatar_airways", "ratio": "1:1" },
-                { "partnerId": "etihad", "ratio": "1:1" }
-            ]
+          "partnerId": "iberia",
+          "ratio": "1:1"
         },
         {
-            "programName": "Marriott Bonvoy",
-            "displayName": "Marriott",
-            "region": "US",
-            "partners": [
-                { "partnerId": "aegean_airlines", "ratio": "3:1" },
-                { "partnerId": "aer_lingus", "ratio": "3:1" },
-                { "partnerId": "aeromexico", "ratio": "3:1" },
-                { "partnerId": "air_canada", "ratio": "3:1" },
-                { "partnerId": "air_china", "ratio": "3:1" },
-                { "partnerId": "air_france_klm", "ratio": "3:1" },
-                { "partnerId": "air_new_zealand", "ratio": "200:1" },
-                { "partnerId": "alaska_airlines", "ratio": "3:1" },
-                { "partnerId": "american_airlines", "ratio": "3:1" },
-                { "partnerId": "ana", "ratio": "3:1" },
-                { "partnerId": "asiana_airlines", "ratio": "3:1" },
-                { "partnerId": "avianca", "ratio": "3:1" },
-                { "partnerId": "british_airways", "ratio": "3:1" },
-                { "partnerId": "cathay_pacific", "ratio": "3:1" },
-                { "partnerId": "china_southern", "ratio": "3:1" },
-                { "partnerId": "copa_airlines", "ratio": "3:1" },
-                { "partnerId": "delta", "ratio": "3:1" },
-                { "partnerId": "emirates", "ratio": "3:1" },
-                { "partnerId": "etihad", "ratio": "3:1" },
-                { "partnerId": "frontier_airlines", "ratio": "3:1" },
-                { "partnerId": "hainan_airlines", "ratio": "3:1" },
-                { "partnerId": "hawaiian_airlines", "ratio": "3:1" },
-                { "partnerId": "iberia", "ratio": "3:1" },
-                { "partnerId": "jal", "ratio": "3:1" },
-                { "partnerId": "latam_airlines", "ratio": "3:1" },
-                { "partnerId": "qantas", "ratio": "3:1" },
-                { "partnerId": "qatar_airways", "ratio": "3:1" },
-                { "partnerId": "saudia", "ratio": "3:1" },
-                { "partnerId": "singapore_airlines", "ratio": "3:1" },
-                { "partnerId": "southwest_airlines", "ratio": "3:1" },
-                { "partnerId": "tap_portugal", "ratio": "3:1" },
-                { "partnerId": "thai_airways", "ratio": "3:1" },
-                { "partnerId": "turkish_airlines", "ratio": "3:1" },
-                { "partnerId": "united_airlines", "ratio": "3:1" },
-                { "partnerId": "virgin_atlantic", "ratio": "3:1" },
-                { "partnerId": "virgin_australia", "ratio": "3:1" },
-                { "partnerId": "vueling", "ratio": "3:1" }
-            ]
+          "partnerId": "air_france_klm",
+          "ratio": "1:1"
         },
         {
-            "programName": "HSBC EveryMile",
-            "displayName": "HSBC",
-            "region": "HK",
-            "partners": [
-                { "partnerId": "cathay_pacific", "ratio": "1:1" },
-                { "partnerId": "british_airways", "ratio": "1:1" },
-                { "partnerId": "qantas", "ratio": "1:1" },
-                { "partnerId": "qatar_airways", "ratio": "1:1" },
-                { "partnerId": "finnair", "ratio": "1:1" },
-                { "partnerId": "air_canada", "ratio": "1:1" },
-                { "partnerId": "singapore_airlines", "ratio": "1:1" },
-                { "partnerId": "eva_air", "ratio": "1:1" },
-                { "partnerId": "turkish_airlines", "ratio": "1:1" },
-                { "partnerId": "air_france_klm", "ratio": "1:1" },
-                { "partnerId": "vietnam_airlines", "ratio": "1:1" },
-                { "partnerId": "emirates", "ratio": "1:1" },
-                { "partnerId": "etihad", "ratio": "1:1" },
-                { "partnerId": "accor", "ratio": "1:1" },
-                { "partnerId": "ihg", "ratio": "1:1" },
-                { "partnerId": "marriott", "ratio": "1:1" }
-            ]
+          "partnerId": "aeromexico",
+          "ratio": "1:1.6"
+        },
+        {
+          "partnerId": "avianca",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "cathay_pacific",
+          "ratio": "1:0.8"
+        },
+        {
+          "partnerId": "emirates",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "etihad",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "hawaiian_airlines",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "alaska_airlines",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "qantas",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "qatar_airways",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "jetblue",
+          "ratio": "1:0.8"
+        },
+        {
+          "partnerId": "hilton",
+          "ratio": "1:2"
+        },
+        {
+          "partnerId": "marriott",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "choice_hotels",
+          "ratio": "1:1"
         }
-    ]
+      ]
+    },
+    {
+      "programName": "Ultimate Rewards",
+      "displayName": "Chase",
+      "region": "US",
+      "partners": [
+        {
+          "partnerId": "united_airlines",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "air_canada",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "singapore_airlines",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "british_airways",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "virgin_atlantic",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "iberia",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "air_france_klm",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "aer_lingus",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "emirates",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "jetblue",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "southwest_airlines",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "hyatt",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "marriott",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "ihg",
+          "ratio": "1:1"
+        }
+      ]
+    },
+    {
+      "programName": "Citi ThankYou Points",
+      "displayName": "Citi",
+      "region": "US",
+      "partners": [
+        {
+          "partnerId": "american_airlines",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "singapore_airlines",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "avianca",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "turkish_airlines",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "virgin_atlantic",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "air_france_klm",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "cathay_pacific",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "emirates",
+          "ratio": "1:0.8"
+        },
+        {
+          "partnerId": "etihad",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "eva_air",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "jetblue",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "qantas",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "qatar_airways",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "thai_airways",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "aeromexico",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "choice_hotels",
+          "ratio": "1:2"
+        },
+        {
+          "partnerId": "wyndham",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "accor",
+          "ratio": "2:1"
+        },
+        {
+          "partnerId": "leading_hotels",
+          "ratio": "5:1"
+        },
+        {
+          "partnerId": "preferred_hotels",
+          "ratio": "1:4"
+        }
+      ]
+    },
+    {
+      "programName": "Capital One Miles",
+      "displayName": "Capital One",
+      "region": "US",
+      "partners": [
+        {
+          "partnerId": "air_canada",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "avianca",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "turkish_airlines",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "british_airways",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "virgin_atlantic",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "air_france_klm",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "cathay_pacific",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "emirates",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "etihad",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "eva_air",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "finnair",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "qantas",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "tap_portugal",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "aeromexico",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "singapore_airlines",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "jal",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "wyndham",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "choice_hotels",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "accor",
+          "ratio": "2:1"
+        }
+      ]
+    },
+    {
+      "programName": "Bilt Rewards",
+      "displayName": "Bilt",
+      "region": "US",
+      "partners": [
+        {
+          "partnerId": "united_airlines",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "air_canada",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "avianca",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "british_airways",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "hawaiian_airlines",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "alaska_airlines",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "cathay_pacific",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "virgin_atlantic",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "iberia",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "air_france_klm",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "turkish_airlines",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "qatar_airways",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "jal",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "aer_lingus",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "emirates",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "etihad",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "spirit_airlines",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "southwest_airlines",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "tap_portugal",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "hyatt",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "marriott",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "hilton",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "ihg",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "wyndham",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "accor",
+          "ratio": "3:2"
+        }
+      ]
+    },
+    {
+      "programName": "Wells Fargo Rewards",
+      "displayName": "Wells Fargo",
+      "region": "US",
+      "partners": [
+        {
+          "partnerId": "aer_lingus",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "air_france_klm",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "avianca",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "british_airways",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "cathay_pacific",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "choice_hotels",
+          "ratio": "1:2"
+        },
+        {
+          "partnerId": "iberia",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "jetblue",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "virgin_atlantic",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "wyndham",
+          "ratio": "1:2"
+        }
+      ]
+    },
+    {
+      "programName": "HSBC Rewards",
+      "displayName": "HSBC",
+      "region": "US",
+      "partners": [
+        {
+          "partnerId": "cathay_pacific",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "singapore_airlines",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "eva_air",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "air_france_klm",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "british_airways",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "qantas",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "qatar_airways",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "etihad",
+          "ratio": "1:1"
+        }
+      ]
+    },
+    {
+      "programName": "Marriott Bonvoy",
+      "displayName": "Marriott",
+      "region": "US",
+      "partners": [
+        {
+          "partnerId": "aegean_airlines",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "aer_lingus",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "aeromexico",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "air_canada",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "air_china",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "air_france_klm",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "air_new_zealand",
+          "ratio": "200:1"
+        },
+        {
+          "partnerId": "alaska_airlines",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "american_airlines",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "ana",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "asiana_airlines",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "avianca",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "british_airways",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "cathay_pacific",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "china_southern",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "copa_airlines",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "delta",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "emirates",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "etihad",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "frontier_airlines",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "hainan_airlines",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "hawaiian_airlines",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "iberia",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "jal",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "latam_airlines",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "qantas",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "qatar_airways",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "saudia",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "singapore_airlines",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "southwest_airlines",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "tap_portugal",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "thai_airways",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "turkish_airlines",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "united_airlines",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "virgin_atlantic",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "virgin_australia",
+          "ratio": "3:1"
+        },
+        {
+          "partnerId": "vueling",
+          "ratio": "3:1"
+        }
+      ]
+    },
+    {
+      "programName": "HSBC EveryMile",
+      "displayName": "HSBC",
+      "region": "HK",
+      "partners": [
+        {
+          "partnerId": "cathay_pacific",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "british_airways",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "qantas",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "qatar_airways",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "finnair",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "air_canada",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "singapore_airlines",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "eva_air",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "turkish_airlines",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "air_france_klm",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "vietnam_airlines",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "emirates",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "etihad",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "accor",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "ihg",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "marriott",
+          "ratio": "1:1"
+        }
+      ],
+      "fee": {
+        "amount": 0,
+        "currency": "HKD",
+        "note": "No handling fee"
+      }
+    }
+  ]
 }

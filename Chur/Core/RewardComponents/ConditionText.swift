@@ -58,6 +58,20 @@ enum ConditionText {
         [gate(gateCondition), cap(capCondition, sharedWith: otherNames)].compactMap { $0 }
     }
 
+    /// "HK$200 per redemption" — a bank's handling fee for moving points out.
+    /// Display only, for the same reason gates and caps are: what it costs per
+    /// mile depends on how many points move, which the app does not know.
+    static func transferFee(_ fee: TransferFee?) -> String? {
+        guard let fee else { return nil }
+        let basis: String
+        switch fee.resolvedBasis {
+        case "transaction": basis = AppLocale.string("per transaction")
+        default:            basis = AppLocale.string("per redemption")
+        }
+        let line = money(fee.amount, currency: fee.currency) + " " + basis
+        return append(note: fee.note, to: line)
+    }
+
     // MARK: - Pieces
 
     /// `HK$3,000`. The symbol comes from the regions seed by currency code, so a
