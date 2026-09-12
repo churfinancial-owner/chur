@@ -10,8 +10,6 @@ import SwiftUI
 struct CardInfoSheetPresenter: View {
     let sheet: CardInfoContentView.ActiveSheet
     let card: CreditCard
-    var boostProgramID: String? = nil
-    var transferProgramName: String? = nil
 
     var body: some View {
         switch sheet {
@@ -20,9 +18,9 @@ struct CardInfoSheetPresenter: View {
         case .foreignFee: ForeignFeePickerSheet(card: card)
         case .pointValues: RewardProgramEditorSheet(card: card)
         case .configurableRewards: UserConfigurableRewardsSheet(card: card)
-        case .boost: BoostProgramPickerSheet(card: card, programID: boostProgramID)
+        case .boost(let programID): BoostProgramPickerSheet(card: card, programID: programID)
         case .rewardPlan: RewardPlanPickerSheet(card: card)
-        case .transferPartners: PointTransferView(preselectedProgramName: transferProgramName)
+        case .transferPartners(let programName): PointTransferView(preselectedProgramName: programName)
         case .network: NetworkPickerSheet(card: card)
         case .cardType: CardTypePickerSheet(card: card)
         case .userNote: CardsUserNoteSheet(card: card)

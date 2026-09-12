@@ -12,7 +12,6 @@ struct BoostProgramsSection: View {
     let categories: [SpendingCategory]
     let user: User?
     @Binding var activeSheet: CardInfoContentView.ActiveSheet?
-    @Binding var boostProgramID: String?
 
     private var programs: [BoostProgram] { card.enrollableBoostPrograms }
 
@@ -24,8 +23,7 @@ struct BoostProgramsSection: View {
                     ForEach(Array(programs.enumerated()), id: \.element.id) { index, program in
                         if index > 0 { CardRowDivider() }
                         DetailRow(label: program.name, value: display(for: program), isEditable: true) {
-                            boostProgramID = program.id
-                            activeSheet = .boost
+                            activeSheet = .boost(programID: program.id)
                         }
                         ForEach(noteLines(for: program), id: \.self) { line in
                             Text(line)

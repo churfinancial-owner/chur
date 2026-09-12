@@ -76,8 +76,13 @@ struct PointTransferView: View {
         }
         .background(Color.churOffWhite)
         .onAppear {
+            // Resolve the market and the card's program together, before the first
+            // search, so the sheet never renders a frame with neither applied.
             if region == nil { region = initialRegion }
-            applyPreselection()
+            if selectedItem == nil, let displayName = preselectedDisplayName {
+                selectedItem = displayName
+                isBankSelected = true
+            }
             runSearch()
         }
         // Updated to the non-deprecated onChange syntax
@@ -128,14 +133,10 @@ struct PointTransferView: View {
         }
     }
 
-    /// Selects the card's program on open, so the sheet lands showing its partners.
-    private func applyPreselection() {
-        guard selectedItem == nil,
-              let preselectedProgramName,
-              let displayName = TransferPartnerDatabase.displayName(forProgramNamed: preselectedProgramName)
-        else { return }
-        selectedItem = displayName
-        isBankSelected = true
+    /// The bank tile the card's program is shown under, when opened from a card.
+    private var preselectedDisplayName: String? {
+        guard let preselectedProgramName else { return nil }
+        return TransferPartnerDatabase.displayName(forProgramNamed: preselectedProgramName)
     }
 
     // MARK: - Logic

@@ -5,7 +5,6 @@ struct RewardSetupSection: View {
     let categories: [SpendingCategory]
     let user: User?
     @Binding var activeSheet: CardInfoContentView.ActiveSheet?
-    @Binding var transferProgramName: String?
 
     var rewardPlanDisplay: String {
         card.activePlan?.name ?? (card.rewards.isEmpty ? AppLocale.string("No plan selected") : AppLocale.string("Current Rewards"))
@@ -54,8 +53,7 @@ struct RewardSetupSection: View {
                         value: "\(route.partnerCount) " + AppLocale.string("partners"),
                         isEditable: true
                     ) {
-                        transferProgramName = route.program.programName
-                        activeSheet = .transferPartners
+                        activeSheet = .transferPartners(programName: route.program.programName)
                     }
                     if let fee = ConditionText.transferFee(route.fee) {
                         Text(fee)
