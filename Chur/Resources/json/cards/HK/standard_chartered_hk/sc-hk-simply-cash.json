@@ -8,8 +8,8 @@
     "annualFee": 2000,
     "currency": "HKD",
     "country": "HK",
-    "hasForeignTransactionFee": false,
-    "foreignTransactionFeeRate": 0,
+    "hasForeignTransactionFee": true,
+    "foreignTransactionFeeRate": 0.0195,
     "isPopular": false,
     "benefits": []
 }

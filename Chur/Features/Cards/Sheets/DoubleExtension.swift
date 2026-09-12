@@ -31,16 +31,21 @@ extension Double {
     }
 
     /// Convenience: the style, currency and point value resolved from a reward
-    /// program name. `perMile` only applies when that program actually has
-    /// transfer partners — a card whose points stay put reads as a plain rate,
-    /// and a Freedom reads that way until a Sapphire upgrades its program.
+    /// program name. `perMile` only applies when the points can actually become
+    /// miles: either the program has transfer partners, or it *is* a miles
+    /// currency (`milesCurrency`, e.g. Asia Miles HK, which needs no transfer).
+    /// A Freedom therefore reads as a plain rate until a Sapphire upgrades its
+    /// program. The fallback is `multiplier`, not `percent`: a perMile program's
+    /// rate is miles per dollar, so printing it with a `%` would assert a cash
+    /// rate the number is not.
     func formatAsRate(program: String?) -> String {
         guard let program, let defaults = RewardProgramDefaults.defaultValue(for: program) else {
             return formatAsRate()
         }
         var style = defaults.rateStyle
-        if style == .perMile, TransferPartnerDatabase.program(named: program) == nil {
-            style = .percent
+        if style == .perMile, !defaults.milesCurrency,
+           TransferPartnerDatabase.program(named: program) == nil {
+            style = .multiplier
         }
         return formatAsRate(style: style, currency: defaults.currency, pointCashValue: defaults.pointCashValue)
     }

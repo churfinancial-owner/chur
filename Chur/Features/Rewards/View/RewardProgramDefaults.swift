@@ -15,6 +15,10 @@ struct RewardProgramDefault {
     /// How a rate on this program reads (P1f part 4). Display only — the maths is
     /// always `rate × pointCashValue`.
     var rateStyle: RateStyle = .multiplier
+    /// True when the program's unit *is* an airline mile (Asia Miles HK), rather
+    /// than a bank point that reaches miles through a transfer partner. Only the
+    /// latter needs the `perMile` guard in `Double.formatAsRate(program:)`.
+    var milesCurrency: Bool = false
 }
 
 /// `3x` (default), `3%` for HK cash-back programs, or `HK$3 = 1 mile` for miles
@@ -33,6 +37,7 @@ struct RewardProgramDefaults {
         let pointCashValue: Double
         let currency: String
         let rateStyle: RateStyle?
+        let milesCurrency: Bool?
     }
 
     /// Default point values keyed by reward program name.
@@ -64,7 +69,8 @@ struct RewardProgramDefaults {
             RewardProgramDefault(
                 pointCashValue: $0.pointCashValue,
                 currency: $0.currency,
-                rateStyle: $0.rateStyle ?? .multiplier
+                rateStyle: $0.rateStyle ?? .multiplier,
+                milesCurrency: $0.milesCurrency ?? false
             )
         }
     }

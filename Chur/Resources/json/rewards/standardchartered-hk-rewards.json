@@ -1,38 +1,41 @@
 {
     "sc-hk-cathay": [
         {
-            "rate": 5.0,
+            "rate": 0.5,
             "rewardProgramName": "Asia Miles HK",
             "category": "cathay_airline"
         },
         {
-            "rate": 5.0,
+            "rate": 0.5,
             "rewardProgramName": "Asia Miles HK",
             "category": "hkexpress_airline"
         },
         {
-            "rate": 2.5,
+            "rate": 0.5,
             "rewardProgramName": "Asia Miles HK",
-            "category": "dining"
+            "category": "merchant_placeholder"
         },
         {
-            "rate": 2.5,
+            "rate": 0.25,
             "rewardProgramName": "Asia Miles HK",
             "category": "hotels"
         },
         {
-            "rate": 2.5,
+            "rate": 0.25,
             "rewardProgramName": "Asia Miles HK",
             "category": "foreign_transactions"
         },
         {
-            "rate": 1.67,
-            "rewardProgramName": "Asia Miles",
+            "rate": 0.25,
+            "rewardProgramName": "Asia Miles HK",
+            "category": "dining"
+        },
+        {
+            "rate": 0.1667,
+            "rewardProgramName": "Asia Miles HK",
             "category": "everything"
         }
     ],
-    
-
     "sc-hk-smart": [
         {
             "rate": 5.0,

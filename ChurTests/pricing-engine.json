@@ -1958,6 +1958,88 @@
           "rate": 1.0
         }
       ]
+    },
+    {
+      "id": "hk-miles-rate-below-one-prices-from-the-point-value",
+      "rule": "an HK miles card is authored in miles per dollar, so its rates sit below 1.0 and the earning comes from a large point value (HK$0.1015 a mile). 0.25 miles per dollar is HK$4 = 1 mile, which is 2.5% — it must not be read as 0.25%. The Standard Chartered Cathay Mastercard's dining rate.",
+      "input": {
+        "categoryID": "dining",
+        "region": "HK"
+      },
+      "cards": [
+        {
+          "name": "Cathay Miles",
+          "country": "HK",
+          "hasForeignTransactionFee": true,
+          "foreignTransactionFeeRate": 0.0195,
+          "rewards": [
+            {
+              "rate": 0.25,
+              "categories": [
+                "dining"
+              ],
+              "pointCashValue": 0.1015,
+              "pointCashValueCurrency": "HKD"
+            },
+            {
+              "rate": 0.1667,
+              "categories": [
+                "everything"
+              ],
+              "pointCashValue": 0.1015,
+              "pointCashValueCurrency": "HKD"
+            }
+          ]
+        }
+      ],
+      "expected": [
+        {
+          "name": "Cathay Miles",
+          "effectiveCashBackRate": 0.025375,
+          "rate": 0.25
+        }
+      ]
+    },
+    {
+      "id": "hk-miles-overseas-row-outranks-the-base-row",
+      "rule": "the same card abroad: the foreign_transactions overlay (HK$4 = 1 mile) beats the everything row (HK$6 = 1 mile) even though both are fractions. Ranking sub-1.0 rates is where a miles card authored percent-style used to go wrong. FX netting itself is pinned by foreign-overlay-still-pays-the-fx-fee, so this card's fee is waived to keep the arithmetic readable.",
+      "input": {
+        "categoryID": "dining",
+        "region": "JP"
+      },
+      "cards": [
+        {
+          "name": "Cathay Miles",
+          "country": "HK",
+          "hasForeignTransactionFee": false,
+          "foreignTransactionFeeRate": 0,
+          "rewards": [
+            {
+              "rate": 0.25,
+              "categories": [
+                "foreign_transactions"
+              ],
+              "pointCashValue": 0.1015,
+              "pointCashValueCurrency": "HKD"
+            },
+            {
+              "rate": 0.1667,
+              "categories": [
+                "everything"
+              ],
+              "pointCashValue": 0.1015,
+              "pointCashValueCurrency": "HKD"
+            }
+          ]
+        }
+      ],
+      "expected": [
+        {
+          "name": "Cathay Miles",
+          "effectiveCashBackRate": 0.025375,
+          "rate": 0.25
+        }
+      ]
     }
   ]
 }
