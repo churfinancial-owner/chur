@@ -20,25 +20,17 @@ struct ChildCategoryRateRow: View {
 
     @Environment(\.rewardDisplay) private var rewardDisplay
 
-    /// Display text — uses % suffix for effective rate in this row context
     private var displayValue: String {
-        if rewardDisplay.showEffectiveRate && effectiveRate > 0 {
-            let pct = effectiveRate * 100
-            if pct.truncatingRemainder(dividingBy: 1) == 0 {
-                return String(format: "%.0f%%", pct)
-            } else if (pct * 10).truncatingRemainder(dividingBy: 1) == 0 {
-                return String(format: "%.1f%%", pct)
-            } else {
-                return String(format: "%.2f%%", pct)
-            }
-        }
-        return rate > 0 ? rate.formatAsRate(program: rewardProgramName) : "-"
+        RateDisplay.preferred(
+            rate: rate,
+            effectiveRate: effectiveRate,
+            program: rewardProgramName,
+            showEffectiveRate: rewardDisplay.showEffectiveRate
+        )
     }
 
     private var ratePillMode: RatePill.DisplayMode {
-        if rate <= 0 && !(rewardDisplay.showEffectiveRate && effectiveRate > 0) { return .empty }
-        if rewardDisplay.showEffectiveRate { return effectiveRate < 0 ? .effectiveNegative : .effectivePositive }
-        return .points
+        RateDisplay.pillMode(rate: rate, effectiveRate: effectiveRate, showEffectiveRate: rewardDisplay.showEffectiveRate)
     }
 
     var body: some View {

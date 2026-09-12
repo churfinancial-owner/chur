@@ -533,7 +533,7 @@ struct CalculatorPopup: View {
                                 Spacer()
                                 
                                 HStack(spacing: 6) {
-                                    Text("\(bestCard.effectiveRateDisplayString)")
+                                    Text(bestCard.effectiveText)
                                         .font(.churSectionHeader())
                                         .foregroundStyle(bestCard.effectiveCashBackRate < 0 ? Color(red: 0.78, green: 0.25, blue: 0.42) : Color.churOlive)
                                     

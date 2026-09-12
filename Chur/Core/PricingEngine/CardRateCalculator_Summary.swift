@@ -21,18 +21,6 @@ struct CardRateSummary {
     /// The payment method the winning row relied on, if any ("with Apple Pay"). P1f part 3.
     var viaPaymentMethod: String? = nil
     
-    /// Formatted display string as percentage, e.g. "5%", "9.75%", "-1.25%"
-    var effectiveRateDisplayString: String {
-        let pct = effectiveCashBackRate * 100
-        if pct.truncatingRemainder(dividingBy: 1) == 0 {
-            return "\(String(format: "%.0f", pct))%"
-        } else if (pct * 10).truncatingRemainder(dividingBy: 1) == 0 {
-            return "\(String(format: "%.1f", pct))%"
-        } else {
-            return "\(String(format: "%.2f", pct))%"
-        }
-    }
-    
     /// Point value in cents of its own currency, e.g. "1.25¢ USD", "10.15¢ HKD".
     ///
     /// The currency is named because the cent symbol alone is ambiguous once more

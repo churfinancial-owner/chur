@@ -122,7 +122,7 @@ struct ParallaxHeaderView: View {
                 .shadow(color: isPrimary ? Color.churOlive.opacity(0.25) : .clear, radius: 4, y: 2)
 
                 // MARK: - Rate Pill — olive (2 parts)
-                Text(summary.rate.formatAsRate(program: summary.rewardProgramName, compact: true))
+                Text(summary.rateText(context: .compact))
                     .font(.churFootnoteBold())
                     .lineLimit(1)
                     .frame(width: unitWidth * 2)
@@ -133,7 +133,7 @@ struct ParallaxHeaderView: View {
                     .shadow(color: isPrimary ? Color.churOlive.opacity(0.25) : .clear, radius: 4, y: 2)
 
                 // MARK: - Effective Rate Pill — blue (2 parts)
-                Text(summary.effectiveRateDisplayString)
+                Text(summary.effectiveText)
                     .font(.churFootnoteBold())
                     .lineLimit(1)
                     .frame(width: unitWidth * 2)

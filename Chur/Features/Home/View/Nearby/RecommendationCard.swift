@@ -24,16 +24,16 @@ struct RecommendationCard: View {
     }
 
     private var rateDisplayText: String {
-        rewardDisplay.showEffectiveRate
-            ? (recommendation.bestCard?.effectiveRateDisplayString ?? "-")
-            : recommendation.pointsDisplay
+        // No card matched: `pointsDisplay` carries the reason ("❓", "Card not
+        // found"). Otherwise the number is formatted here, where the reward
+        // program is known.
+        guard let best = recommendation.bestCard else { return recommendation.pointsDisplay }
+        return best.preferredText(showEffectiveRate: rewardDisplay.showEffectiveRate, context: .compact)
     }
 
     private var ratePillMode: RatePill.DisplayMode {
-        guard rewardDisplay.showEffectiveRate else { return .points }
-        let rate = recommendation.bestCard?.effectiveCashBackRate ?? 0
-        if rate == 0 { return .empty }
-        return rate < 0 ? .effectiveNegative : .effectivePositive
+        guard let best = recommendation.bestCard else { return .empty }
+        return best.preferredRateMode(showEffectiveRate: rewardDisplay.showEffectiveRate)
     }
 
     var body: some View {

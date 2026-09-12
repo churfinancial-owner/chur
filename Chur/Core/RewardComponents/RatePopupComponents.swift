@@ -10,46 +10,11 @@ import SwiftUI
 // MARK: - CardRateSummary Display Helpers
 
 extension CardRateSummary {
-    /// The raw rate with an `x`, ignoring how the program quotes itself. Only the
-    /// formula row wants this: it renders `rate × point value = effective`, and
-    /// that multiplication is only legible with the number actually being
-    /// multiplied. Everywhere else wants `programRateText`.
-    var formattedRateText: String {
-        let r = rate
-        if r == floor(r) { return "\(Int(r))x" }
-        return String(format: (r * 10).truncatingRemainder(dividingBy: 1) == 0 ? "%.1fx" : "%.2fx", r)
-    }
 
-    /// The rate as its program quotes it: `3x`, `5%`, or `5.08% (HK$2/mile)`.
-    var programRateText: String {
-        rate.formatAsRate(program: rewardProgramName)
-    }
-
-    /// The same, for a pill sitting beside the effective percentage — a miles
-    /// program drops to `HK$2/mile` alone rather than repeating its neighbour.
-    var programRateTextCompact: String {
-        rate.formatAsRate(program: rewardProgramName, compact: true)
-    }
-
-    var effectivePctText: String {
-        let eff = effectiveCashBackRate
-        guard eff > 0 else { return "–" }
-        let pct = eff * 100
-        if pct.truncatingRemainder(dividingBy: 1) == 0 { return "\(Int(pct))%" }
-        if (pct * 10).truncatingRemainder(dividingBy: 1) == 0 { return String(format: "%.1f%%", pct) }
-        return String(format: "%.2f%%", pct)
-    }
-
+    /// Pill colour for whichever number the user's Display setting is showing.
+    /// The text itself comes from `preferredText(showEffectiveRate:context:)`.
     func preferredRateMode(showEffectiveRate: Bool) -> RatePill.DisplayMode {
-        if showEffectiveRate {
-            if effectiveCashBackRate == 0 { return .empty }
-            return effectiveCashBackRate < 0 ? .effectiveNegative : .effectivePositive
-        }
-        return rate > 0 ? .points : .empty
-    }
-
-    func preferredRateText(showEffectiveRate: Bool) -> String {
-        showEffectiveRate ? effectiveRateDisplayString : programRateText
+        RateDisplay.pillMode(rate: rate, effectiveRate: effectiveCashBackRate, showEffectiveRate: showEffectiveRate)
     }
 }
 
@@ -255,16 +220,16 @@ struct PopupBestCardContent: View {
             .padding(.bottom, 14)
 
             BestCardStatStrip(
-                rateText: summary.programRateTextCompact,
-                effectivePctText: summary.effectivePctText,
+                rateText: summary.rateText(context: .compact),
+                effectiveText: summary.effectiveText,
                 isEffectiveNegative: summary.effectiveCashBackRate < 0
             )
 
             if showFormula {
                 RateFormulaRow(
-                    formattedRate: summary.formattedRateText,
+                    formattedRate: summary.rateText(context: .formula),
                     pointValueText: summary.pointValueDisplayString,
-                    effectiveRateText: summary.effectiveRateDisplayString,
+                    effectiveRateText: summary.effectiveText,
                     isNegative: summary.effectiveCashBackRate < 0
                 )
                 .padding(.top, 12)
@@ -299,16 +264,16 @@ struct PopupComparisonRow: View {
             Spacer()
             if showFormula {
                 HStack(spacing: 6) {
-                    RatePill(text: summary.programRateTextCompact, displayMode: .points, size: .medium)
+                    RatePill(text: summary.rateText(context: .compact), displayMode: .points, size: .medium)
                     RatePill(
-                        text: summary.effectiveRateDisplayString,
+                        text: summary.effectiveText,
                         displayMode: summary.effectiveCashBackRate < 0 ? .effectiveNegative : .effectivePositive,
                         size: .medium
                     )
                 }
             } else {
                 RatePill(
-                    text: summary.preferredRateText(showEffectiveRate: rewardDisplay.showEffectiveRate),
+                    text: summary.preferredText(showEffectiveRate: rewardDisplay.showEffectiveRate, context: .compact),
                     displayMode: summary.preferredRateMode(showEffectiveRate: rewardDisplay.showEffectiveRate),
                     size: .medium
                 )
@@ -370,7 +335,7 @@ struct PopupSectionCard<Content: View>: View {
 
 struct BestCardStatStrip: View {
     let rateText: String
-    let effectivePctText: String
+    let effectiveText: String
     var isEffectiveNegative: Bool = false
 
     var body: some View {
@@ -380,7 +345,7 @@ struct BestCardStatStrip: View {
                 .fill(Color.black.opacity(0.06))
                 .frame(width: 1)
                 .padding(.vertical, 8)
-            statCell(value: effectivePctText, label: AppLocale.string("EFFECTIVE RATE"), mode: isEffectiveNegative ? .effectiveNegative : .effectivePositive)
+            statCell(value: effectiveText, label: AppLocale.string("EFFECTIVE RATE"), mode: isEffectiveNegative ? .effectiveNegative : .effectivePositive)
         }
         .background(Color.churOffWhite)
         .clipShape(RoundedRectangle(cornerRadius: 14))

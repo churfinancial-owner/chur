@@ -54,7 +54,11 @@ struct NearbyRecommendation: Identifiable {
     let card: CreditCard?         // The actual card object for image/issuer (nil if no match)
     let bestCard: CardRateSummary? // Summary for display info (nil if no match)
     let valueFor50: Double        // e.g. $2.50 value on $50 spend
-    let pointsDisplay: String     // "5x points" or "5% back" or "No card matches"
+    /// Only for the no-match cases ("❓", "Card not found"). When `bestCard` is
+    /// present the view formats live through `RateDisplay`, so a rate is never
+    /// baked into a string before the reward program is known — which is how the
+    /// nearby cards kept showing "0.25x" for a miles card.
+    let pointsDisplay: String
     let hasMatch: Bool            // Whether a card was found for this merchant
 }
 
@@ -105,7 +109,7 @@ struct NearbyRecommendationEngine {
         print("   Category: \(category.id) (parent: \(category.parentCategoryID ?? "none"))")
         print("   Cards checked: \(cards.count)")
         if let bestCard = calculator.bestCard {
-            print("   ✅ Best card: \(bestCard.name) @ \(bestCard.effectiveRateDisplayString)")
+            print("   ✅ Best card: \(bestCard.name) @ \(bestCard.effectiveText)")
         } else {
             print("   ❌ No matching card found")
             // Check if any cards have rewards for the parent category
@@ -150,19 +154,13 @@ struct NearbyRecommendationEngine {
         // 4. Calculate value for $50 spend
         let valueFor50 = bestCard.effectiveCashBackRate * 50
         
-        // 5. Format display string (e.g. "5x points" or "5% back")
-        let pointsDisplay = formatPointsDisplay(
-            rate: bestCard.rate,
-            effectiveRate: bestCard.effectiveCashBackRate
-        )
-        
         return NearbyRecommendation(
             id: merchant.id,
             merchant: merchant,
             card: actualCard,
             bestCard: bestCard,
             valueFor50: valueFor50,
-            pointsDisplay: pointsDisplay,
+            pointsDisplay: "",
             hasMatch: true
         )
     }
@@ -234,37 +232,16 @@ struct NearbyRecommendationEngine {
         }
         
         let valueFor50 = bestCard.effectiveCashBackRate * 50
-        let pointsDisplay = formatPointsDisplay(
-            rate: bestCard.rate,
-            effectiveRate: bestCard.effectiveCashBackRate
-        )
-        
+
         return NearbyRecommendation(
             id: merchant.id,
             merchant: merchant,
             card: actualCard,
             bestCard: bestCard,
             valueFor50: valueFor50,
-            pointsDisplay: pointsDisplay,
+            pointsDisplay: "",
             hasMatch: true
         )
-    }
-    
-    // MARK: - Helper Methods
-    
-    /// Format the points/cashback display string based on card's advertised rate
-    /// Shows what users see on their card (e.g., "3x", "1.5x", "2x")
-    /// Always uses multiplier format (Nx) for consistency across all cards
-    private func formatPointsDisplay(rate: Double, effectiveRate: Double) -> String {
-        if rate == floor(rate) {
-            return "\(Int(rate))x"
-        }
-        
-        if (rate * 10).truncatingRemainder(dividingBy: 1) == 0 {
-            return String(format: "%.1fx", rate)
-        }
-        
-        return String(format: "%.2fx", rate)
     }
 }
 
