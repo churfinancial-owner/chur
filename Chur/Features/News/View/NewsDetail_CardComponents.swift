@@ -153,6 +153,7 @@ extension NewsDetailView {
 
     private func templateRateItems(plan: PlanTemplate) -> [(category: SpendingCategory, rate: Double, effectiveRate: Double, level: CategoryLevel, groupLabel: String?)] {
         var seen = Set<String>()
+        let base = plan.rewards.baseRate
         return plan.rewards
             .filter { reward in
                 guard !reward.isRotating else { return false }
@@ -165,7 +166,7 @@ extension NewsDetailView {
                 let items = catIDs.compactMap { id -> (SpendingCategory, Double, Double, CategoryLevel, String?)? in
                     guard let cat = categories.first(where: { $0.id == id }),
                           let level = cat.level,
-                          reward.rate > 1.0 || id == "everything"
+                          reward.rate > base || id == "everything"
                     else { return nil }
                     return (cat, reward.rate, reward.rate * reward.pointCashValue, level, groupLabel)
                 }

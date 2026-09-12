@@ -99,8 +99,10 @@ struct ParentCategoryParallaxSheet: View {
     }
 
     private func rateText(for child: SpendingCategory) -> String {
-        let childRate = calculator(for: child).bestCard?.rate ?? 0
-        return childRate > 0 ? childRate.formatAsRate() : "-"
+        guard let best = calculator(for: child).bestCard, best.rate > 0 else { return "-" }
+        // Through the program, so a miles rate reads as its percentage and cost per
+        // mile rather than the raw "0.25x".
+        return best.rate.formatAsRate(program: best.rewardProgramName, compact: true)
     }
 
     // MARK: - Other Card Rates

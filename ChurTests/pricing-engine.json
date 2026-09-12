@@ -2040,6 +2040,47 @@
           "rate": 0.25
         }
       ]
+    },
+    {
+      "id": "sub-one-bonus-row-still-outranks-the-sub-one-base-row",
+      "rule": "on a miles card authored in miles per dollar every rate is below 1.0, base row included, so a bonus can only be recognised by comparing against the card's own base rather than a literal 1.0. The Cathay Mastercard's dining row (HK$4 = 1 mile) against its everything row (HK$6 = 1 mile). The display sites share this rule via Collection.baseRate.",
+      "input": {
+        "categoryID": "dining",
+        "region": "HK"
+      },
+      "cards": [
+        {
+          "name": "Cathay Miles",
+          "country": "HK",
+          "hasForeignTransactionFee": false,
+          "foreignTransactionFeeRate": 0,
+          "rewards": [
+            {
+              "rate": 0.1667,
+              "categories": [
+                "everything"
+              ],
+              "pointCashValue": 0.1015,
+              "pointCashValueCurrency": "HKD"
+            },
+            {
+              "rate": 0.25,
+              "categories": [
+                "dining"
+              ],
+              "pointCashValue": 0.1015,
+              "pointCashValueCurrency": "HKD"
+            }
+          ]
+        }
+      ],
+      "expected": [
+        {
+          "name": "Cathay Miles",
+          "effectiveCashBackRate": 0.025375,
+          "rate": 0.25
+        }
+      ]
     }
   ]
 }

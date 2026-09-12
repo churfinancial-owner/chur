@@ -48,6 +48,7 @@ struct EarningRatesSection: View {
     private var mainAndSubRates: [(category: SpendingCategory, reward: RewardRate)] {
         let _ = dateRefreshTick
         let now = Date.current()
+        let base = card.activeRewards.baseRate
         let sorted = card.activeRewards.flatMap { reward -> [(category: SpendingCategory, reward: RewardRate)] in
             if reward.isUserConfigurable && (reward.categories?.isEmpty ?? true) { return [] }
             if let end = reward.rewardEndDate, end < now { return [] }
@@ -57,7 +58,10 @@ struct EarningRatesSection: View {
             let pairs = categoryIDs.compactMap { id -> (SpendingCategory, RewardRate)? in
                 guard let found = categories.first(where: { $0.id == id }),
                       (found.level == .parent || found.level == .child) else { return nil }
-                guard reward.rate > 1.0 || id == "everything" else { return nil }
+                // A bonus row has to beat what the card pays anyway. Compared against
+                // the card's own base, not a literal 1.0, so a miles card authored in
+                // miles per dollar (every rate below 1.0) still shows its bonuses.
+                guard reward.rate > base || id == "everything" else { return nil }
                 return (found, reward)
             }
             // Group-labeled rewards render as a single labeled row, not one row per category
@@ -108,6 +112,7 @@ struct EarningRatesSection: View {
     private var targetRates: [(category: SpendingCategory, reward: RewardRate)] {
         let _ = dateRefreshTick
         let now = Date.current()
+        let base = card.activeRewards.baseRate
         let sorted = card.activeRewards.flatMap { reward -> [(category: SpendingCategory, reward: RewardRate)] in
             if reward.isUserConfigurable && (reward.categories?.isEmpty ?? true) { return [] }
             if let end = reward.rewardEndDate, end < now { return [] }
@@ -117,7 +122,10 @@ struct EarningRatesSection: View {
             let pairs = categoryIDs.compactMap { id -> (SpendingCategory, RewardRate)? in
                 guard let found = categories.first(where: { $0.id == id }),
                       found.level == .target || found.level == .groupTarget else { return nil }
-                guard reward.rate > 1.0 || id == "everything" else { return nil }
+                // A bonus row has to beat what the card pays anyway. Compared against
+                // the card's own base, not a literal 1.0, so a miles card authored in
+                // miles per dollar (every rate below 1.0) still shows its bonuses.
+                guard reward.rate > base || id == "everything" else { return nil }
                 return (found, reward)
             }
             if !reward.isUserConfigurable, reward.groupLabel != nil { return Array(pairs.prefix(1)) }

@@ -14,7 +14,11 @@ extension Double {
 
     /// The rate as the program quotes it (P1f part 4): `3x`, `3%`, or `HK$3 = 1 mile`.
     /// `currency` is the program's, for the per-mile form only.
-    func formatAsRate(style: RateStyle, currency: String? = nil, pointCashValue: Double? = nil) -> String {
+    ///
+    /// `compact` is for a fixed-width pill that already sits beside the effective
+    /// percentage: the paired per-mile form neither fits nor adds anything there,
+    /// so it drops to the mile cost alone.
+    func formatAsRate(style: RateStyle, currency: String? = nil, pointCashValue: Double? = nil, compact: Bool = false) -> String {
         switch style {
         case .multiplier:
             return formatAsRate()
@@ -24,9 +28,10 @@ extension Double {
             // The paired form HK cards are quoted in: "4% (HK$2.5/里)". The
             // percentage stays first because it is what the engine ranks on.
             guard self > 0, let pointCashValue else { return formatAsRate() }
+            let perMile = ConditionText.money(1 / self, currency: currency) + "/" + AppLocale.string("mile")
+            if compact { return perMile }
             let percent = (self * pointCashValue * 100).formatted(.number.precision(.fractionLength(0...2)))
-            let perMile = ConditionText.money(1 / self, currency: currency)
-            return "\(percent)% (\(perMile)/\(AppLocale.string("mile")))"
+            return "\(percent)% (\(perMile))"
         }
     }
 
@@ -38,7 +43,7 @@ extension Double {
     /// program. The fallback is `multiplier`, not `percent`: a perMile program's
     /// rate is miles per dollar, so printing it with a `%` would assert a cash
     /// rate the number is not.
-    func formatAsRate(program: String?) -> String {
+    func formatAsRate(program: String?, compact: Bool = false) -> String {
         guard let program, let defaults = RewardProgramDefaults.defaultValue(for: program) else {
             return formatAsRate()
         }
@@ -47,6 +52,7 @@ extension Double {
            TransferPartnerDatabase.program(named: program) == nil {
             style = .multiplier
         }
-        return formatAsRate(style: style, currency: defaults.currency, pointCashValue: defaults.pointCashValue)
+        return formatAsRate(style: style, currency: defaults.currency,
+                            pointCashValue: defaults.pointCashValue, compact: compact)
     }
 }

@@ -139,3 +139,41 @@ class RewardRate {
         self.configurableIncludes = configurableIncludes
     }
 }
+
+// MARK: - Base rate
+
+/// The two shapes a reward comes in — the persisted `RewardRate` and the seed's
+/// `RewardTemplate` — so the display sites can ask both the same question.
+protocol RewardRateLike {
+    var rate: Double { get }
+    var categories: [String]? { get }
+}
+
+extension RewardRate: RewardRateLike {}
+
+extension Collection where Element: RewardRateLike {
+
+    /// What this set of rewards pays on everything — the floor a row has to beat
+    /// to be worth showing as a bonus.
+    ///
+    /// The display sites used to compare against a literal `1.0`, which held only
+    /// while every rate was a multiplier or a percentage. A miles card authored in
+    /// miles per dollar has no rate above 1.0 at all (HK$4 = 1 mile is `0.25`), so
+    /// that test hid every bonus row it had. Comparing against the card's own base
+    /// is the same question asked in whatever units the card is authored in.
+    ///
+    /// The lowest `everything` row wins, because a card can carry several: Travel+
+    /// has a scoped one at 7x and a plain one at 1x, and the plain one is the floor.
+    /// Defaults to `1.0` when a card names no `everything` row, which is the value
+    /// the old test assumed.
+    ///
+    /// Raw rates are only comparable within one reward program. No card mixes
+    /// programs today, and the test this replaced had the same limitation.
+    var baseRate: Double {
+        let everythingRates = self.compactMap { reward -> Double? in
+            let categories = reward.categories ?? ["everything"]
+            return categories.contains("everything") ? reward.rate : nil
+        }
+        return everythingRates.min() ?? 1.0
+    }
+}

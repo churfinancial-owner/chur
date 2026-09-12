@@ -150,6 +150,8 @@ struct RewardTemplate {
     let configurableIncludes: [String: [String]]?
 }
 
+extension RewardTemplate: RewardRateLike {}
+
 // MARK: - Private JSON shapes
 
 private struct _CardJSON: Codable {

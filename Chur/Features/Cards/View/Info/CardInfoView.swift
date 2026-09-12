@@ -1,41 +1,5 @@
 import SwiftUI
 
-// MARK: - Earning Rate Row
-
-struct EarningRateRow: View {
-    let category: SpendingCategory
-    let rate: Double
-    
-    var numberColor: Color {
-        if rate >= 4.0 {
-            return .churOlive
-        } else if rate >= 2.0 {
-            return .churMediumGray
-        } else {
-            return .churLightGray
-        }
-    }
-    
-    var body: some View {
-        HStack(spacing: 12) {
-            CategoryIconView(category: category, font: .system(size: 24))
-                .frame(width: 44, height: 44)
-                .background(Color.churOffWhite)
-                .clipShape(Circle())
-            
-            Text(category.displayName)
-                .font(.churSectionHeader())
-                .foregroundStyle(Color.churDarkGray)
-            
-            Spacer()
-            
-            Text(rate.formatAsRate())
-                .font(.churBigTitle4())
-                .foregroundStyle(numberColor)
-        }
-    }
-}
-
 // MARK: - Detail Row
 
 struct DetailRow: View {
