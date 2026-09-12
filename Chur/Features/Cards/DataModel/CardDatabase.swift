@@ -20,6 +20,13 @@ struct CardTemplate {
     let isPopular: Bool
     let popularSortOrder: Int
     let country: String
+    /// Overrides the reward program's transfer handling fee for this card alone
+    /// (P1f part 5). A Citi Prestige that has the fee waived authors
+    /// `"transferFee": { "amount": 0, "currency": "HKD", "note": "Waived" }`.
+    /// Absent means the program's own fee applies. Display only — it never
+    /// enters pricing, and it lives on the template rather than the SwiftData
+    /// model because it is static content, not something the user edits.
+    let transferFee: TransferFee?
 
     func toCreditCard(modelContext: ModelContext) -> CreditCard {
         let cardInstanceID = UUID().uuidString
@@ -159,6 +166,7 @@ private struct _CardJSON: Codable {
     let isPopular: Bool?
     let popularSortOrder: Int?
     let country: String?  // Country where the card is issued (e.g., "US", "HK")
+    let transferFee: TransferFee?
 }
 
 private struct _ConfigurableOption: Codable {
@@ -383,7 +391,8 @@ struct CardDatabase {
                 rewardPlans: planTemplates,
                 isPopular: cardData.isPopular ?? false,
                 popularSortOrder: cardData.popularSortOrder ?? 999,
-                country: cardData.country ?? "US"  // Default to US if not specified
+                country: cardData.country ?? "US",  // Default to US if not specified
+                transferFee: cardData.transferFee
             )
         }
     }

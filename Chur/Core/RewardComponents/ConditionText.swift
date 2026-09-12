@@ -63,6 +63,10 @@ enum ConditionText {
     /// mile depends on how many points move, which the app does not know.
     static func transferFee(_ fee: TransferFee?) -> String? {
         guard let fee else { return nil }
+        // A card that has the fee waived says so, rather than showing "HK$0".
+        guard fee.amount > 0 else {
+            return fee.note ?? AppLocale.string("No transfer fee")
+        }
         let basis: String
         switch fee.resolvedBasis {
         case "transaction": basis = AppLocale.string("per transaction")

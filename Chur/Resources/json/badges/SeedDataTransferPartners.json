@@ -741,12 +741,7 @@
           "partnerId": "marriott",
           "ratio": "1:1"
         }
-      ],
-      "fee": {
-        "amount": 0,
-        "currency": "HKD",
-        "note": "No handling fee"
-      }
+      ]
     }
   ]
 }

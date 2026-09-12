@@ -66,7 +66,7 @@ struct PointsAndMilesSection: View {
         if let best = route.best {
             parts.append(AppLocale.string("best") + " " + best.partner.name + " " + best.partner.ratio)
         }
-        if let fee = ConditionText.transferFee(route.program.fee) {
+        if let fee = ConditionText.transferFee(route.fee) {
             parts.append(fee)
         }
         return parts.joined(separator: " · ")

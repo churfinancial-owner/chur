@@ -121,6 +121,22 @@ One entry per category per quarter. Expired entries hide automatically; future o
 ```
 Use multiple plans for grandfathered vs. current structures; exactly one `isDefault: true`.
 
+## Transfer handling fee
+
+The charge a bank levies to move points to a partner, e.g. Citi HK's HK$200 per redemption. Authored once on the transfer program in `badges/SeedDataTransferPartners.json`:
+
+```json
+"fee": { "amount": 200, "currency": "HKD", "basis": "redemption", "note": null }
+```
+
+`basis` is `redemption` (default, one charge per request) or `transaction`. A single card overrides it in its own card JSON, which is how waivers are expressed without repeating the figure on every card in the program:
+
+```json
+"transferFee": { "amount": 0, "currency": "HKD", "note": "Waived for Prestige" }
+```
+
+An amount of zero renders as the note, or "No transfer fee". **Display only**, like a gate or a cap: what the fee costs per mile depends on how many points move.
+
 ## Rate style (`control/SeedDataPrograms.json`)
 
 A program entry may carry `rateStyle`, which changes only how a rate **reads** — never the maths, which is always `rate × pointCashValue`:

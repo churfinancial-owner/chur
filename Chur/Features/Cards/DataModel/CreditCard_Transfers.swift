@@ -24,9 +24,20 @@ struct CardTransferRoute: Identifiable {
 
     /// The currency the cost is quoted in, from the card's own reward rows.
     let currency: String
+
+    /// What this card pays to move points out: its own override when the card
+    /// has one (a Prestige with the fee waived), otherwise the program's.
+    let fee: TransferFee?
 }
 
 extension CreditCard {
+    /// This card's own transfer-fee override, from its template. nil means the
+    /// reward program's fee applies unchanged.
+    var transferFeeOverride: TransferFee? {
+        guard let templateID else { return nil }
+        return CardDatabase.getCard(id: templateID)?.transferFee
+    }
+
     /// The distinct reward programs this card's active rows earn into.
     var rewardProgramNames: [String] {
         var seen = Set<String>()
@@ -46,7 +57,8 @@ extension CreditCard {
                 program: program,
                 pointCashValue: value,
                 best: program.bestRoute(pointCashValue: value),
-                currency: reward?.pointCashValueCurrency ?? RewardProgramDefaults.defaultValue(for: name)?.currency ?? "USD"
+                currency: reward?.pointCashValueCurrency ?? RewardProgramDefaults.defaultValue(for: name)?.currency ?? "USD",
+                fee: transferFeeOverride ?? program.fee
             )
         }
     }
