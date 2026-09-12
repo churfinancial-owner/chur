@@ -19,12 +19,15 @@ struct RewardSetupSection: View {
     var uniqueProgramSummary: String {
         let groups = Dictionary(grouping: card.activeRewards, by: { $0.rewardProgramName })
         return groups.compactMap { (name, rewards) -> String? in
-            guard let val = rewards.first?.pointCashValue else { return nil }
+            guard let reward = rewards.first else { return nil }
+            let val = reward.pointCashValue
             let isCustom = !RewardProgramDefaults.isDefault(programName: name, pointCashValue: val)
             let formatted = (val * 100).truncatingRemainder(dividingBy: 1) == 0
                 ? String(format: "%.0f", val * 100)
                 : String(format: "%.2f", val * 100)
-            return "\(name): \(formatted)¢\(isCustom ? " ✎" : "")"
+            // The currency is named: "10.15¢" is a plausible US figure and a wrong one.
+            let currency = CurrencyConversion.normalized(reward.pointCashValueCurrency)
+            return "\(name): \(formatted)¢ \(currency)\(isCustom ? " ✎" : "")"
         }.sorted().joined(separator: "  ·  ")
     }
 

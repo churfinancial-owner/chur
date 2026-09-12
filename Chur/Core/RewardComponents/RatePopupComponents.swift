@@ -10,10 +10,25 @@ import SwiftUI
 // MARK: - CardRateSummary Display Helpers
 
 extension CardRateSummary {
+    /// The raw rate with an `x`, ignoring how the program quotes itself. Only the
+    /// formula row wants this: it renders `rate × point value = effective`, and
+    /// that multiplication is only legible with the number actually being
+    /// multiplied. Everywhere else wants `programRateText`.
     var formattedRateText: String {
         let r = rate
         if r == floor(r) { return "\(Int(r))x" }
         return String(format: (r * 10).truncatingRemainder(dividingBy: 1) == 0 ? "%.1fx" : "%.2fx", r)
+    }
+
+    /// The rate as its program quotes it: `3x`, `5%`, or `5.08% (HK$2/mile)`.
+    var programRateText: String {
+        rate.formatAsRate(program: rewardProgramName)
+    }
+
+    /// The same, for a pill sitting beside the effective percentage — a miles
+    /// program drops to `HK$2/mile` alone rather than repeating its neighbour.
+    var programRateTextCompact: String {
+        rate.formatAsRate(program: rewardProgramName, compact: true)
     }
 
     var effectivePctText: String {
@@ -34,7 +49,7 @@ extension CardRateSummary {
     }
 
     func preferredRateText(showEffectiveRate: Bool) -> String {
-        showEffectiveRate ? effectiveRateDisplayString : formattedRateText
+        showEffectiveRate ? effectiveRateDisplayString : programRateText
     }
 }
 
@@ -240,7 +255,7 @@ struct PopupBestCardContent: View {
             .padding(.bottom, 14)
 
             BestCardStatStrip(
-                rateText: summary.formattedRateText,
+                rateText: summary.programRateTextCompact,
                 effectivePctText: summary.effectivePctText,
                 isEffectiveNegative: summary.effectiveCashBackRate < 0
             )
@@ -284,7 +299,7 @@ struct PopupComparisonRow: View {
             Spacer()
             if showFormula {
                 HStack(spacing: 6) {
-                    RatePill(text: summary.formattedRateText, displayMode: .points, size: .medium)
+                    RatePill(text: summary.programRateTextCompact, displayMode: .points, size: .medium)
                     RatePill(
                         text: summary.effectiveRateDisplayString,
                         displayMode: summary.effectiveCashBackRate < 0 ? .effectiveNegative : .effectivePositive,

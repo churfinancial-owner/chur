@@ -30,9 +30,18 @@ struct ProgramValueRow: View {
         return String(format: "%.2f", pct)
     }
 
+    /// The program's own currency, named beside every cent figure here — 10.15¢ is
+    /// a perfectly plausible US point value and a wrong reading of an HKD one.
+    private var currencyCode: String {
+        if let currency = RewardProgramDefaults.defaultValue(for: programName)?.currency {
+            return CurrencyConversion.normalized(currency)
+        }
+        return CurrencyConversion.normalized(associatedCards.first?.currency ?? "USD")
+    }
+
     private var defaultDisplayValue: String {
         guard let d = defaultValue else { return "—" }
-        return "\(Self.format(d))¢"
+        return "\(Self.format(d))¢ \(currencyCode)"
     }
 
     var body: some View {
@@ -62,7 +71,7 @@ struct ProgramValueRow: View {
                                 .font(.churRowText())
                                 .foregroundStyle(Color.churOlive)
                                 .frame(width: 50)
-                            Text("¢").font(.churCaptionMedium()).foregroundStyle(.secondary)
+                            Text("¢ " + currencyCode).font(.churCaptionMedium()).foregroundStyle(.secondary)
                         }
 
                         Button {
@@ -84,7 +93,7 @@ struct ProgramValueRow: View {
                     }
                 } else {
                     HStack(spacing: 6) {
-                        Text("\(Self.format(currentValue))¢")
+                        Text("\(Self.format(currentValue))¢ \(currencyCode)")
                             .font(.churRowText())
                             .foregroundStyle(Color.churOlive)
 

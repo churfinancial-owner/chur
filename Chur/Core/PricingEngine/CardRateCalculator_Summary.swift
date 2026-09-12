@@ -33,15 +33,21 @@ struct CardRateSummary {
         }
     }
     
-    /// Point value formatted as cents, e.g. "1.25¢", "2¢"
+    /// Point value in cents of its own currency, e.g. "1.25¢ USD", "10.15¢ HKD".
+    ///
+    /// The currency is named because the cent symbol alone is ambiguous once more
+    /// than one market is in the app: Asia Miles at HK$0.1015 read as "10.15¢",
+    /// which is an entirely believable — and entirely wrong — US figure.
     var pointValueDisplayString: String {
         let cents = pointCashValue * 100
+        let amount: String
         if cents.truncatingRemainder(dividingBy: 1) == 0 {
-            return "\(String(format: "%.0f", cents))¢"
+            amount = String(format: "%.0f", cents)
         } else if (cents * 10).truncatingRemainder(dividingBy: 1) == 0 {
-            return "\(String(format: "%.1f", cents))¢"
+            amount = String(format: "%.1f", cents)
         } else {
-            return "\(String(format: "%.2f", cents))¢"
+            amount = String(format: "%.2f", cents)
         }
+        return amount + "¢ " + CurrencyConversion.normalized(pointCashValueCurrency)
     }
 }
