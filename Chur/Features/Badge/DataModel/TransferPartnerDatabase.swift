@@ -182,6 +182,64 @@ enum TransferPartnerDatabase {
         #endif
     }
 
+    // MARK: - Region-scoped views
+
+    /// The partner tables for one set of programs, so a view can scope itself
+    /// without disturbing the app-wide tables (P1f part 5).
+    struct DerivedTables {
+        let programDisplayNames: [String]
+        let airlines: [String]
+        let hotels: [String]
+        /// programDisplayName → partner short names
+        let mappings: [String: Set<String>]
+    }
+
+    /// The regions a wallet actually reaches: the region of every transfer program
+    /// its cards earn into. A region-less program counts for every region, so it
+    /// never invents one on its own.
+    static func regions(forWallet cards: [CreditCard]) -> [String] {
+        let programNames = Set(cards.flatMap { card in card.activeRewards.map(\.rewardProgramName) })
+        let regions = allPrograms
+            .filter { programNames.contains($0.programName) }
+            .compactMap(\.region)
+        return Array(Set(regions)).sorted()
+    }
+
+    /// Tables for one region, or for every region when `region` is nil.
+    /// Region-less programs are always included.
+    static func derived(forRegion region: String?) -> DerivedTables {
+        let scoped = allPrograms.filter { program in
+            guard let region else { return true }
+            return program.region == nil || program.region == region
+        }
+
+        var airlineSet = Set<String>()
+        var hotelSet = Set<String>()
+        var mappings: [String: Set<String>] = [:]
+
+        for program in scoped {
+            var names = Set<String>()
+            for partner in program.partners {
+                names.insert(partner.name)
+                if partner.type == "airline" { airlineSet.insert(partner.name) }
+                else if partner.type == "hotel" { hotelSet.insert(partner.name) }
+            }
+            mappings[program.displayName] = names
+        }
+
+        return DerivedTables(
+            programDisplayNames: scoped.map(\.displayName),
+            airlines: airlineSet.sorted(),
+            hotels: hotelSet.sorted(),
+            mappings: mappings
+        )
+    }
+
+    /// The display name a reward program is shown under, region ignored.
+    static func displayName(forProgramNamed programName: String) -> String? {
+        program(named: programName)?.displayName
+    }
+
     // MARK: - Lookups
 
     /// The transfer program a reward program name belongs to, region ignored.

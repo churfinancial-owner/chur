@@ -21,6 +21,8 @@ struct CardInfoContentView: View {
     @State private var activeSheet: ActiveSheet?
     /// Which boost program the `.boost` sheet edits — a card can sit under several (P1f).
     @State private var boostProgramID: String?
+    /// Which reward program the transfer sheet opens on (P1f part 5).
+    @State private var transferProgramName: String?
     @State private var selectedNewsPost: SanityPost?
     @State private var dateRefreshTick = 0
     @StateObject private var locationManager = LocationManager()
@@ -65,7 +67,8 @@ struct CardInfoContentView: View {
                     card: card,
                     categories: categories,
                     user: user,
-                    activeSheet: $activeSheet
+                    activeSheet: $activeSheet,
+                    transferProgramName: $transferProgramName
                 )
 
             }
@@ -73,7 +76,12 @@ struct CardInfoContentView: View {
         }
         .background(Color.churOffWhite)
         .sheet(item: $activeSheet) { sheet in
-            CardInfoSheetPresenter(sheet: sheet, card: card, boostProgramID: boostProgramID)
+            CardInfoSheetPresenter(
+                sheet: sheet,
+                card: card,
+                boostProgramID: boostProgramID,
+                transferProgramName: transferProgramName
+            )
         }
         .sheet(item: $selectedNewsPost) { post in
             NewsDetailPopup(post: post, allPosts: newsService.posts)

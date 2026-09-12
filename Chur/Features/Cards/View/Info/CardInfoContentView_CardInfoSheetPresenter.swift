@@ -11,6 +11,7 @@ struct CardInfoSheetPresenter: View {
     let sheet: CardInfoContentView.ActiveSheet
     let card: CreditCard
     var boostProgramID: String? = nil
+    var transferProgramName: String? = nil
 
     var body: some View {
         switch sheet {
@@ -21,7 +22,7 @@ struct CardInfoSheetPresenter: View {
         case .configurableRewards: UserConfigurableRewardsSheet(card: card)
         case .boost: BoostProgramPickerSheet(card: card, programID: boostProgramID)
         case .rewardPlan: RewardPlanPickerSheet(card: card)
-        case .transferPartners: PointTransferView()
+        case .transferPartners: PointTransferView(preselectedProgramName: transferProgramName)
         case .network: NetworkPickerSheet(card: card)
         case .cardType: CardTypePickerSheet(card: card)
         case .userNote: CardsUserNoteSheet(card: card)

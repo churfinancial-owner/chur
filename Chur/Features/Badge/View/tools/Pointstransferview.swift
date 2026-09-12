@@ -4,15 +4,34 @@ import SwiftData
 struct PointTransferView: View {
     @Environment(\.dismiss) private var dismiss
     @Query private var cards: [CreditCard]
-    
+    @Query private var users: [User]
+
+    /// Opens with this reward program already selected, when the sheet is reached
+    /// from a card's Transfer Partners row rather than the tools list (P1f part 5).
+    var preselectedProgramName: String? = nil
+
     // MARK: - State Management
     @State private var searchText: String = ""
     @State private var selectedItem: String? = nil
     @State private var isBankSelected: Bool = false
-    
+    /// Which market's programs are listed. nil until the first layout resolves it.
+    @State private var region: String? = nil
+
     @State private var filteredBanks: [String] = []
     @State private var filteredAirlines: [String] = []
     @State private var filteredHotels: [String] = []
+
+    /// The markets this wallet actually reaches. One entry means no picker: the
+    /// flag row would be a control with nothing to choose.
+    private var walletRegions: [String] {
+        TransferPartnerDatabase.regions(forWallet: cards)
+    }
+
+    /// Tables scoped to the chosen market, computed here rather than read from the
+    /// app-wide ones, so switching market in this sheet changes nothing elsewhere.
+    private var tables: TransferPartnerDatabase.DerivedTables {
+        TransferPartnerDatabase.derived(forRegion: region)
+    }
 
     private let columns = [
         GridItem(.flexible(), spacing: 14),
@@ -27,6 +46,10 @@ struct PointTransferView: View {
                 }
 
                 VStack(alignment: .leading, spacing: 28) {
+                    if walletRegions.count > 1 {
+                        regionPicker
+                    }
+
                     searchBar
 
                     if !filteredBanks.isEmpty {
@@ -52,10 +75,67 @@ struct PointTransferView: View {
             }
         }
         .background(Color.churOffWhite)
-        .onAppear { runSearch() }
+        .onAppear {
+            if region == nil { region = initialRegion }
+            applyPreselection()
+            runSearch()
+        }
         // Updated to the non-deprecated onChange syntax
         .onChange(of: searchText) { _, _ in runSearch() }
+        .onChange(of: region) { _, _ in runSearch() }
         .toolbar(.hidden, for: .navigationBar)
+    }
+
+    // MARK: - Region
+
+    /// The market this sheet opens on: the one the preselected program belongs to,
+    /// else the user's own, else the first the wallet reaches.
+    private var initialRegion: String? {
+        if let preselectedProgramName,
+           let programRegion = TransferPartnerDatabase.program(named: preselectedProgramName)?.region {
+            return programRegion
+        }
+        let home = users.first?.country
+        if let home, walletRegions.contains(home) { return home }
+        return walletRegions.first
+    }
+
+    private var regionPicker: some View {
+        HStack(spacing: 10) {
+            ForEach(walletRegions, id: \.self) { code in
+                let isSelected = region == code
+                Button {
+                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                        region = code
+                        // A program from the old market would highlight nothing.
+                        selectedItem = nil
+                    }
+                } label: {
+                    Text(RegionDatabase.flagEmoji(for: code) ?? code)
+                        .font(.churBigTitle4())
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(isSelected ? Color.churOlive.opacity(0.15) : Color.white)
+                        .overlay(
+                            Capsule().stroke(isSelected ? Color.churOlive : Color.clear, lineWidth: 1.5)
+                        )
+                        .clipShape(Capsule())
+                }
+                .buttonStyle(.plain)
+            }
+            Spacer()
+        }
+    }
+
+    /// Selects the card's program on open, so the sheet lands showing its partners.
+    private func applyPreselection() {
+        guard selectedItem == nil,
+              let preselectedProgramName,
+              let displayName = TransferPartnerDatabase.displayName(forProgramNamed: preselectedProgramName)
+        else { return }
+        selectedItem = displayName
+        isBankSelected = true
     }
 
     // MARK: - Logic
@@ -65,9 +145,10 @@ struct PointTransferView: View {
         Task {
             let query = searchText.lowercased()
             
-            let b = TransferPartnerDatabase.displayNames.filter { query.isEmpty || $0.localizedCaseInsensitiveContains(query) }
-            let a = TransferPartnerDatabase.airlines.filter { query.isEmpty || $0.localizedCaseInsensitiveContains(query) }
-            let h = TransferPartnerDatabase.hotels.filter { query.isEmpty || $0.localizedCaseInsensitiveContains(query) }
+            let scoped = tables
+            let b = scoped.programDisplayNames.filter { query.isEmpty || $0.localizedCaseInsensitiveContains(query) }
+            let a = scoped.airlines.filter { query.isEmpty || $0.localizedCaseInsensitiveContains(query) }
+            let h = scoped.hotels.filter { query.isEmpty || $0.localizedCaseInsensitiveContains(query) }
             
             // UI updates must happen on the MainActor
             await MainActor.run {
@@ -166,7 +247,10 @@ struct PointTransferView: View {
     }
 
     private func userHasProgram(_ displayName: String) -> Bool {
-        guard let name = TransferPartnerDatabase.programName(for: displayName) else { return false }
+        // Against every program, not the app-wide region-filtered set: this sheet
+        // can now be showing a market the user does not live in.
+        guard let name = TransferPartnerDatabase.allPrograms.first(where: { $0.displayName == displayName })?.programName
+        else { return false }
         let userProgramNames = Set(cards.flatMap { $0.activeRewards.map { $0.rewardProgramName } })
         return userProgramNames.contains(name)
     }
@@ -182,9 +266,9 @@ struct PointTransferView: View {
     private func isNodeHighlighted(nodeName: String, isBankNode: Bool) -> Bool {
         guard let selected = selectedItem else { return false }
         if isBankSelected {
-            return !isBankNode && (TransferPartnerDatabase.mappings[selected]?.contains(nodeName) ?? false)
+            return !isBankNode && (tables.mappings[selected]?.contains(nodeName) ?? false)
         } else {
-            return isBankNode && (TransferPartnerDatabase.mappings[nodeName]?.contains(selected) ?? false)
+            return isBankNode && (tables.mappings[nodeName]?.contains(selected) ?? false)
         }
     }
 
