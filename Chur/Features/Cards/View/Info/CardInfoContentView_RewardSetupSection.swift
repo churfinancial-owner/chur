@@ -10,6 +10,12 @@ struct RewardSetupSection: View {
         card.activePlan?.name ?? (card.rewards.isEmpty ? AppLocale.string("No plan selected") : AppLocale.string("Current Rewards"))
     }
 
+    /// "Transfer Partners" for the usual one-program card; the program's own name
+    /// when a card earns into more than one, so the rows stay distinguishable.
+    private func transferLabel(for route: CardTransferRoute) -> String {
+        card.transferRoutes.count > 1 ? route.program.programName : AppLocale.string("Transfer Partners")
+    }
+
     var uniqueProgramSummary: String {
         let groups = Dictionary(grouping: card.activeRewards, by: { $0.rewardProgramName })
         return groups.compactMap { (name, rewards) -> String? in
@@ -36,6 +42,26 @@ struct RewardSetupSection: View {
                 CardRowDivider()
                 DetailRow(label: AppLocale.string("Point Values"), value: uniqueProgramSummary, isEditable: true) {
                     activeSheet = .pointValues
+                }
+                // Where this card's points can go (P1f). Present only when the card's
+                // current reward program has partners — a Chase Freedom on Chase Cash
+                // Back Rewards has none until a Sapphire upgrades it to Ultimate Rewards.
+                ForEach(card.transferRoutes) { route in
+                    CardRowDivider()
+                    DetailRow(
+                        label: transferLabel(for: route),
+                        value: "\(route.partnerCount) " + AppLocale.string("partners"),
+                        isEditable: true
+                    ) {
+                        activeSheet = .transferPartners
+                    }
+                    if let fee = ConditionText.transferFee(route.fee) {
+                        Text(fee)
+                            .font(.churMicro())
+                            .foregroundStyle(Color.churMediumGray)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.bottom, 8)
+                    }
                 }
             }
             .padding(.horizontal, 20)
