@@ -80,11 +80,21 @@ enum ConditionText {
 
     /// `HK$3,000`. The symbol comes from the regions seed by currency code, so a
     /// cap authored in HKD reads as HK$ wherever the user is.
+    ///
+    /// Sub-unit amounts keep their significant digits: a mile costing $0.0205
+    /// must not round to `$0.02`, which would make two very different transfer
+    /// routes look identical. Whole amounts still print without decimals.
     static func money(_ amount: Double, currency: String?) -> String {
         let symbol = symbol(for: currency)
-        let rounded = amount.rounded()
-        let digits = abs(amount - rounded) < 0.005 ? 0 : 2
-        let formatted = amount.formatted(.number.precision(.fractionLength(digits)).grouping(.automatic))
+        let digits: Int
+        if amount > 0, amount < 1 {
+            digits = 4
+        } else {
+            digits = abs(amount - amount.rounded()) < 0.005 ? 0 : 2
+        }
+        let formatted = amount.formatted(
+            .number.precision(.fractionLength(0...digits)).grouping(.automatic)
+        )
         return symbol + formatted
     }
 
