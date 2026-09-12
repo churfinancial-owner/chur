@@ -742,6 +742,67 @@
           "ratio": "1:1"
         }
       ]
+    },
+    {
+      "programName": "Citi HK Reward",
+      "displayName": "Citi",
+      "region": "HK",
+      "fee": {
+        "amount": 200,
+        "currency": "HKD",
+        "basis": "redemption",
+        "note": "18,000 points minimum"
+      },
+      "partners": [
+        {
+          "partnerId": "cathay_pacific",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "british_airways",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "singapore_airlines",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "qatar_airways",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "etihad",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "emirates",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "thai_airways",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "eva_air",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "asiana_airlines",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "air_france_klm",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "turkish_airlines",
+          "ratio": "1:1"
+        },
+        {
+          "partnerId": "qantas",
+          "ratio": "1:1"
+        }
+      ]
     }
   ]
 }
