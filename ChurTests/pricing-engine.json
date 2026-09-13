@@ -2081,6 +2081,100 @@
           "rate": 0.25
         }
       ]
+    },
+    {
+      "id": "online-overseas-takes-the-online-rate-not-the-foreign-rate",
+      "rule": "MMPower pays 4% overseas only in a physical store; anything online is 'online retail' at 5% whatever the country or currency. So an online purchase abroad must take the online row, even though the foreign_transactions overlay also fires — the channel on the foreign row is what keeps them apart.",
+      "input": {
+        "categoryID": "dining",
+        "region": "JP",
+        "channel": "online"
+      },
+      "cards": [
+        {
+          "name": "MMPower",
+          "country": "HK",
+          "hasForeignTransactionFee": false,
+          "foreignTransactionFeeRate": 0,
+          "rewards": [
+            {
+              "rate": 4.0,
+              "categories": [
+                "foreign_transactions"
+              ],
+              "channels": [
+                "in_store"
+              ]
+            },
+            {
+              "rate": 5.0,
+              "categories": [
+                "online_transactions"
+              ]
+            },
+            {
+              "rate": 0.4,
+              "categories": [
+                "everything"
+              ]
+            }
+          ]
+        }
+      ],
+      "expected": [
+        {
+          "name": "MMPower",
+          "effectiveCashBackRate": 0.05,
+          "rate": 5.0
+        }
+      ]
+    },
+    {
+      "id": "in-store-overseas-takes-the-channel-scoped-foreign-row",
+      "rule": "the same card in a shop abroad: the in_store-scoped foreign row applies and the 1.95% FX fee comes off it, leaving 2.05%. Pins that a channel-scoped overlay row still nets the fee.",
+      "input": {
+        "categoryID": "dining",
+        "region": "JP",
+        "channel": "in_store"
+      },
+      "cards": [
+        {
+          "name": "MMPower",
+          "country": "HK",
+          "hasForeignTransactionFee": true,
+          "foreignTransactionFeeRate": 0.0195,
+          "rewards": [
+            {
+              "rate": 4.0,
+              "categories": [
+                "foreign_transactions"
+              ],
+              "channels": [
+                "in_store"
+              ]
+            },
+            {
+              "rate": 5.0,
+              "categories": [
+                "online_transactions"
+              ]
+            },
+            {
+              "rate": 0.4,
+              "categories": [
+                "everything"
+              ]
+            }
+          ]
+        }
+      ],
+      "expected": [
+        {
+          "name": "MMPower",
+          "effectiveCashBackRate": 0.0205,
+          "rate": 4.0
+        }
+      ]
     }
   ]
 }

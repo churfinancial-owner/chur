@@ -1,41 +1,106 @@
 {
     "hang-seng-hk-mmpower": [
         {
+            "rate": 8.0,
+            "rewardProgramName": "Cash Back Rewards HK",
+            "categories": [
+                "amazon",
+                "taobao"
+            ],
+            "groupLabel": "Designated Merchants",
+            "gate": {
+                "amount": 3000,
+                "currency": "HKD",
+                "period": "calendarMonth",
+                "note": "Register once in the Hang Seng app; full-time students exempt"
+            },
+            "cap": {
+                "amount": 500,
+                "currency": "HKD",
+                "period": "calendarMonth",
+                "kind": "reward",
+                "group": "mmpower-monthly",
+                "note": "one pool across all four bonus categories"
+            },
+            "rewardEndDate": "2026-12-31T23:59:59Z",
+            "rewardNotes": "Amazon, GU, lululemon, Taobao and Uniqlo — online or in store in Hong Kong. Not department store counters or outlet sales."
+        },
+        {
+            "rate": 8.0,
+            "rewardProgramName": "Cash Back Rewards HK",
+            "categories": [
+                "streaming",
+                "movie_theaters",
+                "clothing_stores"
+            ],
+            "channels": [
+                "online"
+            ],
+            "groupLabel": "Online Entertainment & Apparel",
+            "gate": {
+                "amount": 3000,
+                "currency": "HKD",
+                "period": "calendarMonth",
+                "note": "Register once in the Hang Seng app; full-time students exempt"
+            },
+            "cap": {
+                "amount": 500,
+                "currency": "HKD",
+                "period": "calendarMonth",
+                "kind": "reward",
+                "group": "mmpower-monthly",
+                "note": "one pool across all four bonus categories"
+            },
+            "rewardEndDate": "2026-12-31T23:59:59Z",
+            "rewardNotes": "Named streaming services, Hong Kong cinemas, ticketing platforms and theme parks, plus online apparel merchants."
+        },
+        {
             "rate": 5.0,
             "rewardProgramName": "Cash Back Rewards HK",
             "category": "online_transactions",
             "gate": {
                 "amount": 3000,
                 "currency": "HKD",
-                "period": "calendarMonth"
+                "period": "calendarMonth",
+                "note": "Register once in the Hang Seng app; full-time students exempt"
             },
             "cap": {
                 "amount": 500,
                 "currency": "HKD",
                 "period": "calendarMonth",
                 "kind": "reward",
-                "group": "mmpower-monthly"
-            }
+                "group": "mmpower-monthly",
+                "note": "one pool across all four bonus categories"
+            },
+            "rewardEndDate": "2026-12-31T23:59:59Z",
+            "rewardNotes": "Any other online spend, in any currency or country."
         },
         {
-            "rate": 6.0,
+            "rate": 4.0,
             "rewardProgramName": "Cash Back Rewards HK",
             "category": "foreign_transactions",
+            "channels": [
+                "in_store"
+            ],
             "gate": {
                 "amount": 3000,
                 "currency": "HKD",
-                "period": "calendarMonth"
+                "period": "calendarMonth",
+                "note": "Register once in the Hang Seng app; full-time students exempt"
             },
             "cap": {
                 "amount": 500,
                 "currency": "HKD",
                 "period": "calendarMonth",
                 "kind": "reward",
-                "group": "mmpower-monthly"
-            }
+                "group": "mmpower-monthly",
+                "note": "one pool across all four bonus categories"
+            },
+            "rewardEndDate": "2026-12-31T23:59:59Z",
+            "rewardNotes": "Physical stores outside Hong Kong, billed in a foreign currency. Spend billed in HKD does not qualify. Online overseas spend earns the 5% online rate instead."
         },
         {
-            "rate": 1.0,
+            "rate": 0.4,
             "rewardProgramName": "Cash Back Rewards HK",
             "category": "everything"
         }

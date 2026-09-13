@@ -22,7 +22,7 @@ Every file maps **card template ID → reward structure**. Two structures are su
 
 | Field | Required | Notes |
 |---|---|---|
-| `rate` | ✅ | Multiplier: `3.0` = 3x/3%. Display hides rows with rate ≤ 1.0 unless category is `everything`. |
+| `rate` | ✅ | Multiplier: `3.0` = 3x/3%. Display hides a row that does not beat the card's own base — the lowest `everything` row, or 1.0 when it has none. It used to be a literal `1.0`, which hid every row on a miles card authored in miles per dollar, and would hide MMPower's 4% against its 0.4% base if it were still that way round. |
 | `rewardProgramName` | ✅ | Must match a program in the programs seed so `pointCashValue`/currency resolve. |
 | `pointCashValue` | — | Per-reward override; otherwise resolved from the program (default `0.01`). |
 | `category` | — | Single category ID (legacy form). This is what the pricing engine matches. |
