@@ -139,15 +139,17 @@ An amount of zero renders as the note, or "No transfer fee". **Display only**, l
 
 ## Rate style (`control/SeedDataPrograms.json`)
 
-A program entry may carry `rateStyle`, which changes only how a rate **reads** — never the maths, which is always `rate × pointCashValue`:
+A program entry may carry `rateStyle`, which changes only how a rate **reads** — never the maths, which is always `rate × pointCashValue`.
+
+Every style states the rate and nothing else. None of them says what the reward is worth: `3x` does not, `8%` does not, and `HK$2/mile` does not either. That question belongs to the effective rate, which the Display setting switches to. `perMile` briefly printed both at once (`2.54% (HK$4/mile)`), which made miles cards the only ones answering two questions in one pill.
 
 | Style | Reads as | Use when |
 |---|---|---|
 | `multiplier` (default) | `3x` | Points programs quoted as a multiplier |
 | `percent` | `3%` | Cash-back programs whose `rate` is already the percentage (HK cash cards: `7.0` at `pointCashValue: 0.01`) |
-| `perMile` | `4% (HK$2.5/里)` | Miles programs **whose `rate` is authored as miles per dollar**. Prints the pair HK cards are quoted in, percentage first |
+| `perMile` | `HK$2/里` | Miles programs **whose `rate` is authored as miles per dollar**. Prints the cost per mile, the way HK cards are quoted |
 
-**`perMile` needs `rate` to mean miles per dollar.** The per-mile half is `1 ÷ rate` and the percentage half is `rate × pointCashValue`, so a program set to `perMile` whose rows are authored percent-style prints a wrong cost. `Asia Miles HK` is the worked example: HK$4 = 1 mile is `rate: 0.25` against `pointCashValue: 0.1015`, which reads `2.54% (HK$4/mile)`. EveryMile and Membership Rewards HK are still authored percent-style, so the style stays unset on them until each card is verified against the issuer's page.
+**`perMile` needs `rate` to mean miles per dollar.** The per-mile half is `1 ÷ rate` and the percentage half is `rate × pointCashValue`, so a program set to `perMile` whose rows are authored percent-style prints a wrong cost. `Asia Miles HK` is the worked example: HK$4 = 1 mile is `rate: 0.25` against `pointCashValue: 0.1015`, which reads `HK$4/mile` and prices at 2.54%. EveryMile and Membership Rewards HK are still authored percent-style, so the style stays unset on them until each card is verified against the issuer's page.
 
 **Authoring a miles card, in order.** Take the issuer's HK$-per-mile figure, write `rate` as `1 ÷ that` (HK$2 → `0.5`, HK$6 → `0.1667`), and set the program's `pointCashValue` to what one mile is actually worth — around HK$0.10 for Asia Miles, not HK$0.01. Getting one of the two wrong and the other wrong in the opposite direction cancels out in the ranking and hides for a long time: `sc-hk-cathay` shipped as `5.0 / 2.5 / 1.67` against `0.01015` for exactly that reason, with every effective rate correct and every displayed rate nonsense.
 

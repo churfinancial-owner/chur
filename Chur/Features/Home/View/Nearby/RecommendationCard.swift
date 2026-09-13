@@ -28,7 +28,7 @@ struct RecommendationCard: View {
         // found"). Otherwise the number is formatted here, where the reward
         // program is known.
         guard let best = recommendation.bestCard else { return recommendation.pointsDisplay }
-        return best.preferredText(showEffectiveRate: rewardDisplay.showEffectiveRate, context: .compact)
+        return best.preferredText(showEffectiveRate: rewardDisplay.showEffectiveRate)
     }
 
     private var ratePillMode: RatePill.DisplayMode {

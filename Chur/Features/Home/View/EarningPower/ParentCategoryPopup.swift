@@ -100,7 +100,7 @@ struct ParentCategoryParallaxSheet: View {
 
     private func rateText(for child: SpendingCategory) -> String {
         guard let best = calculator(for: child).bestCard else { return RateDisplay.placeholder }
-        return best.rateText(context: .compact)
+        return best.rateText()
     }
 
     // MARK: - Other Card Rates

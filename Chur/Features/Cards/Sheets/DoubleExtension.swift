@@ -12,26 +12,24 @@ extension Double {
         return self.formatted(.number.precision(.fractionLength(0...2))) + "x"
     }
 
-    /// The rate as the program quotes it (P1f part 4): `3x`, `3%`, or `HK$3 = 1 mile`.
+    /// The rate as the program quotes it (P1f part 4): `3x`, `3%`, or `HK$2/mile`.
     /// `currency` is the program's, for the per-mile form only.
     ///
-    /// `compact` is for a fixed-width pill that already sits beside the effective
-    /// percentage: the paired per-mile form neither fits nor adds anything there,
-    /// so it drops to the mile cost alone.
-    func formatAsRate(style: RateStyle, currency: String? = nil, pointCashValue: Double? = nil, compact: Bool = false) -> String {
+    /// Each style says one thing, the way its own market quotes it. `perMile` used
+    /// to pair the cost with its percentage — `2.54% (HK$4/mile)` — which made it
+    /// the only style that also answered the effective-rate question, and made a
+    /// miles card read differently from a points card for no reason a user could
+    /// see. A `3x` does not explain what a point is worth either; that is what the
+    /// effective rate is for.
+    func formatAsRate(style: RateStyle, currency: String? = nil) -> String {
         switch style {
         case .multiplier:
             return formatAsRate()
         case .percent:
             return formatted(.number.precision(.fractionLength(0...2))) + "%"
         case .perMile:
-            // The paired form HK cards are quoted in: "4% (HK$2.5/里)". The
-            // percentage stays first because it is what the engine ranks on.
-            guard self > 0, let pointCashValue else { return formatAsRate() }
-            let perMile = ConditionText.money(1 / self, currency: currency) + "/" + AppLocale.string("mile")
-            if compact { return perMile }
-            let percent = (self * pointCashValue * 100).formatted(.number.precision(.fractionLength(0...2)))
-            return "\(percent)% (\(perMile))"
+            guard self > 0 else { return formatAsRate() }
+            return ConditionText.money(1 / self, currency: currency) + "/" + AppLocale.string("mile")
         }
     }
 
@@ -43,7 +41,7 @@ extension Double {
     /// program. The fallback is `multiplier`, not `percent`: a perMile program's
     /// rate is miles per dollar, so printing it with a `%` would assert a cash
     /// rate the number is not.
-    func formatAsRate(program: String?, compact: Bool = false) -> String {
+    func formatAsRate(program: String?) -> String {
         guard let program, let defaults = RewardProgramDefaults.defaultValue(for: program) else {
             return formatAsRate()
         }
@@ -52,7 +50,6 @@ extension Double {
            TransferPartnerDatabase.program(named: program) == nil {
             style = .multiplier
         }
-        return formatAsRate(style: style, currency: defaults.currency,
-                            pointCashValue: defaults.pointCashValue, compact: compact)
+        return formatAsRate(style: style, currency: defaults.currency)
     }
 }

@@ -15,20 +15,22 @@
 //  Everything user-facing goes through here. `Double.formatAsRate` is the
 //  underlying formatter and is not a call site.
 //
+//  A card's rate reads one way wherever it appears — `3x`, `8%`, `HK$2/mile` —
+//  and says nothing about what that is worth. The effective rate answers that,
+//  and the Display setting chooses between them. `perMile` briefly printed both
+//  at once, which made miles cards the only ones that answered both questions in
+//  one pill.
+//
 
 import SwiftUI
 
 enum RateDisplay {
 
-    /// Where the number sits, which decides how much of it to print.
+    /// Where the number sits. Only the formula row differs — everywhere else a
+    /// rate reads the same way, which is the point.
     enum Context {
-        /// A full-width row with room for the whole form a program quotes:
-        /// `5.08% (HK$2/mile)`.
-        case standalone
-        /// A pill or a chip. A miles program prints the mile cost alone — partly
-        /// for room, and partly because these sit next to an effective-rate pill
-        /// that is already showing the percentage.
-        case compact
+        /// Anywhere a card's rate is shown to a reader: `3x`, `8%`, `HK$2/mile`.
+        case display
         /// Inside `rate × point value = effective`. Prints the raw multiplier,
         /// because that row exists to show the multiplication and the per-mile
         /// form is its reciprocal.
@@ -41,13 +43,12 @@ enum RateDisplay {
 
     // MARK: - The card's rate
 
-    /// The rate as its program quotes it: `3x`, `5%`, or `5.08% (HK$2/mile)`.
-    static func rate(_ rate: Double, program: String?, context: Context = .standalone) -> String {
+    /// The rate as its program quotes it: `3x`, `8%`, or `HK$2/mile`.
+    static func rate(_ rate: Double, program: String?, context: Context = .display) -> String {
         guard rate > 0 else { return placeholder }
         switch context {
-        case .standalone: return rate.formatAsRate(program: program)
-        case .compact:    return rate.formatAsRate(program: program, compact: true)
-        case .formula:    return rate.formatAsRate()
+        case .display: return rate.formatAsRate(program: program)
+        case .formula: return rate.formatAsRate()
         }
     }
 
@@ -81,7 +82,7 @@ enum RateDisplay {
         effectiveRate: Double,
         program: String?,
         showEffectiveRate: Bool,
-        context: Context = .standalone
+        context: Context = .display
     ) -> String {
         showEffectiveRate ? effective(effectiveRate) : self.rate(rate, program: program, context: context)
     }
@@ -99,7 +100,7 @@ enum RateDisplay {
 
 extension CardRateSummary {
 
-    func rateText(context: RateDisplay.Context = .standalone) -> String {
+    func rateText(context: RateDisplay.Context = .display) -> String {
         RateDisplay.rate(rate, program: rewardProgramName, context: context)
     }
 
@@ -107,7 +108,7 @@ extension CardRateSummary {
         RateDisplay.effective(effectiveCashBackRate)
     }
 
-    func preferredText(showEffectiveRate: Bool, context: RateDisplay.Context = .standalone) -> String {
+    func preferredText(showEffectiveRate: Bool, context: RateDisplay.Context = .display) -> String {
         RateDisplay.preferred(
             rate: rate,
             effectiveRate: effectiveCashBackRate,

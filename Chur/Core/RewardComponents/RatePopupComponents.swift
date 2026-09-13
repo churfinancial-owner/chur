@@ -220,7 +220,7 @@ struct PopupBestCardContent: View {
             .padding(.bottom, 14)
 
             BestCardStatStrip(
-                rateText: summary.rateText(context: .compact),
+                rateText: summary.rateText(),
                 effectiveText: summary.effectiveText,
                 isEffectiveNegative: summary.effectiveCashBackRate < 0
             )
@@ -264,7 +264,7 @@ struct PopupComparisonRow: View {
             Spacer()
             if showFormula {
                 HStack(spacing: 6) {
-                    RatePill(text: summary.rateText(context: .compact), displayMode: .points, size: .medium)
+                    RatePill(text: summary.rateText(), displayMode: .points, size: .medium)
                     RatePill(
                         text: summary.effectiveText,
                         displayMode: summary.effectiveCashBackRate < 0 ? .effectiveNegative : .effectivePositive,
@@ -273,7 +273,7 @@ struct PopupComparisonRow: View {
                 }
             } else {
                 RatePill(
-                    text: summary.preferredText(showEffectiveRate: rewardDisplay.showEffectiveRate, context: .compact),
+                    text: summary.preferredText(showEffectiveRate: rewardDisplay.showEffectiveRate),
                     displayMode: summary.preferredRateMode(showEffectiveRate: rewardDisplay.showEffectiveRate),
                     size: .medium
                 )

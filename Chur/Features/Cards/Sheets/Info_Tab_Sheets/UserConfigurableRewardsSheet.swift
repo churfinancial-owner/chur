@@ -201,7 +201,7 @@ private struct SlotPickerSection: View {
 
                 Spacer()
 
-                Text(RateDisplay.rate(reward.rate, program: reward.rewardProgramName, context: .compact))
+                Text(RateDisplay.rate(reward.rate, program: reward.rewardProgramName))
                     .font(.churFootnoteBold())
                     .foregroundStyle(.white)
                     .padding(.horizontal, 10)
