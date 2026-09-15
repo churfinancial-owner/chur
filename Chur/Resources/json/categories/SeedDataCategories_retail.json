@@ -25,10 +25,7 @@
         "parentCategoryID": "retail",
         "level": "child",
         "categoryLinks": [
-            {
-                "id": "retail",
-                "weight": 1.0
-            }
+            "home"
         ]
     },
     {
@@ -90,8 +87,6 @@
             }
         ]
     },
-
-
     {
         "id": "sporting_goods_stores",
         "nameEN": "Sporting Goods Stores",
@@ -479,7 +474,6 @@
             }
         ]
     },
-    
     {
         "id": "applepay_channel_merchant",
         "nameEN": "Apple Card Bonus Merchants",

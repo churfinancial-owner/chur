@@ -13,6 +13,18 @@
     "categoryLinks": null
   },
   {
+    "id": "home",
+    "nameEN": "Home",
+    "nameZH_Hans": "家居",
+    "nameZH_HK": "家居",
+    "nameZH_TW": "居家",
+    "emoji": "🏠",
+    "sortOrder": 5,
+    "isDefault": false,
+    "isParent": true,
+    "level": "parent"
+  },
+  {
     "id": "material_hardware",
     "nameEN": "Material & Hardware",
     "nameZH_Hans": "家居建材",
@@ -22,7 +34,10 @@
     "sortOrder": 78,
     "isDefault": false,
     "isParent": true,
-    "level": "parent"
+    "level": "parent",
+    "categoryLinks": [
+      "home"
+    ]
   },
   {
     "id": "home_depot",
@@ -262,7 +277,6 @@
       }
     ]
   },
-
   {
     "id": "wholesale",
     "nameEN": "Wholesale",

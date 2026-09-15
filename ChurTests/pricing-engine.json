@@ -109,6 +109,25 @@
       "channels": [
         "online"
       ]
+    },
+    {
+      "id": "home",
+      "name": "Home",
+      "level": "parent"
+    },
+    {
+      "id": "retail",
+      "name": "Retail",
+      "level": "parent"
+    },
+    {
+      "id": "furniture_stores",
+      "name": "Furniture Stores",
+      "level": "child",
+      "parentCategoryID": "retail",
+      "categoryLinks": [
+        "home"
+      ]
     }
   ],
   "vectors": [
@@ -2173,6 +2192,51 @@
           "name": "MMPower",
           "effectiveCashBackRate": 0.0205,
           "rate": 4.0
+        }
+      ]
+    },
+    {
+      "id": "home-cross-link-matches-without-leaving-the-retail-tree",
+      "rule": "HSBC Red Hot's Home category (賞家居) is a parent of its own, and furniture reaches it by categoryLinks rather than by being re-parented out of retail. So a furniture purchase matches a home card and a retail card both, and allocating Red Hot weights to Home does not quietly cost a retail cardholder their furniture rate.",
+      "input": {
+        "categoryID": "furniture_stores"
+      },
+      "cards": [
+        {
+          "name": "Home Five",
+          "country": "HK",
+          "rewards": [
+            {
+              "rate": 5.0,
+              "categories": [
+                "home"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Retail Three",
+          "country": "HK",
+          "rewards": [
+            {
+              "rate": 3.0,
+              "categories": [
+                "retail"
+              ]
+            }
+          ]
+        }
+      ],
+      "expected": [
+        {
+          "name": "Home Five",
+          "effectiveCashBackRate": 0.05,
+          "rate": 5.0
+        },
+        {
+          "name": "Retail Three",
+          "effectiveCashBackRate": 0.03,
+          "rate": 3.0
         }
       ]
     }

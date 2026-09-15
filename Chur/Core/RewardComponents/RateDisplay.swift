@@ -48,8 +48,17 @@ enum RateDisplay {
         guard rate > 0 else { return placeholder }
         switch context {
         case .display: return rate.formatAsRate(program: program)
-        case .formula: return rate.formatAsRate()
+        case .formula: return formulaRate(rate)
         }
+    }
+
+    /// The multiplicand in `rate × point value = effective`, with enough digits
+    /// left for the multiplication to check out. Two decimals turned Asia Miles'
+    /// 0.1667 into `0.17x`, and 0.17 × 10.15¢ is 1.73% — printed beside the 1.69%
+    /// the row also showed. Rates below 1 keep four.
+    private static func formulaRate(_ rate: Double) -> String {
+        let digits = abs(rate) < 1 ? 4 : 2
+        return rate.formatted(.number.precision(.fractionLength(0...digits))) + "x"
     }
 
     // MARK: - The effective return
