@@ -165,7 +165,8 @@ struct EarningPowerSection: View {
                             cards: cards,
                             allCategories: categories,
                             currentRegionCodeOverride: viewModel.currentRegionCode,
-                            bestCardName: cached?.name
+                            bestCardName: cached?.name,
+                            rewardProgramName: cached?.rewardProgramName
                         )
                     }
                     if row.count == 1 { Spacer().frame(maxWidth: .infinity) }

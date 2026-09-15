@@ -158,9 +158,7 @@ struct ScoredRecommendation: Identifiable {
                 guard seen.insert(cat).inserted else { continue }
                 
                 if let spendCat = allCategories.first(where: { $0.id == cat }) {
-                    let rateLabel = reward.rate.truncatingRemainder(dividingBy: 1) == 0
-                        ? "\(Int(reward.rate))x"
-                        : String(format: "%.1fx", reward.rate)
+                    let rateLabel = RateDisplay.rate(reward.rate, program: reward.rewardProgramName)
                     result.append((emoji: spendCat.emoji, rateLabel: rateLabel, name: spendCat.displayName))
                 }
                 if result.count >= 3 { return result }

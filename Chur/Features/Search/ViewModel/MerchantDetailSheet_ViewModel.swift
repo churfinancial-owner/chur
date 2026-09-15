@@ -74,11 +74,6 @@ class MerchantDetailViewModel {
     }
     
     func formatRate(for summary: CardRateSummary, showEffectiveRate: Bool) -> String {
-        if showEffectiveRate {
-            return summary.effectiveText
-        }
-        let rate = summary.rate
-        if rate == floor(rate) { return "\(Int(rate))x" }
-        return String(format: (rate * 10).truncatingRemainder(dividingBy: 1) == 0 ? "%.1fx" : "%.2fx", rate)
+        summary.preferredText(showEffectiveRate: showEffectiveRate)
     }
 }

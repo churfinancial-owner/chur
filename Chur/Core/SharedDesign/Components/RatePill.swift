@@ -91,13 +91,16 @@ struct RatePill: View {
         }
     }
 
-    // When shown with a background, round any decimal to the nearest whole number.
+    /// With a background the pill is tight, so a decimal rounds to a whole number:
+    /// `1.5x` reads `2x`. Only above 1, though — rounding a rate that is already
+    /// below 1 destroys it rather than shortening it, and MMPower's 0.4% base read
+    /// as `0%`. Per-mile strings end in neither suffix and pass through untouched.
     private var displayText: String {
         guard showBackground else { return text }
-        if text.hasSuffix("x"), let value = Double(text.dropLast()) {
+        if text.hasSuffix("x"), let value = Double(text.dropLast()), abs(value) >= 1 {
             return "\(Int(value.rounded()))x"
         }
-        if text.hasSuffix("%"), let value = Double(text.dropLast()) {
+        if text.hasSuffix("%"), let value = Double(text.dropLast()), abs(value) >= 1 {
             return "\(Int(value.rounded()))%"
         }
         return text
@@ -131,35 +134,34 @@ struct RatePill: View {
 
 // MARK: - Convenience Initializers
 extension RatePill {
+    /// Builds the pill from the numbers rather than a string.
+    ///
+    /// `program` is what lets the rate read the way its own program quotes it.
+    /// This initializer used to format both numbers itself — a ninth formatter,
+    /// living in the design system where nobody looked for one — and having no
+    /// program it printed Asia Miles' 0.25 miles per dollar as "0.2x" on the
+    /// Earning Power screen while every other screen said "HK$4/mile". It also
+    /// rounded the effective rate to one decimal where the rest of the app uses
+    /// two. Both numbers now come from `RateDisplay`, which is the only thing
+    /// that decides how a rate reads.
     init(
         rate: Double,
         effectiveRate: Double,
         showEffectiveRate: Bool,
+        program: String?,
         size: Size = .medium,
         filledStyle: Bool = false,
         showBackground: Bool = true
     ) {
         self.size = size
         self.showBackground = showBackground
-
-        if showEffectiveRate {
-            if effectiveRate == 0 {
-                self.text = "-"
-                self.displayMode = .empty
-            } else {
-                let pct = effectiveRate * 100
-                self.text = pct.truncatingRemainder(dividingBy: 1) == 0 ?
-                    "\(String(format: "%.0f", pct))%" : String(format: "%.1f%%", pct)
-                self.displayMode = effectiveRate < 0 ? .effectiveNegative : .effectivePositive
-            }
-        } else {
-            if rate <= 0 {
-                self.text = "-"
-                self.displayMode = .empty
-            } else {
-                self.text = rate == floor(rate) ? "\(Int(rate))x" : String(format: "%.1fx", rate)
-                self.displayMode = filledStyle ? .pointsFilled : .points
-            }
-        }
+        self.text = RateDisplay.preferred(
+            rate: rate,
+            effectiveRate: effectiveRate,
+            program: program,
+            showEffectiveRate: showEffectiveRate
+        )
+        let mode = RateDisplay.pillMode(rate: rate, effectiveRate: effectiveRate, showEffectiveRate: showEffectiveRate)
+        self.displayMode = (filledStyle && mode == .points) ? .pointsFilled : mode
     }
 }

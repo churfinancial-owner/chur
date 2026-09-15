@@ -159,9 +159,7 @@ struct GoToCardSheet: View {
     }
 
     private func rewardLabel(_ reward: RewardRate) -> String {
-        let rateStr = reward.rate == reward.rate.rounded()
-            ? "\(Int(reward.rate))x"
-            : String(format: "%.1fx", reward.rate)
+        let rateStr = RateDisplay.rate(reward.rate, program: reward.rewardProgramName)
         var parts = [rateStr, reward.rewardProgramName]
         if let merchant = reward.merchantName {
             parts.append("at \(merchant)")

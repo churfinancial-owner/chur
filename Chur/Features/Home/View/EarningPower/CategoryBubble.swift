@@ -17,6 +17,9 @@ struct CategoryBubble: View {
     let allCategories: [SpendingCategory]
     let currentRegionCodeOverride: String?
     var bestCardName: String? = nil
+    /// The winning card's reward program, so the pill reads the way that program
+    /// quotes itself rather than defaulting to a multiplier.
+    var rewardProgramName: String? = nil
 
     @Environment(\.rewardDisplay) private var rewardDisplay
     @State private var showingDetails = false
@@ -56,6 +59,7 @@ struct CategoryBubble: View {
                             rate: rate,
                             effectiveRate: effectiveRate,
                             showEffectiveRate: rewardDisplay.showEffectiveRate,
+                            program: rewardProgramName,
                             size: .large,
                             showBackground: false
                         )
